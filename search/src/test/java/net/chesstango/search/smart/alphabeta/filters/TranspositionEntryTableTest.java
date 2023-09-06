@@ -5,7 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.SearchesReport;
+import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
@@ -43,7 +43,7 @@ public class TranspositionEntryTableTest {
     @AfterEach
     public void printReport() {
         if (PRINT_REPORT) {
-            new SearchesReport()
+            new NodesReport()
                     .setEngineName("Comparation report")
                     .withNodesVisitedStatics()
                     .withCutoffStatics()

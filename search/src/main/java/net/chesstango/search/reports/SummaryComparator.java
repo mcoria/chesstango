@@ -14,10 +14,10 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SearchSummaryComparator {
+public class SummaryComparator {
 
     public static void main(String[] args) {
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-3-2023-09-05-14-44");
+        SummaryComparator summaryComparator = new SummaryComparator("depth-3-2023-09-05-14-44");
         summaryComparator.addSession("depth-4-2023-09-05-14-46");
         summaryComparator.addSession("depth-5-2023-09-05-14-54");
         summaryComparator.addSession("depth-6-2023-09-05-16-16");
@@ -59,10 +59,10 @@ public class SearchSummaryComparator {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Path suiteParentDirectory;
     private String suiteName;
-    private SearchSummaryModel baseLineSearchSummary;
-    private List<SearchSummaryModel> searchSummaryList;
+    private SummaryModel baseLineSearchSummary;
+    private List<SummaryModel> searchSummaryList;
 
-    public SearchSummaryComparator(String baseLineSessionID) {
+    public SummaryComparator(String baseLineSessionID) {
         this.baseLineSessionID = baseLineSessionID;
     }
 
@@ -72,9 +72,9 @@ public class SearchSummaryComparator {
     }
 
     private void printReport(PrintStream out) {
-        SearchSummaryDiffReportModel reportModel = SearchSummaryDiffReportModel.createModel(suiteName, baseLineSearchSummary, searchSummaryList);
+        SummaryDiffReportModel reportModel = SummaryDiffReportModel.createModel(suiteName, baseLineSearchSummary, searchSummaryList);
 
-        new SearchSummaryDiffReport()
+        new SummaryDiffReport()
                 .withSummaryDiffReportModel(reportModel)
                 .printReport(out);
     }
@@ -105,7 +105,7 @@ public class SearchSummaryComparator {
                 .toList();
     }
 
-    private SearchSummaryModel loadSearchSummary(String sessionID) {
+    private SummaryModel loadSearchSummary(String sessionID) {
 
         Path searchSummaryPath = suiteParentDirectory.resolve(sessionID).resolve(String.format("%s.json", suiteName));
 
@@ -115,7 +115,7 @@ public class SearchSummaryComparator {
         }
 
         try {
-            return objectMapper.readValue(searchSummaryPath.toFile(), SearchSummaryModel.class);
+            return objectMapper.readValue(searchSummaryPath.toFile(), SummaryModel.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

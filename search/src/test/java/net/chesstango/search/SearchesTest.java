@@ -3,17 +3,14 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.reports.SearchesReport;
+import net.chesstango.search.reports.NodesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -52,7 +49,7 @@ public class SearchesTest {
     @AfterEach
     public void printReport(){
         if(PRINT_REPORT) {
-            new SearchesReport()
+            new NodesReport()
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     //.withExportEvaluations()

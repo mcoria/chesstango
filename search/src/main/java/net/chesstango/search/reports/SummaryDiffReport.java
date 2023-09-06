@@ -10,14 +10,14 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class SearchSummaryDiffReport {
+public class SummaryDiffReport {
 
     @Setter
     @Accessors(chain = true)
-    private SearchSummaryDiffReportModel reportModel;
+    private SummaryDiffReportModel reportModel;
     private PrintStream out;
 
-    public SearchSummaryDiffReport printReport(PrintStream output) {
+    public SummaryDiffReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -36,9 +36,9 @@ public class SearchSummaryDiffReport {
     private static final String cutoffFmt = "| %17d%% ";
 
     private void print() {
-        SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
-        List<SearchSummaryModel> searchSummaryList = reportModel.searchSummaryList;
-        List<SearchSummaryDiffReportModel.SearchSummaryDiff> searchSummaryDiffs = reportModel.searchSummaryDiffs;
+        SummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
+        List<SummaryModel> searchSummaryList = reportModel.searchSummaryList;
+        List<SummaryDiffReportModel.SearchSummaryDiff> searchSummaryDiffs = reportModel.searchSummaryDiffs;
 
         out.printf("Suite: %s\n", reportModel.suiteName);
 
@@ -129,7 +129,7 @@ public class SearchSummaryDiffReport {
     }
 
 
-    public SearchSummaryDiffReport withSummaryDiffReportModel(SearchSummaryDiffReportModel reportModel) {
+    public SummaryDiffReport withSummaryDiffReportModel(SummaryDiffReportModel reportModel) {
         this.reportModel = reportModel;
         return this;
     }

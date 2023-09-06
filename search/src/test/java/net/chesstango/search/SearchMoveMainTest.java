@@ -5,7 +5,7 @@ import net.chesstango.board.representations.EPDReader;
 import net.chesstango.search.reports.EPDSearchResult;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.reports.SearchesReport;
+import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ public class SearchMoveMainTest {
     public void tearDown() {
         if(PRINT_REPORT) {
             System.out.println("Time taken: " + epdSearchResult.searchDuration() + " ms");
-            new SearchesReport()
+            new NodesReport()
                     .withNodesVisitedStatics()
                     //.withCutoffStatics()
                     //.withPrincipalVariation()

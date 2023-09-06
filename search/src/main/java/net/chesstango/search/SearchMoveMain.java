@@ -132,7 +132,7 @@ public class SearchMoveMain {
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
+        NodesReportModel nodesReportModel = NodesReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
 
         EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
 
@@ -140,22 +140,22 @@ public class SearchMoveMain {
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        saveReport(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel);
 
-        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel, evaluationReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
         //printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
 
-    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel, EvaluationReportModel evaluationReportModel) {
-        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, searchesReportModel, evaluationReportModel);
+    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
+        SummaryModel summaryModel = SummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
         Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(searchSummaryPath.toFile()), true)) {
 
-            new SearchSummarySaver()
-                    .withSearchSummaryModel(searchSummaryModel)
+            new SummarySaver()
+                    .withSearchSummaryModel(summaryModel)
                     .print(out);
 
             out.flush();
@@ -164,12 +164,12 @@ public class SearchMoveMain {
         }
     }
 
-    private void saveReport(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
+    private void saveReport(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel) {
         Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            printReport(out, epdSearchReportModel, searchesReportModel);
+            printReport(out, epdSearchReportModel, nodesReportModel);
 
             out.flush();
         } catch (IOException e) {
@@ -177,13 +177,13 @@ public class SearchMoveMain {
         }
     }
 
-    private void printReport(PrintStream output, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
+    private void printReport(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel) {
         new EpdSearchReport()
                 .setReportModel(epdSearchReportModel)
                 .printReport(output);
 
-        new SearchesReport()
-                .setReportModel(searchesReportModel)
+        new NodesReport()
+                .setReportModel(nodesReportModel)
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 //.withEvaluationsStatics()

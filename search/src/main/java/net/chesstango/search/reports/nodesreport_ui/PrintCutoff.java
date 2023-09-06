@@ -1,6 +1,6 @@
-package net.chesstango.search.reports.searchesreport_ui;
+package net.chesstango.search.reports.nodesreport_ui;
 
-import net.chesstango.search.reports.SearchesReportModel;
+import net.chesstango.search.reports.NodesReportModel;
 
 import java.io.PrintStream;
 import java.util.stream.IntStream;
@@ -11,9 +11,9 @@ import java.util.stream.IntStream;
 public class PrintCutoff {
 
     private final PrintStream out;
-    private final SearchesReportModel reportModel;
+    private final NodesReportModel reportModel;
 
-    public PrintCutoff(PrintStream out, SearchesReportModel reportModel) {
+    public PrintCutoff(PrintStream out, NodesReportModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -34,7 +34,7 @@ public class PrintCutoff {
         out.printf("|\n");
 
         // Cuerpo
-        for (SearchesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (NodesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffRPercentages[depth]));
             IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffQPercentages[depth]));

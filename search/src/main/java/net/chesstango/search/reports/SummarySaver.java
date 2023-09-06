@@ -9,9 +9,9 @@ import java.io.PrintStream;
 /**
  * @author Mauricio Coria
  */
-public class SearchSummarySaver {
+public class SummarySaver {
 
-    private SearchSummaryModel reportModel;
+    private SummaryModel reportModel;
 
     public void print(PrintStream out) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -24,8 +24,8 @@ public class SearchSummarySaver {
     }
 
 
-    public SearchSummarySaver withSearchSummaryModel(SearchSummaryModel searchSummaryModel) {
-        this.reportModel = searchSummaryModel;
+    public SummarySaver withSearchSummaryModel(SummaryModel summaryModel) {
+        this.reportModel = summaryModel;
         return this;
     }
 

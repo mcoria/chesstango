@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesReportModel {
+public class NodesReportModel {
     public String engineName;
 
     // Regular and Quiescence
@@ -77,14 +77,14 @@ public class SearchesReportModel {
     }
 
 
-    public static SearchesReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
-        SearchesReportModel searchesReportModel = new SearchesReportModel();
+    public static NodesReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
+        NodesReportModel nodesReportModel = new NodesReportModel();
 
-        searchesReportModel.engineName = engineName;
+        nodesReportModel.engineName = engineName;
 
-        searchesReportModel.load(searchMoveResults);
+        nodesReportModel.load(searchMoveResults);
 
-        return searchesReportModel;
+        return nodesReportModel;
     }
 
     private void load(List<SearchMoveResult> searchMoveResults) {

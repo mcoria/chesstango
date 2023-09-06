@@ -5,12 +5,12 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchSummaryDiffReportModel {
+public class SummaryDiffReportModel {
 
     String suiteName;
     int elements;
-    SearchSummaryModel baseLineSearchSummary;
-    List<SearchSummaryModel> searchSummaryList;
+    SummaryModel baseLineSearchSummary;
+    List<SummaryModel> searchSummaryList;
     List<SearchSummaryDiff> searchSummaryDiffs;
 
     public record SearchSummaryDiff(int durationPercentage,
@@ -23,8 +23,8 @@ public class SearchSummaryDiffReportModel {
                                     int evaluationCoincidencePercentage) {
     }
 
-    public static SearchSummaryDiffReportModel createModel(String suiteName, SearchSummaryModel baseLineSearchSummary, List<SearchSummaryModel> searchSummaryList) {
-        SearchSummaryDiffReportModel reportModel = new SearchSummaryDiffReportModel();
+    public static SummaryDiffReportModel createModel(String suiteName, SummaryModel baseLineSearchSummary, List<SummaryModel> searchSummaryList) {
+        SummaryDiffReportModel reportModel = new SummaryDiffReportModel();
 
         reportModel.suiteName = suiteName;
         reportModel.elements = searchSummaryList.size();
@@ -39,7 +39,7 @@ public class SearchSummaryDiffReportModel {
         return reportModel;
     }
 
-    private static SearchSummaryDiff calculateDiff(SearchSummaryModel baseLineSearchSummary, SearchSummaryModel searchSummary) {
+    private static SearchSummaryDiff calculateDiff(SummaryModel baseLineSearchSummary, SummaryModel searchSummary) {
         int durationPercentage = (int) ((searchSummary.duration * 100) / baseLineSearchSummary.duration);
         boolean sameSearches = searchSummary.searches == baseLineSearchSummary.searches;
         int visitedRNodesPercentage = (int) ((searchSummary.visitedRNodesTotal * 100) / baseLineSearchSummary.visitedRNodesTotal);
@@ -49,13 +49,13 @@ public class SearchSummaryDiffReportModel {
         int executedMovesPercentage = (int) ((searchSummary.executedMovesTotal * 100) / baseLineSearchSummary.executedMovesTotal);
 
         int evaluationCoincidences = 0;
-        List<SearchSummaryModel.SearchSummaryModeDetail> baseLineSummaryModeDetailListModeDetail = baseLineSearchSummary.searchDetailList;
-        List<SearchSummaryModel.SearchSummaryModeDetail> summaryModeDetailListModeDetail = searchSummary.searchDetailList;
+        List<SummaryModel.SearchSummaryModeDetail> baseLineSummaryModeDetailListModeDetail = baseLineSearchSummary.searchDetailList;
+        List<SummaryModel.SearchSummaryModeDetail> summaryModeDetailListModeDetail = searchSummary.searchDetailList;
         int baseLineSearches = baseLineSummaryModeDetailListModeDetail.size();
         int searches = summaryModeDetailListModeDetail.size();
         for (int i = 0; i < Math.min(baseLineSearches,searches) ; i++) {
-            SearchSummaryModel.SearchSummaryModeDetail baseMoveDetail = baseLineSummaryModeDetailListModeDetail.get(i);
-            SearchSummaryModel.SearchSummaryModeDetail moveDetail = summaryModeDetailListModeDetail.get(i);
+            SummaryModel.SearchSummaryModeDetail baseMoveDetail = baseLineSummaryModeDetailListModeDetail.get(i);
+            SummaryModel.SearchSummaryModeDetail moveDetail = summaryModeDetailListModeDetail.get(i);
 
             if(baseMoveDetail.evaluation == moveDetail.evaluation){
                 evaluationCoincidences++;
@@ -63,8 +63,6 @@ public class SearchSummaryDiffReportModel {
         }
 
         int evaluationCoincidencePercentage = (evaluationCoincidences * 100) / baseLineSearches;
-
-
 
         return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage, evaluatedGamesPercentage, executedMovesPercentage, evaluationCoincidencePercentage);
     }

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchSummaryModel {
+public class SummaryModel {
 
     @JsonProperty("sessionid")
     String sessionid;
@@ -70,11 +70,11 @@ public class SearchSummaryModel {
     }
 
 
-    public static SearchSummaryModel collectStatics(String sessionId,
-                                                    EpdSearchReportModel epdSearchReportModel,
-                                                    SearchesReportModel searchesReportModel,
-                                                    EvaluationReportModel evaluationReportModel) {
-        SearchSummaryModel model = new SearchSummaryModel();
+    public static SummaryModel collectStatics(String sessionId,
+                                              EpdSearchReportModel epdSearchReportModel,
+                                              NodesReportModel nodesReportModel,
+                                              EvaluationReportModel evaluationReportModel) {
+        SummaryModel model = new SummaryModel();
 
         model.sessionid = sessionId;
         model.duration = epdSearchReportModel.duration;
@@ -82,17 +82,17 @@ public class SearchSummaryModel {
         model.success = epdSearchReportModel.success;
         model.successRate = epdSearchReportModel.successRate;
 
-        model.maxSearchRLevel = searchesReportModel.maxSearchRLevel;
-        model.maxSearchQLevel = searchesReportModel.maxSearchQLevel;
+        model.maxSearchRLevel = nodesReportModel.maxSearchRLevel;
+        model.maxSearchQLevel = nodesReportModel.maxSearchQLevel;
 
-        model.visitedRNodesTotal = searchesReportModel.visitedRNodesTotal;
-        model.visitedQNodesTotal = searchesReportModel.visitedQNodesTotal;
-        model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
-        model.cutoffPercentageTotal = searchesReportModel.cutoffPercentageTotal;
+        model.visitedRNodesTotal = nodesReportModel.visitedRNodesTotal;
+        model.visitedQNodesTotal = nodesReportModel.visitedQNodesTotal;
+        model.visitedNodesTotal = nodesReportModel.visitedNodesTotal;
+        model.cutoffPercentageTotal = nodesReportModel.cutoffPercentageTotal;
         model.evaluatedGamesCounterTotal = evaluationReportModel.evaluatedGamesCounterTotal;
-        model.executedMovesTotal = searchesReportModel.executedMovesTotal;
+        model.executedMovesTotal = nodesReportModel.executedMovesTotal;
 
-        searchesReportModel.moveDetails.forEach(searchReportModelDetail -> {
+        nodesReportModel.moveDetails.forEach(searchReportModelDetail -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
             searchSummaryModeDetail.id = searchReportModelDetail.id;
             searchSummaryModeDetail.move = searchReportModelDetail.move;

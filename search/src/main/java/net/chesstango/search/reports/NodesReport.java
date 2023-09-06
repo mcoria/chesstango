@@ -3,8 +3,8 @@ package net.chesstango.search.reports;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.searchesreport_ui.PrintCutoff;
-import net.chesstango.search.reports.searchesreport_ui.PrintVisitedNodes;
+import net.chesstango.search.reports.nodesreport_ui.PrintCutoff;
+import net.chesstango.search.reports.nodesreport_ui.PrintVisitedNodes;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesReport {
+public class NodesReport {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
@@ -22,12 +22,12 @@ public class SearchesReport {
 
     @Setter
     @Accessors(chain = true)
-    private SearchesReportModel reportModel;
+    private NodesReportModel reportModel;
 
 
     private PrintStream out;
 
-    public SearchesReport printReport(PrintStream output) {
+    public NodesReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -60,23 +60,23 @@ public class SearchesReport {
         out.printf("\n");
     }
 
-    public SearchesReport withCutoffStatics() {
+    public NodesReport withCutoffStatics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public SearchesReport withNodesVisitedStatics() {
+    public NodesReport withNodesVisitedStatics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public SearchesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = SearchesReportModel.collectStatics(this.engineName, searchMoveResults);
+    public NodesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
+        this.reportModel = NodesReportModel.collectStatics(this.engineName, searchMoveResults);
         return this;
     }
 
-    public SearchesReport withReportModel(SearchesReportModel searchesReportModel) {
-        this.reportModel = searchesReportModel;
+    public NodesReport withReportModel(NodesReportModel nodesReportModel) {
+        this.reportModel = nodesReportModel;
         return this;
     }
 
