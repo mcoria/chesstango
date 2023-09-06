@@ -105,7 +105,7 @@ public class PrintVisitedNodes {
 
 
         // Marco inferior de la tabla
-        out.printf("----------");
+        out.printf(" ---------");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("---------------------"));
         out.printf("---------------------");
