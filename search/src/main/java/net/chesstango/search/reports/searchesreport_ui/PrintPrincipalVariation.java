@@ -25,7 +25,7 @@ public class PrintPrincipalVariation {
         out.printf("Move\n");
 
         // Cuerpo
-        for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (SearchesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s:", moveDetail.move);
             out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation);
             if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {

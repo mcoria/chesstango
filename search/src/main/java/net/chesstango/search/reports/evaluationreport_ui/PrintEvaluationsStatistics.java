@@ -1,6 +1,6 @@
-package net.chesstango.search.reports.searchesreport_ui;
+package net.chesstango.search.reports.evaluationreport_ui;
 
-import net.chesstango.search.reports.SearchesReportModel;
+import net.chesstango.search.reports.EvaluationReportModel;
 
 import java.io.PrintStream;
 import java.util.Objects;
@@ -10,9 +10,9 @@ import java.util.Objects;
  */
 public class PrintEvaluationsStatistics {
     private final PrintStream out;
-    private final SearchesReportModel reportModel;
+    private final EvaluationReportModel reportModel;
 
-    public PrintEvaluationsStatistics(PrintStream out, SearchesReportModel reportModel) {
+    public PrintEvaluationsStatistics(PrintStream out, EvaluationReportModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -54,7 +54,7 @@ public class PrintEvaluationsStatistics {
         out.printf("|\n");
 
         // Cuerpo
-        for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
             out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
             out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);

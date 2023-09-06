@@ -5,8 +5,6 @@ import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.*;
 
@@ -132,9 +130,11 @@ public class SearchMoveMain {
 
         List<EPDSearchResult> epdSearchResults = run(edpEntries);
 
+        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
+
         SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
 
-        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
+        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
 
         String suiteName = suitePath.getFileName().toString();
 
@@ -142,13 +142,13 @@ public class SearchMoveMain {
 
         saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel, evaluationReportModel);
 
         //printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
 
-    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
-        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, searchesReportModel);
+    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel, EvaluationReportModel evaluationReportModel) {
+        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, searchesReportModel, evaluationReportModel);
 
         Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 

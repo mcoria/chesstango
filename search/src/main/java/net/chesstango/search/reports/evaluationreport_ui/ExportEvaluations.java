@@ -1,7 +1,7 @@
-package net.chesstango.search.reports.searchesreport_ui;
+package net.chesstango.search.reports.evaluationreport_ui;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.reports.SearchesReportModel;
+import net.chesstango.search.reports.EvaluationReportModel;
 import net.chesstango.search.smart.statistics.EvaluationEntry;
 
 import java.io.BufferedWriter;
@@ -13,16 +13,16 @@ import java.util.HexFormat;
  * @author Mauricio Coria
  */
 public class ExportEvaluations {
-    private final SearchesReportModel reportModel;
+    private final EvaluationReportModel evaluationReportModel;
 
-    public ExportEvaluations(SearchesReportModel reportModel) {
-        this.reportModel = reportModel;
+    public ExportEvaluations(EvaluationReportModel evaluationReportModel) {
+        this.evaluationReportModel = evaluationReportModel;
     }
 
     public void exportEvaluations() {
         int fileCounter = 0;
         // Cuerpo
-        for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : evaluationReportModel.moveDetails) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s:", moveDetail.move));

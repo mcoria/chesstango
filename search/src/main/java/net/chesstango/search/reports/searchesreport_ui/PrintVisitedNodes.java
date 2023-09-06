@@ -58,7 +58,7 @@ public class PrintVisitedNodes {
         out.printf("|\n");
 
         // Cuerpo
-        for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (SearchesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
 
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));

@@ -70,7 +70,10 @@ public class SearchSummaryModel {
     }
 
 
-    public static SearchSummaryModel collectStatics(String sessionId, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
+    public static SearchSummaryModel collectStatics(String sessionId,
+                                                    EpdSearchReportModel epdSearchReportModel,
+                                                    SearchesReportModel searchesReportModel,
+                                                    EvaluationReportModel evaluationReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
 
         model.sessionid = sessionId;
@@ -86,7 +89,7 @@ public class SearchSummaryModel {
         model.visitedQNodesTotal = searchesReportModel.visitedQNodesTotal;
         model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
         model.cutoffPercentageTotal = searchesReportModel.cutoffPercentageTotal;
-        model.evaluatedGamesCounterTotal = searchesReportModel.evaluatedGamesCounterTotal;
+        model.evaluatedGamesCounterTotal = evaluationReportModel.evaluatedGamesCounterTotal;
         model.executedMovesTotal = searchesReportModel.executedMovesTotal;
 
         searchesReportModel.moveDetails.forEach(searchReportModelDetail -> {

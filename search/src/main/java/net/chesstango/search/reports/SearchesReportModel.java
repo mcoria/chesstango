@@ -2,14 +2,10 @@ package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statistics.EvaluationEntry;
-import net.chesstango.search.smart.statistics.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -17,21 +13,12 @@ import java.util.Set;
 public class SearchesReportModel {
     public String engineName;
 
-    // Regular vs Quiescence
+    // Regular and Quiescence
     ///////////////////// START TOTALS
     public long visitedNodesTotal;
     public long expectedNodesTotal;
     public int cutoffPercentageTotal;
     public long executedMovesTotal;
-
-    /**
-     * Evaluation Statistics
-     */
-    public long evaluatedGamesCounterTotal;
-    public long distinctEvaluatedGamesCounterTotal;
-    public long distinctEvaluatedGamesCounterUniqueTotal;
-    public long distinctEvaluatedGamesCounterCollisionsTotal;
-    public long evaluationCollisionPercentageTotal;
 
     ///////////////////// END TOTALS
 
@@ -54,9 +41,9 @@ public class SearchesReportModel {
     public long expectedQNodesTotal;
     ///////////////////// END VISITED QUIESCENCE NODES
 
-    public List<SearchReportModelDetail> moveDetails;
+    public List<SearchesReportModelDetail> moveDetails;
 
-    public static class SearchReportModelDetail {
+    public static class SearchesReportModelDetail {
         public String id;
 
         public String move;
@@ -64,16 +51,6 @@ public class SearchesReportModel {
 
         public int evaluation;
         public int executedMoves;
-
-        /**
-         * Evaluation Statistics
-         */
-        public Set<EvaluationEntry> evaluations;
-        public long evaluatedGamesCounter;
-        public int distinctEvaluatedGamesCounter;
-        public long distinctEvaluatedGamesCounterUnique;
-        public long distinctEvaluatedGamesCounterCollisions;
-        public long evaluationCollisionPercentage;
 
 
         /**
@@ -152,17 +129,13 @@ public class SearchesReportModel {
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
         }
 
-        if (this.distinctEvaluatedGamesCounterTotal > 0) {
-            this.evaluationCollisionPercentageTotal = (100 * this.distinctEvaluatedGamesCounterCollisionsTotal) / this.distinctEvaluatedGamesCounterTotal;
-        }
-
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
         this.cutoffPercentageTotal = (int) ((100 * this.visitedNodesTotal) / this.expectedNodesTotal);
     }
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
-        SearchesReportModel.SearchReportModelDetail reportModelDetail = new SearchesReportModel.SearchReportModelDetail();
+        SearchesReportModelDetail reportModelDetail = new SearchesReportModelDetail();
 
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
@@ -179,16 +152,11 @@ public class SearchesReportModel {
             collectStaticsQuiescenceNodeStatistics(reportModelDetail, searchMoveResult);
         }
 
-        if (searchMoveResult.getEvaluationStatistics() != null) {
-            collectStaticsEvaluationStatics(reportModelDetail, searchMoveResult);
-        }
-
-        this.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
         this.executedMovesTotal += reportModelDetail.executedMoves;
         this.moveDetails.add(reportModelDetail);
     }
 
-    private void collectStaticsRegularNodeStatistics(SearchesReportModel.SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectStaticsRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         NodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
@@ -217,7 +185,7 @@ public class SearchesReportModel {
         reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter;
     }
 
-    private void collectStaticsQuiescenceNodeStatistics(SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectStaticsQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
         reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
@@ -241,32 +209,6 @@ public class SearchesReportModel {
         reportModelDetail.expectedNodesTotal += reportModelDetail.expectedQNodesCounter;
     }
 
-    private void collectStaticsEvaluationStatics(SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
-
-        Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
-
-        reportModelDetail.evaluatedGamesCounter = evaluationStatistics.evaluatedGamesCounter();
-        reportModelDetail.evaluations = evaluations;
-
-
-        if (reportModelDetail.evaluations != null) {
-            reportModelDetail.distinctEvaluatedGamesCounter = evaluations.size();
-            reportModelDetail.distinctEvaluatedGamesCounterUnique = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
-            reportModelDetail.distinctEvaluatedGamesCounterCollisions = reportModelDetail.distinctEvaluatedGamesCounter - reportModelDetail.distinctEvaluatedGamesCounterUnique;
-
-            /*
-             * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
-             */
-            if (reportModelDetail.distinctEvaluatedGamesCounter != 0) {
-                reportModelDetail.evaluationCollisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
-            }
-        }
-
-        this.distinctEvaluatedGamesCounterTotal += reportModelDetail.distinctEvaluatedGamesCounter;
-        this.distinctEvaluatedGamesCounterUniqueTotal += reportModelDetail.distinctEvaluatedGamesCounterUnique;
-        this.distinctEvaluatedGamesCounterCollisionsTotal += reportModelDetail.distinctEvaluatedGamesCounterCollisions;
-    }
 
     private static String getPrincipalVariation(List<Move> principalVariation) {
         if (principalVariation == null) {
