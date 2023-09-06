@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  *
  * @author Mauricio Coria
  */
-public class SearchMoveMain {
+public class EpdSearchMain {
 
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
 
@@ -50,7 +50,7 @@ public class SearchMoveMain {
 
         System.out.printf("depth={%d}, directory={%s}; filePattern={%s}\n", depth, directory, filePattern);
 
-        SearchMoveMain suite = new SearchMoveMain(depth);
+        EpdSearchMain suite = new EpdSearchMain(depth);
 
         getEpdFiles(directory, filePattern).forEach(suite::execute);
     }
@@ -58,7 +58,7 @@ public class SearchMoveMain {
 
     protected final int depth;
 
-    public SearchMoveMain(int depth) {
+    public EpdSearchMain(int depth) {
         this.depth = depth;
     }
 
@@ -77,22 +77,16 @@ public class SearchMoveMain {
     }
 
     private void report(Path suitePath, List<EpdSearchResult> epdSearchResults) {
-
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(epdSearchResults);
-
         NodesReportModel nodesReportModel = NodesReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
-
         EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
+        printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
+
         String suiteName = suitePath.getFileName().toString();
-
         Path sessionDirectory = createSessionDirectory(suitePath);
-
-        saveReport(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel);
-
+        saveReports(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
         saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
-
-        printReport(System.out, epdSearchReportModel, nodesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
@@ -112,12 +106,12 @@ public class SearchMoveMain {
         }
     }
 
-    private void saveReport(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel) {
+    private void saveReports(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
         Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            printReport(out, epdSearchReportModel, nodesReportModel);
+            printReports(out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
             out.flush();
         } catch (IOException e) {
@@ -125,7 +119,7 @@ public class SearchMoveMain {
         }
     }
 
-    private void printReport(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel) {
+    private void printReports(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
         new EpdSearchReport()
                 .setReportModel(epdSearchReportModel)
                 .printReport(output);
@@ -134,8 +128,10 @@ public class SearchMoveMain {
                 .setReportModel(nodesReportModel)
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
-                //.withEvaluationsStatics()
-                //.withPrincipalVariation()
+                .printReport(output);
+
+        new EvaluationReport()
+                .setReportModel(evaluationReportModel)
                 //.withExportEvaluations()
                 .printReport(output);
     }

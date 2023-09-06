@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
 import java.time.Duration;
@@ -132,13 +133,13 @@ public class EpdSearch {
 
     private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
                 .withQuiescence()
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                .withTranspositionTableReuse()
+                //.withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
@@ -146,9 +147,10 @@ public class EpdSearch {
                 //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
+                //.withMoveEvaluation()
 
                 .withStatistics()
-                //.withStatisticsTrackEvaluations() //Consume demasiada memoria
+                .withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }

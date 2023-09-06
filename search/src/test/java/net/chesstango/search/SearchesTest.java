@@ -27,17 +27,16 @@ public class SearchesTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
                 .withQuiescence()
-                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
@@ -45,7 +44,7 @@ public class SearchesTest {
                 //.withMoveEvaluation()
 
                 .withStatistics()
-                .withTrackEvaluations()
+                .withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }
