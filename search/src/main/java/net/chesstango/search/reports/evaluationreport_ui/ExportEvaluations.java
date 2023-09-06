@@ -25,8 +25,7 @@ public class ExportEvaluations {
         for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : evaluationReportModel.moveDetails) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
-                writer.append(String.format("%6s:", moveDetail.move));
-                writer.append(String.format(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation));
+                writer.append(String.format("%6s ; Points = %d ", moveDetail.move, moveDetail.evaluation));
                 if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
                     writer.append(String.format(" MATE"));
                 }

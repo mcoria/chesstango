@@ -3,9 +3,8 @@ package net.chesstango.search.reports;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.evaluationreport_ui.ExportEvaluations;
-import net.chesstango.search.reports.evaluationreport_ui.PrintEvaluationsStatistics;
-import net.chesstango.search.reports.searchesreport_ui.*;
+import net.chesstango.search.reports.searchesreport_ui.PrintCutoff;
+import net.chesstango.search.reports.searchesreport_ui.PrintVisitedNodes;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 public class SearchesReport {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
-    private boolean printPrincipalVariation;
 
     @Setter
     @Accessors(chain = true)
@@ -46,10 +44,6 @@ public class SearchesReport {
             new PrintCutoff(out, reportModel).printCutoff();
         }
 
-        if (printPrincipalVariation) {
-            new PrintPrincipalVariation(out, reportModel).printPrincipalVariation();
-        }
-
     }
 
     private void printSummary() {
@@ -73,11 +67,6 @@ public class SearchesReport {
 
     public SearchesReport withNodesVisitedStatics() {
         this.printNodesVisitedStatistics = true;
-        return this;
-    }
-
-    public SearchesReport withPrincipalVariation() {
-        this.printPrincipalVariation = true;
         return this;
     }
 

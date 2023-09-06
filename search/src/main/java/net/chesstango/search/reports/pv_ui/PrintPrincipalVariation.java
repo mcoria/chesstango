@@ -1,7 +1,7 @@
-package net.chesstango.search.reports.searchesreport_ui;
+package net.chesstango.search.reports.pv_ui;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.reports.SearchesReportModel;
+import net.chesstango.search.reports.PrincipalVariationReportModel;
 
 import java.io.PrintStream;
 
@@ -10,9 +10,9 @@ import java.io.PrintStream;
  */
 public class PrintPrincipalVariation {
     private final PrintStream out;
-    private final SearchesReportModel reportModel;
+    private final PrincipalVariationReportModel reportModel;
 
-    public PrintPrincipalVariation(PrintStream out, SearchesReportModel reportModel) {
+    public PrintPrincipalVariation(PrintStream out, PrincipalVariationReportModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -25,7 +25,7 @@ public class PrintPrincipalVariation {
         out.printf("Move\n");
 
         // Cuerpo
-        for (SearchesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (PrincipalVariationReportModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s:", moveDetail.move);
             out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation);
             if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {

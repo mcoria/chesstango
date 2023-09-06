@@ -33,10 +33,8 @@ public class EvaluationReportModel {
         public String id;
 
         public String move;
-        public String principalVariation;
 
         public int evaluation;
-        public int executedMoves;
 
         /**
          * Evaluation Statistics
@@ -79,8 +77,6 @@ public class EvaluationReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
-        reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
-        reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 
 
         if (searchMoveResult.getEvaluationStatistics() != null) {
@@ -119,15 +115,4 @@ public class EvaluationReportModel {
         this.distinctEvaluatedGamesCounterCollisionsTotal += reportModelDetail.distinctEvaluatedGamesCounterCollisions;
     }
 
-    private static String getPrincipalVariation(List<Move> principalVariation) {
-        if (principalVariation == null) {
-            return "-";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (Move move : principalVariation) {
-                sb.append(String.format("%s ", String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare())));
-            }
-            return sb.toString();
-        }
-    }
 }

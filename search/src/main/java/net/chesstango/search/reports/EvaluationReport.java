@@ -5,7 +5,6 @@ import lombok.experimental.Accessors;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.reports.evaluationreport_ui.ExportEvaluations;
 import net.chesstango.search.reports.evaluationreport_ui.PrintEvaluationsStatistics;
-import net.chesstango.search.reports.searchesreport_ui.PrintPrincipalVariation;
 
 import java.io.PrintStream;
 import java.util.List;

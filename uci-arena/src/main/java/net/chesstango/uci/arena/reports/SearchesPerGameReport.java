@@ -52,7 +52,7 @@ public class SearchesPerGameReport {
     }
 
     public SearchesPerGameReport withPrincipalVariation() {
-        searchesReport.withPrincipalVariation();
+        //searchesReport.withPrincipalVariation();
         return this;
     }
 

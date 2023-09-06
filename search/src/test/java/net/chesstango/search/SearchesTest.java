@@ -6,6 +6,7 @@ import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.PrincipalVariationReport;
 import net.chesstango.search.reports.SearchesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -53,9 +55,12 @@ public class SearchesTest {
             new SearchesReport()
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
-                    .withPrincipalVariation()
                     //.withExportEvaluations()
-                    .withMoveResults(Arrays.asList(searchResult))
+                    .withMoveResults(List.of(searchResult))
+                    .printReport(System.out);
+
+            new PrincipalVariationReport()
+                    .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }
     }
