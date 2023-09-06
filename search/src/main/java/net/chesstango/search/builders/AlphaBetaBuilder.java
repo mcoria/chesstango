@@ -3,7 +3,6 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -53,7 +52,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withStatistics;
     private boolean withMoveEvaluation;
     private boolean withTranspositionTableReuse;
-    private boolean withStatisticsTrackEvaluations;
+    private boolean withTrackEvaluations;
 
     public AlphaBetaBuilder() {
         alphaBetaImp = new AlphaBetaImp();
@@ -134,11 +133,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withStatisticsTrackEvaluations() {
+    public AlphaBetaBuilder withTrackEvaluations() {
         if (!withStatistics) {
             throw new RuntimeException("You must enable Statistics first");
         }
-        withStatisticsTrackEvaluations = true;
+        withTrackEvaluations = true;
         return this;
     }
 
@@ -166,7 +165,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             quiescenceStatistics = new QuiescenceStatistics();
 
             gameEvaluator = new EvaluatorStatistics(gameEvaluator)
-                    .setTrackEvaluations(withStatisticsTrackEvaluations);
+                    .setTrackEvaluations(withTrackEvaluations);
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();

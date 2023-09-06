@@ -18,12 +18,12 @@ public class EvaluationReportModel {
     /**
      * Evaluation Statistics
      */
-    public long evaluatedPositionsCounterTotal;
-    public long evaluatedPositionsCacheHitCounterTotal;
-    public long evaluatedUniquePositionsCounterTotal;
-    public long evaluatedUniquePositionsValuesCounterTotal;
-    public long evaluatedUniquePositionsValuesCollisionsCounterTotal;
-    public long evaluationCollisionPercentageTotal;
+    public long evaluationCounterTotal;
+    public long evaluationsCacheHitCounterTotal;
+    public long evaluationPositionCounterTotal;
+    public long evaluationValueCounterTotal;
+    public long evaluationPositionValueCollisionsCounterTotal;
+    public int evaluationCollisionPercentageTotal;
 
     ///////////////////// END TOTALS
 
@@ -41,12 +41,37 @@ public class EvaluationReportModel {
          * Evaluation Statistics
          */
         public Set<EvaluationEntry> evaluations;
-        public long evaluatedPositionsCounter;
-        public long evaluatedPositionsCacheHitCounter;
-        public long evaluatedUniquePositionsCounter;
-        public long evaluatedUniquePositionsValuesCounter;
-        public long evaluatedUniquePositionsValuesCollisionsCounter;
-        public long evaluationCollisionPercentage;
+
+        /**
+         * Contador de evaluaciones se hicieron
+         */
+        public long evaluationCounter;
+
+        /**
+         * Contador de evaluaciones que fueron encontradas en cache
+         */
+        public long evaluationsCacheHitCounter;
+
+        /**
+         * Contador de evaluacion de posiciones (distintas) se hicieron
+         */
+        public long evaluationPositionCounter;
+
+        /**
+         * Contador de evaluacion de posiciones (distintas) resultaron en distinto valor
+         */
+        public long evaluationValueCounter;
+
+        /**
+         * Contador de evaluacion de posiciones (distintas) cuya evaluacion coincide
+         */
+        public long evaluationPositionValueCollisionsCounter;
+
+
+        /**
+         * Contador de evaluacion de posiciones (distintas) cuya evaluacion coincide
+         */
+        public int evaluationPositionValueCollisionsPercentage;
 
     }
 
@@ -65,10 +90,6 @@ public class EvaluationReportModel {
         this.moveDetails = new LinkedList<>();
 
         searchMoveResults.forEach(this::loadModelDetail);
-
-        if (this.evaluatedUniquePositionsCounterTotal > 0) {
-            this.evaluationCollisionPercentageTotal = (100 * this.evaluatedUniquePositionsValuesCollisionsCounterTotal) / this.evaluatedUniquePositionsCounterTotal;
-        }
     }
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
@@ -83,11 +104,14 @@ public class EvaluationReportModel {
             collectEvaluationStatistics(reportModelDetail, searchMoveResult);
         }
 
-        this.evaluatedPositionsCounterTotal += reportModelDetail.evaluatedPositionsCounter;
-        this.evaluatedPositionsCacheHitCounterTotal += reportModelDetail.evaluatedPositionsCacheHitCounter;
-        this.evaluatedUniquePositionsCounterTotal += reportModelDetail.evaluatedUniquePositionsCounter;
-        this.evaluatedUniquePositionsValuesCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCounter;
-        this.evaluatedUniquePositionsValuesCollisionsCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter;
+        this.evaluationCounterTotal += reportModelDetail.evaluationCounter;
+        this.evaluationsCacheHitCounterTotal += reportModelDetail.evaluationsCacheHitCounter;
+        this.evaluationPositionCounterTotal += reportModelDetail.evaluationPositionCounter;
+        this.evaluationValueCounterTotal += reportModelDetail.evaluationValueCounter;
+        this.evaluationPositionValueCollisionsCounterTotal += reportModelDetail.evaluationPositionValueCollisionsCounter;
+        if (this.evaluationPositionCounterTotal > 0) {
+            this.evaluationCollisionPercentageTotal = (int) ((100 * this.evaluationPositionValueCollisionsCounterTotal) / this.evaluationPositionCounterTotal);
+        }
         this.moveDetails.add(reportModelDetail);
     }
 
@@ -95,21 +119,21 @@ public class EvaluationReportModel {
     private void collectEvaluationStatistics(EvolutionReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
 
-        reportModelDetail.evaluatedPositionsCounter = evaluationStatistics.evaluationsCounter();
-        reportModelDetail.evaluatedPositionsCacheHitCounter = evaluationStatistics.cacheHitsCounter();
+        reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
+        reportModelDetail.evaluationsCacheHitCounter = evaluationStatistics.cacheHitsCounter();
 
         Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
         if (evaluations != null) {
             reportModelDetail.evaluations = evaluations;
-            reportModelDetail.evaluatedUniquePositionsCounter = evaluations.size();
-            reportModelDetail.evaluatedUniquePositionsValuesCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
-            reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter = reportModelDetail.evaluatedUniquePositionsCounter - reportModelDetail.evaluatedUniquePositionsValuesCounter;
+            reportModelDetail.evaluationPositionCounter = evaluations.size();
+            reportModelDetail.evaluationValueCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
+            reportModelDetail.evaluationPositionValueCollisionsCounter = reportModelDetail.evaluationPositionCounter - reportModelDetail.evaluationValueCounter;
 
             /*
              * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
              */
-            if (reportModelDetail.evaluatedUniquePositionsCounter != 0) {
-                reportModelDetail.evaluationCollisionPercentage = (100 * reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter) / reportModelDetail.evaluatedUniquePositionsCounter;
+            if (reportModelDetail.evaluationPositionCounter != 0) {
+                reportModelDetail.evaluationPositionValueCollisionsPercentage = (int) ((100 * reportModelDetail.evaluationPositionValueCollisionsCounter) / reportModelDetail.evaluationPositionCounter);
             }
         }
     }

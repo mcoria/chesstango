@@ -89,7 +89,7 @@ public class SummaryModel {
         model.visitedQNodesTotal = nodesReportModel.visitedQNodesTotal;
         model.visitedNodesTotal = nodesReportModel.visitedNodesTotal;
         model.cutoffPercentageTotal = nodesReportModel.cutoffPercentageTotal;
-        model.evaluatedGamesCounterTotal = evaluationReportModel.evaluatedPositionsCounterTotal;
+        model.evaluatedGamesCounterTotal = evaluationReportModel.evaluationCounterTotal;
         model.executedMovesTotal = nodesReportModel.executedMovesTotal;
 
         nodesReportModel.moveDetails.forEach(searchReportModelDetail -> {

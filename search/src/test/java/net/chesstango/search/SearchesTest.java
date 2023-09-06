@@ -7,7 +7,6 @@ import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.reports.NodesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -33,8 +32,8 @@ public class SearchesTest {
                 .withQuiescence()
                 .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
+                .withTranspositionTable()
+                .withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
                 //.withTranspositionMoveSorter()
@@ -42,11 +41,11 @@ public class SearchesTest {
 
                 //.withStopProcessingCatch()
 
-                //.withIterativeDeepening()
+                .withIterativeDeepening()
                 //.withMoveEvaluation()
 
                 .withStatistics()
-                .withStatisticsTrackEvaluations()
+                .withTrackEvaluations()
 
                 .build();
     }
@@ -54,20 +53,20 @@ public class SearchesTest {
     @AfterEach
     public void printReport(){
         if(PRINT_REPORT) {
-            /*
+
+             /*
             new NodesReport()
                     .withNodesVisitedStatics()
-                    .withCutoffStatics()
+                    //.withCutoffStatics()
+                    .withMoveResults(List.of(searchResult))
+                    .printReport(System.out);
+            */
+            new EvaluationReport()
                     //.withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
 
             new PrincipalVariationReport()
-                    .withMoveResults(List.of(searchResult))
-                    .printReport(System.out);
-            */
-            new EvaluationReport()
-                    .withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }

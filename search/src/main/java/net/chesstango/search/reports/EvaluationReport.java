@@ -45,7 +45,7 @@ public class EvaluationReport {
     private void printSummary() {
         out.printf("----------------------------------------------------------------------------\n\n");
         out.printf("Moves played by engine: %s\n", reportModel.engineName);
-        out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedPositionsCounterTotal);
+        out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("\n");
     }
 

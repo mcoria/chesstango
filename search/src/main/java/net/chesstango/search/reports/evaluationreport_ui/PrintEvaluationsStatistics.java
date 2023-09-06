@@ -34,8 +34,7 @@ public class PrintEvaluationsStatistics {
         out.printf("______________");
         out.printf("_______________");
         out.printf("_______________");
-        out.printf("_______________");
-        out.printf("______________");
+        out.printf("____________________");
         if (longestId > 0) {
             out.printf(" %s", "_".repeat(longestId + 2));
         }
@@ -45,10 +44,9 @@ public class PrintEvaluationsStatistics {
         out.printf("| Move   ");
         out.printf("| Evaluations ");
         out.printf("| Cache Hits  ");
-        out.printf("| GEvaluations ");
-        out.printf("| UEvaluations ");
-        out.printf("| CEvaluations ");
-        out.printf("| PCollisions ");
+        out.printf("| Positions    ");
+        out.printf("| Values       ");
+        out.printf("| Collisions        ");
         if (longestId > 0) {
             out.printf("| ID");
             out.printf(" ".repeat(longestId - 1));
@@ -58,12 +56,11 @@ public class PrintEvaluationsStatistics {
         // Cuerpo
         for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
-            out.printf("| %11d ", moveDetail.evaluatedPositionsCounter);
-            out.printf("| %11d ", moveDetail.evaluatedPositionsCacheHitCounter);
-            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsCounter);
-            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCounter);
-            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCollisionsCounter);
-            out.printf("| %9d %% ", moveDetail.evaluationCollisionPercentage);
+            out.printf("| %11d ", moveDetail.evaluationCounter);
+            out.printf("| %11d ", moveDetail.evaluationsCacheHitCounter);
+            out.printf("| %12d ", moveDetail.evaluationPositionCounter);
+            out.printf("| %12d ", moveDetail.evaluationValueCounter);
+            out.printf("| %12d (%2d%%)", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage);
             if (longestId > 0) {
                 out.printf("| %" + longestId + "s ", moveDetail.id);
             }
@@ -76,8 +73,7 @@ public class PrintEvaluationsStatistics {
         out.printf("|-------------");
         out.printf("|--------------");
         out.printf("|--------------");
-        out.printf("|--------------");
-        out.printf("|-------------");
+        out.printf("|-------------------");
         if (longestId > 0) {
             out.printf("|");
             out.printf("-".repeat(longestId + 2));
@@ -86,12 +82,11 @@ public class PrintEvaluationsStatistics {
 
 
         out.printf("| SUM    ");
-        out.printf("| %11d ", reportModel.evaluatedPositionsCounterTotal);
-        out.printf("| %11d ", reportModel.evaluatedPositionsCacheHitCounterTotal);
-        out.printf("| %12d ", reportModel.evaluatedUniquePositionsCounterTotal);
-        out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCounterTotal);
-        out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCollisionsCounterTotal);
-        out.printf("| %9d %% ", reportModel.evaluationCollisionPercentageTotal);
+        out.printf("| %11d ", reportModel.evaluationCounterTotal);
+        out.printf("| %11d ", reportModel.evaluationsCacheHitCounterTotal);
+        out.printf("| %12d ", reportModel.evaluationPositionCounterTotal);
+        out.printf("| %12d ", reportModel.evaluationValueCounterTotal);
+        out.printf("| %12d (%2d%%)", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
         if (longestId > 0) {
             out.printf("|");
             out.printf(" ".repeat(longestId + 2));
@@ -104,9 +99,8 @@ public class PrintEvaluationsStatistics {
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
-        out.printf("---------------");
-        out.printf("---------------");
-        out.printf("------------- ");
+        out.printf("---------------");;
+        out.printf("------------------- ");
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
         }
