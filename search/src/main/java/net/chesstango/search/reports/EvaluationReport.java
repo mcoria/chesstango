@@ -13,7 +13,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class EvaluationReport {
-    private boolean printEvaluationsStatistics;
     private boolean exportEvaluations;
 
     @Setter
@@ -32,7 +31,7 @@ public class EvaluationReport {
         return this;
     }
 
-    protected void print() {
+    private void print() {
         printSummary();
 
         new PrintEvaluationsStatistics(out, reportModel).printEvaluationsStatistics();
@@ -46,13 +45,8 @@ public class EvaluationReport {
     private void printSummary() {
         out.printf("----------------------------------------------------------------------------\n\n");
         out.printf("Moves played by engine: %s\n", reportModel.engineName);
-        out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
+        out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedPositionsCounterTotal);
         out.printf("\n");
-    }
-
-    public EvaluationReport withEvaluationsStatics() {
-        this.printEvaluationsStatistics = true;
-        return this;
     }
 
 
@@ -62,7 +56,7 @@ public class EvaluationReport {
     }
 
     public EvaluationReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = EvaluationReportModel.collectStatics(this.engineName, searchMoveResults);
+        this.reportModel = EvaluationReportModel.collectStatistics(this.engineName, searchMoveResults);
         return this;
     }
 }

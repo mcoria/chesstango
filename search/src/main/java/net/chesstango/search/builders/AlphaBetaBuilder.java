@@ -165,7 +165,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
             quiescenceStatistics = new QuiescenceStatistics();
 
-            if(gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
+            if (gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
                 gameEvaluator = new EvaluatorCacheStatistics(gameEvaluatorCache)
                         .setTrackEvaluations(withStatisticsTrackEvaluations);
             } else {
@@ -194,10 +194,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
-            filters.add(evaluatorStatistics);
-        } else if (gameEvaluator instanceof EvaluatorCacheStatistics evaluatorCacheStatistics) {
+        if (gameEvaluator instanceof EvaluatorCacheStatistics evaluatorCacheStatistics) {
             filters.add(evaluatorCacheStatistics);
+        } else if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
+            filters.add(evaluatorStatistics);
         }
 
         // =============  quiescence setup =====================
@@ -259,7 +259,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (head == null) {
             head = this.alphaBetaImp;
         }
-
 
         this.alphaBetaImp.setMoveSorter(moveSorter);
         this.alphaBetaImp.setGameEvaluator(gameEvaluator);

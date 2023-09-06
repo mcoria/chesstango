@@ -71,7 +71,7 @@ public class NodesReport {
     }
 
     public NodesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = NodesReportModel.collectStatics(this.engineName, searchMoveResults);
+        this.reportModel = NodesReportModel.collectStatistics(this.engineName, searchMoveResults);
         return this;
     }
 

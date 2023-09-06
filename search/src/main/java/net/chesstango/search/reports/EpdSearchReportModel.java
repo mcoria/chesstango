@@ -15,7 +15,7 @@ public class EpdSearchReportModel {
     List<String> failedEntries;
     long duration;
 
-    public static EpdSearchReportModel collectStatics(List<EpdSearchResult> edpEntries) {
+    public static EpdSearchReportModel collectStatistics(List<EpdSearchResult> edpEntries) {
         EpdSearchReportModel reportModel = new EpdSearchReportModel();
 
         reportModel.searches = edpEntries.size();

@@ -40,7 +40,7 @@ public class EpdSearchReport {
     }
 
     public EpdSearchReport withEdpEntries(List<EpdSearchResult> edpEntries) {
-        this.reportModel = EpdSearchReportModel.collectStatics(edpEntries);
+        this.reportModel = EpdSearchReportModel.collectStatistics(edpEntries);
         return this;
     }
 

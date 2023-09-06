@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Mauricio Coria
  */
 public class EvaluatorCacheStatistics implements GameEvaluator, SearchLifeCycle {
-    private GameEvaluatorCache gameEvaluatorCache;
+    private final GameEvaluatorCache gameEvaluatorCache;
     private Set<EvaluationEntry> evaluations;
 
     @Setter

@@ -2,8 +2,6 @@ package net.chesstango.search;
 
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
-import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.*;
 
 import java.io.FileOutputStream;
@@ -15,10 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -83,11 +78,11 @@ public class SearchMoveMain {
 
     private void report(Path suitePath, List<EpdSearchResult> epdSearchResults) {
 
-        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
+        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(epdSearchResults);
 
-        NodesReportModel nodesReportModel = NodesReportModel.collectStatics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
-        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
         String suiteName = suitePath.getFileName().toString();
 

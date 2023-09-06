@@ -77,7 +77,7 @@ public class NodesReportModel {
     }
 
 
-    public static NodesReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
+    public static NodesReportModel collectStatistics(String engineName, List<SearchMoveResult> searchMoveResults) {
         NodesReportModel nodesReportModel = new NodesReportModel();
 
         nodesReportModel.engineName = engineName;

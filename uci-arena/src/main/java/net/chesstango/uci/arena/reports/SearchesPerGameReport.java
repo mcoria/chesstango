@@ -24,12 +24,12 @@ public class SearchesPerGameReport {
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
-                    .map(result -> NodesReportModel.collectStatics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
+                    .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
                     .forEach(reportRows::add);
 
             matchResult.stream()
                     .filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null)
-                    .map(result -> NodesReportModel.collectStatics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
+                    .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
                     .forEach(reportRows::add);
 
         });

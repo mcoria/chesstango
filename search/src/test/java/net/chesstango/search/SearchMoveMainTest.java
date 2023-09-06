@@ -47,7 +47,6 @@ public class SearchMoveMainTest {
                     .printReport(System.out);
 
             new EvaluationReport()
-                    .withEvaluationsStatics()
                     .withMoveResults(List.of(epdSearchResult.searchResult()))
                     .printReport(System.out);
 

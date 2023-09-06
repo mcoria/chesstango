@@ -5,5 +5,5 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public record EvaluationStatistics(long evaluatedGamesCounter, Set<EvaluationEntry> evaluations) {
+public record EvaluationStatistics(long evaluationsCounter, Set<EvaluationEntry> evaluations) {
 }

@@ -18,10 +18,10 @@ public class EvaluationReportModel {
     /**
      * Evaluation Statistics
      */
-    public long evaluatedGamesCounterTotal;
-    public long distinctEvaluatedGamesCounterTotal;
-    public long distinctEvaluatedGamesCounterUniqueTotal;
-    public long distinctEvaluatedGamesCounterCollisionsTotal;
+    public long evaluatedPositionsCounterTotal;
+    public long evaluatedUniquePositionsCounterTotal;
+    public long evaluatedUniquePositionsValuesCounterTotal;
+    public long evaluatedUniquePositionsValuesCollisionsCounterTotal;
     public long evaluationCollisionPercentageTotal;
 
     ///////////////////// END TOTALS
@@ -40,16 +40,16 @@ public class EvaluationReportModel {
          * Evaluation Statistics
          */
         public Set<EvaluationEntry> evaluations;
-        public long evaluatedGamesCounter;
-        public int distinctEvaluatedGamesCounter;
-        public long distinctEvaluatedGamesCounterUnique;
-        public long distinctEvaluatedGamesCounterCollisions;
+        public long evaluatedPositionsCounter;
+        public long evaluatedUniquePositionsCounter;
+        public long evaluatedUniquePositionsValuesCounter;
+        public long evaluatedUniquePositionsValuesCollisionsCounter;
         public long evaluationCollisionPercentage;
 
     }
 
 
-    public static EvaluationReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
+    public static EvaluationReportModel collectStatistics(String engineName, List<SearchMoveResult> searchMoveResults) {
         EvaluationReportModel searchesReportModel = new EvaluationReportModel();
 
         searchesReportModel.engineName = engineName;
@@ -62,57 +62,53 @@ public class EvaluationReportModel {
     private void load(List<SearchMoveResult> searchMoveResults) {
         this.moveDetails = new LinkedList<>();
 
-
         searchMoveResults.forEach(this::loadModelDetail);
 
-        if (this.distinctEvaluatedGamesCounterTotal > 0) {
-            this.evaluationCollisionPercentageTotal = (100 * this.distinctEvaluatedGamesCounterCollisionsTotal) / this.distinctEvaluatedGamesCounterTotal;
+        if (this.evaluatedUniquePositionsCounterTotal > 0) {
+            this.evaluationCollisionPercentageTotal = (100 * this.evaluatedUniquePositionsValuesCollisionsCounterTotal) / this.evaluatedUniquePositionsCounterTotal;
         }
     }
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
-        EvolutionReportModelDetail reportModelDetail = new EvolutionReportModelDetail();
-
         Move bestMove = searchMoveResult.getBestMove();
+
+        EvolutionReportModelDetail reportModelDetail = new EvolutionReportModelDetail();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
 
-
         if (searchMoveResult.getEvaluationStatistics() != null) {
-            collectStaticsEvaluationStatics(reportModelDetail, searchMoveResult);
+            collectEvaluationStatistics(reportModelDetail, searchMoveResult);
         }
 
-        this.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
+        this.evaluatedPositionsCounterTotal += reportModelDetail.evaluatedPositionsCounter;
         this.moveDetails.add(reportModelDetail);
     }
 
 
-    private void collectStaticsEvaluationStatics(EvolutionReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectEvaluationStatistics(EvolutionReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
 
+        reportModelDetail.evaluatedPositionsCounter = evaluationStatistics.evaluationsCounter();
+
         Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
-
-        reportModelDetail.evaluatedGamesCounter = evaluationStatistics.evaluatedGamesCounter();
-        reportModelDetail.evaluations = evaluations;
-
-
-        if (reportModelDetail.evaluations != null) {
-            reportModelDetail.distinctEvaluatedGamesCounter = evaluations.size();
-            reportModelDetail.distinctEvaluatedGamesCounterUnique = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
-            reportModelDetail.distinctEvaluatedGamesCounterCollisions = reportModelDetail.distinctEvaluatedGamesCounter - reportModelDetail.distinctEvaluatedGamesCounterUnique;
+        if (evaluations != null) {
+            reportModelDetail.evaluations = evaluations;
+            reportModelDetail.evaluatedUniquePositionsCounter = evaluations.size();
+            reportModelDetail.evaluatedUniquePositionsValuesCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
+            reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter = reportModelDetail.evaluatedUniquePositionsCounter - reportModelDetail.evaluatedUniquePositionsValuesCounter;
 
             /*
              * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
              */
-            if (reportModelDetail.distinctEvaluatedGamesCounter != 0) {
-                reportModelDetail.evaluationCollisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+            if (reportModelDetail.evaluatedUniquePositionsCounter != 0) {
+                reportModelDetail.evaluationCollisionPercentage = (100 * reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter) / reportModelDetail.evaluatedUniquePositionsCounter;
             }
         }
 
-        this.distinctEvaluatedGamesCounterTotal += reportModelDetail.distinctEvaluatedGamesCounter;
-        this.distinctEvaluatedGamesCounterUniqueTotal += reportModelDetail.distinctEvaluatedGamesCounterUnique;
-        this.distinctEvaluatedGamesCounterCollisionsTotal += reportModelDetail.distinctEvaluatedGamesCounterCollisions;
+        this.evaluatedUniquePositionsCounterTotal += reportModelDetail.evaluatedUniquePositionsCounter;
+        this.evaluatedUniquePositionsValuesCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCounter;
+        this.evaluatedUniquePositionsValuesCollisionsCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter;
     }
 
 }

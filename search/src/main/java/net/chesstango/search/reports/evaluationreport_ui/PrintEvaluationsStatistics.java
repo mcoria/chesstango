@@ -56,10 +56,10 @@ public class PrintEvaluationsStatistics {
         // Cuerpo
         for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
-            out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
-            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
-            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounterUnique);
-            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
+            out.printf("| %11d ", moveDetail.evaluatedPositionsCounter);
+            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsCounter);
+            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCounter);
+            out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCollisionsCounter);
             out.printf("| %9d %% ", moveDetail.evaluationCollisionPercentage);
             if (longestId > 0) {
                 out.printf("| %" + longestId + "s ", moveDetail.id);
@@ -82,10 +82,10 @@ public class PrintEvaluationsStatistics {
 
 
         out.printf("| SUM    ");
-        out.printf("| %11d ", reportModel.evaluatedGamesCounterTotal);
-        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterTotal);
-        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterUniqueTotal);
-        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterCollisionsTotal);
+        out.printf("| %11d ", reportModel.evaluatedPositionsCounterTotal);
+        out.printf("| %12d ", reportModel.evaluatedUniquePositionsCounterTotal);
+        out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCounterTotal);
+        out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCollisionsCounterTotal);
         out.printf("| %9d %% ", reportModel.evaluationCollisionPercentageTotal);
         if (longestId > 0) {
             out.printf("|");

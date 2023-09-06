@@ -3,7 +3,9 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
 import net.chesstango.search.reports.NodesReport;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +31,7 @@ public class SearchesTest {
                 .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()
+                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
                 //.withTranspositionTable()
                 //.withQTranspositionTable()
@@ -40,8 +43,10 @@ public class SearchesTest {
                 //.withStopProcessingCatch()
 
                 //.withIterativeDeepening()
+                //.withMoveEvaluation()
 
                 .withStatistics()
+                .withStatisticsTrackEvaluations()
 
                 .build();
     }
@@ -49,6 +54,7 @@ public class SearchesTest {
     @AfterEach
     public void printReport(){
         if(PRINT_REPORT) {
+            /*
             new NodesReport()
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
@@ -57,6 +63,11 @@ public class SearchesTest {
                     .printReport(System.out);
 
             new PrincipalVariationReport()
+                    .withMoveResults(List.of(searchResult))
+                    .printReport(System.out);
+            */
+            new EvaluationReport()
+                    .withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }
