@@ -2,7 +2,6 @@ package net.chesstango.search;
 
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
-import net.chesstango.search.reports.EPDSearchResult;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
 import net.chesstango.search.reports.NodesReport;
@@ -24,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SearchMoveMainTest {
     private static final boolean PRINT_REPORT = true;
     private EPDReader EPDReader;
-    private EPDSearchResult epdSearchResult;
+    private EpdSearchResult epdSearchResult;
     private SearchMoveMain finderSuite;
 
     @BeforeEach
@@ -191,7 +190,7 @@ public class SearchMoveMainTest {
          */
         SearchMoveMain finderSuite1 = new SearchMoveMain(5);
         EPDEntry epdEntry1 = EPDReader.readEdpLine("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - bm Nc7-e8; ce -M3; pv Nc7-e8 Ka5-a6 Bc5-b6 a4-a5 Ne8-c7+; id \"2820\";");
-        EPDSearchResult epdSearchResult1 = finderSuite1.run(epdEntry1);
+        EpdSearchResult epdSearchResult1 = finderSuite1.run(epdEntry1);
         assertTrue(epdSearchResult1.bestMoveFound());
 
 

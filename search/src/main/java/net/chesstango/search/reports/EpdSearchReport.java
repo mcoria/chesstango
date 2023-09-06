@@ -2,6 +2,7 @@ package net.chesstango.search.reports;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.search.EpdSearchResult;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -38,7 +39,7 @@ public class EpdSearchReport {
         out.printf("Time taken      : %dms\n", reportModel.duration);
     }
 
-    public EpdSearchReport withEdpEntries(List<EPDSearchResult> edpEntries) {
+    public EpdSearchReport withEdpEntries(List<EpdSearchResult> edpEntries) {
         this.reportModel = EpdSearchReportModel.collectStatics(edpEntries);
         return this;
     }

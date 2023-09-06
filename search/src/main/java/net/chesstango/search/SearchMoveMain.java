@@ -93,13 +93,13 @@ public class SearchMoveMain {
         return run(EPDEntry).bestMoveFound();
     }
 
-    public EPDSearchResult run(EPDEntry epdEntry) {
+    public EpdSearchResult run(EPDEntry epdEntry) {
         SearchMove searchMove = buildSearchMove();
 
         return run(searchMove, epdEntry);
     }
 
-    public EPDSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
+    public EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
 
         Instant start = Instant.now();
 
@@ -115,7 +115,7 @@ public class SearchMoveMain {
 
         boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
-        return new EPDSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
+        return new EpdSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
     }
 
     private void execute(Path suitePath) {
@@ -128,13 +128,13 @@ public class SearchMoveMain {
 
     private void run(Path suitePath, List<EPDEntry> edpEntries) {
 
-        List<EPDSearchResult> epdSearchResults = run(edpEntries);
+        List<EpdSearchResult> epdSearchResults = run(edpEntries);
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        NodesReportModel nodesReportModel = NodesReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
+        NodesReportModel nodesReportModel = NodesReportModel.collectStatics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
-        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
+        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
         String suiteName = suitePath.getFileName().toString();
 
@@ -192,7 +192,7 @@ public class SearchMoveMain {
                 .printReport(output);
     }
 
-    private List<EPDSearchResult> run(List<EPDEntry> edpEntries) {
+    private List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
 
         BlockingQueue<SearchMove> blockingQueue = new LinkedBlockingDeque<>(SEARCH_THREADS);
@@ -201,15 +201,15 @@ public class SearchMoveMain {
             blockingQueue.add(buildSearchMove());
         }
 
-        List<Future<EPDSearchResult>> futures = new LinkedList<>();
+        List<Future<EpdSearchResult>> futures = new LinkedList<>();
         for (EPDEntry epdEntry : edpEntries) {
-            Future<EPDSearchResult> future = executorService.submit(new Callable<>() {
+            Future<EpdSearchResult> future = executorService.submit(new Callable<>() {
                 @Override
-                public EPDSearchResult call() throws Exception {
+                public EpdSearchResult call() throws Exception {
                     SearchMove searchMove = null;
                     try {
                         searchMove = blockingQueue.take();
-                        EPDSearchResult epdSearchResult = run(searchMove, epdEntry);
+                        EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
                         if (epdSearchResult.bestMoveFound()) {
                             System.out.printf("Success %s\n", epdEntry.fen);
                         } else {
@@ -242,10 +242,10 @@ public class SearchMoveMain {
             executorService.shutdownNow();
         }
 
-        List<EPDSearchResult> epdSearchResults = new LinkedList<>();
+        List<EpdSearchResult> epdSearchResults = new LinkedList<>();
         futures.forEach(future -> {
             try {
-                EPDSearchResult epdSearchResult = future.get();
+                EpdSearchResult epdSearchResult = future.get();
                 epdSearchResults.add(epdSearchResult);
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);

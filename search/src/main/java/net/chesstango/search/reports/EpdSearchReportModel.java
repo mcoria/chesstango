@@ -1,5 +1,7 @@
 package net.chesstango.search.reports;
 
+import net.chesstango.search.EpdSearchResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +15,16 @@ public class EpdSearchReportModel {
     List<String> failedEntries;
     long duration;
 
-    public static EpdSearchReportModel collectStatics(List<EPDSearchResult> edpEntries) {
+    public static EpdSearchReportModel collectStatics(List<EpdSearchResult> edpEntries) {
         EpdSearchReportModel reportModel = new EpdSearchReportModel();
 
         reportModel.searches = edpEntries.size();
 
-        reportModel.success = (int) edpEntries.stream().filter(EPDSearchResult::bestMoveFound).count();
+        reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::bestMoveFound).count();
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
-        reportModel.duration = edpEntries.stream().mapToLong(EPDSearchResult::searchDuration).sum();
+        reportModel.duration = edpEntries.stream().mapToLong(EpdSearchResult::searchDuration).sum();
 
         reportModel.failedEntries = new ArrayList<>();
 

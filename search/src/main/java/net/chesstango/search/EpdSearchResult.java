@@ -1,12 +1,11 @@
-package net.chesstango.search.reports;
+package net.chesstango.search;
 
 import net.chesstango.board.representations.EPDEntry;
-import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
-public record EPDSearchResult(EPDEntry epdEntry,
+public record EpdSearchResult(EPDEntry epdEntry,
                               String bestMoveFoundStr,
                               boolean bestMoveFound,
                               long searchDuration,

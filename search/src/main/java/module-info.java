@@ -23,4 +23,5 @@ module net.chesstango.search {
 
     opens net.chesstango.search.gamegraph;
     opens net.chesstango.search.reports;
+    opens net.chesstango.search;
 }
