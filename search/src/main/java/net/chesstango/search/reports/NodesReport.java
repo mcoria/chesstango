@@ -50,13 +50,13 @@ public class NodesReport {
         out.printf("----------------------------------------------------------------------------\n\n");
 
         out.printf("Moves played by engine: %s\n", reportModel.engineName);
+        out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
+        out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
         out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
         out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
         out.printf("Visited          Nodes: %8d\n", reportModel.visitedNodesTotal);
-        out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
         out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
-        out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
-        out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
+        out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
         out.printf("\n");
     }
 

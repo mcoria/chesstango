@@ -59,6 +59,7 @@ public class NodesReportModel {
 
         public long visitedNodesTotal;
         public long expectedNodesTotal;
+        public int cutoffPercentageTotal;
 
 
         public int[] expectedRNodesCounters;
@@ -131,7 +132,7 @@ public class NodesReportModel {
 
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
-        this.cutoffPercentageTotal = (int) ((100 * this.visitedNodesTotal) / this.expectedNodesTotal);
+        this.cutoffPercentageTotal = (int) (100 - ((100 * this.visitedNodesTotal) / this.expectedNodesTotal));
     }
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
@@ -151,6 +152,10 @@ public class NodesReportModel {
         if (searchMoveResult.getQuiescenceNodeStatistics() != null) {
             collectStaticsQuiescenceNodeStatistics(reportModelDetail, searchMoveResult);
         }
+
+        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter + reportModelDetail.visitedQNodesCounter;
+        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter + reportModelDetail.expectedQNodesCounter;
+        reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
 
         this.executedMovesTotal += reportModelDetail.executedMoves;
         this.moveDetails.add(reportModelDetail);
@@ -181,8 +186,6 @@ public class NodesReportModel {
                 }
             }
         }
-        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter;
-        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter;
     }
 
     private void collectStaticsQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
@@ -205,8 +208,6 @@ public class NodesReportModel {
                 }
             }
         }
-        reportModelDetail.visitedNodesTotal += reportModelDetail.visitedQNodesCounter;
-        reportModelDetail.expectedNodesTotal += reportModelDetail.expectedQNodesCounter;
     }
 
 

@@ -60,7 +60,7 @@ public class PrintEvaluationsStatistics {
             out.printf("| %11d ", moveDetail.evaluationsCacheHitCounter);
             out.printf("| %12d ", moveDetail.evaluationPositionCounter);
             out.printf("| %12d ", moveDetail.evaluationValueCounter);
-            out.printf("| %12d (%2d%%)", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage);
+            out.printf("| %11d (%2d%%) ", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage);
             if (longestId > 0) {
                 out.printf("| %" + longestId + "s ", moveDetail.id);
             }
@@ -86,7 +86,7 @@ public class PrintEvaluationsStatistics {
         out.printf("| %11d ", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("| %12d ", reportModel.evaluationPositionCounterTotal);
         out.printf("| %12d ", reportModel.evaluationValueCounterTotal);
-        out.printf("| %12d (%2d%%)", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
+        out.printf("| %11d (%2d%%) ", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
         if (longestId > 0) {
             out.printf("|");
             out.printf(" ".repeat(longestId + 2));

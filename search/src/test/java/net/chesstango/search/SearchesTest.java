@@ -6,6 +6,7 @@ import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
+import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ public class SearchesTest {
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                //.withTranspositionTableReuse()
+                .withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
@@ -53,21 +54,22 @@ public class SearchesTest {
     public void printReport(){
         if(PRINT_REPORT) {
 
-             /*
+
             new NodesReport()
                     .withNodesVisitedStatics()
-                    //.withCutoffStatics()
+                    .withCutoffStatics()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
-            */
+
             new EvaluationReport()
                     //.withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
-
+            /*
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
+            */
         }
     }
 

@@ -46,6 +46,9 @@ public class EvaluationReport {
         out.printf("----------------------------------------------------------------------------\n\n");
         out.printf("Moves played by engine: %s\n", reportModel.engineName);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
+        out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
+        out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
+        out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
         out.printf("\n");
     }
 
