@@ -45,7 +45,7 @@ public class SearchesTest {
                 //.withMoveEvaluation()
 
                 .withStatistics()
-                .withTrackEvaluations() // Consume demasiada memoria
+                //.withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }
@@ -105,5 +105,13 @@ public class SearchesTest {
         Game game = FENDecoder.loadGame("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39");
 
         searchResult = moveFinder.search( game, 1);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_05(){
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search( game, 8);
     }
 }

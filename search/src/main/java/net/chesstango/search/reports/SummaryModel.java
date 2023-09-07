@@ -26,6 +26,9 @@ public class SummaryModel {
     @JsonProperty("successRate")
     int successRate;
 
+    @JsonProperty("executedMovesTotal")
+    long executedMovesTotal;
+
     @JsonProperty("maxSearchRLevel")
     int maxSearchRLevel;
 
@@ -44,11 +47,11 @@ public class SummaryModel {
     @JsonProperty("cutoffPercentageTotal")
     int cutoffPercentageTotal;
 
-    @JsonProperty("evaluatedGamesCounterTotal")
-    long evaluatedGamesCounterTotal;
+    @JsonProperty("evaluationCounterTotal")
+    long evaluationCounterTotal;
 
-    @JsonProperty("executedMovesTotal")
-    long executedMovesTotal;
+    @JsonProperty("evaluationCollisionPercentageTotal")
+    int evaluationCollisionPercentageTotal;
 
 
     @JsonProperty("searchDetail")
@@ -88,9 +91,11 @@ public class SummaryModel {
         model.visitedRNodesTotal = nodesReportModel.visitedRNodesTotal;
         model.visitedQNodesTotal = nodesReportModel.visitedQNodesTotal;
         model.visitedNodesTotal = nodesReportModel.visitedNodesTotal;
-        model.cutoffPercentageTotal = nodesReportModel.cutoffPercentageTotal;
-        model.evaluatedGamesCounterTotal = evaluationReportModel.evaluationCounterTotal;
         model.executedMovesTotal = nodesReportModel.executedMovesTotal;
+        model.cutoffPercentageTotal = nodesReportModel.cutoffPercentageTotal;
+        model.evaluationCounterTotal = evaluationReportModel.evaluationCounterTotal;
+        model.evaluationCollisionPercentageTotal = evaluationReportModel.evaluationCollisionPercentageTotal;
+
 
         nodesReportModel.moveDetails.forEach(searchReportModelDetail -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
