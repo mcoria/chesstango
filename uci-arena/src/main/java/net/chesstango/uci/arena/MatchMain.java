@@ -92,24 +92,25 @@ public class MatchMain implements MatchListener {
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
 
         new SummaryReport()
-                .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
+                .printReportSingleEngineInstance(List.of(engineController1, engineController2), matchResult);
 
 
         new SessionReport()
-                 //.withCollisionStatics()
-                 .withNodesVisitedStatics()
+                 .withCollisionStatics()
+                 //.withNodesVisitedStatics()
                  //.withMovesPerLevelStatics()
-                 .withCutoffStatics()
+                 //.withCutoffStatics()
                  //.breakByColor()
-                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+                 .printTangoStatics(List.of(engineController1, engineController2), matchResult);
 
 
-
+        /*
         new SearchesPerGameReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 .withPrincipalVariation()
-                .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+                .printTangoStatics(List.of(engineController1, engineController2), matchResult);
+         */
 
     }
 

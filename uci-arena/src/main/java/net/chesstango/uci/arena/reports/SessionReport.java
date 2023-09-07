@@ -61,13 +61,13 @@ public class SessionReport {
         rowModel.engineName = engineName;
 
         rowModel.searches = searches.stream().count();
-        rowModel.searchesWithoutCollisions = searches.stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
+        rowModel.searchesWithoutCollisions = searches.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value == 0).count();
         rowModel.searchesWithoutCollisionsPercentage = (int) ((rowModel.searchesWithoutCollisions * 100) / rowModel.searches);
-        rowModel.searchesWithCollisions = searches.stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
+        rowModel.searchesWithCollisions = searches.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 0).count();
         rowModel.searchesWithCollisionsPercentage = (int) ((rowModel.searchesWithCollisions * 100) / rowModel.searches);
 
         if (rowModel.searchesWithCollisions > 0) {
-            rowModel.avgOptionsPerCollision = searches.stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).average().getAsDouble();
+            rowModel.avgOptionsPerCollision = searches.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 0).average().getAsDouble();
         }
 
 

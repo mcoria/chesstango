@@ -109,6 +109,6 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
-        assertEquals(19, searchResult.getEvaluationCollisions());
+        assertEquals(20, searchResult.getBestMovesCounter());
     }
 }

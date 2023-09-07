@@ -22,7 +22,7 @@ public class ExportEvaluations {
     public void exportEvaluations() {
         int fileCounter = 0;
         // Cuerpo
-        for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : evaluationReportModel.moveDetails) {
+        for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : evaluationReportModel.moveDetails) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s ; Points = %d ", moveDetail.move, moveDetail.evaluation));

@@ -60,8 +60,8 @@ public class SearchMoveResult {
         return bestMoveEvaluation.evaluation();
     }
 
-    public int getEvaluationCollisions() {
-        return bestMoves.size() - 1;
+    public int getBestMovesCounter() {
+        return bestMoves.size();
     }
 
 }

@@ -42,10 +42,9 @@ public class SearchesTest {
                 //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
-                //.withMoveEvaluation()
 
                 .withStatistics()
-                //.withTrackEvaluations() // Consume demasiada memoria
+                .withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }
@@ -54,12 +53,13 @@ public class SearchesTest {
     public void printReport(){
         if(PRINT_REPORT) {
 
-
+            /*
             new NodesReport()
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
+             */
 
             new EvaluationReport()
                     //.withExportEvaluations()

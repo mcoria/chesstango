@@ -28,9 +28,9 @@ public class EvaluationReportModel {
     ///////////////////// END TOTALS
 
 
-    public List<EvolutionReportModelDetail> moveDetails;
+    public List<EvaluationReportModelDetail> moveDetails;
 
-    public static class EvolutionReportModelDetail {
+    public static class EvaluationReportModelDetail {
         public String id;
 
         public String move;
@@ -73,6 +73,8 @@ public class EvaluationReportModel {
          */
         public int evaluationPositionValueCollisionsPercentage;
 
+        public int bestMovesCounter;
+
     }
 
 
@@ -95,7 +97,7 @@ public class EvaluationReportModel {
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
         Move bestMove = searchMoveResult.getBestMove();
 
-        EvolutionReportModelDetail reportModelDetail = new EvolutionReportModelDetail();
+        EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
@@ -116,7 +118,7 @@ public class EvaluationReportModel {
     }
 
 
-    private void collectEvaluationStatistics(EvolutionReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectEvaluationStatistics(EvaluationReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
 
         reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
@@ -128,6 +130,7 @@ public class EvaluationReportModel {
             reportModelDetail.evaluationPositionCounter = evaluations.size();
             reportModelDetail.evaluationValueCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
             reportModelDetail.evaluationPositionValueCollisionsCounter = reportModelDetail.evaluationPositionCounter - reportModelDetail.evaluationValueCounter;
+            reportModelDetail.bestMovesCounter = searchMoveResult.getBestMovesCounter();
 
             /*
              * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones

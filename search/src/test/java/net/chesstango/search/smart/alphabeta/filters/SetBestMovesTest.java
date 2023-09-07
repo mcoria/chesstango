@@ -45,11 +45,9 @@ public class SetBestMovesTest {
 
         transpositionTable.setNext(alphaBetaImp);
 
-        SetBestMoves setBestMoves =  new SetBestMoves();
-
         this.alphaBeta = new AlphaBeta();
         this.alphaBeta.setAlphaBetaSearch(transpositionTable);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, setBestMoves));
+        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, new SetBestMoves()));
     }
 
 
@@ -59,7 +57,7 @@ public class SetBestMovesTest {
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game,2);
 
-        assertEquals(19, searchResult.getEvaluationCollisions());
+        assertEquals(20, searchResult.getBestMovesCounter());
     }
 
     @Test
@@ -68,6 +66,6 @@ public class SetBestMovesTest {
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 3);
 
-        assertEquals(19, searchResult.getEvaluationCollisions());
+        assertEquals(20, searchResult.getBestMovesCounter());
     }
 }

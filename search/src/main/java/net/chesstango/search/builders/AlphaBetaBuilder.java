@@ -10,6 +10,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
@@ -50,7 +51,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
-    private boolean withMoveEvaluation;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
 
@@ -123,11 +123,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    public AlphaBetaBuilder withMoveEvaluation() {
-        withMoveEvaluation = true;
-        return this;
-    }
-
     public AlphaBetaBuilder withTranspositionTableReuse() {
         withTranspositionTableReuse = true;
         return this;
@@ -159,6 +154,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+
         if (withStatistics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
 
@@ -269,15 +265,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         // ====================================================
-        if (withMoveEvaluation) {
-            if (transpositionTable == null) {
-                throw new RuntimeException("SetMoveEvaluations requires transpositionTable");
-            } else {
-                filters.add(new SetMoveEvaluations());
-            }
-        }
 
         filters.add(new SetPrincipalVariation());
+
+        if (withStatistics) {
+            filters.add(new SetMoveEvaluations());
+
+            filters.add(new SetBestMoves());
+        }
 
         //TTDump ttDump = new TTDump();
         //filters.add(ttDump);

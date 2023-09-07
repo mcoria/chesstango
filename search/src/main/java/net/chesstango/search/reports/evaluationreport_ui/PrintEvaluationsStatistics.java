@@ -30,6 +30,7 @@ public class PrintEvaluationsStatistics {
 
         // Marco superior de la tabla
         out.printf(" ________");
+        out.printf("____________");
         out.printf("______________");
         out.printf("______________");
         out.printf("_______________");
@@ -42,6 +43,7 @@ public class PrintEvaluationsStatistics {
 
         // Nombre de las columnas
         out.printf("| Move   ");
+        out.printf("| BestMoves ");
         out.printf("| Evaluations ");
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
@@ -54,8 +56,9 @@ public class PrintEvaluationsStatistics {
         out.printf("|\n");
 
         // Cuerpo
-        for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
+            out.printf("| %9d ", moveDetail.bestMovesCounter);
             out.printf("| %11d ", moveDetail.evaluationCounter);
             out.printf("| %11d ", moveDetail.evaluationsCacheHitCounter);
             out.printf("| %12d ", moveDetail.evaluationPositionCounter);
@@ -69,6 +72,7 @@ public class PrintEvaluationsStatistics {
 
         // Totales
         out.printf("|--------");
+        out.printf("|-----------");
         out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
@@ -82,6 +86,7 @@ public class PrintEvaluationsStatistics {
 
 
         out.printf("| SUM    ");
+        out.printf("|           ");
         out.printf("| %11d ", reportModel.evaluationCounterTotal);
         out.printf("| %11d ", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("| %12d ", reportModel.evaluationPositionCounterTotal);
@@ -96,6 +101,7 @@ public class PrintEvaluationsStatistics {
 
         // Marco inferior de la tabla
         out.printf(" ---------");
+        out.printf("-------------");
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
