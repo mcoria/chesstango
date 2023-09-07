@@ -74,7 +74,7 @@ public class NegaMaxPruning implements SearchSmart {
 
         return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, bestMove, null)
                 .setRegularNodeStatistics(new NodeStatistics(new int[30], visitedNodesCounter))
-                .setBestMoveOptions(bestMoves);
+                .setBestMoves(bestMoves);
     }
 
     @Override

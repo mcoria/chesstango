@@ -101,7 +101,7 @@ public class IterativeDeepening implements SearchMove {
      * @return
      */
     protected Move selectBestMove(Color currentTurn, List<SearchMoveResult> bestMovesByDepth) {
-        List<Move> lastSearchMoveOptions = bestMovesByDepth.get(bestMovesByDepth.size() - 1).getBestMoveOptions();
+        List<Move> lastSearchMoveOptions = bestMovesByDepth.get(bestMovesByDepth.size() - 1).getBestMoves();
 
         int maxDepth = bestMovesByDepth.size();
 
@@ -109,7 +109,7 @@ public class IterativeDeepening implements SearchMove {
         lastSearchMoveOptions.stream().forEach(move -> moveByFrequency.put(move, maxDepth));
         for (int i = 0; i < bestMovesByDepth.size(); i++) {
             final Integer currentDepth = i + 1; // Depth provides extra points
-            List<Move> byDepthOptions = bestMovesByDepth.get(i).getBestMoveOptions();
+            List<Move> byDepthOptions = bestMovesByDepth.get(i).getBestMoves();
             byDepthOptions.stream().filter(lastSearchMoveOptions::contains).forEach(move -> moveByFrequency.compute(move, (k, v) -> v + currentDepth));
         }
 

@@ -20,18 +20,16 @@ public class SearchMoveResult {
 
     private final int depth;
 
-    private final int evaluation;
-
-    private final Move bestMove;
+    private final MoveEvaluation bestMoveEvaluation;
 
     private final Move ponderMove;
 
     private List<Move> principalVariation;
 
     /**
-     * bestMoveOptions son movimientos tan buenos como bestMove
+     * bestMoves son movimientos tan buenos como bestMove
      */
-    private List<Move> bestMoveOptions;
+    private List<Move> bestMoves;
 
     /**
      * Evaluaciones de las posiciones que resultan de cada movimiento
@@ -50,23 +48,20 @@ public class SearchMoveResult {
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
-        this.evaluation = evaluation;
-        this.bestMove = bestMove;
+        this.bestMoveEvaluation = new MoveEvaluation(bestMove, evaluation);
         this.ponderMove = ponderMove;
     }
 
-    public int getEvaluationCollisions() {
-        return bestMoveOptions.size() - 1;
+    public Move getBestMove() {
+        return bestMoveEvaluation.move();
     }
 
-    public static class MoveEvaluation implements Comparable<MoveEvaluation> {
-        public Move move;
-        public int evaluation;
+    public int getEvaluation() {
+        return bestMoveEvaluation.evaluation();
+    }
 
-        @Override
-        public int compareTo(MoveEvaluation other) {
-            return Integer.compare(evaluation, other.evaluation);
-        }
+    public int getEvaluationCollisions() {
+        return bestMoves.size() - 1;
     }
 
 }

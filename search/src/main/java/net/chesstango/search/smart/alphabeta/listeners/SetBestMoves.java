@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SetBestMoveOptions implements SearchLifeCycle {
+public class SetBestMoves implements SearchLifeCycle {
     private TTable maxMap;
     private TTable minMap;
     private Game game;
@@ -45,8 +45,8 @@ public class SetBestMoveOptions implements SearchLifeCycle {
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
         if (result != null) {
-            List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
-            result.setBestMoveOptions(bestMoveOptions);
+            List<Move> bestMoves = findBestMoves(result.getBestMove(), result.getEvaluation());
+            result.setBestMoves(bestMoves);
         }
     }
 
@@ -60,7 +60,14 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
     }
 
-    public List<Move> findBestMoveOptions(final Move bestMove, final int bestMoveEvaluation) {
+    /**
+     * Busca los mejores movimientos además de bestMove. Todos estos movimientos producen posiciones
+     * con evaluacion igual a bestMoveEvaluation.
+     * @param bestMove
+     * @param bestMoveEvaluation
+     * @return
+     */
+    protected List<Move> findBestMoves(final Move bestMove, final int bestMoveEvaluation) {
         List<Move> bestMoveOptions = new ArrayList<>();
 
         boolean bestMovePresent = false;

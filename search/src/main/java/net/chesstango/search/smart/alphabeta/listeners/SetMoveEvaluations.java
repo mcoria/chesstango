@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
@@ -46,7 +47,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
         if (result != null) {
-            List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
+            List<MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
             result.setMoveEvaluations(moveEvaluationList);
         }
     }
@@ -61,9 +62,9 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
     }
 
-    public List<SearchMoveResult.MoveEvaluation> createMoveEvaluations(final Move bestMove,
-                                                                       final int bestMoveEvaluation) {
-        List<SearchMoveResult.MoveEvaluation> moveEvaluationList = new ArrayList<>();
+    public List<MoveEvaluation> createMoveEvaluations(final Move bestMove,
+                                                      final int bestMoveEvaluation) {
+        List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
 
         boolean bestMovePresent = false;
         for (Move move : game.getPossibleMoves()) {
@@ -74,9 +75,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry != null && entry.searchDepth == maxPly - 1) {
-                SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
-                moveEvaluation.move = move;
-                moveEvaluation.evaluation = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
+                MoveEvaluation moveEvaluation = new MoveEvaluation(move, TranspositionEntry.decodeValue(entry.bestMoveAndValue));
                 moveEvaluationList.add(moveEvaluation);
             }
 
@@ -92,17 +91,15 @@ public class SetMoveEvaluations implements SearchLifeCycle {
         }
 
         if (moveEvaluationList.isEmpty()) {
-            SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
-            moveEvaluation.move = bestMove;
-            moveEvaluation.evaluation = bestMoveEvaluation;
+            MoveEvaluation moveEvaluation = new MoveEvaluation(bestMove, bestMoveEvaluation);
             moveEvaluationList.add(moveEvaluation);
         }
 
         OptionalInt bestEvaluation = null;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).max();
+            bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).max();
         } else {
-            bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
+            bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).min();
         }
 
         if (!bestEvaluation.isPresent()) {

@@ -9,6 +9,7 @@ import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -88,10 +89,10 @@ public class FitnessBySearch implements FitnessFunction {
         return getPoints(game.getPossibleMoves().size(), EPDEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
     }
 
-    protected long getPoints(int possibleMoves, Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {
+    protected long getPoints(int possibleMoves, Move bestMove, Collection<MoveEvaluation> evaluationCollection) {
         Color turn = bestMove.getFrom().getPiece().getColor();
 
-        List<SearchMoveResult.MoveEvaluation> sortedEvaluationList = new LinkedList<>();
+        List<MoveEvaluation> sortedEvaluationList = new LinkedList<>();
         sortedEvaluationList.addAll(evaluationCollection);
 
         if (Color.WHITE.equals(turn)) {
@@ -101,8 +102,8 @@ public class FitnessBySearch implements FitnessFunction {
         }
 
         int i = 0;
-        for (SearchMoveResult.MoveEvaluation moveEvaluation : sortedEvaluationList) {
-            if (moveEvaluation.move.equals(bestMove)) {
+        for (MoveEvaluation moveEvaluation : sortedEvaluationList) {
+            if (Objects.equals(moveEvaluation.move(), bestMove)) {
                 break;
             }
             i--;

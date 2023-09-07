@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
+import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -63,7 +63,7 @@ public class AlphaBetaStatisticsTest {
                 transpositionTable,
                 quiescence,
                 moveSorter,
-                new SetBestMoveOptions()));
+                new SetBestMoves()));
     }
 
     @Test

@@ -7,7 +7,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
+import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class SetBestMoveOptionsTest {
+public class SetBestMovesTest {
 
     private AlphaBeta alphaBeta;
 
@@ -45,11 +45,11 @@ public class SetBestMoveOptionsTest {
 
         transpositionTable.setNext(alphaBetaImp);
 
-        SetBestMoveOptions setBestMoveOptions =  new SetBestMoveOptions();
+        SetBestMoves setBestMoves =  new SetBestMoves();
 
         this.alphaBeta = new AlphaBeta();
         this.alphaBeta.setAlphaBetaSearch(transpositionTable);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, setBestMoveOptions));
+        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, setBestMoves));
     }
 
 
