@@ -16,6 +16,8 @@ import java.util.OptionalInt;
 /**
  * ESTA JOROBANDO
  *
+ * Captura la evaluacion de la posiciones que resultan de cada movimiento
+ *
  * @author Mauricio Coria
  */
 public class SetMoveEvaluations implements SearchLifeCycle {

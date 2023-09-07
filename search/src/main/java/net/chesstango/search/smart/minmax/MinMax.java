@@ -70,7 +70,7 @@ public class MinMax implements SearchSmart {
 
         return new SearchMoveResult(context.getMaxPly(), betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounter))
-                .setEvaluationCollisions(bestMoves.size() - 1)
+                //.setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
     }
 

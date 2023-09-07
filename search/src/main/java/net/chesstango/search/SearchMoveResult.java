@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,12 +26,16 @@ public class SearchMoveResult {
 
     private final Move ponderMove;
 
-    private int evaluationCollisions;
-
-    private List<Move> bestMoveOptions;
-
     private List<Move> principalVariation;
 
+    /**
+     * bestMoveOptions son movimientos tan buenos como bestMove
+     */
+    private List<Move> bestMoveOptions;
+
+    /**
+     * Evaluaciones de las posiciones que resultan de cada movimiento
+     */
     private List<MoveEvaluation> moveEvaluations;
 
     private EvaluationStatistics evaluationStatistics;
@@ -50,6 +53,10 @@ public class SearchMoveResult {
         this.evaluation = evaluation;
         this.bestMove = bestMove;
         this.ponderMove = ponderMove;
+    }
+
+    public int getEvaluationCollisions() {
+        return bestMoveOptions.size() - 1;
     }
 
     public static class MoveEvaluation implements Comparable<MoveEvaluation> {

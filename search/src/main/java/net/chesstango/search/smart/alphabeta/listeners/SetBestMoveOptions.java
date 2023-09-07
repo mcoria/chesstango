@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ * Captura movimientos alternativos al mejor movimiento resuelto, es decir movimientos que
+ * producen posiciones con la misma evaluacion (la mejor)
+ *
  * @author Mauricio Coria
  */
 public class SetBestMoveOptions implements SearchLifeCycle {
@@ -43,7 +47,6 @@ public class SetBestMoveOptions implements SearchLifeCycle {
         if (result != null) {
             List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
             result.setBestMoveOptions(bestMoveOptions);
-            result.setEvaluationCollisions(bestMoveOptions.size() - 1);
         }
     }
 

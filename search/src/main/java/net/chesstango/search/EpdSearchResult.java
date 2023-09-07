@@ -6,10 +6,10 @@ import net.chesstango.board.representations.EPDEntry;
  * @author Mauricio Coria
  */
 public record EpdSearchResult(EPDEntry epdEntry,
+                              SearchMoveResult searchResult,
                               String bestMoveFoundStr,
                               boolean bestMoveFound,
-                              long searchDuration,
-                              SearchMoveResult searchResult) {
+                              long searchDuration) {
     public String getText() {
         return epdEntry.text;
     }

@@ -53,7 +53,7 @@ public class EpdSearch {
 
         boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
-        return new EpdSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
+        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, bestMoveFound, duration);
     }
 
     public List<EpdSearchResult> run(List<EPDEntry> edpEntries) {

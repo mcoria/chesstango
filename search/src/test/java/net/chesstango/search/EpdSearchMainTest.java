@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class EpdSearchMainTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private EPDReader epdReader;
     private EpdSearch epdSearch;
     private EpdSearchResult epdSearchResult;

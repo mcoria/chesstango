@@ -55,8 +55,7 @@ public class NegaMax implements SearchSmart {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null)
-                .setEvaluationCollisions(bestMoves.size() - 1);
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
     }
 
     @Override
