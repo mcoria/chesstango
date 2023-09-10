@@ -7,9 +7,8 @@ import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.SearchesPerGameReport;
+import net.chesstango.uci.arena.reports.SearchesReport;
 import net.chesstango.uci.arena.reports.SessionReport;
-import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.protocol.requests.CmdGo;
@@ -92,10 +91,13 @@ public class MatchMain implements MatchListener {
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
 
 
+        /*
         new SummaryReport()
                 .withSingleEngineInstance(List.of(engineController1, engineController2), matchResult)
                 //.withMatchResult(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
+        */
+
 
         new SessionReport()
                  .withCollisionStatics()
@@ -103,18 +105,17 @@ public class MatchMain implements MatchListener {
                  .withMovesPerLevelStatics()
                  .withCutoffStatics()
                  .breakByColor()
-                 .withTangoStatics(List.of(engineController1, engineController2), matchResult)
+                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
 
 
 
-        new SearchesPerGameReport()
+        new SearchesReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 //.withPrincipalVariation()
-                .withTangoStatics(List.of(engineController1, engineController2), matchResult)
+                .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
-
 
 
     }

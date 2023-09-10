@@ -15,11 +15,11 @@ import net.chesstango.search.reports.NodesReportModel;
  *
  * @author Mauricio Coria
  */
-public class SearchesPerGameReport {
+public class SearchesReport {
     private final NodesReport nodesReport = new NodesReport();
     private final List<NodesReportModel> nodesReportModels = new ArrayList<>();
 
-    public SearchesPerGameReport printReport(PrintStream out) {
+    public SearchesReport printReport(PrintStream out) {
         nodesReportModels.forEach(searchesReportModel -> {
             nodesReport.setReportModel(searchesReportModel);
             nodesReport.printReport(out);
@@ -27,7 +27,7 @@ public class SearchesPerGameReport {
         return this;
     }
 
-    public SearchesPerGameReport withTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
+    public SearchesReport withMathResults(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
@@ -44,17 +44,17 @@ public class SearchesPerGameReport {
     }
 
 
-    public SearchesPerGameReport withCutoffStatics() {
+    public SearchesReport withCutoffStatics() {
         nodesReport.withCutoffStatics();
         return this;
     }
 
-    public SearchesPerGameReport withNodesVisitedStatics() {
+    public SearchesReport withNodesVisitedStatics() {
         nodesReport.withNodesVisitedStatics();
         return this;
     }
 
-    public SearchesPerGameReport withPrincipalVariation() {
+    public SearchesReport withPrincipalVariation() {
         throw new RuntimeException("Unsupported withPrincipalVariation option");
         //searchesReport.withPrincipalVariation();
         //return this;

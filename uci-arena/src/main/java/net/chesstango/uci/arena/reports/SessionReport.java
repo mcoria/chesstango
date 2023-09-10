@@ -37,7 +37,7 @@ public class SessionReport {
     }
 
 
-    public SessionReport withTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
+    public SessionReport withMathResults(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         enginesOrder.forEach(engineController -> {
             List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList());
             List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList());
