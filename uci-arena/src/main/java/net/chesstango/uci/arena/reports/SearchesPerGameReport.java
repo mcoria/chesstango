@@ -1,7 +1,6 @@
 package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.reports.NodesReport;
-import net.chesstango.search.reports.PrincipalVariationReport;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -18,11 +17,10 @@ import net.chesstango.search.reports.NodesReportModel;
  */
 public class SearchesPerGameReport {
     private final NodesReport nodesReport = new NodesReport();
-
-    private final List<NodesReportModel> reportRows = new ArrayList<>();
+    private final List<NodesReportModel> nodesReportModels = new ArrayList<>();
 
     public SearchesPerGameReport printReport(PrintStream out) {
-        reportRows.forEach(searchesReportModel -> {
+        nodesReportModels.forEach(searchesReportModel -> {
             nodesReport.setReportModel(searchesReportModel);
             nodesReport.printReport(out);
         });
@@ -34,12 +32,12 @@ public class SearchesPerGameReport {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
                     .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
-                    .forEach(reportRows::add);
+                    .forEach(nodesReportModels::add);
 
             matchResult.stream()
                     .filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null)
                     .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
-                    .forEach(reportRows::add);
+                    .forEach(nodesReportModels::add);
 
         });
         return this;

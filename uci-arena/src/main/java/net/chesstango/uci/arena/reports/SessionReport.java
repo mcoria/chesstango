@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class SessionReport {
+    private final List<SessionReportModel> sessionReportModels = new ArrayList<>();
     private boolean printCollisionStatics;
     private boolean printNodesVisitedStatics;
     private boolean printMovesPerLevelStatics;
     private boolean printCutoffStatics;
     private boolean breakByColor;
-    private List<SessionReportModel> reportRows = new ArrayList<>();
     private PrintStream out;
 
     public SessionReport printReport(PrintStream output) {
@@ -47,10 +47,10 @@ public class SessionReport {
 
             if (breakByColor) {
                 if (searchesWhite.size() > 0) {
-                    reportRows.add(collectStatics(String.format("%s white", engineController.getEngineName()), searchesWhite));
+                    sessionReportModels.add(collectStatics(String.format("%s white", engineController.getEngineName()), searchesWhite));
                 }
                 if (searchesBlack.size() > 0) {
-                    reportRows.add(collectStatics(String.format("%s black", engineController.getEngineName()), searchesBlack));
+                    sessionReportModels.add(collectStatics(String.format("%s black", engineController.getEngineName()), searchesBlack));
                 }
             } else {
                 List<SearchMoveResult> searches = new ArrayList<>();
@@ -58,7 +58,7 @@ public class SessionReport {
                 searches.addAll(searchesBlack);
                 
                 if (searches.size() > 0) {
-                    reportRows.add(collectStatics(engineController.getEngineName(), searches));
+                    sessionReportModels.add(collectStatics(engineController.getEngineName(), searches));
                 }
             }
         });
@@ -151,7 +151,7 @@ public class SessionReport {
         AtomicInteger maxRLevelVisited = new AtomicInteger();
         AtomicInteger maxQLevelVisited = new AtomicInteger();
 
-        for (SessionReportModel sessionReportModel : reportRows) {
+        for (SessionReportModel sessionReportModel : sessionReportModels) {
             if (maxRLevelVisited.get() < sessionReportModel.maxSearchRLevel) {
                 maxRLevelVisited.set(sessionReportModel.maxSearchRLevel);
             }
@@ -162,23 +162,23 @@ public class SessionReport {
 
 
         if (printCollisionStatics) {
-            new PrintCollisionStatistics(out, reportRows).printCollisionStatistics();
+            new PrintCollisionStatistics(out, sessionReportModels).printCollisionStatistics();
         }
 
         if (printNodesVisitedStatics) {
-            new PrintNodesVisitedStatistics(out, reportRows)
+            new PrintNodesVisitedStatistics(out, sessionReportModels)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics(maxRLevelVisited, maxQLevelVisited)
                     .printNodesVisitedStaticsAvg(maxRLevelVisited, maxQLevelVisited);
         }
 
         if (printMovesPerLevelStatics) {
-            new PrintMovesPerLevelStatics(out, reportRows)
+            new PrintMovesPerLevelStatics(out, sessionReportModels)
                     .printMovesPerLevelStatics(maxRLevelVisited);
         }
 
         if (printCutoffStatics) {
-            new PrintCutoffStatics(out, reportRows).printCutoffStatics(maxRLevelVisited);
+            new PrintCutoffStatics(out, sessionReportModels).printCutoffStatics(maxRLevelVisited);
         }
 
     }

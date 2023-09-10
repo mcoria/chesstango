@@ -1,12 +1,10 @@
 package net.chesstango.uci.arena.reports;
 
-import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class SummaryReport {
 
-    private List<ReportRowModel> rows = new ArrayList<>();
+    private final List<ReportRowModel> reportRowModels = new ArrayList<>();
 
     private PrintStream out;
 
@@ -34,7 +32,7 @@ public class SummaryReport {
      * @param matchResult
      */
     public SummaryReport withMultipleEngineInstances(List<List<EngineController>> enginesCollections, List<GameResult> matchResult) {
-        enginesCollections.forEach(controllerList -> rows.add(createRowModel(controllerList, matchResult)));
+        enginesCollections.forEach(controllerList -> reportRowModels.add(createRowModel(controllerList, matchResult)));
         return this;
     }
 
@@ -44,7 +42,7 @@ public class SummaryReport {
      * @param matchResult
      */
     public SummaryReport withSingleEngineInstance(List<EngineController> engines, List<GameResult> matchResult) {
-        engines.forEach(engine -> rows.add(createRowModel(List.of(engine), matchResult)));
+        engines.forEach(engine -> reportRowModels.add(createRowModel(List.of(engine), matchResult)));
         return this;
     }
 
@@ -80,7 +78,7 @@ public class SummaryReport {
     private void print() {
         out.printf(" ___________________________________________________________________________________________________________________________________________________\n");
         out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %%|\n");
-        rows.forEach(row -> {
+        reportRowModels.forEach(row -> {
             out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %6.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
         });
         out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
