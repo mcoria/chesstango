@@ -1,14 +1,13 @@
 package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.reports.NodesReport;
+import net.chesstango.search.reports.NodesReportModel;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.chesstango.search.reports.NodesReportModel;
 
 /**
  * Por cada juego de Tango muestra estadísticas de cada búsqueda.
@@ -31,12 +30,12 @@ public class SearchesReport {
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
-                    .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
+                    .map(result -> NodesReportModel.collectStatistics(String.format("%s - %s", engineController.getEngineName(), result.getMathId()), result.getSessionWhite().getSearches()))
                     .forEach(nodesReportModels::add);
 
             matchResult.stream()
                     .filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null)
-                    .map(result -> NodesReportModel.collectStatistics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
+                    .map(result -> NodesReportModel.collectStatistics(String.format("%s - %s", engineController.getEngineName(), result.getMathId()), result.getSessionBlack().getSearches()))
                     .forEach(nodesReportModels::add);
 
         });

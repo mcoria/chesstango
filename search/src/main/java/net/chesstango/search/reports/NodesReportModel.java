@@ -11,7 +11,9 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class NodesReportModel {
-    public String engineName;
+    public String reportTitle;
+
+    public int searches;
 
     // Regular and Quiescence
     ///////////////////// START TOTALS
@@ -78,10 +80,10 @@ public class NodesReportModel {
     }
 
 
-    public static NodesReportModel collectStatistics(String engineName, List<SearchMoveResult> searchMoveResults) {
+    public static NodesReportModel collectStatistics(String reportTitle, List<SearchMoveResult> searchMoveResults) {
         NodesReportModel nodesReportModel = new NodesReportModel();
 
-        nodesReportModel.engineName = engineName;
+        nodesReportModel.reportTitle = reportTitle;
 
         nodesReportModel.load(searchMoveResults);
 
@@ -130,6 +132,7 @@ public class NodesReportModel {
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
         }
 
+        this.searches = searchMoveResults.size();
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
         this.cutoffPercentageTotal = (int) (100 - ((100 * this.visitedNodesTotal) / this.expectedNodesTotal));

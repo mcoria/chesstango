@@ -18,7 +18,7 @@ public class NodesReport {
 
     @Setter
     @Accessors(chain = true)
-    private String engineName = "Tango";
+    private String reportTitle = "NodesReport";
 
     @Setter
     @Accessors(chain = true)
@@ -47,9 +47,10 @@ public class NodesReport {
     }
 
     private void printSummary() {
-        out.printf("----------------------------------------------------------------------------\n\n");
-
-        out.printf("Moves played by engine: %s\n", reportModel.engineName);
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
+        out.printf("Searches              : %8d\n", reportModel.searches);
         out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
         out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
         out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
@@ -71,7 +72,7 @@ public class NodesReport {
     }
 
     public NodesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = NodesReportModel.collectStatistics(this.engineName, searchMoveResults);
+        this.reportModel = NodesReportModel.collectStatistics(this.reportTitle, searchMoveResults);
         return this;
     }
 

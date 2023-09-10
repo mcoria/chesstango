@@ -44,7 +44,7 @@ public class TranspositionEntryTableTest {
     public void printReport() {
         if (PRINT_REPORT) {
             new NodesReport()
-                    .setEngineName("Comparation report")
+                    .setReportTitle("Comparation report")
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     .withMoveResults(Arrays.asList(searchResultWithoutTT, searchResultWithTT))
