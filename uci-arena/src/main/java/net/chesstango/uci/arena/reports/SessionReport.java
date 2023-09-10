@@ -6,6 +6,8 @@ import net.chesstango.search.smart.statistics.NodeStatistics;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCollisionStatistics;
+import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCutoffStatics;
+import net.chesstango.uci.arena.reports.sessionreport_ui.PrintMovesPerLevelStatics;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintNodesVisitedStatistics;
 
 import java.io.PrintStream;
@@ -13,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Este reporte resume las sessiones de engine Tango
@@ -172,69 +173,16 @@ public class SessionReport {
         }
 
         if (printMovesPerLevelStatics) {
-            printMovesPerLevelStatics(maxRLevelVisited, reportRows);
+            new PrintMovesPerLevelStatics(out, reportRows)
+                    .printMovesPerLevelStatics(maxRLevelVisited);
         }
 
         if (printCutoffStatics) {
-            printCutoffStatics(maxRLevelVisited, reportRows);
+            new PrintCutoffStatics(out, reportRows).printCutoffStatics(maxRLevelVisited);
         }
 
     }
 
-    private void printMovesPerLevelStatics(AtomicInteger maxLevelVisited, List<SessionReportModel> reportRows) {
-        out.println("\n Max distinct moves per search level");
-
-        // Marco superior de la tabla
-        out.printf(" ___________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("___________"));
-        out.printf("\n");
-
-
-        // Nombre de las columnas
-        out.printf("|ENGINE NAME                        ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
-        out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            out.printf("|%35s", row.engineName);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| %8d ", row.maxDistinctMovesPerLevel[depth]));
-            out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        out.printf(" -----------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("-----------"));
-        out.printf("\n");
-    }
-
-
-    private void printCutoffStatics(AtomicInteger maxLevelVisited, List<SessionReportModel> reportRows) {
-        out.println("\n Cutoff per search level (higher is better)");
-
-        // Marco superior de la tabla
-        out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("___________"));
-        out.printf("\n");
-
-
-        // Nombre de las columnas
-        out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
-        out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| %6d %% ", row.cutoffPercentages[depth]));
-            out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("-----------"));
-        out.printf("\n");
-    }
 
     public SessionReport withCollisionStatics() {
         this.printCollisionStatics = true;
