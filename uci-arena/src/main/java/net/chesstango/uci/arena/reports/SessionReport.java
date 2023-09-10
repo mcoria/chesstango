@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  */
 public class SessionReport {
     private final List<SessionReportModel> sessionReportModels = new ArrayList<>();
-    private boolean printCollisionStatics;
-    private boolean printNodesVisitedStatics;
-    private boolean printMovesPerLevelStatics;
-    private boolean printCutoffStatics;
+    private boolean printCollisionStatistics;
+    private boolean printNodesVisitedStatistics;
+    private boolean printMovesPerLevelStatistics;
+    private boolean printCutoffStatistics;
     private boolean breakByColor;
     private PrintStream out;
 
@@ -161,46 +161,46 @@ public class SessionReport {
         }
 
 
-        if (printCollisionStatics) {
+        if (printCollisionStatistics) {
             new PrintCollisionStatistics(out, sessionReportModels).printCollisionStatistics();
         }
 
-        if (printNodesVisitedStatics) {
+        if (printNodesVisitedStatistics) {
             new PrintNodesVisitedStatistics(out, sessionReportModels)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics(maxRLevelVisited, maxQLevelVisited)
                     .printNodesVisitedStaticsAvg(maxRLevelVisited, maxQLevelVisited);
         }
 
-        if (printMovesPerLevelStatics) {
+        if (printMovesPerLevelStatistics) {
             new PrintMovesPerLevelStatics(out, sessionReportModels)
                     .printMovesPerLevelStatics(maxRLevelVisited);
         }
 
-        if (printCutoffStatics) {
+        if (printCutoffStatistics) {
             new PrintCutoffStatics(out, sessionReportModels).printCutoffStatics(maxRLevelVisited);
         }
 
     }
 
 
-    public SessionReport withCollisionStatics() {
-        this.printCollisionStatics = true;
+    public SessionReport withCollisionStatistics() {
+        this.printCollisionStatistics = true;
         return this;
     }
 
-    public SessionReport withNodesVisitedStatics() {
-        this.printNodesVisitedStatics = true;
+    public SessionReport withNodesVisitedStatistics() {
+        this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public SessionReport withMovesPerLevelStatics() {
-        this.printMovesPerLevelStatics = true;
+    public SessionReport withMovesPerLevelStatistics() {
+        this.printMovesPerLevelStatistics = true;
         return this;
     }
 
-    public SessionReport withCutoffStatics() {
-        this.printCutoffStatics = true;
+    public SessionReport withCutoffStatistics() {
+        this.printCutoffStatistics = true;
         return this;
     }
 

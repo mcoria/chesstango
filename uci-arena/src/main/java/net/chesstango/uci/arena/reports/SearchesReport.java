@@ -43,12 +43,12 @@ public class SearchesReport {
     }
 
 
-    public SearchesReport withCutoffStatics() {
+    public SearchesReport withCutoffStatistics() {
         nodesReport.withCutoffStatics();
         return this;
     }
 
-    public SearchesReport withNodesVisitedStatics() {
+    public SearchesReport withNodesVisitedStatistics() {
         nodesReport.withNodesVisitedStatics();
         return this;
     }

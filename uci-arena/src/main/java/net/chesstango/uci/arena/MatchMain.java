@@ -100,18 +100,18 @@ public class MatchMain implements MatchListener {
 
 
         new SessionReport()
-                 //.withCollisionStatics()
-                 .withNodesVisitedStatics()
-                 //.withMovesPerLevelStatics()
-                 //.withCutoffStatics()
-                 //.breakByColor()
+                 //.withCollisionStatistics()
+                 //.withNodesVisitedStatistics()
+                 //.withMovesPerLevelStatistics()
+                .withCutoffStatistics()
+                 .breakByColor()
                  .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
 
 
 
         new SearchesReport()
-                //.withCutoffStatics()
+                .withCutoffStatistics()
                 //.withNodesVisitedStatics()
                 //.withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
