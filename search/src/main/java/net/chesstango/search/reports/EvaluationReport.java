@@ -17,7 +17,7 @@ public class EvaluationReport {
 
     @Setter
     @Accessors(chain = true)
-    private String engineName = "Tango";
+    private String reportTitle = "EvaluationReport";
 
     @Setter
     @Accessors(chain = true)
@@ -43,8 +43,9 @@ public class EvaluationReport {
     }
 
     private void printSummary() {
-        out.printf("----------------------------------------------------------------------------\n\n");
-        out.printf("Moves played by engine: %s\n", reportModel.engineName);
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
@@ -59,7 +60,7 @@ public class EvaluationReport {
     }
 
     public EvaluationReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = EvaluationReportModel.collectStatistics(this.engineName, searchMoveResults);
+        this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchMoveResults);
         return this;
     }
 }

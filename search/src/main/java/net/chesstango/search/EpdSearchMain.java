@@ -77,13 +77,15 @@ public class EpdSearchMain {
     }
 
     private void report(Path suitePath, List<EpdSearchResult> epdSearchResults) {
-        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(epdSearchResults);
-        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
-        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics("", epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        String suiteName = suitePath.getFileName().toString();
+
+        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(suiteName, epdSearchResults);
+        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
         printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
-        String suiteName = suitePath.getFileName().toString();
+
         Path sessionDirectory = createSessionDirectory(suitePath);
         saveReports(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
         saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);

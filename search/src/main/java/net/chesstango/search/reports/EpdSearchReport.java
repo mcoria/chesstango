@@ -16,6 +16,10 @@ public class EpdSearchReport {
 
     @Setter
     @Accessors(chain = true)
+    private String reportTitle = "EpdSearchReport";
+
+    @Setter
+    @Accessors(chain = true)
     private EpdSearchReportModel reportModel;
 
     public EpdSearchReport printReport(PrintStream output) {
@@ -25,7 +29,10 @@ public class EpdSearchReport {
     }
 
     private void print() {
-        out.printf("----------------------------------------------------------------------------\n\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
+
         if (reportModel.failedEntries.isEmpty()) {
             out.println("\tall tests executed successfully !!!!");
         } else {
@@ -40,7 +47,7 @@ public class EpdSearchReport {
     }
 
     public EpdSearchReport withEdpEntries(List<EpdSearchResult> edpEntries) {
-        this.reportModel = EpdSearchReportModel.collectStatistics(edpEntries);
+        this.reportModel = EpdSearchReportModel.collectStatistics(reportTitle, edpEntries);
         return this;
     }
 
