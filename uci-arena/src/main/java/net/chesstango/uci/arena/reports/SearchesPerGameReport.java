@@ -1,9 +1,11 @@
 package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.reports.NodesReport;
+import net.chesstango.search.reports.PrincipalVariationReport;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +17,19 @@ import net.chesstango.search.reports.NodesReportModel;
  * @author Mauricio Coria
  */
 public class SearchesPerGameReport {
+    private final NodesReport nodesReport = new NodesReport();
 
-    private NodesReport nodesReport = new NodesReport();
+    private final List<NodesReportModel> reportRows = new ArrayList<>();
 
-    public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
-        List<NodesReportModel> reportRows = new ArrayList<>();
+    public SearchesPerGameReport printReport(PrintStream out) {
+        reportRows.forEach(searchesReportModel -> {
+            nodesReport.setReportModel(searchesReportModel);
+            nodesReport.printReport(out);
+        });
+        return this;
+    }
 
+    public SearchesPerGameReport withTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
@@ -33,11 +42,7 @@ public class SearchesPerGameReport {
                     .forEach(reportRows::add);
 
         });
-
-        reportRows.forEach(searchesReportModel -> {
-            nodesReport.setReportModel(searchesReportModel);
-            nodesReport.printReport(System.out);
-        });
+        return this;
     }
 
 
@@ -52,8 +57,8 @@ public class SearchesPerGameReport {
     }
 
     public SearchesPerGameReport withPrincipalVariation() {
+        throw new RuntimeException("Unsupported withPrincipalVariation option");
         //searchesReport.withPrincipalVariation();
-        return this;
+        //return this;
     }
-
 }
