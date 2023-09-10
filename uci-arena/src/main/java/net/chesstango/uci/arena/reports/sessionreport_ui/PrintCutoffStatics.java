@@ -4,7 +4,6 @@ import net.chesstango.uci.arena.reports.SessionReportModel;
 
 import java.io.PrintStream;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
@@ -14,35 +13,54 @@ public class PrintCutoffStatics {
     private final List<SessionReportModel> reportRows;
     private final PrintStream out;
 
+    private int maxRLevelVisited;
+
+    private int maxQLevelVisited;
+
     public PrintCutoffStatics(PrintStream out, List<SessionReportModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
+
+        int maxRLevelVisited = 0;
+        int maxQLevelVisited = 0;
+
+        for (SessionReportModel sessionReportModel : reportRows) {
+            if (maxRLevelVisited < sessionReportModel.maxSearchRLevel) {
+                maxRLevelVisited = sessionReportModel.maxSearchRLevel;
+            }
+            if (maxQLevelVisited < sessionReportModel.maxSearchQLevel) {
+                maxQLevelVisited = sessionReportModel.maxSearchQLevel;
+            }
+        }
+
+        this.maxRLevelVisited = maxRLevelVisited;
+        this.maxQLevelVisited = maxQLevelVisited;
     }
 
-    public void printCutoffStatics(AtomicInteger maxLevelVisited) {
+    public void printCutoffStatics() {
         out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
         out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("___________"));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
         out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| %6d %% ", row.cutoffPercentages[depth]));
+            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %6d %% ", row.cutoffPercentages[depth]));
             out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("-----------"));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
         out.printf("\n");
     }
 }
