@@ -5,7 +5,9 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCollisionStatistics;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,11 +25,17 @@ public class SessionReport {
     private boolean printMovesPerLevelStatics;
     private boolean printCutoffStatics;
     private boolean breakByColor;
+    private List<SessionReportModel> reportRows = new ArrayList<>();
+    private PrintStream out;
 
-    public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
+    public SessionReport printReport(PrintStream output) {
+        out = output;
+        print();
+        return this;
+    }
 
-        List<ReportRowModel> reportRows = new ArrayList<>();
 
+    public SessionReport withTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         enginesOrder.forEach(engineController -> {
             List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList());
             List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList());
@@ -53,11 +61,11 @@ public class SessionReport {
             }
         });
 
-        print(reportRows);
+        return this;
     }
 
-    private ReportRowModel collectStatics(String engineName, List<SearchMoveResult> searches) {
-        ReportRowModel rowModel = new ReportRowModel();
+    private SessionReportModel collectStatics(String engineName, List<SearchMoveResult> searches) {
+        SessionReportModel rowModel = new SessionReportModel();
         rowModel.engineName = engineName;
 
         rowModel.searches = searches.stream().count();
@@ -137,22 +145,22 @@ public class SessionReport {
         return rowModel;
     }
 
-    private void print(List<ReportRowModel> reportRows) {
+    private void print() {
         AtomicInteger maxRLevelVisited = new AtomicInteger();
         AtomicInteger maxQLevelVisited = new AtomicInteger();
 
-        for (ReportRowModel reportRowModel : reportRows) {
-            if (maxRLevelVisited.get() < reportRowModel.maxSearchRLevel) {
-                maxRLevelVisited.set(reportRowModel.maxSearchRLevel);
+        for (SessionReportModel sessionReportModel : reportRows) {
+            if (maxRLevelVisited.get() < sessionReportModel.maxSearchRLevel) {
+                maxRLevelVisited.set(sessionReportModel.maxSearchRLevel);
             }
-            if (maxQLevelVisited.get() < reportRowModel.maxSearchQLevel) {
-                maxQLevelVisited.set(reportRowModel.maxSearchQLevel);
+            if (maxQLevelVisited.get() < sessionReportModel.maxSearchQLevel) {
+                maxQLevelVisited.set(sessionReportModel.maxSearchQLevel);
             }
         }
 
 
         if (printCollisionStatics) {
-            printCollisionStatics(reportRows);
+            new PrintCollisionStatistics(out, reportRows).printCollisionStatistics();
         }
 
         if (printNodesVisitedStatics) {
@@ -171,179 +179,158 @@ public class SessionReport {
 
     }
 
-    private void printCollisionStatics(List<ReportRowModel> reportRows) {
-        // Marco superior de la tabla
-        System.out.printf(" ___________________________________________________________________________________________________________________________________");
-        System.out.printf("\n");
 
+    private void printNodesVisitedStaticsByType(List<SessionReportModel> reportRows) {
+        out.println("\n Nodes visited per type");
+
+        // Marco superior de la tabla
+        out.printf(" _____________________________________________________________________________________________________________________________________");
+        out.printf("\n");
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | wo/COLLISIONS%% | w/COLLISIONS%% | MovesCollision AVG ");
-        System.out.printf("|\n");
+        out.printf("|ENGINE NAME                        | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
+        out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d |%14d |%13d |%12d %%  |%12d %% |%19.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage, row.searchesWithCollisionsPercentage, row.avgOptionsPerCollision);
-            System.out.printf("|\n");
+            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("| %12d ", row.visitedRNodesTotal);
+            out.printf("| %12d ", row.visitedQNodesTotal);
+            out.printf("| %12d ", row.visitedNodesTotal);
+            out.printf("| %11d ", row.visitedRNodesAvg);
+            out.printf("| %11d ", row.visitedQNodesAvg);
+            out.printf("| %11d ", row.visitedNodesTotalAvg);
+            out.printf("|\n");
         });
 
         // Marco inferior de la tabla
-        System.out.printf(" -----------------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("\n");
+        out.printf(" -------------------------------------------------------------------------------------------------------------------------------------");
+        out.printf("\n");
+    }
+
+    private void printNodesVisitedStatics(AtomicInteger maxRLevelVisited, AtomicInteger maxQLevelVisited, List<SessionReportModel> reportRows) {
+        out.println("\n Nodes visited per search level");
+
+        // Marco superior de la tabla
+        out.printf(" ______________________________________________");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("___________"));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("____________"));
+        out.printf("______________"); // Nodes
+        out.printf("\n");
+
+
+        // Nombre de las columnas
+        out.printf("|ENGINE NAME                        | SEARCHES ");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
+        out.printf("| Total Nodes ");
+        out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCounters[depth]));
+            IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCounters[depth]));
+            out.printf("| %11d ", row.visitedNodesTotal);
+            out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        out.printf(" ----------------------------------------------");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("-----------"));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("------------"));
+        out.printf("--------------"); // Total Nodes
+        out.printf("\n");
+    }
+
+    private void printNodesVisitedStaticsAvg(AtomicInteger maxRLevelVisited, AtomicInteger maxQLevelVisited, List<SessionReportModel> reportRows) {
+        out.println("\n Nodes visited per search level AVG");
+
+        // Marco superior de la tabla
+        out.printf(" ______________________________________________");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("___________"));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("____________"));
+        out.printf("______________"); // AVG Nodes/S
+        out.printf("\n");
+
+
+        // Nombre de las columnas
+        out.printf("|ENGINE NAME                        | SEARCHES ");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
+        out.printf("| AVG Nodes/S ");
+        out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
+            IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
+            out.printf("| %11d ", row.visitedNodesTotalAvg);
+            out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        out.printf(" ----------------------------------------------");
+        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> out.printf("-----------"));
+        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> out.printf("------------"));
+        out.printf("--------------"); // AVG Nodes/S
+        out.printf("\n");
+    }
+
+    private void printMovesPerLevelStatics(AtomicInteger maxLevelVisited, List<SessionReportModel> reportRows) {
+        out.println("\n Max distinct moves per search level");
+
+        // Marco superior de la tabla
+        out.printf(" ___________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("___________"));
+        out.printf("\n");
+
+
+        // Nombre de las columnas
+        out.printf("|ENGINE NAME                        ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            out.printf("|%35s", row.engineName);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| %8d ", row.maxDistinctMovesPerLevel[depth]));
+            out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        out.printf(" -----------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("-----------"));
+        out.printf("\n");
     }
 
 
-    private void printNodesVisitedStaticsByType(List<ReportRowModel> reportRows) {
-        System.out.println("\n Nodes visited per type");
+    private void printCutoffStatics(AtomicInteger maxLevelVisited, List<SessionReportModel> reportRows) {
+        out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
-        System.out.printf(" _____________________________________________________________________________________________________________________________________");
-        System.out.printf("\n");
-
-        // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
-        System.out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            System.out.printf("| %12d ", row.visitedRNodesTotal);
-            System.out.printf("| %12d ", row.visitedQNodesTotal);
-            System.out.printf("| %12d ", row.visitedNodesTotal);
-            System.out.printf("| %11d ", row.visitedRNodesAvg);
-            System.out.printf("| %11d ", row.visitedQNodesAvg);
-            System.out.printf("| %11d ", row.visitedNodesTotalAvg);
-            System.out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        System.out.printf(" -------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("\n");
-    }
-
-    private void printNodesVisitedStatics(AtomicInteger maxRLevelVisited, AtomicInteger maxQLevelVisited, List<ReportRowModel> reportRows) {
-        System.out.println("\n Nodes visited per search level");
-
-        // Marco superior de la tabla
-        System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
-        System.out.printf("______________"); // Nodes
-        System.out.printf("\n");
+        out.printf(" ______________________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("___________"));
+        out.printf("\n");
 
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
-        System.out.printf("| Total Nodes ");
-        System.out.printf("|\n");
+        out.printf("|ENGINE NAME                        | SEARCHES ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedRNodesCounters[depth]));
-            IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedQNodesCounters[depth]));
-            System.out.printf("| %11d ", row.visitedNodesTotal);
-            System.out.printf("|\n");
+            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("| %6d %% ", row.cutoffPercentages[depth]));
+            out.printf("|\n");
         });
 
         // Marco inferior de la tabla
-        System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("--------------"); // Total Nodes
-        System.out.printf("\n");
-    }
-
-    private void printNodesVisitedStaticsAvg(AtomicInteger maxRLevelVisited, AtomicInteger maxQLevelVisited, List<ReportRowModel> reportRows) {
-        System.out.println("\n Nodes visited per search level AVG");
-
-        // Marco superior de la tabla
-        System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
-        System.out.printf("______________"); // AVG Nodes/S
-        System.out.printf("\n");
-
-
-        // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
-        System.out.printf("| AVG Nodes/S ");
-        System.out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
-            IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
-            System.out.printf("| %11d ", row.visitedNodesTotalAvg);
-            System.out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
-        IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("--------------"); // AVG Nodes/S
-        System.out.printf("\n");
-    }
-
-    private void printMovesPerLevelStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
-        System.out.println("\n Max distinct moves per search level");
-
-        // Marco superior de la tabla
-        System.out.printf(" ___________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
-        System.out.printf("\n");
-
-
-        // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        System.out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s", row.engineName);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.maxDistinctMovesPerLevel[depth]));
-            System.out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        System.out.printf(" -----------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
-        System.out.printf("\n");
-    }
-
-
-    private void printCutoffStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
-        System.out.println("\n Cutoff per search level (higher is better)");
-
-        // Marco superior de la tabla
-        System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
-        System.out.printf("\n");
-
-
-        // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        System.out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %6d %% ", row.cutoffPercentages[depth]));
-            System.out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
-        System.out.printf("\n");
+        out.printf(" ----------------------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> out.printf("-----------"));
+        out.printf("\n");
     }
 
     public SessionReport withCollisionStatics() {
@@ -371,42 +358,4 @@ public class SessionReport {
         return this;
     }
 
-    private static class ReportRowModel {
-        String engineName;
-        long searches;
-
-        ///////////////////// START COLLISIONS
-        long searchesWithoutCollisions;
-        int searchesWithoutCollisionsPercentage;
-        long searchesWithCollisions;
-        int searchesWithCollisionsPercentage;
-        double avgOptionsPerCollision;
-        ///////////////////// END COLLISIONS
-
-        ///////// START TOTALS
-        long visitedNodesTotal;
-        int visitedNodesTotalAvg;
-        long visitedRNodesTotal;
-        long visitedQNodesTotal;
-
-        int visitedRNodesAvg;
-        int visitedQNodesAvg;
-        //////// END TOTALS
-
-
-        ///////////////////// START VISITED REGULAR NODES
-        int maxSearchRLevel;
-        long[] visitedRNodesCounters;
-        int[] visitedRNodesCountersAvg;
-        int[] cutoffPercentages;
-        ///////////////////// END VISITED REGULAR NODES
-
-        ///////////////////// START VISITED QUIESCENCE NODES
-        int maxSearchQLevel;
-        int[] visitedQNodesCounters;
-        int[] visitedQNodesCountersAvg;
-        ///////////////////// END VISITED QUIESCENCE NODES
-
-        int[] maxDistinctMovesPerLevel;
-    }
 }
