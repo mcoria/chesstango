@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.reports.NodesReport;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.io.PrintStream;
@@ -27,7 +27,7 @@ public class SearchesReport {
         return this;
     }
 
-    public SearchesReport withMathResults(List<EngineController> enginesOrder, List<GameResult> matchResult) {
+    public SearchesReport withMathResults(List<EngineController> enginesOrder, List<MatchResult> matchResult) {
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)

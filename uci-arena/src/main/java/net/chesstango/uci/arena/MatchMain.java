@@ -86,7 +86,7 @@ public class MatchMain implements MatchListener {
         //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
 
-        List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
+        List<MatchResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
 
@@ -100,19 +100,19 @@ public class MatchMain implements MatchListener {
 
 
         new SessionReport()
-                 .withCollisionStatics()
+                 //.withCollisionStatics()
                  .withNodesVisitedStatics()
-                 .withMovesPerLevelStatics()
-                 .withCutoffStatics()
-                 .breakByColor()
+                 //.withMovesPerLevelStatics()
+                 //.withCutoffStatics()
+                 //.breakByColor()
                  .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
 
 
 
         new SearchesReport()
-                .withCutoffStatics()
-                .withNodesVisitedStatics()
+                //.withCutoffStatics()
+                //.withNodesVisitedStatics()
                 //.withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
@@ -139,7 +139,7 @@ public class MatchMain implements MatchListener {
         return fenList;
     }
 
-    private List<GameResult> play() {
+    private List<MatchResult> play() {
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
         matchBroadcaster.addListener(this);
@@ -152,7 +152,7 @@ public class MatchMain implements MatchListener {
         startEngines();
 
         Instant start = Instant.now();
-        List<GameResult> matchResult = match.play(getFenList());
+        List<MatchResult> matchResult = match.play(getFenList());
 
         logger.info("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
@@ -170,8 +170,8 @@ public class MatchMain implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(Game game, GameResult gameResult) {
-        gameResult.save();
+    public void notifyEndGame(Game game, MatchResult matchResult) {
+        matchResult.save();
     }
 
     private void startEngines() {

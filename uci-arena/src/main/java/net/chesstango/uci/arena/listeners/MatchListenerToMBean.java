@@ -7,7 +7,7 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -67,7 +67,7 @@ public class MatchListenerToMBean implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(Game game, GameResult gameResult) {
+    public void notifyEndGame(Game game, MatchResult matchResult) {
     }
 
     public Arena getArena() {

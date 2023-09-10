@@ -19,6 +19,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Mauricio Coria
@@ -36,6 +37,7 @@ public class Match {
     private boolean debugEnabled;
     private boolean switchChairs;
     private MatchListener matchListener;
+    private String mathId;
 
 
     public Match(EngineController controller1, EngineController controller2, CmdGo cmdGo) {
@@ -50,8 +52,8 @@ public class Match {
         return this;
     }
 
-    public List<GameResult> play(List<String> fenList) {
-        List<GameResult> result = new ArrayList<>();
+    public List<MatchResult> play(List<String> fenList) {
+        List<MatchResult> result = new ArrayList<>();
 
         fenList.forEach(fen -> {
             result.addAll(play(fen));
@@ -60,8 +62,8 @@ public class Match {
         return result;
     }
 
-    public List<GameResult> play(String fen) {
-        List<GameResult> result = new ArrayList<>();
+    public List<MatchResult> play(String fen) {
+        List<MatchResult> result = new ArrayList<>();
 
         try {
             setFen(fen);
@@ -83,20 +85,22 @@ public class Match {
         return result;
     }
 
-    protected GameResult play(EngineController white, EngineController black) {
+    protected MatchResult play(EngineController white, EngineController black) {
+        mathId = UUID.randomUUID().toString();
+
         setChairs(white, black);
 
         startNewGame();
 
         compete();
 
-        GameResult gameResult = createResult();
+        MatchResult matchResult = createResult();
 
         if (matchListener != null) {
-            matchListener.notifyEndGame(game, gameResult);
+            matchListener.notifyEndGame(game, matchResult);
         }
 
-        return gameResult;
+        return matchResult;
     }
 
 
@@ -168,30 +172,30 @@ public class Match {
     }
 
     //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
-    protected GameResult createResult() {
+    protected MatchResult createResult() {
         int matchPoints = 0;
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
-            logger.info("DRAW (por fold repetition)");
+            logger.info("[{}] DRAW (por fold repetition)", mathId);
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
-            logger.info("DRAW (por fold fiftyMoveRule)");
+            logger.info("[{}] DRAW (por fold fiftyMoveRule)", mathId);
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW.equals(game.getStatus())) {
-            logger.info("DRAW");
+            logger.info("[{}] DRAW", mathId);
             matchPoints = material(game, true);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                logger.info("BLACK WON {}", black.getEngineName());
+                logger.info("[{}] BLACK WON {}", mathId, black.getEngineName());
                 matchPoints = -1 * (WINNER_POINTS + material(game, false));
                 winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                logger.info("WHITE WON {}", white.getEngineName());
+                logger.info("[{}] WHITE WON {}", mathId, white.getEngineName());
                 matchPoints = (WINNER_POINTS + material(game, false));
                 winner = white;
 
@@ -210,7 +214,7 @@ public class Match {
         pgnGame.setWhite(white.getEngineName());
         pgnGame.setBlack(black.getEngineName());
 
-        return new GameResult(pgnGame, white, black, winner, matchPoints);
+        return new MatchResult(mathId, pgnGame, white, black, winner, matchPoints);
     }
 
     private void startNewGame() {
@@ -253,7 +257,7 @@ public class Match {
         PGNEncoder encoder = new PGNEncoder();
         PGNGame pgnGame = PGNGame.createFromGame(game);
 
-        pgnGame.setEvent("Computer chess game");
+        pgnGame.setEvent(String.format("%s", mathId));
         pgnGame.setWhite(white.getEngineName());
         pgnGame.setBlack(black.getEngineName());
         pgnGame.setFen(fen);

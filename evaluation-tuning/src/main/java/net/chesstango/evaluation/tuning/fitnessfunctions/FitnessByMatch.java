@@ -8,7 +8,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.tuning.TuningMain;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.EngineControllerPoolFactory;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.gui.ProxyConfigLoader;
 import net.chesstango.uci.engine.UciTango;
@@ -16,7 +16,6 @@ import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.proxy.UciProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -56,13 +55,13 @@ public class FitnessByMatch implements FitnessFunction {
     public long fitness(Genotype<IntegerGene> genotype) {
         EngineController engineTango = createTango(genotype);
 
-        List<GameResult> matchResult = fitnessEval(engineTango);
+        List<MatchResult> matchResult = fitnessEval(engineTango);
 
         quitTango(engineTango);
 
-        long pointsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(GameResult::getPoints).sum();
+        long pointsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(MatchResult::getPoints).sum();
 
-        long pointsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(GameResult::getPoints).sum();
+        long pointsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(MatchResult::getPoints).sum();
 
         return pointsAsWhite + (-1) * pointsAsBlack;
     }
@@ -78,8 +77,8 @@ public class FitnessByMatch implements FitnessFunction {
     }
 
 
-    private List<GameResult> fitnessEval(EngineController engineTango) {
-        List<GameResult> matchResult = null;
+    private List<MatchResult> fitnessEval(EngineController engineTango) {
+        List<MatchResult> matchResult = null;
         try {
 
             EngineController engineProxy = pool.borrowObject();

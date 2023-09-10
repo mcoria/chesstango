@@ -3,7 +3,7 @@ package net.chesstango.uci.arena.listeners;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.mbeans.Arena;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
@@ -40,7 +40,7 @@ public class MatchListenerMbeans implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(Game game, GameResult gameResult) {
+    public void notifyEndGame(Game game, MatchResult matchResult) {
         MatchListenerToMBean matchListenerToMBean = gameMatchListenerToMBeanMap.remove(game);
 
         returnArena(matchListenerToMBean.getArena());

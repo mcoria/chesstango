@@ -48,7 +48,7 @@ public class MatchTest {
 
         match.compete();
 
-        GameResult result = match.createResult();
+        MatchResult result = match.createResult();
 
         // Deberia ganar el engine smartEngine
         assertTrue(result.getPoints() > Match.WINNER_POINTS);
@@ -61,7 +61,7 @@ public class MatchTest {
         Match match = new Match(smartEngine, dummyEngine, new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2));
         //match.setDebugEnabled(true);
 
-        List<GameResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
+        List<MatchResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
         assertEquals(2, matchResult.size());
 
@@ -78,7 +78,7 @@ public class MatchTest {
         match.setChairs(smartEngine, dummyEngine);
         match.setGame(FENDecoder.loadGame("8/P7/5Q1k/3p3p/3P2P1/1P1BP3/5P2/3K4 b - - 5 48"));
 
-        GameResult result = match.createResult();
+        MatchResult result = match.createResult();
 
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
@@ -101,7 +101,7 @@ public class MatchTest {
         match.setChairs(smartEngine, dummyEngine);
         match.setGame(FENDecoder.loadGame("3k4/5p2/1p1bp3/3p2p1/3P3P/5q1K/p7/8 w - - 0 48"));
 
-        GameResult result = match.createResult();
+        MatchResult result = match.createResult();
 
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
@@ -125,7 +125,7 @@ public class MatchTest {
         match.setChairs(smartEngine, dummyEngine);
         match.setGame(FENDecoder.loadGame("6Q1/P7/7k/3p3p/3P3P/1P1BP3/5P2/3K4 b - - 5 48"));
 
-        GameResult result = match.createResult();
+        MatchResult result = match.createResult();
 
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
@@ -148,7 +148,7 @@ public class MatchTest {
         match.setChairs(smartEngine, dummyEngine);
         match.setGame(FENDecoder.loadGame("3k4/5p2/1p1bp3/3p3p/3P3P/7K/p7/6q1 w - - 5 48"));
 
-        GameResult result = match.createResult();
+        MatchResult result = match.createResult();
 
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());

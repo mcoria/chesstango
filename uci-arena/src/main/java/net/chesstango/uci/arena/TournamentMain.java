@@ -29,7 +29,7 @@ public class TournamentMain implements MatchListener {
     public static void main(String[] args) {
         List<EngineControllerPoolFactory> controllerFactories = createControllerFactories();
 
-        List<GameResult> matchResult = new TournamentMain(controllerFactories).play(getFenList());
+        List<MatchResult> matchResult = new TournamentMain(controllerFactories).play(getFenList());
 
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
         allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerPoolFactory::getEngineControllerInstances).collect(Collectors.toList()));
@@ -60,14 +60,14 @@ public class TournamentMain implements MatchListener {
     }
 
     private final List<EngineControllerPoolFactory> controllerFactories;
-    private final List<GameResult> matchResult;
+    private final List<MatchResult> matchResult;
 
     public TournamentMain(List<EngineControllerPoolFactory> controllerFactories){
         this.controllerFactories = controllerFactories;
         this.matchResult = Collections.synchronizedList( new ArrayList<>() );
     }
 
-    public List<GameResult> play(List<String> fenList){
+    public List<MatchResult> play(List<String> fenList){
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         matchBroadcaster.addListener(new MatchListenerMbeans());
         matchBroadcaster.addListener(this);
@@ -90,8 +90,8 @@ public class TournamentMain implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(Game game, GameResult gameResult) {
-        matchResult.add(gameResult);
-        gameResult.save();
+    public void notifyEndGame(Game game, MatchResult matchResult) {
+        this.matchResult.add(matchResult);
+        matchResult.save();
     }
 }

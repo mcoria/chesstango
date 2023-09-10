@@ -3,7 +3,7 @@ package net.chesstango.uci.arena.reports;
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statistics.NodeStatistics;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCollisionStatistics;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCutoffStatics;
@@ -37,10 +37,10 @@ public class SessionReport {
     }
 
 
-    public SessionReport withMathResults(List<EngineController> enginesOrder, List<GameResult> matchResult) {
+    public SessionReport withMathResults(List<EngineController> enginesOrder, List<MatchResult> matchResult) {
         enginesOrder.forEach(engineController -> {
-            List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList());
-            List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList());
+            List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(MatchResult::getSessionWhite).collect(Collectors.toList());
+            List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(MatchResult::getSessionBlack).collect(Collectors.toList());
 
             List<SearchMoveResult> searchesWhite = sessionsWhite.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());
             List<SearchMoveResult> searchesBlack = sessionsBlack.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());

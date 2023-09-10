@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -28,8 +28,8 @@ public class MatchBroadcaster implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(Game game, GameResult gameResult) {
-        matchListenerList.forEach(listener -> listener.notifyEndGame(game, gameResult));
+    public void notifyEndGame(Game game, MatchResult matchResult) {
+        matchListenerList.forEach(listener -> listener.notifyEndGame(game, matchResult));
     }
 
     public MatchBroadcaster addListener(MatchListener listener){

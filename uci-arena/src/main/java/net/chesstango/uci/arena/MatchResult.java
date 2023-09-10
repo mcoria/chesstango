@@ -18,9 +18,11 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
-public class GameResult {
+public class MatchResult {
     private final PGNGame pgnGame;
 
+    @Getter
+    private String mathId;
     @Getter
     private final EngineController engineWhite;
     @Getter
@@ -34,7 +36,8 @@ public class GameResult {
     @Getter
     private Session sessionBlack;
 
-    public GameResult(PGNGame pgnGame, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
+    public MatchResult(String mathId, PGNGame pgnGame, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
+        this.mathId = mathId;
         this.pgnGame = pgnGame;
         this.engineWhite = engineWhite;
         this.engineBlack = engineBlack;

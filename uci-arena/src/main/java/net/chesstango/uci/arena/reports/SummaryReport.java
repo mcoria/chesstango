@@ -1,6 +1,6 @@
 package net.chesstango.uci.arena.reports;
 
-import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.io.PrintStream;
@@ -31,7 +31,7 @@ public class SummaryReport {
      * @param enginesCollections Cada elemento de enginesCollections es una coleccion de instancias del mismo engine.
      * @param matchResult
      */
-    public SummaryReport withMultipleEngineInstances(List<List<EngineController>> enginesCollections, List<GameResult> matchResult) {
+    public SummaryReport withMultipleEngineInstances(List<List<EngineController>> enginesCollections, List<MatchResult> matchResult) {
         enginesCollections.forEach(controllerList -> reportRowModels.add(createRowModel(controllerList, matchResult)));
         return this;
     }
@@ -41,12 +41,12 @@ public class SummaryReport {
      * @param engines  Cada elemento de engines es una instancia de un engine.
      * @param matchResult
      */
-    public SummaryReport withSingleEngineInstance(List<EngineController> engines, List<GameResult> matchResult) {
+    public SummaryReport withSingleEngineInstance(List<EngineController> engines, List<MatchResult> matchResult) {
         engines.forEach(engine -> reportRowModels.add(createRowModel(List.of(engine), matchResult)));
         return this;
     }
 
-    private ReportRowModel createRowModel(List<EngineController> engineInstances, List<GameResult> matchResult) {
+    private ReportRowModel createRowModel(List<EngineController> engineInstances, List<MatchResult> matchResult) {
         ReportRowModel row = new ReportRowModel();
 
         Set<String> engineNames = engineInstances.stream().map(EngineController::getEngineName).collect(Collectors.toSet());
