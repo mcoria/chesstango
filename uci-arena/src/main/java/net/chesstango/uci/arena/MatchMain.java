@@ -5,12 +5,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.SearchesReport;
 import net.chesstango.uci.arena.reports.SessionReport;
-import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +24,11 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
-
     private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
-
     private static final boolean MATCH_DEBUG = false;
+    private static final boolean MATCH_SWITCH_CHAIRS = false;
 
     /**
      * Add the following JVM parameters:
@@ -58,7 +56,7 @@ public class MatchMain implements MatchListener {
 
                         .withStatistics()
                 );
-                //.overrideEngineName("AB Full");
+        //.overrideEngineName("AB Full");
 
 
 
@@ -100,14 +98,13 @@ public class MatchMain implements MatchListener {
 
 
         new SessionReport()
-                 //.withCollisionStatistics()
-                 //.withNodesVisitedStatistics()
-                 //.withMovesPerLevelStatistics()
+                //.withCollisionStatistics()
+                //.withNodesVisitedStatistics()
+                //.withMovesPerLevelStatistics()
                 .withCutoffStatistics()
-                 .breakByColor()
-                 .withMathResults(List.of(engineController1, engineController2), matchResult)
+                .breakByColor()
+                .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
-
 
 
         new SearchesReport()
@@ -146,7 +143,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, CMD_GO)
                 .setDebugEnabled(MATCH_DEBUG)
-                .switchChairs(true)
+                .switchChairs(MATCH_SWITCH_CHAIRS)
                 .setMatchListener(matchBroadcaster);
 
         startEngines();

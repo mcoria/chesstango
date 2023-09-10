@@ -34,14 +34,17 @@ public class SessionReportModel {
     ///////////////////// START VISITED REGULAR NODES
     public int maxSearchRLevel;
     public long[] visitedRNodesCounters;
+    public long[] expectedRNodesCounters;
     public int[] visitedRNodesCountersAvg;
-    public int[] cutoffPercentages;
+    public int[] cutoffRPercentages;
     ///////////////////// END VISITED REGULAR NODES
 
     ///////////////////// START VISITED QUIESCENCE NODES
     public int maxSearchQLevel;
-    public int[] visitedQNodesCounters;
+    public long[] visitedQNodesCounters;
+    public long[] expectedQNodesCounters;
     public int[] visitedQNodesCountersAvg;
+    public int[] cutoffQPercentages;
     ///////////////////// END VISITED QUIESCENCE NODES
 
     public int[] maxDistinctMovesPerLevel;
@@ -62,12 +65,14 @@ public class SessionReportModel {
         }
 
 
-        long[] expectedRNodesCounters = new long[30];
+        rowModel.expectedRNodesCounters = new long[30];
         rowModel.visitedRNodesCounters = new long[30];
-        rowModel.visitedQNodesCounters = new int[30];
+        rowModel.visitedQNodesCounters = new long[30];
+        rowModel.expectedQNodesCounters = new long[30];
         rowModel.visitedRNodesCountersAvg = new int[30];
         rowModel.visitedQNodesCountersAvg = new int[30];
-        rowModel.cutoffPercentages = new int[30];
+        rowModel.cutoffRPercentages = new int[30];
+        rowModel.cutoffQPercentages = new int[30];
         rowModel.maxDistinctMovesPerLevel = new int[30];
         rowModel.maxSearchRLevel = 0;
         rowModel.visitedNodesTotal = 0;
@@ -79,14 +84,16 @@ public class SessionReportModel {
             int[] expectedRNodeCounters = regularNodeStatistics.expectedNodesCounters();
             for (int i = 0; i < visitedRNodeCounters.length; i++) {
                 rowModel.visitedRNodesCounters[i] += visitedRNodeCounters[i];
-                expectedRNodesCounters[i] += expectedRNodeCounters[i];
+                rowModel.expectedRNodesCounters[i] += expectedRNodeCounters[i];
 
             }
 
             NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
             int[] visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
+            int[] expectedNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
             for (int i = 0; i < visitedQNodesCounters.length; i++) {
                 rowModel.visitedQNodesCounters[i] += visitedQNodesCounters[i];
+                rowModel.expectedQNodesCounters[i] += expectedNodesCounters[i];
             }
 
             /*
@@ -105,11 +112,12 @@ public class SessionReportModel {
 
         for (int i = 0; i < 30; i++) {
             if (rowModel.visitedRNodesCounters[i] > 0) {
-                rowModel.cutoffPercentages[i] = (int) (100 - (100 * rowModel.visitedRNodesCounters[i] / expectedRNodesCounters[i]));
+                rowModel.cutoffRPercentages[i] = (int) (100 - (100 * rowModel.visitedRNodesCounters[i] / rowModel.expectedRNodesCounters[i]));
                 rowModel.maxSearchRLevel = i + 1;
             }
 
             if (rowModel.visitedQNodesCounters[i] > 0) {
+                rowModel.cutoffQPercentages[i] = (int) (100 - (100 * rowModel.visitedQNodesCounters[i] / rowModel.expectedQNodesCounters[i]));
                 rowModel.maxSearchQLevel = i + 1;
             }
 

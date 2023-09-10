@@ -42,25 +42,29 @@ public class PrintCutoffStatics {
 
         // Marco superior de la tabla
         out.printf(" ______________________________________________");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("____________"));
+        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| RLevel %2d ", depth + 1));
+        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %6d %% ", row.cutoffPercentages[depth]));
+            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
+            IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
             out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
+        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("------------"));
+        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("\n");
     }
 }
