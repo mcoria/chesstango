@@ -1,8 +1,10 @@
 package net.chesstango.uci.arena.reports;
 
+import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,28 +18,34 @@ import java.util.stream.Collectors;
  */
 public class SummaryReport {
 
-    /**
-     * Cada elemento de enginesCollections es una coleccion de instancias del mismo engine.
-     *
-     * @param enginesCollections
-     * @param matchResult
-     */
-    public void printReportMultipleEngineInstances(List<List<EngineController>> enginesCollections, List<GameResult> matchResult) {
-        List<ReportRowModel> rows = new ArrayList<>();
-        enginesCollections.forEach(controllerList -> rows.add(createRowModel(controllerList, matchResult)));
-        printReport(rows);
+    private List<ReportRowModel> rows = new ArrayList<>();
+
+    private PrintStream out;
+
+    public SummaryReport printReport(PrintStream output) {
+        out = output;
+        print();
+        return this;
     }
 
     /**
-     * Cada elemento de engines es una instancia de un engine.
      *
-     * @param engines
+     * @param enginesCollections Cada elemento de enginesCollections es una coleccion de instancias del mismo engine.
      * @param matchResult
      */
-    public void printReportSingleEngineInstance(List<EngineController> engines, List<GameResult> matchResult) {
-        List<ReportRowModel> rows = new ArrayList<>();
-        engines.forEach(engine -> rows.add(createRowModel(Arrays.asList(engine), matchResult)));
-        printReport(rows);
+    public SummaryReport withMultipleEngineInstances(List<List<EngineController>> enginesCollections, List<GameResult> matchResult) {
+        enginesCollections.forEach(controllerList -> rows.add(createRowModel(controllerList, matchResult)));
+        return this;
+    }
+
+    /**
+     *
+     * @param engines  Cada elemento de engines es una instancia de un engine.
+     * @param matchResult
+     */
+    public SummaryReport withSingleEngineInstance(List<EngineController> engines, List<GameResult> matchResult) {
+        engines.forEach(engine -> rows.add(createRowModel(List.of(engine), matchResult)));
+        return this;
     }
 
     private ReportRowModel createRowModel(List<EngineController> engineInstances, List<GameResult> matchResult) {
@@ -69,14 +77,15 @@ public class SummaryReport {
     }
 
 
-    private void printReport(List<ReportRowModel> reportRows) {
-        System.out.printf(" ___________________________________________________________________________________________________________________________________________________\n");
-        System.out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %%|\n");
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %6.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
+    private void print() {
+        out.printf(" ___________________________________________________________________________________________________________________________________________________\n");
+        out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %%|\n");
+        rows.forEach(row -> {
+            out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %6.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
         });
-        System.out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
+
 
     private static class ReportRowModel {
         String engineName;

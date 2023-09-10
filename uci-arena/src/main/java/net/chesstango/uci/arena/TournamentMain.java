@@ -34,7 +34,9 @@ public class TournamentMain implements MatchListener {
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
         allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerPoolFactory::getEngineControllerInstances).collect(Collectors.toList()));
 
-        new SummaryReport().printReportMultipleEngineInstances(allControllerFactories, matchResult);
+        new SummaryReport()
+                .withMultipleEngineInstances(allControllerFactories, matchResult)
+                .printReport(System.out);
     }
 
     private static List<String> getFenList(){
