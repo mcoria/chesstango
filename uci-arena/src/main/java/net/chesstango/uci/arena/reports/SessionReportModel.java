@@ -50,8 +50,6 @@ public class SessionReportModel {
     public int[] visitedQNodesCountersAvg;
     ///////////////////// END VISITED QUIESCENCE NODES
 
-    public int[] maxDistinctMovesPerLevel;
-
     public static SessionReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
         SessionReportModel sessionReportModel = new SessionReportModel();
 
@@ -63,7 +61,8 @@ public class SessionReportModel {
     }
 
     private void load(List<SearchMoveResult> searchMoveResults) {
-        this.searches = searchMoveResults.stream().count();
+        this.searches = searchMoveResults.size();
+
         this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value == 0).count();
         this.searchesWithoutCollisionsPercentage = (int) ((this.searchesWithoutCollisions * 100) / this.searches);
         this.searchesWithCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 0).count();
@@ -82,13 +81,9 @@ public class SessionReportModel {
         this.visitedQNodesCountersAvg = new int[30];
         this.cutoffRPercentages = new int[30];
         this.cutoffQPercentages = new int[30];
-        this.maxDistinctMovesPerLevel = new int[30];
-        this.maxSearchRLevel = 0;
-        this.visitedNodesTotal = 0;
 
 
         searchMoveResults.forEach(this::summarize);
-
 
         /**
          * Totales sumarizados

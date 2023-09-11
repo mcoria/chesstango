@@ -91,6 +91,8 @@ public class NodesReportModel {
     }
 
     private void load(List<SearchMoveResult> searchMoveResults) {
+        this.searches = searchMoveResults.size();
+
         this.moveDetails = new LinkedList<>();
         this.expectedRNodesCounters = new long[30];
         this.visitedRNodesCounters = new long[30];
@@ -123,7 +125,6 @@ public class NodesReportModel {
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
         }
 
-        this.searches = searchMoveResults.size();
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
         this.cutoffPercentageTotal = (int) (100 - ((100 * this.visitedNodesTotal) / this.expectedNodesTotal));

@@ -98,10 +98,9 @@ public class MatchMain implements MatchListener {
 
 
         new SessionReport()
-                //.withCollisionStatistics()
+                .withCollisionStatistics()
                 //.withNodesVisitedStatistics()
-                //.withMovesPerLevelStatistics()
-                .withCutoffStatistics()
+                //.withCutoffStatistics()
                 .breakByColor()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
@@ -109,7 +108,7 @@ public class MatchMain implements MatchListener {
 
         new SearchesReport()
                 .withCutoffStatistics()
-                .withNodesVisitedStatistics()
+                //.withNodesVisitedStatistics()
                 //.withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);

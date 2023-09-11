@@ -6,7 +6,6 @@ import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCollisionStatistics;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCutoffStatics;
-import net.chesstango.uci.arena.reports.sessionreport_ui.PrintMovesPerLevelStatics;
 import net.chesstango.uci.arena.reports.sessionreport_ui.PrintNodesVisitedStatistics;
 
 import java.io.PrintStream;
@@ -23,7 +22,6 @@ public class SessionReport {
     private final List<SessionReportModel> sessionReportModels = new ArrayList<>();
     private boolean printCollisionStatistics;
     private boolean printNodesVisitedStatistics;
-    private boolean printMovesPerLevelStatistics;
     private boolean printCutoffStatistics;
     private boolean breakByColor;
     private PrintStream out;
@@ -76,10 +74,6 @@ public class SessionReport {
                     .printNodesVisitedStaticsAvg();
         }
 
-        if (printMovesPerLevelStatistics) {
-            new PrintMovesPerLevelStatics(out, sessionReportModels)
-                    .printMovesPerLevelStatics();
-        }
 
         if (printCutoffStatistics) {
             new PrintCutoffStatics(out, sessionReportModels)
@@ -96,11 +90,6 @@ public class SessionReport {
 
     public SessionReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
-        return this;
-    }
-
-    public SessionReport withMovesPerLevelStatistics() {
-        this.printMovesPerLevelStatistics = true;
         return this;
     }
 
