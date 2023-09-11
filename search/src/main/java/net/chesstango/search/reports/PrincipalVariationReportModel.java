@@ -10,7 +10,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PrincipalVariationReportModel {
-    public String engineName;
+    public String reportTitle;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
 
@@ -24,14 +24,14 @@ public class PrincipalVariationReportModel {
     }
 
 
-    public static PrincipalVariationReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
-        PrincipalVariationReportModel searchesReportModel = new PrincipalVariationReportModel();
+    public static PrincipalVariationReportModel collectStatics(String reportTitle, List<SearchMoveResult> searchMoveResults) {
+        PrincipalVariationReportModel principalVariationReportModel = new PrincipalVariationReportModel();
 
-        searchesReportModel.engineName = engineName;
+        principalVariationReportModel.reportTitle = reportTitle;
 
-        searchesReportModel.load(searchMoveResults);
+        principalVariationReportModel.load(searchMoveResults);
 
-        return searchesReportModel;
+        return principalVariationReportModel;
     }
 
     private void load(List<SearchMoveResult> searchMoveResults) {

@@ -110,7 +110,7 @@ public class MatchMain implements MatchListener {
         new SearchesReport()
                 //.withCutoffStatistics()
                 //.withNodesVisitedStatistics()
-                //.withPrincipalVariation()
+                .withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
 

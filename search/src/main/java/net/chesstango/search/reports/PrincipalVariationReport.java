@@ -15,7 +15,7 @@ public class PrincipalVariationReport {
 
     @Setter
     @Accessors(chain = true)
-    private String engineName = "Tango";
+    private String reportTitle = "PrincipalVariationReport";
 
     @Setter
     @Accessors(chain = true)
@@ -30,12 +30,16 @@ public class PrincipalVariationReport {
     }
 
     protected void print() {
-            new PrintPrincipalVariation(out, reportModel).printPrincipalVariation();
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("PrincipalVariationReport: %s\n\n", reportModel.reportTitle);
+
+        new PrintPrincipalVariation(out, reportModel).printPrincipalVariation();
     }
 
 
     public PrincipalVariationReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = PrincipalVariationReportModel.collectStatics(this.engineName, searchMoveResults);
+        this.reportModel = PrincipalVariationReportModel.collectStatics(this.reportTitle, searchMoveResults);
         return this;
     }
 }
