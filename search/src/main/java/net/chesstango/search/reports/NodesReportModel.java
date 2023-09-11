@@ -108,20 +108,11 @@ public class NodesReportModel {
         for (int i = 0; i < 30; i++) {
             if (this.expectedRNodesCounters[i] > 0) {
                 this.cutoffRPercentages[i] = (int) (100 - (100 * this.visitedRNodesCounters[i] / this.expectedRNodesCounters[i]));
+                this.maxSearchRLevel = i + 1;
             }
 
             if (this.expectedQNodesCounters[i] > 0) {
                 this.cutoffQPercentages[i] = (int) (100 - (100 * this.visitedQNodesCounters[i] / this.expectedQNodesCounters[i]));
-            }
-
-            if (this.expectedRNodesCounters[i] > 0
-                    && this.visitedRNodesCounters[i] > 0
-                    && this.maxSearchRLevel < i + 1) {
-                this.maxSearchRLevel = i + 1; //En el nivel más bajo no exploramos ningun nodo
-            }
-
-            if (this.visitedQNodesCounters[i] > 0
-                    && this.maxSearchQLevel < i + 1) {
                 this.maxSearchQLevel = i + 1;
             }
 
@@ -149,11 +140,11 @@ public class NodesReportModel {
         reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 
         if (searchMoveResult.getRegularNodeStatistics() != null) {
-            collectStaticsRegularNodeStatistics(reportModelDetail, searchMoveResult);
+            collectRegularNodeStatistics(reportModelDetail, searchMoveResult);
         }
 
         if (searchMoveResult.getQuiescenceNodeStatistics() != null) {
-            collectStaticsQuiescenceNodeStatistics(reportModelDetail, searchMoveResult);
+            collectQuiescenceNodeStatistics(reportModelDetail, searchMoveResult);
         }
 
         reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter + reportModelDetail.visitedQNodesCounter;
@@ -164,16 +155,14 @@ public class NodesReportModel {
         this.moveDetails.add(reportModelDetail);
     }
 
-    private void collectStaticsRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         NodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffRPercentages = new int[30];
 
         for (int i = 0; i < 30; i++) {
-            if (reportModelDetail.expectedRNodesCounters[i] <= 0 && reportModelDetail.visitedRNodesCounters[i] > 0) {
-                throw new RuntimeException("expectedNodesCounters[i] <= 0");
-            } else if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
+            if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
                 throw new RuntimeException("reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]");
             }
 
@@ -191,14 +180,16 @@ public class NodesReportModel {
         }
     }
 
-    private void collectStaticsQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+    private void collectQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
         reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffQPercentages = new int[30];
 
         for (int i = 0; i < 30; i++) {
-
+            if (reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]) {
+                throw new RuntimeException("reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]");
+            }
             if (reportModelDetail.visitedQNodesCounters[i] > 0) {
                 reportModelDetail.visitedQNodesCounter += reportModelDetail.visitedQNodesCounters[i];
                 this.visitedQNodesCounters[i] += reportModelDetail.visitedQNodesCounters[i];

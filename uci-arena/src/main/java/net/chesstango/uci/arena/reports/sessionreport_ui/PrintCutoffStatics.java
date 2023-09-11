@@ -44,6 +44,7 @@ public class PrintCutoffStatics {
         out.printf(" ______________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("____________"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
+        out.printf("____________");
         out.printf("\n");
 
 
@@ -51,6 +52,7 @@ public class PrintCutoffStatics {
         out.printf("|ENGINE NAME                        | SEARCHES ");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| RLevel %2d ", depth + 1));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
+        out.printf("|   Cutoff  ");
         out.printf("|\n");
 
         // Cuerpo
@@ -58,6 +60,7 @@ public class PrintCutoffStatics {
             out.printf("|%35s|%9d ", row.engineName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
+            out.printf("| %7d %% ", row.cutoffPercentage);
             out.printf("|\n");
         });
 
@@ -65,6 +68,7 @@ public class PrintCutoffStatics {
         out.printf(" ----------------------------------------------");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("------------"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
+        out.printf("------------");
         out.printf("\n");
     }
 }
