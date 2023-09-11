@@ -1,9 +1,11 @@
 package net.chesstango.li;
 
 import chariot.ClientAuth;
-import chariot.model.Event;
-import chariot.model.GameStateEvent;
+import chariot.model.*;
 
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import java.util.stream.Stream;
 
 /**
@@ -11,39 +13,82 @@ import java.util.stream.Stream;
  */
 public class LichessClient {
 
-	private final ClientAuth client;
-	//private final UserAuth profile;
+    private final ClientAuth client;
+    private int myBlitzRating;
+    //private final UserAuth profile;
 
-	public LichessClient(ClientAuth client) {
-		this.client = client;
-		//this.profile = client.account().profile().get();
-	}
+    public LichessClient(ClientAuth client) {
+        this.client = client;
+        this.myBlitzRating = getBlitzRating();
+    }
 
-	public Stream<Event> streamEvents() {
-		return client.bot().connect().stream();
-	}
+    private int getBlitzRating() {
+        Map<StatsPerfType, StatsPerf> rating = client.account().profile().get().ratings();
+        StatsPerf stats = rating.get(StatsPerfType.blitz);
+        if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
+            return statsPerfGame.rating();
+        }
+        throw new RuntimeException("Rating not found");
+    }
 
-	public void challengeAccept(String challengeId) {
-		client.bot().acceptChallenge(challengeId);
-	}
+    public Stream<Event> streamEvents() {
+        return client.bot().connect().stream();
+    }
 
-	public void challengeDecline(String challengeId) {
-		client.bot().declineChallenge(challengeId);
-	}
+    public void challengeAccept(String challengeId) {
+        client.bot().acceptChallenge(challengeId);
+    }
 
-	public Stream<GameStateEvent> gameStreamEvents(String gameId) {
-		return client.bot().connectToGame(gameId).stream();
-	}
+    public void challengeDecline(String challengeId) {
+        client.bot().declineChallenge(challengeId);
+    }
 
-	public void gameMove(String gameId, String moveUci) {
-		client.bot().move(gameId, moveUci);
-	}
+    public Stream<GameStateEvent> gameStreamEvents(String gameId) {
+        return client.bot().connectToGame(gameId).stream();
+    }
 
-	public void gameResign(String gameId) {
-		client.bot().resign(gameId);
-	}
+    public void gameMove(String gameId, String moveUci) {
+        client.bot().move(gameId, moveUci);
+    }
 
-	public void gameChat(String gameId, String message) {
-		client.bot().chat(gameId, message);
-	}
+    public void gameResign(String gameId) {
+        client.bot().resign(gameId);
+    }
+
+    public void gameChat(String gameId, String message) {
+        client.bot().chat(gameId, message);
+    }
+
+    public void challengeRandomBot() {
+        User aBot = pickRandomBot();
+
+        if (aBot != null) {
+            One<Challenge> challenge = client.challenges().challenge(aBot.id(),
+                    challengeBuilder ->
+                            challengeBuilder
+                                    .clockBlitz5m3s()
+                                    .color(Enums.ColorPref.random)
+                                    .variant(Enums.VariantName.standard)
+                                    .rated(true)
+            );
+        }
+
+    }
+
+    private Queue<User> botsOnline = new LinkedList<>();
+
+    private synchronized User pickRandomBot() {
+        if (botsOnline.isEmpty()) {
+            Many<User> bots = client.bot().botsOnline(50);
+            bots.stream().filter(bot -> {
+                StatsPerf stats = bot.ratings().get(StatsPerfType.blitz);
+                if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
+                    return statsPerfGame.rating() >= myBlitzRating - 100 && statsPerfGame.rating() <= myBlitzRating + 300;
+                }
+                return false;
+            }).forEach(botsOnline::add);
+        }
+        return botsOnline.poll();
+    }
+
 }

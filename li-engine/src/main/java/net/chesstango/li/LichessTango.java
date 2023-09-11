@@ -1,6 +1,9 @@
 package net.chesstango.li;
 
-import chariot.model.*;
+import chariot.model.Enums;
+import chariot.model.Event;
+import chariot.model.GameInfo;
+import chariot.model.GameStateEvent;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
@@ -23,10 +26,7 @@ public class LichessTango implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private GameInfo game;
-
-    @Setter
-    private ChallengeInfo challenge;
+    private GameInfo gameInfo;
 
     @Setter
     private int maxDepth;
@@ -36,7 +36,6 @@ public class LichessTango implements Runnable {
         this.gameId = gameId;
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
-
             @Override
             public void searchInfo(SearchInfo info) {
                 StringBuilder sb = new StringBuilder();
@@ -57,7 +56,7 @@ public class LichessTango implements Runnable {
     }
 
     public void start(Event.GameStartEvent gameStartEvent) {
-        game = gameStartEvent.game();
+        gameInfo = gameStartEvent.game();
 
         tango.open();
 
@@ -112,7 +111,7 @@ public class LichessTango implements Runnable {
     }
 
     private void play(GameStateEvent.State state) {
-        tango.setPosition(game.fen(), state.moveList());
+        tango.setPosition(gameInfo.fen(), state.moveList());
         if (isMyTurn()) {
             tango.goDepth(maxDepth);
         }
@@ -120,8 +119,8 @@ public class LichessTango implements Runnable {
 
     private boolean isMyTurn() {
         ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
-        return Enums.Color.white.equals(game.color()) && Color.WHITE.equals(currentChessPosition.getCurrentTurn()) ||
-                Enums.Color.black.equals(game.color()) && Color.BLACK.equals(currentChessPosition.getCurrentTurn());
+        return Enums.Color.white.equals(gameInfo.color()) && Color.WHITE.equals(currentChessPosition.getCurrentTurn()) ||
+                Enums.Color.black.equals(gameInfo.color()) && Color.BLACK.equals(currentChessPosition.getCurrentTurn());
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {

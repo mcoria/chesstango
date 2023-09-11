@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -46,29 +48,30 @@ public class LichessBotMain implements Runnable {
         }
 
         MAX_SIMULTANEOUS_GAMES = Integer.parseInt(System.getenv("MAX_SIMULTANEOUS_GAMES"));
-        if ( Objects.isNull(MAX_SIMULTANEOUS_GAMES)) {
+        if (Objects.isNull(MAX_SIMULTANEOUS_GAMES)) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES is missing");
-        } else if (MAX_SIMULTANEOUS_GAMES  <= 0) {
+        } else if (MAX_SIMULTANEOUS_GAMES <= 0) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
         }
 
         MAX_DEFAULT_DEPTH = Integer.parseInt(System.getenv("MAX_DEFAULT_DEPTH"));
-        if ( Objects.isNull(MAX_DEFAULT_DEPTH)) {
+        if (Objects.isNull(MAX_DEFAULT_DEPTH)) {
             throw new RuntimeException("MAX_DEFAULT_DEPTH is missing");
-        } else if (MAX_DEFAULT_DEPTH  <= 0) {
+        } else if (MAX_DEFAULT_DEPTH <= 0) {
             throw new RuntimeException("MAX_DEFAULT_DEPTH value is wrong");
         }
     }
 
     private final ScheduledExecutorService gameExecutorService;
 
-    private final Map<String, LichessTango> onlineGameMap = new HashMap<>();
+    private final Map<String, LichessTango> onlineGameMap = Collections.synchronizedMap(new HashMap<>());
 
     private final LichessClient client;
 
+
     public LichessBotMain(LichessClient client) {
         this.client = client;
-        this.gameExecutorService = Executors.newScheduledThreadPool(MAX_SIMULTANEOUS_GAMES);
+        this.gameExecutorService = Executors.newScheduledThreadPool(MAX_SIMULTANEOUS_GAMES + 1);
     }
 
     @Override
@@ -76,6 +79,8 @@ public class LichessBotMain implements Runnable {
         Stream<Event> events = client.streamEvents();
 
         logger.info("Connection successful, entering main event loop...");
+
+        gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
 
         events.forEach(event -> {
             logger.info("event received: {}", event);
@@ -101,6 +106,56 @@ public class LichessBotMain implements Runnable {
         }
     }
 
+    private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
+        logger.info("Accepting challenge {}", challengeEvent.id());
+
+        client.challengeAccept(challengeEvent.id());
+    }
+
+    private void declineChallenge(Event.ChallengeEvent challengeEvent) {
+        logger.info("Challenge is not acceptable, declining...");
+        client.challengeDecline(challengeEvent.id());
+    }
+
+    private void startGame(Event.GameStartEvent gameStartEvent) {
+        logger.info("Starting game {}", gameStartEvent.id());
+
+
+        LichessTango onlineGame = new LichessTango(client, gameStartEvent.id());
+
+        onlineGameMap.put(gameStartEvent.id(), onlineGame);
+
+        onlineGame.setMaxDepth(MAX_DEFAULT_DEPTH);
+        onlineGame.start(gameStartEvent);
+
+        gameExecutorService.submit(onlineGame);
+    }
+
+    private void gameFinish(Event.GameStopEvent gameStopEvent) {
+        if (!onlineGameMap.containsKey(gameStopEvent.id())) {
+            logger.info("Game {} finished but not in memory", gameStopEvent.id());
+            return;
+        }
+
+        var onlineGame = onlineGameMap.get(gameStopEvent.id());
+
+        logger.info("Game {} finished, cleaning memory", gameStopEvent.id());
+
+        onlineGameMap.remove(gameStopEvent.id());
+
+        onlineGame.stop(gameStopEvent);
+    }
+
+    private void challengeRandomBot() {
+        if (onlineGameMap.isEmpty()) {
+            logger.info("Challenging random bot");
+            client.challengeRandomBot();
+        } else {
+            logger.info("Engine is playing");
+        }
+    }
+
+
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         GameType gameType = challengeEvent.challenge().gameType();
 
@@ -121,55 +176,6 @@ public class LichessBotMain implements Runnable {
         // timeControl instanceof Unlimited                     // Unlimited games are not supported for the moment
         return (timeControl instanceof RealTime realtime        // Realtime
                 && supportedRealtimeGames.test(realtime));
-    }
-
-    private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Accepting challenge {}", challengeEvent.id());
-
-        var onlineGame = new LichessTango(client, challengeEvent.id());
-
-        onlineGame.setChallenge(challengeEvent.challenge());
-        onlineGame.setMaxDepth(MAX_DEFAULT_DEPTH);
-
-        onlineGameMap.put(challengeEvent.id(), onlineGame);
-
-        client.challengeAccept(challengeEvent.id());
-    }
-
-    private void declineChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Challenge is not acceptable, declining...");
-        client.challengeDecline(challengeEvent.id());
-    }
-
-    private void startGame(Event.GameStartEvent gameStartEvent) {
-        logger.info("Starting game {}", gameStartEvent.id());
-
-        if (!onlineGameMap.containsKey(gameStartEvent.id())) {
-            logger.info("Game {} is not in memory, resigning", gameStartEvent.id());
-            client.gameResign(gameStartEvent.id());
-            return;
-        }
-
-        var onlineGame = onlineGameMap.get(gameStartEvent.id());
-
-        onlineGame.start(gameStartEvent);
-
-        gameExecutorService.submit(onlineGame);
-    }
-
-    private void gameFinish(Event.GameStopEvent gameStopEvent) {
-        if (!onlineGameMap.containsKey(gameStopEvent.id())) {
-            logger.info("Game {} finished but not in memory", gameStopEvent.id());
-            return;
-        }
-
-        var onlineGame = onlineGameMap.get(gameStopEvent.id());
-
-        logger.info("Game {} finished, cleaning memory", gameStopEvent.id());
-
-        onlineGameMap.remove(gameStopEvent.id());
-
-        onlineGame.stop(gameStopEvent);
     }
 
 }
