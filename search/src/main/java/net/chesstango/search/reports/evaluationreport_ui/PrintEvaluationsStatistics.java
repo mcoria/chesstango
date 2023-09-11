@@ -48,7 +48,7 @@ public class PrintEvaluationsStatistics {
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
         out.printf("| Values       ");
-        out.printf("| Collisions        ");
+        out.printf("| PosVal Collisions ");
         if (longestId > 0) {
             out.printf("| ID");
             out.printf(" ".repeat(longestId - 1));

@@ -101,6 +101,7 @@ public class EvaluationReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
+        reportModelDetail.bestMovesCounter = searchMoveResult.getBestMovesCounter();
 
         if (searchMoveResult.getEvaluationStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchMoveResult);
@@ -130,7 +131,6 @@ public class EvaluationReportModel {
             reportModelDetail.evaluationPositionCounter = evaluations.size();
             reportModelDetail.evaluationValueCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
             reportModelDetail.evaluationPositionValueCollisionsCounter = reportModelDetail.evaluationPositionCounter - reportModelDetail.evaluationValueCounter;
-            reportModelDetail.bestMovesCounter = searchMoveResult.getBestMovesCounter();
 
             /*
              * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones

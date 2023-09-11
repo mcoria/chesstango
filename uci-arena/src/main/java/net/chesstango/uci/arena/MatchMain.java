@@ -28,7 +28,7 @@ public class MatchMain implements MatchListener {
     private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
     private static final boolean MATCH_DEBUG = false;
-    private static final boolean MATCH_SWITCH_CHAIRS = false;
+    private static final boolean MATCH_SWITCH_CHAIRS = true;
 
     /**
      * Add the following JVM parameters:
@@ -55,6 +55,7 @@ public class MatchMain implements MatchListener {
                         .withIterativeDeepening()
 
                         .withStatistics()
+                        .withTrackEvaluations()
                 );
         //.overrideEngineName("AB Full");
 
@@ -107,7 +108,7 @@ public class MatchMain implements MatchListener {
 
 
         new SearchesReport()
-                .withCutoffStatistics()
+                //.withCutoffStatistics()
                 //.withNodesVisitedStatistics()
                 //.withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)

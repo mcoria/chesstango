@@ -17,7 +17,6 @@ public class SessionReportModel {
     public int searchesWithoutCollisionsPercentage;
     public long searchesWithCollisions;
     public int searchesWithCollisionsPercentage;
-    public double avgOptionsPerCollision;
     ///////////////////// END COLLISIONS
 
     ///////// START TOTALS
@@ -63,14 +62,10 @@ public class SessionReportModel {
     private void load(List<SearchMoveResult> searchMoveResults) {
         this.searches = searchMoveResults.size();
 
-        this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value == 0).count();
+        this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value == 1).count();
         this.searchesWithoutCollisionsPercentage = (int) ((this.searchesWithoutCollisions * 100) / this.searches);
-        this.searchesWithCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 0).count();
+        this.searchesWithCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 1).count();
         this.searchesWithCollisionsPercentage = (int) ((this.searchesWithCollisions * 100) / this.searches);
-
-        if (this.searchesWithCollisions > 0) {
-            this.avgOptionsPerCollision = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 0).average().getAsDouble();
-        }
 
 
         this.expectedRNodesCounters = new long[30];
