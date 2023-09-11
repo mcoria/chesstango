@@ -61,12 +61,12 @@ public class NodesReport {
         out.printf("\n");
     }
 
-    public NodesReport withCutoffStatics() {
+    public NodesReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public NodesReport withNodesVisitedStatics() {
+    public NodesReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }

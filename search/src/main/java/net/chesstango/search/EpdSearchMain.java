@@ -128,13 +128,14 @@ public class EpdSearchMain {
 
         new NodesReport()
                 .setReportModel(nodesReportModel)
-                .withCutoffStatics()
-                .withNodesVisitedStatics()
+                .withCutoffStatistics()
+                .withNodesVisitedStatistics()
                 .printReport(output);
 
         new EvaluationReport()
                 .setReportModel(evaluationReportModel)
                 //.withExportEvaluations()
+                .withEvaluationsStatistics()
                 .printReport(output);
     }
 

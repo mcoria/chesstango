@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class EvaluationReport {
     private boolean exportEvaluations;
+    private boolean printEvaluationsStatistics;
 
     @Setter
     @Accessors(chain = true)
@@ -34,10 +35,14 @@ public class EvaluationReport {
     private void print() {
         printSummary();
 
-        new PrintEvaluationsStatistics(out, reportModel).printEvaluationsStatistics();
+        if (printEvaluationsStatistics) {
+            new PrintEvaluationsStatistics(out, reportModel)
+                    .printEvaluationsStatistics();
+        }
 
         if (exportEvaluations) {
-            new ExportEvaluations(reportModel).exportEvaluations();
+            new ExportEvaluations(reportModel)
+                    .exportEvaluations();
         }
 
     }
@@ -54,6 +59,11 @@ public class EvaluationReport {
     }
 
 
+    public EvaluationReport withEvaluationsStatistics() {
+        this.printEvaluationsStatistics = true;
+        return this;
+    }
+
     public EvaluationReport withExportEvaluations() {
         this.exportEvaluations = true;
         return this;
@@ -63,4 +73,6 @@ public class EvaluationReport {
         this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchMoveResults);
         return this;
     }
+
+
 }

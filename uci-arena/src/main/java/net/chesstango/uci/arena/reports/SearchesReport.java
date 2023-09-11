@@ -23,7 +23,7 @@ public class SearchesReport {
 
     public SearchesReport printReport(PrintStream out) {
         reportModels.forEach(reportModel -> {
-            nodesReport.setReportModel(reportModel.nodesReportModel)
+            nodesReport.setReportModel(reportModel.nodesReportModel())
                     .printReport(out);
 
             evaluationReport.setReportModel(reportModel.evaluationReportModel())
@@ -57,12 +57,12 @@ public class SearchesReport {
 
 
     public SearchesReport withCutoffStatistics() {
-        nodesReport.withCutoffStatics();
+        nodesReport.withCutoffStatistics();
         return this;
     }
 
     public SearchesReport withNodesVisitedStatistics() {
-        nodesReport.withNodesVisitedStatics();
+        nodesReport.withNodesVisitedStatistics();
         return this;
     }
 

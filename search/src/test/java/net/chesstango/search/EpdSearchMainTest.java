@@ -40,7 +40,7 @@ public class EpdSearchMainTest {
         if (PRINT_REPORT) {
             System.out.println("Time taken: " + epdSearchResult.searchDuration() + " ms");
             new NodesReport()
-                    .withNodesVisitedStatics()
+                    .withNodesVisitedStatistics()
                     //.withCutoffStatics()
                     //.withPrincipalVariation()
                     .withMoveResults(List.of(epdSearchResult.searchResult()))
