@@ -1,5 +1,12 @@
 [![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
 
+
+[![lichess-bullet](https://lichess.org/@/chesstango_bot/perf/bullet)](https://lichess.org/@/chesstango_bot/perf/bullet)
+[![lichess-blitz](https://lichess.org/@/chesstango_bot/perf/blitz)](https://lichess.org/@/chesstango_bot/perf/blitz)
+[![lichess-rapid](https://lichess.org/@/chesstango_bot/perf/rapid)](https://lichess.org/@/chesstango_bot/perf/rapid)
+[![lichess-classical](https://lichess.org/@/chesstango_bot/perf/classical)](https://lichess.org/@/chesstango_bot/perf/classical)
+
+
 # Overview
 ChessTango exemplifies the practical application of object-oriented design patterns within a board game context: a chess engine.
 
