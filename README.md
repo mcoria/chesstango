@@ -1,6 +1,4 @@
 [![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
-
-
 [![lichess-blitz](https://lichess-shield.vercel.app/api?username=chesstango_bot&format=blitz)](https://lichess.org/@/chesstango_bot/perf/blitz)
 [![lichess-rapid](https://lichess-shield.vercel.app/api?username=chesstango_bot&format=rapid)](https://lichess.org/@/chesstango_bot/perf/rapid)
 
