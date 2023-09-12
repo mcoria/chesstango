@@ -1,13 +1,11 @@
 package net.chesstango.li;
 
-import chariot.model.Enums;
-import chariot.model.Event;
-import chariot.model.GameInfo;
-import chariot.model.GameStateEvent;
+import chariot.model.*;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
@@ -17,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -27,10 +26,11 @@ public class LichessTango implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private GameInfo gameInfo;
 
     @Setter
     private int maxDepth;
+    private String fenPosition;
+    private Color myColor;
 
     public LichessTango(LichessClient client, String gameId) {
         this.client = client;
@@ -57,7 +57,15 @@ public class LichessTango implements Runnable {
     }
 
     public void start(Event.GameStartEvent gameStartEvent) {
-        gameInfo = gameStartEvent.game();
+        GameInfo gameInfo = gameStartEvent.game();
+
+        if (Enums.Color.white.equals(gameInfo.color())) {
+            myColor = Color.WHITE;
+        } else if (Enums.Color.black.equals(gameInfo.color())) {
+            myColor = Color.BLACK;
+        } else {
+            throw new RuntimeException("Unknown color");
+        }
 
         tango.open();
 
@@ -93,6 +101,18 @@ public class LichessTango implements Runnable {
     private void gameFull(GameStateEvent.Full gameFullEvent) {
         logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
+        GameType gameType = gameFullEvent.gameType();
+        VariantType gameVariant = gameType.variant();
+        if (VariantType.Variant.standard.equals(gameType.variant())) {
+            fenPosition = FENDecoder.INITIAL_FEN;
+        } else if (gameVariant instanceof VariantType.Variant.FromPosition fromPositionVariant) {
+            Some<String> someFen = (Some) fromPositionVariant.fen();
+
+            fenPosition = someFen.value();
+        } else {
+            throw new RuntimeException("GameVariant not supported variant");
+        }
+
         play(gameFullEvent.state());
     }
 
@@ -108,7 +128,6 @@ public class LichessTango implements Runnable {
                 logger.warn("[{}] No action handler for status {}", gameId, status);
             }
         }
-
     }
 
     private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
@@ -116,39 +135,13 @@ public class LichessTango implements Runnable {
     }
 
     private void play(GameStateEvent.State state) {
-        tango.setPosition(gameInfo.fen(), state.moveList());
+        tango.setPosition(fenPosition, state.moveList());
 
         ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
 
-        if (isMyTurn(currentChessPosition)) {
-
-            Duration myTime = null;
-            Duration botTime = null;
-
-            if (Color.WHITE.equals(currentChessPosition.getCurrentTurn())) {
-                myTime = state.wtime();
-                botTime = state.btime();
-            } else {
-                myTime = state.btime();
-                botTime = state.wtime();
-            }
-
-            if (myTime.getSeconds() > botTime.getSeconds() + 10) {
-                maxDepth++;
-                logger.info("[{}] Increasing search depth to {}", gameId, maxDepth);
-            } else if (myTime.getSeconds() + 10 < botTime.getSeconds()) {
-                maxDepth--;
-                logger.info("[{}] Decreasing search depth to {}", gameId, maxDepth);
-            }
-
+        if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
             tango.goDepth(maxDepth);
         }
-    }
-
-    private boolean isMyTurn(ChessPositionReader currentChessPosition) {
-
-        return Enums.Color.white.equals(gameInfo.color()) && Color.WHITE.equals(currentChessPosition.getCurrentTurn()) ||
-                Enums.Color.black.equals(gameInfo.color()) && Color.BLACK.equals(currentChessPosition.getCurrentTurn());
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {

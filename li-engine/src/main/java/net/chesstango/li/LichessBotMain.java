@@ -97,7 +97,7 @@ public class LichessBotMain implements Runnable {
     }
 
     private void newChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("New challenge received: {}", challengeEvent.challenge());
+        logger.info("New challenge received: {}", challengeEvent.id());
 
         if (isChallengeAcceptable(challengeEvent)) {
             acceptChallenge(challengeEvent);
@@ -113,13 +113,12 @@ public class LichessBotMain implements Runnable {
     }
 
     private void declineChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Challenge is not acceptable, declining...");
+        logger.info("Challenge is not acceptable, declining... {}", challengeEvent.id());
         client.challengeDecline(challengeEvent.id());
     }
 
     private void startGame(Event.GameStartEvent gameStartEvent) {
         logger.info("Starting game {}", gameStartEvent.id());
-
 
         LichessTango onlineGame = new LichessTango(client, gameStartEvent.id());
 
