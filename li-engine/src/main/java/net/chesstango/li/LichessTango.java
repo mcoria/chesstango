@@ -16,6 +16,7 @@ import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.stream.Stream;
 
 /**
@@ -74,11 +75,15 @@ public class LichessTango implements Runnable {
         Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
 
         gameEvents.forEach(gameEvent -> {
-            switch (gameEvent.type()) {
-                case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
-                case gameState -> gameState((GameStateEvent.State) gameEvent);
-                case chatLine -> receiveChatMessage((GameStateEvent.Chat) gameEvent);
-                case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
+            try {
+                switch (gameEvent.type()) {
+                    case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
+                    case gameState -> gameState((GameStateEvent.State) gameEvent);
+                    case chatLine -> receiveChatMessage((GameStateEvent.Chat) gameEvent);
+                    case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
+                }
+            } catch (RuntimeException e) {
+                logger.error("[{}] {}", gameId, e.getMessage());
             }
         });
 
@@ -112,13 +117,36 @@ public class LichessTango implements Runnable {
 
     private void play(GameStateEvent.State state) {
         tango.setPosition(gameInfo.fen(), state.moveList());
-        if (isMyTurn()) {
+
+        ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
+
+        if (isMyTurn(currentChessPosition)) {
+
+            Duration myTime = null;
+            Duration botTime = null;
+
+            if (Color.WHITE.equals(currentChessPosition.getCurrentTurn())) {
+                myTime = state.wtime();
+                botTime = state.btime();
+            } else {
+                myTime = state.btime();
+                botTime = state.wtime();
+            }
+
+            if (myTime.getSeconds() > botTime.getSeconds() + 10) {
+                maxDepth++;
+                logger.info("[{}] Increasing search depth to {}", gameId, maxDepth);
+            } else if (myTime.getSeconds() + 10 < botTime.getSeconds()) {
+                maxDepth--;
+                logger.info("[{}] Decreasing search depth to {}", gameId, maxDepth);
+            }
+
             tango.goDepth(maxDepth);
         }
     }
 
-    private boolean isMyTurn() {
-        ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
+    private boolean isMyTurn(ChessPositionReader currentChessPosition) {
+
         return Enums.Color.white.equals(gameInfo.color()) && Color.WHITE.equals(currentChessPosition.getCurrentTurn()) ||
                 Enums.Color.black.equals(gameInfo.color()) && Color.BLACK.equals(currentChessPosition.getCurrentTurn());
     }
