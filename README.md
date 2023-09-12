@@ -1,10 +1,8 @@
 [![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
 
 
-[![lichess-bullet](https://lichess.org/@/chesstango_bot/perf/bullet)](https://lichess.org/@/chesstango_bot/perf/bullet)
-[![lichess-blitz](https://lichess.org/@/chesstango_bot/perf/blitz)](https://lichess.org/@/chesstango_bot/perf/blitz)
-[![lichess-rapid](https://lichess.org/@/chesstango_bot/perf/rapid)](https://lichess.org/@/chesstango_bot/perf/rapid)
-[![lichess-classical](https://lichess.org/@/chesstango_bot/perf/classical)](https://lichess.org/@/chesstango_bot/perf/classical)
+[![lichess-blitz](https://lichess-shield.vercel.app/api?username=chesstango_bot&format=blitz)](https://lichess.org/@/chesstango_bot/perf/blitz)
+[![lichess-rapid](https://lichess-shield.vercel.app/api?username=chesstango_bot&format=rapid)](https://lichess.org/@/chesstango_bot/perf/rapid)
 
 
 # Overview
