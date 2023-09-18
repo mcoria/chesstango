@@ -146,11 +146,16 @@ public class LichessBotMain implements Runnable {
     }
 
     private void challengeRandomBot() {
-        if (onlineGameMap.isEmpty()) {
-            logger.info("Challenging random bot");
-            client.challengeRandomBot();
-        } else {
-            logger.info("Engine is playing");
+        try {
+            long gamesByTime = onlineGameMap.values().stream().filter(LichessTango::timeGame).count();
+            if (gamesByTime == 0) {
+                logger.info("Challenging random bot");
+                client.challengeRandomBot();
+            } else {
+                logger.info("Engine is playing");
+            }
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -158,9 +163,11 @@ public class LichessBotMain implements Runnable {
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         GameType gameType = challengeEvent.challenge().gameType();
 
+        long gamesByTime = onlineGameMap.values().stream().filter(LichessTango::timeGame).count();
+
         return isVariantAcceptable(gameType.variant())                    // Chess variant
                 && isTimeControlAcceptable(gameType.timeControl())        // Time control
-                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;         // Not busy..
+                && gamesByTime < MAX_SIMULTANEOUS_GAMES;         // Not busy..
     }
 
     private static boolean isVariantAcceptable(VariantType variant) {
@@ -172,9 +179,10 @@ public class LichessBotMain implements Runnable {
                 (Enums.Speed.blitz.equals(realtime.speed()) || Enums.Speed.rapid.equals(realtime.speed()))
                         && realtime.initial().getSeconds() >= 30L;
 
-        // timeControl instanceof Unlimited                     // Unlimited games are not supported for the moment
-        return (timeControl instanceof RealTime realtime        // Realtime
-                && supportedRealtimeGames.test(realtime));
+
+        return timeControl instanceof Unlimited ||                                                         // Unlimited games
+                (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));       // Realtime
+
     }
 
 }

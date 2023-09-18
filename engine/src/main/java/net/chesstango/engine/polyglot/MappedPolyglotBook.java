@@ -86,6 +86,13 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
         return polyglotEntryList;
     }
 
+    @Override
+    public void close() throws IOException {
+        if (fileChannel != null) {
+            fileChannel.close();
+        }
+    }
+
     private int findIndex(long key, int lowerBoundIdx, int upperBoundIdx) {
         if (lowerBoundIdx + 1 == upperBoundIdx) {
             return lowerBoundIdx;
@@ -128,11 +135,4 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
         return false;
     }
 
-
-    @Override
-    public void close() throws IOException {
-        if (fileChannel != null) {
-            fileChannel.close();
-        }
-    }
 }

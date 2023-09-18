@@ -14,7 +14,6 @@ import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -31,6 +30,7 @@ public class LichessTango implements Runnable {
     private int maxDepth;
     private String fenPosition;
     private Color myColor;
+    private GameInfo gameInfo;
 
     public LichessTango(LichessClient client, String gameId) {
         this.client = client;
@@ -57,7 +57,7 @@ public class LichessTango implements Runnable {
     }
 
     public void start(Event.GameStartEvent gameStartEvent) {
-        GameInfo gameInfo = gameStartEvent.game();
+        gameInfo = gameStartEvent.game();
 
         if (Enums.Color.white.equals(gameInfo.color())) {
             myColor = Color.WHITE;
@@ -151,5 +151,11 @@ public class LichessTango implements Runnable {
     private void sendChatMessage(String message) {
         logger.info("[{}] Chat: [{}] -> {}", gameId, "chesstango", message);
         client.gameChat(gameId, message);
+    }
+
+    public boolean timeGame() {
+        GameInfo.TimeInfo timeInfo = gameInfo.time();
+
+        return !Enums.Speed.classical.equals(timeInfo.speed()) && !Enums.Speed.correspondence.equals(timeInfo.speed());
     }
 }
