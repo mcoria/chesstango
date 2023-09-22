@@ -153,7 +153,7 @@ public class LichessTango implements Runnable {
         client.gameChat(gameId, message);
     }
 
-    public boolean timeGame() {
+    public boolean isTimeControlledGame() {
         GameInfo.TimeInfo timeInfo = gameInfo.time();
 
         return !Enums.Speed.classical.equals(timeInfo.speed()) && !Enums.Speed.correspondence.equals(timeInfo.speed());

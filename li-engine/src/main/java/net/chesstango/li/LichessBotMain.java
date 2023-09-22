@@ -147,8 +147,8 @@ public class LichessBotMain implements Runnable {
 
     private void challengeRandomBot() {
         try {
-            long gamesByTime = onlineGameMap.values().stream().filter(LichessTango::timeGame).count();
-            if (gamesByTime == 0) {
+            long timeControlledGames = onlineGameMap.values().stream().filter(LichessTango::isTimeControlledGame).count();
+            if (timeControlledGames == 0) {
                 logger.info("Challenging random bot");
                 client.challengeRandomBot();
             } else {
@@ -163,11 +163,11 @@ public class LichessBotMain implements Runnable {
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         GameType gameType = challengeEvent.challenge().gameType();
 
-        long gamesByTime = onlineGameMap.values().stream().filter(LichessTango::timeGame).count();
+        long timeControlledGames = onlineGameMap.values().stream().filter(LichessTango::isTimeControlledGame).count();
 
         return isVariantAcceptable(gameType.variant())                    // Chess variant
                 && isTimeControlAcceptable(gameType.timeControl())        // Time control
-                && gamesByTime < MAX_SIMULTANEOUS_GAMES;         // Not busy..
+                && timeControlledGames < MAX_SIMULTANEOUS_GAMES;         // Not busy..
     }
 
     private static boolean isVariantAcceptable(VariantType variant) {
@@ -180,8 +180,8 @@ public class LichessBotMain implements Runnable {
                         && realtime.initial().getSeconds() >= 30L;
 
 
-        return timeControl instanceof Unlimited ||                                                         // Unlimited games
-                (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));       // Realtime
+        return //timeControl instanceof Unlimited ||                                                   // Unlimited games x el momento no soportados
+                (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));   // Realtime
 
     }
 
