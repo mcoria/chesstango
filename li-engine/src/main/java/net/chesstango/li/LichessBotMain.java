@@ -147,7 +147,10 @@ public class LichessBotMain implements Runnable {
 
     private void challengeRandomBot() {
         try {
-            long timeControlledGames = onlineGameMap.values().stream().filter(LichessTango::isTimeControlledGame).count();
+            long timeControlledGames = onlineGameMap.values()
+                    .stream()
+                    .filter(LichessTango::isTimeControlledGame)
+                    .count();
             if (timeControlledGames == 0) {
                 logger.info("Challenging random bot");
                 client.challengeRandomBot();

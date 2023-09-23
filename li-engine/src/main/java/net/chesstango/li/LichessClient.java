@@ -1,11 +1,14 @@
 package net.chesstango.li;
 
 import chariot.ClientAuth;
+import chariot.api.ChallengesAuthCommon;
 import chariot.model.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Random;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -14,22 +17,18 @@ import java.util.stream.Stream;
 public class LichessClient {
 
     private final ClientAuth client;
-    private int myBlitzRating;
+    private final List<LichessChallenger> challengerList;
+
     //private final UserAuth profile;
 
     public LichessClient(ClientAuth client) {
         this.client = client;
-        this.myBlitzRating = getBlitzRating();
+        this.challengerList = List.of(
+                new LichessChallenger.BulletChallenger(this),
+                new LichessChallenger.BlitzChallenger(this),
+                new LichessChallenger.RapidChallenger(this));
     }
 
-    private int getBlitzRating() {
-        Map<StatsPerfType, StatsPerf> rating = client.account().profile().get().ratings();
-        StatsPerf stats = rating.get(StatsPerfType.blitz);
-        if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-            return statsPerfGame.rating();
-        }
-        throw new RuntimeException("Rating not found");
-    }
 
     public Stream<Event> streamEvents() {
         return client.bot().connect().stream();
@@ -60,35 +59,26 @@ public class LichessClient {
     }
 
     public void challengeRandomBot() {
-        User aBot = pickRandomBot();
-
-        if (aBot != null) {
-            One<Challenge> challenge = client.challenges().challenge(aBot.id(),
-                    challengeBuilder ->
-                            challengeBuilder
-                                    .clockBlitz5m3s()
-                                    .color(Enums.ColorPref.random)
-                                    .variant(Enums.VariantName.standard)
-                                    .rated(true)
-            );
-        }
-
+        Random rand = new Random();
+        LichessChallenger lichessChallenger = challengerList.get(rand.nextInt(challengerList.size()));
+        lichessChallenger.challengeRandomBot();
     }
 
-    private Queue<User> botsOnline = new LinkedList<>();
 
-    private synchronized User pickRandomBot() {
-        if (botsOnline.isEmpty()) {
-            Many<User> bots = client.bot().botsOnline(50);
-            bots.stream().filter(bot -> {
-                StatsPerf stats = bot.ratings().get(StatsPerfType.blitz);
-                if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-                    return statsPerfGame.rating() >= myBlitzRating - 100 && statsPerfGame.rating() <= myBlitzRating + 300;
-                }
-                return false;
-            }).forEach(botsOnline::add);
+    public int getRating(StatsPerfType type) {
+        Map<StatsPerfType, StatsPerf> rating = client.account().profile().get().ratings();
+        StatsPerf stats = rating.get(type);
+        if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
+            return statsPerfGame.rating();
         }
-        return botsOnline.poll();
+        throw new RuntimeException("Rating not found");
     }
 
+    public void challengeBot(User aBot, Consumer<ChallengesAuthCommon.ChallengeBuilder> builder) {
+        client.challenges().challenge(aBot.id(), builder);
+    }
+
+    public Many<User> botsOnline(int i) {
+        return client.bot().botsOnline(i);
+    }
 }
