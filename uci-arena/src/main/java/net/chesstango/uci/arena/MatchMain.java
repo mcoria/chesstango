@@ -12,6 +12,7 @@ import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.SearchesReport;
 import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.protocol.requests.CmdGo;
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
-    private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.DEPTH).setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(2);
     //private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
     private static final boolean MATCH_DEBUG = false;
     private static final boolean MATCH_SWITCH_CHAIRS = true;

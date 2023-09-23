@@ -1,6 +1,10 @@
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
+import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
+import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
@@ -100,8 +104,7 @@ public class UCIDecoder {
             String goType = words[1].toUpperCase();
             switch (goType) {
                 case "INFINITE":
-                    result = new CmdGo();
-                    result.setType(CmdGo.GoType.INFINITE);
+                    result = new CmdGoInfinite();
                     break;
                 case "DEPTH":
                     result = parseGoDepth(words);
@@ -119,39 +122,35 @@ public class UCIDecoder {
                     break;
             }
         } else {
-            result = new CmdGo();
+            result = new CmdGoInfinite();
         }
         return result == null ? new UCIMessageUnknown(words.toString()) : result;
     }
 
     private CmdGo parseGoDepth(String[] words) {
-        CmdGo result = new CmdGo();
+        CmdGoByDepth result = new CmdGoByDepth();
 
         String depth = words[2].toUpperCase();
         int depthInt = Integer.parseInt(depth);
 
-        result.setType(CmdGo.GoType.DEPTH);
         result.setDepth(depthInt);
 
         return result;
     }
 
     private CmdGo parseGoMoveTime(String[] words) {
-        CmdGo result = new CmdGo();
+        CmdGoMoveTime result = new CmdGoMoveTime();
 
         String timeOut = words[2].toUpperCase();
         int timeOutInt = Integer.parseInt(timeOut);
 
-        result.setType(CmdGo.GoType.MOVE_TIME);
         result.setTimeOut(timeOutInt);
 
         return result;
     }
 
     private CmdGo parseGoMoveByClock(String[] words) {
-        CmdGo result = new CmdGo();
-
-        result.setType(CmdGo.GoType.MOVE_BYCLOCK);
+        CmdGoByClock result = new CmdGoByClock();
 
         for (int i = 1; i < words.length; i+=2) {
             switch (words[i]){

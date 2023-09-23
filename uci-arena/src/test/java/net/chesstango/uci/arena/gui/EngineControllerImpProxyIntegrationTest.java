@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena.gui;
 
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import net.chesstango.uci.proxy.ProxyConfig;
 import net.chesstango.uci.proxy.UciProxy;
 import net.chesstango.uci.protocol.requests.CmdGo;
@@ -34,8 +35,7 @@ public class EngineControllerImpProxyIntegrationTest {
 
         client.send_CmdPosition(new CmdPosition());
 
-        RspBestMove bestmove = client.send_CmdGo(new CmdGo()
-                .setType(CmdGo.GoType.DEPTH)
+        RspBestMove bestmove = client.send_CmdGo(new CmdGoByDepth()
                 .setDepth(1));
 
         assertNotNull(bestmove);

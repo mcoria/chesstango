@@ -15,6 +15,7 @@ import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import net.chesstango.uci.proxy.UciProxy;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -27,7 +28,7 @@ import java.util.function.Function;
  */
 public class FitnessByMatch implements FitnessFunction {
 
-    private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.DEPTH).setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(2);
 
     private final List<String> fenList;
 

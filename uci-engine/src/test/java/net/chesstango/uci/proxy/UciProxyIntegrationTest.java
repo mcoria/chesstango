@@ -2,6 +2,7 @@ package net.chesstango.uci.proxy;
 
 
 import net.chesstango.uci.protocol.requests.*;
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,7 +73,7 @@ public class UciProxyIntegrationTest {
         Thread.sleep(200);
 
         // go command
-        engine.accept(new CmdGo().setDepth(1));
+        engine.accept(new CmdGoByDepth().setDepth(1));
         Thread.sleep(200);
 
         lines = readLastLine(input, line -> line.startsWith("bestmove"));
@@ -129,7 +130,7 @@ public class UciProxyIntegrationTest {
         Thread.sleep(200);
 
         // go command
-        engine.accept(new CmdGo().setDepth(2));
+        engine.accept(new CmdGoByDepth().setDepth(2));
         Thread.sleep(200);
 
         lines = readLastLine(input, line -> line.startsWith("bestmove"));
@@ -177,7 +178,7 @@ public class UciProxyIntegrationTest {
             Thread.sleep(200);
 
             // go command
-            engine.accept(new CmdGo().setDepth(1));
+            engine.accept(new CmdGoByDepth().setDepth(1));
             Thread.sleep(200);
 
             lines = readLastLine(input, line -> line.startsWith("bestmove"));

@@ -1,8 +1,13 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.uci.protocol.GoExecutor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
+import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
+import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
+import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
@@ -11,8 +16,31 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 class WaitCmdGo implements UCIEngine {
     private final UciTango uciTango;
 
+    private final GoExecutor goExecutor;
+
     protected WaitCmdGo(UciTango uciTango) {
         this.uciTango = uciTango;
+        this.goExecutor = new GoExecutor() {
+            @Override
+            public void go(CmdGoInfinite cmdGoInfinite) {
+                uciTango.tango.goInfinite();
+            }
+
+            @Override
+            public void go(CmdGoByDepth cmdGoByDepth) {
+                uciTango.tango.goDepth(cmdGoByDepth.getDepth());
+            }
+
+            @Override
+            public void go(CmdGoMoveTime cmdGoMoveTime) {
+                uciTango.tango.goMoveTime(cmdGoMoveTime.getTimeOut());
+            }
+
+            @Override
+            public void go(CmdGoByClock cmdGoByClock) {
+
+            }
+        };
     }
 
     @Override
@@ -35,21 +63,12 @@ class WaitCmdGo implements UCIEngine {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        if (CmdGo.GoType.INFINITE.equals(cmdGo.getType())) {
-            uciTango.tango.goInfinite();
-        } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getType())) {
-            uciTango.tango.goDepth(cmdGo.getDepth());
-        } else if (CmdGo.GoType.MOVE_TIME.equals(cmdGo.getType())) {
-            uciTango.tango.goMoveTime(cmdGo.getTimeOut());
-        } else {
-            throw new RuntimeException("go subtype not implemented yet");
-        }
+        cmdGo.go(goExecutor);
         uciTango.currentState = uciTango.searchingState;
     }
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-
     }
 
     @Override
