@@ -179,7 +179,9 @@ public class LichessBotMain implements Runnable {
 
     private static boolean isTimeControlAcceptable(TimeControl timeControl) {
         Predicate<RealTime> supportedRealtimeGames = realtime ->
-                (Enums.Speed.blitz.equals(realtime.speed()) || Enums.Speed.rapid.equals(realtime.speed()))
+                (Enums.Speed.bullet.equals(realtime.speed())
+                        || Enums.Speed.blitz.equals(realtime.speed())
+                        || Enums.Speed.rapid.equals(realtime.speed()))
                         && realtime.initial().getSeconds() >= 30L;
 
 
