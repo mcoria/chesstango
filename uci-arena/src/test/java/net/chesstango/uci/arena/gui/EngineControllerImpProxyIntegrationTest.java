@@ -35,7 +35,7 @@ public class EngineControllerImpProxyIntegrationTest {
         client.send_CmdPosition(new CmdPosition());
 
         RspBestMove bestmove = client.send_CmdGo(new CmdGo()
-                .setGoType(CmdGo.GoType.DEPTH)
+                .setType(CmdGo.GoType.DEPTH)
                 .setDepth(1));
 
         assertNotNull(bestmove);

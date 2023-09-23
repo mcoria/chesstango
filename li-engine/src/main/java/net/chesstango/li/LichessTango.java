@@ -25,9 +25,6 @@ public class LichessTango implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-
-    @Setter
-    private int maxDepth;
     private String fenPosition;
     private Color myColor;
     private GameInfo gameInfo;
@@ -137,10 +134,13 @@ public class LichessTango implements Runnable {
     private void play(GameStateEvent.State state) {
         tango.setPosition(fenPosition, state.moveList());
 
-        ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
+        ChessPositionReader currentChessPosition = tango
+                .getCurrentSession()
+                .getGame()
+                .getChessPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
-            tango.goDepth(maxDepth);
+            tango.goDepth(6);
         }
     }
 

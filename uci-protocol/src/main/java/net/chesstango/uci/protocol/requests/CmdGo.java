@@ -1,19 +1,26 @@
 package net.chesstango.uci.protocol.requests;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIRequest;
 
 /**
  * @author Mauricio Coria
  */
+@Getter
+@Setter
+@Accessors(chain = true)
 public class CmdGo implements UCIRequest {
 
     public enum GoType {
         NO_SUBCOMMAND,
         INFINITE,
         DEPTH,
+        MOVE_BYCLOCK,
         MOVE_TIME
-    };
+    }
 
     private GoType type;
 
@@ -21,37 +28,16 @@ public class CmdGo implements UCIRequest {
 
     private int timeOut;
 
+    private int wTime;
+
+    private int wInc;
+
+    private int bTime;
+
+    private int bInc;
+
     public CmdGo() {
         this.type = GoType.NO_SUBCOMMAND;
-        this.depth = 0;
-    }
-
-    public GoType getGoType() {
-        return type;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public int getTimeOut() {
-        return timeOut;
-    }
-
-    public CmdGo setGoType(GoType type) {
-        this.type = type;
-        return this;
-    }
-
-    public CmdGo setDepth(int depth) {
-        setGoType(GoType.DEPTH);
-        this.depth = depth;
-        return this;
-    }
-
-    public CmdGo setTimeOut(int timeOut) {
-        this.timeOut = timeOut;
-        return this;
     }
 
     @Override
@@ -79,6 +65,8 @@ public class CmdGo implements UCIRequest {
             return "go depth " + depth;
         } else if (GoType.MOVE_TIME.equals(type)) {
             return "go movetime " + timeOut;
+        } else if (GoType.MOVE_BYCLOCK.equals(type)) {
+            return String.format("go wtime %d btime %d winc %d binc %d", wTime, bTime, wInc, bInc);
         }
         throw new RuntimeException("Invalid go command");
     }

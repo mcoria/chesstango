@@ -27,7 +27,7 @@ import java.util.function.Function;
  */
 public class FitnessByMatch implements FitnessFunction {
 
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.DEPTH).setDepth(2);
 
     private final List<String> fenList;
 

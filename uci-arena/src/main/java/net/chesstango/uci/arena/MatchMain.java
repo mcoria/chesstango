@@ -25,8 +25,8 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
+    private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.DEPTH).setDepth(2);
+    //private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
     private static final boolean MATCH_DEBUG = false;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
 

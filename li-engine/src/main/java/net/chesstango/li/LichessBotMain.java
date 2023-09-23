@@ -25,7 +25,6 @@ public class LichessBotMain implements Runnable {
     private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
     private static String BOT_TOKEN;
     private static Integer MAX_SIMULTANEOUS_GAMES;
-    private static Integer MAX_DEFAULT_DEPTH;
 
     public static void main(String[] args) {
         URI lichessApi = URI.create("https://lichess.org");
@@ -52,13 +51,6 @@ public class LichessBotMain implements Runnable {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES is missing");
         } else if (MAX_SIMULTANEOUS_GAMES <= 0) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
-        }
-
-        MAX_DEFAULT_DEPTH = Integer.parseInt(System.getenv("MAX_DEFAULT_DEPTH"));
-        if (Objects.isNull(MAX_DEFAULT_DEPTH)) {
-            throw new RuntimeException("MAX_DEFAULT_DEPTH is missing");
-        } else if (MAX_DEFAULT_DEPTH <= 0) {
-            throw new RuntimeException("MAX_DEFAULT_DEPTH value is wrong");
         }
     }
 
@@ -124,7 +116,6 @@ public class LichessBotMain implements Runnable {
 
         onlineGameMap.put(gameStartEvent.id(), onlineGame);
 
-        onlineGame.setMaxDepth(MAX_DEFAULT_DEPTH);
         onlineGame.start(gameStartEvent);
 
         gameExecutorService.submit(onlineGame);

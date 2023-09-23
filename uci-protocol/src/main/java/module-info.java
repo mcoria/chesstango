@@ -5,4 +5,5 @@ module net.chesstango.uci {
     exports net.chesstango.uci.protocol.stream;
     exports net.chesstango.uci.protocol.stream.strings;
     requires net.chesstango.board;
+    requires static lombok;
 }

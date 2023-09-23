@@ -101,13 +101,19 @@ public class UCIDecoder {
             switch (goType) {
                 case "INFINITE":
                     result = new CmdGo();
-                    result.setGoType(CmdGo.GoType.INFINITE);
+                    result.setType(CmdGo.GoType.INFINITE);
                     break;
                 case "DEPTH":
                     result = parseGoDepth(words);
                     break;
                 case "MOVETIME":
                     result = parseGoMoveTime(words);
+                    break;
+                case "WTIME":
+                case "BTIME":
+                case "WINC":
+                case "BINC":
+                    result = parseGoMoveByClock(words);
                     break;
                 default:
                     break;
@@ -124,7 +130,7 @@ public class UCIDecoder {
         String depth = words[2].toUpperCase();
         int depthInt = Integer.parseInt(depth);
 
-        result.setGoType(CmdGo.GoType.DEPTH);
+        result.setType(CmdGo.GoType.DEPTH);
         result.setDepth(depthInt);
 
         return result;
@@ -136,8 +142,34 @@ public class UCIDecoder {
         String timeOut = words[2].toUpperCase();
         int timeOutInt = Integer.parseInt(timeOut);
 
-        result.setGoType(CmdGo.GoType.MOVE_TIME);
+        result.setType(CmdGo.GoType.MOVE_TIME);
         result.setTimeOut(timeOutInt);
+
+        return result;
+    }
+
+    private CmdGo parseGoMoveByClock(String[] words) {
+        CmdGo result = new CmdGo();
+
+        result.setType(CmdGo.GoType.MOVE_BYCLOCK);
+
+        for (int i = 1; i < words.length; i+=2) {
+            switch (words[i]){
+                case "wtime":
+                    result.setWTime(Integer.parseInt(words[i + 1]));
+                    break;
+                case "winc":
+                    result.setWInc(Integer.parseInt(words[i+1]));
+                    break;
+                case "btime":
+                    result.setBTime(Integer.parseInt(words[i+1]));
+                    break;
+                case "binc":
+                    result.setBInc(Integer.parseInt(words[i+1]));
+                    break;
+            }
+        }
+
 
         return result;
     }

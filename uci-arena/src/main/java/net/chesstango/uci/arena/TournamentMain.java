@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class TournamentMain implements MatchListener {
 
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.DEPTH).setDepth(2);
 
     public static void main(String[] args) {
         List<EngineControllerPoolFactory> controllerFactories = createControllerFactories();

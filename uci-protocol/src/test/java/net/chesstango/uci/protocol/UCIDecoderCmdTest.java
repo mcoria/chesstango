@@ -135,7 +135,7 @@ public class UCIDecoderCmdTest {
 
 		assertTrue(result instanceof CmdGo);
 		CmdGo go = (CmdGo) result;
-		assertEquals(CmdGo.GoType.NO_SUBCOMMAND, go.getGoType());
+		assertEquals(CmdGo.GoType.NO_SUBCOMMAND, go.getType());
 
 		assertEquals("go", result.toString());
 	}
@@ -146,7 +146,7 @@ public class UCIDecoderCmdTest {
 
 		assertTrue(result instanceof CmdGo);
 		CmdGo go = (CmdGo) result;
-		assertEquals(CmdGo.GoType.INFINITE, go.getGoType());
+		assertEquals(CmdGo.GoType.INFINITE, go.getType());
 
 		assertEquals("go infinite", result.toString());
 	}
@@ -158,7 +158,7 @@ public class UCIDecoderCmdTest {
 		assertTrue(result instanceof CmdGo);
 
 		CmdGo go = (CmdGo) result;
-		assertEquals(CmdGo.GoType.DEPTH, go.getGoType());
+		assertEquals(CmdGo.GoType.DEPTH, go.getType());
 		assertEquals(1, go.getDepth());
 
 		assertEquals("go depth 1", result.toString());
@@ -171,11 +171,29 @@ public class UCIDecoderCmdTest {
 		assertTrue(result instanceof CmdGo);
 
 		CmdGo go = (CmdGo) result;
-		assertEquals(CmdGo.GoType.MOVE_TIME, go.getGoType());
+		assertEquals(CmdGo.GoType.MOVE_TIME, go.getType());
 		assertEquals(20000, go.getTimeOut());
 
 		assertEquals("go movetime 20000", result.toString());
 	}
+
+	@Test
+	public void test_parse_go_movebyclock() {
+		UCIMessage result =  decoder.parseMessage("go wtime 120000 btime 130000 winc 6000 binc 7000");
+
+		assertTrue(result instanceof CmdGo);
+
+		CmdGo go = (CmdGo) result;
+		assertEquals(CmdGo.GoType.MOVE_BYCLOCK, go.getType());
+		assertEquals(120000, go.getWTime());
+		assertEquals(6000, go.getWInc());
+		assertEquals(130000, go.getBTime());
+		assertEquals(7000, go.getBInc());
+
+		assertEquals("go wtime 120000 btime 130000 winc 6000 binc 7000", result.toString());
+	}
+
+
 
 	@Test
 	public void test_parse_ready() {
