@@ -15,7 +15,7 @@ public abstract class AbstractEvaluator implements GameEvaluator {
             case MATE ->
                 // If white is on mate then evaluation is INFINITE_NEGATIVE
                     Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-            case DRAW -> 0;
+            case DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
             default -> throw new RuntimeException("Game is still in progress");
         };
     }

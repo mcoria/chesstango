@@ -18,8 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 public class PositionAnalyzer {
-    private Analyzer checkAnalyzer;
-    private Analyzer capturedPositionsAnalyzer;
     private Analyzer pinnedAnalyzer;
     private Analyzer kingSafePositionsAnalyzer;
     private GameState gameState;
@@ -38,7 +36,7 @@ public class PositionAnalyzer {
         GameStatus gameStatus = null;
 
         if (existsLegalMove) {
-            if (positionReader.getHalfMoveClock() < 50) {
+            if (positionReader.getHalfMoveClock() < 100) {
                 if (analysis.isKingInCheck()) {
                     gameStatus = GameStatus.CHECK;
                 } else {
@@ -53,12 +51,9 @@ public class PositionAnalyzer {
 
                 AtomicInteger repetitionCounter = new AtomicInteger();
 
-                gameState.accept(new GameVisitor() {
-                    @Override
-                    public void visit(GameStateReader gameState) {
-                        if (currentFen.equals(gameState.getFenWithoutClocks())) {
-                            repetitionCounter.incrementAndGet();
-                        }
+                gameState.accept(gameState -> {
+                    if (currentFen.equals(gameState.getFenWithoutClocks())) {
+                        repetitionCounter.incrementAndGet();
                     }
                 });
 
@@ -86,13 +81,9 @@ public class PositionAnalyzer {
 
         AnalyzerResult result = new AnalyzerResult();
 
-        //checkAnalyzer.analyze(result);
-
         pinnedAnalyzer.analyze(result);
 
         kingSafePositionsAnalyzer.analyze(result);
-
-        //capturedPositionsAnalyzer.analyze(result);
 
         return result;
     }
@@ -111,14 +102,6 @@ public class PositionAnalyzer {
 
     public void setPositionReader(ChessPositionReader positionReader) {
         this.positionReader = positionReader;
-    }
-
-    public void setCheckAnalyzer(CheckAnalyzer checkAnalyzer) {
-        this.checkAnalyzer = checkAnalyzer;
-    }
-
-    public void setCapturedPositionsAnalyzer(Analyzer capturedPositionsAnalyzer) {
-        this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
     }
 
     public void setPinnedAnalyzer(Analyzer pinnedAnalyzer) {

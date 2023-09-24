@@ -3,7 +3,6 @@ package net.chesstango.board.factory;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameImp;
 import net.chesstango.board.GameState;
-import net.chesstango.board.analyzer.CheckAnalyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
@@ -100,11 +99,6 @@ public class ChessFactory {
 
 	public GameState createGameState() {
 		return new GameState();
-	}
-
-
-	public CheckAnalyzer createCheckAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
-		return new CheckAnalyzer(positionReader, moveCacheBoard);
 	}
 
 	public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {

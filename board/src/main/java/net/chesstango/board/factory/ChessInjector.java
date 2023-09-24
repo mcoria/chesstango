@@ -43,8 +43,6 @@ public class ChessInjector {
 
     private PositionAnalyzer positionAnalyzer = null;
 
-    private CheckAnalyzer checkAnalyzer = null;
-
     private KingSafePositionsAnalyzer kingSafePositionsAnalyzer = null;
 
     private PinnedAnalyzer pinnedAnalyzer = null;
@@ -159,7 +157,6 @@ public class ChessInjector {
             positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());
             positionAnalyzer.setGameState(getGameState());
             positionAnalyzer.setPositionReader(getChessPosition());
-            positionAnalyzer.setCheckAnalyzer(getCheckAnalyzer());
             positionAnalyzer.setPinnedAnalyzer(getPinnedAnalyzer());
             positionAnalyzer.setKingSafePositionsAnalyzer(getKingSafePositionsAnalyzer());
         }
@@ -171,13 +168,6 @@ public class ChessInjector {
             kingSafePositionsAnalyzer = chessFactory.createKingSafePositionsAnalyzer(getChessPosition());
         }
         return kingSafePositionsAnalyzer;
-    }
-
-    private CheckAnalyzer getCheckAnalyzer() {
-        if (checkAnalyzer == null) {
-            checkAnalyzer = chessFactory.createCheckAnalyzer(getChessPosition(), getMoveCacheBoard());
-        }
-        return checkAnalyzer;
     }
 
     private PinnedAnalyzer getPinnedAnalyzer() {

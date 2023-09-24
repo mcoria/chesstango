@@ -3,6 +3,7 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -26,10 +27,10 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
-    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(6);
     //private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
     private static final boolean MATCH_DEBUG = false;
-    private static final boolean MATCH_SWITCH_CHAIRS = true;
+    private static final boolean MATCH_SWITCH_CHAIRS = false;
 
     /**
      * Add the following JVM parameters:
@@ -41,7 +42,8 @@ public class MatchMain implements MatchListener {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                //.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class)
+                .createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
+                /*
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
                         .withQuiescence()
 
@@ -58,47 +60,26 @@ public class MatchMain implements MatchListener {
                         .withStatistics()
                         .withTrackEvaluations()
                 );
+                 */
         //.overrideEngineName("AB Full");
 
 
 
-        /*
-        EngineController engineController2 = EngineControllerFactory
-                //.createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
-                //.createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
-                .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
-                        .withQuiescence()
-                        //.withTranspositionTable()
-                        //.withQTranspositionTable()
-                        //.withTranspositionTableReuse()
-                        //.withTranspositionMoveSorter()
-                        //.withQTranspositionMoveSorter()
-                        //.withStopProcessingCatch()
-                        //.withIterativeDeepening()
-                        .withStatics()
-                ).overrideEngineName("AB without TT" );
-        */
-
 
         EngineController engineController2 = EngineControllerFactory
                 .createProxyController("Spike", null);
-        //.overrideEngineName("tango-v0.0.11");
-        //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
 
         List<MatchResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
+
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
-
-
         /*
         new SummaryReport()
                 .withSingleEngineInstance(List.of(engineController1, engineController2), matchResult)
                 //.withMatchResult(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
         */
-
-
         new SessionReport()
                 .withCollisionStatistics()
                 //.withNodesVisitedStatistics()
@@ -114,8 +95,16 @@ public class MatchMain implements MatchListener {
                 .withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
+    }
 
-
+    private static List<String> getFenList() {
+        //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
+        //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        List<String> fenList = List.of("6k1/8/5Q2/1K6/8/8/8/8 b - - 50 148");
+        return fenList;
     }
 
     private final Arena arenaMBean;
@@ -126,15 +115,6 @@ public class MatchMain implements MatchListener {
         this.arenaMBean = Arena.createAndRegisterMBean();
         this.engineController1 = engineController1;
         this.engineController2 = engineController2;
-    }
-
-    private static List<String> getFenList() {
-        List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
-        //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        return fenList;
     }
 
     private List<MatchResult> play() {

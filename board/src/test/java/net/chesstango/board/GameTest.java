@@ -158,19 +158,19 @@ public class GameTest {
 
     @Test
     public void testJuegoDraw_fiftyMoveRule() {
-        Game game = getGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq - 49 25");
+        Game game = getGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq - 99 125");
 
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-        assertEquals(49, game.getChessPosition().getHalfMoveClock());
-        assertEquals(25, game.getChessPosition().getFullMoveClock());
+        assertEquals(99, game.getChessPosition().getHalfMoveClock());
+        assertEquals(125, game.getChessPosition().getFullMoveClock());
 
-        game.executeMove(Square.f5, Square.e4); // 1 rn1qkbnr/pp2ppp1/2p4p/3pP3/3Pb1PP/8/PPP2P2/RNBQKBNR w KQkq - 50 26
+        game.executeMove(Square.f5, Square.e4);
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertEquals(GameStatus.DRAW_BY_FIFTY_RULE, game.getStatus());
         assertEquals(37, game.getPossibleMoves().size());
-        assertEquals(50, game.getChessPosition().getHalfMoveClock());
-        assertEquals(26, game.getChessPosition().getFullMoveClock());
+        assertEquals(100, game.getChessPosition().getHalfMoveClock());
+        assertEquals(126, game.getChessPosition().getFullMoveClock());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
 
