@@ -8,10 +8,10 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 /**
  * @author Mauricio Coria
  */
-public class MatchByMoveTime implements MatchType {
+public class MatchByTime implements MatchType {
     public final CmdGo cmdGo;
 
-    public MatchByMoveTime(int timeOut) {
+    public MatchByTime(int timeOut) {
         this.cmdGo = new CmdGoTime().setTimeOut(timeOut);
     }
 

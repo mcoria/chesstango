@@ -9,6 +9,7 @@ import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
+import net.chesstango.uci.arena.mathtypes.MatchByClock;
 import net.chesstango.uci.arena.mathtypes.MatchByDepth;
 import net.chesstango.uci.arena.mathtypes.MatchType;
 import net.chesstango.uci.arena.reports.SummaryReport;
@@ -25,9 +26,9 @@ import java.util.List;
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(4);
+    //private static final MatchType MATCH_TYPE = new MatchByDepth(4);
     //private static final MatchType MATCH_TYPE = new MatchByMoveTime(1000);
-    //private static final MatchType MATCH_TYPE = new MatchByClock(60000, 1000);
+    private static final MatchType MATCH_TYPE = new MatchByClock(30000, 0);
     private static final boolean MATCH_DEBUG = false;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
 
