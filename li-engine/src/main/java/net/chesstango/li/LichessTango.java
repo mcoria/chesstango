@@ -1,7 +1,6 @@
 package net.chesstango.li;
 
 import chariot.model.*;
-import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
@@ -14,6 +13,8 @@ import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -110,7 +111,13 @@ public class LichessTango implements Runnable {
             throw new RuntimeException("GameVariant not supported variant");
         }
 
-        play(gameFullEvent.state());
+        ZonedDateTime createdTime = gameFullEvent.createdAt();
+        long elapsedMinutes = Duration.between(createdTime, ZonedDateTime.now()).toMinutes();
+        if (elapsedMinutes > 20) {
+            client.gameAbort(gameId);
+        } else {
+            play(gameFullEvent.state());
+        }
     }
 
     private void gameState(GameStateEvent.State state) {

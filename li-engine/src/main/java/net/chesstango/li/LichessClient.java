@@ -4,7 +4,6 @@ import chariot.ClientAuth;
 import chariot.api.ChallengesAuthCommon;
 import chariot.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -58,6 +57,10 @@ public class LichessClient {
         client.bot().chat(gameId, message);
     }
 
+    public void gameAbort(String gameId) {
+        client.bot().abort(gameId);
+    }
+
     public void challengeRandomBot() {
         Random rand = new Random();
         LichessChallenger lichessChallenger = challengerList.get(rand.nextInt(challengerList.size()));
@@ -81,4 +84,5 @@ public class LichessClient {
     public Many<User> botsOnline(int i) {
         return client.bot().botsOnline(i);
     }
+
 }
