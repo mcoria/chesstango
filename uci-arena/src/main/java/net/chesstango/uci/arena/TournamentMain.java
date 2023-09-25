@@ -6,6 +6,7 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.evaluators.*;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
+import net.chesstango.uci.arena.mathtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  */
 public class TournamentMain implements MatchListener {
 
-    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(2);
+    private static final MatchByDepth matchType = new MatchByDepth(2);
 
     public static void main(String[] args) {
         List<EngineControllerPoolFactory> controllerFactories = createControllerFactories();
@@ -73,7 +74,7 @@ public class TournamentMain implements MatchListener {
         matchBroadcaster.addListener(new MatchListenerMbeans());
         matchBroadcaster.addListener(this);
 
-        Tournament tournament = new Tournament(controllerFactories, CMD_GO, matchBroadcaster);
+        Tournament tournament = new Tournament(controllerFactories, matchType, matchBroadcaster);
 
         Instant start = Instant.now();
         tournament.play(fenList);

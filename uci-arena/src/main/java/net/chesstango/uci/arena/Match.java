@@ -8,6 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.mathtypes.MatchType;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
@@ -29,7 +30,7 @@ public class Match {
     public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
-    private final CmdGo cmdGo;
+    private final MatchType matchType;
     private EngineController white;
     private EngineController black;
     private String fen;
@@ -40,10 +41,10 @@ public class Match {
     private String mathId;
 
 
-    public Match(EngineController controller1, EngineController controller2, CmdGo cmdGo) {
+    public Match(EngineController controller1, EngineController controller2, MatchType matchType) {
         this.controller1 = controller1;
         this.controller2 = controller2;
-        this.cmdGo = cmdGo;
+        this.matchType = matchType;
         this.switchChairs = true;
     }
 
@@ -229,7 +230,7 @@ public class Match {
             currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
         }
 
-        RspBestMove bestMove = currentTurn.send_CmdGo(cmdGo);
+        RspBestMove bestMove = matchType.retrieveBestMoveFromController(currentTurn, currentTurn == white);
 
         return bestMove.getBestMove();
     }

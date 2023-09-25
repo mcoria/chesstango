@@ -11,6 +11,8 @@ import net.chesstango.uci.arena.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.gui.ProxyConfigLoader;
+import net.chesstango.uci.arena.mathtypes.MatchByDepth;
+import net.chesstango.uci.arena.mathtypes.MatchType;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
@@ -27,8 +29,7 @@ import java.util.function.Function;
  * @author Mauricio Coria
  */
 public class FitnessByMatch implements FitnessFunction {
-
-    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(2);
+    private static final MatchType matchType = new MatchByDepth(1);
 
     private final List<String> fenList;
 
@@ -84,7 +85,7 @@ public class FitnessByMatch implements FitnessFunction {
 
             EngineController engineProxy = pool.borrowObject();
 
-            Match match = new Match(engineProxy, engineTango, CMD_GO);
+            Match match = new Match(engineProxy, engineTango, matchType);
 
             matchResult = match.play(fenList);
 

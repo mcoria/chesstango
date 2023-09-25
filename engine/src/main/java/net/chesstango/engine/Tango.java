@@ -103,6 +103,10 @@ public class Tango {
         searchManager.searchUpToTime(currentSession.getGame(), timeOut);
     }
 
+    public void goMoveClock(int wTime, int bTime, int wInc, int bInc) {
+        searchManager.searchByClock(currentSession.getGame(), wTime, bTime, wInc, bInc);
+    }
+
     public void stopSearching() {
         searchManager.stopSearching();
     }
@@ -130,5 +134,4 @@ public class Tango {
         }
         return properties;
     }
-
 }

@@ -38,7 +38,7 @@ class WaitCmdGo implements UCIEngine {
 
             @Override
             public void go(CmdGoByClock cmdGoByClock) {
-
+                uciTango.tango.goMoveClock(cmdGoByClock.getWTime(), cmdGoByClock.getBTime(), cmdGoByClock.getWInc(), cmdGoByClock.getBInc());
             }
         };
     }

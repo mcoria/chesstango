@@ -1,5 +1,7 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.uci.arena.mathtypes.MatchByDepth;
+import net.chesstango.uci.arena.mathtypes.MatchType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,18 +17,18 @@ import java.util.stream.Collectors;
  */
 public class MatchScheduler {
     private static final Logger logger = LoggerFactory.getLogger(MatchScheduler.class);
-    private final CmdGo cmdGo;
+    private final MatchType matchType;
     private final GenericObjectPool<EngineController> pool1;
     private final GenericObjectPool<EngineController> pool2;
     private final MatchListener matchListener;
 
     public MatchScheduler(GenericObjectPool<EngineController> pool1,
                           GenericObjectPool<EngineController> pool2,
-                          CmdGo cmdGo,
+                          MatchType matchType,
                           MatchListener matchListener) {
         this.pool1 = pool1;
         this.pool2 = pool2;
-        this.cmdGo = cmdGo;
+        this.matchType = matchType;
         this.matchListener = matchListener;
     }
 
@@ -43,7 +45,7 @@ public class MatchScheduler {
             controller1 = getControllerFromPool(pool1);
             controller2 = getControllerFromPool(pool2);
 
-            Match match = new Match(controller1, controller2, cmdGo);
+            Match match = new Match(controller1, controller2, matchType);
             match.setMatchListener(matchListener);
 
             match.play(fen);

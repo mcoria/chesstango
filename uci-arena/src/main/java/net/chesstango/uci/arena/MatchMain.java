@@ -3,23 +3,20 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.SearchesReport;
-import net.chesstango.uci.arena.reports.SessionReport;
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.arena.mathtypes.MatchByDepth;
+import net.chesstango.uci.arena.mathtypes.MatchType;
+import net.chesstango.uci.arena.reports.SummaryReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,10 +24,12 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
-    private static final CmdGo CMD_GO = new CmdGoByDepth().setDepth(6);
-    //private static final CmdGo CMD_GO = new CmdGo().setType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
+
+    private static final MatchType MATCH_TYPE = new MatchByDepth(4);
+    //private static final MatchType MATCH_TYPE = new MatchByMoveTime(1000);
+    //private static final MatchType MATCH_TYPE = new MatchByClock(60000, 1000);
     private static final boolean MATCH_DEBUG = false;
-    private static final boolean MATCH_SWITCH_CHAIRS = false;
+    private static final boolean MATCH_SWITCH_CHAIRS = true;
 
     /**
      * Add the following JVM parameters:
@@ -42,28 +41,23 @@ public class MatchMain implements MatchListener {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
-                /*
+                //.createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
-                        .withQuiescence()
+                                .withQuiescence()
 
-                        .withTranspositionTable()
-                        .withQTranspositionTable()
-                        //.withTranspositionTableReuse()
+                                .withTranspositionTable()
+                                .withQTranspositionTable()
+                                //.withTranspositionTableReuse()
 
-                        .withTranspositionMoveSorter()
-                        .withQTranspositionMoveSorter()
+                                .withTranspositionMoveSorter()
+                                .withQTranspositionMoveSorter()
 
-                        .withStopProcessingCatch()
-                        .withIterativeDeepening()
+                                .withStopProcessingCatch()
+                                .withIterativeDeepening()
 
-                        .withStatistics()
-                        .withTrackEvaluations()
+                                .withStatistics()
+                        //.withTrackEvaluations()
                 );
-                 */
-        //.overrideEngineName("AB Full");
-
-
 
 
         EngineController engineController2 = EngineControllerFactory
@@ -74,12 +68,13 @@ public class MatchMain implements MatchListener {
 
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
-        /*
+
         new SummaryReport()
                 .withSingleEngineInstance(List.of(engineController1, engineController2), matchResult)
                 //.withMatchResult(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
-        */
+
+        /*
         new SessionReport()
                 .withCollisionStatistics()
                 //.withNodesVisitedStatistics()
@@ -95,15 +90,17 @@ public class MatchMain implements MatchListener {
                 .withPrincipalVariation()
                 .withMathResults(List.of(engineController1, engineController2), matchResult)
                 .printReport(System.out);
+
+         */
     }
 
     private static List<String> getFenList() {
-        //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
+        List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList = List.of("6k1/8/5Q2/1K6/8/8/8/8 b - - 50 148");
+        //List<String> fenList = List.of("6k1/8/5Q2/1K6/8/8/8/8 b - - 50 148");
         return fenList;
     }
 
@@ -122,7 +119,7 @@ public class MatchMain implements MatchListener {
         matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
         matchBroadcaster.addListener(this);
 
-        Match match = new Match(engineController1, engineController2, CMD_GO)
+        Match match = new Match(engineController1, engineController2, MATCH_TYPE)
                 .setDebugEnabled(MATCH_DEBUG)
                 .switchChairs(MATCH_SWITCH_CHAIRS)
                 .setMatchListener(matchBroadcaster);
