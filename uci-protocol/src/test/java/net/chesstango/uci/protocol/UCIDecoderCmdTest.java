@@ -1,10 +1,10 @@
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
-import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
+import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -158,7 +158,7 @@ public class UCIDecoderCmdTest {
 
         assertTrue(result instanceof CmdGo);
 
-        CmdGoByDepth go = (CmdGoByDepth) result;
+        CmdGoDepth go = (CmdGoDepth) result;
         assertEquals(1, go.getDepth());
 
         assertEquals("go depth 1", result.toString());
@@ -170,7 +170,7 @@ public class UCIDecoderCmdTest {
 
         assertTrue(result instanceof CmdGo);
 
-        CmdGoMoveTime go = (CmdGoMoveTime) result;
+        CmdGoTime go = (CmdGoTime) result;
         assertEquals(20000, go.getTimeOut());
 
         assertEquals("go movetime 20000", result.toString());
@@ -182,7 +182,7 @@ public class UCIDecoderCmdTest {
 
         assertTrue(result instanceof CmdGo);
 
-        CmdGoByClock go = (CmdGoByClock) result;
+        CmdGoFast go = (CmdGoFast) result;
         assertEquals(120000, go.getWTime());
         assertEquals(6000, go.getWInc());
         assertEquals(130000, go.getBTime());

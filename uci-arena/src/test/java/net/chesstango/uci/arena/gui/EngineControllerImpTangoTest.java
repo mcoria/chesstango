@@ -3,7 +3,7 @@ package net.chesstango.uci.arena.gui;
 import net.chesstango.uci.Service;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.requests.CmdPosition;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ public class EngineControllerImpTangoTest {
 
         client.send_CmdPosition(new CmdPosition());
 
-        RspBestMove bestmove = client.send_CmdGo(new CmdGoByDepth().setDepth(1));
+        RspBestMove bestmove = client.send_CmdGo(new CmdGoDepth().setDepth(1));
 
         assertNotNull(bestmove);
 

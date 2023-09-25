@@ -1,6 +1,5 @@
 package net.chesstango.uci.protocol.requests;
 
-import net.chesstango.uci.protocol.GoExecutor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIRequest;
 
@@ -9,7 +8,7 @@ import net.chesstango.uci.protocol.UCIRequest;
  */
 public abstract class CmdGo implements UCIRequest {
 
-    public abstract void go(GoExecutor goExecutor);
+    public abstract void go(CmdGoExecutor cmdGoExecutor);
 
     @Override
     public final MessageType getMessageType() {

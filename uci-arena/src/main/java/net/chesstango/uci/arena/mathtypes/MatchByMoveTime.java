@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.mathtypes;
 
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
+import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
 /**
@@ -12,7 +12,7 @@ public class MatchByMoveTime implements MatchType {
     public final CmdGo cmdGo;
 
     public MatchByMoveTime(int timeOut) {
-        this.cmdGo = new CmdGoMoveTime().setTimeOut(timeOut);
+        this.cmdGo = new CmdGoTime().setTimeOut(timeOut);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
-import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
+import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
@@ -128,7 +128,7 @@ public class UCIDecoder {
     }
 
     private CmdGo parseGoDepth(String[] words) {
-        CmdGoByDepth result = new CmdGoByDepth();
+        CmdGoDepth result = new CmdGoDepth();
 
         String depth = words[2].toUpperCase();
         int depthInt = Integer.parseInt(depth);
@@ -139,7 +139,7 @@ public class UCIDecoder {
     }
 
     private CmdGo parseGoMoveTime(String[] words) {
-        CmdGoMoveTime result = new CmdGoMoveTime();
+        CmdGoTime result = new CmdGoTime();
 
         String timeOut = words[2].toUpperCase();
         int timeOutInt = Integer.parseInt(timeOut);
@@ -150,7 +150,7 @@ public class UCIDecoder {
     }
 
     private CmdGo parseGoMoveByClock(String[] words) {
-        CmdGoByClock result = new CmdGoByClock();
+        CmdGoFast result = new CmdGoFast();
 
         for (int i = 1; i < words.length; i+=2) {
             switch (words[i]){

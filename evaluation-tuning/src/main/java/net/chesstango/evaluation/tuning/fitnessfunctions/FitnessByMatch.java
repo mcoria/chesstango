@@ -16,8 +16,6 @@ import net.chesstango.uci.arena.mathtypes.MatchType;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import net.chesstango.uci.proxy.UciProxy;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;

@@ -1,13 +1,13 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.protocol.GoExecutor;
+import net.chesstango.uci.protocol.requests.CmdGoExecutor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
-import net.chesstango.uci.protocol.requests.go.CmdGoMoveTime;
+import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
@@ -16,29 +16,29 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 class WaitCmdGo implements UCIEngine {
     private final UciTango uciTango;
 
-    private final GoExecutor goExecutor;
+    private final CmdGoExecutor cmdGoExecutor;
 
     protected WaitCmdGo(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.goExecutor = new GoExecutor() {
+        this.cmdGoExecutor = new CmdGoExecutor() {
             @Override
             public void go(CmdGoInfinite cmdGoInfinite) {
                 uciTango.tango.goInfinite();
             }
 
             @Override
-            public void go(CmdGoByDepth cmdGoByDepth) {
-                uciTango.tango.goDepth(cmdGoByDepth.getDepth());
+            public void go(CmdGoDepth cmdGoDepth) {
+                uciTango.tango.goDepth(cmdGoDepth.getDepth());
             }
 
             @Override
-            public void go(CmdGoMoveTime cmdGoMoveTime) {
-                uciTango.tango.goMoveTime(cmdGoMoveTime.getTimeOut());
+            public void go(CmdGoTime cmdGoTime) {
+                uciTango.tango.goTime(cmdGoTime.getTimeOut());
             }
 
             @Override
-            public void go(CmdGoByClock cmdGoByClock) {
-                uciTango.tango.goMoveClock(cmdGoByClock.getWTime(), cmdGoByClock.getBTime(), cmdGoByClock.getWInc(), cmdGoByClock.getBInc());
+            public void go(CmdGoFast cmdGoFast) {
+                uciTango.tango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
     }
@@ -63,7 +63,7 @@ class WaitCmdGo implements UCIEngine {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        cmdGo.go(goExecutor);
+        cmdGo.go(cmdGoExecutor);
         uciTango.currentState = uciTango.searchingState;
     }
 

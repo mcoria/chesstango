@@ -43,15 +43,15 @@ public class SearchManager {
         searchImp(game, Integer.MAX_VALUE, null);
     }
 
-    public void searchUpToDepth(Game game, int depth) {
+    public void searchDepth(Game game, int depth) {
         searchImp(game, depth, null);
     }
 
-    public void searchUpToTime(Game game, int timeOut) {
+    public void searchTime(Game game, int timeOut) {
         searchImp(game, Integer.MAX_VALUE, timeOut);
     }
 
-    public void searchByClock(Game game, int wTime, int bTime, int wInc, int bInc) {
+    public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
         int timeOut = 2000;
         searchImp(game, Integer.MAX_VALUE, timeOut);
     }

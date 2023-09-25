@@ -1,9 +1,7 @@
 package net.chesstango.uci.arena.gui;
 
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
-import net.chesstango.uci.proxy.ProxyConfig;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.proxy.UciProxy;
-import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ public class EngineControllerImpProxyIntegrationTest {
 
         client.send_CmdPosition(new CmdPosition());
 
-        RspBestMove bestmove = client.send_CmdGo(new CmdGoByDepth()
+        RspBestMove bestmove = client.send_CmdGo(new CmdGoDepth()
                 .setDepth(1));
 
         assertNotNull(bestmove);

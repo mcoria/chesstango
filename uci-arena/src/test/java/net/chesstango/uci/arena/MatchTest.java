@@ -7,8 +7,6 @@ import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.arena.mathtypes.MatchByDepth;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -10,8 +10,6 @@ import net.chesstango.uci.arena.mathtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
 
 import java.time.Duration;
 import java.time.Instant;

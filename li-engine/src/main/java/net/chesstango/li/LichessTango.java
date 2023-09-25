@@ -147,7 +147,13 @@ public class LichessTango implements Runnable {
                 .getChessPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
-            tango.goDepth(6);
+            long wTime = state.wtime().toMillis();
+            long bTime = state.btime().toMillis();
+
+            long wInc = state.winc().toMillis();
+            long bInc = state.binc().toMillis();
+
+            tango.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
         }
     }
 

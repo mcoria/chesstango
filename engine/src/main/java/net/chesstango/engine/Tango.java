@@ -96,15 +96,15 @@ public class Tango {
     }
 
     public void goDepth(int depth) {
-        searchManager.searchUpToDepth(currentSession.getGame(), depth);
+        searchManager.searchDepth(currentSession.getGame(), depth);
     }
 
-    public void goMoveTime(int timeOut) {
-        searchManager.searchUpToTime(currentSession.getGame(), timeOut);
+    public void goTime(int timeOut) {
+        searchManager.searchTime(currentSession.getGame(), timeOut);
     }
 
-    public void goMoveClock(int wTime, int bTime, int wInc, int bInc) {
-        searchManager.searchByClock(currentSession.getGame(), wTime, bTime, wInc, bInc);
+    public void goFast(int wTime, int bTime, int wInc, int bInc) {
+        searchManager.searchFast(currentSession.getGame(), wTime, bTime, wInc, bInc);
     }
 
     public void stopSearching() {

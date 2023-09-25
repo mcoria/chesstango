@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.mathtypes;
 
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
 /**
@@ -12,7 +12,7 @@ public class MatchByDepth implements MatchType {
     public final CmdGo cmdGo;
 
     public MatchByDepth(int depth) {
-        this.cmdGo = new CmdGoByDepth().setDepth(depth);
+        this.cmdGo = new CmdGoDepth().setDepth(depth);
     }
 
     @Override

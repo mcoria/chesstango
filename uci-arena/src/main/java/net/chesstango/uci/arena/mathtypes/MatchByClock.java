@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.mathtypes;
 
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.go.CmdGoByClock;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
 import java.time.Duration;
@@ -25,7 +25,7 @@ public class MatchByClock implements MatchType {
 
     @Override
     public RspBestMove retrieveBestMoveFromController(EngineController currentTurn, boolean isWhite) {
-        CmdGo cmdGo = new CmdGoByClock()
+        CmdGo cmdGo = new CmdGoFast()
                 .setWTime(wTime)
                 .setBTime(bTime)
                 .setWInc(inc)
