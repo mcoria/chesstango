@@ -62,6 +62,11 @@ public class SimplePolyglotBook implements PolyglotBook {
         return polyglotEntryList;
     }
 
+    @Override
+    public boolean isLoaded() {
+        return !entries.isEmpty();
+    }
+
     private void addEntry(byte[] bytes) {
         long key = convertToLong(new byte[]{bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]});
 

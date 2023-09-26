@@ -87,6 +87,11 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
     }
 
     @Override
+    public boolean isLoaded() {
+        return fileChannel != null;
+    }
+
+    @Override
     public void close() throws IOException {
         if (fileChannel != null) {
             fileChannel.close();

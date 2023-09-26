@@ -1,8 +1,9 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
+import net.chesstango.engine.manager.SearchManagerByAlgorithm;
+import net.chesstango.engine.manager.SearchManagerByBook;
 import net.chesstango.engine.manager.SearchManagerChain;
-import net.chesstango.engine.manager.SearchManagerChainBuilder;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
@@ -16,15 +17,19 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Mauricio Coria
  */
-public class SearchManager {
+public final class SearchManager {
     private final SearchListener listenerClient;
     private final SearchManagerChain searchManagerChain;
+    private final SearchManagerByBook searchManagerByBook;
 
     private ScheduledExecutorService executorService;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
         this.listenerClient = listenerClient;
-        this.searchManagerChain = new SearchManagerChainBuilder().withSearchByBookEnabled(false).withSearchMove(searchMove).withSearchListener(listenerClient).build();
+
+        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
+        this.searchManagerByBook = new SearchManagerByBook(searchManagerByAlgorithm);
+        this.searchManagerChain = this.searchManagerByBook;
 
         if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();
@@ -73,6 +78,10 @@ public class SearchManager {
             throw new RuntimeException(e);
         }
         searchManagerChain.close();
+    }
+
+    public void setPolyglotBook(String path) {
+        searchManagerByBook.setPolyglotBook(path);
     }
 
     private void searchImp(Game game, int depth, int timeOut) {

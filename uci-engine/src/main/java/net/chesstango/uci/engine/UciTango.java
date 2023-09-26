@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.Service;
 import net.chesstango.uci.ServiceVisitor;
@@ -20,12 +21,13 @@ public class UciTango implements Service {
 
     @Getter
     protected final Tango tango;
+    @Setter
+    private UCIOutputStream responseOutputStream;
     protected final UCIOutputStreamEngineExecutor engineExecutor;
     protected final Ready readyState;
     protected final WaitCmdUci waitCmdUciState;
     protected final WaitCmdGo waitCmdGoState;
     protected final Searching searchingState;
-    private UCIOutputStream responseOutputStream;
     protected volatile UCIEngine currentState;
 
     public UciTango() {
@@ -109,10 +111,6 @@ public class UciTango implements Service {
     public void close() {
         tango.close();
         currentState = null;
-    }
-
-    public void setResponseOutputStream(UCIOutputStream output) {
-        this.responseOutputStream = output;
     }
 
     protected void reply(UCIMessage message) {

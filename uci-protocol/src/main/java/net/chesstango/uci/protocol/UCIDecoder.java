@@ -1,8 +1,8 @@
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoFast;
 import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
 import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
 import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class UCIDecoder {
 
@@ -34,7 +33,7 @@ public class UCIDecoder {
 
                 // ====================== REQUESTS
                 case "UCI" -> new CmdUci();
-                case "SETOPTION" -> parseSetOption(input);
+                case "SETOPTION" -> parseSetOption(words);
                 case "UCINEWGAME" -> new CmdUciNewGame();
                 case "POSITION" -> parsePosition(words);
                 case "QUIT" -> new CmdQuit();
@@ -92,9 +91,8 @@ public class UCIDecoder {
         return new RspBestMove(bestMove, ponderMove);
     }
 
-
-    private UCIMessage parseSetOption(String input) {
-        return new CmdSetOption(input);
+    private UCIMessage parseSetOption(String[] words) {
+        return new CmdSetOption(words[2], words[4]);
     }
 
 
@@ -152,19 +150,19 @@ public class UCIDecoder {
     private CmdGo parseGoMoveByClock(String[] words) {
         CmdGoFast result = new CmdGoFast();
 
-        for (int i = 1; i < words.length; i+=2) {
-            switch (words[i]){
+        for (int i = 1; i < words.length; i += 2) {
+            switch (words[i]) {
                 case "wtime":
                     result.setWTime(Integer.parseInt(words[i + 1]));
                     break;
                 case "winc":
-                    result.setWInc(Integer.parseInt(words[i+1]));
+                    result.setWInc(Integer.parseInt(words[i + 1]));
                     break;
                 case "btime":
-                    result.setBTime(Integer.parseInt(words[i+1]));
+                    result.setBTime(Integer.parseInt(words[i + 1]));
                     break;
                 case "binc":
-                    result.setBInc(Integer.parseInt(words[i+1]));
+                    result.setBInc(Integer.parseInt(words[i + 1]));
                     break;
             }
         }

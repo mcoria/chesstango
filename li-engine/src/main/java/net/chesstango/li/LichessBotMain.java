@@ -25,6 +25,9 @@ public class LichessBotMain implements Runnable {
     private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
     private static String BOT_TOKEN;
     private static Integer MAX_SIMULTANEOUS_GAMES;
+    private static String POLYGLOT_BOOK;
+
+    private static Map<String, Object> properties = new HashMap<>();
 
     public static void main(String[] args) {
         URI lichessApi = URI.create("https://lichess.org");
@@ -52,6 +55,13 @@ public class LichessBotMain implements Runnable {
         } else if (MAX_SIMULTANEOUS_GAMES <= 0) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
         }
+
+        properties.put("MAX_SIMULTANEOUS_GAMES", MAX_SIMULTANEOUS_GAMES);
+
+        POLYGLOT_BOOK = System.getenv("POLYGLOT_BOOK");
+        if(Objects.nonNull(POLYGLOT_BOOK)){
+            properties.put("POLYGLOT_BOOK", POLYGLOT_BOOK);
+        }
     }
 
     private final ScheduledExecutorService gameExecutorService;
@@ -72,7 +82,7 @@ public class LichessBotMain implements Runnable {
 
         logger.info("Connection successful, entering main event loop...");
 
-        gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+        //gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
 
         events.forEach(event -> {
             logger.info("event received: {}", event);
@@ -112,7 +122,7 @@ public class LichessBotMain implements Runnable {
     private void startGame(Event.GameStartEvent gameStartEvent) {
         logger.info("Starting game {}", gameStartEvent.id());
 
-        LichessTango onlineGame = new LichessTango(client, gameStartEvent.id());
+        LichessTango onlineGame = new LichessTango(client, gameStartEvent.id(), properties);
 
         onlineGameMap.put(gameStartEvent.id(), onlineGame);
 

@@ -203,10 +203,15 @@ public class UCIDecoderCmdTest {
 
     @Test
     public void test_parse_setoption() {
-        UCIMessage result = decoder.parseMessage("setoption");
+        UCIMessage result = decoder.parseMessage("setoption name tablebase value c:/bla/ble.bin");
 
         assertTrue(result instanceof CmdSetOption);
 
-        assertEquals("setoption", result.toString());
+        CmdSetOption option = (CmdSetOption) result;
+
+        assertEquals("tablebase", option.getId());
+        assertEquals("c:/bla/ble.bin", option.getValue());
+
+        assertEquals("setoption name tablebase value c:/bla/ble.bin", option.toString());
     }
 }

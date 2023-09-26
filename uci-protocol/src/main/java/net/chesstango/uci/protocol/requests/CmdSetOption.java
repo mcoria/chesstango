@@ -1,5 +1,6 @@
 package net.chesstango.uci.protocol.requests;
 
+import lombok.Getter;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIRequest;
 
@@ -8,10 +9,15 @@ import net.chesstango.uci.protocol.UCIRequest;
  */
 public class CmdSetOption implements UCIRequest {
 
-    private final String input;
+    @Getter
+    private final String id;
 
-    public CmdSetOption(String input) {
-        this.input = input;
+    @Getter
+    private final String value;
+
+    public CmdSetOption(String id, String value) {
+        this.id = id;
+        this.value = value;
     }
 
     @Override
@@ -32,6 +38,6 @@ public class CmdSetOption implements UCIRequest {
 
     @Override
     public String toString() {
-        return input;
+        return value == null ? String.format("setoption name %s", id) : String.format("setoption name %s value %s", id, value);
     }
 }

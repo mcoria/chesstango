@@ -14,13 +14,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-final class SearchManagerByBook implements SearchManagerChain {
+public final class SearchManagerByBook implements SearchManagerChain {
 
     private final MappedPolyglotBook book;
 
     private final SearchManagerChain next;
 
-    SearchManagerByBook(SearchManagerChain next) {
+    public SearchManagerByBook(SearchManagerChain next) {
         this.book = new MappedPolyglotBook();
         this.next = next;
     }
@@ -37,7 +37,6 @@ final class SearchManagerByBook implements SearchManagerChain {
 
     @Override
     public void open() {
-        book.load(Path.of("C:\\Java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\final-book.bin"));
         next.open();
     }
 
@@ -53,8 +52,15 @@ final class SearchManagerByBook implements SearchManagerChain {
 
     @Override
     public SearchMoveResult searchImp(Game game, int depth) {
-        SearchMoveResult searchResult = searchByBook(game);
+        SearchMoveResult searchResult = null;
+        if(book.isLoaded()) {
+            searchResult = searchByBook(game);
+        }
         return searchResult == null ? next.searchImp(game, depth) : searchResult;
+    }
+
+    public void setPolyglotBook(String path) {
+        book.load(Path.of(path));
     }
 
 

@@ -9,11 +9,11 @@ import net.chesstango.search.StopSearchingException;
 /**
  * @author Mauricio Coria
  */
-final class SearchManagerByAlgorithm implements SearchManagerChain {
+public final class SearchManagerByAlgorithm implements SearchManagerChain {
     private final SearchListener listenerClient;
     private final SearchMove searchMove;
 
-    SearchManagerByAlgorithm(SearchMove searchMove, SearchListener listenerClient) {
+    public SearchManagerByAlgorithm(SearchMove searchMove, SearchListener listenerClient) {
         this.listenerClient = listenerClient;
         this.searchMove = searchMove;
     }

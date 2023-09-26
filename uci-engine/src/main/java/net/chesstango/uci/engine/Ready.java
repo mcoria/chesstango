@@ -10,6 +10,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
  */
 class Ready implements UCIEngine {
 
+    public static final String POLYGLOT_BOOK = "PolyglotBook";
     private final UciTango uciTango;
 
     protected Ready(UciTango uciTango) {
@@ -22,10 +23,13 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_setOption(CmdSetOption cmdSetOption) {
-
+        switch (cmdSetOption.getId()){
+            case POLYGLOT_BOOK: this.uciTango.tango.setPolyglotBook(cmdSetOption.getValue());
+        }
     }
 
     @Override
+
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
         uciTango.tango.newGame();
     }

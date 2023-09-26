@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -30,9 +31,13 @@ public class LichessTango implements Runnable {
     private Color myColor;
     private GameInfo gameInfo;
 
-    public LichessTango(LichessClient client, String gameId) {
+    private Map<String, Object> properties;
+
+    public LichessTango(LichessClient client, String gameId, Map<String, Object> properties) {
         this.client = client;
         this.gameId = gameId;
+        this.properties = properties;
+
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
             @Override
@@ -66,6 +71,11 @@ public class LichessTango implements Runnable {
         }
 
         tango.open();
+
+        String polyglotBook = (String) properties.get("POLYGLOT_BOOK");
+        if(Objects.nonNull(polyglotBook) ){
+            tango.setPolyglotBook(polyglotBook);
+        }
 
         tango.newGame();
     }
