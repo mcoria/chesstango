@@ -15,17 +15,16 @@ import java.util.Properties;
  */
 public class Tango {
     public static final Properties PROPERTIES = loadProperties();
+    public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = "Tango";
     public static final String ENGINE_AUTHOR = "Mauricio Coria";
-    public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
-
     private final SearchManager searchManager;
 
     @Getter
     private Session currentSession;
 
     @Setter
-    SearchListener listenerClient;
+    private SearchListener listenerClient;
 
     public Tango() {
         this(new DefaultSearchMove());

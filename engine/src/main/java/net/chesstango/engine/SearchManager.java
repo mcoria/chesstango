@@ -1,16 +1,14 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.search.*;
-import net.chesstango.engine.polyglot.MappedPolyglotBook;
-import net.chesstango.engine.polyglot.PolyglotEntry;
+import net.chesstango.engine.manager.SearchManagerChain;
+import net.chesstango.engine.manager.SearchManagerChainBuilder;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.IterativeDeepening;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,16 +17,14 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  */
 public class SearchManager {
-    private ScheduledExecutorService executorService;
-    private final SearchMove searchMove;
     private final SearchListener listenerClient;
-    private final MappedPolyglotBook book;
-    private final boolean searByBookEnabled = false;
+    private final SearchManagerChain searchManagerChain;
+
+    private ScheduledExecutorService executorService;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
-        this.searchMove = searchMove;
         this.listenerClient = listenerClient;
-        this.book = new MappedPolyglotBook();
+        this.searchManagerChain = new SearchManagerChainBuilder().withSearchByBookEnabled(false).withSearchMove(searchMove).withSearchListener(listenerClient).build();
 
         if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();
@@ -40,11 +36,11 @@ public class SearchManager {
     }
 
     public void searchInfinite(Game game) {
-        searchImp(game, Integer.MAX_VALUE, null);
+        searchImp(game, Integer.MAX_VALUE, 0);
     }
 
     public void searchDepth(Game game, int depth) {
-        searchImp(game, depth, null);
+        searchImp(game, depth, 0);
     }
 
     public void searchTime(Game game, int timeOut) {
@@ -57,47 +53,38 @@ public class SearchManager {
     }
 
     public void reset() {
-        searchMove.reset();
+        searchManagerChain.reset();
     }
 
     public void stopSearching() {
-        searchMove.stopSearching();
+        searchManagerChain.stopSearching();
     }
 
     public void open() {
         executorService = Executors.newScheduledThreadPool(2);
-        if (searByBookEnabled) {
-            book.load(Path.of("C:\\Java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\final-book.bin"));
-        }
+        searchManagerChain.open();
     }
 
     public void close() {
         try {
             executorService.shutdown();
             executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
-            if (searByBookEnabled) {
-                book.close();
-            }
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        searchManagerChain.close();
     }
 
-
-    private void searchImp(Game game, int depth, Integer timeOut) {
+    private void searchImp(Game game, int depth, int timeOut) {
         executorService.execute(() -> {
             try {
                 listenerClient.searchStarted();
 
-                SearchMoveResult searchResult = null;
-
-                if (searByBookEnabled) {
-                    searchResult = searchByBook(game);
+                if (timeOut != 0) {
+                    executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
-                if (searchResult == null) {
-                    searchResult = searchByAlgorithm(game, depth, timeOut);
-                }
+                SearchMoveResult searchResult = searchManagerChain.searchImp(game, depth);
 
                 listenerClient.searchFinished(searchResult);
             } catch (RuntimeException e) {
@@ -106,34 +93,5 @@ public class SearchManager {
         });
     }
 
-    private SearchMoveResult searchByBook(Game game) {
-        List<PolyglotEntry> bookSearchResult = book.search(game.getChessPosition().getZobristHash());
-        if (bookSearchResult != null) {
-            MoveContainerReader possibleMoves = game.getPossibleMoves();
-            for (PolyglotEntry polyglotEntry : bookSearchResult) {
-                Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
-                if (move != null) {
-                    return new SearchMoveResult(1, 0, move, null);
-                }
-            }
-        }
-        return null;
-    }
 
-    private SearchMoveResult searchByAlgorithm(Game game, int depth, Integer timeOut) {
-        if (timeOut != null) {
-            executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
-        }
-
-        SearchMoveResult searchResult = null;
-
-        try {
-            searchResult = searchMove.search(game, depth);
-        } catch (StopSearchingException spe) {
-            searchResult = spe.getSearchMoveResult();
-            listenerClient.searchStopped();
-        }
-
-        return searchResult;
-    }
 }

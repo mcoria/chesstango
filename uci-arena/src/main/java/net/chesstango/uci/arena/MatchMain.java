@@ -26,9 +26,11 @@ import java.util.List;
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    //private static final MatchType MATCH_TYPE = new MatchByDepth(4);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(4);
+
     //private static final MatchType MATCH_TYPE = new MatchByMoveTime(1000);
-    private static final MatchType MATCH_TYPE = new MatchByClock(30000, 0);
+
+    //private static final MatchType MATCH_TYPE = new MatchByClock(60000, 0);
     private static final boolean MATCH_DEBUG = false;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
 
@@ -43,7 +45,8 @@ public class MatchMain implements MatchListener {
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
                 //.createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
-                .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
+                .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
+                        minMaxPruningBuilder -> minMaxPruningBuilder
                                 .withQuiescence()
 
                                 .withTranspositionTable()
