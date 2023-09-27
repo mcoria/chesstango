@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.chesstango</groupId>
         <artifactId>chesstango</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.15</version>
     </parent>
 
     <artifactId>board</artifactId>
