@@ -41,7 +41,7 @@ public class MatchTest {
 
     @Test
     public void testCompete() {
-        Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(2));
+        Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(3));
 
         match.setFen(FENDecoder.INITIAL_FEN);
         match.setChairs(smartEngine, dummyEngine);
@@ -58,7 +58,7 @@ public class MatchTest {
 
     @Test
     public void testPlay() {
-        Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(2));
+        Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(3));
         //match.setDebugEnabled(true);
 
         List<MatchResult> matchResult = match.play(FENDecoder.INITIAL_FEN);

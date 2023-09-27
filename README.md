@@ -52,7 +52,7 @@ While I've certainly taken performance considerations into account, the predomin
 
 ## Lichess BOT
 If you prefer to play on-line you can challenge [chesstango_bot](https://lichess.org/@/chesstango_bot).
-For the moment Standard time-controlled (Blitz or Rapid) games are acceptable.
+For the moment Standard time-controlled (Bullet/Blitz/Rapid) games are acceptable.
 
 
 # Credits

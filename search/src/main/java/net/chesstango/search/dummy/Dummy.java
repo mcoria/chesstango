@@ -7,10 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -25,19 +22,18 @@ public class Dummy implements SearchMove {
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
 
         moves.forEach(move ->
-                moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
-                        .add(move)
+                moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<>()).add(move)
         );
 
-        PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
+        Set<PiecePositioned> fromPieces = moveMap.keySet();
+
+        PiecePositioned[] pieces = fromPieces.toArray(new PiecePositioned[moveMap.keySet().size()]);
+
         PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-
-        SearchMoveResult result = new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
-
-        return result;
+        return new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
     }
 
     @Override
@@ -46,7 +42,6 @@ public class Dummy implements SearchMove {
 
     @Override
     public void reset() {
-
     }
 
 
