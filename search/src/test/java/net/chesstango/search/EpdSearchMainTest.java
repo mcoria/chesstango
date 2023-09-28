@@ -178,6 +178,14 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.bestMoveFound());
     }
 
+    @Test
+    public void test_40H_10255() {
+        epdSearch.setDepth(6);
+        EPDEntry epdEntry = epdReader.readEdpLine("5r2/ppbqn2k/7B/2p1p2p/P1NpP1P1/3P4/1PP2r2/R1Q1K1R1 b Q - bm Qd7xg4; ce -M3; pv Qd7xg4 Rg1xg4 Rf2-f1+ Ke1-e2 Rf8-f2+; id \"10255\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
 
     @Test
     @Disabled

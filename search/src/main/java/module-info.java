@@ -20,6 +20,7 @@ module net.chesstango.search {
     requires com.fasterxml.jackson.databind;
 
     requires static lombok;
+    requires org.slf4j;
 
     opens net.chesstango.search.gamegraph;
     opens net.chesstango.search.reports;

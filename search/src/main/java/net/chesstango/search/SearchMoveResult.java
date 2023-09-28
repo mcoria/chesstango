@@ -27,12 +27,14 @@ public class SearchMoveResult {
     private List<Move> principalVariation;
 
     /**
-     * bestMoves son movimientos tan buenos como bestMove
+     * bestMoves son movimientos tan buenos como bestMove.
+     * La lista puede estar vacia !!!
      */
     private List<Move> bestMoves;
 
     /**
-     * Evaluaciones de las posiciones que resultan de cada movimiento
+     * Evaluaciones de las posiciones que resultan de cada movimiento.
+     * La lista de evaluaciones puede no estar completa !!!
      */
     private List<MoveEvaluation> moveEvaluations;
 

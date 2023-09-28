@@ -16,7 +16,7 @@ import java.util.OptionalInt;
 
 /**
  * ESTA JOROBANDO
- *
+ * <p>
  * Captura la evaluacion de la posiciones que resultan de cada movimiento
  *
  * @author Mauricio Coria
@@ -62,6 +62,13 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
     }
 
+    /**
+     * La lista que retorna puede no estar completa; esto se debe a que entradas en TT pueden ser sobreescritas.
+     *
+     * @param bestMove
+     * @param bestMoveEvaluation
+     * @return
+     */
     public List<MoveEvaluation> createMoveEvaluations(final Move bestMove,
                                                       final int bestMoveEvaluation) {
         List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
@@ -95,20 +102,28 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             moveEvaluationList.add(moveEvaluation);
         }
 
-        OptionalInt bestEvaluation = null;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).max();
+            OptionalInt bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).max();
+
+            // Puede que el mejor valor sea unico y no este presente en TT
+            if (bestEvaluation.isPresent()) {
+                int bestEvaluationValue = bestEvaluation.getAsInt();
+                // Si existe un valor, no puede ser mejor que la mejor evaluacion
+                if(bestEvaluationValue > bestMoveEvaluation){
+                    throw new RuntimeException("Best move is not present in game");
+                }
+            }
         } else {
-            bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).min();
+            OptionalInt bestEvaluation = moveEvaluationList.stream().mapToInt(MoveEvaluation::evaluation).min();
+            if (bestEvaluation.isPresent()) {
+                int bestEvaluationValue = bestEvaluation.getAsInt();
+                // Si existe un valor, no puede ser mejor que la mejor evaluacion
+                if(bestEvaluationValue < bestMoveEvaluation){
+                    throw new RuntimeException("Best move is not present in game");
+                }
+            }
         }
 
-        if (!bestEvaluation.isPresent()) {
-            throw new RuntimeException("moveEvaluationList is empty");
-        }
-
-        if (bestEvaluation.getAsInt() != bestMoveEvaluation) {
-            throw new RuntimeException("bestEvaluation doesn't match");
-        }
 
         return moveEvaluationList;
     }

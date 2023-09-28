@@ -8,6 +8,8 @@ import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,7 +22,9 @@ import java.util.concurrent.*;
  * @author Mauricio Coria
  */
 public class EpdSearch {
-    private static final int SEARCH_THREADS = 3;
+    private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
+
+    private static final int SEARCH_THREADS = 4;
 
     @Setter
     @Accessors(chain = true)
@@ -37,7 +41,7 @@ public class EpdSearch {
         return run(searchMove, epdEntry);
     }
 
-    public EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
+    private EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
 
         Instant start = Instant.now();
 
@@ -78,17 +82,18 @@ public class EpdSearch {
                                 .setDepth(depth)
                                 .run(epdEntry);
                         if (epdSearchResult.bestMoveFound()) {
-                            System.out.printf("Success %s\n", epdEntry.fen);
+                            logger.info(String.format("Success %s", epdEntry.fen));
                         } else {
                             String failedTest = String.format("Fail [%s] - best move found %s",
                                     epdEntry.text,
                                     epdSearchResult.bestMoveFoundStr()
                             );
-                            System.out.println(failedTest);
+                            logger.info(failedTest);
                         }
                         return epdSearchResult;
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
+                        logger.error(String.format("Error processing: %s", epdEntry.fen));
                         throw e;
                     } finally {
                         assert searchMove != null;
@@ -105,7 +110,7 @@ public class EpdSearch {
             while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
             }
         } catch (InterruptedException e) {
-            System.out.println("Stopping executorService....");
+            logger.error("Stopping executorService....");
             executorService.shutdownNow();
         }
 
@@ -114,7 +119,9 @@ public class EpdSearch {
             try {
                 EpdSearchResult epdSearchResult = future.get();
                 epdSearchResults.add(epdSearchResult);
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (ExecutionException e) {
+                System.err.println("Future exception");
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -150,7 +157,7 @@ public class EpdSearch {
                 //.withMoveEvaluation()
 
                 .withStatistics()
-                .withTrackEvaluations() // Consume demasiada memoria
+                //.withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }
