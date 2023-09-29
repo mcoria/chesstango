@@ -83,7 +83,7 @@ public class EpdSearchMain {
         NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
         EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
 
-        printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
+        //printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
 
         Path sessionDirectory = createSessionDirectory(suitePath);

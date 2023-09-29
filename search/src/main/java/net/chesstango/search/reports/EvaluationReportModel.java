@@ -129,7 +129,7 @@ public class EvaluationReportModel {
         if (evaluations != null) {
             reportModelDetail.evaluations = evaluations;
             reportModelDetail.evaluationPositionCounter = evaluations.size();
-            reportModelDetail.evaluationValueCounter = evaluations.parallelStream().mapToInt(EvaluationEntry::value).distinct().count();
+            reportModelDetail.evaluationValueCounter = evaluations.stream().mapToInt(EvaluationEntry::value).distinct().count();
             reportModelDetail.evaluationPositionValueCollisionsCounter = reportModelDetail.evaluationPositionCounter - reportModelDetail.evaluationValueCounter;
 
             /*

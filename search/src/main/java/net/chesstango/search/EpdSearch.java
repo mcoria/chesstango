@@ -120,7 +120,7 @@ public class EpdSearch {
                 EpdSearchResult epdSearchResult = future.get();
                 epdSearchResults.add(epdSearchResult);
             } catch (ExecutionException e) {
-                System.err.println("Future exception");
+                logger.error("Future exception");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
