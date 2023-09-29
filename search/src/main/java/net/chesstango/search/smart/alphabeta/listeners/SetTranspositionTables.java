@@ -27,13 +27,13 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
-        if(!reuseTranspositionTable) {
-            reset();
-        }
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
+        if(!reuseTranspositionTable) {
+            reset();
+        }
     }
 
     @Override
