@@ -6,7 +6,6 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -98,7 +97,7 @@ public class TTDump implements SearchLifeCycle {
 
                 TranspositionEntry tableEntry = entry.getValue();
                 dos.writeInt(tableEntry.searchDepth);
-                dos.writeLong(tableEntry.bestMoveAndValue);
+                dos.writeLong(tableEntry.boundMoveValue);
                 //dos.writeInt(tableEntry.value);
                 //dos.writeByte(TranspositionType.encode(tableEntry.transpositionType));
 
