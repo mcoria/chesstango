@@ -12,7 +12,7 @@ public class TranspositionEntry implements Serializable {
     public long hash;
     public int searchDepth;
 
-    public long bestMoveAndValue;
+    public long boundMoveValue;
 
     public void reset() {
         hash = 0;
@@ -20,18 +20,22 @@ public class TranspositionEntry implements Serializable {
 
     private static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
-    public static long encodedMoveAndValue(TranspositionType transpositionType, Move move, int value) {
-        short encodedMove = move != null ? move.binaryEncoding() : (short) 0;
-
-        return encodedMoveAndValue(transpositionType, encodedMove, value);
+    public static long encode(int value) {
+        return VALUE_MASK & value;
     }
 
-    public static long encodedMoveAndValue(TranspositionType transpositionType, short encodedMove, int value) {
-        long encodedMoveLng = ((long) encodedMove) << 32;
+    public static long encode(TranspositionBound transpositionBound, Move move, int value) {
+        short encodedMove = move != null ? move.binaryEncoding() : (short) 0;
 
+        return encode(transpositionBound, encodedMove, value);
+    }
+
+    public static long encode(TranspositionBound transpositionBound, short encodedMove, int value) {
         long encodedValueLng = VALUE_MASK & value;
 
-        long encodedTranspositionTypeLng = ((long) transpositionType.binaryEncoding()) << 48;
+        long encodedMoveLng = ((long) encodedMove) << 32;
+
+        long encodedTranspositionTypeLng = ((long) transpositionBound.binaryEncoding()) << 48;
 
         return encodedTranspositionTypeLng | encodedValueLng | encodedMoveLng;
     }
@@ -44,8 +48,8 @@ public class TranspositionEntry implements Serializable {
         return (short) (encodedMoveAndValue >> 32);
     }
 
-    public static TranspositionType decodeTransposition(long encodedMoveAndValue) {
-        return TranspositionType.valueOf((byte) (encodedMoveAndValue >> 48));
+    public static TranspositionBound decodeBound(long encodedMoveAndValue) {
+        return TranspositionBound.valueOf((byte) (encodedMoveAndValue >> 48));
     }
 
 }

@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-import net.chesstango.search.smart.transposition.TranspositionType;
+import net.chesstango.search.smart.transposition.TranspositionBound;
 
 /**
  * @author Mauricio Coria
@@ -60,15 +60,15 @@ public class TranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = maxMap.allocate(hash);
             } else if (searchDepth <= entry.searchDepth) {
-                int value = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
-                TranspositionType transpositionType = TranspositionEntry.decodeTransposition(entry.bestMoveAndValue);
+                int value = TranspositionEntry.decodeValue(entry.boundMoveValue);
+                TranspositionBound transpositionBound = TranspositionEntry.decodeBound(entry.boundMoveValue);
                 // Es un valor exacto
-                if (transpositionType == TranspositionType.EXACT) {
-                    return entry.bestMoveAndValue;
-                } else if (transpositionType == TranspositionType.LOWER_BOUND && beta <= value) {
-                    return entry.bestMoveAndValue;
-                } else if (transpositionType == TranspositionType.UPPER_BOUND && value <= alpha) {
-                    return entry.bestMoveAndValue;
+                if (transpositionBound == TranspositionBound.EXACT) {
+                    return entry.boundMoveValue;
+                } else if (transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
+                    return entry.boundMoveValue;
+                } else if (transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
+                    return entry.boundMoveValue;
                 }
             }
 
@@ -76,7 +76,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             updateEntry(entry, hash, searchDepth, alpha, beta, bestMoveAndValue);
 
-            return entry.bestMoveAndValue;
+            return entry.boundMoveValue;
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -94,15 +94,15 @@ public class TranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = minMap.allocate(hash);
             } else if (searchDepth <= entry.searchDepth) {
-                int value = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
-                TranspositionType transpositionType = TranspositionEntry.decodeTransposition(entry.bestMoveAndValue);
+                int value = TranspositionEntry.decodeValue(entry.boundMoveValue);
+                TranspositionBound transpositionBound = TranspositionEntry.decodeBound(entry.boundMoveValue);
                 // Es un valor exacto
-                if (transpositionType == TranspositionType.EXACT) {
-                    return entry.bestMoveAndValue;
-                } else if (transpositionType == TranspositionType.LOWER_BOUND && beta <= value) {
-                    return entry.bestMoveAndValue;
-                } else if (transpositionType == TranspositionType.UPPER_BOUND && value <= alpha) {
-                    return entry.bestMoveAndValue;
+                if (transpositionBound == TranspositionBound.EXACT) {
+                    return entry.boundMoveValue;
+                } else if (transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
+                    return entry.boundMoveValue;
+                } else if (transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
+                    return entry.boundMoveValue;
                 }
             }
 
@@ -110,7 +110,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             updateEntry(entry, hash, searchDepth, alpha, beta, bestMoveAndValue);
 
-            return entry.bestMoveAndValue;
+            return entry.boundMoveValue;
         }
 
         return next.minimize(currentPly, alpha, beta);
@@ -124,17 +124,17 @@ public class TranspositionTable implements AlphaBetaFilter {
         int value = TranspositionEntry.decodeValue(bestMoveAndValue);
         short move = TranspositionEntry.decodeMove(bestMoveAndValue);
 
-        TranspositionType transpositionType;
+        TranspositionBound transpositionBound;
         if (beta <= value) {
-            transpositionType = TranspositionType.LOWER_BOUND;
+            transpositionBound = TranspositionBound.LOWER_BOUND;
         } else if (value <= alpha) {
-            transpositionType = TranspositionType.UPPER_BOUND;
+            transpositionBound = TranspositionBound.UPPER_BOUND;
         } else {
-            transpositionType = TranspositionType.EXACT;
+            transpositionBound = TranspositionBound.EXACT;
         }
 
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.bestMoveAndValue = TranspositionEntry.encodedMoveAndValue(transpositionType, move, value);
+        entry.boundMoveValue = TranspositionEntry.encode(transpositionBound, move, value);
     }
 }

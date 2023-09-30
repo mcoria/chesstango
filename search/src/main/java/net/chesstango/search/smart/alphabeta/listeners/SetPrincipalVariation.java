@@ -96,7 +96,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.boundMoveValue);
             for (Move posibleMove : game.getPossibleMoves()) {
                 if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                     result = posibleMove;
@@ -119,7 +119,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.boundMoveValue);
             if (bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {

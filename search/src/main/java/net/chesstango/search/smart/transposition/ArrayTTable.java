@@ -11,11 +11,11 @@ public class ArrayTTable implements TTable {
     private int currentSessionId;
 
     public ArrayTTable() {
-        transpositionArray = new TranspositionEntry[ARRAY_SIZE];
-        sessionIds = new int[ARRAY_SIZE];
-        currentSessionId = 0;
+        this.transpositionArray = new TranspositionEntry[ARRAY_SIZE];
+        this.sessionIds = new int[ARRAY_SIZE];
+        this.currentSessionId = -1;
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            transpositionArray[i] = new TranspositionEntry();
+            this.transpositionArray[i] = new TranspositionEntry();
         }
     }
 

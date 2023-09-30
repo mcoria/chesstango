@@ -26,6 +26,8 @@ public class EpdSearch {
 
     private static final int SEARCH_THREADS = 4;
 
+    protected static final SANEncoder sanEncoder = new SANEncoder();
+
     @Setter
     @Accessors(chain = true)
     private SearchMove searchMove;
@@ -33,8 +35,6 @@ public class EpdSearch {
     @Setter
     @Accessors(chain = true)
     private int depth;
-
-    protected static final SANEncoder sanEncoder = new SANEncoder();
 
 
     public EpdSearchResult run(EPDEntry epdEntry) {
