@@ -63,7 +63,7 @@ public class SearchMoveResult {
     }
 
     public int getBestMovesCounter() {
-        return bestMoves.size();
+        return bestMoves == null ? 1 : bestMoves.size();
     }
 
 }

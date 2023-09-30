@@ -49,6 +49,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private StopProcessingCatch stopProcessingCatch;
 
+    private ZobristTracker zobristTracker;
+    private ZobristTracker zobristQTracker;
+
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTableReuse;
@@ -112,7 +115,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (qTranspositionTable == null) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-
         qMoveSorter = new QTranspositionMoveSorter();
         return this;
     }
@@ -133,6 +135,19 @@ public class AlphaBetaBuilder implements SearchBuilder {
             throw new RuntimeException("You must enable Statistics first");
         }
         withTrackEvaluations = true;
+        return this;
+    }
+
+    public AlphaBetaBuilder withZobristTracker() {
+        if (transpositionTable == null && qTranspositionTable == null) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
+        if (transpositionTable != null) {
+            zobristTracker = new ZobristTracker();
+        }
+        if (qTranspositionTable != null) {
+            zobristQTracker = new ZobristTracker();
+        }
         return this;
     }
 
@@ -196,12 +211,22 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
             if (quiescenceStatistics != null) {
                 filters.add(quiescenceStatistics);
-                if (qTranspositionTable != null) {
+                if (zobristQTracker != null) {
+                    quiescenceStatistics.setNext(zobristQTracker);
+                } else if (qTranspositionTable != null) {
                     quiescenceStatistics.setNext(qTranspositionTable);
                 } else {
                     quiescenceStatistics.setNext(quiescence);
                 }
                 headQuiescence = quiescenceStatistics;
+            }
+
+            if (zobristQTracker != null) {
+                filters.add(zobristQTracker);
+                zobristQTracker.setNext(qTranspositionTable);
+                if (headQuiescence == null) {
+                    headQuiescence = zobristQTracker;
+                }
             }
 
             if (qTranspositionTable != null) {
@@ -228,12 +253,22 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
             filters.add(alphaBetaStatistics);
-            if (transpositionTable != null) {
+            if (zobristTracker != null) {
+                alphaBetaStatistics.setNext(zobristTracker);
+            } else if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
                 alphaBetaStatistics.setNext(this.alphaBetaImp);
             }
             head = alphaBetaStatistics;
+        }
+
+        if (zobristTracker != null) {
+            filters.add(zobristTracker);
+            zobristTracker.setNext(transpositionTable);
+            if (head == null) {
+                head = zobristTracker;
+            }
         }
 
         if (transpositionTable != null) {
@@ -268,7 +303,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         filters.add(new SetPrincipalVariation());
 
-        if (withStatistics) {
+        if (withStatistics && transpositionTable != null) {
             filters.add(new SetMoveEvaluations());
 
             filters.add(new SetBestMoves());
