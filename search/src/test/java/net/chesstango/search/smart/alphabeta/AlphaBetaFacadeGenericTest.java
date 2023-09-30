@@ -3,10 +3,10 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.MateIn1Test;
+import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaMateIn1Test extends MateIn1Test {
+public class AlphaBetaFacadeGenericTest extends GenericTest {
 
     private SearchMove searchMove;
 
@@ -26,18 +26,20 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
 
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
+        Quiescence quiescence = new Quiescence();
         quiescence.setGameEvaluator(gameEvaluator);
+        quiescence.setMoveSorter(moveSorter);
+        quiescence.setNext(quiescence);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaImp);
-        alphaBetaImp.setGameEvaluator(gameEvaluator);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setGameEvaluator(gameEvaluator);
+        alphaBeta.setNext(alphaBeta);
 
-        AlphaBeta minMaxPruning = new AlphaBeta();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBetaImp, quiescence, moveSorter));
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }
@@ -47,6 +49,4 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
     public SearchMove getBestMoveFinder() {
         return searchMove;
     }
-
-
 }

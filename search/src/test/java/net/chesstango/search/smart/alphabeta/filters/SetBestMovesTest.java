@@ -6,7 +6,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class SetBestMovesTest {
 
-    private AlphaBeta alphaBeta;
+    private AlphaBetaFacade alphaBetaFacade;
 
     @BeforeEach
     public void setup() {
@@ -37,17 +37,17 @@ public class SetBestMovesTest {
 
         TranspositionTable transpositionTable = new TranspositionTable();
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(transpositionTable);
-        alphaBetaImp.setGameEvaluator(gameEvaluator);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(transpositionTable);
+        alphaBeta.setGameEvaluator(gameEvaluator);
 
-        transpositionTable.setNext(alphaBetaImp);
+        transpositionTable.setNext(alphaBeta);
 
-        this.alphaBeta = new AlphaBeta();
-        this.alphaBeta.setAlphaBetaSearch(transpositionTable);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, new SetBestMoves()));
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaSearch(transpositionTable);
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, transpositionTable, quiescence, moveSorter, new SetBestMoves()));
     }
 
 
@@ -55,7 +55,7 @@ public class SetBestMovesTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game,2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game,2);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }
@@ -64,7 +64,7 @@ public class SetBestMovesTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 3);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }

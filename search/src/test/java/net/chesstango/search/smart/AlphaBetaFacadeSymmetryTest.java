@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaSymmetryTest {
+public class AlphaBetaFacadeSymmetryTest {
 
 
     @Test

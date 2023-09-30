@@ -7,7 +7,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.alphabeta.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
@@ -16,7 +16,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
+import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
 import net.chesstango.search.smart.statistics.IterativeWrapper;
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class AlphaBetaBuilder implements SearchBuilder {
 
-    private final AlphaBetaImp alphaBetaImp;
+    private final AlphaBeta alphaBeta;
 
     private MoveSorter moveSorter;
 
@@ -45,7 +45,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private TranspositionTable transpositionTable;
 
-    private QTranspositionTable qTranspositionTable;
+    private TranspositionTableQ transpositionTableQ;
 
     private StopProcessingCatch stopProcessingCatch;
 
@@ -58,7 +58,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withTrackEvaluations;
 
     public AlphaBetaBuilder() {
-        alphaBetaImp = new AlphaBetaImp();
+        alphaBeta = new AlphaBeta();
 
         quiescence = new QuiescenceNull();
 
@@ -99,7 +99,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (quiescence instanceof QuiescenceNull) {
             throw new RuntimeException("You must enable Quiescence first");
         }
-        qTranspositionTable = new QTranspositionTable();
+        transpositionTableQ = new TranspositionTableQ();
         return this;
     }
 
@@ -112,10 +112,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQTranspositionMoveSorter() {
-        if (qTranspositionTable == null) {
+        if (transpositionTableQ == null) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        qMoveSorter = new QTranspositionMoveSorter();
+        qMoveSorter = new TranspositionMoveSorterQ();
         return this;
     }
 
@@ -139,13 +139,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withZobristTracker() {
-        if (transpositionTable == null && qTranspositionTable == null) {
+        if (transpositionTable == null && transpositionTableQ == null) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
         if (transpositionTable != null) {
             zobristTracker = new ZobristTracker();
         }
-        if (qTranspositionTable != null) {
+        if (transpositionTableQ != null) {
             zobristQTracker = new ZobristTracker();
         }
         return this;
@@ -182,7 +182,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         List<SearchLifeCycle> filters = new ArrayList<>();
 
         // ====================================================
-        if (transpositionTable != null || qTranspositionTable != null) {
+        if (transpositionTable != null || transpositionTableQ != null) {
             SetTranspositionTables setTranspositionTables = new SetTranspositionTables();
 
             if (withTranspositionTableReuse) {
@@ -194,7 +194,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
         // ====================================================
 
-        filters.add(alphaBetaImp);
+        filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);
         filters.add(qMoveSorter);
@@ -213,8 +213,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 filters.add(quiescenceStatistics);
                 if (zobristQTracker != null) {
                     quiescenceStatistics.setNext(zobristQTracker);
-                } else if (qTranspositionTable != null) {
-                    quiescenceStatistics.setNext(qTranspositionTable);
+                } else if (transpositionTableQ != null) {
+                    quiescenceStatistics.setNext(transpositionTableQ);
                 } else {
                     quiescenceStatistics.setNext(quiescence);
                 }
@@ -223,17 +223,17 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
             if (zobristQTracker != null) {
                 filters.add(zobristQTracker);
-                zobristQTracker.setNext(qTranspositionTable);
+                zobristQTracker.setNext(transpositionTableQ);
                 if (headQuiescence == null) {
                     headQuiescence = zobristQTracker;
                 }
             }
 
-            if (qTranspositionTable != null) {
-                filters.add(qTranspositionTable);
-                qTranspositionTable.setNext(quiescence);
+            if (transpositionTableQ != null) {
+                filters.add(transpositionTableQ);
+                transpositionTableQ.setNext(quiescence);
                 if (headQuiescence == null) {
-                    headQuiescence = qTranspositionTable;
+                    headQuiescence = transpositionTableQ;
                 }
             }
 
@@ -258,7 +258,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             } else if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
-                alphaBetaStatistics.setNext(this.alphaBetaImp);
+                alphaBetaStatistics.setNext(this.alphaBeta);
             }
             head = alphaBetaStatistics;
         }
@@ -273,20 +273,20 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (transpositionTable != null) {
             filters.add(transpositionTable);
-            transpositionTable.setNext(this.alphaBetaImp);
+            transpositionTable.setNext(this.alphaBeta);
             if (head == null) {
                 head = transpositionTable;
             }
         }
 
         if (head == null) {
-            head = this.alphaBetaImp;
+            head = this.alphaBeta;
         }
 
-        this.alphaBetaImp.setMoveSorter(moveSorter);
-        this.alphaBetaImp.setGameEvaluator(gameEvaluator);
-        this.alphaBetaImp.setQuiescence(headQuiescence);
-        this.alphaBetaImp.setNext(head);
+        this.alphaBeta.setMoveSorter(moveSorter);
+        this.alphaBeta.setGameEvaluator(gameEvaluator);
+        this.alphaBeta.setQuiescence(headQuiescence);
+        this.alphaBeta.setNext(head);
 
         // ====================================================
 
@@ -318,15 +318,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // ====================================================
 
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setAlphaBetaSearch(head);
-        alphaBeta.setSearchActions(filters);
+        AlphaBetaFacade alphaBetaFacade = new AlphaBetaFacade();
+        alphaBetaFacade.setAlphaBetaSearch(head);
+        alphaBetaFacade.setSearchActions(filters);
 
         SearchMove searchMove;
         if (withIterativeDeepening) {
-            searchMove = new IterativeDeepening(alphaBeta);
+            searchMove = new IterativeDeepening(alphaBetaFacade);
         } else {
-            searchMove = new NoIterativeDeepening(alphaBeta);
+            searchMove = new NoIterativeDeepening(alphaBetaFacade);
         }
 
         if (withStatistics) {

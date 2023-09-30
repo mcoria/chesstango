@@ -10,7 +10,7 @@ import net.chesstango.search.smart.transposition.TranspositionBound;
 /**
  * @author Mauricio Coria
  */
-public class QTranspositionTable implements AlphaBetaFilter {
+public class TranspositionTableQ implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private TTable maxMap;
     private TTable minMap;

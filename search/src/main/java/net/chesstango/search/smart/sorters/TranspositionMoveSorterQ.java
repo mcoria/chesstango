@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QTranspositionMoveSorter implements MoveSorter {
+public class TranspositionMoveSorterQ implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
     private TTable maxMap;

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBeta implements SearchSmart {
+public class AlphaBetaFacade implements SearchSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 

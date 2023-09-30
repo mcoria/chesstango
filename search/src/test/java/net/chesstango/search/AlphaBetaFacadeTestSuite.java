@@ -12,18 +12,18 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        AlphaBetaStatisticsTest.class,
+        AlphaBetaFacadeStatisticsTest.class,
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,
-        AlphaBetaMateIn1Test.class,
-        AlphaBetaMateIn2Test.class,
-        AlphaBetaMateIn3Test.class,
-        AlphaBetaMateIn4Test.class,
+        AlphaBetaFacadeMateIn1Test.class,
+        AlphaBetaFacadeMateIn2Test.class,
+        AlphaBetaFacadeMateIn3Test.class,
+        AlphaBetaFacadeMateIn4Test.class,
 
-        AlphaBetaTest.class,
-        AlphaBetaGenericTest.class,
-        AlphaBetaStopTest.class,
+        AlphaBetaFacadeTest.class,
+        AlphaBetaFacadeGenericTest.class,
+        AlphaBetaFacadeStopTest.class,
 
         BlackBestMovesTest.class,
         WhiteBestMovesTest.class,
@@ -31,6 +31,6 @@ import org.junit.platform.suite.api.Suite;
         TranspositionEntryTableTest.class,
         SetBestMovesTest.class
 })
-public class AlphaBetaTestSuite {
+public class AlphaBetaFacadeTestSuite {
 
 }
