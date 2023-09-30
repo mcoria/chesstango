@@ -268,7 +268,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         filters.add(new SetPrincipalVariation());
 
-        if (withStatistics) {
+        if (withStatistics && transpositionTable != null) {
             filters.add(new SetMoveEvaluations());
 
             filters.add(new SetBestMoves());
