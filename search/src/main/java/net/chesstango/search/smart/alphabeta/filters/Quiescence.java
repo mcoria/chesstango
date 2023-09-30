@@ -54,8 +54,11 @@ public class Quiescence implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
 
-        int maxValue = evaluator.evaluate(game);
+        if (!game.getStatus().isInProgress()) {
+            return TranspositionEntry.encode(evaluator.evaluate(game));
+        }
 
+        int maxValue = evaluator.evaluate(game);
         if (maxValue >= beta) {
             return TranspositionEntry.encode(TranspositionBound.LOWER_BOUND, null, maxValue);
         }
@@ -94,6 +97,10 @@ public class Quiescence implements AlphaBetaFilter {
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
+        }
+
+        if (!game.getStatus().isInProgress()) {
+            return TranspositionEntry.encode(evaluator.evaluate(game));
         }
 
         int minValue = evaluator.evaluate(game);

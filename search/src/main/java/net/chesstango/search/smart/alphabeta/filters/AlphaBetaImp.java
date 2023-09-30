@@ -7,8 +7,8 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 import net.chesstango.search.smart.transposition.TranspositionBound;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +41,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-		this.maxPly = context.getMaxPly();
+        this.maxPly = context.getMaxPly();
         this.keepProcessing = true;
     }
 
@@ -59,7 +59,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(TranspositionBound.EXACT, null, evaluator.evaluate(game));
+            return TranspositionEntry.encode(evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -100,7 +100,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(TranspositionBound.EXACT,null, evaluator.evaluate(game));
+            return TranspositionEntry.encode(evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);

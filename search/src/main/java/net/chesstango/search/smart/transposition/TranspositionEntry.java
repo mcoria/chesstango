@@ -20,6 +20,10 @@ public class TranspositionEntry implements Serializable {
 
     private static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
+    public static long encode(int value) {
+        return VALUE_MASK & value;
+    }
+
     public static long encode(TranspositionBound transpositionBound, Move move, int value) {
         short encodedMove = move != null ? move.binaryEncoding() : (short) 0;
 
@@ -27,9 +31,9 @@ public class TranspositionEntry implements Serializable {
     }
 
     public static long encode(TranspositionBound transpositionBound, short encodedMove, int value) {
-        long encodedMoveLng = ((long) encodedMove) << 32;
-
         long encodedValueLng = VALUE_MASK & value;
+
+        long encodedMoveLng = ((long) encodedMove) << 32;
 
         long encodedTranspositionTypeLng = ((long) transpositionBound.binaryEncoding()) << 48;
 
