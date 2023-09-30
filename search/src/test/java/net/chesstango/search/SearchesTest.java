@@ -28,23 +28,25 @@ public class SearchesTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
+                //.withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
+                .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
-                .withTranspositionTableReuse()
+                //.withQTranspositionTable()
+                //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                .withIterativeDeepening()
+                //.withIterativeDeepening()
 
-                .withStatistics()
-                .withTrackEvaluations() // Consume demasiada memoria
+                //.withStatistics()
+                //.withTrackEvaluations() // Consume demasiada memoria
+                .withZobristTracker()
 
                 .build();
     }
@@ -53,13 +55,11 @@ public class SearchesTest {
     public void printReport(){
         if(PRINT_REPORT) {
 
-            /*
             new NodesReport()
-                    .withNodesVisitedStatics()
-                    .withCutoffStatics()
+                    .withNodesVisitedStatistics()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
-             */
+
 
             new EvaluationReport()
                     //.withExportEvaluations()
@@ -74,7 +74,7 @@ public class SearchesTest {
     }
 
     @Test
-    @Disabled
+	@Disabled
     public void testSearch_01(){
         Game game = FENDecoder.loadGame("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22");
 
@@ -113,5 +113,14 @@ public class SearchesTest {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         searchResult = moveFinder.search( game, 8);
+    }
+
+
+    @Test
+    @Disabled
+    public void testSearch_06(){
+        Game game = FENDecoder.loadGame("R7/P4k2/8/8/8/8/r7/6K1 w - - 0 1");
+
+        searchResult = moveFinder.search( game, 5);
     }
 }
