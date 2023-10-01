@@ -34,17 +34,17 @@ public class SearchesTest {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                //.withQTranspositionTable()
+                .withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
-                //.withStopProcessingCatch()
+                .withStopProcessingCatch()
 
                 //.withIterativeDeepening()
 
-                //.withStatistics()
+                .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 .withZobristTracker()
 
