@@ -7,7 +7,8 @@ import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.FlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -27,7 +28,7 @@ public class AlphaBetaTest {
 
     private GameMockEvaluator evaluator;
 
-    private AlphaBeta alphaBeta;
+    private AlphaBetaFacade alphaBetaFacade;
 
     @BeforeEach
     public void setup() {
@@ -38,15 +39,19 @@ public class AlphaBetaTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setGameEvaluator(evaluator);
-        alphaBetaImp.setNext(alphaBetaImp);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setMoveSorter(moveSorter);
 
-        this.alphaBeta = new AlphaBeta();
-        this.alphaBeta.setAlphaBetaSearch(alphaBetaImp);
-        this.alphaBeta.setSearchActions(Arrays.asList(alphaBetaImp, quiescence, moveSorter));
+        FlowControl flowControl =  new FlowControl();
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(evaluator);
+        flowControl.setNext(alphaBeta);
+
+        alphaBeta.setNext(flowControl);
+
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBeta);
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, flowControl));
     }
 
     @Test
@@ -114,17 +119,17 @@ public class AlphaBetaTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        alphaBeta.beforeSearch(game, depth);
+        alphaBetaFacade.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
-        alphaBeta.beforeSearchByDepth(context);
+        alphaBetaFacade.beforeSearchByDepth(context);
 
-        SearchMoveResult result = alphaBeta.search(context);
+        SearchMoveResult result = alphaBetaFacade.search(context);
 
-        alphaBeta.afterSearchByDepth(result);
+        alphaBetaFacade.afterSearchByDepth(result);
 
-        alphaBeta.afterSearch(result);
+        alphaBetaFacade.afterSearch(result);
 
         return result;
     }

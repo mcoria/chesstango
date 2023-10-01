@@ -73,7 +73,7 @@ public class EpdSearchMain {
 
         report(suitePath, epdSearchResults);
 
-        System.gc();
+        //System.gc();
     }
 
     private void report(Path suitePath, List<EpdSearchResult> epdSearchResults) {

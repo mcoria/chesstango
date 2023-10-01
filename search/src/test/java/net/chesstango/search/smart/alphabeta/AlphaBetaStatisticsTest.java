@@ -7,10 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -19,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class AlphaBetaStatisticsTest {
 
-    private AlphaBeta alphaBeta;
+    private AlphaBetaFacade alphaBetaFacade;
 
     @BeforeEach
     public void setup() {
@@ -38,29 +35,33 @@ public class AlphaBetaStatisticsTest {
 
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(gameEvaluator);
-
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-
-
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaStatistics);
-        alphaBetaImp.setGameEvaluator(gameEvaluator);
-
-        transpositionTable.setNext(alphaBetaImp);
+        TranspositionTable transpositionTable = new TranspositionTable();
+        AlphaBeta alphaBeta = new AlphaBeta();
+        FlowControl flowControl = new FlowControl();
+        QuiescenceNull quiescence = new QuiescenceNull();
 
         alphaBetaStatistics.setNext(transpositionTable);
 
-        this.alphaBeta = new AlphaBeta();
-        this.alphaBeta.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(),
-                alphaBetaImp,
+        transpositionTable.setNext(flowControl);
+
+        flowControl.setNext(alphaBeta);
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(gameEvaluator);
+
+        alphaBeta.setNext(alphaBetaStatistics);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        quiescence.setGameEvaluator(gameEvaluator);
+
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBetaFacade.setSearchActions(List.of(
+                new SetTranspositionTables(),
                 alphaBetaStatistics,
                 transpositionTable,
+                flowControl,
+                alphaBeta,
                 quiescence,
                 moveSorter,
                 new SetBestMoves()));
@@ -71,7 +72,7 @@ public class AlphaBetaStatisticsTest {
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
         Set<Move>[] distinctMoves = null; //searchResult.getDistinctMovesPerLevel();
 
@@ -83,11 +84,20 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
 
         assertEquals(20, visitedNodesCounters[0]);
+
+        /**
+         * En el 1er ciclo de exploracion se ejecuta el movimiento de una pieza blanca y el de 20 negras.
+         * Dado que la evaluacion es por material y no hay ningun tipo de captura tenemos que alpha = 0
+         * Desde el 2do al 20mo ciclo (los otros 19 restantes) se ejecuta un movimiento de pieza blanca y
+         * SOLO un movimiento de pieza negra. Cada movimiento de pieza negra produce un beta cutoff debido a que
+         * la evaluacion vuelve a ser 0 y no es necesario explorar otros movimientos de pieza negra.
+         * Esto se continua repitiendo hasta finalizar los 19 ciclos restantes.
+         */
         assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
     }
 
@@ -95,7 +105,7 @@ public class AlphaBetaStatisticsTest {
     public void testExpectedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
 
@@ -107,7 +117,7 @@ public class AlphaBetaStatisticsTest {
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }

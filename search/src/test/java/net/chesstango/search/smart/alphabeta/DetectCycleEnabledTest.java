@@ -8,10 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -29,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class DetectCycleEnabledTest {
 
-    private AlphaBeta alphaBeta;
+    private AlphaBetaFacade alphaBetaFacade;
 
     private EvaluatorByCondition evaluator;
 
@@ -44,23 +41,28 @@ public class DetectCycleEnabledTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setGameEvaluator(evaluator);
-
+        AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-
         TranspositionTable transpositionTable = new TranspositionTable();
-        // FILTERS END
+        FlowControl flowControl =  new FlowControl();
 
-        alphaBetaImp.setNext(alphaBetaStatistics);
-        transpositionTable.setNext(alphaBetaImp);
         alphaBetaStatistics.setNext(transpositionTable);
 
-        this.alphaBeta = new AlphaBeta();
-        this.alphaBeta.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, alphaBetaStatistics, quiescence, transpositionTable, moveSorter));
+        transpositionTable.setNext(flowControl);
+
+        flowControl.setNext(alphaBeta);
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(evaluator);
+
+        alphaBeta.setNext(alphaBetaStatistics);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(alphaBetaStatistics);
+
+
+
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescence, transpositionTable, moveSorter, flowControl));
     }
 
 
@@ -110,7 +112,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 23);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 23);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -164,7 +166,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 17);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 17);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -210,7 +212,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 3);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -242,7 +244,7 @@ public class DetectCycleEnabledTest {
             };
         });
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 4);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 4);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

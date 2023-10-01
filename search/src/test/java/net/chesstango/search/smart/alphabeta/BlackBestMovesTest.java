@@ -5,7 +5,8 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.FlowControl;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -31,15 +32,19 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
         quiescence.setMoveSorter(moveSorter);
         quiescence.setNext(quiescence);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setGameEvaluator(gameEvaluator);
-        alphaBetaImp.setNext(alphaBetaImp);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setMoveSorter(moveSorter);
 
-        AlphaBeta minMaxPruning = new AlphaBeta();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBetaImp, quiescence, moveSorter));
+        FlowControl flowControl =  new FlowControl();
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(gameEvaluator);
+        flowControl.setNext(alphaBeta);
+
+        alphaBeta.setNext(flowControl);
+
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, flowControl));
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
     }
