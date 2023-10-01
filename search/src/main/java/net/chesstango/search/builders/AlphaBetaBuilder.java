@@ -146,17 +146,23 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     /**
-     * AlphaBetaFacade -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> FlowControl -> AlphaBeta
-     * *                                                     ^                                                |
-     * *                                                     |                                                |
-     * *                                                     -------------------------------------------------
+     * AlphaBetaFacade -> StopProcessingCatch ->
+     * *
+     * * AlphaBetaStatistics -> ZobristTracker -> TranspositionTable -> AlphaBetaFlowControl -> AlphaBeta
+     * *            ^                                                                            |
+     * *            |                                                                            |
+     * *            -----------------------------------------------------------------------------
+     * *
      * StopProcessingCatch: al comienzo y solo una vez para atrapar excepciones de stop
      * AlphaBetaStatistics: al comienzo, para contabilizar los movimientos iniciales posibles
-     * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que (DEPTH) + 4 puede repetir la misma posicion
+     * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que se puede repetir la misma busqueda
      *
      * <p>
      * <p>
-     * QuiescenceStatics -> QTranspositionTable -> Quiescence
+     * *  QuiescenceStatics -> ZobristTracker -> TranspositionTableQ -> QuiescenceFlowControl -> Quiescence
+     * *            ^                                                                              |
+     * *            |                                                                              |
+     * *            -------------------------------------------------------------------------------
      *
      * @return
      */
