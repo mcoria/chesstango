@@ -10,16 +10,10 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class FlowControl implements AlphaBetaFilter {
+public class QuiescenceFlowControl implements AlphaBetaFilter {
     private volatile boolean keepProcessing;
-
     private GameEvaluator evaluator;
-
     private AlphaBetaFilter next;
-
-    private AlphaBetaFilter quiescence;
-
-    private int maxPly;
     private Game game;
 
     @Override
@@ -30,7 +24,6 @@ public class FlowControl implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override
@@ -58,9 +51,6 @@ public class FlowControl implements AlphaBetaFilter {
         if (!game.getStatus().isInProgress()) {
             return TranspositionEntry.encode(evaluator.evaluate(game));
         }
-        if (currentPly == maxPly) {
-            return quiescence.maximize(currentPly, alpha, beta);
-        }
 
         return next.maximize(currentPly, alpha, beta);
     }
@@ -73,15 +63,8 @@ public class FlowControl implements AlphaBetaFilter {
         if (!game.getStatus().isInProgress()) {
             return TranspositionEntry.encode(evaluator.evaluate(game));
         }
-        if (currentPly == maxPly) {
-            return quiescence.minimize(currentPly, alpha, beta);
-        }
 
         return next.minimize(currentPly, alpha, beta);
-    }
-
-    public void setQuiescence(AlphaBetaFilter quiescence) {
-        this.quiescence = quiescence;
     }
 
     public void setGameEvaluator(GameEvaluator evaluator) {

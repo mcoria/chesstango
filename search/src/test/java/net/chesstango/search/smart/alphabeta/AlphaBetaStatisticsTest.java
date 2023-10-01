@@ -38,16 +38,16 @@ public class AlphaBetaStatisticsTest {
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBeta alphaBeta = new AlphaBeta();
-        FlowControl flowControl = new FlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
 
         alphaBetaStatistics.setNext(transpositionTable);
 
-        transpositionTable.setNext(flowControl);
+        transpositionTable.setNext(alphaBetaFlowControl);
 
-        flowControl.setNext(alphaBeta);
-        flowControl.setQuiescence(quiescence);
-        flowControl.setGameEvaluator(gameEvaluator);
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         alphaBeta.setNext(alphaBetaStatistics);
         alphaBeta.setMoveSorter(moveSorter);
@@ -60,7 +60,7 @@ public class AlphaBetaStatisticsTest {
                 new SetTranspositionTables(),
                 alphaBetaStatistics,
                 transpositionTable,
-                flowControl,
+                alphaBetaFlowControl,
                 alphaBeta,
                 quiescence,
                 moveSorter,

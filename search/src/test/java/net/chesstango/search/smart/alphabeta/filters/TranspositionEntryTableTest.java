@@ -120,19 +120,19 @@ public class TranspositionEntryTableTest {
 
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-        FlowControl flowControl = new FlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         alphaBetaStatistics.setNext(alphaBeta);
 
-        alphaBeta.setNext(flowControl);
+        alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        flowControl.setNext(alphaBetaStatistics);
-        flowControl.setQuiescence(quiescenceNull);
-        flowControl.setGameEvaluator(gameEvaluator);
+        alphaBetaFlowControl.setNext(alphaBetaStatistics);
+        alphaBetaFlowControl.setQuiescence(quiescenceNull);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, flowControl));
+        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, alphaBetaFlowControl));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
 
         return new NoIterativeDeepening(minMaxPruning);
@@ -150,18 +150,18 @@ public class TranspositionEntryTableTest {
         AlphaBeta alphaBeta = new AlphaBeta();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-        FlowControl flowControl = new FlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         alphaBetaStatistics.setNext(transpositionTable);
 
         transpositionTable.setNext(alphaBeta);
 
-        alphaBeta.setNext(flowControl);
+        alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        flowControl.setNext(alphaBetaStatistics);
-        flowControl.setQuiescence(quiescenceNull);
-        flowControl.setGameEvaluator(gameEvaluator);
+        alphaBetaFlowControl.setNext(alphaBetaStatistics);
+        alphaBetaFlowControl.setQuiescence(quiescenceNull);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(),
@@ -172,7 +172,7 @@ public class TranspositionEntryTableTest {
                 moveSorter,
                 gameEvaluator,
                 new SetPrincipalVariation(),
-                flowControl));
+                alphaBetaFlowControl));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
 
         return new IterativeDeepening(minMaxPruning);

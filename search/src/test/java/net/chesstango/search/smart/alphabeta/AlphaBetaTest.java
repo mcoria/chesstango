@@ -8,7 +8,7 @@ import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.FlowControl;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -42,16 +42,16 @@ public class AlphaBetaTest {
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setMoveSorter(moveSorter);
 
-        FlowControl flowControl =  new FlowControl();
-        flowControl.setQuiescence(quiescence);
-        flowControl.setGameEvaluator(evaluator);
-        flowControl.setNext(alphaBeta);
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(evaluator);
+        alphaBetaFlowControl.setNext(alphaBeta);
 
-        alphaBeta.setNext(flowControl);
+        alphaBeta.setNext(alphaBetaFlowControl);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBeta);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, flowControl));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
     }
 
     @Test
