@@ -30,7 +30,6 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override
@@ -86,7 +85,6 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         int minValue = evaluator.evaluate(game);
-
         if (minValue <= alpha) {
             return TranspositionEntry.encode(TranspositionBound.UPPER_BOUND,null, minValue);
         }

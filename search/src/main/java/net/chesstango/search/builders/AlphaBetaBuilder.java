@@ -124,6 +124,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     public AlphaBetaBuilder withTranspositionTableReuse() {
+        if (transpositionTable == null & transpositionTableQ == null) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
         withTranspositionTableReuse = true;
         return this;
     }
@@ -222,6 +225,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withZobristTracker) {
                 zobristQTracker = new ZobristTracker();
             }
+        } else {
+            quiescenceNull = new QuiescenceNull();
         }
         // ====================================================
 
@@ -339,8 +344,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl.setQuiescence(headQuiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
-        alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setNext(head);
+        alphaBeta.setMoveSorter(moveSorter);
 
         // ====================================================
 
