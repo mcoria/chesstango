@@ -10,7 +10,7 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        BlackBestMovesTest.class,
+        BestMovesBlackTest.class,
         NegaMaxMateIn1Test.class,
         NegaMaxMateIn2Test.class,
         NegaMaxPruningTest.class,
@@ -20,7 +20,7 @@ import org.junit.platform.suite.api.Suite;
         NegaMaxPruningMateIn4Test.class,
         NegaMaxTest.class,
         NegaMaxPruningGenericTest.class,
-        WhiteBestMovesTest.class
+        BestMovesWhiteTest.class
 })
 public class NegaMaxTestSuite {
 

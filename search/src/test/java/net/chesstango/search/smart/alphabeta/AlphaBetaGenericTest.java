@@ -27,20 +27,20 @@ public class AlphaBetaGenericTest extends GenericTest {
 
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(gameEvaluator);
-        quiescence.setMoveSorter(moveSorter);
-        quiescence.setNext(quiescence);
-
         AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setMoveSorter(moveSorter);
-
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+        Quiescence quiescence = new Quiescence();
 
         alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
+
+        quiescence.setNext(quiescence);
+        quiescence.setGameEvaluator(gameEvaluator);
+        quiescence.setMoveSorter(moveSorter);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

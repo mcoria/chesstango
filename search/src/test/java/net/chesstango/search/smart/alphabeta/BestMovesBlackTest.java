@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AbstractBlackBestMovesTest;
+import net.chesstango.search.smart.AbstractBestMovesBlackTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
+public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
     private SearchMove searchMove;
 
