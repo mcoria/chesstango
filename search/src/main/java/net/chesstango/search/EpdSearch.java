@@ -82,7 +82,7 @@ public class EpdSearch {
                                 .setDepth(depth)
                                 .run(epdEntry);
                         if (epdSearchResult.bestMoveFound()) {
-                            logger.info(String.format("Success %s", epdEntry.fen));
+                            //logger.info(String.format("Success %s", epdEntry.fen));
                         } else {
                             String failedTest = String.format("Fail [%s] - best move found %s",
                                     epdEntry.text,
@@ -96,7 +96,6 @@ public class EpdSearch {
                         logger.error(String.format("Error processing: %s", epdEntry.fen));
                         throw e;
                     } finally {
-                        assert searchMove != null;
                         blockingQueue.put(searchMove);
                     }
                 }

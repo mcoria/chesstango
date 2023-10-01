@@ -3,9 +3,10 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.MateIn1Test;
+import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.FlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacadeMateIn1Test extends MateIn1Test {
+public class AlphaBetaMateIn2Test extends MateIn2Test {
 
     private SearchMove searchMove;
 
@@ -30,14 +31,18 @@ public class AlphaBetaFacadeMateIn1Test extends MateIn1Test {
         quiescence.setGameEvaluator(gameEvaluator);
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setNext(alphaBeta);
-        alphaBeta.setGameEvaluator(gameEvaluator);
+
+        FlowControl flowControl =  new FlowControl();
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(gameEvaluator);
+        flowControl.setNext(alphaBeta);
+
+        alphaBeta.setNext(flowControl);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, flowControl));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }
@@ -47,6 +52,4 @@ public class AlphaBetaFacadeMateIn1Test extends MateIn1Test {
     public SearchMove getBestMoveFinder() {
         return searchMove;
     }
-
-
 }

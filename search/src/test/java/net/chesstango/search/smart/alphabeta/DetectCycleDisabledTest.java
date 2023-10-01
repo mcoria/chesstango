@@ -10,6 +10,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
+import net.chesstango.search.smart.alphabeta.filters.FlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -44,19 +45,22 @@ public class DetectCycleDisabledTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setQuiescence(quiescence);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(evaluator);
-
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBeta alphaBeta = new AlphaBeta();
+        FlowControl flowControl =  new FlowControl();
+
+        alphaBetaStatistics.setNext(flowControl);
+
+        flowControl.setNext(alphaBeta);
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(evaluator);
 
         alphaBeta.setNext(alphaBetaStatistics);
-        alphaBetaStatistics.setNext(alphaBeta);
+        alphaBeta.setMoveSorter(moveSorter);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescence, moveSorter));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, moveSorter, flowControl));
     }
 
 

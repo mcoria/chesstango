@@ -7,10 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -19,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacadeStatisticsTest {
+public class AlphaBetaStatisticsTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
@@ -38,29 +35,33 @@ public class AlphaBetaFacadeStatisticsTest {
 
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(gameEvaluator);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-
-
-        alphaBeta.setQuiescence(quiescence);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setNext(alphaBetaStatistics);
-        alphaBeta.setGameEvaluator(gameEvaluator);
-
-        transpositionTable.setNext(alphaBeta);
+        TranspositionTable transpositionTable = new TranspositionTable();
+        AlphaBeta alphaBeta = new AlphaBeta();
+        FlowControl flowControl = new FlowControl();
+        QuiescenceNull quiescence = new QuiescenceNull();
 
         alphaBetaStatistics.setNext(transpositionTable);
 
+        transpositionTable.setNext(flowControl);
+
+        flowControl.setNext(alphaBeta);
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(gameEvaluator);
+
+        alphaBeta.setNext(alphaBetaStatistics);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        quiescence.setGameEvaluator(gameEvaluator);
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(),
-                alphaBeta,
+        this.alphaBetaFacade.setSearchActions(List.of(
+                new SetTranspositionTables(),
                 alphaBetaStatistics,
                 transpositionTable,
+                flowControl,
+                alphaBeta,
                 quiescence,
                 moveSorter,
                 new SetBestMoves()));
@@ -88,6 +89,15 @@ public class AlphaBetaFacadeStatisticsTest {
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
 
         assertEquals(20, visitedNodesCounters[0]);
+
+        /**
+         * En el 1er ciclo de exploracion se ejecuta el movimiento de una pieza blanca y el de 20 negras.
+         * Dado que la evaluacion es por material y no hay ningun tipo de captura tenemos que alpha = 0
+         * Desde el 2do al 20mo ciclo (los otros 19 restantes) se ejecuta un movimiento de pieza blanca y
+         * SOLO un movimiento de pieza negra. Cada movimiento de pieza negra produce un beta cutoff debido a que
+         * la evaluacion vuelve a ser 0 y no es necesario explorar otros movimientos de pieza negra.
+         * Esto se continua repitiendo hasta finalizar los 19 ciclos restantes.
+         */
         assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
     }
 

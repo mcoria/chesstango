@@ -8,6 +8,7 @@ import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.FlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacadeTest {
+public class AlphaBetaTest {
 
 
     private GameMockEvaluator evaluator;
@@ -39,14 +40,18 @@ public class AlphaBetaFacadeTest {
         quiescence.setGameEvaluator(evaluator);
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(evaluator);
-        alphaBeta.setNext(alphaBeta);
+
+        FlowControl flowControl =  new FlowControl();
+        flowControl.setQuiescence(quiescence);
+        flowControl.setGameEvaluator(evaluator);
+        flowControl.setNext(alphaBeta);
+
+        alphaBeta.setNext(flowControl);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBeta);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, flowControl));
     }
 
     @Test

@@ -153,10 +153,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     /**
-     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> AlphaBeta
-     * *                                                   ^                                    |
-     * *                                                   |                                    |
-     * *                                                   -------------------------------------
+     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> FlowControl -> AlphaBeta
+     * *                                                   ^                                                |
+     * *                                                   |                                                |
+     * *                                                   -------------------------------------------------
      * StopProcessingCatch: al comienzo y solo una vez para atrapar excepciones de stop
      * AlphaBetaStatistics: al comienzo, para contabilizar los movimientos iniciales posibles
      * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que (DEPTH) + 4 puede repetir la misma posicion
@@ -169,6 +169,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+
+        FlowControl flowControl = new FlowControl();
 
         if (withStatistics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
@@ -258,7 +260,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             } else if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
-                alphaBetaStatistics.setNext(this.alphaBeta);
+                alphaBetaStatistics.setNext(flowControl);
             }
             head = alphaBetaStatistics;
         }
@@ -273,19 +275,22 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (transpositionTable != null) {
             filters.add(transpositionTable);
-            transpositionTable.setNext(this.alphaBeta);
+            transpositionTable.setNext(flowControl);
             if (head == null) {
                 head = transpositionTable;
             }
         }
 
         if (head == null) {
-            head = this.alphaBeta;
+            head = flowControl;
         }
 
+        flowControl.setNext(alphaBeta);
+        flowControl.setQuiescence(headQuiescence);
+        flowControl.setGameEvaluator(gameEvaluator);
+        filters.add(flowControl);
+
         this.alphaBeta.setMoveSorter(moveSorter);
-        this.alphaBeta.setGameEvaluator(gameEvaluator);
-        this.alphaBeta.setQuiescence(headQuiescence);
         this.alphaBeta.setNext(head);
 
         // ====================================================

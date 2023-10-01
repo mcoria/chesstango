@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacadeStopTest {
+public class AlphaBetaStopTest {
     @Test
     public void testStop() throws InterruptedException {
         SearchMove search = new AlphaBetaBuilder()
