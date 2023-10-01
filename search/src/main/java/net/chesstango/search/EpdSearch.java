@@ -41,25 +41,6 @@ public class EpdSearch {
         return run(searchMove, epdEntry);
     }
 
-    private EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
-
-        Instant start = Instant.now();
-
-        SearchMoveResult searchResult = searchMove.search(epdEntry.game, depth);
-
-        long duration = Duration.between(start, Instant.now()).toMillis();
-
-        searchResult.setEpdID(epdEntry.id);
-
-        Move bestMove = searchResult.getBestMove();
-
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
-
-        boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
-
-        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, bestMoveFound, duration);
-    }
-
     public List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
 
@@ -134,6 +115,26 @@ public class EpdSearch {
 
 
         return epdSearchResults;
+    }
+
+
+    private EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
+
+        Instant start = Instant.now();
+
+        SearchMoveResult searchResult = searchMove.search(epdEntry.game, depth);
+
+        long duration = Duration.between(start, Instant.now()).toMillis();
+
+        searchResult.setEpdID(epdEntry.id);
+
+        Move bestMove = searchResult.getBestMove();
+
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+
+        boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
+
+        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, bestMoveFound, duration);
     }
 
 
