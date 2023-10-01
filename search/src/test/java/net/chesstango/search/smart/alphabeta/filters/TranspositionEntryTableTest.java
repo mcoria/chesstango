@@ -151,7 +151,6 @@ public class TranspositionEntryTableTest {
         EvaluatorStatistics gameEvaluator = new EvaluatorStatistics(new EvaluatorSEandImp02());
 
         MoveSorter moveSorter = new TranspositionMoveSorter();
-        //MoveSorter moveSorter = new DefaultMoveSorter();
 
         QuiescenceNull quiescenceNull = new QuiescenceNull();
         quiescenceNull.setGameEvaluator(gameEvaluator);

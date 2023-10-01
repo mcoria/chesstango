@@ -28,19 +28,19 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
         Quiescence quiescence = new Quiescence();
+        AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+
+        alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
+
         quiescence.setGameEvaluator(gameEvaluator);
         quiescence.setMoveSorter(moveSorter);
         quiescence.setNext(quiescence);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setMoveSorter(moveSorter);
-
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaFlowControl);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

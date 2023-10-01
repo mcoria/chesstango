@@ -23,24 +23,24 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
-
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new EvaluatorByMaterial());
-        quiescence.setMoveSorter(moveSorter);
-        quiescence.setNext(quiescence);
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
+        Quiescence quiescence = new Quiescence();
         AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+
+        alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        alphaBetaFlowControl.setNext(alphaBeta);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
 
-        alphaBeta.setNext(alphaBetaFlowControl);;
+        quiescence.setGameEvaluator(gameEvaluator);
+        quiescence.setMoveSorter(moveSorter);
+        quiescence.setNext(quiescence);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
