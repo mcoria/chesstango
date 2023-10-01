@@ -137,9 +137,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withZobristTracker() {
-        if (transpositionTable == null && transpositionTableQ == null) {
-            throw new RuntimeException("You must enable TranspositionTable first");
-        }
         withZobristTracker = true;
         return this;
     }
@@ -210,7 +207,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             alphaBetaStatistics = new AlphaBetaStatistics();
         }
 
-        if (withZobristTracker && transpositionTable != null) {
+        if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
         // ====================================================
@@ -222,7 +219,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withStatistics) {
                 quiescenceStatistics = new QuiescenceStatistics();
             }
-            if (withZobristTracker && transpositionTableQ != null) {
+            if (withZobristTracker) {
                 zobristQTracker = new ZobristTracker();
             }
         }
