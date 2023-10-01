@@ -44,15 +44,15 @@ public class DetectCycleEnabledTest {
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
         TranspositionTable transpositionTable = new TranspositionTable();
-        FlowControl flowControl =  new FlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
 
         alphaBetaStatistics.setNext(transpositionTable);
 
-        transpositionTable.setNext(flowControl);
+        transpositionTable.setNext(alphaBetaFlowControl);
 
-        flowControl.setNext(alphaBeta);
-        flowControl.setQuiescence(quiescence);
-        flowControl.setGameEvaluator(evaluator);
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(evaluator);
 
         alphaBeta.setNext(alphaBetaStatistics);
         alphaBeta.setMoveSorter(moveSorter);
@@ -62,7 +62,7 @@ public class DetectCycleEnabledTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescence, transpositionTable, moveSorter, flowControl));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescence, transpositionTable, moveSorter, alphaBetaFlowControl));
     }
 
 

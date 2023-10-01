@@ -29,11 +29,13 @@ import java.util.List;
  */
 public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBeta alphaBeta;
-    private final FlowControl flowControl;
+    private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private MoveSorter moveSorter;
     private MoveSorter qMoveSorter;
-    private AlphaBetaFilter quiescence;
+    private QuiescenceNull quiescenceNull;
+    private Quiescence quiescence;
+    private QuiescenceFlowControl quiescenceFlowControl;
     private SetTranspositionTables setTranspositionTables;
     private AlphaBetaStatistics alphaBetaStatistics;
     private QuiescenceStatistics quiescenceStatistics;
@@ -42,24 +44,21 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private ZobristTracker zobristTracker;
     private ZobristTracker zobristQTracker;
-
     private SetPrincipalVariation setPrincipalVariation;
     private SetMoveEvaluations setMoveEvaluations;
     private SetBestMoves setBestMoves;
 
+    private boolean withQuiescence;
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
-
     private boolean withZobristTracker;
 
     public AlphaBetaBuilder() {
         alphaBeta = new AlphaBeta();
 
-        flowControl = new FlowControl();
-
-        quiescence = new QuiescenceNull();
+        alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         gameEvaluator = new DefaultEvaluator();
 
@@ -80,7 +79,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQuiescence() {
-        quiescence = new Quiescence();
+        this.withQuiescence = true;
         return this;
     }
 
@@ -95,7 +94,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQTranspositionTable() {
-        if (quiescence instanceof QuiescenceNull) {
+        if (!withQuiescence) {
             throw new RuntimeException("You must enable Quiescence first");
         }
         transpositionTableQ = new TranspositionTableQ();
@@ -217,7 +216,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
         // ====================================================
 
         // =============  quiescence setup =====================
-        if (quiescence instanceof Quiescence) {
+        if (withQuiescence) {
+            quiescence = new Quiescence();
+            quiescenceFlowControl = new QuiescenceFlowControl();
             if (withStatistics) {
                 quiescenceStatistics = new QuiescenceStatistics();
             }
@@ -243,7 +244,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             filterActions.add(setTranspositionTables);
         }
 
-        filterActions.add(flowControl);
+        filterActions.add(alphaBetaFlowControl);
         filterActions.add(alphaBeta);
         filterActions.add(quiescence);
         filterActions.add(moveSorter);
@@ -268,7 +269,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         // ====================================================
 
         // =============  quiescence setup =====================
-        if (quiescence instanceof Quiescence) {
+        if (withQuiescence) {
+            filterActions.add(quiescenceFlowControl);
             if (quiescenceStatistics != null) {
                 filterActions.add(quiescenceStatistics);
             }
@@ -309,7 +311,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             } else if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
-                alphaBetaStatistics.setNext(flowControl);
+                alphaBetaStatistics.setNext(alphaBetaFlowControl);
             }
             head = alphaBetaStatistics;
         }
@@ -318,7 +320,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (transpositionTable != null) {
                 zobristTracker.setNext(transpositionTable);
             } else {
-                zobristTracker.setNext(flowControl);
+                zobristTracker.setNext(alphaBetaFlowControl);
             }
             if (head == null) {
                 head = zobristTracker;
@@ -326,22 +328,23 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (transpositionTable != null) {
-            transpositionTable.setNext(flowControl);
+            transpositionTable.setNext(alphaBetaFlowControl);
             if (head == null) {
                 head = transpositionTable;
             }
         }
 
         if (head == null) {
-            head = flowControl;
+            head = alphaBetaFlowControl;
         }
 
-        flowControl.setNext(alphaBeta);
-        flowControl.setQuiescence(headQuiescence);
-        flowControl.setGameEvaluator(gameEvaluator);
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(headQuiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setNext(head);
+
         // ====================================================
 
         // StopProcessingCatch is set one in the chain
@@ -356,18 +359,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private AlphaBetaFilter createQuiescenceChain() {
         AlphaBetaFilter headQuiescence = null;
 
-        // =============  quiescence setup =====================
-        if (quiescence instanceof Quiescence realQuiescence) {
-            realQuiescence.setMoveSorter(qMoveSorter);
-            realQuiescence.setGameEvaluator(gameEvaluator);
-
+        if (withQuiescence) {
             if (quiescenceStatistics != null) {
                 if (zobristQTracker != null) {
                     quiescenceStatistics.setNext(zobristQTracker);
                 } else if (transpositionTableQ != null) {
                     quiescenceStatistics.setNext(transpositionTableQ);
                 } else {
-                    quiescenceStatistics.setNext(quiescence);
+                    quiescenceStatistics.setNext(quiescenceFlowControl);
                 }
                 headQuiescence = quiescenceStatistics;
             }
@@ -376,7 +375,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 if (transpositionTableQ != null) {
                     zobristQTracker.setNext(transpositionTableQ);
                 } else {
-                    zobristQTracker.setNext(quiescence);
+                    zobristQTracker.setNext(quiescenceFlowControl);
                 }
                 if (headQuiescence == null) {
                     headQuiescence = zobristQTracker;
@@ -384,19 +383,24 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
 
             if (transpositionTableQ != null) {
-                transpositionTableQ.setNext(quiescence);
+                transpositionTableQ.setNext(quiescenceFlowControl);
                 if (headQuiescence == null) {
                     headQuiescence = transpositionTableQ;
                 }
             }
 
             if (headQuiescence == null) {
-                headQuiescence = quiescence;
+                headQuiescence = quiescenceFlowControl;
             }
 
-            realQuiescence.setNext(headQuiescence);
+            quiescenceFlowControl.setNext(quiescence);
+            quiescenceFlowControl.setGameEvaluator(gameEvaluator);
 
-        } else if (quiescence instanceof QuiescenceNull quiescenceNull) {
+            quiescence.setNext(headQuiescence);
+            quiescence.setMoveSorter(qMoveSorter);
+            quiescence.setGameEvaluator(gameEvaluator);
+
+        } else {
             quiescenceNull.setGameEvaluator(gameEvaluator);
             headQuiescence = quiescence;
         }

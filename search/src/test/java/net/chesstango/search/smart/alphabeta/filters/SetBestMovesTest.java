@@ -37,20 +37,20 @@ public class SetBestMovesTest {
 
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBeta alphaBeta = new AlphaBeta();
-        FlowControl flowControl =  new FlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
 
         transpositionTable.setNext(alphaBeta);
 
-        alphaBeta.setNext(flowControl);
+        alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        flowControl.setNext(transpositionTable);
-        flowControl.setQuiescence(quiescence);
-        flowControl.setGameEvaluator(gameEvaluator);
+        alphaBetaFlowControl.setNext(transpositionTable);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(transpositionTable);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, transpositionTable, quiescence, moveSorter, new SetBestMoves(), flowControl));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, transpositionTable, quiescence, moveSorter, new SetBestMoves(), alphaBetaFlowControl));
     }
 
 
