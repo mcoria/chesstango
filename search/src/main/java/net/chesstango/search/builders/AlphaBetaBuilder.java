@@ -16,49 +16,48 @@ import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
+import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
 import net.chesstango.search.smart.statistics.IterativeWrapper;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
 public class AlphaBetaBuilder implements SearchBuilder {
-
     private final AlphaBeta alphaBeta;
-
-    private MoveSorter moveSorter;
-
-    private MoveSorter qMoveSorter;
-
-    private AlphaBetaFilter quiescence;
-
+    private final FlowControl flowControl;
     private GameEvaluator gameEvaluator;
-
+    private MoveSorter moveSorter;
+    private MoveSorter qMoveSorter;
+    private AlphaBetaFilter quiescence;
+    private SetTranspositionTables setTranspositionTables;
     private AlphaBetaStatistics alphaBetaStatistics;
-
     private QuiescenceStatistics quiescenceStatistics;
-
     private TranspositionTable transpositionTable;
-
     private TranspositionTableQ transpositionTableQ;
-
     private StopProcessingCatch stopProcessingCatch;
-
     private ZobristTracker zobristTracker;
     private ZobristTracker zobristQTracker;
+
+    private SetPrincipalVariation setPrincipalVariation;
+    private SetMoveEvaluations setMoveEvaluations;
+    private SetBestMoves setBestMoves;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
 
+    private boolean withZobristTracker;
+
     public AlphaBetaBuilder() {
         alphaBeta = new AlphaBeta();
+
+        flowControl = new FlowControl();
 
         quiescence = new QuiescenceNull();
 
@@ -142,21 +141,16 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (transpositionTable == null && transpositionTableQ == null) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
-        if (transpositionTable != null) {
-            zobristTracker = new ZobristTracker();
-        }
-        if (transpositionTableQ != null) {
-            zobristQTracker = new ZobristTracker();
-        }
+        withZobristTracker = true;
         return this;
     }
 
 
     /**
-     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> FlowControl -> AlphaBeta
-     * *                                                   ^                                                |
-     * *                                                   |                                                |
-     * *                                                   -------------------------------------------------
+     * AlphaBetaFacade -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> FlowControl -> AlphaBeta
+     * *                                                     ^                                                |
+     * *                                                     |                                                |
+     * *                                                     -------------------------------------------------
      * StopProcessingCatch: al comienzo y solo una vez para atrapar excepciones de stop
      * AlphaBetaStatistics: al comienzo, para contabilizar los movimientos iniciales posibles
      * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que (DEPTH) + 4 puede repetir la misma posicion
@@ -169,92 +163,147 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+        buildObjects();
 
-        FlowControl flowControl = new FlowControl();
+        List<SearchLifeCycle> searchActions = createSearchActions();
+
+        AlphaBetaFilter head = createChain();
+
+        // ====================================================
+        AlphaBetaFacade alphaBetaFacade = new AlphaBetaFacade();
+        alphaBetaFacade.setAlphaBetaSearch(head);
+        alphaBetaFacade.setSearchActions(searchActions);
+
+        SearchMove searchMove;
+
+        if (withIterativeDeepening) {
+            searchMove = new IterativeDeepening(alphaBetaFacade);
+        } else {
+            searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        }
 
         if (withStatistics) {
-            alphaBetaStatistics = new AlphaBetaStatistics();
+            IterativeWrapper iterativeWrapper = new IterativeWrapper(searchMove);
 
-            quiescenceStatistics = new QuiescenceStatistics();
+            searchActions.add(new GameStatisticsListener());
 
+            searchMove = iterativeWrapper;
+        }
+
+        return searchMove;
+    }
+
+    private void buildObjects() {
+        if (withStatistics) {
             gameEvaluator = new EvaluatorStatistics(gameEvaluator)
                     .setTrackEvaluations(withTrackEvaluations);
         }
 
-        List<SearchLifeCycle> filters = new ArrayList<>();
-
-        // ====================================================
         if (transpositionTable != null || transpositionTableQ != null) {
-            SetTranspositionTables setTranspositionTables = new SetTranspositionTables();
-
+            setTranspositionTables = new SetTranspositionTables();
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
+        }
 
-            // Este filtro necesita agregarse primero
-            filters.add(setTranspositionTables);
+        // =============  alphaBeta setup =====================
+        if (withStatistics) {
+            alphaBetaStatistics = new AlphaBetaStatistics();
+        }
+
+        if (withZobristTracker && transpositionTable != null) {
+            zobristTracker = new ZobristTracker();
         }
         // ====================================================
-
-        filters.add(alphaBeta);
-        filters.add(quiescence);
-        filters.add(moveSorter);
-        filters.add(qMoveSorter);
-
-        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
-            filters.add(evaluatorStatistics);
-        }
 
         // =============  quiescence setup =====================
-        AlphaBetaFilter headQuiescence = null;
-        if (quiescence instanceof Quiescence realQuiescence) {
-            realQuiescence.setMoveSorter(qMoveSorter);
-            realQuiescence.setGameEvaluator(gameEvaluator);
-
-            if (quiescenceStatistics != null) {
-                filters.add(quiescenceStatistics);
-                if (zobristQTracker != null) {
-                    quiescenceStatistics.setNext(zobristQTracker);
-                } else if (transpositionTableQ != null) {
-                    quiescenceStatistics.setNext(transpositionTableQ);
-                } else {
-                    quiescenceStatistics.setNext(quiescence);
-                }
-                headQuiescence = quiescenceStatistics;
+        if (quiescence instanceof Quiescence) {
+            if (withStatistics) {
+                quiescenceStatistics = new QuiescenceStatistics();
             }
-
-            if (zobristQTracker != null) {
-                filters.add(zobristQTracker);
-                zobristQTracker.setNext(transpositionTableQ);
-                if (headQuiescence == null) {
-                    headQuiescence = zobristQTracker;
-                }
+            if (withZobristTracker && transpositionTableQ != null) {
+                zobristQTracker = new ZobristTracker();
             }
-
-            if (transpositionTableQ != null) {
-                filters.add(transpositionTableQ);
-                transpositionTableQ.setNext(quiescence);
-                if (headQuiescence == null) {
-                    headQuiescence = transpositionTableQ;
-                }
-            }
-
-            if (headQuiescence == null) {
-                headQuiescence = quiescence;
-            }
-
-            realQuiescence.setNext(headQuiescence);
-
-        } else if (quiescence instanceof QuiescenceNull) {
-            ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
-            headQuiescence = quiescence;
         }
         // ====================================================
+
+        setPrincipalVariation = new SetPrincipalVariation();
+        if (withStatistics && transpositionTable != null) {
+            setMoveEvaluations = new SetMoveEvaluations();
+            setBestMoves = new SetBestMoves();
+        }
+    }
+
+
+    private List<SearchLifeCycle> createSearchActions() {
+        List<SearchLifeCycle> filterActions = new LinkedList<>();
+
+        if (setTranspositionTables != null) {
+            // Este filtro necesita agregarse primero
+            filterActions.add(setTranspositionTables);
+        }
+
+        filterActions.add(flowControl);
+        filterActions.add(alphaBeta);
+        filterActions.add(quiescence);
+        filterActions.add(moveSorter);
+        filterActions.add(qMoveSorter);
+
+        // =============  alphaBeta setup =====================
+        if (withStatistics) {
+            filterActions.add(alphaBetaStatistics);
+        }
+
+        if (zobristTracker != null) {
+            filterActions.add(zobristTracker);
+        }
+
+        if (transpositionTable != null) {
+            filterActions.add(transpositionTable);
+        }
+
+        if (stopProcessingCatch != null) {
+            filterActions.add(stopProcessingCatch);
+        }
+        // ====================================================
+
+        // =============  quiescence setup =====================
+        if (quiescence instanceof Quiescence) {
+            if (quiescenceStatistics != null) {
+                filterActions.add(quiescenceStatistics);
+            }
+            if (zobristQTracker != null) {
+                filterActions.add(zobristQTracker);
+            }
+            if (transpositionTableQ != null) {
+                filterActions.add(transpositionTableQ);
+            }
+        }
+        // ====================================================
+
+        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
+            filterActions.add(evaluatorStatistics);
+        }
+
+        filterActions.add(setPrincipalVariation);
+        if (setMoveEvaluations != null) {
+            filterActions.add(setMoveEvaluations);
+        }
+
+        if (setBestMoves != null) {
+            filterActions.add(setBestMoves);
+        }
+
+        return filterActions;
+    }
+
+
+    private AlphaBetaFilter createChain() {
+        AlphaBetaFilter headQuiescence = createQuiescenceChain();
 
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
-            filters.add(alphaBetaStatistics);
             if (zobristTracker != null) {
                 alphaBetaStatistics.setNext(zobristTracker);
             } else if (transpositionTable != null) {
@@ -266,15 +315,17 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (zobristTracker != null) {
-            filters.add(zobristTracker);
-            zobristTracker.setNext(transpositionTable);
+            if (transpositionTable != null) {
+                zobristTracker.setNext(transpositionTable);
+            } else {
+                zobristTracker.setNext(flowControl);
+            }
             if (head == null) {
                 head = zobristTracker;
             }
         }
 
         if (transpositionTable != null) {
-            filters.add(transpositionTable);
             transpositionTable.setNext(flowControl);
             if (head == null) {
                 head = transpositionTable;
@@ -288,61 +339,69 @@ public class AlphaBetaBuilder implements SearchBuilder {
         flowControl.setNext(alphaBeta);
         flowControl.setQuiescence(headQuiescence);
         flowControl.setGameEvaluator(gameEvaluator);
-        filters.add(flowControl);
 
-        this.alphaBeta.setMoveSorter(moveSorter);
-        this.alphaBeta.setNext(head);
-
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(head);
         // ====================================================
 
-        // GameRevert is set one in the chain
+        // StopProcessingCatch is set one in the chain
         if (stopProcessingCatch != null) {
-            filters.add(stopProcessingCatch);
-
             stopProcessingCatch.setNext(head);
-
             head = stopProcessingCatch;
         }
 
-        // ====================================================
+        return head;
+    }
 
-        filters.add(new SetPrincipalVariation());
+    private AlphaBetaFilter createQuiescenceChain() {
+        AlphaBetaFilter headQuiescence = null;
 
-        if (withStatistics && transpositionTable != null) {
-            filters.add(new SetMoveEvaluations());
+        // =============  quiescence setup =====================
+        if (quiescence instanceof Quiescence realQuiescence) {
+            realQuiescence.setMoveSorter(qMoveSorter);
+            realQuiescence.setGameEvaluator(gameEvaluator);
 
-            filters.add(new SetBestMoves());
+            if (quiescenceStatistics != null) {
+                if (zobristQTracker != null) {
+                    quiescenceStatistics.setNext(zobristQTracker);
+                } else if (transpositionTableQ != null) {
+                    quiescenceStatistics.setNext(transpositionTableQ);
+                } else {
+                    quiescenceStatistics.setNext(quiescence);
+                }
+                headQuiescence = quiescenceStatistics;
+            }
+
+            if (zobristQTracker != null) {
+                if (transpositionTableQ != null) {
+                    zobristQTracker.setNext(transpositionTableQ);
+                } else {
+                    zobristQTracker.setNext(quiescence);
+                }
+                if (headQuiescence == null) {
+                    headQuiescence = zobristQTracker;
+                }
+            }
+
+            if (transpositionTableQ != null) {
+                transpositionTableQ.setNext(quiescence);
+                if (headQuiescence == null) {
+                    headQuiescence = transpositionTableQ;
+                }
+            }
+
+            if (headQuiescence == null) {
+                headQuiescence = quiescence;
+            }
+
+            realQuiescence.setNext(headQuiescence);
+
+        } else if (quiescence instanceof QuiescenceNull quiescenceNull) {
+            quiescenceNull.setGameEvaluator(gameEvaluator);
+            headQuiescence = quiescence;
         }
 
-        //TTDump ttDump = new TTDump();
-        //filters.add(ttDump);
-
-
-        //TTLoad ttLoad = new TTLoad();
-        //filters.add(ttLoad);
-
-        // ====================================================
-
-        AlphaBetaFacade alphaBetaFacade = new AlphaBetaFacade();
-        alphaBetaFacade.setAlphaBetaSearch(head);
-        alphaBetaFacade.setSearchActions(filters);
-
-        SearchMove searchMove;
-        if (withIterativeDeepening) {
-            searchMove = new IterativeDeepening(alphaBetaFacade);
-        } else {
-            searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        }
-
-        if (withStatistics) {
-            IterativeWrapper iterativeWrapper = new IterativeWrapper(searchMove);
-
-            filters.add(new GameStatisticsListener());
-
-            searchMove = iterativeWrapper;
-        }
-
-        return searchMove;
+        return headQuiescence;
     }
 
 }
