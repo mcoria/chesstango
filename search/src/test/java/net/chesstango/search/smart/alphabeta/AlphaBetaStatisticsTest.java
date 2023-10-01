@@ -9,6 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
+import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -57,7 +58,8 @@ public class AlphaBetaStatisticsTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
         this.alphaBetaFacade.setSearchActions(List.of(
-                new SetTranspositionTables(),
+                new SetTranspositionTables(),  // Lo necesita SetBestMoves
+                new SetNodeStatistics(),
                 alphaBetaStatistics,
                 transpositionTable,
                 alphaBetaFlowControl,

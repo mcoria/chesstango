@@ -10,10 +10,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
-import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
-import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
@@ -47,6 +44,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetPrincipalVariation setPrincipalVariation;
     private SetMoveEvaluations setMoveEvaluations;
     private SetBestMoves setBestMoves;
+    private SetNodeStatistics setNodeStatistics;
 
     private boolean withQuiescence;
     private boolean withIterativeDeepening;
@@ -213,6 +211,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
+            setNodeStatistics = new SetNodeStatistics();
             alphaBetaStatistics = new AlphaBetaStatistics();
         }
 
@@ -260,6 +259,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
+            filterActions.add(setNodeStatistics);
             filterActions.add(alphaBetaStatistics);
         }
 

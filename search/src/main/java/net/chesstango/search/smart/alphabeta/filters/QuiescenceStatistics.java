@@ -19,15 +19,10 @@ public class QuiescenceStatistics implements AlphaBetaFilter {
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
-        this.visitedNodesCounters = new int[30];
-        this.expectedNodesCounters = new int[30];
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if (result != null) {
-            result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-        }
         this.game = null;
         this.visitedNodesCounters = null;
         this.expectedNodesCounters =  null;
@@ -36,6 +31,8 @@ public class QuiescenceStatistics implements AlphaBetaFilter {
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         this.maxPly = context.getMaxPly();
+        this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
+        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
@@ -48,7 +45,6 @@ public class QuiescenceStatistics implements AlphaBetaFilter {
 
     @Override
     public void reset() {
-
     }
 
     @Override
@@ -67,7 +63,6 @@ public class QuiescenceStatistics implements AlphaBetaFilter {
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }
-
 
     protected void updateCounters(final int currentPly) {
         final int qLevel = currentPly - maxPly;

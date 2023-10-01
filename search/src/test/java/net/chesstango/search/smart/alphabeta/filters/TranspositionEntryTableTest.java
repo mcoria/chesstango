@@ -9,6 +9,7 @@ import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -132,7 +133,15 @@ public class TranspositionEntryTableTest {
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, alphaBetaFlowControl));
+        minMaxPruning.setSearchActions(Arrays.asList(
+                new SetTranspositionTables(),
+                new SetNodeStatistics(),
+                alphaBeta,
+                alphaBetaStatistics,
+                quiescenceNull,
+                moveSorter,
+                gameEvaluator,
+                alphaBetaFlowControl));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
 
         return new NoIterativeDeepening(minMaxPruning);
@@ -164,7 +173,9 @@ public class TranspositionEntryTableTest {
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(),
+        minMaxPruning.setSearchActions(Arrays.asList(
+                new SetTranspositionTables(),
+                new SetNodeStatistics(),
                 alphaBeta,
                 transpositionTable,
                 alphaBetaStatistics,

@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +60,13 @@ public class DetectCycleDisabledTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, moveSorter, alphaBetaFlowControl));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(
+                new SetNodeStatistics(),
+                alphaBeta,
+                alphaBetaStatistics,
+                quiescence,
+                moveSorter,
+                alphaBetaFlowControl));
     }
 
 

@@ -12,21 +12,15 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
-
     private Game game;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
-        this.visitedNodesCounters = new int[30];
-        this.expectedNodesCounters = new int[30];
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if (result != null) {
-            result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-        }
         this.game = null;
         this.visitedNodesCounters = null;
         this.expectedNodesCounters =  null;
@@ -34,6 +28,8 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
+        this.visitedNodesCounters = context.getVisitedNodesCounters();
+        this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
     @Override
