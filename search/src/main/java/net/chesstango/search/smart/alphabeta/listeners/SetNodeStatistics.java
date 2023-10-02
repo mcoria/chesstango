@@ -42,7 +42,7 @@ public class SetNodeStatistics implements SearchLifeCycle {
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
             result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-            result.setQuiescenceNodeStatistics(new NodeStatistics(visitedNodesCountersQuiescence, expectedNodesCountersQuiescence));
+            result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));
         }
         this.visitedNodesCounters = null;
         this.expectedNodesCounters =  null;

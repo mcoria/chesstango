@@ -4,35 +4,28 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatistics implements AlphaBetaFilter {
+public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
-    private Game game;
     private int maxPly;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
-        this.game = game;
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        this.game = null;
         this.visitedNodesCounters = null;
-        this.expectedNodesCounters =  null;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         this.maxPly = context.getMaxPly();
         this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
-        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
@@ -66,15 +59,6 @@ public class QuiescenceStatistics implements AlphaBetaFilter {
 
     protected void updateCounters(final int currentPly) {
         final int qLevel = currentPly - maxPly;
-        int expectedMoves = 0;
-        for (Move move: game.getPossibleMoves()) {
-            if(Quiescence.isNotQuiet(move)){
-                expectedMoves++;
-            }
-        }
-        expectedNodesCounters[qLevel] += expectedMoves;
-        if (qLevel > 0) {
-            visitedNodesCounters[qLevel - 1]++;
-        }
+        visitedNodesCounters[qLevel - 1]++;
     }
 }

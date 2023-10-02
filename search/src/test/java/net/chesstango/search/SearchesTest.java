@@ -40,7 +40,7 @@ public class SearchesTest {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 //.withIterativeDeepening()
 
