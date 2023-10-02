@@ -254,9 +254,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         filterActions.add(alphaBetaFlowControl);
         filterActions.add(alphaBeta);
-        filterActions.add(quiescence);
         filterActions.add(moveSorter);
-        filterActions.add(qMoveSorter);
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
@@ -278,6 +276,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  quiescence setup =====================
         if (withQuiescence) {
+            filterActions.add(quiescence);
+            filterActions.add(qMoveSorter);
             filterActions.add(quiescenceFlowControl);
             if (quiescenceStatistics != null) {
                 filterActions.add(quiescenceStatistics);
@@ -288,6 +288,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (transpositionTableQ != null) {
                 filterActions.add(transpositionTableQ);
             }
+        } else {
+            filterActions.add(quiescenceNull);
         }
         // ====================================================
 
@@ -410,7 +412,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         } else {
             quiescenceNull.setGameEvaluator(gameEvaluator);
-            headQuiescence = quiescence;
+            headQuiescence = quiescenceNull;
         }
 
         return headQuiescence;
