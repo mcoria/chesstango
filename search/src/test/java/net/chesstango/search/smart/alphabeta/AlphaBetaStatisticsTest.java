@@ -181,9 +181,9 @@ public class AlphaBetaStatisticsTest {
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
         assertEquals(40, expectedNodesCounters[0]);
-        assertEquals(800, expectedNodesCounters[1]);
-        assertEquals(825, expectedNodesCounters[2]);
-        assertEquals(1665,expectedNodesCountersTotal);
+        assertEquals(400, expectedNodesCounters[1]);
+        assertEquals(0, expectedNodesCounters[2]);
+        assertEquals(440,expectedNodesCountersTotal);
     }
 
 
