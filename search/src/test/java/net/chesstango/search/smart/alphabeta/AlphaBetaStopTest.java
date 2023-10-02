@@ -44,7 +44,7 @@ public class AlphaBetaStopTest {
 
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                search.search(game, 20);
+                search.search(game, 10);
 
                 throw new RuntimeException("This point should not be reachable");
             } catch (StopSearchingException exception) {

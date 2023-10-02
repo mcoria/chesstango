@@ -36,18 +36,18 @@ public class AlphaBetaTest {
 
         evaluator = new GameMockEvaluator();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(evaluator);
-
         AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setMoveSorter(moveSorter);
-
         AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(evaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
+        QuiescenceNull quiescence = new QuiescenceNull();
 
         alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(evaluator);
+
+        quiescence.setGameEvaluator(evaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBeta);

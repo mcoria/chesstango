@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AbstractBlackBestMovesTest;
+import net.chesstango.search.smart.AbstractBestMovesBlackTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
+public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
     private SearchMove searchMove;
 
@@ -28,19 +28,19 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
         Quiescence quiescence = new Quiescence();
+        AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+
+        alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
+
         quiescence.setGameEvaluator(gameEvaluator);
         quiescence.setMoveSorter(moveSorter);
         quiescence.setNext(quiescence);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setMoveSorter(moveSorter);
-
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaFlowControl);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

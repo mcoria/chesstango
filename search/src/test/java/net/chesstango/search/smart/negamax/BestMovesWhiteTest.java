@@ -2,7 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AbstractBlackBestMovesTest;
+import net.chesstango.search.smart.AbstractBestMovesWhiteTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */
-public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
+public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
     private SearchMove searchMove;
 

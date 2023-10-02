@@ -28,17 +28,17 @@ public class AlphaBetaMateIn2Test extends MateIn2Test {
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(gameEvaluator);
-
         AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setMoveSorter(moveSorter);
-
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBetaFlowControl.setQuiescence(quiescence);
+        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
+
+        quiescence.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

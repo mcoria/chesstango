@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class AbstractWhiteBestMovesTest {
+public abstract class AbstractBestMovesWhiteTest {
 
     public abstract SearchMove getBestMoveFinder();
 

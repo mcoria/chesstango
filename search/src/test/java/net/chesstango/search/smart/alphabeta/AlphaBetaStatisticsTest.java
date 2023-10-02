@@ -126,8 +126,7 @@ public class AlphaBetaStatisticsTest {
 
         assertEquals(20, expectedNodesCounters[0]);
         assertEquals(400, expectedNodesCounters[1]);
-        assertEquals(825, expectedNodesCounters[2]);
-        assertEquals(1245,expectedNodesCountersTotal);
+        assertEquals(420,expectedNodesCountersTotal);
     }
 
 
@@ -182,9 +181,9 @@ public class AlphaBetaStatisticsTest {
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
         assertEquals(40, expectedNodesCounters[0]);
-        assertEquals(800, expectedNodesCounters[1]);
-        assertEquals(825, expectedNodesCounters[2]);
-        assertEquals(1665,expectedNodesCountersTotal);
+        assertEquals(400, expectedNodesCounters[1]);
+        assertEquals(0, expectedNodesCounters[2]);
+        assertEquals(440,expectedNodesCountersTotal);
     }
 
 
@@ -217,11 +216,14 @@ public class AlphaBetaStatisticsTest {
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
+        int[] visitedQNodesCounters = searchResult.getQuiescenceNodeStatistics().visitedNodesCounters();
+        int visitedQNodesCountersTotal = Arrays.stream(visitedQNodesCounters).sum();
         int executedMoves = searchResult.getExecutedMoves();
 
         assertEquals(20, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCountersTotal);
-        assertNull(searchResult.getQuiescenceNodeStatistics());
+        assertEquals(0, visitedQNodesCounters[0]);
+        assertEquals(0, visitedQNodesCountersTotal);
         assertEquals(20, executedMoves);
     }
 
@@ -239,11 +241,14 @@ public class AlphaBetaStatisticsTest {
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
+        int[] visitedQNodesCounters = searchResult.getQuiescenceNodeStatistics().visitedNodesCounters();
+        int visitedQNodesCountersTotal = Arrays.stream(visitedQNodesCounters).sum();
         int executedMoves = searchResult.getExecutedMoves();
 
         assertEquals(20, visitedNodesCounters[0]);
         assertEquals(20, visitedNodesCountersTotal);
-        assertNull(searchResult.getQuiescenceNodeStatistics());
+        assertEquals(0, visitedQNodesCounters[0]);
+        assertEquals(0, visitedQNodesCountersTotal);
         /**
          * Los 61 movimientos se descomponen en:
          * 20 movimientos de la busqueda regular AlphaBeta

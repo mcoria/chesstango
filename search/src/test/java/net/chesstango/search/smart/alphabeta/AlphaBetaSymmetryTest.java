@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacadeSymmetryTest {
+public class AlphaBetaSymmetryTest {
 
 
     @Test

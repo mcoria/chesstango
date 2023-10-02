@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
+import net.chesstango.search.smart.AbstractBestMovesWhiteTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
@@ -17,30 +17,30 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
+public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
     private SearchMove searchMove;
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
-
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new EvaluatorByMaterial());
-        quiescence.setMoveSorter(moveSorter);
-        quiescence.setNext(quiescence);
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
+        Quiescence quiescence = new Quiescence();
         AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+
+        alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        alphaBetaFlowControl.setNext(alphaBeta);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-        alphaBetaFlowControl.setNext(alphaBeta);
 
-        alphaBeta.setNext(alphaBetaFlowControl);;
+        quiescence.setGameEvaluator(gameEvaluator);
+        quiescence.setMoveSorter(moveSorter);
+        quiescence.setNext(quiescence);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

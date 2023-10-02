@@ -1,39 +1,34 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatistics implements AlphaBetaFilter {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
-
     private Game game;
+    private int maxPly;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
-        this.visitedNodesCounters = new int[30];
-        this.expectedNodesCounters = new int[30];
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if (result != null) {
-            result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-        }
         this.game = null;
-        this.visitedNodesCounters = null;
         this.expectedNodesCounters =  null;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
+        this.maxPly = context.getMaxPly();
+        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
@@ -66,9 +61,13 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
-        if (currentPly > 0) {
-            visitedNodesCounters[currentPly - 1]++;
+        final int qLevel = currentPly - maxPly;
+        int expectedMoves = 0;
+        for (Move move: game.getPossibleMoves()) {
+            if(Quiescence.isNotQuiet(move)){
+                expectedMoves++;
+            }
         }
+        expectedNodesCounters[qLevel] += expectedMoves;
     }
 }

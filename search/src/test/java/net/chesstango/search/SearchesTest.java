@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.EpdSearchReport;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
@@ -31,22 +32,22 @@ public class SearchesTest {
                 //.withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
                 .withGameEvaluator(new DefaultEvaluator())
 
-                .withQuiescence()
+                //.withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 //.withIterativeDeepening()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                .withZobristTracker()
+                //.withZobristTracker()
 
                 .build();
     }
@@ -54,17 +55,18 @@ public class SearchesTest {
     @AfterEach
     public void printReport(){
         if(PRINT_REPORT) {
-
             new NodesReport()
-                    .withNodesVisitedStatistics()
                     .withMoveResults(List.of(searchResult))
+                    .withCutoffStatistics()
+                    .withNodesVisitedStatistics()
                     .printReport(System.out);
-
 
             new EvaluationReport()
-                    //.withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
+                    //.withExportEvaluations()
+                    .withEvaluationsStatistics()
                     .printReport(System.out);
+
             /*
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
@@ -72,6 +74,15 @@ public class SearchesTest {
             */
         }
     }
+
+    @Test
+    @Disabled
+    public void testSearch_00(){
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search( game, 1);
+    }
+
 
     @Test
 	@Disabled
@@ -105,14 +116,6 @@ public class SearchesTest {
         Game game = FENDecoder.loadGame("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39");
 
         searchResult = moveFinder.search( game, 1);
-    }
-
-    @Test
-    @Disabled
-    public void testSearch_05(){
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        searchResult = moveFinder.search( game, 8);
     }
 
 

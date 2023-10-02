@@ -22,6 +22,11 @@ public class SearchContext {
 
     private TTable qMinMap;
 
+    private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
+    private int[] visitedNodesCountersQuiescence;
+    private int[] expectedNodesCountersQuiescence;
+
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }

@@ -10,10 +10,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
-import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
-import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
@@ -37,8 +34,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private Quiescence quiescence;
     private QuiescenceFlowControl quiescenceFlowControl;
     private SetTranspositionTables setTranspositionTables;
-    private AlphaBetaStatistics alphaBetaStatistics;
-    private QuiescenceStatistics quiescenceStatistics;
+    private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
+    private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
+    private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
+    private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTable transpositionTable;
     private TranspositionTableQ transpositionTableQ;
     private StopProcessingCatch stopProcessingCatch;
@@ -47,6 +46,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetPrincipalVariation setPrincipalVariation;
     private SetMoveEvaluations setMoveEvaluations;
     private SetBestMoves setBestMoves;
+    private SetNodeStatistics setNodeStatistics;
 
     private boolean withQuiescence;
     private boolean withIterativeDeepening;
@@ -213,7 +213,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
-            alphaBetaStatistics = new AlphaBetaStatistics();
+            setNodeStatistics = new SetNodeStatistics();
+            alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+            alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         }
 
         if (withZobristTracker) {
@@ -226,7 +228,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             quiescence = new Quiescence();
             quiescenceFlowControl = new QuiescenceFlowControl();
             if (withStatistics) {
-                quiescenceStatistics = new QuiescenceStatistics();
+                quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
+                quiescenceStatisticsVisited = new QuiescenceStatisticsVisited();
             }
             if (withZobristTracker) {
                 zobristQTracker = new ZobristTracker();
@@ -252,13 +255,16 @@ public class AlphaBetaBuilder implements SearchBuilder {
             filterActions.add(setTranspositionTables);
         }
 
-        filterActions.add(alphaBetaFlowControl);
-        filterActions.add(alphaBeta);
+
         filterActions.add(moveSorter);
+        filterActions.add(alphaBeta);
+        filterActions.add(alphaBetaFlowControl);
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
-            filterActions.add(alphaBetaStatistics);
+            filterActions.add(setNodeStatistics);
+            filterActions.add(alphaBetaStatisticsExpected);
+            filterActions.add(alphaBetaStatisticsVisited);
         }
 
         if (zobristTracker != null) {
@@ -276,11 +282,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  quiescence setup =====================
         if (withQuiescence) {
-            filterActions.add(quiescence);
             filterActions.add(qMoveSorter);
+            filterActions.add(quiescence);
             filterActions.add(quiescenceFlowControl);
-            if (quiescenceStatistics != null) {
-                filterActions.add(quiescenceStatistics);
+            if (withStatistics) {
+                filterActions.add(quiescenceStatisticsExpected);
+                filterActions.add(quiescenceStatisticsVisited);
             }
             if (zobristQTracker != null) {
                 filterActions.add(zobristQTracker);
@@ -314,46 +321,43 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBetaFilter headQuiescence = createQuiescenceChain();
 
         // =============  alphaBeta setup =====================
-        AlphaBetaFilter head = null;
-        if (alphaBetaStatistics != null) {
-            if (zobristTracker != null) {
-                alphaBetaStatistics.setNext(zobristTracker);
-            } else if (transpositionTable != null) {
-                alphaBetaStatistics.setNext(transpositionTable);
-            } else {
-                alphaBetaStatistics.setNext(alphaBetaFlowControl);
-            }
-            head = alphaBetaStatistics;
-        }
 
+        AlphaBetaFilter head = null;
         if (zobristTracker != null) {
             if (transpositionTable != null) {
                 zobristTracker.setNext(transpositionTable);
             } else {
-                zobristTracker.setNext(alphaBetaFlowControl);
+                zobristTracker.setNext(alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta);
             }
-            if (head == null) {
-                head = zobristTracker;
-            }
+            head = zobristTracker;
         }
 
         if (transpositionTable != null) {
-            transpositionTable.setNext(alphaBetaFlowControl);
+            transpositionTable.setNext(alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta);
             if (head == null) {
                 head = transpositionTable;
             }
         }
 
         if (head == null) {
-            head = alphaBetaFlowControl;
+            head = alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta;
         }
 
-        alphaBetaFlowControl.setNext(alphaBeta);
+
+        if (alphaBetaStatisticsExpected != null) {
+            alphaBetaStatisticsExpected.setNext(alphaBeta);
+        }
+
+        alphaBeta.setNext(alphaBetaStatisticsVisited != null ? alphaBetaStatisticsVisited : alphaBetaFlowControl);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        if (alphaBetaStatisticsVisited != null) {
+            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+        }
+
+        alphaBetaFlowControl.setNext(head);
         alphaBetaFlowControl.setQuiescence(headQuiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        alphaBeta.setNext(head);
-        alphaBeta.setMoveSorter(moveSorter);
 
         // ====================================================
 
@@ -370,45 +374,41 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBetaFilter headQuiescence = null;
 
         if (withQuiescence) {
-            if (quiescenceStatistics != null) {
-                if (zobristQTracker != null) {
-                    quiescenceStatistics.setNext(zobristQTracker);
-                } else if (transpositionTableQ != null) {
-                    quiescenceStatistics.setNext(transpositionTableQ);
-                } else {
-                    quiescenceStatistics.setNext(quiescenceFlowControl);
-                }
-                headQuiescence = quiescenceStatistics;
-            }
-
             if (zobristQTracker != null) {
                 if (transpositionTableQ != null) {
                     zobristQTracker.setNext(transpositionTableQ);
                 } else {
-                    zobristQTracker.setNext(quiescenceFlowControl);
+                    zobristQTracker.setNext(quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence);
                 }
-                if (headQuiescence == null) {
-                    headQuiescence = zobristQTracker;
-                }
+                headQuiescence = zobristQTracker;
             }
 
             if (transpositionTableQ != null) {
-                transpositionTableQ.setNext(quiescenceFlowControl);
+                transpositionTableQ.setNext(quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence);
                 if (headQuiescence == null) {
                     headQuiescence = transpositionTableQ;
                 }
             }
 
             if (headQuiescence == null) {
-                headQuiescence = quiescenceFlowControl;
+                headQuiescence = quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence;
             }
 
-            quiescenceFlowControl.setNext(quiescence);
-            quiescenceFlowControl.setGameEvaluator(gameEvaluator);
+            if (quiescenceStatisticsExpected != null) {
+                quiescenceStatisticsExpected.setNext(quiescence);
+            }
 
-            quiescence.setNext(headQuiescence);
+            quiescence.setNext(quiescenceStatisticsVisited != null ? quiescenceStatisticsVisited : quiescenceFlowControl);
             quiescence.setMoveSorter(qMoveSorter);
             quiescence.setGameEvaluator(gameEvaluator);
+
+
+            if (quiescenceStatisticsVisited != null) {
+                quiescenceStatisticsVisited.setNext(quiescenceFlowControl);
+            }
+
+            quiescenceFlowControl.setNext(headQuiescence);
+            quiescenceFlowControl.setGameEvaluator(gameEvaluator);
 
         } else {
             quiescenceNull.setGameEvaluator(gameEvaluator);

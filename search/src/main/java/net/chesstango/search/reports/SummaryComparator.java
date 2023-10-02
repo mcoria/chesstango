@@ -20,8 +20,9 @@ public class SummaryComparator {
         SummaryComparator summaryComparator = new SummaryComparator("depth-5-v0.0.15-2023-09-29-08-09");
         //summaryComparator.addSession("depth-5-2023-10-01-09-55");
         //summaryComparator.addSession("depth-5-2023-10-01-12-51");
-        summaryComparator.addSession("depth-5-2023-10-01-14-10");
+        //summaryComparator.addSession("depth-5-2023-10-01-14-10");
         summaryComparator.addSession("depth-5-2023-10-01-16-10");
+        summaryComparator.addSession("depth-5-2023-10-02-01-03");
 
         //
         //

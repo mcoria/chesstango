@@ -15,7 +15,9 @@ import java.util.List;
 /**
  *
  * Captura movimientos alternativos al mejor movimiento resuelto, es decir movimientos que
- * producen posiciones con la misma evaluacion (la mejor)
+ * producen posiciones con la misma evaluacion (la mejor).
+ *
+ * Necesita la tabla de transposicion.
  *
  * @author Mauricio Coria
  */
