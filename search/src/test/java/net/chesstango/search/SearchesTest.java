@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.EpdSearchReport;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
@@ -54,17 +55,18 @@ public class SearchesTest {
     @AfterEach
     public void printReport(){
         if(PRINT_REPORT) {
-
             new NodesReport()
-                    .withNodesVisitedStatistics()
                     .withMoveResults(List.of(searchResult))
+                    .withCutoffStatistics()
+                    .withNodesVisitedStatistics()
                     .printReport(System.out);
-
 
             new EvaluationReport()
-                    //.withExportEvaluations()
                     .withMoveResults(List.of(searchResult))
+                    //.withExportEvaluations()
+                    .withEvaluationsStatistics()
                     .printReport(System.out);
+
             /*
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
@@ -112,7 +114,7 @@ public class SearchesTest {
     public void testSearch_05(){
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search( game, 8);
+        searchResult = moveFinder.search( game, 1);
     }
 
 
