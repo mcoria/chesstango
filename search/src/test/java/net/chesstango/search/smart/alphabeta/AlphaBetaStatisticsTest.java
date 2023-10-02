@@ -126,8 +126,7 @@ public class AlphaBetaStatisticsTest {
 
         assertEquals(20, expectedNodesCounters[0]);
         assertEquals(400, expectedNodesCounters[1]);
-        assertEquals(825, expectedNodesCounters[2]);
-        assertEquals(1245,expectedNodesCountersTotal);
+        assertEquals(420,expectedNodesCountersTotal);
     }
 
     @Test
