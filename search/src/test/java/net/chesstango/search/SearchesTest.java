@@ -32,14 +32,14 @@ public class SearchesTest {
                 //.withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
                 .withGameEvaluator(new DefaultEvaluator())
 
-                .withQuiescence()
+                //.withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
@@ -76,6 +76,15 @@ public class SearchesTest {
     }
 
     @Test
+    @Disabled
+    public void testSearch_00(){
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search( game, 1);
+    }
+
+
+    @Test
 	@Disabled
     public void testSearch_01(){
         Game game = FENDecoder.loadGame("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22");
@@ -105,14 +114,6 @@ public class SearchesTest {
     @Disabled
     public void testSearch_04(){
         Game game = FENDecoder.loadGame("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39");
-
-        searchResult = moveFinder.search( game, 1);
-    }
-
-    @Test
-    @Disabled
-    public void testSearch_05(){
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         searchResult = moveFinder.search( game, 1);
     }
