@@ -120,15 +120,18 @@ public class TranspositionEntryTableTest {
         quiescenceNull.setGameEvaluator(gameEvaluator);
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
-        alphaBetaStatistics.setNext(alphaBeta);
+        alphaBetaStatisticsExpected.setNext(alphaBeta);
 
-        alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setNext(alphaBetaStatisticsVisited);
         alphaBeta.setMoveSorter(moveSorter);
 
-        alphaBetaFlowControl.setNext(alphaBetaStatistics);
+        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+
+        alphaBetaFlowControl.setNext(alphaBetaStatisticsExpected);
         alphaBetaFlowControl.setQuiescence(quiescenceNull);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
@@ -137,12 +140,13 @@ public class TranspositionEntryTableTest {
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
-                alphaBetaStatistics,
+                alphaBetaStatisticsExpected,
+                alphaBetaStatisticsVisited,
                 quiescenceNull,
                 moveSorter,
                 gameEvaluator,
                 alphaBetaFlowControl));
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
 
         return new NoIterativeDeepening(minMaxPruning);
     }
@@ -157,17 +161,20 @@ public class TranspositionEntryTableTest {
 
         AlphaBeta alphaBeta = new AlphaBeta();
         TranspositionTable transpositionTable = new TranspositionTable();
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
-        alphaBetaStatistics.setNext(transpositionTable);
+        transpositionTable.setNext(alphaBetaStatisticsExpected);
 
-        transpositionTable.setNext(alphaBeta);
+        alphaBetaStatisticsExpected.setNext(alphaBeta);
 
-        alphaBeta.setNext(alphaBetaFlowControl);
+        alphaBeta.setNext(alphaBetaStatisticsVisited);
         alphaBeta.setMoveSorter(moveSorter);
 
-        alphaBetaFlowControl.setNext(alphaBetaStatistics);
+        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+
+        alphaBetaFlowControl.setNext(transpositionTable);
         alphaBetaFlowControl.setQuiescence(quiescenceNull);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
@@ -177,13 +184,14 @@ public class TranspositionEntryTableTest {
                 new SetNodeStatistics(),
                 alphaBeta,
                 transpositionTable,
-                alphaBetaStatistics,
+                alphaBetaStatisticsExpected,
+                alphaBetaStatisticsVisited,
                 quiescenceNull,
                 moveSorter,
                 gameEvaluator,
                 new SetPrincipalVariation(),
                 alphaBetaFlowControl));
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
 
         return new IterativeDeepening(minMaxPruning);
     }

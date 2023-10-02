@@ -3,15 +3,13 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatistics implements AlphaBetaFilter {
+public class AlphaBetaStatisticsVisited implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
     private Game game;
 
     @Override
@@ -23,13 +21,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     public void afterSearch(SearchMoveResult result) {
         this.game = null;
         this.visitedNodesCounters = null;
-        this.expectedNodesCounters =  null;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         this.visitedNodesCounters = context.getVisitedNodesCounters();
-        this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
     @Override
@@ -62,7 +58,6 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
         if (currentPly > 0) {
             visitedNodesCounters[currentPly - 1]++;
         }

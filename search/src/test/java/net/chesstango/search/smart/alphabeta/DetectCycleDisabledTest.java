@@ -8,10 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -45,25 +42,29 @@ public class DetectCycleDisabledTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
 
-        alphaBetaStatistics.setNext(alphaBetaFlowControl);
+        alphaBetaStatisticsExpected.setNext(alphaBeta);
 
-        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBeta.setNext(alphaBetaStatisticsVisited);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+
+        alphaBetaFlowControl.setNext(alphaBetaStatisticsExpected);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(evaluator);
 
-        alphaBeta.setNext(alphaBetaStatistics);
-        alphaBeta.setMoveSorter(moveSorter);
-
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatisticsExpected);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(
                 new SetNodeStatistics(),
                 alphaBeta,
-                alphaBetaStatistics,
+                alphaBetaStatisticsExpected,
+                alphaBetaStatisticsVisited,
                 quiescence,
                 moveSorter,
                 alphaBetaFlowControl));

@@ -46,7 +46,7 @@ public class SearchesTest {
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                .withZobristTracker()
+                //.withZobristTracker()
 
                 .build();
     }

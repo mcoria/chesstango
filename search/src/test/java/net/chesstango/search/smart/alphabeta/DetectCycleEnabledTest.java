@@ -43,31 +43,34 @@ public class DetectCycleEnabledTest {
         quiescence.setGameEvaluator(evaluator);
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
 
-        alphaBetaStatistics.setNext(transpositionTable);
+        transpositionTable.setNext(alphaBetaStatisticsExpected);
 
-        transpositionTable.setNext(alphaBetaFlowControl);
+        alphaBetaStatisticsExpected.setNext(alphaBeta);
 
-        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBeta.setNext(alphaBetaStatisticsVisited);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+
+        alphaBetaFlowControl.setNext(transpositionTable);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(evaluator);
 
-        alphaBeta.setNext(alphaBetaStatistics);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setNext(alphaBetaStatistics);
-
-
+        quiescence.setGameEvaluator(evaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatisticsExpected);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
-                alphaBetaStatistics,
+                alphaBetaStatisticsExpected,
+                alphaBetaStatisticsVisited,
                 quiescence,
                 transpositionTable,
                 moveSorter,

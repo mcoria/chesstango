@@ -36,31 +36,35 @@ public class AlphaBetaStatisticsTest {
 
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
+        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
 
-        alphaBetaStatistics.setNext(transpositionTable);
+        transpositionTable.setNext(alphaBetaStatisticsExpected);
 
-        transpositionTable.setNext(alphaBetaFlowControl);
+        alphaBetaStatisticsExpected.setNext(alphaBeta);
 
-        alphaBetaFlowControl.setNext(alphaBeta);
+        alphaBeta.setNext(alphaBetaStatisticsVisited);
+        alphaBeta.setMoveSorter(moveSorter);
+
+        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+
+        alphaBetaFlowControl.setNext(transpositionTable);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        alphaBeta.setNext(alphaBetaStatistics);
-        alphaBeta.setMoveSorter(moveSorter);
 
         quiescence.setGameEvaluator(gameEvaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatisticsExpected);
         this.alphaBetaFacade.setSearchActions(List.of(
                 new SetTranspositionTables(),  // Lo necesita SetBestMoves
                 new SetNodeStatistics(),
-                alphaBetaStatistics,
+                alphaBetaStatisticsExpected,
+                alphaBetaStatisticsVisited,
                 transpositionTable,
                 alphaBetaFlowControl,
                 alphaBeta,
@@ -83,7 +87,20 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    public void testVisitedNodesCounters() {
+    public void test_depth01() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 1);
+
+        int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+
+        assertEquals(20, expectedNodesCounters[0]);
+        assertEquals(20, visitedNodesCounters[0]);
+    }
+
+    @Test
+    public void testVisitedNodesCounters_depth02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
@@ -104,15 +121,15 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    public void testExpectedNodesCounters() {
+    public void testExpectedNodesCounters_depth02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(400, visitedNodesCounters[1]);
+        assertEquals(20, expectedNodesCounters[0]);
+        assertEquals(400, expectedNodesCounters[1]);
     }
 
     @Test
