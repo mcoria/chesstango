@@ -82,7 +82,7 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    public void testVisitedNodesCounters() {
+    public void testVisitedNodesCounters_NoIterative() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
@@ -111,7 +111,7 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    public void testExpectedNodesCounters() {
+    public void testExpectedNodesCounters_NoIterative() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
@@ -129,12 +129,71 @@ public class AlphaBetaStatisticsTest {
         assertEquals(420,expectedNodesCountersTotal);
     }
 
+
     @Test
-    public void testEvaluationCollisions() {
+    public void testBestMovesCounter_NoIterative() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable()
+                .withTranspositionTable()       // Para detectar la cantidad de mejores movimientos necesita TT
                 .withStatistics()
+                .build();
+
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search(game, 2);
+
+        assertEquals(20, searchResult.getBestMovesCounter());
+    }
+
+    @Test
+    public void testVisitedNodesCounters_Iterative() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withStatistics()
+                .withIterativeDeepening()
+                .build();
+
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search(game, 2);
+
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
+
+        assertEquals(40, visitedNodesCounters[0]);
+        assertEquals(39, visitedNodesCounters[1]);
+        assertEquals(79, visitedNodesCountersTotal);
+    }
+
+    @Test
+    public void testExpectedNodesCounters_Iterative() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withStatistics()
+                .withIterativeDeepening()
+                .build();
+
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        searchResult = moveFinder.search(game, 2);
+
+        int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
+
+        assertEquals(40, expectedNodesCounters[0]);
+        assertEquals(800, expectedNodesCounters[1]);
+        assertEquals(825, expectedNodesCounters[2]);
+        assertEquals(1665,expectedNodesCountersTotal);
+    }
+
+
+    @Test
+    public void testBestMovesCounter_Iterative() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withTranspositionTable()       // Para detectar la cantidad de mejores movimientos necesita TT
+                .withStatistics()
+                .withIterativeDeepening()
                 .build();
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
