@@ -85,7 +85,6 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable()
                 .withStatistics()
                 .build();
 
@@ -94,6 +93,7 @@ public class AlphaBetaStatisticsTest {
         searchResult = moveFinder.search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
 
         assertEquals(20, visitedNodesCounters[0]);
 
@@ -106,13 +106,14 @@ public class AlphaBetaStatisticsTest {
          * Esto se continua repitiendo hasta finalizar los 19 ciclos restantes.
          */
         assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
+
+        assertEquals(59, visitedNodesCountersTotal);
     }
 
     @Test
     public void testExpectedNodesCounters() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable()
                 .withStatistics()
                 .build();
 
@@ -120,10 +121,13 @@ public class AlphaBetaStatisticsTest {
 
         searchResult = moveFinder.search(game, 2);
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(400, visitedNodesCounters[1]);
+        assertEquals(20, expectedNodesCounters[0]);
+        assertEquals(400, expectedNodesCounters[1]);
+        assertEquals(825, expectedNodesCounters[2]);
+        assertEquals(1245,expectedNodesCountersTotal);
     }
 
     @Test
