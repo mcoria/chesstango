@@ -9,7 +9,6 @@ import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,26 +63,41 @@ public class TranspositionMoveSorterQ implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = entry != null ? TranspositionEntry.decodeBestMove(entry.movesAndValue) : 0;
+        short bestMoveEncoded = 0;
+        short secondBestMoveEncoded = 0;
+
+        if (entry != null) {
+            bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+            secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(entry.movesAndValue);
+        }
 
         List<Move> sortedMoveList = new LinkedList<>();
 
         if (bestMoveEncoded != 0) {
             Move bestMove = null;
+            Move secondBestMove = null;
             List<Move> unsortedMoveList = new LinkedList<>();
             for (Move move : game.getPossibleMoves()) {
-                if (move.binaryEncoding() == bestMoveEncoded) {
-                    bestMove = move;
-                } else {
-                    if (Quiescence.isNotQuiet(move)) {
+                if (Quiescence.isNotQuiet(move)) {
+                    short encodedMove = move.binaryEncoding();
+                    if (encodedMove == bestMoveEncoded) {
+                        bestMove = move;
+                    } else if (encodedMove == secondBestMoveEncoded) {
+                        secondBestMove = move;
+                    } else {
                         unsortedMoveList.add(move);
                     }
                 }
             }
 
-            Collections.sort(unsortedMoveList, moveComparator.reversed());
+            unsortedMoveList.sort(moveComparator.reversed());
 
-            sortedMoveList.add(bestMove);
+            if (bestMove != null) {
+                sortedMoveList.add(bestMove);
+            }
+            if (secondBestMove != null) {
+                sortedMoveList.add(secondBestMove);
+            }
             sortedMoveList.addAll(unsortedMoveList);
 
         } else {
@@ -93,7 +107,7 @@ public class TranspositionMoveSorterQ implements MoveSorter {
                 }
             });
 
-            Collections.sort(sortedMoveList, moveComparator.reversed());
+            sortedMoveList.sort(moveComparator.reversed());
         }
 
         return sortedMoveList;

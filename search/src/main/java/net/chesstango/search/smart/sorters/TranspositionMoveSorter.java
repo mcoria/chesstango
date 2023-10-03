@@ -89,7 +89,6 @@ public class TranspositionMoveSorter implements MoveSorter {
             List<Move> unsortedMoveList = new LinkedList<>();
             for (Move move : game.getPossibleMoves()) {
                 short encodedMove = move.binaryEncoding();
-
                 if (encodedMove == bestMoveEncoded) {
                     bestMove = move;
                 } else if (encodedMove == secondBestMoveEncoded) {
@@ -101,7 +100,9 @@ public class TranspositionMoveSorter implements MoveSorter {
 
             unsortedMoveList.sort(moveComparator.reversed());
 
-            sortedMoveList.add(bestMove);
+            if (bestMove != null) {
+                sortedMoveList.add(bestMove);
+            }
             if(secondBestMove != null){
                 sortedMoveList.add(secondBestMove);
             }
