@@ -147,7 +147,7 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
 
         possibleMoves.forEach(moveList::add);
 
-        Collections.sort(moveList, moveComparator.reversed());
+        moveList.sort(moveComparator.reversed());
 
         return moveList;
     }

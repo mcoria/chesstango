@@ -11,10 +11,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
 import net.chesstango.search.smart.statistics.IterativeWrapper;
 

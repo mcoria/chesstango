@@ -29,25 +29,24 @@ public class SearchesTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                //.withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
-                //.withQuiescence()
+                .withQuiescence()
 
                 .withTranspositionTable()
-                //.withQTranspositionTable()
+                .withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                //.withIterativeDeepening()
+                .withIterativeDeepening()
+                //.withMoveEvaluation()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                //.withZobristTracker()
 
                 .build();
     }
@@ -80,7 +79,7 @@ public class SearchesTest {
     public void testSearch_00(){
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search( game, 1);
+        searchResult = moveFinder.search( game, 2);
     }
 
 

@@ -33,7 +33,7 @@ public class AlphaBetaFacade implements SearchSmart {
                 alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
 
         int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        short bestMoveEncoded = TranspositionEntry.decodeMove(bestMoveAndValue);
+        short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {

@@ -90,7 +90,7 @@ public class TTLoad implements SearchLifeCycle {
                 long key = dis.readLong();
                 TranspositionEntry tableEntry = new TranspositionEntry();
                 tableEntry.searchDepth = dis.readInt();
-                tableEntry.moveAndValue = dis.readLong();
+                tableEntry.movesAndValue = dis.readLong();
                 //tableEntry.value = dis.readInt();
                 //tableEntry.transpositionType = TranspositionType.valueOf(dis.readByte());
 

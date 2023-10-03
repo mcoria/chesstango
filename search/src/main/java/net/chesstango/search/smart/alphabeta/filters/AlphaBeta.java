@@ -46,6 +46,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
+        Move secondBestMove = null;
         boolean search = true;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
@@ -60,21 +61,25 @@ public class AlphaBeta implements AlphaBetaFilter {
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue > maxValue) {
                 maxValue = currentValue;
+                secondBestMove = bestMove;
                 bestMove = move;
                 if (maxValue >= beta) {
                     search = false;
                 }
+            } else if (currentValue == maxValue) {
+                secondBestMove = move;
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, secondBestMove, maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
+        Move secondBestMove = null;
         boolean search = true;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
 
@@ -89,17 +94,19 @@ public class AlphaBeta implements AlphaBetaFilter {
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
                 minValue = currentValue;
+                secondBestMove = bestMove;
                 bestMove = move;
                 if (minValue <= alpha) {
                     search = false;
                 }
+            } else if (currentValue == minValue) {
+                secondBestMove = move;
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, minValue);
-
+        return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
     }
 
     @Override

@@ -41,21 +41,21 @@ public class TranspositionEntryMoveSorterTest {
     public void testInitial() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        short bestMoveEncoded = 0;
+        Move bestMove = null;
+        Move secondBestMove = null;
         for (Move move : game.getPossibleMoves()) {
             if (Square.c2.equals(move.getFrom().getSquare()) && Square.c3.equals(move.getTo().getSquare())) {
-                bestMoveEncoded = move.binaryEncoding();
-                break;
+                bestMove = move;
+            } else if (Square.g1.equals(move.getFrom().getSquare()) && Square.f3.equals(move.getTo().getSquare())) {
+                secondBestMove = move;
             }
         }
 
         long hash = game.getChessPosition().getZobristHash();
 
-
         TranspositionEntry tableEntry = maxMap.allocate(hash);
 
-        updateTableEntry(hash, tableEntry, bestMoveEncoded);
-
+        updateTableEntry(hash, tableEntry, bestMove, secondBestMove);
 
         initMoveSorter(game);
 
@@ -67,6 +67,11 @@ public class TranspositionEntryMoveSorterTest {
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
         assertEquals(Square.c2, move.getFrom().getSquare());
         assertEquals(Square.c3, move.getTo().getSquare());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Square.g1, move.getFrom().getSquare());
+        assertEquals(Square.f3, move.getTo().getSquare());
     }
 
     private void initMoveSorter(Game game) {
@@ -81,19 +86,10 @@ public class TranspositionEntryMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private TranspositionEntry updateTableEntry(long hash, TranspositionEntry entry, short bestMoveEncoded) {
-        long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
+    private void updateTableEntry(long hash, TranspositionEntry entry, Move bestMove, Move secondBestMove) {
+        long bestMoveAndValue = TranspositionEntry.encode(bestMove, secondBestMove, 1);
         entry.hash = hash;
-        entry.moveAndValue = bestMoveAndValue;
-        //entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
-        return entry;
+        entry.movesAndValue = bestMoveAndValue;
     }
 
-    private long encodedMoveAndValue(short move, int value) {
-        long encodedMoveLng = ((long) move) << 32;
-
-        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
-
-        return encodedValueLng | encodedMoveLng;
-    }
 }
