@@ -82,7 +82,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry != null && entry.searchDepth == maxPly - 1) {
-                MoveEvaluation moveEvaluation = new MoveEvaluation(move, TranspositionEntry.decodeValue(entry.boundMoveValue));
+                MoveEvaluation moveEvaluation = new MoveEvaluation(move, TranspositionEntry.decodeValue(entry.moveAndValue));
                 moveEvaluationList.add(moveEvaluation);
             }
 

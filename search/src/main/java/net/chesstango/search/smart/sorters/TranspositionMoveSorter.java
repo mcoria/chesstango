@@ -73,9 +73,9 @@ public class TranspositionMoveSorter implements MoveSorter {
         short bestMoveEncoded = 0;
 
         if(entry != null){
-            bestMoveEncoded = TranspositionEntry.decodeMove(entry.boundMoveValue);
+            bestMoveEncoded = TranspositionEntry.decodeMove(entry.moveAndValue);
         } else if(qentry != null){
-            bestMoveEncoded = TranspositionEntry.decodeMove(qentry.boundMoveValue);
+            bestMoveEncoded = TranspositionEntry.decodeMove(qentry.moveAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();

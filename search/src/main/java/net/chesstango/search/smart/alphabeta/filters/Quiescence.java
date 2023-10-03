@@ -5,11 +5,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-import net.chesstango.search.smart.transposition.TranspositionBound;
 
 import java.util.Iterator;
 import java.util.List;
@@ -49,12 +47,11 @@ public class Quiescence implements AlphaBetaFilter {
     public long maximize(final int currentPly, final int alpha, final int beta) {
         int maxValue = evaluator.evaluate(game);
         if (maxValue >= beta) {
-            return TranspositionEntry.encode(TranspositionBound.LOWER_BOUND, null, maxValue);
+            return TranspositionEntry.encode(null, maxValue);
         }
 
         Move bestMove = null;
         boolean search = true;
-        TranspositionBound bound = TranspositionBound.EXACT;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -72,26 +69,24 @@ public class Quiescence implements AlphaBetaFilter {
                     bestMove = move;
                     if (maxValue >= beta) {
                         search = false;
-                        bound = TranspositionBound.LOWER_BOUND;
                     }
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bound, bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         int minValue = evaluator.evaluate(game);
         if (minValue <= alpha) {
-            return TranspositionEntry.encode(TranspositionBound.UPPER_BOUND,null, minValue);
+            return TranspositionEntry.encode(null, minValue);
         }
 
         Move bestMove = null;
         boolean search = true;
-        TranspositionBound bound = TranspositionBound.EXACT;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -109,14 +104,13 @@ public class Quiescence implements AlphaBetaFilter {
                     bestMove = move;
                     if (minValue <= alpha) {
                         search = false;
-                        bound = TranspositionBound.UPPER_BOUND;
                     }
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bound, bestMove, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
     }
 
     public static boolean isNotQuiet(Move move) {

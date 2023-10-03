@@ -263,7 +263,7 @@ public class FitnessBySearchTest {
         }
 
         entry.hash = hash;
-        entry.boundMoveValue = TranspositionEntry.encode(TranspositionBound.EXACT, move, value);
+        entry.moveAndValue = TranspositionEntry.encode(move, value);
         entry.searchDepth = 0;
 
         return entry;
