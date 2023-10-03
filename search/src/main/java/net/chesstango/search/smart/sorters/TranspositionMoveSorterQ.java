@@ -64,7 +64,7 @@ public class TranspositionMoveSorterQ implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = entry != null ? TranspositionEntry.decodeMove(entry.boundMoveValue) : 0;
+        short bestMoveEncoded = entry != null ? TranspositionEntry.decodeMove(entry.moveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

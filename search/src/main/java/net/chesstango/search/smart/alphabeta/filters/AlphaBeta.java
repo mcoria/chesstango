@@ -6,7 +6,6 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
@@ -49,7 +48,6 @@ public class AlphaBeta implements AlphaBetaFilter {
         Move bestMove = null;
         boolean search = true;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
-        TranspositionBound bound = TranspositionBound.EXACT;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -65,14 +63,13 @@ public class AlphaBeta implements AlphaBetaFilter {
                 bestMove = move;
                 if (maxValue >= beta) {
                     search = false;
-                    bound = TranspositionBound.LOWER_BOUND;
                 }
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bound, bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
@@ -80,7 +77,6 @@ public class AlphaBeta implements AlphaBetaFilter {
         Move bestMove = null;
         boolean search = true;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
-        TranspositionBound bound = TranspositionBound.EXACT;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -96,14 +92,13 @@ public class AlphaBeta implements AlphaBetaFilter {
                 bestMove = move;
                 if (minValue <= alpha) {
                     search = false;
-                    bound = TranspositionBound.UPPER_BOUND;
                 }
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bound, bestMove, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
 
     }
 
