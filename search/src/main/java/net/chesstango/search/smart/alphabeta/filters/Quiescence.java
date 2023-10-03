@@ -47,10 +47,11 @@ public class Quiescence implements AlphaBetaFilter {
     public long maximize(final int currentPly, final int alpha, final int beta) {
         int maxValue = evaluator.evaluate(game);
         if (maxValue >= beta) {
-            return TranspositionEntry.encode(null, maxValue);
+            return TranspositionEntry.encode(maxValue);
         }
 
         Move bestMove = null;
+        Move secondBestMove = null;
         boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -66,26 +67,30 @@ public class Quiescence implements AlphaBetaFilter {
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
+                    secondBestMove = bestMove;
                     bestMove = move;
                     if (maxValue >= beta) {
                         search = false;
                     }
+                } else if (currentValue == maxValue) {
+                    secondBestMove = move;
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, secondBestMove, maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         int minValue = evaluator.evaluate(game);
         if (minValue <= alpha) {
-            return TranspositionEntry.encode(null, minValue);
+            return TranspositionEntry.encode(minValue);
         }
 
         Move bestMove = null;
+        Move secondBestMove = null;
         boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -101,16 +106,19 @@ public class Quiescence implements AlphaBetaFilter {
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
+                    secondBestMove = bestMove;
                     bestMove = move;
                     if (minValue <= alpha) {
                         search = false;
                     }
+                } else if (currentValue == minValue) {
+                    secondBestMove = move;
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, minValue);
+        return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
     }
 
     public static boolean isNotQuiet(Move move) {

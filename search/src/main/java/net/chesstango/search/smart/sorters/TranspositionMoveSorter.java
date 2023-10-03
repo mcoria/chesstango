@@ -71,35 +71,46 @@ public class TranspositionMoveSorter implements MoveSorter {
         }
 
         short bestMoveEncoded = 0;
+        short secondBestMoveEncoded = 0;
 
-        if(entry != null){
-            bestMoveEncoded = TranspositionEntry.decodeMove(entry.moveAndValue);
-        } else if(qentry != null){
-            bestMoveEncoded = TranspositionEntry.decodeMove(qentry.moveAndValue);
+        if (entry != null) {
+            bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+            secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(entry.movesAndValue);
+        } else if (qentry != null) {
+            bestMoveEncoded = TranspositionEntry.decodeBestMove(qentry.movesAndValue);
+            secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(qentry.movesAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();
 
         if (bestMoveEncoded != 0) {
             Move bestMove = null;
+            Move secondBestMove = null;
             List<Move> unsortedMoveList = new LinkedList<>();
             for (Move move : game.getPossibleMoves()) {
-                if (move.binaryEncoding() == bestMoveEncoded) {
+                short encodedMove = move.binaryEncoding();
+
+                if (encodedMove == bestMoveEncoded) {
                     bestMove = move;
+                } else if (encodedMove == secondBestMoveEncoded) {
+                    secondBestMove = move;
                 } else {
                     unsortedMoveList.add(move);
                 }
             }
 
-            Collections.sort(unsortedMoveList, moveComparator.reversed());
+            unsortedMoveList.sort(moveComparator.reversed());
 
             sortedMoveList.add(bestMove);
+            if(secondBestMove != null){
+                sortedMoveList.add(secondBestMove);
+            }
             sortedMoveList.addAll(unsortedMoveList);
 
         } else {
             game.getPossibleMoves().forEach(sortedMoveList::add);
 
-            Collections.sort(sortedMoveList, moveComparator.reversed());
+            sortedMoveList.sort(moveComparator.reversed());
         }
 
         return sortedMoveList;

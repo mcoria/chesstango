@@ -12,7 +12,7 @@ public class TranspositionEntry implements Serializable {
     public long hash;
     public int searchDepth;
 
-    public long moveAndValue;
+    public long movesAndValue;
 
     public TranspositionBound transpositionBound;
 
@@ -20,32 +20,36 @@ public class TranspositionEntry implements Serializable {
         hash = 0;
     }
 
-    private static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
+    public static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
+    public static final long MOVE_MASK = 0b00000000_00000000_00000000_00000000_00000000_00000000_11111111_11111111L;
 
     public static long encode(int value) {
         return VALUE_MASK & value;
     }
 
-    public static long encode(Move move, int value) {
-        short encodedMove = move != null ? move.binaryEncoding() : (short) 0;
+    public static long encode(Move bestMove, Move secondBestMove, int value) {
+        short bestMoveEncoded = bestMove != null ? bestMove.binaryEncoding() : (short) 0;
+        long bestMoveEncodedLng = (MOVE_MASK & bestMoveEncoded) << 48;
 
-        return encode(encodedMove, value);
+        short secondBestMoveEncoded = secondBestMove != null ? secondBestMove.binaryEncoding() : (short) 0;
+        long secondBestMoveEncodedLng = (MOVE_MASK & secondBestMoveEncoded) << 32;
+
+        long valueEncodedLng = VALUE_MASK & value;
+
+        return bestMoveEncodedLng | secondBestMoveEncodedLng | valueEncodedLng;
     }
 
-    public static long encode(short encodedMove, int value) {
-        long encodedValueLng = VALUE_MASK & value;
 
-        long encodedMoveLng = ((long) encodedMove) << 32;
-
-        return encodedValueLng | encodedMoveLng;
+    public static int decodeValue(long encodedMovesAndValue) {
+        return (int) encodedMovesAndValue;
     }
 
-    public static int decodeValue(long encodedMoveAndValue) {
-        return (int) (VALUE_MASK & encodedMoveAndValue);
+    public static short decodeBestMove(long encodedMovesAndValue) {
+        return (short) (encodedMovesAndValue >> 48);
     }
 
-    public static short decodeMove(long encodedMoveAndValue) {
-        return (short) (encodedMoveAndValue >> 32);
+    public static short decodeSecondBestMove(long encodedMovesAndValue) {
+        return (short) (encodedMovesAndValue >> 32);
     }
 
 

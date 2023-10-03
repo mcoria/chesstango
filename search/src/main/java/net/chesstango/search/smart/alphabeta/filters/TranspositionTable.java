@@ -59,14 +59,14 @@ public class TranspositionTable implements AlphaBetaFilter {
         if (entry == null) {
             entry = maxMap.allocate(hash);
         } else if (searchDepth <= entry.searchDepth) {
-            int value = TranspositionEntry.decodeValue(entry.moveAndValue);
+            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             }
         }
 
@@ -74,7 +74,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
         updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
 
-        return entry.moveAndValue;
+        return entry.movesAndValue;
     }
 
     @Override
@@ -88,14 +88,14 @@ public class TranspositionTable implements AlphaBetaFilter {
         if (entry == null) {
             entry = minMap.allocate(hash);
         } else if (searchDepth <= entry.searchDepth) {
-            int value = TranspositionEntry.decodeValue(entry.moveAndValue);
+            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.moveAndValue;
+                return entry.movesAndValue;
             }
         }
 
@@ -103,7 +103,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
         updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
 
-        return entry.moveAndValue;
+        return entry.movesAndValue;
     }
 
     public void setNext(AlphaBetaFilter next) {
@@ -125,6 +125,6 @@ public class TranspositionTable implements AlphaBetaFilter {
         entry.hash = hash;
         entry.searchDepth = searchDepth;
         entry.transpositionBound = transpositionBound;
-        entry.moveAndValue = moveAndValue;
+        entry.movesAndValue = moveAndValue;
     }
 }

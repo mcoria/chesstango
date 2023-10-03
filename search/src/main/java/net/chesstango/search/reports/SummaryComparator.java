@@ -21,7 +21,7 @@ public class SummaryComparator {
         //summaryComparator.addSession("depth-5-2023-10-01-09-55");
         //summaryComparator.addSession("depth-5-2023-10-01-12-51");
         //summaryComparator.addSession("depth-5-2023-10-01-14-10");
-        summaryComparator.addSession("depth-5-2023-10-02-21-57");
+        summaryComparator.addSession("depth-5-2023-10-03-11-25");
         //summaryComparator.addSession("depth-5-2023-10-02-01-03");
 
         //
@@ -56,7 +56,6 @@ public class SummaryComparator {
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd");
-
     }
 
     private final String baseLineSessionID;

@@ -30,25 +30,67 @@ public class TranspositionEntryTest {
 
     @Test
     public void testEncodedMoveAndValue() {
-        short encodedMove = 0b00001110_11011111;
+        short bestMove = (short) 0b10000000_00000000;
+        short secondBestMove = 0b00001110_11011111;
         int value = 0b10000000_00000000_00000000_00000010;
 
-        long encodedMoveLng = ((long) encodedMove) << 32;
-        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
+        long bestMoveEncodedLng = (TranspositionEntry.MOVE_MASK & bestMove) << 48;
+        long secondMoveEncodedLng = (TranspositionEntry.MOVE_MASK & secondBestMove) << 32;
+        long encodedValueLng = TranspositionEntry.VALUE_MASK & value;
 
-        long encodedMoveAndValue = encodedValueLng | encodedMoveLng;
+        long encodedMoveAndValue = encodedValueLng | bestMoveEncodedLng | secondMoveEncodedLng;
 
-        assertEquals(0b00000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L, encodedMoveAndValue);
+        assertEquals(0b10000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L, encodedMoveAndValue);
     }
 
     @Test
-    public void testDecodeMoveAndValue() {
-        long encodedMoveAndValue = 0b00000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L;
+    public void testDecodeMovesAndValue() {
+        long encodedMoveAndValue = 0b10000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L;
 
-        short move = (short) (encodedMoveAndValue >>> 32);
-        int value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & encodedMoveAndValue);
+        short bestMove = TranspositionEntry.decodeBestMove(encodedMoveAndValue);
+        short secondBestMove = TranspositionEntry.decodeSecondBestMove(encodedMoveAndValue);
+        int value = TranspositionEntry.decodeValue(encodedMoveAndValue);
 
-        assertEquals(0b00001110_11011111, move);
+        assertEquals((short) 0b10000000_00000000, bestMove);
+        assertEquals((short) 0b00001110_11011111, secondBestMove);
         assertEquals(0b10000000_00000000_00000000_00000010, value);
+    }
+
+    @Test
+    public void testValueMaxEncoding() {
+        long maxEncoded = TranspositionEntry.encode(Integer.MAX_VALUE);
+        int maxDecoded = TranspositionEntry.decodeValue(maxEncoded);
+        assertEquals(Integer.MAX_VALUE, maxDecoded);
+    }
+
+    @Test
+    public void testValueMinEncoding() {
+        long minEncoded = TranspositionEntry.encode(Integer.MIN_VALUE);
+        int minDecoded = TranspositionEntry.decodeValue(minEncoded);
+        assertEquals(Integer.MIN_VALUE, minDecoded);
+    }
+
+    @Test
+    public void testValueAllOneEncoding() {
+        int value = 0b11111111_11111111_11111111_11111111;
+        long valueEncoded = TranspositionEntry.encode(value);
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testValue01() {
+        int value = 0b10000000_00000000_00000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testValue02() {
+        int value = 0b01000000_00000000_00000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
     }
 }
