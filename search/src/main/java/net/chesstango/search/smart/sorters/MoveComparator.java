@@ -17,7 +17,7 @@ class MoveComparator implements Comparator<Move> {
     public int compare(Move move1, Move move2) {
         PiecePositioned move1From = move1.getFrom();
         PiecePositioned move1To = move1.getTo();
-        Piece move1PiecePromotion = move1 instanceof MovePromotion ? ((MovePromotion) move1).getPromotion() : null;
+        Piece move1PiecePromotion = move1 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
         if (Color.BLACK.equals(move1.getFrom().getPiece().getColor())) {
             move1From = move1From.getMirrorPosition();
             move1To = move1To.getMirrorPosition();
@@ -26,7 +26,7 @@ class MoveComparator implements Comparator<Move> {
 
         PiecePositioned move2From = move2.getFrom();
         PiecePositioned move2To = move2.getTo();
-        Piece move2PiecePromotion = move2 instanceof MovePromotion ? ((MovePromotion) move2).getPromotion() : null;
+        Piece move2PiecePromotion = move2 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
         if (Color.BLACK.equals(move2.getFrom().getPiece().getColor())) {
             move2From = move2From.getMirrorPosition();
             move2To = move2To.getMirrorPosition();

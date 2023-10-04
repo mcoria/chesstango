@@ -46,8 +46,6 @@ public class MoveComparatorTest {
         Move moveKing = moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-
-
         assertTrue(moveComparator.compare(moveQueen, moveKnight) > 0);
         assertTrue(moveComparator.compare(moveQueen, moveBishop) > 0);
         assertTrue(moveComparator.compare(moveQueen, moveRook) > 0);
@@ -103,7 +101,7 @@ public class MoveComparatorTest {
     }
 
     @Test
-    public void testCaptureFromPawn() {
+    public void testCapture01() {
         Move move1 = moveFactoryWhite.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e4, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.f5, Piece.QUEEN_BLACK), Cardinal.NorteEste);
 
         Move move2 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.h4, Piece.KNIGHT_WHITE), PiecePositioned.getPiecePositioned(Square.f5, Piece.QUEEN_BLACK));
@@ -112,5 +110,6 @@ public class MoveComparatorTest {
 
         assertTrue(moveComparator.compare(move2, move1) < 0);
     }
+
 
 }
