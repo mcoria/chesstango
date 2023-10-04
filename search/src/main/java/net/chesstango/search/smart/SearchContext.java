@@ -2,6 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
@@ -26,6 +27,9 @@ public class SearchContext {
     private int[] expectedNodesCounters;
     private int[] visitedNodesCountersQuiescence;
     private int[] expectedNodesCountersQuiescence;
+
+    private Move lastBestMove;
+    private int lastBestValue;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

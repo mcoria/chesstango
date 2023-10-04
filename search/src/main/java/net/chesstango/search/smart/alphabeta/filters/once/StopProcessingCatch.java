@@ -12,9 +12,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 public class StopProcessingCatch implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
-
     private Game game;
-    private int processingCounter;
+
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -28,7 +27,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.processingCounter = 0;
     }
 
     @Override
@@ -61,12 +59,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     }
 
     private long process(int currentPly, int alpha, int beta, boolean maximize) {
-        synchronized (this) {
-            processingCounter++;
-        }
-        if (processingCounter > 1) {
-            throw new RuntimeException("Filter already processing");
-        }
         final long startHash = game.getChessPosition().getZobristHash();
         try {
             if (maximize) {
