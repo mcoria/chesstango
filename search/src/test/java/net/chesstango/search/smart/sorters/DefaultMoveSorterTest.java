@@ -28,9 +28,9 @@ public class DefaultMoveSorterTest {
 
     private DefaultMoveSorter moveSorter;
 
-    private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+    private final MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
-    private MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+    private final MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
     @BeforeEach
     public void setUp() {
@@ -231,6 +231,33 @@ public class DefaultMoveSorterTest {
         assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
         assertFalse(movesSortedIt.hasNext());
+    }
+
+    /**
+     * Hay dos opciones para capturar la reina negra, desde un peon blanco o desde un caballo blanco
+     * Debemos comenzar con la pieza de menor valor, es decir, desde el peon
+     */
+    @Test
+    public void testCaptureFromPawn() {
+        Move move = null;
+
+        Game game = FENDecoder.loadGame("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4");
+
+        initMoveSorter(moveSorter, game);
+
+        List<Move> movesSorted = moveSorter.getSortedMoves();
+
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
+        assertEquals(Square.e4, move.getFrom().getSquare());
+        assertEquals(Square.f5, move.getTo().getSquare());
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Square.h4, move.getFrom().getSquare());
+        assertEquals(Square.f5, move.getTo().getSquare());
     }
 
     @Test

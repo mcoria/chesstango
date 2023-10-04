@@ -46,9 +46,9 @@ class MoveComparator implements Comparator<Move> {
         // En caso que alguno o ambos de los movimientos sea promocion
         if (move1PiecePromotion != null && move2PiecePromotion != null) {
             result = piecePromotionValue(move1PiecePromotion) - piecePromotionValue(move2PiecePromotion); // Desempate abajo
-        } else if (move1PiecePromotion != null && move2PiecePromotion == null) {
+        } else if (move1PiecePromotion != null) {
             return 1;
-        } else if (move1PiecePromotion == null && move2PiecePromotion != null) {
+        } else if (move2PiecePromotion != null) {
             return -1;
         }
 
@@ -58,9 +58,16 @@ class MoveComparator implements Comparator<Move> {
             boolean isMove2Capture = isCapture(move2From, move2To);
             if (isMove1Capture && isMove2Capture) {
                 result = pieceCaptureValue(move1To.getPiece()) - pieceCaptureValue(move2To.getPiece());  // Desempate abajo
-            } else if (isMove1Capture && !isMove2Capture) {
+
+                /**
+                 * Preferimos la captura que provenga de la pieza de menor valor
+                 */
+                if (result == 0) {
+                    result = getMovePieceValue(move2From.getPiece()) - getMovePieceValue(move1From.getPiece());
+                }
+            } else if (isMove1Capture) {
                 return 1;
-            } else if (!isMove1Capture && isMove2Capture) {
+            } else if (isMove2Capture) {
                 return -1;
             }
         }
