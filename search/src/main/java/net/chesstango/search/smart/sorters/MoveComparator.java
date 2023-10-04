@@ -17,7 +17,7 @@ class MoveComparator implements Comparator<Move> {
     public int compare(Move move1, Move move2) {
         PiecePositioned move1From = move1.getFrom();
         PiecePositioned move1To = move1.getTo();
-        Piece move1PiecePromotion = move1 instanceof MovePromotion ? ((MovePromotion) move1).getPromotion() : null;
+        Piece move1PiecePromotion = move1 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
         if (Color.BLACK.equals(move1.getFrom().getPiece().getColor())) {
             move1From = move1From.getMirrorPosition();
             move1To = move1To.getMirrorPosition();
@@ -26,7 +26,7 @@ class MoveComparator implements Comparator<Move> {
 
         PiecePositioned move2From = move2.getFrom();
         PiecePositioned move2To = move2.getTo();
-        Piece move2PiecePromotion = move2 instanceof MovePromotion ? ((MovePromotion) move2).getPromotion() : null;
+        Piece move2PiecePromotion = move2 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
         if (Color.BLACK.equals(move2.getFrom().getPiece().getColor())) {
             move2From = move2From.getMirrorPosition();
             move2To = move2To.getMirrorPosition();
@@ -46,9 +46,9 @@ class MoveComparator implements Comparator<Move> {
         // En caso que alguno o ambos de los movimientos sea promocion
         if (move1PiecePromotion != null && move2PiecePromotion != null) {
             result = piecePromotionValue(move1PiecePromotion) - piecePromotionValue(move2PiecePromotion); // Desempate abajo
-        } else if (move1PiecePromotion != null && move2PiecePromotion == null) {
+        } else if (move1PiecePromotion != null) {
             return 1;
-        } else if (move1PiecePromotion == null && move2PiecePromotion != null) {
+        } else if (move2PiecePromotion != null) {
             return -1;
         }
 
@@ -58,9 +58,16 @@ class MoveComparator implements Comparator<Move> {
             boolean isMove2Capture = isCapture(move2From, move2To);
             if (isMove1Capture && isMove2Capture) {
                 result = pieceCaptureValue(move1To.getPiece()) - pieceCaptureValue(move2To.getPiece());  // Desempate abajo
-            } else if (isMove1Capture && !isMove2Capture) {
+
+                /**
+                 * Preferimos la captura que provenga de la pieza de menor valor
+                 */
+                if (result == 0) {
+                    result = getMovePieceValue(move2From.getPiece()) - getMovePieceValue(move1From.getPiece());
+                }
+            } else if (isMove1Capture) {
                 return 1;
-            } else if (!isMove1Capture && isMove2Capture) {
+            } else if (isMove2Capture) {
                 return -1;
             }
         }
