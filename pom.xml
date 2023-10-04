@@ -4,11 +4,11 @@
     <groupId>net.chesstango</groupId>
     <artifactId>chesstango</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.17</version>
+    <version>0.0.18-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/mcoria/chesstango.git</developerConnection>
-      <tag>v0.0.17</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <modules>
