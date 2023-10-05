@@ -7,7 +7,6 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements SearchMove {
+    private volatile boolean keepProcessing;
     private final SearchSmart searchSmart;
     private Consumer<SearchInfo> searchStatusListener;
 
@@ -29,45 +29,32 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult search(final Game game, final int depth) {
+        keepProcessing = true;
+
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         searchSmart.beforeSearch(game, depth);
 
-        try {
+        for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
-            for (int currentSearchDepth = 1; currentSearchDepth <= depth; currentSearchDepth++) {
+            SearchContext context = new SearchContext(currentSearchDepth);
 
-                SearchContext context = new SearchContext(currentSearchDepth);
+            searchSmart.beforeSearchByDepth(context);
 
-                searchSmart.beforeSearchByDepth(context);
+            SearchMoveResult searchResult = searchSmart.search(context);
 
-                SearchMoveResult searchResult = searchSmart.search(context);
+            searchSmart.afterSearchByDepth(searchResult);
 
-                searchSmart.afterSearchByDepth(searchResult);
+            bestMovesByDepth.add(searchResult);
 
-                bestMovesByDepth.add(searchResult);
-
-                if (searchStatusListener != null) {
-                    SearchInfo searchInfo = new SearchInfo(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
-                    searchStatusListener.accept(searchInfo);
-                }
-
-                if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
-                    break;
-                }
+            if (searchStatusListener != null) {
+                SearchInfo searchInfo = new SearchInfo(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
+                searchStatusListener.accept(searchInfo);
             }
 
-        } catch (StopSearchingException spe) {
-
-            searchSmart.afterSearchByDepth(null);
-
-            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);  // Aca deberiamos buscar en TT el mejor
-
-            spe.setSearchMoveResult(bestMove);
-
-            searchSmart.afterSearch(bestMove);
-
-            throw spe;
+            if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
+                break;
+            }
         }
 
         SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
@@ -80,6 +67,7 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void stopSearching() {
+        keepProcessing = false;
         this.searchSmart.stopSearching();
     }
 

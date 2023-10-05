@@ -38,13 +38,6 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
 
     @Override
     public SearchMoveResult searchImp(Game game, int depth) {
-        SearchMoveResult searchResult = null;
-        try {
-            searchResult = searchMove.search(game, depth);
-        } catch (StopSearchingException spe) {
-            searchResult = spe.getSearchMoveResult();
-            listenerClient.searchStopped();
-        }
-        return searchResult;
+        return searchMove.search(game, depth);
     }
 }

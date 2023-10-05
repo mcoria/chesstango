@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -12,12 +13,13 @@ import java.util.*;
  * @author Mauricio Coria
  */
 public class ZobristTracker implements AlphaBetaFilter {
+    @Setter
+    private AlphaBetaFilter next;
     private Map<Long, String> maxMap = new HashMap<>();
     private Map<Long, String> minMap = new HashMap<>();
     private List<String> collisions = new LinkedList<>();
     private Game game;
 
-    private AlphaBetaFilter next;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -56,10 +58,6 @@ public class ZobristTracker implements AlphaBetaFilter {
     public long minimize(int currentPly, int alpha, int beta) {
         findCollision(minMap);
         return next.minimize(currentPly, alpha, beta);
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 
     protected void findCollision(Map<Long, String> theMap) {

@@ -35,7 +35,7 @@ public class MinMax implements SearchSmart {
         this.maxPly = context.getMaxPly();
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
-        final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
+        final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;

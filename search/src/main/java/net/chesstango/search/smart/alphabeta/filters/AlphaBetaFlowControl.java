@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -13,10 +14,13 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class AlphaBetaFlowControl implements AlphaBetaFilter {
     private volatile boolean keepProcessing;
 
-    private GameEvaluator evaluator;
+    @Setter
+    private GameEvaluator gameEvaluator;
 
+    @Setter
     private AlphaBetaFilter next;
 
+    @Setter
     private AlphaBetaFilter quiescence;
 
     private int maxPly;
@@ -56,7 +60,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(evaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -71,24 +75,12 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(evaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);
         }
 
         return next.minimize(currentPly, alpha, beta);
-    }
-
-    public void setQuiescence(AlphaBetaFilter quiescence) {
-        this.quiescence = quiescence;
-    }
-
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 }

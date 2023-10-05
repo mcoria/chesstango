@@ -9,5 +9,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StopSearchingException extends RuntimeException {
-    private SearchMoveResult searchMoveResult;
 }

@@ -129,6 +129,7 @@ public class AlphaBetaFirstChainBuilder {
         // StopProcessingCatch is set one in the chain
         if (stopProcessingCatch != null) {
             stopProcessingCatch.setNext(head);
+            stopProcessingCatch.setAlphaBetaFirst(alphaBetaFirst);
             head = stopProcessingCatch;
         }
 

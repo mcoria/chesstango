@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
@@ -19,9 +21,15 @@ import java.util.Objects;
  */
 public class AlphaBetaFirst implements AlphaBetaFilter {
     private static final MoveComparator moveComparator = new MoveComparator();
+
+    @Setter
     private AlphaBetaFilter next;
     private Game game;
+
+    @Getter
     private Move bestMove;
+
+    @Getter
     private int bestValue;
     private List<Move> sortedMoves;
 
@@ -105,9 +113,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     public void afterSearchByDepth(SearchMoveResult result) {
     }
 
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
-    }
 
     private List<Move> createSortedMoves(Move lastBestMove) {
         List<Move> sortedMoves = new LinkedList<>();
