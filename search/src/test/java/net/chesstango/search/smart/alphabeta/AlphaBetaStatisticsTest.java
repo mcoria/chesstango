@@ -37,7 +37,7 @@ public class AlphaBetaStatisticsTest {
 
     private SearchMoveResult searchResult;
 
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
 
     @AfterEach
     public void printReport() {
