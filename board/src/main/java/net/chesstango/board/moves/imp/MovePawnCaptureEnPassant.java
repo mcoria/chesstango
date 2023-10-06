@@ -120,6 +120,11 @@ public class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
+    public boolean isQuiet() {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof MovePawnCaptureEnPassant){
             MovePawnCaptureEnPassant theOther = (MovePawnCaptureEnPassant) obj;

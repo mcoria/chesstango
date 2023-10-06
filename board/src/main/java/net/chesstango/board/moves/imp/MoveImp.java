@@ -8,7 +8,6 @@ import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 class MoveImp implements Move {
     protected final PiecePositioned from;
@@ -27,7 +26,7 @@ class MoveImp implements Move {
         this.from = from;
         this.to = to;
         this.direction = direction;
-        assert(direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
+        assert (direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
     }
 
     public MoveImp(PiecePositioned from, PiecePositioned to) {
@@ -104,10 +103,15 @@ class MoveImp implements Move {
     }
 
     @Override
+    public boolean isQuiet() {
+        return to.getPiece() == null;
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Move){
+        if (obj instanceof Move) {
             Move theOther = (Move) obj;
-            return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
+            return getFrom().equals(theOther.getFrom()) && getTo().equals(theOther.getTo());
         }
         return false;
     }

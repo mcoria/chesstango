@@ -169,6 +169,11 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
+    public boolean isQuiet() {
+        return false;
+    }
+
+    @Override
     public Piece getPromotion() {
         return promotion;
     }

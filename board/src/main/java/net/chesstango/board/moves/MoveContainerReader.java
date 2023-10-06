@@ -16,4 +16,8 @@ public interface MoveContainerReader extends Iterable<Move> {
 
     Move getMove(Square from, Square to);
     Move getMove(Square from, Square to, Piece promotionPiece);
+
+    boolean hasQuietMoves();
+
+
 }

@@ -34,6 +34,11 @@ class MoveCastlingWhiteQueen extends AbstractCastlingMove{
     }
 
     @Override
+    public boolean isQuiet() {
+        return true;
+    }
+
+    @Override
     protected void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         if(oldPositionState.isCastlingWhiteKingAllowed() == true){
             hash.xorCastleWhiteKing();

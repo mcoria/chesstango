@@ -120,6 +120,11 @@ class MovePawnTwoSquares implements Move {
     }
 
     @Override
+    public boolean isQuiet() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof MovePawnTwoSquares){
             MovePawnTwoSquares theOther = (MovePawnTwoSquares) obj;

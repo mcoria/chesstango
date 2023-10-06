@@ -64,7 +64,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
         final int qLevel = currentPly - maxPly;
         int expectedMoves = 0;
         for (Move move: game.getPossibleMoves()) {
-            if(Quiescence.isNotQuiet(move)){
+            if (!move.isQuiet()) {
                 expectedMoves++;
             }
         }

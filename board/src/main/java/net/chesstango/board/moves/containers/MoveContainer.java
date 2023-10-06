@@ -13,15 +13,12 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class MoveContainer implements MoveContainerReader {
-
     private int size = 0;
-
-    private List<MoveList> moveLists = null;
-
-    private List<Move> moveList = new LinkedList<Move>();
+    private final List<MoveList> moveLists;
+    private final List<Move> moveList = new LinkedList<>();
+    private boolean hasQuietMoves = true;
 
     public MoveContainer(int moveListCount) {
         moveLists = new ArrayList<>(moveListCount);
@@ -31,32 +28,40 @@ public class MoveContainer implements MoveContainerReader {
         this(0);
     }
 
-
     public void add(MoveList moveList) {
+        if (!moveList.hasQuietMoves()) {
+            hasQuietMoves = false;
+        }
         size += moveList.size();
         moveLists.add(moveList);
     }
 
     public void add(Move move) {
-        size ++;
+        if (!move.isQuiet()) {
+            hasQuietMoves = false;
+        }
+        size++;
         moveList.add(move);
     }
 
     @Override
-    public int size() { return size; }
-
+    public int size() {
+        return size;
+    }
 
     @Override
-    public boolean isEmpty() { return size == 0;}
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
     @Override
     public boolean contains(Move move) {
-        if(moveList.contains(move)){
+        if (moveList.contains(move)) {
             return true;
         }
-        for (MoveList movelist:
-            moveLists) {
-            if(movelist.contains(move)){
+        for (MoveList movelist :
+                moveLists) {
+            if (movelist.contains(move)) {
                 return true;
             }
         }
@@ -67,7 +72,7 @@ public class MoveContainer implements MoveContainerReader {
     public Move getMove(Square from, Square to) {
         for (Move move : this) {
             if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
-                if(move instanceof MovePromotion){
+                if (move instanceof MovePromotion) {
                     return null;
                 }
                 return move;
@@ -90,17 +95,22 @@ public class MoveContainer implements MoveContainerReader {
     }
 
     @Override
+    public boolean hasQuietMoves() {
+        return hasQuietMoves;
+    }
+
+    @Override
     public Iterator<Move> iterator() {
         return new Iterator<Move>() {
             private Iterator<Move> currentIterator = moveList.iterator();
 
-            private Iterator<MoveList> currentMoveListIterator = moveLists.iterator();
+            private final Iterator<MoveList> currentMoveListIterator = moveLists.iterator();
 
             private Move next = null;
 
             @Override
             public boolean hasNext() {
-                if(next == null){
+                if (next == null) {
                     computeNext();
                 }
                 return next != null;
@@ -113,9 +123,9 @@ public class MoveContainer implements MoveContainerReader {
                 return nextResult;
             }
 
-            private void computeNext(){
-                while(next == null && currentIterator != null ) {
-                    if(currentIterator.hasNext()){
+            private void computeNext() {
+                while (next == null && currentIterator != null) {
+                    if (currentIterator.hasNext()) {
                         next = currentIterator.next();
                     } else {
                         computeNextIterator();
@@ -125,7 +135,7 @@ public class MoveContainer implements MoveContainerReader {
 
             private void computeNextIterator() {
                 currentIterator = null;
-                if(currentMoveListIterator.hasNext()){
+                if (currentMoveListIterator.hasNext()) {
                     MoveList moveList = currentMoveListIterator.next();
                     currentIterator = moveList.iterator();
                 }

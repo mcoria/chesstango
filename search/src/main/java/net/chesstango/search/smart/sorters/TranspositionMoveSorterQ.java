@@ -78,7 +78,7 @@ public class TranspositionMoveSorterQ implements MoveSorter {
             Move secondBestMove = null;
             List<Move> unsortedMoveList = new LinkedList<>();
             for (Move move : game.getPossibleMoves()) {
-                if (Quiescence.isNotQuiet(move)) {
+                if (!move.isQuiet()) {
                     short encodedMove = move.binaryEncoding();
                     if (encodedMove == bestMoveEncoded) {
                         bestMove = move;
@@ -102,7 +102,7 @@ public class TranspositionMoveSorterQ implements MoveSorter {
 
         } else {
             game.getPossibleMoves().forEach(move -> {
-                if (Quiescence.isNotQuiet(move)) {
+                if (!move.isQuiet()) {
                     sortedMoveList.add(move);
                 }
             });
