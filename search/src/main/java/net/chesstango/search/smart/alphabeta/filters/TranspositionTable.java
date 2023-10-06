@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
@@ -11,6 +12,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
  * @author Mauricio Coria
  */
 public class TranspositionTable implements AlphaBetaFilter {
+    @Setter
     private AlphaBetaFilter next;
     private TTable maxMap;
     private TTable minMap;
@@ -104,10 +106,6 @@ public class TranspositionTable implements AlphaBetaFilter {
         updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
 
         return entry.movesAndValue;
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 
     protected void updateEntry(TranspositionEntry entry, long hash, int searchDepth, int alpha, int beta, long moveAndValue) {

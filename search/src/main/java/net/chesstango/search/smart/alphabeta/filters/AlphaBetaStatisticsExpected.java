@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
@@ -8,6 +9,8 @@ import net.chesstango.search.smart.SearchContext;
  * @author Mauricio Coria
  */
 public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
+
+    @Setter
     private AlphaBetaFilter next;
     private int[] expectedNodesCounters;
     private Game game;
@@ -50,11 +53,6 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
     public long minimize(final int currentPly, final int alpha, final int beta) {
         updateCounters(currentPly);
         return next.minimize(currentPly, alpha, beta);
-    }
-
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 
     protected void updateCounters(final int currentPly) {

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -12,7 +13,11 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
  */
 public class QuiescenceFlowControl implements AlphaBetaFilter {
     private volatile boolean keepProcessing;
-    private GameEvaluator evaluator;
+
+    @Setter
+    private GameEvaluator gameEvaluator;
+
+    @Setter
     private AlphaBetaFilter next;
     private Game game;
 
@@ -49,7 +54,7 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(evaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -61,17 +66,9 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(evaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
 
         return next.minimize(currentPly, alpha, beta);
-    }
-
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 }

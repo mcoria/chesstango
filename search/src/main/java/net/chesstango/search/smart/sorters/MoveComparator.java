@@ -11,7 +11,7 @@ import java.util.Comparator;
 /**
  * @author Mauricio Coria
  */
-class MoveComparator implements Comparator<Move> {
+public class MoveComparator implements Comparator<Move> {
 
     @Override
     public int compare(Move move1, Move move2) {

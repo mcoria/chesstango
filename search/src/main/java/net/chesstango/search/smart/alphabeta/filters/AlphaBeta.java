@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
@@ -16,8 +17,10 @@ import java.util.List;
  */
 public class AlphaBeta implements AlphaBetaFilter {
 
+    @Setter
     private AlphaBetaFilter next;
 
+    @Setter
     private MoveSorter moveSorter;
 
     private Game game;
@@ -113,12 +116,5 @@ public class AlphaBeta implements AlphaBetaFilter {
     public void stopSearching() {
     }
 
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
-    }
 
 }

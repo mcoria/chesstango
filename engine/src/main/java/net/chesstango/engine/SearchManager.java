@@ -41,8 +41,8 @@ public final class SearchManager {
         if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();
 
-            if (searchImp instanceof IterativeDeepening) {
-                ((IterativeDeepening) searchImp).setSearchStatusListener(listenerClient::searchInfo);
+            if (searchImp instanceof IterativeDeepening iterativeDeepening) {
+                iterativeDeepening.setSearchStatusListener(listenerClient::searchInfo);
             }
         }
     }

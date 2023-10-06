@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
@@ -16,9 +17,14 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Quiescence implements AlphaBetaFilter {
+    @Setter
     private AlphaBetaFilter next;
+
+    @Setter
     private MoveSorter moveSorter;
-    private GameEvaluator evaluator;
+
+    @Setter
+    private GameEvaluator gameEvaluator;
     private Game game;
 
     @Override
@@ -45,7 +51,7 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        int maxValue = evaluator.evaluate(game);
+        int maxValue = gameEvaluator.evaluate(game);
         if (maxValue >= beta) {
             return TranspositionEntry.encode(maxValue);
         }
@@ -84,7 +90,7 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        int minValue = evaluator.evaluate(game);
+        int minValue = gameEvaluator.evaluate(game);
         if (minValue <= alpha) {
             return TranspositionEntry.encode(minValue);
         }
@@ -128,18 +134,6 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     public void stopSearching() {
-    }
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
-    }
-
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
-    }
-
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
     }
 
 }

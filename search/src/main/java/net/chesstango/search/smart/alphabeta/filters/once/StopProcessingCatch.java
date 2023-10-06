@@ -1,20 +1,27 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
 public class StopProcessingCatch implements AlphaBetaFilter {
 
+    @Setter
     private AlphaBetaFilter next;
 
+    @Setter
     private Game game;
-    private int processingCounter;
+
+    @Setter
+    private AlphaBetaFirst alphaBetaFirst;
+
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -28,7 +35,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.processingCounter = 0;
     }
 
     @Override
@@ -56,17 +62,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         return process(currentPly, alpha, beta, false);
     }
 
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
-    }
-
     private long process(int currentPly, int alpha, int beta, boolean maximize) {
-        synchronized (this) {
-            processingCounter++;
-        }
-        if (processingCounter > 1) {
-            throw new RuntimeException("Filter already processing");
-        }
         final long startHash = game.getChessPosition().getZobristHash();
         try {
             if (maximize) {
@@ -75,12 +71,16 @@ public class StopProcessingCatch implements AlphaBetaFilter {
                 return next.minimize(currentPly, alpha, beta);
             }
         } catch (StopSearchingException re) {
-            long currentHash = game.getChessPosition().getZobristHash();
-            while (currentHash != startHash) {
-                game.undoMove();
-                currentHash = game.getChessPosition().getZobristHash();
-            }
-            throw re;
+            undoMoves(startHash);
+            return TranspositionEntry.encode(alphaBetaFirst.getBestMove(), null, alphaBetaFirst.getBestValue());
+        }
+    }
+
+    private void undoMoves(long startHash) {
+        long currentHash = game.getChessPosition().getZobristHash();
+        while (currentHash != startHash) {
+            game.undoMove();
+            currentHash = game.getChessPosition().getZobristHash();
         }
     }
 }

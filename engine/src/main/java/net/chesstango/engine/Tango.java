@@ -47,13 +47,6 @@ public class Tango {
             }
 
             @Override
-            public void searchStopped() {
-                if (listenerClient != null) {
-                    listenerClient.searchStopped();
-                }
-            }
-
-            @Override
             public void searchFinished(SearchMoveResult searchResult) {
                 currentSession.addResult(searchResult);
 
