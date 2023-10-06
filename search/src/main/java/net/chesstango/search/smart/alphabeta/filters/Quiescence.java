@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
@@ -65,7 +64,7 @@ public class Quiescence implements AlphaBetaFilter {
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
-            if (isNotQuiet(move)) {
+            if (!move.isQuiet()) {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
@@ -104,7 +103,7 @@ public class Quiescence implements AlphaBetaFilter {
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
-            if (isNotQuiet(move)) {
+            if (!move.isQuiet()) {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
@@ -127,11 +126,6 @@ public class Quiescence implements AlphaBetaFilter {
         return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
     }
 
-    public static boolean isNotQuiet(Move move) {
-        return move.getTo().getPiece() != null ||  // Captura
-                move.getFrom().getPiece().isPawn() && move.getFrom().getSquare().getFile() != move.getTo().getSquare().getFile() || // Captura de peon
-                move instanceof MovePromotion;     // Promocion
-    }
 
     public void stopSearching() {
     }

@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
@@ -57,6 +58,10 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
 
+        if (isCurrentPositionQuiet()) {
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+        }
+
         return next.maximize(currentPly, alpha, beta);
     }
 
@@ -69,6 +74,15 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             return TranspositionEntry.encode(gameEvaluator.evaluate(game));
         }
 
+        if (isCurrentPositionQuiet()) {
+            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+        }
+
         return next.minimize(currentPly, alpha, beta);
+    }
+
+    private boolean isCurrentPositionQuiet() {
+        MoveContainerReader possibleMoves = game.getPossibleMoves();
+        return possibleMoves.hasQuietMoves();
     }
 }

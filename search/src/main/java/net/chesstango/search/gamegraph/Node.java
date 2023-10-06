@@ -99,6 +99,12 @@ class Node {
                 }
                 return null;
             }
+
+            @Override
+            public boolean hasQuietMoves() {
+                return false;
+            }
+
         };
     }
 

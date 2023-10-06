@@ -115,4 +115,6 @@ public interface Move extends Comparable<Move> {
 
         return 0;
     }
+
+    boolean isQuiet();
 }
