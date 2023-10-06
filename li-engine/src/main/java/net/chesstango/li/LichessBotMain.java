@@ -85,7 +85,7 @@ public class LichessBotMain implements Runnable {
 
                 logger.info("Connection successful, entering main event loop...");
 
-                //gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
 
                 events.forEach(event -> {
                     logger.info("event received: {}", event);
