@@ -6,6 +6,7 @@ import chariot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class LichessBotMain implements Runnable {
         properties.put("MAX_SIMULTANEOUS_GAMES", MAX_SIMULTANEOUS_GAMES);
 
         POLYGLOT_BOOK = System.getenv("POLYGLOT_BOOK");
-        if(Objects.nonNull(POLYGLOT_BOOK)){
+        if (Objects.nonNull(POLYGLOT_BOOK)) {
             properties.put("POLYGLOT_BOOK", POLYGLOT_BOOK);
         }
     }
@@ -78,24 +79,36 @@ public class LichessBotMain implements Runnable {
 
     @Override
     public void run() {
-        Stream<Event> events = client.streamEvents();
+        do {
+            try {
+                Stream<Event> events = client.streamEvents();
 
-        logger.info("Connection successful, entering main event loop...");
+                logger.info("Connection successful, entering main event loop...");
 
-        gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                //gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
 
-        events.forEach(event -> {
-            logger.info("event received: {}", event);
-            switch (event.type()) {
-                case challenge -> newChallenge((Event.ChallengeEvent) event);
-                case challengeCanceled, challengeDeclined ->
-                        logger.info("Challenge cancelled / declined: {}", event.id());
-                case gameStart -> startGame((Event.GameStartEvent) event);
-                case gameFinish -> gameFinish((Event.GameStopEvent) event);
+                events.forEach(event -> {
+                    logger.info("event received: {}", event);
+                    switch (event.type()) {
+                        case challenge -> newChallenge((Event.ChallengeEvent) event);
+                        case challengeCanceled, challengeDeclined ->
+                                logger.info("Challenge cancelled / declined: {}", event.id());
+                        case gameStart -> startGame((Event.GameStartEvent) event);
+                        case gameFinish -> gameFinish((Event.GameStopEvent) event);
+                    }
+                });
+
+                logger.info("main event loop finished");
+            } catch (UncheckedIOException uio) {
+                logger.error("UncheckedIOException", uio);
+                try {
+                    logger.info("Trying to reconnect");
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        });
-
-        logger.info("main event loop finished");
+        } while (true);
     }
 
     private void newChallenge(Event.ChallengeEvent challengeEvent) {
