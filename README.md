@@ -29,10 +29,11 @@ While I've certainly taken performance considerations into account, the predomin
   - Extended Position Description (EPD)
   - Standard Algebraic Notation (SAN)
 - Search
-  - Zobrist hash
-  - MinMax
   - Alpha Beta Pruning
+  - Zobrist hash
+  - Quiescence Search
   - Iterative Deepening
+  - Aspiration Windows
   - Transposition Tables
 - Evaluation
   - Piece-Square Tables
