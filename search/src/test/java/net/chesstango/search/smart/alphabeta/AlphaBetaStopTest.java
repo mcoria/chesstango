@@ -35,6 +35,8 @@ public class AlphaBetaStopTest {
 
                 .withIterativeDeepening()
 
+                .withAspirationWindows()
+
                 .withStatistics()
 
                 .build();

@@ -3,6 +3,7 @@ package net.chesstango.search;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class EpdSearchMainTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private EPDReader epdReader;
     private EpdSearch epdSearch;
     private EpdSearchResult epdSearchResult;
@@ -82,7 +83,7 @@ public class EpdSearchMainTest {
 
     @Test
     public void test_BK01() {
-        epdSearch.setDepth(6);
+        epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - bm Qd1+; id \"BK.01\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
@@ -108,8 +109,17 @@ public class EpdSearchMainTest {
     @Test
     @Disabled
     public void test_BK23() {
-        epdSearch.setDepth(4);
+        epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - bm f6; id \"BK.23\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+    @Test
+    @Disabled
+    public void test_BK24() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - bm f4; id \"BK.24\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
     }
@@ -245,13 +255,13 @@ public class EpdSearchMainTest {
 
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
 
                 .withQuiescence()
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                .withTranspositionTableReuse()
+                //.withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
@@ -260,8 +270,12 @@ public class EpdSearchMainTest {
 
                 .withIterativeDeepening()
 
+                .withAspirationWindows()
+
+                //.withMoveEvaluation()
+
                 .withStatistics()
-                //.withStatisticsTrackEvaluations() //Consume demasiada memoria
+                //.withTrackEvaluations() // Consume demasiada memoria
 
                 .build();
     }

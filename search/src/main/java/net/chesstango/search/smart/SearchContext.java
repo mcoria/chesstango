@@ -29,7 +29,7 @@ public class SearchContext {
     private int[] expectedNodesCountersQuiescence;
 
     private Move lastBestMove;
-    private int lastBestValue;
+    private Integer lastBestValue;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
+import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 
 import java.util.List;
@@ -24,10 +25,13 @@ public class AlphaBetaFirstChainBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private AlphaBetaFilter next;
     private AlphaBetaFilter quiescence;
+    private AspirationWindows aspirationWindows;
 
     private List<SearchLifeCycle> filterActions;
 
     private boolean withStatistics;
+
+    private boolean withAspirationWindows;
 
     public AlphaBetaFirstChainBuilder() {
         alphaBetaFirst = new AlphaBetaFirst();
@@ -67,6 +71,10 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
+    public AlphaBetaFirstChainBuilder withAspirationWindows() {
+        this.withAspirationWindows = true;
+        return this;
+    }
 
     public AlphaBetaFilter build() {
         buildObjects();
@@ -77,12 +85,14 @@ public class AlphaBetaFirstChainBuilder {
     }
 
     private void buildObjects() {
-        // =============  alphaBeta setup =====================
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         }
-        // ====================================================
+
+        if (withAspirationWindows) {
+            aspirationWindows = new AspirationWindows();
+        }
     }
 
 
@@ -90,7 +100,6 @@ public class AlphaBetaFirstChainBuilder {
         filterActions.add(alphaBetaFirst);
         filterActions.add(alphaBetaFlowControl);
 
-        // =============  alphaBeta setup =====================
         if (withStatistics) {
             filterActions.add(alphaBetaStatisticsExpected);
             filterActions.add(alphaBetaStatisticsVisited);
@@ -99,7 +108,11 @@ public class AlphaBetaFirstChainBuilder {
         if (stopProcessingCatch != null) {
             filterActions.add(stopProcessingCatch);
         }
-        // ====================================================
+
+        if (aspirationWindows != null) {
+            filterActions.add(aspirationWindows);
+        }
+
         return filterActions;
     }
 
@@ -125,6 +138,11 @@ public class AlphaBetaFirstChainBuilder {
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         // ====================================================
+
+        if (aspirationWindows != null) {
+            aspirationWindows.setNext(head);
+            head = aspirationWindows;
+        }
 
         // StopProcessingCatch is set one in the chain
         if (stopProcessingCatch != null) {
