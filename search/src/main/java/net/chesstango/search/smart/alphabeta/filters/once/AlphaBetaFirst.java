@@ -104,7 +104,9 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        sortedMoves = createSortedMoves(this.bestMove);
+        context.setLastBestMove(bestMove);
+        context.setLastBestValue(bestValue);
+        sortedMoves = createSortedMoves(bestMove);
     }
 
     @Override

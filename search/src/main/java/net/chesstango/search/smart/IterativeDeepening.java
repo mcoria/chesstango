@@ -1,25 +1,22 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements SearchMove {
     private volatile boolean keepProcessing;
+    private volatile CountDownLatch countDownLatch;
     private final SearchSmart searchSmart;
     private Consumer<SearchInfo> searchStatusListener;
 
@@ -30,6 +27,7 @@ public class IterativeDeepening implements SearchMove {
     @Override
     public SearchMoveResult search(final Game game, final int depth) {
         keepProcessing = true;
+        countDownLatch = new CountDownLatch(1);
 
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
@@ -38,12 +36,6 @@ public class IterativeDeepening implements SearchMove {
         for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
             SearchContext context = new SearchContext(currentSearchDepth);
-
-            if (!bestMovesByDepth.isEmpty()) {
-                SearchMoveResult lastMoveResult = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-                context.setLastBestMove(lastMoveResult.getBestMove());
-                context.setLastBestValue(lastMoveResult.getEvaluation());
-            }
 
             searchSmart.beforeSearchByDepth(context);
 
@@ -61,6 +53,8 @@ public class IterativeDeepening implements SearchMove {
             if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                 break;
             }
+
+            countDownLatch.countDown();
         }
 
         SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
@@ -71,47 +65,27 @@ public class IterativeDeepening implements SearchMove {
     }
 
 
+    /**
+     * No podemos detener si al menos no se buscó con DEPTH = 1
+     */
     @Override
     public void stopSearching() {
         keepProcessing = false;
-        this.searchSmart.stopSearching();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        searchSmart.stopSearching();
     }
 
     @Override
     public void reset() {
-        this.searchSmart.reset();
+        searchSmart.reset();
     }
 
     public void setSearchStatusListener(Consumer<SearchInfo> searchStatusListener) {
         this.searchStatusListener = searchStatusListener;
-    }
-
-    /**
-     * En caso que la busqueda devuelva mas de una opcion para una profundidad dada seleccionamos la opcion de
-     * mayor ocurrencia considerando las busquedas de profundidad menor.
-     *
-     * @param currentTurn
-     * @param bestMovesByDepth
-     * @return
-     */
-    protected Move selectBestMove(Color currentTurn, List<SearchMoveResult> bestMovesByDepth) {
-        List<Move> lastSearchMoveOptions = bestMovesByDepth.get(bestMovesByDepth.size() - 1).getBestMoves();
-
-        int maxDepth = bestMovesByDepth.size();
-
-        Map<Move, Integer> moveByFrequency = new HashMap<>();
-        lastSearchMoveOptions.stream().forEach(move -> moveByFrequency.put(move, maxDepth));
-        for (int i = 0; i < bestMovesByDepth.size(); i++) {
-            final Integer currentDepth = i + 1; // Depth provides extra points
-            List<Move> byDepthOptions = bestMovesByDepth.get(i).getBestMoves();
-            byDepthOptions.stream().filter(lastSearchMoveOptions::contains).forEach(move -> moveByFrequency.compute(move, (k, v) -> v + currentDepth));
-        }
-
-        int maxFrequency = moveByFrequency.values().stream().mapToInt(Integer::intValue).max().getAsInt();
-
-        List<Move> filteredOptions = moveByFrequency.entrySet().stream().filter(entry -> entry.getValue().equals(maxFrequency)).map(Map.Entry::getKey).collect(Collectors.toList());
-
-        return MoveSelector.selectMove(currentTurn, filteredOptions);
     }
 
 }

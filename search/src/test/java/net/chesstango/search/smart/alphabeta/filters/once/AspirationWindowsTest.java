@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,37 +10,68 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class AspirationWindowsTest {
 
+    private AspirationWindows aspirationWindows;
+
+
+    @BeforeEach
+    public void setup() {
+        aspirationWindows = new AspirationWindows();
+    }
+
     @Test
-    public void testBoundPositive() {
-        AspirationWindows aspirationWindows = new AspirationWindows();
+    public void testBoundPositiveCycle_00() {
+        assertEquals(1, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, 0));
+        assertEquals(2, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 2, 0));
+        assertEquals(3, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 3, 0));
+        assertEquals(4, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 4, 0));
+        assertEquals(5, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 5, 0));
+        assertEquals(6, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 6, 0));
+        assertEquals(7, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 7, 0));
+        assertEquals(8, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 8, 0));
+        assertEquals(9, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 9, 0));
+        assertEquals(10, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 10, 0));
+    }
 
-        assertEquals(1, aspirationWindows.diffBound(10, 20, 1));
-        assertEquals(2, aspirationWindows.diffBound(10, 20, 2));
-        assertEquals(3, aspirationWindows.diffBound(10, 20, 3));
-        assertEquals(4, aspirationWindows.diffBound(10, 20, 4));
-        assertEquals(5, aspirationWindows.diffBound(10, 20, 5));
-        assertEquals(6, aspirationWindows.diffBound(10, 20, 6));
-        assertEquals(7, aspirationWindows.diffBound(10, 20, 7));
-        assertEquals(8, aspirationWindows.diffBound(10, 20, 8));
-        assertEquals(9, aspirationWindows.diffBound(10, 20, 9));
-        assertEquals(10, aspirationWindows.diffBound(10, 20, 10));
+    @Test
+    public void testBoundPositiveCycle_16() {
+        assertEquals(1, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, 16));
+        assertEquals(2, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 2, 16));
+        assertEquals(3, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 3, 16));
+        assertEquals(4, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 4, 16));
+        assertEquals(5, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 5, 16));
+        assertEquals(6, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 6, 16));
+        assertEquals(7, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 7, 16));
+        assertEquals(8, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 8, 16));
+        assertEquals(9, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 9, 16));
+        assertEquals(10, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 10, 16));
+    }
 
+    @Test
+    public void testBoundPositiveCycle_99() {
+        assertEquals(1, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, 99));
+        assertEquals(2, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 2, 99));
+        assertEquals(3, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 3, 99));
+        assertEquals(4, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 4, 99));
+        assertEquals(5, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 5, 99));
+        assertEquals(6, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 6, 9));
+        assertEquals(7, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 7, 99));
+        assertEquals(8, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 8, 99));
+        assertEquals(9, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 9, 9));
+        assertEquals(10, aspirationWindows.diffBound(Integer.MAX_VALUE, Integer.MAX_VALUE - 10, 9));
     }
 
     @Test
     public void testBoundNegative() {
-        AspirationWindows aspirationWindows = new AspirationWindows();
-
-        assertEquals(1, aspirationWindows.diffBound(10, 0, 1));
-        assertEquals(2, aspirationWindows.diffBound(10, 0, 2));
-        assertEquals(3, aspirationWindows.diffBound(10, 0, 3));
-        assertEquals(4, aspirationWindows.diffBound(10, 0, 4));
-        assertEquals(5, aspirationWindows.diffBound(10, 0, 5));
-        assertEquals(6, aspirationWindows.diffBound(10, 0, 6));
-        assertEquals(7, aspirationWindows.diffBound(10, 0, 7));
-        assertEquals(8, aspirationWindows.diffBound(10, 0, 8));
-        assertEquals(9, aspirationWindows.diffBound(10, 0, 9));
-        assertEquals(10, aspirationWindows.diffBound(10, 0, 10));
+        assertEquals(1, aspirationWindows.diffBound(-Integer.MAX_VALUE, 1 - Integer.MAX_VALUE, 0));
+        assertEquals(2, aspirationWindows.diffBound(-Integer.MAX_VALUE, 2 - Integer.MAX_VALUE, 0));
+        assertEquals(3, aspirationWindows.diffBound(-Integer.MAX_VALUE, 3 - Integer.MAX_VALUE, 0));
+        assertEquals(4, aspirationWindows.diffBound(-Integer.MAX_VALUE, 4 - Integer.MAX_VALUE, 0));
+        assertEquals(5, aspirationWindows.diffBound(-Integer.MAX_VALUE, 5 - Integer.MAX_VALUE, 0));
+        assertEquals(6, aspirationWindows.diffBound(-Integer.MAX_VALUE, 6 - Integer.MAX_VALUE, 0));
+        assertEquals(7, aspirationWindows.diffBound(-Integer.MAX_VALUE, 7 - Integer.MAX_VALUE, 0));
+        assertEquals(8, aspirationWindows.diffBound(-Integer.MAX_VALUE, 8 - Integer.MAX_VALUE, 0));
+        assertEquals(9, aspirationWindows.diffBound(-Integer.MAX_VALUE, 9 - Integer.MAX_VALUE, 0));
+        assertEquals(10, aspirationWindows.diffBound(-Integer.MAX_VALUE, 10 - Integer.MAX_VALUE, 0));
     }
 
 }
