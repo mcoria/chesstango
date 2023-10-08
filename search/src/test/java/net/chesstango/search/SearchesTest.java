@@ -40,9 +40,11 @@ public class SearchesTest {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                //.withStopProcessingCatch()
+                .withStopProcessingCatch()
 
                 .withIterativeDeepening()
+
+                .withAspirationWindows()
                 //.withMoveEvaluation()
 
                 .withStatistics()
@@ -66,11 +68,9 @@ public class SearchesTest {
                     .withEvaluationsStatistics()
                     .printReport(System.out);
 
-            /*
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
-            */
         }
     }
 

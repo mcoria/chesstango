@@ -39,6 +39,12 @@ public class IterativeDeepening implements SearchMove {
 
             SearchContext context = new SearchContext(currentSearchDepth);
 
+            if (!bestMovesByDepth.isEmpty()) {
+                SearchMoveResult lastMoveResult = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+                context.setLastBestMove(lastMoveResult.getBestMove());
+                context.setLastBestValue(lastMoveResult.getEvaluation());
+            }
+
             searchSmart.beforeSearchByDepth(context);
 
             SearchMoveResult searchResult = searchSmart.search(context);

@@ -30,7 +30,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     private Move bestMove;
 
     @Getter
-    private int bestValue;
+    private Integer bestValue;
     private List<Move> sortedMoves;
 
     @Override
@@ -91,7 +91,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
         this.bestMove = null;
-        this.bestValue = 0;
+        this.bestValue = null;
     }
 
     @Override
@@ -104,9 +104,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        context.setLastBestMove(this.bestMove);
-        context.setLastBestValue(this.bestValue);
-        sortedMoves = createSortedMoves(context.getLastBestMove());
+        sortedMoves = createSortedMoves(this.bestMove);
     }
 
     @Override

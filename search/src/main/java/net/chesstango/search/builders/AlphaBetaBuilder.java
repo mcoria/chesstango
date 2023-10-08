@@ -118,6 +118,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withAspirationWindows() {
+        alphaBetaFirstChainBuilder.withAspirationWindows();
+        return this;
+    }
+
 
     @Override
     public SearchMove build() {

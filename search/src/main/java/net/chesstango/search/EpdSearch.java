@@ -154,6 +154,8 @@ public class EpdSearch {
                 //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
+
+                .withAspirationWindows()
                 //.withMoveEvaluation()
 
                 .withStatistics()
