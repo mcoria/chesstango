@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameStateTest {
 
     @Test
-    public void testGetPreviosGameState01() {
+    public void testGetPreviousGameState01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         Move move = game.getMove(Square.e2, Square.e4);
@@ -28,9 +28,8 @@ public class GameStateTest {
     }
 
     @Test
-    public void testGetPreviosGameState02() {
+    public void testGetPreviousGameState02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        GameStateReader gameState = game.getState();
 
         Move move1 = game.getMove(Square.e2, Square.e4);
         game.executeMove(move1);

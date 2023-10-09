@@ -84,7 +84,7 @@ public class ChessFactory {
 		return new MoveGeneratorImp();
 	}
 
-	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class, Object> objectMap) {
+	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class<?>, Object> objectMap) {
 		return new GameImp(chessPosition, gameState, analyzer, objectMap);
 	}
 

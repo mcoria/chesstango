@@ -1,13 +1,12 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
+import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Coria
@@ -51,15 +50,21 @@ public class PositionAnalyzer {
             if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
                 final long currentHash = positionReader.getZobristHash();
 
-                AtomicInteger repetitionCounter = new AtomicInteger();
+                int repetitionCounter = 1;
+
+                GameStateReader currentState = gameState.getPreviousState();
+                while (currentState != null) {
+                    if (currentHash == currentState.getZobristHash()) {
+                        repetitionCounter++;
+                    }
+                    currentState = currentState.getPreviousState();
+                }
 
                 gameState.accept(visitedGameState -> {
-                    if (currentHash == visitedGameState.getZobristHash()) {
-                        repetitionCounter.incrementAndGet();
-                    }
+
                 });
 
-                if (repetitionCounter.get() >= 2) {
+                if (repetitionCounter >= 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }

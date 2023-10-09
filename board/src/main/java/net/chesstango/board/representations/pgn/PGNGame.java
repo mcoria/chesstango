@@ -1,6 +1,9 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.*;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
+import net.chesstango.board.GameStateReader;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.SANDecoder;
@@ -9,6 +12,8 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -103,14 +108,14 @@ public class PGNGame {
         return new PGNEncoder().encode(this);
     }
 
-    public Game buildGame(){
-        Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen );
+    public Game buildGame() {
+        Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen);
 
         SANDecoder sanDecoder = new SANDecoder();
-        moveList.forEach( moveStr -> {
+        moveList.forEach(moveStr -> {
             MoveContainerReader legalMoves = game.getPossibleMoves();
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
-            if(legalMoveToExecute != null) {
+            if (legalMoveToExecute != null) {
                 game.executeMove(legalMoveToExecute);
             } else {
                 FENEncoder encoder = new FENEncoder();
@@ -123,30 +128,34 @@ public class PGNGame {
     }
 
 
-    public static PGNGame createFromGame(Game game){
+    public static PGNGame createFromGame(Game game) {
+        SANEncoder sanEncoder = new SANEncoder();
         PGNGame pgnGame = new PGNGame();
         pgnGame.setResult(encodeGameResult(game));
         pgnGame.setFen(game.getInitialFen());
 
         List<String> moveList = new ArrayList<>();
-        game.accept(new GameVisitor() {
-            private final SANEncoder sanEncoder = new SANEncoder();
 
-            private String moveStrTmp = "";
+        GameStateReader currentState = game.getState();
+        LinkedList<GameStateReader> gameStateList = new LinkedList<>();
+        do {
+            gameStateList.add(currentState);
+            currentState = currentState.getPreviousState();
+        } while (currentState != null);
 
-            @Override
-            public void visit(GameStateReader gameState) {
-                if (!"".equals(moveStrTmp)) {
-                    moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
-                    moveList.add(moveStrTmp);
-                    moveStrTmp = "";
-                }
-
-                if (gameState.getSelectedMove() != null) {
-                    moveStrTmp = sanEncoder.encode(gameState.getSelectedMove() , gameState.getLegalMoves());
-                }
+        String moveStrTmp = "";
+        Iterator<GameStateReader> listIt = gameStateList.descendingIterator();
+        while (listIt.hasNext()) {
+            GameStateReader gameState = listIt.next();
+            if (!"".equals(moveStrTmp)) {
+                moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
+                moveList.add(moveStrTmp);
+                moveStrTmp = "";
             }
-        });
+            if (gameState.getSelectedMove() != null) {
+                moveStrTmp = sanEncoder.encode(gameState.getSelectedMove(), gameState.getLegalMoves());
+            }
+        }
         pgnGame.setMoveList(moveList);
 
         return pgnGame;

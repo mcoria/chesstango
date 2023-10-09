@@ -21,6 +21,7 @@ public class GameDebugEncoder {
         sb.append("Game game = getDefaultGame(\"" + initialFEN + "\"\n");
         sb.append("game\n");
 
+        /*
         game.accept(new GameVisitor() {
 
             @Override
@@ -39,6 +40,8 @@ public class GameDebugEncoder {
                 }
             }
         });
+
+         */
 
 
         return sb.toString();

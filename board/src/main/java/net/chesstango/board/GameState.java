@@ -4,10 +4,6 @@ import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-
 /**
  * @author Mauricio Coria
  * <p>
@@ -15,7 +11,6 @@ import java.util.Iterator;
  */
 public class GameState implements GameStateReader {
 
-    private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
     private String initialFEN;
 
@@ -78,27 +73,17 @@ public class GameState implements GameStateReader {
     }
 
     public void push() {
-        stackGameStates.push(currentGameState);
-
         GameStateData previousGameState = currentGameState;
         currentGameState = new GameStateData();
         currentGameState.previousGameState = previousGameState;
     }
 
     public void pop() {
-        currentGameState = stackGameStates.pop();
+        currentGameState = currentGameState.previousGameState;
     }
 
     public void accept(GameVisitor gameVisitor) {
-        Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
-
-        while (iterator.hasNext()) {
-            GameStateData gameStateData = iterator.next();
-
-            gameVisitor.visit(gameStateData);
-        }
-
-        gameVisitor.visit(currentGameState);
+        gameVisitor.visit(this);
     }
 
     private static class GameStateData implements GameStateReader {

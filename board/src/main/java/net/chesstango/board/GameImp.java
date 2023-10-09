@@ -18,9 +18,9 @@ public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
     private final PositionAnalyzer analyzer;
-    private final Map<Class, Object> objectMap;
+    private final Map<Class<?>, Object> objectMap;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class, Object> objectMap) {
+    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class<?>, Object> objectMap) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
         this.analyzer = analyzer;
@@ -125,8 +125,8 @@ public class GameImp implements Game {
     public ChessPositionReader getChessPosition() {
         return chessPosition;
     }
-
-    @Override
+    
+	@Override
     public <V extends GameVisitor> V accept(V gameVisitor) {
         gameState.accept(gameVisitor);
         return gameVisitor;
