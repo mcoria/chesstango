@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * Almacena tanto el estado actual como estados anteriores.
  */
 public class GameState implements GameStateReader {
@@ -66,7 +66,7 @@ public class GameState implements GameStateReader {
 
     @Override
     public GameStateReader getPreviousState() {
-        return currentGameState.previosGameState;
+        return currentGameState.previousGameState;
     }
 
     public void setInitialFEN(String initialFEN) {
@@ -80,23 +80,19 @@ public class GameState implements GameStateReader {
     public void push() {
         stackGameStates.push(currentGameState);
 
-        GameStateData previosGameState = currentGameState;
+        GameStateData previousGameState = currentGameState;
         currentGameState = new GameStateData();
-        currentGameState.previosGameState = previosGameState;
+        currentGameState.previousGameState = previousGameState;
     }
 
     public void pop() {
-        GameStateData lastState = stackGameStates.pop();
-
-        currentGameState = lastState;
+        currentGameState = stackGameStates.pop();
     }
 
     public void accept(GameVisitor gameVisitor) {
-        gameVisitor.visit(this);
-
         Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             GameStateData gameStateDate = iterator.next();
 
             gameVisitor.visit(gameStateDate);
@@ -111,7 +107,7 @@ public class GameState implements GameStateReader {
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected String fenWithoutClocks;
-        protected GameStateData previosGameState = null;
+        protected GameStateData previousGameState = null;
 
         @Override
         public GameStatus getStatus() {
@@ -140,7 +136,7 @@ public class GameState implements GameStateReader {
 
         @Override
         public GameStateData getPreviousState() {
-            return previosGameState;
+            return previousGameState;
         }
     }
 }

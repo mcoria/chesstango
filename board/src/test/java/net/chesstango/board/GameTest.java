@@ -54,7 +54,7 @@ public class GameTest {
         assertTrue(game.getPossibleMoves().isEmpty());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(4, game.getChessPosition().getFullMoveClock());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
 
     @Test
@@ -98,37 +98,37 @@ public class GameTest {
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.e2, Square.e4);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.e7, Square.e5);
         assertEquals(29, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.f1, Square.c4);
         assertEquals(29, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.b8, Square.c6);
         assertEquals(33, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.d1, Square.f3);
         assertEquals(31, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
         game.executeMove(Square.g8, Square.h6);
         assertEquals(42, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
 
 
         game.executeMove(Square.f3, Square.f7);
@@ -168,7 +168,7 @@ public class GameTest {
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertEquals(GameStatus.DRAW_BY_FIFTY_RULE, game.getStatus());
-        assertEquals(37, game.getPossibleMoves().size());
+        assertEquals(0, game.getPossibleMoves().size());
         assertEquals(100, game.getChessPosition().getHalfMoveClock());
         assertEquals(126, game.getChessPosition().getFullMoveClock());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
@@ -176,7 +176,7 @@ public class GameTest {
 
 
     @Test
-    public void testJuegoDraw_foldRepetition() {
+    public void testDrawByFoldRepetition() {
         Game game = getGame(FENDecoder.INITIAL_FEN);
         game.detectRepetitions(true);
 
@@ -199,11 +199,6 @@ public class GameTest {
                 .executeMove(Square.g1, Square.f3)
                 .executeMove(Square.b8, Square.c6)
                 .executeMove(Square.f3, Square.g1)
-                .executeMove(Square.c6, Square.b8)
-
-                .executeMove(Square.g1, Square.f3)
-                .executeMove(Square.b8, Square.c6)
-                .executeMove(Square.f3, Square.g1)
                 .executeMove(Square.c6, Square.b8);
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
@@ -211,9 +206,9 @@ public class GameTest {
         assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
         assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
-        assertEquals(12, game.getChessPosition().getHalfMoveClock());
-        assertEquals(7, game.getChessPosition().getFullMoveClock());
-        assertEquals(20, game.getPossibleMoves().size());
+        assertEquals(8, game.getChessPosition().getHalfMoveClock());
+        assertEquals(5, game.getChessPosition().getFullMoveClock());
+        assertEquals(0, game.getPossibleMoves().size());
         assertEquals(GameStatus.DRAW_BY_FOLD_REPETITION, game.getStatus());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
@@ -561,7 +556,7 @@ public class GameTest {
 
     @Test
     public void testUndoCaptureRook() {
-		MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 
         //Estado inicial
@@ -646,7 +641,7 @@ public class GameTest {
 
     @Test
     public void testCacheEnEstadoInvalido01() {
-		MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
         Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 
         //Antes de mover blanca podemos ver que tenemos enroque
@@ -780,15 +775,15 @@ public class GameTest {
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
 
-	@Test
-	public void testPawnPinned() {
-		Game game = getGame("rnbqkbnr/pp1ppppp/8/8/1Pp5/3P4/P1PKPPPP/RNBQ1BNR b kq b3 0 3");
-		game.executeMove(Square.d8, Square.a5);
+    @Test
+    public void testPawnPinned() {
+        Game game = getGame("rnbqkbnr/pp1ppppp/8/8/1Pp5/3P4/P1PKPPPP/RNBQ1BNR b kq b3 0 3");
+        game.executeMove(Square.d8, Square.a5);
 
-		MoveContainerReader legalMoves = game.getPossibleMoves();
-		assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
-	}
+        MoveContainerReader legalMoves = game.getPossibleMoves();
+        assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+    }
 
     protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
         for (Move move : movimientos) {
