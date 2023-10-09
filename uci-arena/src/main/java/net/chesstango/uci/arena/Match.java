@@ -10,7 +10,6 @@ import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.mathtypes.MatchType;
 import net.chesstango.uci.protocol.UCIEncoder;
-import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import org.slf4j.Logger;
@@ -107,7 +106,6 @@ public class Match {
 
     protected void compete() {
         this.game = FENDecoder.loadGame(fen);
-        this.game.detectRepetitions(true);
 
         final List<String> executedMovesStr = new ArrayList<>();
 

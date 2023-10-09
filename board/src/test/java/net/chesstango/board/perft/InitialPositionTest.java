@@ -26,7 +26,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	@BeforeEach
 	public void setUp() throws Exception {
 		perft = createPerft();
-		game =  this.getGame(FENDecoder.INITIAL_FEN);
+		game =  getGame(FENDecoder.INITIAL_FEN);
 	}
 
 	@Test

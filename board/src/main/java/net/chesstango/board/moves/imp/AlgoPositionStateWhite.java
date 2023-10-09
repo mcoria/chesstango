@@ -17,30 +17,30 @@ class AlgoPositionStateWhite implements AlgoPositionState {
     }
 
     @Override
-    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
-        positionState.pushState();
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
+    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.incrementHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
 
         if(MoveCastlingWhiteKing.ROOK_FROM.equals(from)){
-            positionState.setCastlingWhiteKingAllowed(false);
+            positionStateWriter.setCastlingWhiteKingAllowed(false);
         }
 
         if(MoveCastlingWhiteQueen.ROOK_FROM.equals(from)){
-            positionState.setCastlingWhiteQueenAllowed(false);
+            positionStateWriter.setCastlingWhiteQueenAllowed(false);
         }
 
-        positionState.rollTurn();
+        positionStateWriter.rollTurn();
     }
 
     @Override
-    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
-        positionState.pushState();
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingWhiteKingAllowed(false);
-        positionState.setCastlingWhiteQueenAllowed(false);
-        positionState.rollTurn();
+    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.incrementHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
+        positionStateWriter.setCastlingWhiteKingAllowed(false);
+        positionStateWriter.setCastlingWhiteQueenAllowed(false);
+        positionStateWriter.rollTurn();
     }
 
     @Override

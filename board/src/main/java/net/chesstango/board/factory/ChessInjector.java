@@ -63,7 +63,7 @@ public class ChessInjector {
 
     private Game game = null;
 
-    private Map<Class, Object> objectMap = new HashMap<>();
+    private Map<Class<?>, Object> objectMap = new HashMap<>();
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();

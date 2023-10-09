@@ -1,21 +1,20 @@
 package net.chesstango.board.analyzer;
 
-import net.chesstango.board.*;
+import net.chesstango.board.GameState;
+import net.chesstango.board.GameStateReader;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
- *  @author Mauricio Coria
- *
+ * @author Mauricio Coria
+ * <p>
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
- *
+ * <p>
  * TODO: La generacion de movimientos dummy debiera ser en base al layer de color.
  * Me imagino un tablero con X y O para representar los distintos colores.
- *
- *
  */
 public class PositionAnalyzer {
     private Analyzer pinnedAnalyzer;
@@ -23,10 +22,11 @@ public class PositionAnalyzer {
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
-    private boolean detectRepetitions;
+    private boolean threefoldRepetitionRule;
+    private boolean fiftyMovesRule;
 
 
-    public GameStatus updateGameState() {
+    public void updateGameState() {
         AnalyzerResult analysis = analyze();
 
         MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
@@ -36,32 +36,22 @@ public class PositionAnalyzer {
         GameStatus gameStatus = null;
 
         if (existsLegalMove) {
-            if (positionReader.getHalfMoveClock() < 100) {
+            if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
+                gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
+            } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
+                int repetitionCounter = getRepetitionCounter();
+                if (repetitionCounter >= 2) {
+                    gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
+                }
+            }
+
+            if (gameStatus == null) {
                 if (analysis.isKingInCheck()) {
                     gameStatus = GameStatus.CHECK;
                 } else {
                     gameStatus = GameStatus.NO_CHECK;
                 }
-            } else {
-                gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
             }
-
-            if (detectRepetitions) {
-                final String currentFen = gameState.getFenWithoutClocks();
-
-                AtomicInteger repetitionCounter = new AtomicInteger();
-
-                gameState.accept(gameState -> {
-                    if (currentFen.equals(gameState.getFenWithoutClocks())) {
-                        repetitionCounter.incrementAndGet();
-                    }
-                });
-
-                if (repetitionCounter.get() > 2) {
-                    gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
-                }
-            }
-
         } else {
             if (analysis.isKingInCheck()) {
                 gameStatus = GameStatus.MATE;
@@ -72,9 +62,15 @@ public class PositionAnalyzer {
 
         gameState.setStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
-        gameState.setLegalMoves(legalMoves);
+        gameState.setZobristHash(positionReader.getZobristHash());
+        gameState.setPositionHash(positionReader.getAllPositions());
 
-        return gameStatus;
+        if (gameStatus.isFinalStatus()) {
+            gameState.setLegalMoves(new MoveContainer());
+        } else {
+            gameState.setLegalMoves(legalMoves);
+        }
+
     }
 
     public AnalyzerResult analyze() {
@@ -88,8 +84,12 @@ public class PositionAnalyzer {
         return result;
     }
 
-    public void detectRepetitions(boolean flag) {
-        this.detectRepetitions = flag;
+    public void threefoldRepetitionRule(boolean flag) {
+        this.threefoldRepetitionRule = flag;
+    }
+
+    public void fiftyMovesRule(boolean flag) {
+        this.fiftyMovesRule = flag;
     }
 
     public void setGameState(GameState gameState) {
@@ -110,5 +110,25 @@ public class PositionAnalyzer {
 
     public void setKingSafePositionsAnalyzer(Analyzer kingSafePositionsAnalyzer) {
         this.kingSafePositionsAnalyzer = kingSafePositionsAnalyzer;
+    }
+
+
+    private int getRepetitionCounter() {
+        final long zobristHash = positionReader.getZobristHash();
+        final long positionHash = positionReader.getAllPositions();
+
+        int repetitionCounter = 1;
+        int counter = positionReader.getHalfMoveClock();
+
+        GameStateReader currentState = gameState.getPreviousState();
+        while (currentState != null && counter > 0) {
+            if (zobristHash == currentState.getZobristHash() &&
+                    positionHash == currentState.getPositionHash()) {
+                repetitionCounter++;
+            }
+            currentState = currentState.getPreviousState();
+            counter--;
+        }
+        return repetitionCounter;
     }
 }

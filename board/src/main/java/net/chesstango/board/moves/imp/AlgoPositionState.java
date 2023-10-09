@@ -9,9 +9,9 @@ import net.chesstango.board.position.PositionStateWriter;
 interface AlgoPositionState {
     void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);
 
-    void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState);
+    void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);
 
-    void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState);
+    void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);
 
     void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);
 

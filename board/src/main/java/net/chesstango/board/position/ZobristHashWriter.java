@@ -26,5 +26,8 @@ public interface ZobristHashWriter {
 
     void pushState();
 
+    /**
+     * Para que necesitamos popState si podemos revertir el hash aplicando operaciones inversas
+     */
     void popState();
 }

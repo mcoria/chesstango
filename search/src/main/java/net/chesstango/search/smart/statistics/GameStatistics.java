@@ -27,8 +27,13 @@ public class GameStatistics implements Game {
     }
 
     @Override
-    public void detectRepetitions(boolean flag) {
-        imp.detectRepetitions(flag);
+    public void threefoldRepetitionRule(boolean flag) {
+        imp.threefoldRepetitionRule(flag);
+    }
+
+    @Override
+    public void fiftyMovesRule(boolean flag) {
+        imp.fiftyMovesRule(flag);
     }
 
     @Override

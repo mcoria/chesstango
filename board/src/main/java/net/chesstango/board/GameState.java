@@ -4,18 +4,13 @@ import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * Almacena tanto el estado actual como estados anteriores.
  */
 public class GameState implements GameStateReader {
 
-    private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
     private String initialFEN;
 
@@ -55,18 +50,27 @@ public class GameState implements GameStateReader {
         currentGameState.analyzerResult = analyzerResult;
     }
 
-    public void setFenWithoutClocks(String fenWithoutClocks) {
-        currentGameState.fenWithoutClocks = fenWithoutClocks;
+    public void setZobristHash(long zobristHash) {
+        currentGameState.zobristHash = zobristHash;
     }
 
     @Override
-    public String getFenWithoutClocks() {
-        return currentGameState.fenWithoutClocks;
+    public long getZobristHash() {
+        return currentGameState.zobristHash;
+    }
+
+    public void setPositionHash(long positionHash) {
+        currentGameState.positionHash = positionHash;
+    }
+
+    @Override
+    public long getPositionHash() {
+        return currentGameState.positionHash;
     }
 
     @Override
     public GameStateReader getPreviousState() {
-        return currentGameState.previosGameState;
+        return currentGameState.previousGameState;
     }
 
     public void setInitialFEN(String initialFEN) {
@@ -78,31 +82,17 @@ public class GameState implements GameStateReader {
     }
 
     public void push() {
-        stackGameStates.push(currentGameState);
-
-        GameStateData previosGameState = currentGameState;
+        GameStateData previousGameState = currentGameState;
         currentGameState = new GameStateData();
-        currentGameState.previosGameState = previosGameState;
+        currentGameState.previousGameState = previousGameState;
     }
 
     public void pop() {
-        GameStateData lastState = stackGameStates.pop();
-
-        currentGameState = lastState;
+        currentGameState = currentGameState.previousGameState;
     }
 
     public void accept(GameVisitor gameVisitor) {
         gameVisitor.visit(this);
-
-        Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
-
-        while(iterator.hasNext()){
-            GameStateData gameStateDate = iterator.next();
-
-            gameVisitor.visit(gameStateDate);
-        }
-
-        gameVisitor.visit(currentGameState);
     }
 
     private static class GameStateData implements GameStateReader {
@@ -110,8 +100,9 @@ public class GameState implements GameStateReader {
         protected MoveContainerReader legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
-        protected String fenWithoutClocks;
-        protected GameStateData previosGameState = null;
+        protected long zobristHash;
+        protected long positionHash;
+        protected GameStateData previousGameState = null;
 
         @Override
         public GameStatus getStatus() {
@@ -134,13 +125,18 @@ public class GameState implements GameStateReader {
         }
 
         @Override
-        public String getFenWithoutClocks() {
-            return fenWithoutClocks;
+        public long getZobristHash() {
+            return zobristHash;
+        }
+
+        @Override
+        public long getPositionHash() {
+            return positionHash;
         }
 
         @Override
         public GameStateData getPreviousState() {
-            return previosGameState;
+            return previousGameState;
         }
     }
 }
