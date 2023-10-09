@@ -59,6 +59,15 @@ public class GameState implements GameStateReader {
         return currentGameState.zobristHash;
     }
 
+    public void setPositionHash(long positionHash) {
+        currentGameState.positionHash = positionHash;
+    }
+
+    @Override
+    public long getPositionHash() {
+        return currentGameState.positionHash;
+    }
+
     @Override
     public GameStateReader getPreviousState() {
         return currentGameState.previousGameState;
@@ -92,6 +101,7 @@ public class GameState implements GameStateReader {
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected long zobristHash;
+        protected long positionHash;
         protected GameStateData previousGameState = null;
 
         @Override
@@ -117,6 +127,11 @@ public class GameState implements GameStateReader {
         @Override
         public long getZobristHash() {
             return zobristHash;
+        }
+
+        @Override
+        public long getPositionHash() {
+            return positionHash;
         }
 
         @Override

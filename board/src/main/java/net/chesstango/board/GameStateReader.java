@@ -18,5 +18,7 @@ public interface GameStateReader {
 
     long getZobristHash();
 
+    long getPositionHash();
+
     GameStateReader getPreviousState();
 }

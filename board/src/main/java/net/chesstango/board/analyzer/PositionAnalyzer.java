@@ -63,6 +63,7 @@ public class PositionAnalyzer {
         gameState.setStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
         gameState.setZobristHash(positionReader.getZobristHash());
+        gameState.setPositionHash(positionReader.getAllPositions());
 
         if (gameStatus.isFinalStatus()) {
             gameState.setLegalMoves(new MoveContainer());
@@ -113,14 +114,16 @@ public class PositionAnalyzer {
 
 
     private int getRepetitionCounter() {
-        final long currentHash = positionReader.getZobristHash();
+        final long zobristHash = positionReader.getZobristHash();
+        final long positionHash = positionReader.getAllPositions();
 
         int repetitionCounter = 1;
         int counter = positionReader.getHalfMoveClock();
 
         GameStateReader currentState = gameState.getPreviousState();
         while (currentState != null && counter > 0) {
-            if (currentHash == currentState.getZobristHash()) {
+            if (zobristHash == currentState.getZobristHash() &&
+                    positionHash == currentState.getPositionHash()) {
                 repetitionCounter++;
             }
             currentState = currentState.getPreviousState();
