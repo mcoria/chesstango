@@ -36,26 +36,22 @@ public class PositionAnalyzer {
         GameStatus gameStatus = null;
 
         if (existsLegalMove) {
-            if (analysis.isKingInCheck()) {
-                gameStatus = GameStatus.CHECK;
-            } else {
-                gameStatus = GameStatus.NO_CHECK;
-            }
-
             if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
                 gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
-            }
-
-
-            if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
+            } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
                 int repetitionCounter = getRepetitionCounter();
-
-
                 if (repetitionCounter >= 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
 
+            if (gameStatus == null) {
+                if (analysis.isKingInCheck()) {
+                    gameStatus = GameStatus.CHECK;
+                } else {
+                    gameStatus = GameStatus.NO_CHECK;
+                }
+            }
         } else {
             if (analysis.isKingInCheck()) {
                 gameStatus = GameStatus.MATE;
