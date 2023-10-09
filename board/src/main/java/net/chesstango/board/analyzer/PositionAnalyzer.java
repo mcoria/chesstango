@@ -48,21 +48,8 @@ public class PositionAnalyzer {
 
 
             if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
-                final long currentHash = positionReader.getZobristHash();
+                int repetitionCounter = getRepetitionCounter();
 
-                int repetitionCounter = 1;
-
-                GameStateReader currentState = gameState.getPreviousState();
-                while (currentState != null) {
-                    if (currentHash == currentState.getZobristHash()) {
-                        repetitionCounter++;
-                    }
-                    currentState = currentState.getPreviousState();
-                }
-
-                gameState.accept(visitedGameState -> {
-
-                });
 
                 if (repetitionCounter >= 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
@@ -126,5 +113,23 @@ public class PositionAnalyzer {
 
     public void setKingSafePositionsAnalyzer(Analyzer kingSafePositionsAnalyzer) {
         this.kingSafePositionsAnalyzer = kingSafePositionsAnalyzer;
+    }
+
+
+    private int getRepetitionCounter() {
+        final long currentHash = positionReader.getZobristHash();
+
+        int repetitionCounter = 1;
+        int counter = positionReader.getHalfMoveClock();
+
+        GameStateReader currentState = gameState.getPreviousState();
+        while (currentState != null && counter > 0) {
+            if (currentHash == currentState.getZobristHash()) {
+                repetitionCounter++;
+            }
+            currentState = currentState.getPreviousState();
+            counter--;
+        }
+        return repetitionCounter;
     }
 }
