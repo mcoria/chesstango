@@ -81,8 +81,13 @@ public class GameMock implements Game {
     }
 
     @Override
-    public void threefoldRepetitionDetection(boolean flag) {
+    public void threefoldRepetitionRule(boolean flag) {
     }
+
+    @Override
+    public void fiftyMovesRule(boolean flag) {
+    }
+
 
     @Override
     public <T> T getObject(Class<T> theClass) {

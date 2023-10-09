@@ -157,7 +157,7 @@ public class GameTest {
     }
 
     @Test
-    public void testJuegoDraw_fiftyMoveRule() {
+    public void testDrawByFiftyMoveRule() {
         Game game = getGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq - 99 125");
 
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
@@ -176,9 +176,8 @@ public class GameTest {
 
 
     @Test
-    public void testDrawByFoldRepetition() {
+    public void testDrawByThreeFoldRepetition() {
         Game game = getGame(FENDecoder.INITIAL_FEN);
-        game.threefoldRepetitionDetection(true);
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertEquals(GameStatus.NO_CHECK, game.getStatus());

@@ -26,7 +26,8 @@ public class GameImp implements Game {
         this.analyzer = analyzer;
         this.objectMap = objectMap;
         this.chessPosition.init();
-        this.analyzer.detectRepetitions(true);
+        this.analyzer.threefoldRepetitionRule(true);
+        this.analyzer.fiftyMovesRule(true);
         saveInitialFEN();
     }
 
@@ -93,8 +94,13 @@ public class GameImp implements Game {
     }
 
     @Override
-    public void threefoldRepetitionDetection(boolean flag) {
-        this.analyzer.detectRepetitions(flag);
+    public void threefoldRepetitionRule(boolean flag) {
+        this.analyzer.threefoldRepetitionRule(flag);
+    }
+
+    @Override
+    public void fiftyMovesRule(boolean flag) {
+        this.analyzer.fiftyMovesRule(flag);
     }
 
     @Override

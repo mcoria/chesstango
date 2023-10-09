@@ -106,7 +106,6 @@ public class Match {
 
     protected void compete() {
         this.game = FENDecoder.loadGame(fen);
-        this.game.threefoldRepetitionDetection(true);
 
         final List<String> executedMovesStr = new ArrayList<>();
 

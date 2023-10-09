@@ -23,7 +23,8 @@ public class PositionAnalyzer {
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
-    private boolean detectRepetitions;
+    private boolean threefoldRepetitionRule;
+    private boolean fiftyMovesRule;
 
 
     public void updateGameState() {
@@ -36,17 +37,18 @@ public class PositionAnalyzer {
         GameStatus gameStatus = null;
 
         if (existsLegalMove) {
-            if (positionReader.getHalfMoveClock() < 100) {
-                if (analysis.isKingInCheck()) {
-                    gameStatus = GameStatus.CHECK;
-                } else {
-                    gameStatus = GameStatus.NO_CHECK;
-                }
+            if (analysis.isKingInCheck()) {
+                gameStatus = GameStatus.CHECK;
             } else {
+                gameStatus = GameStatus.NO_CHECK;
+            }
+
+            if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
                 gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
             }
 
-            if (detectRepetitions) {
+
+            if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
                 final long currentHash = positionReader.getZobristHash();
 
                 AtomicInteger repetitionCounter = new AtomicInteger();
@@ -57,7 +59,7 @@ public class PositionAnalyzer {
                     }
                 });
 
-                if (repetitionCounter.get() == 2) {
+                if (repetitionCounter.get() >= 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
@@ -93,8 +95,12 @@ public class PositionAnalyzer {
         return result;
     }
 
-    public void detectRepetitions(boolean flag) {
-        this.detectRepetitions = flag;
+    public void threefoldRepetitionRule(boolean flag) {
+        this.threefoldRepetitionRule = flag;
+    }
+
+    public void fiftyMovesRule(boolean flag) {
+        this.fiftyMovesRule = flag;
     }
 
     public void setGameState(GameState gameState) {
