@@ -47,17 +47,17 @@ public class PositionAnalyzer {
             }
 
             if (detectRepetitions) {
-                final String currentFen = gameState.getFenWithoutClocks();
+                final long currentHash = positionReader.getZobristHash();
 
                 AtomicInteger repetitionCounter = new AtomicInteger();
 
-                gameState.accept(gameState -> {
-                    if (currentFen.equals(gameState.getFenWithoutClocks())) {
+                gameState.accept(visitedGameState -> {
+                    if (currentHash == visitedGameState.getZobristHash()) {
                         repetitionCounter.incrementAndGet();
                     }
                 });
 
-                if (repetitionCounter.get() > 2) {
+                if (repetitionCounter.get() == 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
@@ -72,6 +72,7 @@ public class PositionAnalyzer {
 
         gameState.setStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
+        gameState.setZobristHash(positionReader.getZobristHash());
 
         if (gameStatus.isFinalStatus()) {
             gameState.setLegalMoves(new MoveContainer());

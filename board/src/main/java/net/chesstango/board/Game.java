@@ -11,7 +11,7 @@ import net.chesstango.board.position.ChessPositionReader;
 public interface Game {
     String getInitialFen();
 
-    void detectRepetitions(boolean flag);
+    void threefoldRepetitionDetection(boolean flag);
 
     Game executeMove(Move move);
 

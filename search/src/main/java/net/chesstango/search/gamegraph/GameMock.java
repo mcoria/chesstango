@@ -81,7 +81,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public void detectRepetitions(boolean flag) {
+    public void threefoldRepetitionDetection(boolean flag) {
     }
 
     @Override

@@ -55,13 +55,13 @@ public class GameState implements GameStateReader {
         currentGameState.analyzerResult = analyzerResult;
     }
 
-    public void setFenWithoutClocks(String fenWithoutClocks) {
-        currentGameState.fenWithoutClocks = fenWithoutClocks;
+    public void setZobristHash(long zobristHash) {
+        currentGameState.zobristHash = zobristHash;
     }
 
     @Override
-    public String getFenWithoutClocks() {
-        return currentGameState.fenWithoutClocks;
+    public long getZobristHash() {
+        return currentGameState.zobristHash;
     }
 
     @Override
@@ -93,9 +93,9 @@ public class GameState implements GameStateReader {
         Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
 
         while (iterator.hasNext()) {
-            GameStateData gameStateDate = iterator.next();
+            GameStateData gameStateData = iterator.next();
 
-            gameVisitor.visit(gameStateDate);
+            gameVisitor.visit(gameStateData);
         }
 
         gameVisitor.visit(currentGameState);
@@ -106,7 +106,7 @@ public class GameState implements GameStateReader {
         protected MoveContainerReader legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
-        protected String fenWithoutClocks;
+        protected long zobristHash;
         protected GameStateData previousGameState = null;
 
         @Override
@@ -130,8 +130,8 @@ public class GameState implements GameStateReader {
         }
 
         @Override
-        public String getFenWithoutClocks() {
-            return fenWithoutClocks;
+        public long getZobristHash() {
+            return zobristHash;
         }
 
         @Override

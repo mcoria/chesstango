@@ -18,32 +18,32 @@ class AlgoPositionStateBlack implements AlgoPositionState {
     }
 
     @Override
-    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
-        positionState.pushState();
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
+    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.incrementHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
 
         if(MoveCastlingBlackKing.ROOK_FROM.equals(from)){
-            positionState.setCastlingBlackKingAllowed(false);
+            positionStateWriter.setCastlingBlackKingAllowed(false);
         }
 
         if(MoveCastlingBlackQueen.ROOK_FROM.equals(from)){
-            positionState.setCastlingBlackQueenAllowed(false);
+            positionStateWriter.setCastlingBlackQueenAllowed(false);
         }
 
-        positionState.incrementFullMoveClock();
-        positionState.rollTurn();
+        positionStateWriter.incrementFullMoveClock();
+        positionStateWriter.rollTurn();
     }
 
     @Override
-    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
-        positionState.pushState();
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingBlackKingAllowed(false);
-        positionState.setCastlingBlackQueenAllowed(false);
-        positionState.incrementFullMoveClock();
-        positionState.rollTurn();
+    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.incrementHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
+        positionStateWriter.setCastlingBlackKingAllowed(false);
+        positionStateWriter.setCastlingBlackQueenAllowed(false);
+        positionStateWriter.incrementFullMoveClock();
+        positionStateWriter.rollTurn();
     }
 
     @Override

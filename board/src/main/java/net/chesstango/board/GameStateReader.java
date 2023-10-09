@@ -16,7 +16,7 @@ public interface GameStateReader {
 
     AnalyzerResult getAnalyzerResult();
 
-    String getFenWithoutClocks();
+    long getZobristHash();
 
     GameStateReader getPreviousState();
 }

@@ -126,7 +126,7 @@ public class DetectCycleDisabledTest {
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        //debug(visitedNodesTotal, visitedNodesCounters);
+        debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(3, visitedNodesCounters[0]);
         assertEquals(5, visitedNodesCounters[1]);
@@ -175,7 +175,7 @@ public class DetectCycleDisabledTest {
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 17);
 
         assertNotNull(searchResult);
-        assertEquals(2, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -189,18 +189,18 @@ public class DetectCycleDisabledTest {
         assertEquals(11, visitedNodesCounters[4]);
         assertEquals(15, visitedNodesCounters[5]);
         assertEquals(23, visitedNodesCounters[6]);
-        assertEquals(31, visitedNodesCounters[7]);
+        assertEquals(33, visitedNodesCounters[7]);
         assertEquals(47, visitedNodesCounters[8]);
-        assertEquals(63, visitedNodesCounters[9]);
-        assertEquals(95, visitedNodesCounters[10]);
-        assertEquals(127, visitedNodesCounters[11]);
-        assertEquals(191, visitedNodesCounters[12]);
-        assertEquals(255, visitedNodesCounters[13]);
-        assertEquals(383, visitedNodesCounters[14]);
-        assertEquals(511, visitedNodesCounters[15]);
-        assertEquals(767, visitedNodesCounters[16]);
+        assertEquals(73, visitedNodesCounters[9]);
+        assertEquals(100, visitedNodesCounters[10]);
+        assertEquals(139, visitedNodesCounters[11]);
+        assertEquals(188, visitedNodesCounters[12]);
+        assertEquals(292, visitedNodesCounters[13]);
+        assertEquals(401, visitedNodesCounters[14]);
+        assertEquals(609, visitedNodesCounters[15]);
+        assertEquals(694, visitedNodesCounters[16]);
 
-        assertEquals(2536, visitedNodesTotal);
+        assertEquals(2642, visitedNodesTotal);
     }
 
     @Test

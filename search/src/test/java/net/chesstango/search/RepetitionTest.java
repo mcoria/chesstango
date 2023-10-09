@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
@@ -26,6 +27,8 @@ public class RepetitionTest {
         moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
 
+                .withTranspositionTable()
+
                 .withStatistics()
 
                 .build();
@@ -34,19 +37,21 @@ public class RepetitionTest {
 
     @Test
     public void testSearch_01() {
-        Game game = FENDecoder.loadGame("6k1/8/8/7Q/8/8/8/K7 w - - 0 1"); // Posicion inicial
-        game.detectRepetitions(true);
+        Game game = FENDecoder.loadGame("8/7k/8/7Q/8/8/8/K7 b - - 0 1"); // Posicion inicial
+        game.threefoldRepetitionDetection(true);
 
+        game.executeMove(Square.h7, Square.g8);
         game.executeMove(Square.h5, Square.e8);
         game.executeMove(Square.g8, Square.h7);
         game.executeMove(Square.e8, Square.h5);
-        game.executeMove(Square.h7, Square.g8); //2da vez donde se repite la posicion inicial
 
+
+        game.executeMove(Square.h7, Square.g8);
         game.executeMove(Square.h5, Square.e8);
         game.executeMove(Square.g8, Square.h7);
-        game.executeMove(Square.e8, Square.h5);
-        //game.executeMove(Square.h7, Square.g8); //3ra vez donde se repite la posicion inicial
 
+        //game.executeMove(Square.e8, Square.h5);
+        //assertTrue(game.getStatus().isInProgress());
 
         /**
          * Va ganando, si repite el movimiento de reinda de h7 a g8 es draw por repeticion
