@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -13,7 +13,6 @@ import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.NodesReportModel;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -253,10 +252,8 @@ public class AlphaBetaStatisticsTest {
          * Los 61 movimientos se descomponen en:
          * 20 movimientos de la busqueda regular AlphaBeta
          *  1 movimiento  de SetPrincipalVariation
-         * 20 movimientos de SetMoveEvaluations
-         * 20 movimientos de SetBestMoves
          */
-        assertEquals(61, executedMoves);
+        assertEquals(21, executedMoves);
 
     }
 
@@ -309,7 +306,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(20, visitedNodesCountersTotal);
         assertEquals(0, visitedQNodesCounters[0]);
         assertEquals(0, visitedQNodesCountersTotal);
-        assertEquals(61, executedMoves); // Ver mas arriba explicacion
+        assertEquals(21, executedMoves); // Ver mas arriba explicacion
 
     }
 }

@@ -26,8 +26,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
     private SetPrincipalVariation setPrincipalVariation;
-    private SetMoveEvaluations setMoveEvaluations;
-    private SetBestMoves setBestMoves;
+
     private SetNodeStatistics setNodeStatistics;
 
     private boolean withIterativeDeepening;
@@ -175,10 +174,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         setPrincipalVariation = new SetPrincipalVariation();
-        if (withStatistics && withTranspositionTable) {
-            setMoveEvaluations = new SetMoveEvaluations();
-            setBestMoves = new SetBestMoves();
-        }
     }
 
 
@@ -197,14 +192,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             filterActions.add(evaluatorStatistics);
-        }
-
-        if (setMoveEvaluations != null) {
-            filterActions.add(setMoveEvaluations);
-        }
-
-        if (setBestMoves != null) {
-            filterActions.add(setBestMoves);
         }
 
         filterActions.add(setPrincipalVariation);
