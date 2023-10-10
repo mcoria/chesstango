@@ -24,22 +24,17 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Setter
     private AlphaBetaFilter next;
-    private Game game;
-
-    @Getter
-    private Move bestMove;
-
-    @Getter
-    private Integer bestValue;
-    private List<Move> sortedMoves;
 
     @Getter
     private Move currentMove;
+    private Game game;
+    private List<Move> sortedMoves;
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         boolean search = true;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
+        Move bestMove = null;
 
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
@@ -50,7 +45,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMove = currentMove;
-                bestValue = maxValue;
                 if (maxValue >= beta) {
                     search = false;
                 }
@@ -65,6 +59,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     public long minimize(int currentPly, int alpha, int beta) {
         boolean search = true;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
+        Move bestMove = null;
 
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
@@ -75,7 +70,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             if (currentValue < minValue) {
                 minValue = currentValue;
                 bestMove = currentMove;
-                bestValue = minValue;
                 if (minValue <= alpha) {
                     search = false;
                 }
@@ -93,8 +87,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
-        this.bestMove = null;
-        this.bestValue = null;
     }
 
     @Override
@@ -107,9 +99,8 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        context.setLastBestMove(bestMove);
-        context.setLastBestValue(bestValue);
-        sortedMoves = createSortedMoves(bestMove);
+        currentMove = null;
+        sortedMoves = createSortedMoves(context.getLastBestMove());
     }
 
     @Override

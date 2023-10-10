@@ -2,12 +2,14 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,16 +19,21 @@ public class AspirationWindows implements AlphaBetaFilter {
     @Setter
     private AlphaBetaFilter next;
 
-    private Integer lastBestValue;
+    @Setter
+    private MoveTracker moveTracker;
+
+    private Integer alphaInitial;
+    private Integer betaInitial;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
-        lastBestValue = null;
+        alphaInitial = null;
+        betaInitial = null;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        lastBestValue = context.getLastBestValue();
+        setupInitialBounds(context.getLastMoveEvaluations());
     }
 
     @Override
@@ -63,9 +70,9 @@ public class AspirationWindows implements AlphaBetaFilter {
         int alphaBound = alpha;
         int betaBound = beta;
 
-        if (Objects.nonNull(lastBestValue)) {
-            alphaBound = lastBestValue - diffBound(alpha, lastBestValue, 0);
-            betaBound = lastBestValue + diffBound(beta, lastBestValue, 0);
+        if (Objects.nonNull(alphaInitial) && Objects.nonNull(betaInitial)) {
+            alphaBound = alphaInitial;
+            betaBound = betaInitial;
         }
 
         boolean search = true;
@@ -75,6 +82,9 @@ public class AspirationWindows implements AlphaBetaFilter {
         int alphaCycle = 1;
         int betaCycle = 1;
         do {
+
+            moveTracker.beforeSearchByWindows(alphaBound, betaBound);
+
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 
             bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -96,6 +106,8 @@ public class AspirationWindows implements AlphaBetaFilter {
             } else {
                 search = false;
             }
+
+            moveTracker.afterSearchByWindows(!search);
         } while (search);
 
         return bestMoveAndValue;
@@ -105,5 +117,21 @@ public class AspirationWindows implements AlphaBetaFilter {
 
     protected int diffBound(int maxBound, int bestValue, int cycle) {
         return Math.min(OFFSET << cycle, Math.abs(Math.abs(maxBound) - Math.abs(bestValue)));
+    }
+
+    protected void setupInitialBounds(List<MoveEvaluation> lastMoveEvaluations) {
+        if (lastMoveEvaluations != null && !lastMoveEvaluations.isEmpty()) {
+            alphaInitial = lastMoveEvaluations
+                    .stream()
+                    .mapToInt(MoveEvaluation::evaluation)
+                    .min()
+                    .getAsInt() - 1;
+
+            betaInitial = lastMoveEvaluations
+                    .stream()
+                    .mapToInt(MoveEvaluation::evaluation)
+                    .max()
+                    .getAsInt() + 1;
+        }
     }
 }

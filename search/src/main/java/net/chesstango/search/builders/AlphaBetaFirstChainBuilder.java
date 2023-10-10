@@ -101,9 +101,10 @@ public class AlphaBetaFirstChainBuilder {
 
 
     private List<SearchLifeCycle> createSearchActions() {
-        filterActions.add(alphaBetaFirst);
-        filterActions.add(alphaBetaFlowControl);
+        filterActions.add(alphaBetaFirst); //Settea en el contexto
         filterActions.add(moveTracker);
+        filterActions.add(alphaBetaFlowControl);
+
 
         if (withStatistics) {
             filterActions.add(alphaBetaStatisticsExpected);
@@ -130,6 +131,7 @@ public class AlphaBetaFirstChainBuilder {
 
         if (aspirationWindows != null) {
             head = aspirationWindows;
+            aspirationWindows.setMoveTracker(moveTracker);
             tail = aspirationWindows;
         }
 
@@ -139,8 +141,7 @@ public class AlphaBetaFirstChainBuilder {
             }
             if (tail instanceof AspirationWindows aspirationWindowsTail) {
                 aspirationWindowsTail.setNext(stopProcessingCatch);
-            };
-            stopProcessingCatch.setAlphaBetaFirst(alphaBetaFirst);
+            }
             tail = stopProcessingCatch;
         }
 

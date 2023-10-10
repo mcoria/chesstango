@@ -23,10 +23,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     @Setter
     private Game game;
 
-    @Setter
-    private AlphaBetaFirst alphaBetaFirst;
-
-
     private Move lastBestMove;
 
     private Integer lastBestValue;
@@ -45,23 +41,20 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        lastBestValue = context.getLastBestValue();
+        lastBestValue = context.getLastBestEvaluation();
         lastBestMove = context.getLastBestMove();
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
     public void reset() {
-
     }
 
     @Override
@@ -86,10 +79,14 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         Move bestMove;
         Integer bestValue;
 
+        /*
         if (Objects.nonNull(alphaBetaFirst.getBestMove())) {
             bestMove = alphaBetaFirst.getBestMove();
             bestValue = alphaBetaFirst.getBestValue();
-        } else if (Objects.nonNull(lastBestMove)) {
+        } else
+         */
+
+        if (Objects.nonNull(lastBestMove)) {
             bestMove = lastBestMove;
             bestValue = lastBestValue;
         } else {
