@@ -125,20 +125,64 @@ public class AlphaBetaFirstChainBuilder {
     private AlphaBetaFilter createChain() {
         // =============  alphaBeta setup =====================
 
-        AlphaBetaFilter head = alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBetaFirst;
+        AlphaBetaFilter head = null;
+        AlphaBetaFilter tail = null;
+
+        if (aspirationWindows != null) {
+            head = aspirationWindows;
+            tail = aspirationWindows;
+        }
+
+        if (stopProcessingCatch != null) {
+            if (head == null) {
+                head = stopProcessingCatch;
+            }
+            if (tail instanceof AspirationWindows aspirationWindowsTail) {
+                aspirationWindowsTail.setNext(stopProcessingCatch);
+            };
+            stopProcessingCatch.setAlphaBetaFirst(alphaBetaFirst);
+            tail = stopProcessingCatch;
+        }
 
 
         if (alphaBetaStatisticsExpected != null) {
-            alphaBetaStatisticsExpected.setNext(alphaBetaFirst);
+            if (head == null) {
+                head = alphaBetaStatisticsExpected;
+            }
+            if (tail instanceof AspirationWindows aspirationWindowsTail) {
+                aspirationWindowsTail.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+                stopProcessingCatchTail.setNext(alphaBetaStatisticsExpected);
+            }
+            tail = alphaBetaStatisticsExpected;
+        }
+
+        if (head == null) {
+            head = alphaBetaFirst;
+        }
+        if (tail instanceof AspirationWindows aspirationWindowsTail) {
+            aspirationWindowsTail.setNext(alphaBetaFirst);
+        } else if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+            stopProcessingCatchTail.setNext(alphaBetaFirst);
+        } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
+            alphaBetaStatisticsExpectedTail.setNext(alphaBetaFirst);
         }
 
         alphaBetaFirst.setNext(moveTracker);
-
-        moveTracker.setNext(alphaBetaStatisticsVisited != null ? alphaBetaStatisticsVisited : alphaBetaFlowControl);
         moveTracker.setAlphaBetaFirst(alphaBetaFirst);
+        tail = moveTracker;
 
         if (alphaBetaStatisticsVisited != null) {
-            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+            moveTracker.setNext(alphaBetaStatisticsVisited);
+            tail = alphaBetaStatisticsVisited;
+        }
+
+        if (tail instanceof MoveTracker moveTrackerTail) {
+            moveTrackerTail.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof AlphaBetaStatisticsVisited alphaBetaStatisticsVisitedTail) {
+            alphaBetaStatisticsVisitedTail.setNext(alphaBetaFlowControl);
+        } else {
+            throw new RuntimeException("Invalid tail");
         }
 
         alphaBetaFlowControl.setNext(next);
@@ -146,18 +190,6 @@ public class AlphaBetaFirstChainBuilder {
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         // ====================================================
-
-        if (aspirationWindows != null) {
-            aspirationWindows.setNext(head);
-            head = aspirationWindows;
-        }
-
-        // StopProcessingCatch is set one in the chain
-        if (stopProcessingCatch != null) {
-            stopProcessingCatch.setNext(head);
-            stopProcessingCatch.setAlphaBetaFirst(alphaBetaFirst);
-            head = stopProcessingCatch;
-        }
 
         return head;
     }
