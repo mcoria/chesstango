@@ -1,15 +1,12 @@
 package net.chesstango.search.builders;
 
 
-import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 
 import java.util.List;
 
@@ -150,36 +147,61 @@ public class AlphaBetaChainBuilder {
 
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
+        AlphaBetaFilter tail = null;
         if (zobristTracker != null) {
-            if (transpositionTable != null) {
-                zobristTracker.setNext(transpositionTable);
-            } else {
-                zobristTracker.setNext(alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta);
-            }
             head = zobristTracker;
+            tail = zobristTracker;
         }
 
         if (transpositionTable != null) {
-            transpositionTable.setNext(alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta);
             if (head == null) {
                 head = transpositionTable;
             }
-        }
-
-        if (head == null) {
-            head = alphaBetaStatisticsExpected != null ? alphaBetaStatisticsExpected : alphaBeta;
+            if (tail instanceof ZobristTracker zobristTrackerTail) {
+                zobristTrackerTail.setNext(transpositionTable);
+            }
+            tail = transpositionTable;
         }
 
 
         if (alphaBetaStatisticsExpected != null) {
-            alphaBetaStatisticsExpected.setNext(alphaBeta);
+            if (head == null) {
+                head = alphaBetaStatisticsExpected;
+            }
+            if (tail instanceof ZobristTracker zobristTrackerTail) {
+                zobristTrackerTail.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof TranspositionTable transpositionTableTail) {
+                transpositionTableTail.setNext(alphaBetaStatisticsExpected);
+            }
+
+            tail = alphaBetaStatisticsExpected;
         }
 
-        alphaBeta.setNext(alphaBetaStatisticsVisited != null ? alphaBetaStatisticsVisited : alphaBetaFlowControl);
+        if (head == null) {
+            head = alphaBeta;
+        }
+        if (tail instanceof ZobristTracker zobristTrackerTail) {
+            zobristTrackerTail.setNext(alphaBeta);
+        } else if (tail instanceof TranspositionTable transpositionTableTail) {
+            transpositionTableTail.setNext(alphaBeta);
+        } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
+            alphaBetaStatisticsExpectedTail.setNext(alphaBeta);
+        }
+
         alphaBeta.setMoveSorter(moveSorter);
+        tail = alphaBeta;
 
         if (alphaBetaStatisticsVisited != null) {
-            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+            alphaBeta.setNext(alphaBetaStatisticsVisited);
+            tail = alphaBetaStatisticsVisited;
+        }
+
+        if (tail instanceof AlphaBeta alphaBetaTail) {
+            alphaBetaTail.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof AlphaBetaStatisticsVisited alphaBetaStatisticsVisitedTail) {
+            alphaBetaStatisticsVisitedTail.setNext(alphaBetaFlowControl);
+        } else {
+            throw new RuntimeException("Invalid tail");
         }
 
         alphaBetaFlowControl.setNext(head);

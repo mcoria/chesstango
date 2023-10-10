@@ -142,47 +142,78 @@ public class QuiescenceChainBuilder {
         AlphaBetaFilter headQuiescence = null;
 
         if (withQuiescence) {
-            if (zobristQTracker != null) {
-                if (transpositionTableQ != null) {
-                    zobristQTracker.setNext(transpositionTableQ);
-                } else {
-                    zobristQTracker.setNext(quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence);
-                }
-                headQuiescence = zobristQTracker;
-            }
-
-            if (transpositionTableQ != null) {
-                transpositionTableQ.setNext(quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence);
-                if (headQuiescence == null) {
-                    headQuiescence = transpositionTableQ;
-                }
-            }
-
-            if (headQuiescence == null) {
-                headQuiescence = quiescenceStatisticsExpected != null ? quiescenceStatisticsExpected : quiescence;
-            }
-
-            if (quiescenceStatisticsExpected != null) {
-                quiescenceStatisticsExpected.setNext(quiescence);
-            }
-
-            quiescence.setNext(quiescenceStatisticsVisited != null ? quiescenceStatisticsVisited : quiescenceFlowControl);
-            quiescence.setMoveSorter(qMoveSorter);
-            quiescence.setGameEvaluator(gameEvaluator);
-
-
-            if (quiescenceStatisticsVisited != null) {
-                quiescenceStatisticsVisited.setNext(quiescenceFlowControl);
-            }
-
-            quiescenceFlowControl.setNext(headQuiescence);
-            quiescenceFlowControl.setGameEvaluator(gameEvaluator);
-
+            headQuiescence = createRealQuiescenceChain();
         } else {
             quiescenceNull.setGameEvaluator(gameEvaluator);
             headQuiescence = quiescenceNull;
         }
 
         return headQuiescence;
+    }
+
+    private AlphaBetaFilter createRealQuiescenceChain() {
+        AlphaBetaFilter head = null;
+        AlphaBetaFilter tail = null;
+
+
+        if (zobristQTracker != null) {
+            head = zobristQTracker;
+            tail = zobristQTracker;
+        }
+
+        if (transpositionTableQ != null) {
+            if (head == null) {
+                head = transpositionTableQ;
+            }
+            if (tail instanceof ZobristTracker zobristTrackerTail) {
+                zobristTrackerTail.setNext(transpositionTableQ);
+            }
+            tail = transpositionTableQ;
+        }
+
+        if (quiescenceStatisticsExpected != null) {
+            if (head == null) {
+                head = quiescenceStatisticsExpected;
+            }
+            if (tail instanceof ZobristTracker zobristTrackerTail) {
+                zobristTrackerTail.setNext(quiescenceStatisticsExpected);
+            } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
+                transpositionTableTail.setNext(quiescenceStatisticsExpected);
+            }
+            tail = quiescenceStatisticsExpected;
+        }
+
+        if (tail instanceof ZobristTracker zobristTrackerTail) {
+            zobristTrackerTail.setNext(quiescence);
+        } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
+            transpositionTableTail.setNext(quiescence);
+        } else if (tail instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpectedTail) {
+            quiescenceStatisticsExpectedTail.setNext(quiescence);
+        }
+
+
+        quiescence.setMoveSorter(qMoveSorter);
+        quiescence.setGameEvaluator(gameEvaluator);
+        tail = quiescence;
+
+
+        if (quiescenceStatisticsVisited != null) {
+            quiescence.setNext(quiescenceStatisticsVisited);
+            quiescenceStatisticsVisited.setNext(quiescenceFlowControl);
+            tail = quiescenceStatisticsVisited;
+        }
+
+        if (tail instanceof Quiescence quiescenceTail) {
+            quiescenceTail.setNext(quiescenceFlowControl);
+        } else if (tail instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisitedTail) {
+            quiescenceStatisticsVisitedTail.setNext(quiescenceFlowControl);
+        } else {
+            throw new RuntimeException("Invalid tail");
+        }
+
+        quiescenceFlowControl.setNext(head);
+        quiescenceFlowControl.setGameEvaluator(gameEvaluator);
+
+        return head;
     }
 }

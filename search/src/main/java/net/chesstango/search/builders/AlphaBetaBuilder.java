@@ -215,9 +215,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFirstChainBuilder.withGameEvaluator(gameEvaluator);
         alphaBetaFirstChainBuilder.withNext(alphaBetaChain);
         alphaBetaFirstChainBuilder.withQuiescence(quiescenceChain);
-        AlphaBetaFilter alphaBetaFirstChain = alphaBetaFirstChainBuilder.build();
 
-        return alphaBetaFirstChain;
+        return alphaBetaFirstChainBuilder.build();
     }
 
 
