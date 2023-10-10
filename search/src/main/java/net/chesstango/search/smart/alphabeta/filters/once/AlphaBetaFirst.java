@@ -33,6 +33,9 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     private Integer bestValue;
     private List<Move> sortedMoves;
 
+    @Getter
+    private Move currentMove;
+
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         boolean search = true;
@@ -40,13 +43,13 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
-            Move move = moveIterator.next();
-            game = game.executeMove(move);
+            currentMove = moveIterator.next();
+            game = game.executeMove(currentMove);
             long bestMoveAndValue = next.minimize(1, Math.max(maxValue, alpha), beta);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue > maxValue) {
                 maxValue = currentValue;
-                bestMove = move;
+                bestMove = currentMove;
                 bestValue = maxValue;
                 if (maxValue >= beta) {
                     search = false;
@@ -65,13 +68,13 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
-            Move move = moveIterator.next();
-            game = game.executeMove(move);
+            currentMove = moveIterator.next();
+            game = game.executeMove(currentMove);
             long bestMoveAndValue = next.maximize(1, alpha, Math.min(minValue, beta));
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
                 minValue = currentValue;
-                bestMove = move;
+                bestMove = currentMove;
                 bestValue = minValue;
                 if (minValue <= alpha) {
                     search = false;

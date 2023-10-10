@@ -7,8 +7,8 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveTracker;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class SetBestMovesTest {
+public class MoveTrackerTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
@@ -35,22 +35,32 @@ public class SetBestMovesTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
 
-        TranspositionTable transpositionTable = new TranspositionTable();
-        AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        AlphaBetaFirst alphaBetaFirst = new AlphaBetaFirst();
+        MoveTracker moveTracker = new MoveTracker();
+        AlphaBetaFlowControl alphaBetaFirstFlowControl = new AlphaBetaFlowControl();
 
-        transpositionTable.setNext(alphaBeta);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+
+        alphaBetaFirst.setNext(moveTracker);
+
+        moveTracker.setNext(alphaBetaFirstFlowControl);
+        moveTracker.setAlphaBetaFirst(alphaBetaFirst);
+
+        alphaBetaFirstFlowControl.setNext(alphaBeta);
+        alphaBetaFirstFlowControl.setQuiescence(quiescence);
+        alphaBetaFirstFlowControl.setGameEvaluator(gameEvaluator);
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        alphaBetaFlowControl.setNext(transpositionTable);
+        alphaBetaFlowControl.setNext(alphaBeta);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(transpositionTable);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBeta, transpositionTable, quiescence, moveSorter, new SetBestMoves(), alphaBetaFlowControl));
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaFirst);
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl));
     }
 
 
@@ -58,7 +68,7 @@ public class SetBestMovesTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game,2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }

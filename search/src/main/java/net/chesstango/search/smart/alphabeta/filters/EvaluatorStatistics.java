@@ -57,10 +57,8 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if (result != null) {
-            long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
-            result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
-        }
+        long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
+        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
 
     @Override

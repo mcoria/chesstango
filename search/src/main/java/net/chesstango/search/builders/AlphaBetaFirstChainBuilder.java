@@ -9,6 +9,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsExpected
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AlphaBetaFirstChainBuilder {
     private AlphaBetaFilter next;
     private AlphaBetaFilter quiescence;
     private AspirationWindows aspirationWindows;
+    private MoveTracker moveTracker;
 
     private List<SearchLifeCycle> filterActions;
 
@@ -93,12 +95,15 @@ public class AlphaBetaFirstChainBuilder {
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
         }
+
+        moveTracker = new MoveTracker();
     }
 
 
     private List<SearchLifeCycle> createSearchActions() {
         filterActions.add(alphaBetaFirst);
         filterActions.add(alphaBetaFlowControl);
+        filterActions.add(moveTracker);
 
         if (withStatistics) {
             filterActions.add(alphaBetaStatisticsExpected);
@@ -127,7 +132,10 @@ public class AlphaBetaFirstChainBuilder {
             alphaBetaStatisticsExpected.setNext(alphaBetaFirst);
         }
 
-        alphaBetaFirst.setNext(alphaBetaStatisticsVisited != null ? alphaBetaStatisticsVisited : alphaBetaFlowControl);
+        alphaBetaFirst.setNext(moveTracker);
+
+        moveTracker.setNext(alphaBetaStatisticsVisited != null ? alphaBetaStatisticsVisited : alphaBetaFlowControl);
+        moveTracker.setAlphaBetaFirst(alphaBetaFirst);
 
         if (alphaBetaStatisticsVisited != null) {
             alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
