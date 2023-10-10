@@ -48,6 +48,7 @@ public class EpdSearchMainTest {
                     .printReport(System.out);
 
             new EvaluationReport()
+                    .withEvaluationsStatistics()
                     .withMoveResults(List.of(epdSearchResult.searchResult()))
                     .printReport(System.out);
 
