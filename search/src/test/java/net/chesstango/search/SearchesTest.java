@@ -125,4 +125,12 @@ public class SearchesTest {
 
         searchResult = moveFinder.search( game, 5);
     }
+
+    @Test
+    @Disabled
+    public void testSearch_07(){
+        Game game = FENDecoder.loadGame("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22");
+
+        searchResult = moveFinder.search( game, 7);
+    }
 }
