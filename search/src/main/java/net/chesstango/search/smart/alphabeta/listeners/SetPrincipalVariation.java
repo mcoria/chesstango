@@ -18,6 +18,9 @@ import java.util.List;
 public class SetPrincipalVariation implements SearchLifeCycle {
     private TTable maxMap;
     private TTable minMap;
+
+    private TTable qMaxMap;
+    private TTable qMinMap;
     private Game game;
 
     @Override
@@ -34,14 +37,14 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     public void beforeSearchByDepth(SearchContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        if(result != null) {
-            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap);
-            result.setPrincipalVariation(principalVariation);
-        }
+        List<Move> principalVariation = calculatePrincipalVariation(result.getBestMove(), result.getDepth());
+        result.setPrincipalVariation(principalVariation);
     }
 
     @Override
@@ -54,81 +57,47 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
     }
 
-    public List<Move> calculatePrincipalVariation(Game game,
-                                                    Move bestMove,
-                                                    int depth,
-                                                    TTable maxMap,
-                                                    TTable minMap) {
+    public List<Move> calculatePrincipalVariation(Move bestMove,
+                                                  int depth) {
 
         List<Move> principalVariation = new ArrayList<>();
 
-        if(maxMap != null && minMap != null) {
-            Move move = bestMove;
-            int pvMoveCounter = 0;
-            do {
+        Move move = bestMove;
+        int pvMoveCounter = 0;
+        do {
 
-                principalVariation.add(move);
+            principalVariation.add(move);
 
-                game.executeMove(move);
-                pvMoveCounter++;
+            game.executeMove(move);
 
-                move = principalVariation.size() < depth
-                        ? readMoveFromTT(game, maxMap, minMap)
-                        : readMoveFromQTT(game, maxMap, maxMap);
+            pvMoveCounter++;
 
-            } while (move != null);
+            move = principalVariation.size() < depth
+                    ? readMoveFromTT(maxMap, minMap)
+                    : readMoveFromTT(qMaxMap, qMinMap);
 
-            for (int i = 0; i < pvMoveCounter; i++) {
-                game.undoMove();
-            }
-        } else {
-            principalVariation.add(bestMove);
+        } while (move != null);
+
+        for (int i = 0; i < pvMoveCounter; i++) {
+            game.undoMove();
         }
 
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, TTable maxMap, TTable minMap) {
+    private Move readMoveFromTT(TTable maxMap, TTable minMap) {
         Move result = null;
 
-        long hash = game.getChessPosition().getZobristHash();
-
-        TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
-
-        if (entry != null) {
-            short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
-            for (Move posibleMove : game.getPossibleMoves()) {
-                if (posibleMove.binaryEncoding() == bestMoveEncoded) {
-                    result = posibleMove;
-                    break;
-                }
-            }
-            if (result == null) {
-                throw new RuntimeException("BestMove not found");
-            }
-        }
-
-        return result;
-    }
-
-    private Move readMoveFromQTT(Game game, TTable qMaxMap, TTable qMinMap) {
-        Move result = null;
-
-        long hash = game.getChessPosition().getZobristHash();
-
-        TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
-
-        if (entry != null) {
-            short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
-            if (bestMoveEncoded != 0) {
+        if (maxMap != null && minMap != null) {
+            long hash = game.getChessPosition().getZobristHash();
+            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+            if (entry != null) {
+                short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                         result = posibleMove;
                         break;
                     }
-                }
-                if (result == null) {
-                    throw new RuntimeException("BestMove not found");
                 }
             }
         }
