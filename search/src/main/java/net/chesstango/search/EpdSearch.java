@@ -151,11 +151,11 @@ public class EpdSearch {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
+                .withAspirationWindows()
                 //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
 
-                .withAspirationWindows()
                 //.withMoveEvaluation()
 
                 .withStatistics()

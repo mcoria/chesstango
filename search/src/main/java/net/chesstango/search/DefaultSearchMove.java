@@ -19,7 +19,7 @@ public class DefaultSearchMove implements SearchMove {
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
         this.imp = new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
+                .withGameEvaluator(new GameEvaluatorCache(gameEvaluator))
 
                 .withQuiescence()
 
@@ -30,6 +30,7 @@ public class DefaultSearchMove implements SearchMove {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
+                .withAspirationWindows()
                 .withStopProcessingCatch()
 
                 .withIterativeDeepening()
