@@ -175,17 +175,22 @@ public class QuiescenceChainBuilder {
             if (head == null) {
                 head = quiescenceStatisticsExpected;
             }
-
-            quiescenceStatisticsExpected.setNext(quiescence);
-
             if (tail instanceof ZobristTracker zobristTrackerTail) {
                 zobristTrackerTail.setNext(quiescenceStatisticsExpected);
-            }
-            if (tail instanceof TranspositionTableQ transpositionTableTail) {
+            } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
                 transpositionTableTail.setNext(quiescenceStatisticsExpected);
             }
-
+            tail = quiescenceStatisticsExpected;
         }
+
+        if (tail instanceof ZobristTracker zobristTrackerTail) {
+            zobristTrackerTail.setNext(quiescence);
+        } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
+            transpositionTableTail.setNext(quiescence);
+        } else if (tail instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpectedTail) {
+            quiescenceStatisticsExpectedTail.setNext(quiescence);
+        }
+
 
         quiescence.setMoveSorter(qMoveSorter);
         quiescence.setGameEvaluator(gameEvaluator);

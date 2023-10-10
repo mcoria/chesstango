@@ -267,13 +267,11 @@ public class EpdSearchMainTest {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                //.withStopProcessingCatch()
-
                 .withIterativeDeepening()
 
                 .withAspirationWindows()
 
-                //.withMoveEvaluation()
+                //.withStopProcessingCatch()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
