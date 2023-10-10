@@ -62,25 +62,6 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    @Disabled
-    public void testDistinctMoves() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                .withTranspositionTable()
-                .withStatistics()
-                .build();
-
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        SearchMoveResult searchResult = moveFinder.search(game, 2);
-
-        Set<Move>[] distinctMoves = null; //searchResult.getDistinctMovesPerLevel();
-
-        assertEquals(20, distinctMoves[0].size());
-        assertEquals(20, distinctMoves[1].size());
-    }
-
-    @Test
     public void testVisitedNodesCounters_NoIterative() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())

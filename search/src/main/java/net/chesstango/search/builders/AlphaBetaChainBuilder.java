@@ -193,7 +193,6 @@ public class AlphaBetaChainBuilder {
 
         if (alphaBetaStatisticsVisited != null) {
             alphaBeta.setNext(alphaBetaStatisticsVisited);
-            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
             tail = alphaBetaStatisticsVisited;
         }
 
