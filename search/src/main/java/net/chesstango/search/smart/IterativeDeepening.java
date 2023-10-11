@@ -6,8 +6,7 @@ import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
@@ -29,13 +28,17 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-        List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
+        LinkedList<SearchMoveResult> bestMovesByDepth = new LinkedList<>();
 
         searchSmart.beforeSearch(game, depth);
 
         for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
             SearchContext context = new SearchContext(currentSearchDepth);
+
+            if(!bestMovesByDepth.isEmpty()){
+                setupContext(context, bestMovesByDepth.getLast());
+            }
 
             searchSmart.beforeSearchByDepth(context);
 
@@ -62,6 +65,12 @@ public class IterativeDeepening implements SearchMove {
         searchSmart.afterSearch(bestMove);
 
         return bestMove;
+    }
+
+    private void setupContext(SearchContext context, SearchMoveResult searchMoveResult) {
+        context.setLastBestMove(searchMoveResult.getBestMove());
+        context.setLastBestEvaluation(searchMoveResult.getEvaluation());
+        context.setLastMoveEvaluations(searchMoveResult.getMoveEvaluations());
     }
 
 

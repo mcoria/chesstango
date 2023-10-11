@@ -26,7 +26,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
     private SetPrincipalVariation setPrincipalVariation;
-
+    private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
 
     private boolean withIterativeDeepening;
@@ -174,6 +174,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         setPrincipalVariation = new SetPrincipalVariation();
+
+        setBestMoves = new SetBestMoves();
     }
 
 
@@ -195,6 +197,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         filterActions.add(setPrincipalVariation);
+
+        filterActions.add(setBestMoves);
 
         return filterActions;
     }

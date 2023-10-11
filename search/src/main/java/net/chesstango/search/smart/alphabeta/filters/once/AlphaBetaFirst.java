@@ -5,16 +5,18 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -24,23 +26,20 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Setter
     private AlphaBetaFilter next;
-    private Game game;
-
-    @Getter
-    private Move bestMove;
-
-    @Getter
-    private Integer bestValue;
-    private List<Move> sortedMoves;
 
     @Getter
     private Move currentMove;
+    private Game game;
+    private Move lastBestMove;
+    private List<MoveEvaluation> lastMoveEvaluations;
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         boolean search = true;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
+        Move bestMove = null;
 
+        List<Move> sortedMoves = getSortedMoves(false);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             currentMove = moveIterator.next();
@@ -50,7 +49,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMove = currentMove;
-                bestValue = maxValue;
                 if (maxValue >= beta) {
                     search = false;
                 }
@@ -65,7 +63,9 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     public long minimize(int currentPly, int alpha, int beta) {
         boolean search = true;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
+        Move bestMove = null;
 
+        List<Move> sortedMoves = getSortedMoves(true);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             currentMove = moveIterator.next();
@@ -75,7 +75,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             if (currentValue < minValue) {
                 minValue = currentValue;
                 bestMove = currentMove;
-                bestValue = minValue;
                 if (minValue <= alpha) {
                     search = false;
                 }
@@ -93,8 +92,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
-        this.bestMove = null;
-        this.bestValue = null;
     }
 
     @Override
@@ -107,9 +104,9 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        context.setLastBestMove(bestMove);
-        context.setLastBestValue(bestValue);
-        sortedMoves = createSortedMoves(bestMove);
+        currentMove = null;
+        lastBestMove = context.getLastBestMove();
+        lastMoveEvaluations = context.getLastMoveEvaluations();
     }
 
     @Override
@@ -117,25 +114,39 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
     }
 
 
-    private List<Move> createSortedMoves(Move lastBestMove) {
-        List<Move> sortedMoves = new LinkedList<>();
-        if (lastBestMove != null) {
-            sortedMoves.add(lastBestMove);
+    private List<Move> getSortedMoves(boolean naturalOrder) {
+        if (lastBestMove == null) {
+            return getSortedMovesByMoveComparator();
+        } else {
+            return getSortedMovesByLastMoveEvaluations(naturalOrder);
         }
-
-        List<Move> unsortedMoveList = new LinkedList<>();
-        for (Move move : game.getPossibleMoves()) {
-            if (!Objects.equals(move, lastBestMove)) {
-                unsortedMoveList.add(move);
-            }
-        }
-
-        unsortedMoveList.sort(moveComparator.reversed());
-
-        sortedMoves.addAll(unsortedMoveList);
-
-        return sortedMoves;
     }
 
+    private List<Move> getSortedMovesByMoveComparator() {
+        List<Move> moves = new LinkedList<>();
+        for (Move move : game.getPossibleMoves()) {
+            moves.add(move);
+        }
+        moves.sort(moveComparator.reversed());
+        return moves;
+    }
+
+    private List<Move> getSortedMovesByLastMoveEvaluations(boolean naturalOrder) {
+        List<Move> moveList = new LinkedList<>();
+        moveList.add(lastBestMove);
+
+
+        Stream<MoveEvaluation> moveStream = lastMoveEvaluations
+                .stream()
+                .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
+
+        moveStream = naturalOrder ?
+                moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation)) :
+                moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed());
+
+        moveStream.map(MoveEvaluation::move).forEach(moveList::add);
+
+        return moveList;
+    }
 
 }

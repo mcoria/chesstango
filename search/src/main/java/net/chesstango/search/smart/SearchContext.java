@@ -3,7 +3,10 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.smart.transposition.TTable;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -29,10 +32,10 @@ public class SearchContext {
     private int[] expectedNodesCountersQuiescence;
 
     private Move lastBestMove;
-    private Integer lastBestValue;
+    private Integer lastBestEvaluation;
+    private List<MoveEvaluation> lastMoveEvaluations;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }
-
 }

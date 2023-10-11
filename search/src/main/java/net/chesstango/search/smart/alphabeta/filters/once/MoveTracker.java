@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -23,42 +24,49 @@ public class MoveTracker implements AlphaBetaFilter {
     @Setter
     private AlphaBetaFirst alphaBetaFirst;
 
-    private List<MoveEvaluation> moveEvaluations;
+    @Setter
+    private StopProcessingCatch stopProcessingCatch;
+
+    @Getter
+    private List<MoveEvaluation> currentMoveEvaluations;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
+        currentMoveEvaluations = null;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        moveEvaluations = new LinkedList<>();
+        currentMoveEvaluations = new LinkedList<>();
+    }
+
+    public void beforeSearchByWindows(int alphaBound, int betaBound) {
+    }
+
+    public void afterSearchByWindows(boolean searchByWindowsFinished) {
+        if (!searchByWindowsFinished) {
+            if (Objects.nonNull(stopProcessingCatch)) {
+                //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
+            }
+
+            /**
+             * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva
+             */
+            currentMoveEvaluations = new LinkedList<>();
+        }
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        result.setMoveEvaluations(moveEvaluations);
-
-        Integer bestValue = alphaBetaFirst.getBestValue();
-        if (Objects.nonNull(bestValue)) {
-            List<Move> bestMoves = moveEvaluations
-                    .stream()
-                    .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
-                    .map(MoveEvaluation::move)
-                    .toList();
-
-            result.setBestMoves(bestMoves);
-        }
-
+        result.setMoveEvaluations(currentMoveEvaluations);
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
@@ -83,6 +91,7 @@ public class MoveTracker implements AlphaBetaFilter {
     private void trackMove(long bestMoveAndValue) {
         Move currentMove = alphaBetaFirst.getCurrentMove();
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        moveEvaluations.add(new MoveEvaluation(currentMove, currentValue));
+        currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue));
     }
+
 }
