@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.engine.manager.SearchManagerByAlgorithm;
 import net.chesstango.engine.manager.SearchManagerByBook;
 import net.chesstango.engine.manager.SearchManagerChain;
-import net.chesstango.engine.timemgmt.ProportionalMoves;
+import net.chesstango.engine.timemgmt.Material;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchListener;
@@ -36,7 +36,7 @@ public final class SearchManager {
         this.searchManagerByBook = new SearchManagerByBook(searchManagerByAlgorithm);
         this.searchManagerChain = this.searchManagerByBook;
 
-        this.timeMgmt = new ProportionalMoves();
+        this.timeMgmt = new Material();
 
         if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();

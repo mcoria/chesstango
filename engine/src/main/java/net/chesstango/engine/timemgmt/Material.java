@@ -6,7 +6,7 @@ import net.chesstango.board.Game;
 /**
  * @author Mauricio Coria
  */
-public class ProportionalMoves implements TimeMgmt {
+public class Material implements TimeMgmt {
     @Override
     public int getSearchTime(Game game, int wTime, int bTime, int wInc, int bInc) {
         int numberOfPieces = Long.bitCount(game.getChessPosition().getAllPositions());
