@@ -29,8 +29,8 @@ public class AlphaBetaFacade implements SearchSmart {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                alphaBetaFilter.maximize(0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE) :
-                alphaBetaFilter.minimize(0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+                alphaBetaFilter.maximize(0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_WON) :
+                alphaBetaFilter.minimize(0, GameEvaluator.BLACK_WON, GameEvaluator.INFINITE_POSITIVE);
 
         int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
         short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
