@@ -23,6 +23,7 @@ public class SummaryComparator {
         //summaryComparator.addSession("depth-5-2023-10-09-17-53-CHT-128");
         //summaryComparator.addSession("depth-5-2023-10-10-20-28-CHT-138-2");
         summaryComparator.addSession("depth-5-2023-10-10-22-20-CHT-138-2");
+        summaryComparator.addSession("depth-5-2023-10-11-11-29-CHT-138-2");
 
         //
         //
