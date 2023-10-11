@@ -101,7 +101,7 @@ public class AlphaBetaFirstChainBuilder {
 
 
     private List<SearchLifeCycle> createSearchActions() {
-        filterActions.add(alphaBetaFirst); //Settea en el contexto
+        filterActions.add(alphaBetaFirst);
         filterActions.add(moveTracker);
         filterActions.add(alphaBetaFlowControl);
 
@@ -111,12 +111,12 @@ public class AlphaBetaFirstChainBuilder {
             filterActions.add(alphaBetaStatisticsVisited);
         }
 
-        if (stopProcessingCatch != null) {
-            filterActions.add(stopProcessingCatch);
-        }
-
         if (aspirationWindows != null) {
             filterActions.add(aspirationWindows);
+        }
+
+        if (stopProcessingCatch != null) {
+            filterActions.add(stopProcessingCatch);
         }
 
         return filterActions;
@@ -129,31 +129,30 @@ public class AlphaBetaFirstChainBuilder {
         AlphaBetaFilter head = null;
         AlphaBetaFilter tail = null;
 
-        if (aspirationWindows != null) {
-            head = aspirationWindows;
-            aspirationWindows.setMoveTracker(moveTracker);
-            tail = aspirationWindows;
-        }
-
         if (stopProcessingCatch != null) {
-            if (head == null) {
-                head = stopProcessingCatch;
-            }
-            if (tail instanceof AspirationWindows aspirationWindowsTail) {
-                aspirationWindowsTail.setNext(stopProcessingCatch);
-            }
+            head = stopProcessingCatch;
             tail = stopProcessingCatch;
         }
 
+        if (aspirationWindows != null) {
+            if (head == null) {
+                head = aspirationWindows;
+            }
+            aspirationWindows.setMoveTracker(moveTracker);
+            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+                stopProcessingCatchTail.setNext(aspirationWindows);
+            }
+            tail = aspirationWindows;
+        }
 
         if (alphaBetaStatisticsExpected != null) {
             if (head == null) {
                 head = alphaBetaStatisticsExpected;
             }
-            if (tail instanceof AspirationWindows aspirationWindowsTail) {
-                aspirationWindowsTail.setNext(alphaBetaStatisticsExpected);
-            } else if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
                 stopProcessingCatchTail.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
+                aspirationWindowsTail.setNext(alphaBetaStatisticsExpected);
             }
             tail = alphaBetaStatisticsExpected;
         }
@@ -161,16 +160,17 @@ public class AlphaBetaFirstChainBuilder {
         if (head == null) {
             head = alphaBetaFirst;
         }
-        if (tail instanceof AspirationWindows aspirationWindowsTail) {
-            aspirationWindowsTail.setNext(alphaBetaFirst);
-        } else if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+        if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
             stopProcessingCatchTail.setNext(alphaBetaFirst);
+        } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
+            aspirationWindowsTail.setNext(alphaBetaFirst);
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
             alphaBetaStatisticsExpectedTail.setNext(alphaBetaFirst);
         }
 
         alphaBetaFirst.setNext(moveTracker);
         moveTracker.setAlphaBetaFirst(alphaBetaFirst);
+        moveTracker.setStopProcessingCatch(stopProcessingCatch);
         tail = moveTracker;
 
         if (alphaBetaStatisticsVisited != null) {

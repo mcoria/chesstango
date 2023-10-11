@@ -1,8 +1,10 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
@@ -10,6 +12,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +26,9 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Setter
     private Game game;
+
+    @Setter
+    private List<MoveEvaluation> currentMoveEvaluations;
 
     private Move lastBestMove;
 
@@ -59,15 +66,15 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::maximize);
+        return process(currentPly, alpha, beta, next::maximize, false);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::minimize);
+        return process(currentPly, alpha, beta, next::minimize, true);
     }
 
-    private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn) {
+    private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean naturalOrderSort) {
         final long startHash = game.getChessPosition().getZobristHash();
 
         try {
@@ -79,14 +86,12 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         Move bestMove;
         Integer bestValue;
 
-        /*
-        if (Objects.nonNull(alphaBetaFirst.getBestMove())) {
-            bestMove = alphaBetaFirst.getBestMove();
-            bestValue = alphaBetaFirst.getBestValue();
-        } else
-         */
-
-        if (Objects.nonNull(lastBestMove)) {
+        if (!currentMoveEvaluations.isEmpty()) {
+            sortMoveEvaluations(currentMoveEvaluations, naturalOrderSort);
+            MoveEvaluation moveEvaluation = currentMoveEvaluations.get(0);
+            bestMove = moveEvaluation.move();
+            bestValue = moveEvaluation.evaluation();
+        } else if (Objects.nonNull(lastBestMove)) {
             bestMove = lastBestMove;
             bestValue = lastBestValue;
         } else {
@@ -101,6 +106,14 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         while (currentHash != startHash) {
             game.undoMove();
             currentHash = game.getChessPosition().getZobristHash();
+        }
+    }
+
+    private void sortMoveEvaluations(List<MoveEvaluation> moveEvaluations, boolean naturalOrder) {
+        if (naturalOrder) {
+            moveEvaluations.sort(Comparator.comparing(MoveEvaluation::evaluation));
+        } else {
+            moveEvaluations.sort(Comparator.comparing(MoveEvaluation::evaluation).reversed());
         }
     }
 }

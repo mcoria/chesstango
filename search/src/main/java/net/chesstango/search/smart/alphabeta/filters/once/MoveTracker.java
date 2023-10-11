@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -23,6 +24,10 @@ public class MoveTracker implements AlphaBetaFilter {
     @Setter
     private AlphaBetaFirst alphaBetaFirst;
 
+    @Setter
+    private StopProcessingCatch stopProcessingCatch;
+
+    @Getter
     private List<MoveEvaluation> currentMoveEvaluations;
 
     @Override
@@ -40,10 +45,14 @@ public class MoveTracker implements AlphaBetaFilter {
 
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
         if (!searchByWindowsFinished) {
+            if (Objects.nonNull(stopProcessingCatch)) {
+                stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
+            }
+
             /**
              * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva
              */
-            currentMoveEvaluations.clear();
+            currentMoveEvaluations = new LinkedList<>();
         }
     }
 
