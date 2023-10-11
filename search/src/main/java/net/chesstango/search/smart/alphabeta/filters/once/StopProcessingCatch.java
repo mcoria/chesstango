@@ -27,8 +27,8 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     @Setter
     private Game game;
 
-    @Setter
-    private List<MoveEvaluation> currentMoveEvaluations;
+    //@Setter
+    //private List<MoveEvaluation> currentMoveEvaluations;
 
     private Move lastBestMove;
 
@@ -86,12 +86,15 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         Move bestMove;
         Integer bestValue;
 
+        /*
         if (!currentMoveEvaluations.isEmpty()) {
             sortMoveEvaluations(currentMoveEvaluations, naturalOrderSort);
             MoveEvaluation moveEvaluation = currentMoveEvaluations.get(0);
             bestMove = moveEvaluation.move();
             bestValue = moveEvaluation.evaluation();
-        } else if (Objects.nonNull(lastBestMove)) {
+        } else*/
+
+        if (Objects.nonNull(lastBestMove)) {
             bestMove = lastBestMove;
             bestValue = lastBestValue;
         } else {

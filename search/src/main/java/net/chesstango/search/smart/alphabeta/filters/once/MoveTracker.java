@@ -46,7 +46,7 @@ public class MoveTracker implements AlphaBetaFilter {
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
-                stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
+                //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
             }
 
             /**
