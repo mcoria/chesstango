@@ -24,20 +24,11 @@ public final class SearchManager {
     private final SearchListener listenerClient;
     private final SearchManagerChain searchManagerChain;
     private final SearchManagerByBook searchManagerByBook;
-
+    private final SearchManagerByAlgorithm searchManagerByAlgorithm;
     private final TimeMgmt timeMgmt;
-
     private ScheduledExecutorService executorService;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
-        this.listenerClient = listenerClient;
-
-        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
-        this.searchManagerByBook = new SearchManagerByBook(searchManagerByAlgorithm);
-        this.searchManagerChain = this.searchManagerByBook;
-
-        this.timeMgmt = new Material();
-
         if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();
 
@@ -45,6 +36,14 @@ public final class SearchManager {
                 iterativeDeepening.setSearchStatusListener(listenerClient::searchInfo);
             }
         }
+
+        this.listenerClient = listenerClient;
+        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
+        this.searchManagerByBook = new SearchManagerByBook();
+        this.searchManagerByBook.setNext(searchManagerByAlgorithm);
+
+        this.searchManagerChain = this.searchManagerByBook;
+        this.timeMgmt = new Material();
     }
 
     public void searchInfinite(Game game) {

@@ -1,5 +1,6 @@
 package net.chesstango.engine.manager;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -18,11 +19,11 @@ public final class SearchManagerByBook implements SearchManagerChain {
 
     private final MappedPolyglotBook book;
 
-    private final SearchManagerChain next;
+    @Setter
+    private SearchManagerChain next;
 
-    public SearchManagerByBook(SearchManagerChain next) {
+    public SearchManagerByBook() {
         this.book = new MappedPolyglotBook();
-        this.next = next;
     }
 
     @Override
