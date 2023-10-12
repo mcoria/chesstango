@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class SetBestMoves implements SearchLifeCycle {
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
 
     }
 

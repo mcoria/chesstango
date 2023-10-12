@@ -3,6 +3,8 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
@@ -18,8 +20,6 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class AlphaBetaMateIn3Test extends MateIn3Test {
-
-    private SearchMove searchMove;
 
     @BeforeEach
     public void setup() {
@@ -45,11 +45,7 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
+        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 5);
     }
 
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
-    }
 }

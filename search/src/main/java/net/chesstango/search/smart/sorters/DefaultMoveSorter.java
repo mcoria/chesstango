@@ -6,7 +6,6 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,7 +108,7 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
     private Game game;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

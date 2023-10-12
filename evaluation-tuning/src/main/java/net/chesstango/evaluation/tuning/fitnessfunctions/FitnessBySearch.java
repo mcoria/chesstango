@@ -83,7 +83,7 @@ public class FitnessBySearch implements FitnessFunction {
 
         Game game = FENDecoder.loadGame(EPDEntry.fen);
 
-        SearchMoveResult searchResult = moveFinder.search(game, MATCH_DEPTH);
+        SearchMoveResult searchResult = moveFinder.search(game);
 
         return getPoints(game.getPossibleMoves().size(), EPDEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
     }

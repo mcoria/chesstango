@@ -119,7 +119,7 @@ public class AlphaBetaTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        alphaBetaFacade.beforeSearch(game, depth);
+        alphaBetaFacade.beforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 

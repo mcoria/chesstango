@@ -69,7 +69,7 @@ public class MoveTrackerTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }
@@ -78,7 +78,7 @@ public class MoveTrackerTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }

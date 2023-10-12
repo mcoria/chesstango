@@ -57,10 +57,10 @@ public class AlphaBetaFacade implements SearchSmart {
     }
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
         synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.beforeSearch(game, maxDepth));
+            searchActions.stream().forEach(filter -> filter.beforeSearch(game));
         }
     }
 

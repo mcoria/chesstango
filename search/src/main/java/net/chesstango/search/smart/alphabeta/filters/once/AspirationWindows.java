@@ -23,7 +23,7 @@ public class AspirationWindows implements AlphaBetaFilter {
     private Integer lastBestValue;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         lastBestValue = null;
     }
 

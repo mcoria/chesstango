@@ -3,6 +3,9 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
+
+import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -10,15 +13,17 @@ import net.chesstango.search.SearchMoveResult;
 public class NoIterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
 
+    private int maxDepth = 1;
+
     public NoIterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;
     }
 
     @Override
-    public SearchMoveResult search(Game game, int depth) {
-        searchSmart.beforeSearch(game, depth);
+    public SearchMoveResult search(Game game) {
+        searchSmart.beforeSearch(game);
 
-        SearchContext context = new SearchContext(depth);
+        SearchContext context = new SearchContext(maxDepth);
 
         searchSmart.beforeSearchByDepth(context);
 
@@ -39,6 +44,13 @@ public class NoIterativeDeepening implements SearchMove {
     @Override
     public void reset() {
         this.searchSmart.reset();
+    }
+
+    @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
+            maxDepth = maxDepthParam;
+        }
     }
 
 }

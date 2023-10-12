@@ -19,8 +19,6 @@ import java.util.Arrays;
  */
 public class AlphaBetaMateIn1Test extends MateIn1Test {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -45,12 +43,6 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 
 

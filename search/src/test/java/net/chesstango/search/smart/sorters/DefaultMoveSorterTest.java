@@ -417,7 +417,7 @@ public class DefaultMoveSorterTest {
     }
 
     private void initMoveSorter(MoveSorter moveSorter, Game game) {
-        moveSorter.beforeSearch(game, 1);
+        moveSorter.beforeSearch(game);
 
         SearchContext context = new SearchContext(1);
 

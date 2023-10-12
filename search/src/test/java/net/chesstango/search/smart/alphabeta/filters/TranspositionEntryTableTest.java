@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -78,9 +79,11 @@ public class TranspositionEntryTableTest {
         Game game01 = FENDecoder.loadGame(fen);
         Game game02 = FENDecoder.loadGame(fen);
 
-        searchResultWithoutTT = searchWithoutTT.search(game01, depth);
+        searchWithoutTT.setParameter(SearchParameter.MAX_DEPTH, depth);
+        searchResultWithoutTT = searchWithoutTT.search(game01);
 
-        searchResultWithTT = searchWithTT.search(game02, depth);
+        searchWithTT.setParameter(SearchParameter.SEARCH_PREDICATE, SearchMoveResult.maxDepthPredicate(depth));
+        searchResultWithTT = searchWithTT.search(game02);
 
         //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString() , searchResult01.getEvaluation(), depth - 1, searchWithoutTT, searchWithTT);
 
@@ -96,9 +99,9 @@ public class TranspositionEntryTableTest {
             Game game01 = FENDecoder.loadGame(fen);
             Game game02 = FENDecoder.loadGame(fen);
 
-            SearchMoveResult searchResult01 = searchMethod1.search(game01, depth);
+            SearchMoveResult searchResult01 = searchMethod1.search(game01);
 
-            SearchMoveResult searchResult02 = searchMethod2.search(game02, depth);
+            SearchMoveResult searchResult02 = searchMethod2.search(game02);
 
             Assertions.assertEquals(evaluation, searchResult01.getEvaluation());
 

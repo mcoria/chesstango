@@ -121,9 +121,9 @@ public class NegaMaxPruning implements SearchSmart {
     }
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
-        moveSorter.beforeSearch(game, maxDepth);
+        moveSorter.beforeSearch(game);
     }
 
     @Override

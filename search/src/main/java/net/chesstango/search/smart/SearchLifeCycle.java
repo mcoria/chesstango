@@ -11,7 +11,7 @@ public interface SearchLifeCycle {
     /**
      * Invoked once before searching
      */
-    void beforeSearch(Game game, int maxDepth);
+    void beforeSearch(Game game);
 
     /**
      * Invoked once per search depth

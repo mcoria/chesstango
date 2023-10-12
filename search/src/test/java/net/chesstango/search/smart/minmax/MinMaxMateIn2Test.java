@@ -2,6 +2,7 @@ package net.chesstango.search.smart.minmax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,18 +12,13 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class MinMaxMateIn2Test extends MateIn2Test {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new EvaluatorByMaterial());
         this.searchMove = new NoIterativeDeepening(searchMove);
+        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 4);
     }
 
 
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
-    }
 }

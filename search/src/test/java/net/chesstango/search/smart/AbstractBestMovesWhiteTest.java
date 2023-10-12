@@ -9,6 +9,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,14 +19,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public abstract class AbstractBestMovesWhiteTest {
 
-    public abstract SearchMove getBestMoveFinder();
+    protected SearchMove searchMove;
 
     @Test
     public void test_moveQueen() {
         // hay que sacar a la reina blanca de donde esta, sino se la morfa el caballo
         Game game = FENDecoder.loadGame("r1bqkb1r/ppp2ppp/5n2/3p4/1n1p3P/N2Q1N2/PPP1PPP1/R1B1KB1R w KQkq - 1 1");
 
-        SearchMoveResult searchResult = getBestMoveFinder().search(game, 2);
+        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE, SearchMoveResult.maxDepthPredicate(2));
+        SearchMoveResult searchResult = searchMove.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -44,7 +46,8 @@ public abstract class AbstractBestMovesWhiteTest {
         // White will be in checkmate in the next 1 move
         Game game = FENDecoder.loadGame("6k1/3r4/1b3p2/8/1Pp5/8/2Kq2p1/8 w - - 1 1");
 
-        SearchMoveResult searchResult = getBestMoveFinder().search(game, 2);
+        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE, SearchMoveResult.maxDepthPredicate(2));
+        SearchMoveResult searchResult = searchMove.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -61,7 +64,8 @@ public abstract class AbstractBestMovesWhiteTest {
         // White will be in checkmate in the next 2 move
         Game game = FENDecoder.loadGame("6k1/3r4/1b3p2/8/1Pp5/6p1/2Kq4/8 w - - 1 1");
 
-        SearchMoveResult searchResult = getBestMoveFinder().search(game, 4);
+        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE , SearchMoveResult.maxDepthPredicate(4));
+        SearchMoveResult searchResult = searchMove.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -77,7 +81,8 @@ public abstract class AbstractBestMovesWhiteTest {
         // White can win the game in the next move
         Game game = FENDecoder.loadGame("1Q6/8/8/k1K5/3P4/2P1PP2/6P1/5r2 w - - 1 1");
 
-        SearchMoveResult searchResult = getBestMoveFinder().search(game, 5);
+        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE, SearchMoveResult.maxDepthPredicate(5));
+        SearchMoveResult searchResult = searchMove.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -95,7 +100,8 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Game game = FENDecoder.loadGame("r1b1r1k1/pp2bp1p/5p2/q2p4/3N3Q/4R3/3N1PPP/4R1K1 w - - 0 1");
 
-        SearchMoveResult searchResult = getBestMoveFinder().search(game, 5);
+        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE , SearchMoveResult.maxDepthPredicate(5));
+        SearchMoveResult searchResult = searchMove.search(game);
 
         Move smartMove = searchResult.getBestMove();
 

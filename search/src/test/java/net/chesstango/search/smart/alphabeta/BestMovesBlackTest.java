@@ -19,8 +19,6 @@ import java.util.Arrays;
  */
 public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
@@ -29,7 +27,7 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
         Quiescence quiescence = new Quiescence();
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
@@ -48,12 +46,4 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
     }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
-    }
-
-
 }

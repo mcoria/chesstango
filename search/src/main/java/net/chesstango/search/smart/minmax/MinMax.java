@@ -108,7 +108,7 @@ public class MinMax implements SearchSmart {
     }
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];

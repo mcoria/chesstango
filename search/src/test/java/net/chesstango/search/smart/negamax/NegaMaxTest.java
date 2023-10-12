@@ -17,9 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Mauricio Coria
  */
 public class NegaMaxTest {
-
     private GameMockEvaluator evaluator;
-
     private NegaMax negaMax;
 
     @BeforeEach
@@ -94,7 +92,7 @@ public class NegaMaxTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMax.beforeSearch(game, depth);
+        negaMax.beforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 

@@ -103,7 +103,7 @@ public class NegaMaxPruningTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMaxPruning.beforeSearch(game, depth);
+        negaMaxPruning.beforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 

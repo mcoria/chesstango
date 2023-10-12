@@ -17,7 +17,7 @@ public class SetNodeStatistics implements SearchLifeCycle {
     private int[] expectedNodesCountersQuiescence;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.visitedNodesCounters = new int[30];
         this.expectedNodesCounters = new int[30];
         this.visitedNodesCountersQuiescence = new int[30];

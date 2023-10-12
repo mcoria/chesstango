@@ -18,9 +18,6 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class AlphaBetaGenericTest extends GenericTest {
-
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -47,11 +44,5 @@ public class AlphaBetaGenericTest extends GenericTest {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 }

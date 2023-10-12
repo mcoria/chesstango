@@ -27,7 +27,7 @@ public class Quiescence implements AlphaBetaFilter {
     private Game game;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

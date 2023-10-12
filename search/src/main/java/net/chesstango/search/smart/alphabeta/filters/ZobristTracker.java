@@ -22,7 +22,7 @@ public class ZobristTracker implements AlphaBetaFilter {
 
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

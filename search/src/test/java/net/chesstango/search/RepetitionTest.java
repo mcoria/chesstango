@@ -55,7 +55,7 @@ public class RepetitionTest {
         /**
          * Va ganando, si repite el movimiento de reinda de h7 a g8 es draw por repeticion
          */
-        searchResult = moveFinder.search(game, 5);
+        searchResult = moveFinder.search(game);
 
         Move bestMove = searchResult.getBestMove();
 

@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class NegaMaxPruningGenericTest extends GenericTest {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -29,9 +27,4 @@ public class NegaMaxPruningGenericTest extends GenericTest {
         this.searchMove = new NoIterativeDeepening(negaMaxPruning);
     }
 
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
-    }
 }

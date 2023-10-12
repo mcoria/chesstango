@@ -41,8 +41,8 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult search(Game game, int depth) {
-        return imp.search(game, depth);
+    public SearchMoveResult search(Game game) {
+        return imp.search(game);
     }
 
     @Override
@@ -53,6 +53,11 @@ public class DefaultSearchMove implements SearchMove {
     @Override
     public void reset() {
         imp.reset();
+    }
+
+    @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        imp.setParameter(parameter, value);
     }
 
     public SearchMove getImplementation() {

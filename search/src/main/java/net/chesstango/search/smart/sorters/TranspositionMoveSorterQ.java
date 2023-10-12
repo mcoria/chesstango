@@ -5,7 +5,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -22,7 +21,7 @@ public class TranspositionMoveSorterQ implements MoveSorter {
     private TTable minMap;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

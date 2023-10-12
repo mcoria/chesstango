@@ -11,18 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class NegaMaxMateIn1Test extends MateIn1Test {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         NegaMax negaMax = new NegaMax();
         negaMax.setGameEvaluator(new EvaluatorByMaterial());
         this.searchMove = new NoIterativeDeepening(negaMax);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 }

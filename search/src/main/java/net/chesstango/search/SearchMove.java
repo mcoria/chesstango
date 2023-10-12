@@ -77,7 +77,7 @@ public interface SearchMove {
     /**
      * Search up to depth
      */
-    SearchMoveResult search(Game game, int depth);
+    SearchMoveResult search(Game game);
 
     /**
      * Stop searching. This method may be called while another thread is searching
@@ -88,4 +88,9 @@ public interface SearchMove {
      * Reset internal counters and buffers (for instance TT)
      */
     void reset();
+
+    /**
+     *
+     */
+    void setParameter(SearchParameter parameter, Object value);
 }

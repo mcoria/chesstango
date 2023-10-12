@@ -45,7 +45,7 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
     }
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();

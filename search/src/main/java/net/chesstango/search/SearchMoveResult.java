@@ -8,6 +8,7 @@ import net.chesstango.search.smart.statistics.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -66,4 +67,7 @@ public class SearchMoveResult {
         return bestMoves == null ? 1 : bestMoves.size();
     }
 
+    public static Predicate<SearchMoveResult> maxDepthPredicate(int depth) {
+        return searchMoveResult -> searchMoveResult.getDepth() < depth;
+    }
 }

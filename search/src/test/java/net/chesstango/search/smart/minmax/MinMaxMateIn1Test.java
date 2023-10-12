@@ -11,18 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class MinMaxMateIn1Test extends MateIn1Test {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new EvaluatorByMaterial());
         this.searchMove = new NoIterativeDeepening(searchMove);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 }

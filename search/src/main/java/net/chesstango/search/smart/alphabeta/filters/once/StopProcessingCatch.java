@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -36,7 +35,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
         this.lastBestMove = null;
         this.lastBestValue = null;

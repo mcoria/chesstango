@@ -2,6 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -12,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Mauricio Coria
  */
 public class NegaMaxPruningMateIn3Test extends MateIn3Test {
-
-    private SearchMove searchMove;
 
     @BeforeEach
     public void setup() {
@@ -27,11 +26,6 @@ public class NegaMaxPruningMateIn3Test extends MateIn3Test {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         this.searchMove = new NoIterativeDeepening(negaMaxPruning);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
+        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 5);
     }
 }
