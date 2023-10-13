@@ -24,6 +24,11 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        searchMove.setParameter(parameter, value);
+    }
+
+    @Override
     public void stopSearching() {
         searchMove.stopSearching();
     }
@@ -37,8 +42,7 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
-    public SearchMoveResult searchImp(Game game, int depth) {
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, depth);
+    public SearchMoveResult search(Game game) {
         return searchMove.search(game);
     }
 }

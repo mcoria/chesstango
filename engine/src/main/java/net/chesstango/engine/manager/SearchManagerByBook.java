@@ -7,10 +7,13 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.engine.polyglot.MappedPolyglotBook;
 import net.chesstango.engine.polyglot.PolyglotEntry;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+
+import static net.chesstango.search.SearchParameter.POLYGLOT_PATH;
 
 /**
  * @author Mauricio Coria
@@ -29,6 +32,13 @@ public final class SearchManagerByBook implements SearchManagerChain {
     @Override
     public void reset() {
         next.reset();
+    }
+
+    @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        if (POLYGLOT_PATH.equals(parameter) && value instanceof String path) {
+            book.load(Path.of(path));
+        }
     }
 
     @Override
@@ -52,18 +62,13 @@ public final class SearchManagerByBook implements SearchManagerChain {
     }
 
     @Override
-    public SearchMoveResult searchImp(Game game, int depth) {
+    public SearchMoveResult search(Game game) {
         SearchMoveResult searchResult = null;
-        if(book.isLoaded()) {
+        if (book.isLoaded()) {
             searchResult = searchByBook(game);
         }
-        return searchResult == null ? next.searchImp(game, depth) : searchResult;
+        return searchResult == null ? next.search(game) : searchResult;
     }
-
-    public void setPolyglotBook(String path) {
-        book.load(Path.of(path));
-    }
-
 
     private SearchMoveResult searchByBook(Game game) {
         List<PolyglotEntry> bookSearchResult = book.search(game.getChessPosition().getZobristHash());

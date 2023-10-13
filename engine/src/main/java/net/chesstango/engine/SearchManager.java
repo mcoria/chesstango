@@ -4,12 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.engine.manager.SearchManagerByAlgorithm;
 import net.chesstango.engine.manager.SearchManagerByBook;
 import net.chesstango.engine.manager.SearchManagerChain;
-import net.chesstango.engine.timemgmt.Material;
+import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.IterativeDeepening;
 
 import java.util.concurrent.Executors;
@@ -43,7 +40,7 @@ public final class SearchManager {
         this.searchManagerByBook.setNext(searchManagerByAlgorithm);
 
         this.searchManagerChain = this.searchManagerByBook;
-        this.timeMgmt = new Material();
+        this.timeMgmt = new FivePercentage();
     }
 
     public void searchInfinite(Game game) {
@@ -87,7 +84,7 @@ public final class SearchManager {
     }
 
     public void setPolyglotBook(String path) {
-        searchManagerByBook.setPolyglotBook(path);
+        searchManagerByBook.setParameter(SearchParameter.POLYGLOT_PATH, path);
     }
 
     private void searchImp(Game game, int depth, int timeOut) {
@@ -100,7 +97,8 @@ public final class SearchManager {
                     stopTask = executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
-                SearchMoveResult searchResult = searchManagerChain.searchImp(game, depth);
+                searchManagerChain.setParameter(SearchParameter.MAX_DEPTH, depth);
+                SearchMoveResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {
                     stopTask.cancel(true);
