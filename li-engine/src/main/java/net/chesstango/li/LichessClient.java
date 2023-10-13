@@ -26,6 +26,7 @@ public class LichessClient {
                 new LichessChallenger.BulletChallenger(this),
                 new LichessChallenger.BlitzChallenger(this),
                 new LichessChallenger.RapidChallenger(this));
+
     }
 
 
@@ -77,12 +78,15 @@ public class LichessClient {
         throw new RuntimeException("Rating not found");
     }
 
-    public void challengeBot(User aBot, Consumer<ChallengesAuthCommon.ChallengeBuilder> builder) {
-        client.challenges().challenge(aBot.id(), builder);
+    public void challengeBot(User aBot, Consumer<ChallengesAuthCommon.ChallengeBuilder> builderConsumer) {
+        client.challenges().challenge(aBot.id(), builderConsumer);
     }
 
     public Many<User> botsOnline(int i) {
         return client.bot().botsOnline(i);
     }
 
+    public boolean isMe(UserInfo theUser) {
+        return client.account().profile().get().id().equals(theUser.id());
+    }
 }

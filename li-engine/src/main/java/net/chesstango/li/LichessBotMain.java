@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UncheckedIOException;
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,11 +20,11 @@ import java.util.stream.Stream;
  */
 public class LichessBotMain implements Runnable {
 
+    public static final String POLYGLOT_BOOK = "POLYGLOT_BOOK";
     private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
     private static String BOT_TOKEN;
     private static Integer MAX_SIMULTANEOUS_GAMES;
-    private static String POLYGLOT_BOOK;
-
+    private static boolean CHALLENGE_BOTS;
     private static Map<String, Object> properties = new HashMap<>();
 
     public static void main(String[] args) {
@@ -51,17 +48,21 @@ public class LichessBotMain implements Runnable {
         }
 
         MAX_SIMULTANEOUS_GAMES = Integer.parseInt(System.getenv("MAX_SIMULTANEOUS_GAMES"));
-        if (Objects.isNull(MAX_SIMULTANEOUS_GAMES)) {
-            throw new RuntimeException("MAX_SIMULTANEOUS_GAMES is missing");
-        } else if (MAX_SIMULTANEOUS_GAMES <= 0) {
+        if (MAX_SIMULTANEOUS_GAMES <= 0) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
         }
-
         properties.put("MAX_SIMULTANEOUS_GAMES", MAX_SIMULTANEOUS_GAMES);
 
-        POLYGLOT_BOOK = System.getenv("POLYGLOT_BOOK");
-        if (Objects.nonNull(POLYGLOT_BOOK)) {
-            properties.put("POLYGLOT_BOOK", POLYGLOT_BOOK);
+        String polyglotBookPath = System.getenv(POLYGLOT_BOOK);
+        if (Objects.nonNull(polyglotBookPath)) {
+            properties.put(POLYGLOT_BOOK, polyglotBookPath);
+        }
+
+        String challengeBots = System.getenv("CHALLENGE_BOTS");
+        if (Objects.isNull(challengeBots) || challengeBots.isEmpty()) {
+            CHALLENGE_BOTS = false;
+        } else {
+            CHALLENGE_BOTS = Boolean.parseBoolean(challengeBots);
         }
     }
 
@@ -85,7 +86,9 @@ public class LichessBotMain implements Runnable {
 
                 logger.info("Connection successful, entering main event loop...");
 
-                gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                if (CHALLENGE_BOTS) {
+                    gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                }
 
                 events.forEach(event -> {
                     logger.info("event received: {}", event);
@@ -178,13 +181,49 @@ public class LichessBotMain implements Runnable {
 
 
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
+        Optional<ChallengeInfo.Player> challengerPlayer = challengeEvent.challenge().players().challengerOpt();
+        Optional<ChallengeInfo.Player> challengedPlayer = challengeEvent.challenge().players().challengedOpt();
+
+        if (challengerPlayer.isEmpty() || challengedPlayer.isEmpty()) {
+            return false;
+        } else if (client.isMe(challengerPlayer.get().user())) { // Siempre acepto mis propios challenges
+            return true;
+        }
+
+
         GameType gameType = challengeEvent.challenge().gameType();
+        long timeControlledGames = onlineGameMap.values()
+                .stream()
+                .filter(LichessTango::isTimeControlledGame)
+                .count();
 
-        long timeControlledGames = onlineGameMap.values().stream().filter(LichessTango::isTimeControlledGame).count();
-
-        return isVariantAcceptable(gameType.variant())                    // Chess variant
+        return isVariantAcceptable(gameType.variant())                // Chess variant
                 && isTimeControlAcceptable(gameType.timeControl())        // Time control
-                && timeControlledGames < MAX_SIMULTANEOUS_GAMES;         // Not busy..
+                && timeControlledGames < MAX_SIMULTANEOUS_GAMES          // Not busy..
+                && isChallengerAcceptable(challengerPlayer.get(), gameType.timeControl().speed());
+    }
+
+    private boolean isChallengerAcceptable(ChallengeInfo.Player player, Enums.Speed speed) {
+        if (player.user().titleOpt().isEmpty()) { // Quiere decir que es human - aceptamos en todos los casos
+            return true;
+        }
+
+        String userTitle = player.user().titleOpt().get();
+
+        StatsPerfType statsPerfType = switch (speed) {
+            case bullet -> StatsPerfType.bullet;
+            case blitz -> StatsPerfType.blitz;
+            case rapid -> StatsPerfType.rapid;
+            default -> null;
+        };
+
+        if (statsPerfType == null) {
+            return false;
+        }
+
+        int myRating = client.getRating(statsPerfType);
+
+        return "BOT".equals(userTitle) && player.rating() <= myRating + LichessChallenger.RATING_THRESHOLD;
     }
 
     private static boolean isVariantAcceptable(VariantType variant) {

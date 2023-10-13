@@ -43,20 +43,20 @@ public class LichessTango implements Runnable {
         this.tango.setListenerClient(new SearchListener() {
             @Override
             public void searchInfo(SearchInfo info) {
-                StringBuilder sb = new StringBuilder();
-                SearchMoveResult searchMoveResult = info.searchMoveResult();
-                List<Move> pv = searchMoveResult.getPrincipalVariation();
+                StringBuilder pvString = new StringBuilder();
+                SearchMoveResult searchResult = info.searchMoveResult();
+                List<Move> pv = searchResult.getPrincipalVariation();
                 for (Move move : pv) {
-                    sb.append(String.format("%s ", UCIEncoder.encode(move)));
+                    pvString.append(String.format("%s ", UCIEncoder.encode(move)));
                 }
 
-                logger.info("[{}] Depth {} seldepth {} pv {} evaluation {}", gameId, searchMoveResult.getDepth(), searchMoveResult.getDepth(), sb, searchMoveResult.getEvaluation());
+                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d",searchResult.getDepth()), String.format("%8d", searchResult.getEvaluation()), pvString);
             }
 
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
-                logger.info("[{}] Search finished", gameId);
                 String moveUci = UCIEncoder.encode(searchResult.getBestMove());
+                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
             }
         });
@@ -75,9 +75,9 @@ public class LichessTango implements Runnable {
 
         tango.open();
 
-        String polyglotBook = (String) properties.get("POLYGLOT_BOOK");
-        if (Objects.nonNull(polyglotBook)) {
-            tango.setPolyglotBook(polyglotBook);
+        String polyglotBookPath = (String) properties.get(LichessBotMain.POLYGLOT_BOOK);
+        if (Objects.nonNull(polyglotBookPath)) {
+            tango.setPolyglotBook(polyglotBookPath);
         }
 
         tango.newGame();

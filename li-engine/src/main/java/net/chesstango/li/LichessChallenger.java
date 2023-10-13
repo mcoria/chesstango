@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 public abstract class LichessChallenger {
+    public static final int RATING_THRESHOLD = 100;
     private final Queue<User> botsOnline = new LinkedList<>();
     private final LichessClient client;
     protected final List<Consumer<ChallengesAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
@@ -24,11 +25,11 @@ public abstract class LichessChallenger {
     public void challengeRandomBot() {
         User aBot = pickRandomBot();
         if (aBot != null) {
-            client.challengeBot(aBot, this::getBuilder);
+            client.challengeBot(aBot, this::consumeChallengeBuilder);
         }
     }
 
-    protected void getBuilder(ChallengesAuthCommon.ChallengeBuilder challengeBuilder) {
+    private void consumeChallengeBuilder(ChallengesAuthCommon.ChallengeBuilder challengeBuilder) {
         Consumer<ChallengesAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
         element.accept(challengeBuilder);
     }
@@ -40,7 +41,7 @@ public abstract class LichessChallenger {
             bots.stream().filter(bot -> {
                 StatsPerf stats = bot.ratings().get(getRatingType());
                 if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-                    return statsPerfGame.rating() >= rating - 100 && statsPerfGame.rating() <= rating + 300;
+                    return statsPerfGame.rating() >= rating - RATING_THRESHOLD && statsPerfGame.rating() <= rating + RATING_THRESHOLD;
                 }
                 return false;
             }).forEach(botsOnline::add);
