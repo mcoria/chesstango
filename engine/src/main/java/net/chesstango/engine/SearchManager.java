@@ -45,20 +45,20 @@ public final class SearchManager {
     }
 
     public void searchInfinite(Game game) {
-        searchImp(game, Integer.MAX_VALUE, 0, searchMoveResult -> true);
+        searchImp(game, Integer.MAX_VALUE, 0);
     }
 
     public void searchDepth(Game game, int depth) {
-        searchImp(game, depth, 0, searchMoveResult -> true);
+        searchImp(game, depth, 0);
     }
 
     public void searchTime(Game game, int timeOut) {
-        searchImp(game, Integer.MAX_VALUE, timeOut, searchMoveResult -> true);
+        searchImp(game, Integer.MAX_VALUE, timeOut);
     }
 
     public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
         final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        searchImp(game, Integer.MAX_VALUE, timeOut, searchInfo -> timeMgmt.timePredicate(searchInfo, timeOut));
+        searchImp(game, Integer.MAX_VALUE, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo));
     }
 
     public void reset() {
@@ -88,6 +88,10 @@ public final class SearchManager {
         searchManagerByBook.setParameter(SearchParameter.POLYGLOT_PATH, path);
     }
 
+    private void searchImp(Game game, int depth, int timeOut) {
+        searchImp(game, depth, timeOut, searchMoveResult -> true);
+    }
+
     private void searchImp(Game game, int depth, int timeOut, Predicate<SearchInfo> searchPredicate) {
         executorService.execute(() -> {
             try {
@@ -112,6 +116,4 @@ public final class SearchManager {
             }
         });
     }
-
-
 }

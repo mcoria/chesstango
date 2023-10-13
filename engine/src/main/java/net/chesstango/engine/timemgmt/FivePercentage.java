@@ -11,18 +11,15 @@ public class FivePercentage implements TimeMgmt {
     @Override
     public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
         return Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ?
-                calculateTime(wTime, wInc) : calculateTime(bTime, bInc);
+                calculateTimeOut(wTime, wInc) : calculateTimeOut(bTime, bInc);
     }
 
     @Override
-    public boolean timePredicate(SearchInfo searchInfo, int timeOut) {
-        if (timeOut - searchInfo.timeSearching() < searchInfo.timeSearchingLastDepth() * 2) {
-            return false;
-        }
-        return true;
+    public boolean keepSearching(int timeOut, SearchInfo searchInfo) {
+        return timeOut - searchInfo.timeSearching() >= searchInfo.timeSearchingLastDepth() * 2;
     }
 
-    protected int calculateTime(int time, int inc) {
+    protected int calculateTimeOut(int time, int inc) {
         int allocatedTime = time / 20 + inc / 2;
         if (allocatedTime > time) {
             return time / 20;

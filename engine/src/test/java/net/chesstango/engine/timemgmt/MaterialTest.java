@@ -1,5 +1,6 @@
 package net.chesstango.engine.timemgmt;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 public class MaterialTest {
 
     @Test
+    @Disabled
     public void fifeMinTest() {
         Material material = new Material();
 

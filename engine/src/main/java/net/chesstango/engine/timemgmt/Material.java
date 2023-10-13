@@ -23,7 +23,7 @@ public class Material implements TimeMgmt {
     }
 
     @Override
-    public boolean timePredicate(SearchInfo searchInfo, int timeOut) {
+    public boolean keepSearching(int timeOut, SearchInfo searchInfo) {
         return true;
     }
 
