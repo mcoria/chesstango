@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -44,20 +45,20 @@ public final class SearchManager {
     }
 
     public void searchInfinite(Game game) {
-        searchDepth(game, Integer.MAX_VALUE);
+        searchImp(game, Integer.MAX_VALUE, 0, searchMoveResult -> true);
     }
 
     public void searchDepth(Game game, int depth) {
-        searchImp(game, depth, 0);
+        searchImp(game, depth, 0, searchMoveResult -> true);
     }
 
     public void searchTime(Game game, int timeOut) {
-        searchImp(game, Integer.MAX_VALUE, timeOut);
+        searchImp(game, Integer.MAX_VALUE, timeOut, searchMoveResult -> true);
     }
 
     public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
-        int timeOut = timeMgmt.getSearchTime(game, wTime, bTime, wInc, bInc);
-        searchTime(game, timeOut);
+        int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
+        searchImp(game, Integer.MAX_VALUE, timeOut, timeMgmt::timePredicate);
     }
 
     public void reset() {
@@ -87,7 +88,7 @@ public final class SearchManager {
         searchManagerByBook.setParameter(SearchParameter.POLYGLOT_PATH, path);
     }
 
-    private void searchImp(Game game, int depth, int timeOut) {
+    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchMoveResult> searchPredicate) {
         executorService.execute(() -> {
             try {
                 listenerClient.searchStarted();
@@ -98,6 +99,7 @@ public final class SearchManager {
                 }
 
                 searchManagerChain.setParameter(SearchParameter.MAX_DEPTH, depth);
+                searchManagerChain.setParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
                 SearchMoveResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {

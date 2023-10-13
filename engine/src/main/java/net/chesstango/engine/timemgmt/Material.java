@@ -2,13 +2,14 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
 public class Material implements TimeMgmt {
     @Override
-    public int getSearchTime(Game game, int wTime, int bTime, int wInc, int bInc) {
+    public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
         int numberOfPieces = Long.bitCount(game.getChessPosition().getAllPositions());
 
         int time = 0;
@@ -19,6 +20,11 @@ public class Material implements TimeMgmt {
         }
 
         return time;
+    }
+
+    @Override
+    public boolean timePredicate(SearchMoveResult searchResult) {
+        return true;
     }
 
     protected int calculateTime(int time, int inc, int numberOfPieces) {
