@@ -6,7 +6,7 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.evaluators.*;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
-import net.chesstango.uci.arena.mathtypes.MatchByDepth;
+import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;

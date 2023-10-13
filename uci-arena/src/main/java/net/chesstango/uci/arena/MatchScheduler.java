@@ -1,12 +1,10 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.uci.arena.mathtypes.MatchByDepth;
-import net.chesstango.uci.arena.mathtypes.MatchType;
+import net.chesstango.uci.arena.matchtypes.MatchType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.protocol.requests.CmdGo;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.List;
