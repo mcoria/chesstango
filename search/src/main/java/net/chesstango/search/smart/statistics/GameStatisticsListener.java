@@ -12,7 +12,7 @@ public class GameStatisticsListener implements SearchLifeCycle {
     private GameStatistics gameStatistic;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         gameStatistic = (GameStatistics) game;
         gameStatistic.setExecutedMoves(0);
     }

@@ -8,6 +8,7 @@ import net.chesstango.search.smart.statistics.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -65,5 +66,4 @@ public class SearchMoveResult {
     public int getBestMovesCounter() {
         return bestMoves == null ? 1 : bestMoves.size();
     }
-
 }

@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -27,11 +25,5 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         this.searchMove = new IterativeDeepening(negaMaxPruning);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 }

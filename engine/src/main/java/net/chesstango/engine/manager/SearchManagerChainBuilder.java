@@ -32,7 +32,8 @@ public final class SearchManagerChainBuilder {
         SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
         SearchManagerByBook searchManagerByBook = null;
         if (searchByBookEnabled) {
-            searchManagerByBook = new SearchManagerByBook(searchManagerByAlgorithm);
+            searchManagerByBook = new SearchManagerByBook();
+            searchManagerByBook.setNext(searchManagerByAlgorithm);
         }
 
         return Objects.nonNull(searchManagerByBook) ? searchManagerByBook : searchManagerByAlgorithm;

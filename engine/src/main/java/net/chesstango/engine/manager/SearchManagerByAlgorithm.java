@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
+import net.chesstango.search.SearchParameter;
 
 /**
  * @author Mauricio Coria
@@ -24,6 +24,11 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        searchMove.setParameter(parameter, value);
+    }
+
+    @Override
     public void stopSearching() {
         searchMove.stopSearching();
     }
@@ -37,7 +42,7 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
-    public SearchMoveResult searchImp(Game game, int depth) {
-        return searchMove.search(game, depth);
+    public SearchMoveResult search(Game game) {
+        return searchMove.search(game);
     }
 }

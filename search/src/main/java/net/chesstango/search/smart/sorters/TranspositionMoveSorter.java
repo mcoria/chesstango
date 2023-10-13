@@ -8,7 +8,6 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class TranspositionMoveSorter implements MoveSorter {
     private TTable qMinMap;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

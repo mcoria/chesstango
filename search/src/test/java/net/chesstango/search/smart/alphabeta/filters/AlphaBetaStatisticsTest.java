@@ -1,32 +1,21 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
-import net.chesstango.search.reports.NodesReportModel;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -69,8 +58,9 @@ public class AlphaBetaStatisticsTest {
                 .build();
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
 
-        searchResult = moveFinder.search(game, 2);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -98,15 +88,16 @@ public class AlphaBetaStatisticsTest {
                 .build();
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
 
-        searchResult = moveFinder.search(game, 2);
+        searchResult = moveFinder.search(game);
 
         int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
         assertEquals(20, expectedNodesCounters[0]);
         assertEquals(400, expectedNodesCounters[1]);
-        assertEquals(420,expectedNodesCountersTotal);
+        assertEquals(420, expectedNodesCountersTotal);
     }
 
 
@@ -120,7 +111,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 2);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
+        searchResult = moveFinder.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }
@@ -135,7 +127,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 2);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -155,7 +148,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 2);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
+        searchResult = moveFinder.search(game);
 
         int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
@@ -163,7 +157,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(40, expectedNodesCounters[0]);
         assertEquals(400, expectedNodesCounters[1]);
         assertEquals(0, expectedNodesCounters[2]);
-        assertEquals(440,expectedNodesCountersTotal);
+        assertEquals(440, expectedNodesCountersTotal);
     }
 
 
@@ -178,7 +172,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 2);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 2);
+        searchResult = moveFinder.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }
@@ -192,7 +187,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 1);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
@@ -217,7 +213,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 1);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
@@ -248,7 +245,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 1);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -275,7 +273,8 @@ public class AlphaBetaStatisticsTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchResult = moveFinder.search(game, 1);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchResult = moveFinder.search(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();

@@ -40,7 +40,7 @@ public class IterativeDeepeningTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = iterativeDeepening.search(game, 1);
+        SearchMoveResult searchResult = iterativeDeepening.search(game);
         Move bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().getSquare());
         assertEquals(Square.e4, bestMove.getTo().getSquare());
@@ -52,7 +52,7 @@ public class IterativeDeepeningTest {
          * Repetimos la busqueda en depth = 3, acá la evaluacion de todos los movimientos es la misma.
          * Lo que queremos es priorizar aquellos movimientos que tempranamente se encontraron en profundidades anteriores.
          */
-        searchResult = iterativeDeepening.search(game, 3);
+        searchResult = iterativeDeepening.search(game);
         bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().getSquare());
         assertEquals(Square.e4, bestMove.getTo().getSquare());

@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -49,7 +48,7 @@ public class AlphaBetaStopTest {
 
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                return search.search(game, 10);
+                return search.search(game);
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);
                 throw e;

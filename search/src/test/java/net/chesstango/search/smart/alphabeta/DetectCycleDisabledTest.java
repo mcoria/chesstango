@@ -7,6 +7,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
@@ -118,7 +119,11 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 23);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 23);
+        SearchMoveResult searchResult = searchMove
+                .search(game);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -172,7 +177,11 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 17);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 17);
+        SearchMoveResult searchResult = searchMove
+                .search(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -219,7 +228,11 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 3);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 3);
+        SearchMoveResult searchResult = searchMove
+                .search(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -251,7 +264,11 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game, 4);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 4);
+        SearchMoveResult searchResult = searchMove
+                .search(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

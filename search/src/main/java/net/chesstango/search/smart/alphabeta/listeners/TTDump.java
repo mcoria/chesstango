@@ -28,7 +28,7 @@ public class TTDump implements SearchLifeCycle {
     private boolean initialStateDumped = false;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         this.game = game;
     }
 

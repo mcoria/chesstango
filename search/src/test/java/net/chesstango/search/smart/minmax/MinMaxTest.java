@@ -94,7 +94,7 @@ public class MinMaxTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        minMax.beforeSearch(game, depth);
+        minMax.beforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 

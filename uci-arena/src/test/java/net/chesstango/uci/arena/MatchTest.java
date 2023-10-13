@@ -4,7 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
-import net.chesstango.uci.arena.mathtypes.MatchByDepth;
+import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
 import org.junit.jupiter.api.AfterEach;

@@ -5,7 +5,6 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.ArrayTTable;
-import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
@@ -26,7 +25,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
     }
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
     }
 
     @Override

@@ -1,8 +1,10 @@
-package net.chesstango.search.smart.statistics;
+package net.chesstango.search.smart;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
+import net.chesstango.search.smart.statistics.GameStatistics;
 
 /**
  * @author Mauricio Coria
@@ -15,8 +17,8 @@ public class IterativeWrapper implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult search(Game game, int depth) {
-        return imp.search(new GameStatistics(game), depth);
+    public SearchMoveResult search(Game game) {
+        return imp.search(new GameStatistics(game));
     }
 
     @Override
@@ -27,5 +29,10 @@ public class IterativeWrapper implements SearchMove {
     @Override
     public void reset() {
         imp.reset();
+    }
+
+    @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+        imp.setParameter(parameter, value);
     }
 }

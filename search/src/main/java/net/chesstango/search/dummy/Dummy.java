@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Dummy implements SearchMove {
 
     @Override
-    public SearchMoveResult search(Game game, int depth) {
+    public SearchMoveResult search(Game game) {
         Iterable<Move> moves = game.getPossibleMoves();
 
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
@@ -33,7 +34,7 @@ public class Dummy implements SearchMove {
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-        return new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+        return new SearchMoveResult(1, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
     }
 
     @Override
@@ -44,5 +45,8 @@ public class Dummy implements SearchMove {
     public void reset() {
     }
 
+    @Override
+    public void setParameter(SearchParameter parameter, Object value) {
+    }
 
 }

@@ -75,7 +75,7 @@ public class TranspositionEntryMoveSorterTest {
     }
 
     private void initMoveSorter(Game game) {
-        moveSorter.beforeSearch(game, 1);
+        moveSorter.beforeSearch(game);
 
         SearchContext context = new SearchContext(1);
         context.setMaxMap(maxMap);

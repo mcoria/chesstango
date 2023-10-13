@@ -19,8 +19,6 @@ import java.util.Arrays;
  */
 public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
-    private SearchMove searchMove;
-
     @BeforeEach
     public void setup() {
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
@@ -47,11 +45,5 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
-    }
-
-
-    @Override
-    public SearchMove getBestMoveFinder() {
-        return searchMove;
     }
 }

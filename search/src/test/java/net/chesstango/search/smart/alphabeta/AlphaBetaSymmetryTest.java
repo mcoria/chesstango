@@ -30,7 +30,7 @@ public class AlphaBetaSymmetryTest {
 
         SearchMove search = buildSearch();
 
-        SearchMoveResult searchResult = search.search(game, 4);
+        SearchMoveResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -48,7 +48,7 @@ public class AlphaBetaSymmetryTest {
 
         SearchMove searchMirror = buildSearch();
 
-        SearchMoveResult searchResultMirror = searchMirror.search(mirrorGame, 4);
+        SearchMoveResult searchResultMirror = searchMirror.search(mirrorGame);
 
         Move smartMoveMirror = searchResultMirror.getBestMove();
 

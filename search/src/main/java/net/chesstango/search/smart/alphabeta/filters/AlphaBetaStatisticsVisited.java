@@ -14,7 +14,7 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter {
     private int[] visitedNodesCounters;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
     }
 
     @Override

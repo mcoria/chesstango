@@ -31,7 +31,7 @@ public class MoveTracker implements AlphaBetaFilter {
     private List<MoveEvaluation> currentMoveEvaluations;
 
     @Override
-    public void beforeSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game) {
         currentMoveEvaluations = null;
     }
 

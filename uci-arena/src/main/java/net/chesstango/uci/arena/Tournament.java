@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.mathtypes.MatchType;
+import net.chesstango.uci.arena.matchtypes.MatchType;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.ArrayList;
