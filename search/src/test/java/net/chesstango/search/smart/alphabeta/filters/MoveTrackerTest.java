@@ -4,7 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
@@ -69,7 +71,9 @@ public class MoveTrackerTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game);
+        SearchMove searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
+        SearchMoveResult searchResult = searchMove.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }
@@ -78,7 +82,9 @@ public class MoveTrackerTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBetaFacade).search(game);
+        SearchMove searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
+        SearchMoveResult searchResult = searchMove.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
     }

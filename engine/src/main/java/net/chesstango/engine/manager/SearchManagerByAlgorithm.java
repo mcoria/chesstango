@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 
 /**
  * @author Mauricio Coria
@@ -37,6 +38,7 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
 
     @Override
     public SearchMoveResult searchImp(Game game, int depth) {
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, depth);
         return searchMove.search(game);
     }
 }

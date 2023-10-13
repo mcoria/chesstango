@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 import static net.chesstango.search.SearchParameter.SEARCH_PREDICATE;
 
 /**
@@ -22,8 +23,8 @@ public class IterativeDeepening implements SearchMove {
     private volatile CountDownLatch countDownLatch;
     private final SearchSmart searchSmart;
     private Consumer<SearchInfo> searchStatusListener;
-
-    private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> searchMoveResult.getDepth() == 1;
+    private int maxDepth = Integer.MAX_VALUE;
+    private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
 
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;
@@ -69,7 +70,7 @@ public class IterativeDeepening implements SearchMove {
             countDownLatch.countDown();
             currentSearchDepth++;
 
-        } while (keepProcessing && searchPredicate.test(searchResult));
+        } while (keepProcessing && currentSearchDepth <= maxDepth && searchPredicate.test(searchResult));
 
         searchSmart.afterSearch(searchResult);
 
@@ -106,6 +107,8 @@ public class IterativeDeepening implements SearchMove {
     public void setParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
             this.searchPredicate = (Predicate<SearchMoveResult>) searchPredicateArg;
+        } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
+            this.maxDepth = maxDepthParam;
         }
     }
 

@@ -32,7 +32,7 @@ public class NegaMaxPruning implements SearchSmart {
     @Override
     public SearchMoveResult search(SearchContext context) {
         this.keepProcessing = true;
-        this.visitedNodesCounter = new int[context.getMaxPly()];
+        this.visitedNodesCounter = new int[30];
 
         this.moveSorter.beforeSearchByDepth(context);
 

@@ -10,6 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchParameter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,6 +50,7 @@ public abstract class GenericTest {
     @Test
     public void testDeterministicMove() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
         Move bestMove = searchMove.search(game).getBestMove();
 
         Game gameMirror = game.mirror();

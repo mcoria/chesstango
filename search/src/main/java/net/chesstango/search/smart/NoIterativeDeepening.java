@@ -13,7 +13,7 @@ import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 public class NoIterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
 
-    private int maxDepth = 1;
+    private int maxDepth = Integer.MAX_VALUE;
 
     public NoIterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;

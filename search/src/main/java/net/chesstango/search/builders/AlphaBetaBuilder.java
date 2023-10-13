@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
-import net.chesstango.search.IterativeWrapper;
+import net.chesstango.search.smart.IterativeWrapper;
 
 import java.util.LinkedList;
 import java.util.List;

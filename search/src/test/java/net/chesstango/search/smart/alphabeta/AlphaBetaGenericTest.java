@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
@@ -44,5 +45,6 @@ public class AlphaBetaGenericTest extends GenericTest {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
+        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
     }
 }

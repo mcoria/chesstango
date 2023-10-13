@@ -122,7 +122,7 @@ public class EpdSearch {
 
         Instant start = Instant.now();
 
-        searchMove.setParameter(SearchParameter.SEARCH_PREDICATE, SearchMoveResult.maxDepthPredicate(depth));
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, depth);
         SearchMoveResult searchResult = searchMove.search(epdEntry.game);
 
         long duration = Duration.between(start, Instant.now()).toMillis();

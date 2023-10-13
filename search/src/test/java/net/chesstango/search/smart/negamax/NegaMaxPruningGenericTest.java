@@ -2,6 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -25,6 +26,7 @@ public class NegaMaxPruningGenericTest extends GenericTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         this.searchMove = new NoIterativeDeepening(negaMaxPruning);
+        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
     }
 
 }

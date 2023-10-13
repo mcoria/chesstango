@@ -66,8 +66,4 @@ public class SearchMoveResult {
     public int getBestMovesCounter() {
         return bestMoves == null ? 1 : bestMoves.size();
     }
-
-    public static Predicate<SearchMoveResult> maxDepthPredicate(int depth) {
-        return searchMoveResult -> searchMoveResult.getDepth() < depth;
-    }
 }
