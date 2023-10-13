@@ -198,19 +198,20 @@ public class DetectCycleDisabledTest {
         assertEquals(11, visitedNodesCounters[4]);
         assertEquals(15, visitedNodesCounters[5]);
         assertEquals(23, visitedNodesCounters[6]);
-        assertEquals(31, visitedNodesCounters[7]);
-        assertEquals(22, visitedNodesCounters[8]);
-        assertEquals(20, visitedNodesCounters[9]);
-        assertEquals(22, visitedNodesCounters[10]);
-        assertEquals(20, visitedNodesCounters[11]);
-        assertEquals(20, visitedNodesCounters[12]);
-        assertEquals(16, visitedNodesCounters[13]);
-        assertEquals(10, visitedNodesCounters[14]);
-        assertEquals(4, visitedNodesCounters[15]);
-        assertEquals(0, visitedNodesCounters[16]);
+        assertEquals(33, visitedNodesCounters[7]);
+        assertEquals(47, visitedNodesCounters[8]);
+        assertEquals(73, visitedNodesCounters[9]);
+        assertEquals(100, visitedNodesCounters[10]);
+        assertEquals(139, visitedNodesCounters[11]);
+        assertEquals(188, visitedNodesCounters[12]);
+        assertEquals(292, visitedNodesCounters[13]);
+        assertEquals(401, visitedNodesCounters[14]);
+        assertEquals(609, visitedNodesCounters[15]);
+        assertEquals(694, visitedNodesCounters[16]);
+        assertEquals(0, visitedNodesCounters[17]);
 
 
-        assertEquals(231, visitedNodesTotal);
+        assertEquals(2642, visitedNodesTotal);
     }
 
     @Test
