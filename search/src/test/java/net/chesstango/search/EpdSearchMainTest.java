@@ -3,7 +3,6 @@ package net.chesstango.search;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
@@ -256,7 +255,8 @@ public class EpdSearchMainTest {
 
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
+                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluatorCache()
 
                 .withQuiescence()
 

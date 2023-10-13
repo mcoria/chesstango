@@ -9,5 +9,7 @@ import net.chesstango.search.SearchMove;
 public interface SearchBuilder {
     SearchBuilder withGameEvaluator(GameEvaluator gameEvaluator);
 
+    <T extends SearchBuilder> T withGameEvaluatorCache();
+
     SearchMove build();
 }

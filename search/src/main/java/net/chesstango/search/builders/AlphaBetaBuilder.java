@@ -2,16 +2,20 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.IterativeWrapper;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.*;
+import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
+import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
-import net.chesstango.search.smart.IterativeWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +38,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withTranspositionTable;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
+    private boolean withGameEvaluatorCache;
 
 
     public AlphaBetaBuilder() {
@@ -51,6 +56,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
     @Override
     public AlphaBetaBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
+        return this;
+    }
+
+    @Override
+    public AlphaBetaBuilder withGameEvaluatorCache() {
+        this.withGameEvaluatorCache = true;
         return this;
     }
 
@@ -156,6 +167,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     private void buildObjects() {
+        if (withGameEvaluatorCache) {
+            gameEvaluator = new GameEvaluatorCache(gameEvaluator);
+        }
+
         if (withStatistics) {
             gameEvaluator = new EvaluatorStatistics(gameEvaluator)
                     .setTrackEvaluations(withTrackEvaluations);

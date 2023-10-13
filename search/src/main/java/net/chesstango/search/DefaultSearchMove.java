@@ -3,7 +3,6 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
 /**
@@ -19,7 +18,9 @@ public class DefaultSearchMove implements SearchMove {
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
         this.imp = new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(gameEvaluator))
+                .withGameEvaluator(gameEvaluator)
+
+                .withGameEvaluatorCache()
 
                 .withQuiescence()
 

@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +140,8 @@ public class EpdSearch {
 
     private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new DefaultEvaluator()))
+                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluatorCache()
 
                 .withQuiescence()
 
