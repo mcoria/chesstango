@@ -23,6 +23,10 @@ public class FivePercentage implements TimeMgmt {
     }
 
     protected int calculateTime(int time, int inc) {
-        return time / 20 + inc / 2;
+        int allocatedTime = time / 20 + inc / 2;
+        if (allocatedTime > time) {
+            return time / 20;
+        }
+        return allocatedTime;
     }
 }
