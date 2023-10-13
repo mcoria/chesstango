@@ -40,7 +40,7 @@ public class PositionAnalyzer {
                 gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
             } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
                 int repetitionCounter = getRepetitionCounter();
-                if (repetitionCounter >= 2) {
+                if (repetitionCounter >= 3) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
