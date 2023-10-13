@@ -57,8 +57,8 @@ public final class SearchManager {
     }
 
     public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
-        int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        searchImp(game, Integer.MAX_VALUE, timeOut, timeMgmt::timePredicate);
+        final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
+        searchImp(game, Integer.MAX_VALUE, timeOut, searchInfo -> timeMgmt.timePredicate(searchInfo, timeOut));
     }
 
     public void reset() {
@@ -88,7 +88,7 @@ public final class SearchManager {
         searchManagerByBook.setParameter(SearchParameter.POLYGLOT_PATH, path);
     }
 
-    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchMoveResult> searchPredicate) {
+    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchInfo> searchPredicate) {
         executorService.execute(() -> {
             try {
                 listenerClient.searchStarted();

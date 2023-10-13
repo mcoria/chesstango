@@ -2,7 +2,7 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchInfo;
 
 /**
  * @author Mauricio Coria
@@ -13,7 +13,7 @@ public class Material implements TimeMgmt {
         int numberOfPieces = Long.bitCount(game.getChessPosition().getAllPositions());
 
         int time = 0;
-        if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())){
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             time = calculateTime(wTime, wInc, numberOfPieces);
         } else {
             time = calculateTime(bTime, bInc, numberOfPieces);
@@ -23,7 +23,7 @@ public class Material implements TimeMgmt {
     }
 
     @Override
-    public boolean timePredicate(SearchMoveResult searchResult) {
+    public boolean timePredicate(SearchInfo searchInfo, int timeOut) {
         return true;
     }
 

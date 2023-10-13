@@ -7,6 +7,8 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
@@ -24,7 +26,7 @@ public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
     private Consumer<SearchInfo> searchStatusListener;
     private int maxDepth = Integer.MAX_VALUE;
-    private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
+    private Predicate<SearchInfo> searchPredicate = searchMoveResult -> true;
 
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;
@@ -40,9 +42,12 @@ public class IterativeDeepening implements SearchMove {
         searchSmart.beforeSearch(game);
 
         int currentSearchDepth = 1;
+        SearchInfo searchInfo = null;
         SearchMoveResult searchResult = null;
 
+        Instant startInstant = Instant.now();
         do {
+            Instant startDepthInstant = Instant.now();
 
             SearchContext context = new SearchContext(currentSearchDepth);
 
@@ -58,8 +63,10 @@ public class IterativeDeepening implements SearchMove {
 
             bestMovesByDepth.add(searchResult);
 
+            Instant endDepthInstant = Instant.now();
+
+            searchInfo = new SearchInfo(searchResult, Duration.between(startInstant, endDepthInstant).toMillis(), Duration.between(startDepthInstant, endDepthInstant).toMillis());
             if (searchStatusListener != null) {
-                SearchInfo searchInfo = new SearchInfo(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
                 searchStatusListener.accept(searchInfo);
             }
 
@@ -70,7 +77,7 @@ public class IterativeDeepening implements SearchMove {
             countDownLatch.countDown();
             currentSearchDepth++;
 
-        } while (keepProcessing && currentSearchDepth <= maxDepth && searchPredicate.test(searchResult));
+        } while (keepProcessing && currentSearchDepth <= maxDepth && searchPredicate.test(searchInfo));
 
         searchSmart.afterSearch(searchResult);
 
@@ -106,7 +113,7 @@ public class IterativeDeepening implements SearchMove {
     @Override
     public void setParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicate = (Predicate<SearchMoveResult>) searchPredicateArg;
+            this.searchPredicate = (Predicate<SearchInfo>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
         }

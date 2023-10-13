@@ -39,6 +39,7 @@ public final class SearchManagerByBook implements SearchManagerChain {
         if (POLYGLOT_PATH.equals(parameter) && value instanceof String path) {
             book.load(Path.of(path));
         }
+        next.setParameter(parameter, value);
     }
 
     @Override

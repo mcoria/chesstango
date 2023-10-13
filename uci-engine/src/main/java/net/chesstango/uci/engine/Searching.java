@@ -10,6 +10,8 @@ import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspInfo;
 
+import java.util.List;
+
 /**
  * @author Mauricio Coria
  */
@@ -62,11 +64,13 @@ class Searching implements UCIEngine, SearchListener {
     @Override
     public void searchInfo(SearchInfo info) {
         StringBuilder sb = new StringBuilder();
-        for (Move move : info.pv()) {
+        SearchMoveResult searchMoveResult = info.searchMoveResult();
+        List<Move> pv = searchMoveResult.getPrincipalVariation();
+        for (Move move : pv) {
             sb.append(String.format("%s ", UCIEncoder.encode(move)));
         }
 
-        String infoStr = String.format("depth %d seldepth %d pv %s", info.depth(), info.selDepth(), sb);
+        String infoStr = String.format("depth %d seldepth %d pv %s", searchMoveResult.getDepth(), searchMoveResult.getDepth(), sb);
 
         uciTango.reply(new RspInfo(infoStr));
     }

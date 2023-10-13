@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -43,11 +44,13 @@ public class LichessTango implements Runnable {
             @Override
             public void searchInfo(SearchInfo info) {
                 StringBuilder sb = new StringBuilder();
-                for (Move move : info.pv()) {
+                SearchMoveResult searchMoveResult = info.searchMoveResult();
+                List<Move> pv = searchMoveResult.getPrincipalVariation();
+                for (Move move : pv) {
                     sb.append(String.format("%s ", UCIEncoder.encode(move)));
                 }
 
-                logger.info("[{}] Depth {} seldepth {} pv {}", gameId, info.depth(), info.selDepth(), sb);
+                logger.info("[{}] Depth {} seldepth {} pv {} evaluation {}", gameId, searchMoveResult.getDepth(), searchMoveResult.getDepth(), sb, searchMoveResult.getEvaluation());
             }
 
             @Override
@@ -73,7 +76,7 @@ public class LichessTango implements Runnable {
         tango.open();
 
         String polyglotBook = (String) properties.get("POLYGLOT_BOOK");
-        if(Objects.nonNull(polyglotBook) ){
+        if (Objects.nonNull(polyglotBook)) {
             tango.setPolyglotBook(polyglotBook);
         }
 
