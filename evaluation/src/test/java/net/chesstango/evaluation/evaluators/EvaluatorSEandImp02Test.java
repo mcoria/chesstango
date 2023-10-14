@@ -23,7 +23,10 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
     }
 
     @Override
-    protected AbstractEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator(Game game) {
+        if (game != null) {
+            evaluator.setGame(game);
+        }
         return evaluator;
     }
 
@@ -47,8 +50,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
         assertEquals(50, PAWN_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(50, PAWN_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(PAWN_WHITE_VALUES.length == 64 );
-        assertTrue(PAWN_BLACK_VALUES.length == 64 );
+        assertTrue(PAWN_WHITE_VALUES.length == 64);
+        assertTrue(PAWN_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             assertEquals(PAWN_WHITE_VALUES[square.toIdx()], -PAWN_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -75,8 +78,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
         assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(KNIGHT_WHITE_VALUES.length == 64 );
-        assertTrue(KNIGHT_BLACK_VALUES.length == 64 );
+        assertTrue(KNIGHT_WHITE_VALUES.length == 64);
+        assertTrue(KNIGHT_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, KNIGHT_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), KNIGHT_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -105,8 +108,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
         assertEquals(0, BISHOP_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(-10, BISHOP_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(BISHOP_WHITE_VALUES.length == 64 );
-        assertTrue(BISHOP_BLACK_VALUES.length == 64 );
+        assertTrue(BISHOP_WHITE_VALUES.length == 64);
+        assertTrue(BISHOP_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, BISHOPS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), BISHOPS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -134,8 +137,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
         assertEquals(10, ROOK_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(5, ROOK_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(ROOK_WHITE_VALUES.length == 64 );
-        assertTrue(ROOK_BLACK_VALUES.length == 64 );
+        assertTrue(ROOK_WHITE_VALUES.length == 64);
+        assertTrue(ROOK_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -165,8 +168,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
         assertEquals(-10, QUEEN_WHITE_VALUES[Square.h7.toIdx()]);
 
 
-        assertTrue(QUEEN_WHITE_VALUES.length == 64 );
-        assertTrue(QUEEN_BLACK_VALUES.length == 64 );
+        assertTrue(QUEEN_WHITE_VALUES.length == 64);
+        assertTrue(QUEEN_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, QUEENS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), QUEENS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -206,9 +209,8 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
          */
 
 
-
-        assertTrue(KING_WHITE_VALUES.length == 64 );
-        assertTrue(KING_BLACK_VALUES.length == 64 );
+        assertTrue(KING_WHITE_VALUES.length == 64);
+        assertTrue(KING_BLACK_VALUES.length == 64);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -219,19 +221,23 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
     @Test
     public void testEvaluateByPosition() {
         Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
-        assertEquals(-90, evaluator.evaluateByPosition(game));
+        evaluator.setGame(game);
+        assertEquals(-90, evaluator.evaluateByPosition());
 
         Game gameMirror = game.mirror();
-        assertEquals(90, evaluator.evaluateByPosition(gameMirror));
+        evaluator.setGame(gameMirror);
+        assertEquals(90, evaluator.evaluateByPosition());
     }
 
     @Test
     public void testEvaluateSymmetric01() {
         Game game = FENDecoder.loadGame("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
-        assertEquals(0, evaluator.evaluate(game));
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluate());
 
         Game gameMirror = game.mirror();
-        assertEquals(0, evaluator.evaluateByPosition(gameMirror));
+        evaluator.setGame(gameMirror);
+        assertEquals(0, evaluator.evaluateByPosition());
     }
 
 

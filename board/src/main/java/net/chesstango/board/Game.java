@@ -8,14 +8,12 @@ import net.chesstango.board.position.ChessPositionReader;
  * @author Mauricio Coria
  *
  */
-public interface Game {
+public interface Game extends GameVisitorAcceptor{
     String getInitialFen();
 
     Game executeMove(Move move);
 
     Game undoMove();
-
-    <V extends GameVisitor> V accept(V gameVisitor);
 
     GameStateReader getState();
 
@@ -38,8 +36,6 @@ public interface Game {
 
     Game executeMove(Square from, Square to, Piece promotionPiece);
     //*******
-
-    <T> T getObject(Class<T> theClass);
 
     Game mirror();
 }

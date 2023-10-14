@@ -55,11 +55,11 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
 
         if (isCurrentPositionQuiet()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -71,11 +71,11 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
 
         if (isCurrentPositionQuiet()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
 
         return next.minimize(currentPly, alpha, beta);

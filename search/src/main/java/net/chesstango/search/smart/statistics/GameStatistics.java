@@ -17,7 +17,7 @@ public class GameStatistics implements Game {
     @Getter
     private int executedMoves;
 
-    public GameStatistics(Game imp){
+    public GameStatistics(Game imp) {
         this.imp = imp;
     }
 
@@ -49,9 +49,10 @@ public class GameStatistics implements Game {
         return this;
     }
 
+
     @Override
-    public <V extends GameVisitor> V accept(V gameVisitor) {
-        return imp.accept(gameVisitor);
+    public void accept(GameVisitor visitor) {
+        imp.accept(visitor);
     }
 
     @Override
@@ -96,11 +97,6 @@ public class GameStatistics implements Game {
         executedMoves++;
         imp = imp.executeMove(from, to, promotionPiece);
         return this;
-    }
-
-    @Override
-    public <T> T getObject(Class<T> theClass) {
-        return imp.getObject(theClass);
     }
 
     @Override

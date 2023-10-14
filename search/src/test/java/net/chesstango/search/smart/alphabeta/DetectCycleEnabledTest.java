@@ -12,6 +12,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,7 @@ public class DetectCycleEnabledTest {
         AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         transpositionTable.setNext(alphaBetaStatisticsExpected);
 
@@ -64,6 +66,8 @@ public class DetectCycleEnabledTest {
 
         quiescence.setGameEvaluator(evaluator);
 
+        setupGameEvaluator.setGameEvaluator(evaluator);
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatisticsExpected);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(
@@ -75,7 +79,8 @@ public class DetectCycleEnabledTest {
                 quiescence,
                 transpositionTable,
                 moveSorter,
-                alphaBetaFlowControl));
+                alphaBetaFlowControl,
+                setupGameEvaluator));
     }
 
 

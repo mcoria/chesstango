@@ -29,7 +29,7 @@ public class EvaluatorImp01 extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -40,13 +40,13 @@ public class EvaluatorImp01 extends AbstractEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += material * 10 * evaluateByMaterial(game);
-                evaluation += evaluateByMoves(game);
+                evaluation += material * 10 * evaluateByMaterial();
+                evaluation += evaluateByMoves();
         }
         return evaluation;
     }
 
-    protected int evaluateByMoves(final Game game) {
+    protected int evaluateByMoves() {
         int evaluation = 0;
         Set<Square> origenes = new HashSet<>();
         Set<Square> territorioExpansion = new HashSet<>();

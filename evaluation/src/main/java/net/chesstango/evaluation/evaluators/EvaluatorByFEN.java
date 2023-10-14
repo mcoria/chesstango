@@ -16,8 +16,15 @@ public class EvaluatorByFEN implements GameEvaluator {
     private int defaultValue;
     private Map<String, Integer> evaluations = new HashMap<>();
 
+    private Game game;
+
     @Override
-    public int evaluate(final Game game) {
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public int evaluate() {
         return game.getStatus().isFinalStatus() ? evaluateFinalStatus(game) : evaluateNonFinalStatus(game);
     }
 

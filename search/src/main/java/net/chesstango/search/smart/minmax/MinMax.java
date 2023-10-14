@@ -85,7 +85,7 @@ public class MinMax implements SearchSmart {
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            betterEvaluation = evaluator.evaluate(game);
+            betterEvaluation = evaluator.evaluate();
         } else {
             for (Move move : game.getPossibleMoves()) {
                 game = game.executeMove(move);
@@ -112,6 +112,7 @@ public class MinMax implements SearchSmart {
         this.game = game;
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
+        this.evaluator.setGame(game);
     }
 
     @Override

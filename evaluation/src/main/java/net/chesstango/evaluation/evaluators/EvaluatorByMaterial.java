@@ -1,6 +1,5 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 
 /**
@@ -8,7 +7,7 @@ import net.chesstango.board.Piece;
  */
 public class EvaluatorByMaterial extends AbstractEvaluator {
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -17,7 +16,7 @@ public class EvaluatorByMaterial extends AbstractEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation = evaluateByMaterial(game);
+                evaluation = evaluateByMaterial();
         }
         return evaluation;
     }

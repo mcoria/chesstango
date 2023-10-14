@@ -8,6 +8,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         Quiescence quiescence = new Quiescence();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
@@ -40,9 +42,11 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         quiescence.setMoveSorter(moveSorter);
         quiescence.setNext(quiescence);
 
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
     }

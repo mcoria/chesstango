@@ -20,7 +20,7 @@ public class NegaQuiescence {
     public int quiescenceMax(final Game game, final int alpha, final int beta) {
         boolean search = true;
 
-        int maxValue = evaluator.evaluate(game);
+        int maxValue = evaluator.evaluate();
 
         if (maxValue >= beta) {
             return maxValue;
@@ -55,5 +55,9 @@ public class NegaQuiescence {
 
     public void setMoveSorter(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
+    }
+
+    public void setupGameEvaluator(Game game) {
+        this.evaluator.setGame(game);
     }
 }

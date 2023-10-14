@@ -222,8 +222,10 @@ public class PeSTO implements GameEvaluator {
         }
     }
 
+    protected Game game;
+
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -235,6 +237,11 @@ public class PeSTO implements GameEvaluator {
                 evaluation = peStoEvaluate(game);
         }
         return evaluation;
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
     }
 
 

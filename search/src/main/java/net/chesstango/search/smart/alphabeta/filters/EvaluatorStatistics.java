@@ -26,6 +26,7 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
     @Setter
     @Accessors(chain = true)
     private boolean trackEvaluations;
+    private Game game;
 
 
     public EvaluatorStatistics(GameEvaluator gameEvaluator) {
@@ -34,14 +35,20 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
     }
 
     @Override
-    public int evaluate(Game game) {
+    public int evaluate() {
         evaluationsCounter++;
-        int evaluation = imp.evaluate(game);
+        int evaluation = imp.evaluate();
         if (trackEvaluations) {
             long hash = game.getChessPosition().getZobristHash();
             evaluations.add(new EvaluationEntry(hash, evaluation));
         }
         return evaluation;
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+        imp.setGame(game);
     }
 
     @Override

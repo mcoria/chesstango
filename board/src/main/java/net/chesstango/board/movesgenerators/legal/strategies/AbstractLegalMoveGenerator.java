@@ -27,7 +27,9 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	
 	protected final MoveFilter filter;
 	
-	public AbstractLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
+	public AbstractLegalMoveGenerator(ChessPositionReader positionReader,
+									  MoveGenerator strategy,
+									  MoveFilter filter) {
 		this.positionReader = positionReader;
 		this.pseudoMovesGenerator = strategy;
 		this.filter = filter;

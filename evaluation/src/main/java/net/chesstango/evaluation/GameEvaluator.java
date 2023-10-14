@@ -20,6 +20,8 @@ public interface GameEvaluator {
     int BLACK_LOST = WHITE_WON;
 
 
-    int evaluate(final Game game);
+    int evaluate();
+
+    void setGame(Game game);
 
 }

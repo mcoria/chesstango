@@ -18,7 +18,8 @@ import java.util.Collection;
 public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
 	public CheckLegalMoveGenerator(ChessPositionReader positionReader,
-                                   MoveGenerator strategy, MoveFilter filter) {
+                                   MoveGenerator strategy,
+								   MoveFilter filter) {
 		super(positionReader, strategy, filter);
 	}	
 

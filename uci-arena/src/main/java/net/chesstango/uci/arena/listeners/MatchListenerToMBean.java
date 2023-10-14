@@ -7,8 +7,8 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
-import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.MatchListener;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.util.ArrayList;
@@ -48,12 +48,9 @@ public class MatchListenerToMBean implements MatchListener {
     @Override
     public void notifyMove(Game game, Move move) {
         List<String> theMoves = new ArrayList<>();
-        game.accept(gameState -> {
-            Move move1 = gameState.getSelectedMove();
-            if (move1 != null) {
-                theMoves.add(encodeMove(move1));
-            }
-        });
+
+        //Arreglarlo
+        game.accept(null);
 
         String[] arrayMoveStr = theMoves.toArray(new String[theMoves.size()]);
 

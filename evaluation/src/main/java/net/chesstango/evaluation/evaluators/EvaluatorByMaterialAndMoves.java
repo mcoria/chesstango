@@ -1,7 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 
 /**
@@ -23,7 +22,7 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -32,7 +31,7 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation += material * evaluateByMaterial(game);
+                evaluation += material * evaluateByMaterial();
                 evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
         }
         return evaluation;

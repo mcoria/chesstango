@@ -11,10 +11,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
-import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.statistics.GameStatisticsListener;
 
 import java.util.LinkedList;
@@ -32,6 +29,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetPrincipalVariation setPrincipalVariation;
     private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
+
+    private SetupGameEvaluator setupGameEvaluator;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -191,6 +190,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         setPrincipalVariation = new SetPrincipalVariation();
 
         setBestMoves = new SetBestMoves();
+
+        setupGameEvaluator = new SetupGameEvaluator();
     }
 
 
@@ -215,11 +216,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         filterActions.add(setBestMoves);
 
+        filterActions.add(setupGameEvaluator);
+
         return filterActions;
     }
 
 
     private AlphaBetaFilter createChain(List<SearchLifeCycle> searchActions) {
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         quiescenceChainBuilder.withFilterActions(searchActions);
         quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
         AlphaBetaFilter quiescenceChain = quiescenceChainBuilder.build();

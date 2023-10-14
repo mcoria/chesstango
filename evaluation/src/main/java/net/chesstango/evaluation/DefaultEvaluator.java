@@ -10,8 +10,14 @@ public class DefaultEvaluator implements GameEvaluator {
 
     private GameEvaluator imp = new EvaluatorSEandImp02();
 
+
     @Override
-    public int evaluate(Game game) {
-        return imp.evaluate(game);
+    public void setGame(Game game) {
+        imp.setGame(game);
+    }
+
+    @Override
+    public int evaluate() {
+        return imp.evaluate();
     }
 }

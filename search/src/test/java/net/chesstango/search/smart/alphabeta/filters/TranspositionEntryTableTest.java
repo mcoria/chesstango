@@ -13,6 +13,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
@@ -126,6 +127,7 @@ public class TranspositionEntryTableTest {
         AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
         AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaStatisticsExpected.setNext(alphaBeta);
 
@@ -138,6 +140,8 @@ public class TranspositionEntryTableTest {
         alphaBetaFlowControl.setQuiescence(quiescenceNull);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setSearchActions(Arrays.asList(
                 new SetTranspositionTables(),
@@ -148,7 +152,8 @@ public class TranspositionEntryTableTest {
                 quiescenceNull,
                 moveSorter,
                 gameEvaluator,
-                alphaBetaFlowControl));
+                alphaBetaFlowControl,
+                setupGameEvaluator));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
 
         return new NoIterativeDeepening(minMaxPruning);
@@ -167,6 +172,7 @@ public class TranspositionEntryTableTest {
         AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
         AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         transpositionTable.setNext(alphaBetaStatisticsExpected);
 
@@ -181,6 +187,8 @@ public class TranspositionEntryTableTest {
         alphaBetaFlowControl.setQuiescence(quiescenceNull);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setSearchActions(Arrays.asList(
                 new SetTranspositionTables(),
@@ -193,7 +201,8 @@ public class TranspositionEntryTableTest {
                 moveSorter,
                 gameEvaluator,
                 new SetPrincipalVariation(),
-                alphaBetaFlowControl));
+                alphaBetaFlowControl,
+                setupGameEvaluator));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
 
         return new IterativeDeepening(minMaxPruning);

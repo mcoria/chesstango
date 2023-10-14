@@ -30,7 +30,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
     private static final int CAPACITY_MOVE_CONTAINER = 70;
 
-    public NoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
+    public NoCheckLegalMoveGenerator(ChessPositionReader positionReader,
+                                     MoveGenerator strategy,
+                                     MoveFilter filter) {
         super(positionReader, strategy, filter);
     }
 

@@ -12,13 +12,18 @@ public class GameMockEvaluator implements GameEvaluator {
     @Getter
     private int nodesEvaluated = 0;
 
+    private GameMock gameMock;
+
     @Override
-    public int evaluate(Game game) {
+    public int evaluate() {
         nodesEvaluated++;
 
-        GameMock gameMove = (GameMock) game;
+        return gameMock.currentMockNode.evaluation;
+    }
 
-        return gameMove.currentMockNode.evaluation;
+    @Override
+    public void setGame(Game game) {
+        this.gameMock = (GameMock) game;
     }
 
 }

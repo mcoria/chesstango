@@ -10,6 +10,9 @@ import net.chesstango.evaluation.GameEvaluator;
  * @author Mauricio Coria
  */
 public abstract class AbstractEvaluator implements GameEvaluator {
+
+    protected Game game;
+
     public static int evaluateFinalStatus(final Game game) {
         return switch (game.getStatus()) {
             case MATE ->
@@ -20,7 +23,7 @@ public abstract class AbstractEvaluator implements GameEvaluator {
         };
     }
 
-    protected int evaluateByMaterial(final Game game) {
+    protected int evaluateByMaterial() {
         int evaluation = 0;
 
         ChessPositionReader positionReader = game.getChessPosition();
@@ -45,4 +48,9 @@ public abstract class AbstractEvaluator implements GameEvaluator {
     }
 
     abstract int getPieceValue(Piece piece);
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

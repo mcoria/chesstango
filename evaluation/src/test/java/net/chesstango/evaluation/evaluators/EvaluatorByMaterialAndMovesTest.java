@@ -1,5 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
+import net.chesstango.board.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,8 @@ public class EvaluatorByMaterialAndMovesTest extends GameEvaluatorTestCollection
     }
 
     @Override
-    protected AbstractEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator(Game game) {
+        evaluator.setGame(game);
         return evaluator;
     }
 

@@ -61,11 +61,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
         if (currentPly == maxPly) {
             if (isCurrentPositionQuiet()) {
-                return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+                return TranspositionEntry.encode(gameEvaluator.evaluate());
             } else {
                 return quiescence.maximize(currentPly, alpha, beta);
             }
@@ -79,11 +79,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+            return TranspositionEntry.encode(gameEvaluator.evaluate());
         }
         if (currentPly == maxPly) {
             if (isCurrentPositionQuiet()) {
-                return TranspositionEntry.encode(gameEvaluator.evaluate(game));
+                return TranspositionEntry.encode(gameEvaluator.evaluate());
             } else {
                 return quiescence.minimize(currentPly, alpha, beta);
             }

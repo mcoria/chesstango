@@ -50,7 +50,7 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        int maxValue = gameEvaluator.evaluate(game);
+        int maxValue = gameEvaluator.evaluate();
         if (maxValue >= beta) {
             return TranspositionEntry.encode(maxValue);
         }
@@ -89,7 +89,7 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        int minValue = gameEvaluator.evaluate(game);
+        int minValue = gameEvaluator.evaluate();
         if (minValue <= alpha) {
             return TranspositionEntry.encode(minValue);
         }

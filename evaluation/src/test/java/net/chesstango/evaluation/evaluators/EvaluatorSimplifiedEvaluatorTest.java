@@ -23,7 +23,8 @@ public class EvaluatorSimplifiedEvaluatorTest extends GameEvaluatorTestCollectio
     }
 
     @Override
-    protected AbstractEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator(Game game) {
+        evaluator.setGame(game);
         return evaluator;
     }
 
@@ -219,10 +220,12 @@ public class EvaluatorSimplifiedEvaluatorTest extends GameEvaluatorTestCollectio
     @Test
     public void testEvaluateByPosition() {
         Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
-        assertEquals(-90, evaluator.evaluateByPosition(game));
+        evaluator.setGame(game);
+        assertEquals(-90, evaluator.evaluateByPosition());
 
         Game gameMirror = game.mirror();
-        assertEquals(90, evaluator.evaluateByPosition(gameMirror));
+        evaluator.setGame(gameMirror);
+        assertEquals(90, evaluator.evaluateByPosition());
     }
 
 }

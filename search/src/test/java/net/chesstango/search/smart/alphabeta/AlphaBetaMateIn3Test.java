@@ -10,6 +10,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
         QuiescenceNull quiescence = new QuiescenceNull();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
@@ -40,9 +42,11 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
 
         quiescence.setGameEvaluator(gameEvaluator);
 
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
         this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 5);

@@ -20,10 +20,11 @@ import java.util.List;
  */
 public class NegaMaxPruning implements SearchSmart {
     private volatile boolean keepProcessing;
+    private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;
-    private final NegaQuiescence negaQuiescence;
     private int[] visitedNodesCounter;
+
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
         this.negaQuiescence = negaQuiescence;
@@ -123,26 +124,23 @@ public class NegaMaxPruning implements SearchSmart {
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
-        moveSorter.beforeSearch(game);
+        this.moveSorter.beforeSearch(game);
+        this.negaQuiescence.setupGameEvaluator(game);
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override
     public void reset() {
-
     }
 }

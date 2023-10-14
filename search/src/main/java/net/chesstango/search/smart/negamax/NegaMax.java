@@ -68,7 +68,7 @@ public class NegaMax implements SearchSmart {
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
 
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            betterEvaluation = evaluator.evaluate(game);
+            betterEvaluation = evaluator.evaluate();
         } else {
             for (Move move : game.getPossibleMoves()) {
                 game = game.executeMove(move);
@@ -87,6 +87,7 @@ public class NegaMax implements SearchSmart {
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
+        this.evaluator.setGame(game);
     }
 
     @Override

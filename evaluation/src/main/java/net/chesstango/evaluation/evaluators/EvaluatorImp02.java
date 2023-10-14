@@ -1,9 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
@@ -73,7 +70,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -84,15 +81,13 @@ public class EvaluatorImp02 extends AbstractEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += material * 10 * evaluateByMaterial(game);
-                evaluation += evaluateByMoveAndByAttack(game);
+                evaluation += material * 10 * evaluateByMaterial();
+                evaluation += evaluateByMoveAndByAttack();
         }
         return evaluation;
     }
 
-    protected int evaluateByMoveAndByAttack(final Game game) {
-        getGameReferences(game);
-
+    protected int evaluateByMoveAndByAttack() {
         int evaluationByAttack = 0;
 
         int evaluationByMoveToEmptySquare = 0;
@@ -121,14 +116,6 @@ public class EvaluatorImp02 extends AbstractEvaluator {
         return expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack;
     }
 
-    private void getGameReferences(Game game) {
-        if (game != gameEvaluated) {
-            pseudoMovesGenerator = game.getObject(MoveGenerator.class);
-            positionReader = game.getChessPosition();
-            gameEvaluated = game;
-        }
-    }
-
     @Override
     public int getPieceValue(Piece piece) {
         return switch (piece) {
@@ -145,6 +132,27 @@ public class EvaluatorImp02 extends AbstractEvaluator {
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
         };
+    }
+
+    @Override
+    public void setGame(Game game) {
+        super.setGame(game);
+        game.accept(new GameVisitor() {
+            @Override
+            public void visit(ChessPositionReader chessPositionReader) {
+                positionReader = chessPositionReader;
+            }
+
+            @Override
+            public void visit(GameStateReader gameState) {
+            }
+
+            @Override
+            public void visit(MoveGenerator moveGenerator) {
+                pseudoMovesGenerator = moveGenerator;
+            }
+
+        });
     }
 
 }

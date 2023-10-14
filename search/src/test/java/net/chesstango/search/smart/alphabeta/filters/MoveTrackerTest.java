@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveTracker;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
+import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,9 +42,9 @@ public class MoveTrackerTest {
         AlphaBetaFirst alphaBetaFirst = new AlphaBetaFirst();
         MoveTracker moveTracker = new MoveTracker();
         AlphaBetaFlowControl alphaBetaFirstFlowControl = new AlphaBetaFlowControl();
-
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
+        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaFirst.setNext(moveTracker);
 
@@ -61,9 +62,11 @@ public class MoveTrackerTest {
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
 
+        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaFirst);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves()));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
     }
 
 

@@ -9,7 +9,7 @@ import net.chesstango.board.Piece;
  */
 public class EvaluatorByMaterialCount extends AbstractEvaluator {
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -18,7 +18,7 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation = evaluateByMaterial(game);
+                evaluation = evaluateByMaterial();
         }
         return evaluation;
     }
@@ -42,7 +42,7 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
     }
 
     @Override
-    protected int evaluateByMaterial(final Game game) {
+    protected int evaluateByMaterial() {
         long whitePositions = game.getChessPosition().getPositions(Color.WHITE);
         long blackPositions = game.getChessPosition().getPositions(Color.BLACK);
         return Long.bitCount(whitePositions) - Long.bitCount(blackPositions);

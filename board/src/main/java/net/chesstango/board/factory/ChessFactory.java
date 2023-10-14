@@ -1,8 +1,6 @@
 package net.chesstango.board.factory;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.GameImp;
-import net.chesstango.board.GameState;
+import net.chesstango.board.*;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
@@ -84,8 +82,8 @@ public class ChessFactory {
 		return new MoveGeneratorImp();
 	}
 
-	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class<?>, Object> objectMap) {
-		return new GameImp(chessPosition, gameState, analyzer, objectMap);
+	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor visitorAcceptor) {
+		return new GameImp(chessPosition, gameState, analyzer, visitorAcceptor);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {

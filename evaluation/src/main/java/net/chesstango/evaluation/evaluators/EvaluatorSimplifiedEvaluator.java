@@ -39,7 +39,7 @@ public class EvaluatorSimplifiedEvaluator extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -48,12 +48,12 @@ public class EvaluatorSimplifiedEvaluator extends AbstractEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation = material * evaluateByMaterial(game) + position * evaluateByPosition(game);
+                evaluation = material * evaluateByMaterial() + position * evaluateByPosition();
         }
         return evaluation;
     }
 
-    protected int evaluateByPosition(Game game) {
+    protected int evaluateByPosition() {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {

@@ -1,9 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
+import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
@@ -51,7 +48,6 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     private final int expansion;
     private final int ataque;
 
-    private Game gameEvaluated;
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
@@ -68,15 +64,15 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         return switch (game.getStatus()) {
             case MATE, DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
             case CHECK, NO_CHECK ->
-                    material * evaluateByMaterial(game) + position * evaluateByPosition(game) + evaluateByMoveAndByAttack(game);
+                    material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
         };
     }
 
-    protected int evaluateByPosition(Game game) {
+    protected int evaluateByPosition() {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
@@ -102,9 +98,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
         return evaluation;
     }
 
-    protected int evaluateByMoveAndByAttack(final Game game) {
-        getGameReferences(game);
-
+    protected int evaluateByMoveAndByAttack() {
         int evaluationByMoveToEmptySquare = 0;
 
         int evaluationByAttack = 0;
@@ -149,14 +143,6 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
         // From white point of view
         return expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack;
-    }
-
-    private void getGameReferences(Game game) {
-        if (game != gameEvaluated) {
-            pseudoMovesGenerator = game.getObject(MoveGenerator.class);
-            positionReader = game.getChessPosition();
-            gameEvaluated = game;
-        }
     }
 
     @Override
@@ -310,5 +296,26 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             -20, -20, 0, 0, 0, 0, -20, -20,         // Rank 7
             -20, -30, -10, 0, 0, -10, -30, -20     // Rank 8
     };
+
+    @Override
+    public void setGame(Game game) {
+        super.setGame(game);
+        game.accept(new GameVisitor() {
+            @Override
+            public void visit(ChessPositionReader chessPositionReader) {
+                positionReader = chessPositionReader;
+            }
+
+            @Override
+            public void visit(GameStateReader gameState) {
+            }
+
+            @Override
+            public void visit(MoveGenerator moveGenerator) {
+                pseudoMovesGenerator = moveGenerator;
+            }
+
+        });
+    }
 
 }

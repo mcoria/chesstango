@@ -91,10 +91,6 @@ public class GameState implements GameStateReader {
         currentGameState = currentGameState.previousGameState;
     }
 
-    public void accept(GameVisitor gameVisitor) {
-        gameVisitor.visit(this);
-    }
-
     private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
         protected MoveContainerReader legalMoves;

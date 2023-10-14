@@ -2,22 +2,24 @@ package net.chesstango.board.factory;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.GameState;
-import net.chesstango.board.analyzer.*;
+import net.chesstango.board.GameVisitor;
+import net.chesstango.board.GameVisitorAcceptor;
+import net.chesstango.board.analyzer.Analyzer;
+import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
+import net.chesstango.board.analyzer.PinnedAnalyzer;
+import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.chesstango.board.position.imp.ChessPositionImp;
+import net.chesstango.board.position.imp.KingSquareImp;
+import net.chesstango.board.position.imp.MoveCacheBoardImp;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class ChessInjector {
 
@@ -33,7 +35,7 @@ public class ChessInjector {
 
     private KingSquareImp kingCacheBoard = null;
 
-    private ZobristHash zobristHash  = null;
+    private ZobristHash zobristHash = null;
 
     private ChessPosition chessPosition = null;
 
@@ -53,8 +55,6 @@ public class ChessInjector {
 
     private LegalMoveGeneratorImp legalMoveGenerator = null;
 
-    private FullScanSquareCaptured fullScanSquareCapturer = null;
-
     private MoveFilter checkMoveFilter;
 
     private MoveFilter noCheckMoveFilter;
@@ -63,7 +63,6 @@ public class ChessInjector {
 
     private Game game = null;
 
-    private Map<Class<?>, Object> objectMap = new HashMap<>();
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
@@ -138,7 +137,14 @@ public class ChessInjector {
 
     public Game getGame() {
         if (game == null) {
-            game = chessFactory.createGame(getChessPosition(), getGameState(), getAnalyzer(), objectMap);
+            game = chessFactory.createGame(getChessPosition(), getGameState(), getAnalyzer(), new GameVisitorAcceptor() {
+                @Override
+                public void accept(GameVisitor visitor) {
+                    visitor.visit(getGameState());
+                    visitor.visit(getPseudoMoveGenerator());
+                    visitor.visit(getChessPosition());
+                }
+            });
         }
         return game;
     }
@@ -151,7 +157,7 @@ public class ChessInjector {
         return gameState;
     }
 
-	public PositionAnalyzer getAnalyzer() {
+    public PositionAnalyzer getAnalyzer() {
         if (positionAnalyzer == null) {
             positionAnalyzer = chessFactory.createPositionAnalyzer();
             positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());
@@ -190,8 +196,6 @@ public class ChessInjector {
     public MoveGenerator getPseudoMoveGenerator() {
         if (moveGenerator == null) {
             moveGenerator = chessFactory.createMoveGeneratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
-            //moveGenerator = getMoveGeneratorImp();
-            objectMap.put(MoveGenerator.class, moveGenerator);
         }
         return moveGenerator;
     }
@@ -229,7 +233,7 @@ public class ChessInjector {
     }
 
 
-	private MoveFilter getNoCheckMoveFilter() {
+    private MoveFilter getNoCheckMoveFilter() {
         if (noCheckMoveFilter == null) {
             noCheckMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }

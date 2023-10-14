@@ -43,7 +43,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate(final Game game) {
+    public int evaluate() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -54,13 +54,13 @@ public class EvaluatorImp03 extends AbstractEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += material * evaluateByMaterial(game);
-                evaluation += material_color * evaluateByColor(game);
+                evaluation += material * evaluateByMaterial();
+                evaluation += material_color * evaluateByColor();
         }
         return evaluation;
     }
 
-    protected int evaluateByColor(final Game game) {
+    protected int evaluateByColor() {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {

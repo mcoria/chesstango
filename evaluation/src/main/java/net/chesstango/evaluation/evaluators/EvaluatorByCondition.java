@@ -13,11 +13,17 @@ import java.util.function.Function;
  */
 public class EvaluatorByCondition implements GameEvaluator {
     private int defaultValue;
-
     private List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
 
+    private Game game;
+
     @Override
-    public int evaluate(final Game game) {
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public int evaluate() {
         return game.getStatus().isFinalStatus() ? evaluateFinalStatus(game) : evaluateNonFinalStatus(game);
     }
 

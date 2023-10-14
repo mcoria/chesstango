@@ -18,13 +18,13 @@ public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
     private final PositionAnalyzer analyzer;
-    private final Map<Class<?>, Object> objectMap;
+    private final GameVisitorAcceptor gameVisitorAcceptor;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class<?>, Object> objectMap) {
+    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor gameVisitorAcceptor) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
         this.analyzer = analyzer;
-        this.objectMap = objectMap;
+        this.gameVisitorAcceptor = gameVisitorAcceptor;
         this.chessPosition.init();
         this.analyzer.threefoldRepetitionRule(true);
         this.analyzer.fiftyMovesRule(true);
@@ -127,14 +127,10 @@ public class GameImp implements Game {
     }
     
 	@Override
-    public <V extends GameVisitor> V accept(V gameVisitor) {
-        gameState.accept(gameVisitor);
-        return gameVisitor;
+    public void accept(GameVisitor visitor) {
+        gameVisitorAcceptor.accept(visitor);
     }
 
-    public <T> T getObject(Class<T> theClass) {
-        return (T) objectMap.get(theClass);
-    }
 
     @Override
     public Game mirror() {
