@@ -25,10 +25,10 @@ public class EvaluatorByFEN implements GameEvaluator {
 
     @Override
     public int evaluate() {
-        return game.getStatus().isFinalStatus() ? evaluateFinalStatus(game) : evaluateNonFinalStatus(game);
+        return game.getStatus().isFinalStatus() ? evaluateFinalStatus() : evaluateNonFinalStatus();
     }
 
-    protected int evaluateNonFinalStatus(final Game game) {
+    protected int evaluateNonFinalStatus() {
         FENEncoder fenEncoder = new FENEncoder();
 
         game.getChessPosition().constructChessPositionRepresentation(fenEncoder);
@@ -40,21 +40,12 @@ public class EvaluatorByFEN implements GameEvaluator {
         return evaluation == null ? defaultValue : evaluation.intValue();
     }
 
-    protected int evaluateFinalStatus(final Game game) {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
-                // If white is on mate then evaluation is INFINITE_NEGATIVE
-                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-                break;
-            case DRAW:
-                evaluation = 0;
-                break;
-            case CHECK:
-            case NO_CHECK:
-                throw new RuntimeException("Game is still in progress");
-        }
-        return evaluation;
+    protected int evaluateFinalStatus() {
+        return switch (game.getStatus()) {
+            case MATE -> Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
+            case DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
+            default -> throw new RuntimeException("Game is still in progress");
+        };
     }
 
     public EvaluatorByFEN setDefaultValue(int defaultValue) {
@@ -67,7 +58,7 @@ public class EvaluatorByFEN implements GameEvaluator {
         return this;
     }
 
-    public static EvaluatorByFEN loadEvaluations(){
+    public static EvaluatorByFEN loadEvaluations() {
         EvaluatorByFEN mock = new EvaluatorByFEN();
         mock.setDefaultValue(0);
         mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);

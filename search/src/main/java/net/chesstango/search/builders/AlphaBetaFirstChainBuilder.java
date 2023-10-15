@@ -7,10 +7,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
-import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.filters.once.*;
 
 import java.util.List;
 
@@ -28,12 +25,14 @@ public class AlphaBetaFirstChainBuilder {
     private AlphaBetaFilter quiescence;
     private AspirationWindows aspirationWindows;
     private MoveTracker moveTracker;
+    private TranspositionTableFirst transpositionTableFirst;
 
     private List<SearchLifeCycle> filterActions;
 
     private boolean withStatistics;
 
     private boolean withAspirationWindows;
+    private boolean withTranspositionTable;
 
     public AlphaBetaFirstChainBuilder() {
         alphaBetaFirst = new AlphaBetaFirst();
@@ -78,6 +77,11 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
+    public AlphaBetaFirstChainBuilder withTranspositionTable() {
+        this.withTranspositionTable = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -97,6 +101,10 @@ public class AlphaBetaFirstChainBuilder {
         }
 
         moveTracker = new MoveTracker();
+
+        if (withTranspositionTable) {
+            transpositionTableFirst = new TranspositionTableFirst();
+        }
     }
 
 
@@ -119,6 +127,10 @@ public class AlphaBetaFirstChainBuilder {
             filterActions.add(stopProcessingCatch);
         }
 
+        if (transpositionTableFirst != null) {
+            filterActions.add(transpositionTableFirst);
+        }
+
         return filterActions;
     }
 
@@ -134,6 +146,16 @@ public class AlphaBetaFirstChainBuilder {
             tail = stopProcessingCatch;
         }
 
+        if (transpositionTableFirst != null) {
+            if (head == null) {
+                head = transpositionTableFirst;
+            }
+            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
+                stopProcessingCatchTail.setNext(transpositionTableFirst);
+            }
+            tail = transpositionTableFirst;
+        }
+
         if (aspirationWindows != null) {
             if (head == null) {
                 head = aspirationWindows;
@@ -141,6 +163,8 @@ public class AlphaBetaFirstChainBuilder {
             aspirationWindows.setMoveTracker(moveTracker);
             if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
                 stopProcessingCatchTail.setNext(aspirationWindows);
+            } else if (tail instanceof TranspositionTableFirst transpositionTableFirstTail) {
+                transpositionTableFirstTail.setNext(aspirationWindows);
             }
             tail = aspirationWindows;
         }
@@ -151,6 +175,8 @@ public class AlphaBetaFirstChainBuilder {
             }
             if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
                 stopProcessingCatchTail.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof TranspositionTableFirst transpositionTableFirstTail) {
+                transpositionTableFirstTail.setNext(alphaBetaStatisticsExpected);
             } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
                 aspirationWindowsTail.setNext(alphaBetaStatisticsExpected);
             }
@@ -162,6 +188,8 @@ public class AlphaBetaFirstChainBuilder {
         }
         if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
             stopProcessingCatchTail.setNext(alphaBetaFirst);
+        } else if (tail instanceof TranspositionTableFirst transpositionTableFirstTail) {
+            transpositionTableFirstTail.setNext(alphaBetaFirst);
         } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
             aspirationWindowsTail.setNext(alphaBetaFirst);
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
@@ -194,5 +222,4 @@ public class AlphaBetaFirstChainBuilder {
 
         return head;
     }
-
 }

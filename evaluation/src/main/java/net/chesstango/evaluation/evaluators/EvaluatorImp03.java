@@ -26,10 +26,8 @@ import java.util.Iterator;
  *  -------------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class EvaluatorImp03 extends AbstractEvaluator {
-
     private static final int FACTOR_MATERIAL_DEFAULT = 500;
     private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 500;
-
     private final int material;
     private final int material_color;
 

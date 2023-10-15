@@ -79,6 +79,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withTranspositionTable() {
         withTranspositionTable = true;
+        alphaBetaFirstChainBuilder.withTranspositionTable();
         alphaBetaChainBuilder.withTranspositionTable();
         return this;
     }
