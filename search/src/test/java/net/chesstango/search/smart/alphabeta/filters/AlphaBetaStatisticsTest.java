@@ -287,6 +287,65 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedQNodesCounters[0]);
         assertEquals(0, visitedQNodesCountersTotal);
         assertEquals(21, executedMoves); // Ver mas arriba explicacion
+    }
 
+    @Test
+    public void testSearch_05() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withTranspositionTable()
+                .withIterativeDeepening()
+                .withStatistics()
+                .build();
+
+        Game game = FENDecoder.loadGame("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1");
+
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = moveFinder.search(game);
+
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
+        int executedMoves = searchResult.getExecutedMoves();
+
+        assertEquals(7, visitedNodesCounters[0]);
+        assertEquals(6, visitedNodesCounters[1]);
+        assertEquals(5, visitedNodesCounters[2]);
+        assertEquals(4, visitedNodesCounters[3]);
+        assertEquals(0, visitedNodesCounters[4]);
+        assertEquals(0, visitedNodesCounters[5]);
+
+        assertEquals(22, visitedNodesCountersTotal);
+        assertEquals(50, executedMoves); // Ver mas arriba explicacion
+    }
+
+
+    @Test
+    public void testSearch_06() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withIterativeDeepening()
+                .withStatistics()
+                .build();
+
+        Game game = FENDecoder.loadGame("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1");
+
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = moveFinder.search(game);
+
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
+        int executedMoves = searchResult.getExecutedMoves();
+
+        assertEquals(7, visitedNodesCounters[0]);
+        assertEquals(6, visitedNodesCounters[1]);
+        assertEquals(5, visitedNodesCounters[2]);
+        assertEquals(4, visitedNodesCounters[3]);
+        assertEquals(3, visitedNodesCounters[4]);
+        assertEquals(2, visitedNodesCounters[5]);
+        assertEquals(1, visitedNodesCounters[6]);
+        assertEquals(0, visitedNodesCounters[7]);
+
+        assertEquals(28, visitedNodesCountersTotal);
+        assertEquals(35, executedMoves);
     }
 }

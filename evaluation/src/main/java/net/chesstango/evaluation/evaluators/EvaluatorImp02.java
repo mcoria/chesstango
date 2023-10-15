@@ -55,7 +55,6 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     private final int expansion;
     private final int ataque;
 
-    private Game gameEvaluated;
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
