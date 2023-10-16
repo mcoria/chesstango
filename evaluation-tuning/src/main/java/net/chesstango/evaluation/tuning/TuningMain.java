@@ -25,11 +25,9 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class TuningMain {
-
     private static final Logger logger = LoggerFactory.getLogger(TuningMain.class);
-
-    private static final int POPULATION_SIZE = 4;
-    private static final int GENERATION_LIMIT = 10;
+    private static final int POPULATION_SIZE = 10;
+    private static final int GENERATION_LIMIT = 100;
 
     public static void main(String[] args) {
         GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
