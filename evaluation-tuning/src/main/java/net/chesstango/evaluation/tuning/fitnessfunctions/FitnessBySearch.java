@@ -84,19 +84,7 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(EPDEntry epdEntry, GameEvaluator gameEvaluator) {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
-
                 .withQuiescence()
-
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
-
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
-
-                //.withIterativeDeepening()
-
-                //.withStatistics()
-
                 .build();
 
 
@@ -125,8 +113,6 @@ public class FitnessBySearch implements FitnessFunction {
             points += getMovePoints(turn, bestMove, sortedEvaluationList);
             movesCounter++;
         }
-
-        points = points / movesCounter;
 
         return points / movesCounter;
     }
