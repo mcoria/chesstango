@@ -149,7 +149,7 @@ public class GameTest {
         game.executeMove(Square.h7, Square.c7);
 
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-        assertEquals(GameStatus.DRAW, game.getStatus());
+        assertEquals(GameStatus.STALEMATE, game.getStatus());
         assertEquals(0, game.getPossibleMoves().size());
         assertEquals(1, game.getChessPosition().getHalfMoveClock());
         assertEquals(1, game.getChessPosition().getFullMoveClock());

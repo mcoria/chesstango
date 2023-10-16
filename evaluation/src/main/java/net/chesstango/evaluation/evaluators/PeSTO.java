@@ -229,7 +229,7 @@ public class PeSTO implements GameEvaluator {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
-            case DRAW:
+            case STALEMATE:
                 evaluation = AbstractEvaluator.evaluateFinalStatus(game);
                 break;
             case CHECK:

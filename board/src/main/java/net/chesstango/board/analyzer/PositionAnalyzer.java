@@ -56,7 +56,7 @@ public class PositionAnalyzer {
             if (analysis.isKingInCheck()) {
                 gameStatus = GameStatus.MATE;
             } else {
-                gameStatus = GameStatus.DRAW;
+                gameStatus = GameStatus.STALEMATE;
             }
         }
 

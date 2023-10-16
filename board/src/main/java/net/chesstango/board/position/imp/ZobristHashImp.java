@@ -16,7 +16,7 @@ import java.util.Deque;
  * @author Mauricio Coria
  */
 public class ZobristHashImp implements ZobristHash {
-    private final Deque<ZobristHashImp.ZobristHashData> stackZobristHistory = new ArrayDeque<ZobristHashImp.ZobristHashData>();
+    private final Deque<ZobristHashData> stackZobristHistory = new ArrayDeque<>();
 
     private long zobristHash;
 
@@ -344,8 +344,6 @@ public class ZobristHashImp implements ZobristHash {
         };
     }
 
-    private record ZobristHashData(long zobristHash, long zobristOldEnPassantSquare) {}
-
     private boolean calculateEnPassantSquare(SquareBoardReader piecePlacement, PositionStateReader positionState) {
         Square enPassantSquare = positionState.getEnPassantSquare();
         if(positionState.getEnPassantSquare() != null){
@@ -363,4 +361,6 @@ public class ZobristHashImp implements ZobristHash {
         }
         return false;
     }
+
+    private record ZobristHashData(long zobristHash, long zobristOldEnPassantSquare) {}
 }

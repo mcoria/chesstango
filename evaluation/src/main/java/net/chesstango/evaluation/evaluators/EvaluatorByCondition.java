@@ -44,7 +44,7 @@ public class EvaluatorByCondition implements GameEvaluator {
                 // If white is on mate then evaluation is INFINITE_NEGATIVE
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
                 break;
-            case DRAW:
+            case STALEMATE:
                 evaluation = 0;
                 break;
             case CHECK:

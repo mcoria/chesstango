@@ -183,7 +183,7 @@ public class Match {
             logger.info("[{}] DRAW (por fold fiftyMoveRule)", mathId);
             matchPoints = material(game, true);
 
-        } else if (GameStatus.DRAW.equals(game.getStatus())) {
+        } else if (GameStatus.STALEMATE.equals(game.getStatus())) {
             logger.info("[{}] DRAW", mathId);
             matchPoints = material(game, true);
 

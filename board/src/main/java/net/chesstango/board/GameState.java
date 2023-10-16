@@ -9,7 +9,7 @@ import net.chesstango.board.moves.MoveContainerReader;
  * <p>
  * Almacena tanto el estado actual como estados anteriores.
  */
-public class GameState implements GameStateReader {
+public class GameState implements GameStateReader, GameStateWriter {
 
     private GameStateData currentGameState = new GameStateData();
     private String initialFEN;
@@ -19,6 +19,7 @@ public class GameState implements GameStateReader {
         return currentGameState.gameStatus;
     }
 
+    @Override
     public void setStatus(GameStatus gameStatus) {
         currentGameState.gameStatus = gameStatus;
     }
@@ -28,6 +29,7 @@ public class GameState implements GameStateReader {
         return currentGameState.legalMoves;
     }
 
+    @Override
     public void setLegalMoves(MoveContainerReader legalMoves) {
         currentGameState.legalMoves = legalMoves;
     }
@@ -37,6 +39,7 @@ public class GameState implements GameStateReader {
         return currentGameState.selectedMove;
     }
 
+    @Override
     public void setSelectedMove(Move selectedMove) {
         currentGameState.selectedMove = selectedMove;
     }
@@ -46,10 +49,12 @@ public class GameState implements GameStateReader {
         return currentGameState.analyzerResult;
     }
 
+    @Override
     public void setAnalyzerResult(AnalyzerResult analyzerResult) {
         currentGameState.analyzerResult = analyzerResult;
     }
 
+    @Override
     public void setZobristHash(long zobristHash) {
         currentGameState.zobristHash = zobristHash;
     }
@@ -59,6 +64,7 @@ public class GameState implements GameStateReader {
         return currentGameState.zobristHash;
     }
 
+    @Override
     public void setPositionHash(long positionHash) {
         currentGameState.positionHash = positionHash;
     }

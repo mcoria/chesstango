@@ -6,9 +6,8 @@ import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
- *
  */
-public interface Game extends GameVisitorAcceptor{
+public interface Game extends GameVisitorAcceptor {
     String getInitialFen();
 
     Game executeMove(Move move);

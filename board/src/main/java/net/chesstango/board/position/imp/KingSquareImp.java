@@ -61,9 +61,8 @@ public class KingSquareImp implements KingSquare {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof KingSquareImp){
-			KingSquareImp theInstance = (KingSquareImp) obj;
-			return this.squareKingWhiteCache.equals(theInstance.squareKingWhiteCache) && this.squareKingBlackCache.equals(theInstance.squareKingBlackCache); 
+		if(obj instanceof KingSquareImp theInstance){
+			return this.squareKingWhiteCache.equals(theInstance.squareKingWhiteCache) && this.squareKingBlackCache.equals(theInstance.squareKingBlackCache);
 		}
 		return false;
 	}

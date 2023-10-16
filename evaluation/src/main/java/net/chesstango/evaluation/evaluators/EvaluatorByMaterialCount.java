@@ -1,7 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 
 /**
@@ -13,7 +12,7 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
-            case DRAW:
+            case STALEMATE:
                 evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:

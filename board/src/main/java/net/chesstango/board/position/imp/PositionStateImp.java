@@ -5,68 +5,13 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.PositionStateReader;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
 public class PositionStateImp implements PositionState {
-    private static class PositionStateData implements PositionStateReader {
-        private Color currentTurn;
-        private Square enPassantSquare;
-        private boolean castlingWhiteQueenAllowed;
-        private boolean castlingWhiteKingAllowed;
-        private boolean castlingBlackQueenAllowed;
-        private boolean castlingBlackKingAllowed;
-        private int halfMoveClock;
-        private int fullMoveClock;
-
-        @Override
-        public Square getEnPassantSquare() {
-            return enPassantSquare;
-        }
-
-        @Override
-        public boolean isCastlingWhiteQueenAllowed() {
-            return castlingWhiteQueenAllowed;
-        }
-
-        @Override
-        public boolean isCastlingWhiteKingAllowed() {
-            return castlingWhiteKingAllowed;
-        }
-
-        @Override
-        public boolean isCastlingBlackQueenAllowed() {
-            return castlingBlackQueenAllowed;
-        }
-
-        @Override
-        public boolean isCastlingBlackKingAllowed() {
-            return castlingBlackKingAllowed;
-        }
-
-        @Override
-        public Color getCurrentTurn() {
-            return currentTurn;
-        }
-
-        @Override
-        public int getHalfMoveClock() {
-            return halfMoveClock;
-        }
-
-        @Override
-        public int getFullMoveClock() {
-            return fullMoveClock;
-        }
-    }
-
-    private final Deque<PositionStateData> stackPositionStates = new ArrayDeque<PositionStateData>();
     private PositionStateData currentPositionState = new PositionStateData();
-
 
     @Override
     public Square getEnPassantSquare() {
@@ -173,7 +118,7 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
-    public PositionStateReader getCurrentState(){
+    public PositionStateReader getCurrentState() {
         return currentPositionState;
     }
 
@@ -188,17 +133,15 @@ public class PositionStateImp implements PositionState {
         node.currentTurn = currentPositionState.currentTurn;
         node.halfMoveClock = currentPositionState.halfMoveClock;
         node.fullMoveClock = currentPositionState.fullMoveClock;
+        node.previousPositionState = currentPositionState;
 
-        stackPositionStates.push(currentPositionState);
 
         currentPositionState = node;
     }
 
     @Override
     public void popState() {
-        PositionStateData lastState = stackPositionStates.pop();
-
-        currentPositionState = lastState;
+        currentPositionState = currentPositionState.previousPositionState;
     }
 
     @Override
@@ -217,8 +160,7 @@ public class PositionStateImp implements PositionState {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PositionStateImp) {
-            PositionStateImp theInstance = (PositionStateImp) obj;
+        if (obj instanceof PositionStateImp theInstance) {
             return Objects.equals(currentPositionState.currentTurn, theInstance.currentPositionState.currentTurn) && Objects.equals(currentPositionState.enPassantSquare, theInstance.currentPositionState.enPassantSquare) && currentPositionState.castlingWhiteQueenAllowed == theInstance.currentPositionState.castlingWhiteQueenAllowed && currentPositionState.castlingWhiteKingAllowed == theInstance.currentPositionState.castlingWhiteKingAllowed && currentPositionState.castlingBlackQueenAllowed == theInstance.currentPositionState.castlingBlackQueenAllowed && currentPositionState.castlingBlackKingAllowed == theInstance.currentPositionState.castlingBlackKingAllowed && currentPositionState.halfMoveClock == theInstance.currentPositionState.halfMoveClock && currentPositionState.fullMoveClock == theInstance.currentPositionState.fullMoveClock;
         }
         return false;
@@ -227,5 +169,58 @@ public class PositionStateImp implements PositionState {
     @Override
     public String toString() {
         return "Turno Actual: " + String.format("%-6s", currentPositionState.currentTurn.toString()) + ", pawnPasanteSquare: " + (currentPositionState.enPassantSquare == null ? "- " : currentPositionState.enPassantSquare.toString()) + ", castlingWhiteQueenAllowed: " + currentPositionState.castlingWhiteQueenAllowed + ", castlingWhiteKingAllowed: " + currentPositionState.castlingWhiteKingAllowed + ", castlingBlackQueenAllowed: " + currentPositionState.castlingBlackQueenAllowed + ", castlingBlackKingAllowed: " + currentPositionState.castlingBlackKingAllowed + ", halfMoveClock: " + currentPositionState.halfMoveClock + ", fullMoveClock: " + currentPositionState.fullMoveClock;
+    }
+
+
+    private static class PositionStateData implements PositionStateReader {
+        private Color currentTurn;
+        private Square enPassantSquare;
+        private boolean castlingWhiteQueenAllowed;
+        private boolean castlingWhiteKingAllowed;
+        private boolean castlingBlackQueenAllowed;
+        private boolean castlingBlackKingAllowed;
+        private int halfMoveClock;
+        private int fullMoveClock;
+        protected PositionStateData previousPositionState = null;
+
+        @Override
+        public Square getEnPassantSquare() {
+            return enPassantSquare;
+        }
+
+        @Override
+        public boolean isCastlingWhiteQueenAllowed() {
+            return castlingWhiteQueenAllowed;
+        }
+
+        @Override
+        public boolean isCastlingWhiteKingAllowed() {
+            return castlingWhiteKingAllowed;
+        }
+
+        @Override
+        public boolean isCastlingBlackQueenAllowed() {
+            return castlingBlackQueenAllowed;
+        }
+
+        @Override
+        public boolean isCastlingBlackKingAllowed() {
+            return castlingBlackKingAllowed;
+        }
+
+        @Override
+        public Color getCurrentTurn() {
+            return currentTurn;
+        }
+
+        @Override
+        public int getHalfMoveClock() {
+            return halfMoveClock;
+        }
+
+        @Override
+        public int getFullMoveClock() {
+            return fullMoveClock;
+        }
     }
 }
