@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class TuningMain {
-    private static final int POPULATION_SIZE = 50;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int POPULATION_SIZE = 5;
+    private static final int GENERATION_LIMIT = 10;
 
     public static void main(String[] args) {
         GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
@@ -86,7 +86,6 @@ public class TuningMain {
         executor.shutdown();
     }
 
-    /*
     private long fitness(Genotype<IntegerGene> genotype) {
         String keyGenes = geneticProvider.getKeyGenesString(genotype);
 
@@ -94,7 +93,9 @@ public class TuningMain {
 
         if (points == null) {
 
-            points = fitnessFn.fitness(genotype);
+            GameEvaluator evaluator = geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype);
+
+            points = fitnessFn.fitness(evaluator);
 
             geneticProvider.printGeneAndPoints(genotype, points);
 
@@ -102,15 +103,6 @@ public class TuningMain {
         }
 
         return points;
-    }*/
-
-    private long fitness(Genotype<IntegerGene> genotype) {
-        GameEvaluator evaluator = geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype);
-
-        long points = fitnessFn.fitness(evaluator);
-
-        geneticProvider.printGeneAndPoints(genotype, points);
-
-        return fitnessFn.fitness(evaluator);
     }
+
 }

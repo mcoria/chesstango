@@ -122,7 +122,7 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
         }
     }
 
-    protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype) {
+    private static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype) {
         Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
         IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);

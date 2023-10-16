@@ -13,16 +13,17 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * @author Mauricio Coria
  */
 public class FitnessBySearch implements FitnessFunction {
     private static final int MATCH_DEPTH = 1;
-
     private List<EPDEntry> edpEntries;
-
 
     @Override
     public long fitness(GameEvaluator gameEvaluator) {
@@ -54,7 +55,7 @@ public class FitnessBySearch implements FitnessFunction {
         return points;
     }
 
-    protected long run(EPDEntry EPDEntry, GameEvaluator gameEvaluator) {
+    protected long run(EPDEntry epdEntry, GameEvaluator gameEvaluator) {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
 
@@ -73,35 +74,64 @@ public class FitnessBySearch implements FitnessFunction {
                 .build();
 
 
-        Game game = FENDecoder.loadGame(EPDEntry.fen);
+        Game game = FENDecoder.loadGame(epdEntry.fen);
 
         moveFinder.setParameter(SearchParameter.MAX_DEPTH, MATCH_DEPTH);
         SearchMoveResult searchResult = moveFinder.search(game);
 
-        return getPoints(game.getPossibleMoves().size(), EPDEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
+        return getPoints(epdEntry, searchResult);
     }
 
-    protected long getPoints(int possibleMoves, Move bestMove, Collection<MoveEvaluation> evaluationCollection) {
-        Color turn = bestMove.getFrom().getPiece().getColor();
-
-        List<MoveEvaluation> sortedEvaluationList = new LinkedList<>();
-        sortedEvaluationList.addAll(evaluationCollection);
+    protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchResult) {
+        Color turn = epdEntry.game.getChessPosition().getCurrentTurn();
+        List<MoveEvaluation> sortedEvaluationList = new LinkedList<>(searchResult.getMoveEvaluations());
 
         if (Color.WHITE.equals(turn)) {
-            Collections.sort(sortedEvaluationList, Comparator.reverseOrder());
+            sortedEvaluationList.sort(Comparator.reverseOrder());
         } else {
-            Collections.sort(sortedEvaluationList);
+            sortedEvaluationList.sort(Comparator.naturalOrder());
         }
 
-        int i = 0;
-        for (MoveEvaluation moveEvaluation : sortedEvaluationList) {
-            if (Objects.equals(moveEvaluation.move(), bestMove)) {
-                break;
-            }
-            i--;
+        long points = 0;
+        int movesCounter = 0;
+        for (Move bestMove : epdEntry.bestMoves) {
+            points += getMovePoints(turn, bestMove, sortedEvaluationList);
+            movesCounter++;
         }
 
-        // Premiamos cuando encontramos el mejor movimiento y castigamos cuando no.
-        return i == 0 ? possibleMoves : i;
+        points = points / movesCounter;
+
+        return points / movesCounter;
+    }
+
+    /**
+     * Los puntos representar la cantidad de movimientos inferiores a bestMove acorde a las evaluaciones
+     * Observar que se buscan inferiores
+     * <p>
+     * Si m1=5; m2=5 y m3=1 y el turno es de blancas (maximixar) entonces los puntos que retorna es m3=1
+     * No consideramos que son IGUALES o menores dado que podemos tener el siguiente escenario
+     * m1=5; m2=5 y m3=5 y el turno es de blancas (maximixar)
+     *
+     * @param turn
+     * @param bestMove
+     * @param moveEvaluations
+     * @return
+     */
+    private long getMovePoints(Color turn, Move bestMove, List<MoveEvaluation> moveEvaluations) {
+        OptionalInt bestMoveEvaluationOptional = moveEvaluations.stream()
+                .filter(moveEvaluation -> bestMove.equals(moveEvaluation.move()))
+                .mapToInt(MoveEvaluation::evaluation)
+                .findAny();
+
+        if (bestMoveEvaluationOptional.isEmpty()) {
+            return 0;
+        }
+
+        final int bestMoveEvaluation = bestMoveEvaluationOptional.getAsInt();
+
+        return moveEvaluations.stream()
+                .mapToInt(MoveEvaluation::evaluation)
+                .filter(value -> Color.WHITE.equals(turn) ? value < bestMoveEvaluation : value > bestMoveEvaluation)
+                .count();
     }
 }
