@@ -27,7 +27,8 @@ public class FitnessBySearch implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessBySearch.class);
     private static final int MAX_DEPTH = 1;
     private List<EPDEntry> edpEntries;
-    private static final List<String> files = List.of("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+    private static final List<String> files = List.of(
+            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
@@ -43,7 +44,8 @@ public class FitnessBySearch implements FitnessFunction {
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd");
+            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+    );
 
     @Override
     public long fitness(GameEvaluator gameEvaluator) {
@@ -85,15 +87,15 @@ public class FitnessBySearch implements FitnessFunction {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
-                .withIterativeDeepening()
+                //.withIterativeDeepening()
 
-                .withStatistics()
+                //.withStatistics()
 
                 .build();
 
@@ -101,6 +103,7 @@ public class FitnessBySearch implements FitnessFunction {
         Game game = FENDecoder.loadGame(epdEntry.fen);
 
         moveFinder.setParameter(SearchParameter.MAX_DEPTH, MAX_DEPTH);
+
         SearchMoveResult searchResult = moveFinder.search(game);
 
         return getPoints(epdEntry, searchResult);

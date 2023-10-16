@@ -59,7 +59,7 @@ public class TuningMain {
         fitnessFn.start();
 
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
-                .selector(new EliteSelector<>(10))
+                .selector(new EliteSelector<>(POPULATION_SIZE / 5))
                 //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .executor(executor)
