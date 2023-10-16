@@ -26,8 +26,7 @@ import java.util.OptionalInt;
 public class FitnessBySearch implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessBySearch.class);
     private static final int MAX_DEPTH = 1;
-    private List<EPDEntry> edpEntries;
-    private static final List<String> files = List.of(
+    private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
@@ -47,6 +46,21 @@ public class FitnessBySearch implements FitnessFunction {
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
     );
 
+    private final List<String> epdFiles;
+    private final int depth;
+    private List<EPDEntry> edpEntries;
+
+
+    public FitnessBySearch() {
+        this(EPD_FILES, MAX_DEPTH);
+    }
+
+    public FitnessBySearch(List<String> epdFiles, int depth) {
+        this.epdFiles = epdFiles;
+        this.edpEntries = new LinkedList<>();
+        this.depth = depth;
+    }
+
     @Override
     public long fitness(GameEvaluator gameEvaluator) {
         return run(gameEvaluator);
@@ -56,9 +70,7 @@ public class FitnessBySearch implements FitnessFunction {
     public void start() {
         EPDReader reader = new EPDReader();
 
-        edpEntries = new LinkedList<>();
-
-        files.stream().map(reader::readEdpFile).forEach(edpEntries::addAll);
+        epdFiles.stream().map(reader::readEdpFile).forEach(edpEntries::addAll);
     }
 
     @Override
@@ -68,7 +80,7 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(GameEvaluator gameEvaluator) {
         long points = 0;
 
-        final int printProgress = edpEntries.size() / 10;
+        final int printProgress = edpEntries.size() / 4;
         int processedEntries = 0;
         for (EPDEntry EPDEntry : edpEntries) {
             points += run(EPDEntry, gameEvaluator);
@@ -90,7 +102,7 @@ public class FitnessBySearch implements FitnessFunction {
 
         Game game = FENDecoder.loadGame(epdEntry.fen);
 
-        moveFinder.setParameter(SearchParameter.MAX_DEPTH, MAX_DEPTH);
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, depth);
 
         SearchMoveResult searchResult = moveFinder.search(game);
 
