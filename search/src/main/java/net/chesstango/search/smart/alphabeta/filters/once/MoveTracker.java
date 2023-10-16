@@ -10,6 +10,7 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -41,9 +42,13 @@ public class MoveTracker implements AlphaBetaFilter {
     }
 
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
+        //System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
+        //currentMoveEvaluations.stream().sorted(Comparator.comparingInt(MoveEvaluation::evaluation)).forEach(System.out::println);
+        //System.out.printf("------------\n");
+
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
                 //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);

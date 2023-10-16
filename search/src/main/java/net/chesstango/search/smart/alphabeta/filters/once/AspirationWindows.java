@@ -75,6 +75,7 @@ public class AspirationWindows implements AlphaBetaFilter {
         long bestMoveAndValue;
         int bestValue;
 
+        //System.out.printf("MaxPly = %d alphaCycle=%d betaCycle=%d\n", maxPly, alphaCycle, betaCycle);
         int alphaCycle = 1;
         int betaCycle = 1;
         do {
@@ -106,12 +107,14 @@ public class AspirationWindows implements AlphaBetaFilter {
             moveTracker.afterSearchByWindows(!search);
         } while (search);
 
+        //System.out.printf("\n\n");
+
         return bestMoveAndValue;
     }
 
     private static final int OFFSET = 64;
 
-    protected int diffBound(int maxBound, int bestValue, int cycle) {
-        return Math.min(OFFSET << cycle, Math.abs(Math.abs(maxBound) - Math.abs(bestValue)));
+    protected int diffBound(int maxBound, int currentBound, int cycle) {
+        return Math.min(OFFSET << cycle, Math.abs(Math.abs(maxBound) - Math.abs(currentBound)));
     }
 }

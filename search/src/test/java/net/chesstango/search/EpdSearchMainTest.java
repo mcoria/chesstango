@@ -81,6 +81,15 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.bestMoveFound());
     }
 
+
+    @Test
+    public void test_WAC133() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("r1b1k2r/1pp1q2p/p1n3p1/3QPp2/8/1BP3B1/P5PP/3R1RK1 w kq - bm Bh4; id \"WAC.133\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
     @Test
     public void test_BK01() {
         epdSearch.setDepth(5);
