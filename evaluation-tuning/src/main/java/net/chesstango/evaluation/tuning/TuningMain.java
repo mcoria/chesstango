@@ -13,6 +13,8 @@ import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessBySearch;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +25,10 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class TuningMain {
-    private static final int POPULATION_SIZE = 5;
+
+    private static final Logger logger = LoggerFactory.getLogger(TuningMain.class);
+
+    private static final int POPULATION_SIZE = 4;
     private static final int GENERATION_LIMIT = 10;
 
     public static void main(String[] args) {
@@ -71,12 +76,12 @@ public class TuningMain {
                 .collect(EvolutionResult.toBestPhenotype());
 
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
-        System.out.println("Y su genotipo = " + result.genotype());
+        System.out.println("Y su genotipo = " + geneticProvider.genotypeToString(result.genotype()));
 
 
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
-        List<Map.Entry<String, Long>> entryList = entrySet.stream().collect(Collectors.toList());
-        Collections.sort(entryList, Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)));
+        List<Map.Entry<String, Long>> entryList = entrySet.stream().sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue))).collect(Collectors.toList());
+
         entryList.stream().limit(20).forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
         });
@@ -97,10 +102,12 @@ public class TuningMain {
 
             points = fitnessFn.fitness(evaluator);
 
-            geneticProvider.printGeneAndPoints(genotype, points);
+            geneticProvider.genotypeToString(genotype);
 
             fitnessMemory.put(keyGenes, points);
         }
+
+        logger.info("Evaluacion con {} ; puntos = [{}]", geneticProvider.genotypeToString(genotype), points);
 
         return points;
     }

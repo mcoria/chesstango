@@ -18,5 +18,5 @@ public interface GeneticProvider {
 
     GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype);
 
-    void printGeneAndPoints(Genotype<IntegerGene> genotype, long points);
+    String genotypeToString(Genotype<IntegerGene> genotype);
 }

@@ -56,8 +56,9 @@ public class GeneticProviderNIntChromosomes implements GeneticProvider {
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
-        logger.info(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
+        //logger.info(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
+        return "";
     }
 
     @Override

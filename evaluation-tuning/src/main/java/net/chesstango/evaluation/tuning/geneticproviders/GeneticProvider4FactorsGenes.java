@@ -33,10 +33,10 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        System.out.println("Evaluacion con factor1=[" + decodedGenotype.getFactor1() + "] factor2=[" + decodedGenotype.getFactor2() + "] factor3=[" + decodedGenotype.getFactor3() + "] factor4=[" + decodedGenotype.getFactor4() + "] ; puntos = [" + points + "]");
+        return String.format("[factor1=[%d] factor2=[%d] factor3=[%d] factor4=[%d]]", decodedGenotype.getFactor1(), decodedGenotype.getFactor2(), decodedGenotype.getFactor3(), decodedGenotype.getFactor4());
     }
 
     @Override

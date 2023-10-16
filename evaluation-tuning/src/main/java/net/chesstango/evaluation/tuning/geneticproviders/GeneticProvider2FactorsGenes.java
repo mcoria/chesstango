@@ -6,8 +6,6 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.evaluation.GameEvaluator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -17,7 +15,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class GeneticProvider2FactorsGenes implements GeneticProvider {
-    private static final Logger logger = LoggerFactory.getLogger(GeneticProvider2FactorsGenes.class);
 
     private static final int CONSTRAINT_MAX_VALUE = 1000;
 
@@ -54,10 +51,10 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        logger.info("Evaluacion con factor1=[" + decodedGenotype.getFactor1() + "] factor2=[" + decodedGenotype.getFactor2() + "] ; puntos = [" + points + "]");
+        return String.format("[factor1=[%d] factor2=[%d]]", decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
     }
 
     @Override
