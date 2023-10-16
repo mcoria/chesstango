@@ -1,9 +1,5 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import io.jenetics.Chromosome;
-import io.jenetics.Genotype;
-import io.jenetics.IntegerChromosome;
-import io.jenetics.IntegerGene;
 import net.chesstango.evaluation.GameEvaluator;
 
 import java.io.File;
@@ -20,7 +16,8 @@ public class FitnessByLeastSquare implements FitnessFunction {
     private List<FeaturesValues> featuresValuesList;
 
     @Override
-    public long fitness(Genotype<IntegerGene> genotype) {
+    public long fitness(GameEvaluator gameEvaluator) {
+        /*
         Chromosome<IntegerGene> chromosome = genotype.chromosome();
 
         IntegerChromosome intChromosome = chromosome.as(IntegerChromosome.class);
@@ -33,6 +30,8 @@ public class FitnessByLeastSquare implements FitnessFunction {
         }
 
         return -totalError;
+         */
+        return 0;
     }
 
     @Override

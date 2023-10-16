@@ -52,8 +52,8 @@ public class FitnessByMatch implements FitnessFunction {
 
 
     @Override
-    public long fitness(Genotype<IntegerGene> genotype) {
-        EngineController engineTango = createTango(genotype);
+    public long fitness(GameEvaluator gameEvaluator) {
+        EngineController engineTango = createTango(gameEvaluator);
 
         List<MatchResult> matchResult = fitnessEval(engineTango);
 
@@ -66,8 +66,8 @@ public class FitnessByMatch implements FitnessFunction {
         return pointsAsWhite + (-1) * pointsAsBlack;
     }
 
-    public EngineController createTango(Genotype<IntegerGene> genotype) {
-        DefaultSearchMove search = new DefaultSearchMove(gameEvaluatorSupplierFn.apply(genotype));
+    public EngineController createTango(GameEvaluator gameEvaluator) {
+        DefaultSearchMove search = new DefaultSearchMove(gameEvaluator);
 
         EngineController tango = new EngineControllerImp(new UciTango( new Tango( search )));
 

@@ -18,15 +18,11 @@ import java.util.List;
  */
 public class GeneticProvider2FactorsGenes implements GeneticProvider {
     private static final Logger logger = LoggerFactory.getLogger(GeneticProvider2FactorsGenes.class);
-    private final Class<? extends GameEvaluator> gameEvaluatorClass;
 
     private static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
-    public GeneticProvider2FactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        this.gameEvaluatorClass = gameEvaluatorClass;
-    }
 
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
@@ -40,7 +36,8 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
         return decodedGenotype.getFactor1() + "|" + decodedGenotype.getFactor2();
     }
 
-    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         try {

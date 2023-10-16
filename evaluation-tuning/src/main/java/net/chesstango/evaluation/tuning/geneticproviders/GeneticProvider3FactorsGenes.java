@@ -39,7 +39,8 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
     }
 
 
-    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         try {
@@ -117,7 +118,7 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
 
             int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
 
-            if(gene1Value + gene2Value != CONSTRAINT_MAX_VALUE) {
+            if (gene1Value + gene2Value != CONSTRAINT_MAX_VALUE) {
                 throw new RuntimeException("Invalid combination");
             }
 

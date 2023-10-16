@@ -5,7 +5,6 @@ import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
-import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 
 import java.lang.reflect.InvocationTargetException;
@@ -37,7 +36,7 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
     public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        System.out.println("Evaluacion con factor1=[" + decodedGenotype.getFactor1() + "] factor2=[" + decodedGenotype.getFactor2() +  "] factor3=[" + decodedGenotype.getFactor3() + "] factor4=[" + decodedGenotype.getFactor4() +"] ; puntos = [" + points + "]");
+        System.out.println("Evaluacion con factor1=[" + decodedGenotype.getFactor1() + "] factor2=[" + decodedGenotype.getFactor2() + "] factor3=[" + decodedGenotype.getFactor3() + "] factor4=[" + decodedGenotype.getFactor4() + "] ; puntos = [" + points + "]");
     }
 
     @Override
@@ -74,7 +73,9 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
                 ), 1);
     }
 
-    public static GameEvaluator createGameEvaluator(final Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
+
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         try {

@@ -5,6 +5,7 @@ import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
+import net.chesstango.evaluation.GameEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,11 @@ public class GeneticProviderNIntChromosomes implements GeneticProvider {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
+        return null;
     }
 
     @Override

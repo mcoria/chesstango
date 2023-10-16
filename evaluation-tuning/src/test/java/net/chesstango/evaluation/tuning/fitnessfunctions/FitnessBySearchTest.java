@@ -28,7 +28,7 @@ public class FitnessBySearchTest {
 
     @BeforeEach
     public void setup() {
-        fitnessFn = new FitnessBySearch(null);
+        fitnessFn = new FitnessBySearch();
     }
 
     /**

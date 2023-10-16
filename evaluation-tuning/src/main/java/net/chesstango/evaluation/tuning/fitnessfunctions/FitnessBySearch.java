@@ -1,7 +1,5 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import io.jenetics.Genotype;
-import io.jenetics.IntegerGene;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -12,35 +10,30 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
  */
 public class FitnessBySearch implements FitnessFunction {
-
-    private static final int MATCH_DEPTH = 4;
-
-    private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
+    private static final int MATCH_DEPTH = 1;
 
     private List<EPDEntry> edpEntries;
 
-    public FitnessBySearch(Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn) {
-        this.gameEvaluatorSupplierFn = gameEvaluatorSupplierFn;
-    }
 
     @Override
-    public long fitness(Genotype<IntegerGene> genotype) {
-        return run(gameEvaluatorSupplierFn.apply(genotype));
+    public long fitness(GameEvaluator gameEvaluator) {
+        return run(gameEvaluator);
     }
 
     @Override
     public void start() {
         //String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd";
-        String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\wac\\wac-2018.epd";
+        //String filename = "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd";
+        String filename = "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd";
 
         EPDReader reader = new EPDReader();
 
@@ -73,7 +66,6 @@ public class FitnessBySearch implements FitnessFunction {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-
                 .withIterativeDeepening()
 
                 .withStatistics()
@@ -83,6 +75,7 @@ public class FitnessBySearch implements FitnessFunction {
 
         Game game = FENDecoder.loadGame(EPDEntry.fen);
 
+        moveFinder.setParameter(SearchParameter.MAX_DEPTH, MATCH_DEPTH);
         SearchMoveResult searchResult = moveFinder.search(game);
 
         return getPoints(game.getPossibleMoves().size(), EPDEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
