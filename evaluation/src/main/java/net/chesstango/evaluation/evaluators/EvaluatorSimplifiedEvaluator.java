@@ -1,6 +1,5 @@
 package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
@@ -43,7 +42,7 @@ public class EvaluatorSimplifiedEvaluator extends AbstractEvaluator {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
-            case DRAW:
+            case STALEMATE:
                 evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:

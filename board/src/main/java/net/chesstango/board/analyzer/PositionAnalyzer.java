@@ -2,7 +2,6 @@ package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
 import net.chesstango.board.GameStateReader;
-import net.chesstango.board.GameStateWriter;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
@@ -57,7 +56,7 @@ public class PositionAnalyzer {
             if (analysis.isKingInCheck()) {
                 gameStatus = GameStatus.MATE;
             } else {
-                gameStatus = GameStatus.DRAW;
+                gameStatus = GameStatus.STALEMATE;
             }
         }
 

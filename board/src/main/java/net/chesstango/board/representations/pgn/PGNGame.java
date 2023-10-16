@@ -163,7 +163,7 @@ public class PGNGame {
 
     private static String encodeGameStatusAtMove(GameStatus gameStatus) {
         return switch (gameStatus) {
-            case NO_CHECK, DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "";
+            case NO_CHECK, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "";
             case CHECK -> "+";
             case MATE -> "#";
             default -> throw new RuntimeException("Invalid game status");
@@ -173,7 +173,7 @@ public class PGNGame {
     private static String encodeGameResult(Game game) {
         return switch (game.getStatus()) {
             case NO_CHECK, CHECK -> "*";
-            case DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "1/2-1/2";
+            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "1/2-1/2";
             case MATE -> Color.BLACK.equals(game.getChessPosition().getCurrentTurn()) ? "1-0" : "0-1";
             default -> throw new RuntimeException("Invalid game status");
         };

@@ -16,7 +16,7 @@ public abstract class AbstractEvaluator implements GameEvaluator {
     public static int evaluateFinalStatus(final Game game) {
         return switch (game.getStatus()) {
             case MATE -> Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-            case DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
+            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
             default -> throw new RuntimeException("Game is still in progress");
         };
     }

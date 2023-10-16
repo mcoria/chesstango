@@ -26,7 +26,7 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
-            case DRAW:
+            case STALEMATE:
                 evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:

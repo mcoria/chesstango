@@ -7,7 +7,7 @@ public enum GameStatus {
     NO_CHECK(true),
     CHECK(true),
     MATE(false),
-    DRAW(false),
+    STALEMATE(false),
     DRAW_BY_FIFTY_RULE(false),
     DRAW_BY_FOLD_REPETITION(false);
 

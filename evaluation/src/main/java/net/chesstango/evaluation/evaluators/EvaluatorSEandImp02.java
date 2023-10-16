@@ -66,7 +66,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     @Override
     public int evaluate() {
         return switch (game.getStatus()) {
-            case MATE, DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
+            case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
             case CHECK, NO_CHECK ->
                     material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
         };
