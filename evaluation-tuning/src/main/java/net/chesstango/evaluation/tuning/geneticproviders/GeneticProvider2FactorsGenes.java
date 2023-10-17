@@ -20,7 +20,6 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
-
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
         return Genotype.of(IntegerChromosome.of(geneRange, 1));
@@ -30,24 +29,7 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
     public String getKeyGenesString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        return decodedGenotype.getFactor1() + "|" + decodedGenotype.getFactor2();
-    }
-
-    @Override
-    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
-        GenoDecoder decodedGenotype = decodeGenotype(genotype);
-
-        try {
-            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        return String.format("%d|%d", decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
     }
 
     @Override
@@ -82,6 +64,23 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
                                 IntegerGene.of(value1, geneRange)
                         )
                 ), 1);
+    }
+
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
+        GenoDecoder decodedGenotype = decodeGenotype(genotype);
+
+        try {
+            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

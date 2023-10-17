@@ -6,12 +6,12 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
-import io.jenetics.engine.EvolutionStart;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessBySearch;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
+import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider2FactorsGenes;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +29,7 @@ public class TuningMain {
     private static final int GENERATION_LIMIT = 100;
 
     public static void main(String[] args) {
+        //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
         GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
@@ -64,11 +65,11 @@ public class TuningMain {
                 .executor(executor)
                 .build();
 
-        EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+        //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
-                .stream(start)
-                //.stream()
+                //.stream(start)
+                .stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 
