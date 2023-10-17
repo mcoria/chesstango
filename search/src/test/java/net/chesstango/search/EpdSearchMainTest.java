@@ -126,7 +126,7 @@ public class EpdSearchMainTest {
 
     @Test
     public void test_BK24() {
-        epdSearch.setDepth(5);
+        epdSearch.setDepth(6);
         EPDEntry epdEntry = epdReader.readEdpLine("r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - bm f4; id \"BK.24\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
@@ -269,16 +269,12 @@ public class EpdSearchMainTest {
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                //.withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
-
                 .withAspirationWindows()
-
-                //.withStopProcessingCatch()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria

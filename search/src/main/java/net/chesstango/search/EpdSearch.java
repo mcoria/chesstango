@@ -147,17 +147,13 @@ public class EpdSearch {
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                //.withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withAspirationWindows()
-                //.withStopProcessingCatch()
-
                 .withIterativeDeepening()
+                .withAspirationWindows()
 
-                //.withMoveEvaluation()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
