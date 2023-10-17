@@ -97,14 +97,15 @@ public class TranspositionMoveSorter implements MoveSorter {
                 }
             }
 
-            unsortedMoveList.sort(moveComparator.reversed());
-
             if (bestMove != null) {
                 sortedMoveList.add(bestMove);
             }
-            if(secondBestMove != null){
+            if (secondBestMove != null) {
                 sortedMoveList.add(secondBestMove);
             }
+
+            unsortedMoveList.sort(moveComparator.reversed());
+
             sortedMoveList.addAll(unsortedMoveList);
 
         } else {
