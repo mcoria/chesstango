@@ -21,7 +21,7 @@ public class SummaryComparator {
         //summaryComparator.addSession("depth-5-2023-10-14-09-03");
         summaryComparator.addSession("depth-5-2023-10-15-01-33");
         //summaryComparator.addSession("depth-5-2023-10-15-20-48");
-        summaryComparator.addSession("depth-5-2023-10-16-18-52-CHT-185");
+        summaryComparator.addSession("depth-5-2023-10-16-20-31-CHT-185");
 
         //
         //

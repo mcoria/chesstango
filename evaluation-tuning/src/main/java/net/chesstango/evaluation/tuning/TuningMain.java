@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -51,7 +50,7 @@ public class TuningMain {
         this.gameEvaluatorClass = gameEvaluatorClass;
         this.geneticProvider = geneticProvider;
         this.fitnessFn = fitnessFn;
-        this.fitnessMemory = new HashMap<>();
+        this.fitnessMemory = Collections.synchronizedMap(new HashMap<>());
     }
 
     private void findGenotype() {
@@ -78,7 +77,9 @@ public class TuningMain {
 
 
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
-        List<Map.Entry<String, Long>> entryList = entrySet.stream().sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue))).collect(Collectors.toList());
+        List<Map.Entry<String, Long>> entryList = entrySet.stream()
+                .sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)))
+                .toList();
 
         entryList.stream().limit(20).forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
@@ -99,8 +100,6 @@ public class TuningMain {
             GameEvaluator evaluator = geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype);
 
             points = fitnessFn.fitness(evaluator);
-
-            geneticProvider.genotypeToString(genotype);
 
             fitnessMemory.put(keyGenes, points);
         }

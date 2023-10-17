@@ -347,4 +347,36 @@ public class FitnessBySearchTest {
         assertEquals(49017L, points);
     }
 
+
+    @Test
+    @Disabled
+    public void test02() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
+
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 3);
+
+        fitnessBySearch.start();
+        long points = fitnessBySearch.run(new EvaluatorSEandImp03(725, 223, 31, 21));
+        fitnessBySearch.stop();
+
+        assertEquals(50780L, points);
+    }
 }
