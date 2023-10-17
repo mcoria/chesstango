@@ -43,18 +43,33 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
         List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
                 /*
-                key = [83|826|70|21]; value=[-1149]
-                key = [272|658|31|39]; value=[-1147]
-                key = [290|639|31|40]; value=[-1143]
-                key = [185|734|65|16]; value=[-1135]
-                key = [185|779|23|13]; value=[-1134]
-                key = [161|701|110|28]; value=[-1133]
-                key = [185|734|36|45]; value=[-1123]
-                key = [213|688|56|43]; value=[-1106]
-                key = [185|734|31|50]; value=[-1100]
-                key = [185|734|45|36]; value=[-1093]
-                createPhenotype(415, 585),
+                    key = [205|753|17|25]; value=[49017]
+                    key = [205|753|9|33]; value=[49005]
+                    key = [294|669|10|27]; value=[48976]
+                    key = [294|669|15|22]; value=[48957]
+                    key = [294|669|8|29]; value=[48956]
+                    key = [290|673|15|22]; value=[48938]
+                    key = [189|768|17|26]; value=[48929]
+                    key = [133|821|19|27]; value=[48926]
+                    key = [161|795|18|26]; value=[48921]
+                    key = [294|669|13|24]; value=[48904]
+                    key = [295|652|19|34]; value=[48843]
+                    key = [315|632|19|34]; value=[48879]
+                    key = [320|628|18|34]; value=[48872]
+                    key = [320|628|17|35]; value=[48863]
+                    key = [315|632|17|36]; value=[48840]
+                    key = [246|697|21|36]; value=[48804]
                  */
+                createPhenotype(205, 753, 17),
+                createPhenotype(205, 753, 9),
+                createPhenotype(294, 669, 10),
+                createPhenotype(294, 669, 15),
+                createPhenotype(294, 669, 8),
+                createPhenotype(294, 669, 29),
+                createPhenotype(290, 673, 15),
+                createPhenotype(189, 768, 17),
+                createPhenotype(133, 821, 19),
+                createPhenotype(161, 795, 18)
         );
 
         ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);

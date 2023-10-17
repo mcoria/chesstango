@@ -68,8 +68,8 @@ public class TuningMain {
         EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
-                //.stream(start)
-                .stream()
+                .stream(start)
+                //.stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 

@@ -25,7 +25,7 @@ import java.util.OptionalInt;
  */
 public class FitnessBySearch implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessBySearch.class);
-    private static final int MAX_DEPTH = 1;
+    private static final int MAX_DEPTH = 3;
     private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
@@ -48,7 +48,7 @@ public class FitnessBySearch implements FitnessFunction {
 
     private final List<String> epdFiles;
     private final int depth;
-    private List<EPDEntry> edpEntries;
+    private final List<EPDEntry> edpEntries;
 
 
     public FitnessBySearch() {
