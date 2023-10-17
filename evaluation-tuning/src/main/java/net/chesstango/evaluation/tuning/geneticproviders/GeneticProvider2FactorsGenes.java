@@ -6,8 +6,6 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.evaluation.GameEvaluator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -17,16 +15,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class GeneticProvider2FactorsGenes implements GeneticProvider {
-    private static final Logger logger = LoggerFactory.getLogger(GeneticProvider2FactorsGenes.class);
-    private final Class<? extends GameEvaluator> gameEvaluatorClass;
 
     private static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
-
-    public GeneticProvider2FactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        this.gameEvaluatorClass = gameEvaluatorClass;
-    }
 
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
@@ -37,30 +29,14 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
     public String getKeyGenesString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        return decodedGenotype.getFactor1() + "|" + decodedGenotype.getFactor2();
-    }
-
-    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
-        GenoDecoder decodedGenotype = decodeGenotype(genotype);
-
-        try {
-            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        return String.format("%d|%d", decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        logger.info("Evaluacion con factor1=[" + decodedGenotype.getFactor1() + "] factor2=[" + decodedGenotype.getFactor2() + "] ; puntos = [" + points + "]");
+        return String.format("[factor1=[%d] factor2=[%d]]", decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
     }
 
     @Override
@@ -88,6 +64,23 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
                                 IntegerGene.of(value1, geneRange)
                         )
                 ), 1);
+    }
+
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
+        GenoDecoder decodedGenotype = decodeGenotype(genotype);
+
+        try {
+            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getFactor1(), decodedGenotype.getFactor2());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

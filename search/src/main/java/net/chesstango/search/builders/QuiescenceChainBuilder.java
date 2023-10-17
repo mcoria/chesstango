@@ -142,6 +142,8 @@ public class QuiescenceChainBuilder {
         AlphaBetaFilter headQuiescence = null;
 
         if (withQuiescence) {
+            quiescence.setMoveSorter(qMoveSorter);
+            quiescence.setGameEvaluator(gameEvaluator);
             headQuiescence = createRealQuiescenceChain();
         } else {
             quiescenceNull.setGameEvaluator(gameEvaluator);
@@ -183,6 +185,9 @@ public class QuiescenceChainBuilder {
             tail = quiescenceStatisticsExpected;
         }
 
+        if (head == null) {
+            head = quiescence;
+        }
         if (tail instanceof ZobristTracker zobristTrackerTail) {
             zobristTrackerTail.setNext(quiescence);
         } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
@@ -190,10 +195,6 @@ public class QuiescenceChainBuilder {
         } else if (tail instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpectedTail) {
             quiescenceStatisticsExpectedTail.setNext(quiescence);
         }
-
-
-        quiescence.setMoveSorter(qMoveSorter);
-        quiescence.setGameEvaluator(gameEvaluator);
         tail = quiescence;
 
 

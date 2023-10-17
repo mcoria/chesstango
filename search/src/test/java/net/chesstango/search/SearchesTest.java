@@ -34,7 +34,6 @@ public class SearchesTest {
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
-                //.withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
@@ -86,6 +85,7 @@ public class SearchesTest {
     public void testSearch_01() {
         Game game = FENDecoder.loadGame("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22");
 
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
         searchResult = searchMove.search(game);
     }
 
@@ -104,6 +104,7 @@ public class SearchesTest {
     public void testSearch_03() {
         Game game = FENDecoder.loadGame("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43");
 
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = searchMove.search(game);
     }
 

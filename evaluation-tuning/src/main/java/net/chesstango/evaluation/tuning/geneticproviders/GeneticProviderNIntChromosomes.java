@@ -5,6 +5,7 @@ import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
+import net.chesstango.evaluation.GameEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +51,14 @@ public class GeneticProviderNIntChromosomes implements GeneticProvider {
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
-        logger.info(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
+        return null;
+    }
+
+    @Override
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
+        //logger.info(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
+        return "";
     }
 
     @Override

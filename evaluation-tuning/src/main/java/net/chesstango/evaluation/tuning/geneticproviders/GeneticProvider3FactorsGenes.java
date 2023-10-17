@@ -39,7 +39,8 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
     }
 
 
-    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
+    @Override
+    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass, Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         try {
@@ -56,10 +57,10 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
     }
 
     @Override
-    public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
+    public String genotypeToString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        System.out.println("Evaluacion con gene1=[" + decodedGenotype.getGene1() + "] gene2=[" + decodedGenotype.getGene2() + "] ; puntos = [" + points + "]");
+        return String.format("[factor1=[%d] factor2=[%d]]", decodedGenotype.gene1, decodedGenotype.gene2);
     }
 
     @Override
@@ -117,7 +118,7 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
 
             int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
 
-            if(gene1Value + gene2Value != CONSTRAINT_MAX_VALUE) {
+            if (gene1Value + gene2Value != CONSTRAINT_MAX_VALUE) {
                 throw new RuntimeException("Invalid combination");
             }
 

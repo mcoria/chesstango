@@ -1,21 +1,20 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.transposition.MapTTable;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,244 +27,424 @@ public class FitnessBySearchTest {
 
     @BeforeEach
     public void setup() {
-        fitnessFn = new FitnessBySearch(null);
+        fitnessFn = new FitnessBySearch();
     }
 
     /**
      * Actual best move = Best move found
      */
     @Test
-    @Disabled
     public void test_white01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        final Move bestMoveFoundBySearch = game.getMove(Square.c2, Square.c3);
-        final int bestEvaluationFoundBySearch = 100;
-        final Move actualBestMove = bestMoveFoundBySearch;
+        final Move bestMoveFound = game.getMove(Square.c2, Square.c3);
+        final int bestMoveEvaluationFound = 100;
 
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
-            if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+            if (move.equals(bestMoveFound)) {
+                moveEvaluations.add(new MoveEvaluation(move, bestMoveEvaluationFound));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(bestMoveFound));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
-        assertEquals(game.getPossibleMoves().size(), points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(19, points);
     }
 
     /**
      * Actual best move is the second-best move found
      */
     @Test
-    @Disabled
     public void test_white02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        final Move bestMoveFoundBySearch = game.getMove(Square.c2, Square.c3);
-        final int bestEvaluationFoundBySearch = 100;
-        final Move actualBestMove = game.getMove(Square.f2, Square.f4);
+        final Move bestMoveFound = game.getMove(Square.c2, Square.c3);
+        final int bestMoveEvaluationFound = 100;
 
+        final Move actualBestMove = game.getMove(Square.f2, Square.f4);
+        final int actualBestMoveEvaluation = 90;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
-            if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+            if (move.equals(bestMoveFound)) {
+                moveEvaluations.add(new MoveEvaluation(move, bestMoveEvaluationFound));
             } else if (move.equals(actualBestMove)) {
-                saveEntry(game, move, 90);
+                moveEvaluations.add(new MoveEvaluation(move, actualBestMoveEvaluation));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
-        assertEquals(-1L, points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(18, points);
     }
 
     /**
-     * Actual best move was not searched
+     * Actual best move is last
      */
     @Test
-    @Disabled
     public void test_white03() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         final Move bestMoveFoundBySearch = game.getMove(Square.c2, Square.c3);
         final int bestEvaluationFoundBySearch = 100;
-        final Move actualBestMove = game.getMove(Square.f2, Square.f4);
 
+        final Move actualBestMove = game.getMove(Square.f2, Square.f4);
+        final int actualBestMoveEvaluation = -10;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
             if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
             } else if (move.equals(actualBestMove)) {
-                //saveEntry(game, move, 90);
+                moveEvaluations.add(new MoveEvaluation(move, actualBestMoveEvaluation));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        assertEquals(-19L, points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(0, points);
+    }
+
+
+    /**
+     * Actual best move was not searched
+     */
+    @Test
+    public void test_white04() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        final Move bestMoveFoundBySearch = game.getMove(Square.c2, Square.c3);
+        final int bestEvaluationFoundBySearch = 100;
+
+        final Move actualBestMove = game.getMove(Square.f2, Square.f4);
+        final int actualBestMoveEvaluation = 90;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            if (move.equals(bestMoveFoundBySearch)) {
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
+            } else if (move.equals(actualBestMove)) {
+                //moveEvaluations.add(new MoveEvaluation(move, 90));
+            } else {
+                moveEvaluations.add(new MoveEvaluation(move, i));
+            }
+            i++;
+        }
+
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(0, points);
     }
 
     /**
      * Actual best move = Best move found
      */
     @Test
-    @Disabled
     public void test_black01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
 
         final Move bestMoveFoundBySearch = game.getMove(Square.c7, Square.c6);
         final int bestEvaluationFoundBySearch = -100;
-        final Move actualBestMove = bestMoveFoundBySearch;
 
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
             if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(bestMoveFoundBySearch));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        assertEquals(game.getPossibleMoves().size(), points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(19, points);
     }
 
     /**
      * Actual best move is the second-best move found
      */
     @Test
-    @Disabled
     public void test_black02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
 
         final Move bestMoveFoundBySearch = game.getMove(Square.c7, Square.c6);
         final int bestEvaluationFoundBySearch = -100;
-        final Move actualBestMove = game.getMove(Square.f7, Square.f5);
 
+        final Move actualBestMove = game.getMove(Square.f7, Square.f5);
+        final int actualBestMoveEvaluation = -90;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
             if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
             } else if (move.equals(actualBestMove)) {
-                saveEntry(game, move, -90);
+                moveEvaluations.add(new MoveEvaluation(move, actualBestMoveEvaluation));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, -i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        assertEquals(-1L, points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(18, points);
+    }
+
+    /**
+     * Actual best move is last
+     */
+    @Test
+    public void test_black03() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
+
+        final Move bestMoveFoundBySearch = game.getMove(Square.c7, Square.c6);
+        final int bestEvaluationFoundBySearch = -100;
+
+        final Move actualBestMove = game.getMove(Square.f7, Square.f5);
+        final int actualBestMoveEvaluation = 10;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            if (move.equals(bestMoveFoundBySearch)) {
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
+            } else if (move.equals(actualBestMove)) {
+                moveEvaluations.add(new MoveEvaluation(move, actualBestMoveEvaluation));
+            } else {
+                moveEvaluations.add(new MoveEvaluation(move, -i));
+            }
+            i++;
+        }
+
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(0, points);
     }
 
     /**
      * Actual best move was not searched
      */
     @Test
-    @Disabled
-    public void test_black03() {
+    public void test_black04() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
 
         final Move bestMoveFoundBySearch = game.getMove(Square.c7, Square.c6);
         final int bestEvaluationFoundBySearch = -100;
-        final Move actualBestMove = game.getMove(Square.f7, Square.f5);
 
+        final Move actualBestMove = game.getMove(Square.f7, Square.f5);
+        final int actualBestMoveEvaluation = -90;
+
+        List<MoveEvaluation> moveEvaluations = new LinkedList<>();
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
             if (move.equals(bestMoveFoundBySearch)) {
-                saveEntry(game, move, bestEvaluationFoundBySearch);
+                moveEvaluations.add(new MoveEvaluation(move, bestEvaluationFoundBySearch));
             } else if (move.equals(actualBestMove)) {
-                //saveEntry(game, move, 90);
+                //moveEvaluations.add(new MoveEvaluation(move, 90));
             } else {
-                saveEntry(game, move, i);
+                moveEvaluations.add(new MoveEvaluation(move, -i));
             }
-
-            game.undoMove();
             i++;
         }
 
-        Collection<MoveEvaluation> moveEvaluationList = getMoveEvaluationList(game, bestEvaluationFoundBySearch, bestMoveFoundBySearch);
+        EPDEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
 
-        long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, moveEvaluationList);
+        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        assertEquals(-19L, points);
+        long points = fitnessFn.getPoints(epdEntry, searchResult);
+
+        assertEquals(0, points);
     }
 
-    private Collection<MoveEvaluation> getMoveEvaluationList(Game game, int bestEvaluationFoundBySearch, Move bestMoveFoundBySearch) {
-        SearchContext searchContext = new SearchContext(DEPTH);
-        //searchContext.setMaxMap(maxMap);
-        //searchContext.setMinMap(minMap);
-        //setMoveEvaluations.beforeSearch(game, DEPTH);
-        //setMoveEvaluations.beforeSearchByDepth(searchContext);
+    private EPDEntry createEpdEntry(Game game, List<Move> actualBestMove) {
+        EPDEntry epdEntry = new EPDEntry();
+        epdEntry.fen = game.getInitialFen();
+        epdEntry.game = game;
+        epdEntry.bestMoves = actualBestMove;
+        return epdEntry;
+    }
+
+    private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
-        //setMoveEvaluations.afterSearchByDepth(searchResult);
-        //setMoveEvaluations.afterSearch(searchResult);
-        return searchResult.getMoveEvaluations();
+        searchResult.setMoveEvaluations(moveEvaluations);
+
+        return searchResult;
     }
 
-    private TranspositionEntry saveEntry(Game game, Move move, int value) {
-        TranspositionEntry entry = null;
+
+    @Test
+    @Disabled
+    public void test01() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
+
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 1);
+
+        fitnessBySearch.start();
+        long points = fitnessBySearch.run(new EvaluatorSEandImp03(205, 753, 17, 25));
+        fitnessBySearch.stop();
+
+        assertEquals(49017L, points);
+    }
 
 
-        long hash = game.getChessPosition().getZobristHash();
+    @Test
+    @Disabled
+    public void test02() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
 
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            //entry = maxMap.allocate(hash);
-        } else {
-            //entry = minMap.allocate(hash);
-        }
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 3);
 
-        entry.hash = hash;
-        entry.movesAndValue = TranspositionEntry.encode(move, null, value);
-        entry.searchDepth = 0;
+        fitnessBySearch.start();
+        long points = fitnessBySearch.run(new EvaluatorSEandImp03(725, 223, 31, 21));
+        fitnessBySearch.stop();
 
-        return entry;
+        assertEquals(50780L, points);
+    }
+
+
+    @Test
+    @Disabled
+    public void test03() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
+
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 3);
+
+        fitnessBySearch.start();
+        long points = fitnessBySearch.run(new EvaluatorSEandImp03(545, 423, 17, 15));
+        fitnessBySearch.stop();
+
+        assertEquals(51635L, points);
+    }
+
+    @Test
+    @Disabled
+    public void test04() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
+
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 5);
+
+        fitnessBySearch.start();
+        long points = fitnessBySearch.run(new EvaluatorSEandImp02());
+        fitnessBySearch.stop();
+
+        assertEquals(51635L, points);
     }
 
 }

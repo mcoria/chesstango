@@ -20,11 +20,13 @@ public class SummaryComparator {
         SummaryComparator summaryComparator = new SummaryComparator("depth-5-2023-10-13-14-54-v0.0.20");
         //summaryComparator.addSession("depth-5-2023-10-14-09-03");
         summaryComparator.addSession("depth-5-2023-10-15-01-33");
-        summaryComparator.addSession("depth-5-2023-10-15-20-48");
+        //summaryComparator.addSession("depth-5-2023-10-15-20-48");
+        summaryComparator.addSession("depth-5-2023-10-17-06-38-CHT-185");
 
         //
         //
 
+        /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
 
@@ -33,6 +35,7 @@ public class SummaryComparator {
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w3.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
+        */
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");

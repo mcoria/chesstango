@@ -1,27 +1,24 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import io.jenetics.Genotype;
-import io.jenetics.IntegerGene;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.tuning.TuningMain;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.EngineControllerPoolFactory;
-import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.arena.MatchResult;
+import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.arena.gui.ProxyConfigLoader;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.UciProxy;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
@@ -31,13 +28,10 @@ public class FitnessByMatch implements FitnessFunction {
 
     private final List<String> fenList;
 
-    private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
-
     private ObjectPool<EngineController> pool;
 
-    public FitnessByMatch(Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn) {
-        this.gameEvaluatorSupplierFn = gameEvaluatorSupplierFn;
-        this.fenList = getFenList() ;
+    public FitnessByMatch() {
+        this.fenList = getFenList();
     }
 
     @Override
@@ -52,8 +46,8 @@ public class FitnessByMatch implements FitnessFunction {
 
 
     @Override
-    public long fitness(Genotype<IntegerGene> genotype) {
-        EngineController engineTango = createTango(genotype);
+    public long fitness(GameEvaluator gameEvaluator) {
+        EngineController engineTango = createTango(gameEvaluator);
 
         List<MatchResult> matchResult = fitnessEval(engineTango);
 
@@ -66,10 +60,10 @@ public class FitnessByMatch implements FitnessFunction {
         return pointsAsWhite + (-1) * pointsAsBlack;
     }
 
-    public EngineController createTango(Genotype<IntegerGene> genotype) {
-        DefaultSearchMove search = new DefaultSearchMove(gameEvaluatorSupplierFn.apply(genotype));
+    public EngineController createTango(GameEvaluator gameEvaluator) {
+        DefaultSearchMove search = new DefaultSearchMove(gameEvaluator);
 
-        EngineController tango = new EngineControllerImp(new UciTango( new Tango( search )));
+        EngineController tango = new EngineControllerImp(new UciTango(new Tango(search)));
 
         tango.startEngine();
 

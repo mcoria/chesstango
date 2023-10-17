@@ -162,7 +162,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadWAC(){
-        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac.epd");
+        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac.epd");
 
         assertEquals(300, entryList.size());
     }
@@ -170,9 +170,25 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadWAC2018(){
-        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
+        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
 
         assertEquals(201, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void testSilentButDeadly(){
+        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
+
+        assertEquals(134, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void testPET(){
+        List<EPDEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\pet.epd");
+
+        assertEquals(48, entryList.size());
     }
 
 
