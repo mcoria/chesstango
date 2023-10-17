@@ -14,10 +14,10 @@ import java.util.Iterator;
  */
 public class EvaluatorSEandImp03 extends AbstractEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 725;
-    private static final int FACTOR_POSITION_DEFAULT = 223;
-    private static final int FACTOR_EXPANSION_DEFAULT = 31;
-    private static final int FACTOR_ATAQUE_DEFAULT = 21;
+    private static final int FACTOR_MATERIAL_DEFAULT = 545;
+    private static final int FACTOR_POSITION_DEFAULT = 423;
+    private static final int FACTOR_EXPANSION_DEFAULT = 17;
+    private static final int FACTOR_ATAQUE_DEFAULT = 15;
 
     private final int material;
     private final int position;

@@ -43,22 +43,27 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
         List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
                 /*
-                    key = [205|753|17|25]; value=[49017]
-                    key = [205|753|9|33]; value=[49005]
-                    key = [294|669|10|27]; value=[48976]
-                    key = [294|669|15|22]; value=[48957]
-                    key = [294|669|8|29]; value=[48956]
-                    key = [290|673|15|22]; value=[48938]
-                    key = [189|768|17|26]; value=[48929]
-                    key = [133|821|19|27]; value=[48926]
-                    key = [161|795|18|26]; value=[48921]
-                    key = [294|669|13|24]; value=[48904]
-                    key = [295|652|19|34]; value=[48843]
-                    key = [315|632|19|34]; value=[48879]
-                    key = [320|628|18|34]; value=[48872]
-                    key = [320|628|17|35]; value=[48863]
-                    key = [315|632|17|36]; value=[48840]
-                    key = [246|697|21|36]; value=[48804]
+                    CODIFICAR
+                    key = [545|423|17|15]; value=[51635]
+                    key = [545|422|18|15]; value=[51599]
+                    key = [562|406|19|13]; value=[51557]
+                    key = [562|404|20|14]; value=[51551]
+                    key = [562|406|17|15]; value=[51480]
+                    key = [725|255|3|17]; value=[51456]
+                    key = [380|597|4|19]; value=[51435]
+                    key = [590|380|5|25]; value=[51433]
+                    key = [725|255|6|14]; value=[51430]
+                    key = [545|422|5|28]; value=[51411]
+                    key = [725|255|4|16]; value=[51406]
+                    key = [534|432|24|10]; value=[51403]
+                    key = [582|387|5|26]; value=[51396]
+                    key = [562|406|7|25]; value=[51385]
+                    key = [536|428|15|21]; value=[51282]
+                    key = [545|422|11|22]; value=[51259]
+                    key = [545|422|24|9]; value=[51234]
+                    key = [725|252|4|19]; value=[51151]
+                    key = [488|441|57|14]; value=[51145]
+                    key = [725|255|11|9]; value=[51132]
                  */
                 createPhenotype(205, 753, 17),
                 createPhenotype(205, 753, 9),
