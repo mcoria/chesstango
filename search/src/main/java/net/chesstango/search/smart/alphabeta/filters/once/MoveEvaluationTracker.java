@@ -10,7 +10,6 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -18,22 +17,21 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class MoveTracker implements AlphaBetaFilter {
+public class MoveEvaluationTracker implements AlphaBetaFilter {
     @Setter
     private AlphaBetaFilter next;
-
-    @Setter
-    private AlphaBetaFirst alphaBetaFirst;
 
     @Setter
     private StopProcessingCatch stopProcessingCatch;
 
     @Getter
     private List<MoveEvaluation> currentMoveEvaluations;
+    private Game game;
 
     @Override
     public void beforeSearch(Game game) {
-        currentMoveEvaluations = null;
+        this.currentMoveEvaluations = null;
+        this.game = game;
     }
 
     @Override
@@ -94,7 +92,7 @@ public class MoveTracker implements AlphaBetaFilter {
     }
 
     private void trackMove(long bestMoveAndValue) {
-        Move currentMove = alphaBetaFirst.getCurrentMove();
+        Move currentMove = game.getState().getPreviousState().getSelectedMove();
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
         currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue));
     }

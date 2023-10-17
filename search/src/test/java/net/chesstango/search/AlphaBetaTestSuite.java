@@ -3,7 +3,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsTest;
-import net.chesstango.search.smart.alphabeta.filters.MoveTrackerTest;
+import net.chesstango.search.smart.alphabeta.filters.MoveEvaluationTrackerTest;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionEntryTableTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -31,7 +31,7 @@ import org.junit.platform.suite.api.Suite;
         BestMovesWhiteTest.class,
 
         TranspositionEntryTableTest.class,
-        MoveTrackerTest.class
+        MoveEvaluationTrackerTest.class
 })
 public class AlphaBetaTestSuite {
 

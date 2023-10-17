@@ -26,9 +26,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Setter
     private AlphaBetaFilter next;
-
-    @Getter
-    private Move currentMove;
     private Game game;
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
@@ -42,7 +39,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
         List<Move> sortedMoves = getSortedMoves(false);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
-            currentMove = moveIterator.next();
+            Move currentMove = moveIterator.next();
             game = game.executeMove(currentMove);
             long bestMoveAndValue = next.minimize(1, Math.max(maxValue, alpha), beta);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -68,7 +65,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
         List<Move> sortedMoves = getSortedMoves(true);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
-            currentMove = moveIterator.next();
+            Move currentMove = moveIterator.next();
             game = game.executeMove(currentMove);
             long bestMoveAndValue = next.maximize(1, alpha, Math.min(minValue, beta));
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -104,7 +101,6 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        currentMove = null;
         lastBestMove = context.getLastBestMove();
         lastMoveEvaluations = context.getLastMoveEvaluations();
     }

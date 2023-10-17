@@ -18,7 +18,7 @@ public class AspirationWindows implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Setter
-    private MoveTracker moveTracker;
+    private MoveEvaluationTracker moveEvaluationTracker;
 
     private Integer lastBestValue;
 
@@ -80,7 +80,7 @@ public class AspirationWindows implements AlphaBetaFilter {
         int betaCycle = 1;
         do {
 
-            moveTracker.beforeSearchByWindows(alphaBound, betaBound);
+            moveEvaluationTracker.beforeSearchByWindows(alphaBound, betaBound);
 
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 
@@ -104,7 +104,7 @@ public class AspirationWindows implements AlphaBetaFilter {
                 search = false;
             }
 
-            moveTracker.afterSearchByWindows(!search);
+            moveEvaluationTracker.afterSearchByWindows(!search);
         } while (search);
 
         //System.out.printf("\n\n");

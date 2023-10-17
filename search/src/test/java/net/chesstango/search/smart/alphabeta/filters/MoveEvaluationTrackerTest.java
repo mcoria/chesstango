@@ -10,7 +10,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class MoveTrackerTest {
+public class MoveEvaluationTrackerTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
@@ -40,16 +40,15 @@ public class MoveTrackerTest {
         quiescence.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFirst alphaBetaFirst = new AlphaBetaFirst();
-        MoveTracker moveTracker = new MoveTracker();
+        MoveEvaluationTracker moveEvaluationTracker = new MoveEvaluationTracker();
         AlphaBetaFlowControl alphaBetaFirstFlowControl = new AlphaBetaFlowControl();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
-        alphaBetaFirst.setNext(moveTracker);
+        alphaBetaFirst.setNext(moveEvaluationTracker);
 
-        moveTracker.setNext(alphaBetaFirstFlowControl);
-        moveTracker.setAlphaBetaFirst(alphaBetaFirst);
+        moveEvaluationTracker.setNext(alphaBetaFirstFlowControl);
 
         alphaBetaFirstFlowControl.setNext(alphaBeta);
         alphaBetaFirstFlowControl.setQuiescence(quiescence);
@@ -66,7 +65,7 @@ public class MoveTrackerTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaFirst);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
     }
 
 
