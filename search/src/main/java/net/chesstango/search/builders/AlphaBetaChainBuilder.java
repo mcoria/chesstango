@@ -122,6 +122,7 @@ public class AlphaBetaChainBuilder {
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     private List<SearchLifeCycle> createSearchActions() {
@@ -134,15 +135,12 @@ public class AlphaBetaChainBuilder {
             filterActions.add(alphaBetaStatisticsExpected);
             filterActions.add(alphaBetaStatisticsVisited);
         }
-
         if (zobristTracker != null) {
             filterActions.add(zobristTracker);
         }
-
         if (transpositionTable != null) {
             filterActions.add(transpositionTable);
         }
-
         if (withTriangularPV) {
             filterActions.add(triangularPV);
         }
@@ -181,7 +179,6 @@ public class AlphaBetaChainBuilder {
             } else if (tail instanceof TranspositionTable transpositionTableTail) {
                 transpositionTableTail.setNext(alphaBetaStatisticsExpected);
             }
-
             tail = alphaBetaStatisticsExpected;
         }
 
@@ -195,8 +192,6 @@ public class AlphaBetaChainBuilder {
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
             alphaBetaStatisticsExpectedTail.setNext(alphaBeta);
         }
-
-        alphaBeta.setMoveSorter(moveSorter);
         tail = alphaBeta;
 
         if (alphaBetaStatisticsVisited != null) {
@@ -224,8 +219,6 @@ public class AlphaBetaChainBuilder {
         alphaBetaFlowControl.setNext(head);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        // ====================================================
 
 
         return head;

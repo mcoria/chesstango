@@ -45,6 +45,8 @@ public class TriangularPV implements AlphaBetaFilter {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
+        cleanNextWorkingArray(currentPly);
+
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
@@ -57,6 +59,8 @@ public class TriangularPV implements AlphaBetaFilter {
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
+        cleanNextWorkingArray(currentPly);
+
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
@@ -72,9 +76,15 @@ public class TriangularPV implements AlphaBetaFilter {
         final short[] workingArray = trianglePV[currentPly - 1];
         final short[] nextWorkingArray = trianglePV[currentPly];
 
-        final int copyElements = maxPly - currentPly;
-
         workingArray[0] = bestMove;
-        if (copyElements > 0) System.arraycopy(nextWorkingArray, 0, workingArray, 1, copyElements);
+        System.arraycopy(nextWorkingArray, 0, workingArray, 1, 29);
+    }
+
+
+    private void cleanNextWorkingArray(int currentPly) {
+        final short[] nextWorkingArray = trianglePV[currentPly];
+        for (int i = 0; i < 30; i++) {
+            nextWorkingArray[i] = 0;
+        }
     }
 }

@@ -138,6 +138,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         withTriangularPV = true;
         alphaBetaFirstChainBuilder.withTriangularPV();
         alphaBetaChainBuilder.withTriangularPV();
+        quiescenceChainBuilder.withTriangularPV();
         return this;
     }
 
@@ -179,7 +180,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
+            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
+                    .setTrackEvaluations(withTrackEvaluations);
         }
 
         if (withTranspositionTable) {
@@ -195,6 +197,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTriangularPV) {
             setPVStorage = new SetPVStorage();
+            setPVStorage.setGameEvaluator(gameEvaluator);
         }
 
         setPrincipalVariation = new SetPrincipalVariation();
