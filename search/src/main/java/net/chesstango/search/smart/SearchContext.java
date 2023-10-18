@@ -35,6 +35,11 @@ public class SearchContext {
     private Integer lastBestEvaluation;
     private List<MoveEvaluation> lastMoveEvaluations;
 
+    /**
+     * Se utiliza para el calculo de PV
+     */
+    private short[][] trianglePV;
+
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }

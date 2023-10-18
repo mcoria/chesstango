@@ -29,8 +29,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetPrincipalVariation setPrincipalVariation;
     private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
-
     private SetupGameEvaluator setupGameEvaluator;
+    private SetPVStorage setPVStorage;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -38,6 +38,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
+    private boolean withTriangularPV;
 
 
     public AlphaBetaBuilder() {
@@ -133,6 +134,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withTriangularPV() {
+        withTriangularPV = true;
+        alphaBetaFirstChainBuilder.withTriangularPV();
+        alphaBetaChainBuilder.withTriangularPV();
+        return this;
+    }
 
     @Override
     public SearchMove build() {
@@ -172,8 +179,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
-                    .setTrackEvaluations(withTrackEvaluations);
+            gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
         }
 
         if (withTranspositionTable) {
@@ -183,9 +189,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
         }
 
-        // =============  alphaBeta setup =====================
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
+        }
+
+        if (withTriangularPV) {
+            setPVStorage = new SetPVStorage();
         }
 
         setPrincipalVariation = new SetPrincipalVariation();
@@ -207,6 +216,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withStatistics) {
             filterActions.add(setNodeStatistics);
 
+        }
+
+        if (setPVStorage != null) {
+            filterActions.add(setPVStorage);
         }
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {

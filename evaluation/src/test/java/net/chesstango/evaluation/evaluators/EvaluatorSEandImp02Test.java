@@ -241,4 +241,28 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
     }
 
 
+    @Test
+    public void testEvaluation01() {
+        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.a3, Square.c4);
+        game.executeMove(Square.h8, Square.g8);
+
+        assertEquals(165300, evaluator.evaluate());
+    }
+
+    @Test
+    public void testEvaluation02() {
+        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.a3, Square.c2);
+        game.executeMove(Square.h8, Square.g8);
+        game.executeMove(Square.c2, Square.d4);
+
+
+        assertEquals(168750, evaluator.evaluate());
+    }
+
 }
