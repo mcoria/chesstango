@@ -22,12 +22,12 @@ public class AlphaBetaChainBuilder {
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
-
     private AlphaBetaFilter quiescence;
+    private TriangularPV triangularPV;
     private List<SearchLifeCycle> filterActions;
     private boolean withStatistics;
     private boolean withZobristTracker;
-
+    private boolean withTriangularPV;
 
     public AlphaBetaChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -63,6 +63,11 @@ public class AlphaBetaChainBuilder {
 
     public AlphaBetaChainBuilder withZobristTracker() {
         withZobristTracker = true;
+        return this;
+    }
+
+    public AlphaBetaChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
         return this;
     }
 
@@ -107,17 +112,17 @@ public class AlphaBetaChainBuilder {
     }
 
     private void buildObjects() {
-        // =============  alphaBeta setup =====================
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         }
-
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
-        // ====================================================
-
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     private List<SearchLifeCycle> createSearchActions() {
@@ -130,13 +135,14 @@ public class AlphaBetaChainBuilder {
             filterActions.add(alphaBetaStatisticsExpected);
             filterActions.add(alphaBetaStatisticsVisited);
         }
-
         if (zobristTracker != null) {
             filterActions.add(zobristTracker);
         }
-
         if (transpositionTable != null) {
             filterActions.add(transpositionTable);
+        }
+        if (withTriangularPV) {
+            filterActions.add(triangularPV);
         }
 
         return filterActions;
@@ -173,7 +179,6 @@ public class AlphaBetaChainBuilder {
             } else if (tail instanceof TranspositionTable transpositionTableTail) {
                 transpositionTableTail.setNext(alphaBetaStatisticsExpected);
             }
-
             tail = alphaBetaStatisticsExpected;
         }
 
@@ -187,8 +192,6 @@ public class AlphaBetaChainBuilder {
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
             alphaBetaStatisticsExpectedTail.setNext(alphaBeta);
         }
-
-        alphaBeta.setMoveSorter(moveSorter);
         tail = alphaBeta;
 
         if (alphaBetaStatisticsVisited != null) {
@@ -196,19 +199,26 @@ public class AlphaBetaChainBuilder {
             tail = alphaBetaStatisticsVisited;
         }
 
-        if (tail instanceof AlphaBeta alphaBetaTail) {
-            alphaBetaTail.setNext(alphaBetaFlowControl);
-        } else if (tail instanceof AlphaBetaStatisticsVisited alphaBetaStatisticsVisitedTail) {
-            alphaBetaStatisticsVisitedTail.setNext(alphaBetaFlowControl);
-        } else {
-            throw new RuntimeException("Invalid tail");
+        if (triangularPV != null) {
+            if (tail instanceof AlphaBeta) {
+                alphaBeta.setNext(triangularPV);
+            } else if (tail instanceof AlphaBetaStatisticsVisited) {
+                alphaBetaStatisticsVisited.setNext(triangularPV);
+            }
+            tail = triangularPV;
+        }
+
+        if (tail instanceof AlphaBeta) {
+            alphaBeta.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof AlphaBetaStatisticsVisited) {
+            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof TriangularPV) {
+            triangularPV.setNext(alphaBetaFlowControl);
         }
 
         alphaBetaFlowControl.setNext(head);
         alphaBetaFlowControl.setQuiescence(quiescence);
         alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        // ====================================================
 
 
         return head;

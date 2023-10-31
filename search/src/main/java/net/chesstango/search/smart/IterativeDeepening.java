@@ -84,6 +84,9 @@ public class IterativeDeepening implements SearchMove {
         return searchResult;
     }
 
+    /**
+     * Moverlo a un filtro que sirva de memoria
+     */
     private void setupContext(SearchContext context, SearchMoveResult searchMoveResult) {
         context.setLastBestMove(searchMoveResult.getBestMove());
         context.setLastBestEvaluation(searchMoveResult.getEvaluation());

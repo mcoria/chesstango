@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class EpdSearchMainTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private EPDReader epdReader;
     private EpdSearch epdSearch;
     private EpdSearchResult epdSearchResult;
@@ -59,7 +59,7 @@ public class EpdSearchMainTest {
 
     @Test
     public void test_WAC003() {
-        epdSearch.setDepth(6);
+        epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - bm Rg3; id \"WAC.003\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
@@ -263,7 +263,7 @@ public class EpdSearchMainTest {
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
-                .withGameEvaluatorCache()
+                //.withGameEvaluatorCache()
 
                 .withQuiescence()
 
@@ -275,6 +275,7 @@ public class EpdSearchMainTest {
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
+                .withTriangularPV()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria

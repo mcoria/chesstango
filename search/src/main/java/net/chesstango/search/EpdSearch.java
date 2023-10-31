@@ -141,19 +141,19 @@ public class EpdSearch {
     private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
-                .withGameEvaluatorCache()
+                //.withGameEvaluatorCache()
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
-
+                .withTriangularPV()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria

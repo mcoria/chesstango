@@ -3,10 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
 
 import java.util.List;
@@ -26,6 +23,7 @@ public class AlphaBetaFirstChainBuilder {
     private AspirationWindows aspirationWindows;
     private MoveEvaluationTracker moveEvaluationTracker;
     private TranspositionTableFirst transpositionTableFirst;
+    private TriangularPV triangularPV;
 
     private List<SearchLifeCycle> filterActions;
 
@@ -33,6 +31,7 @@ public class AlphaBetaFirstChainBuilder {
 
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
+    private boolean withTriangularPV;
 
     public AlphaBetaFirstChainBuilder() {
         alphaBetaFirst = new AlphaBetaFirst();
@@ -82,6 +81,11 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
+    public AlphaBetaFirstChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -100,11 +104,15 @@ public class AlphaBetaFirstChainBuilder {
             aspirationWindows = new AspirationWindows();
         }
 
-        moveEvaluationTracker = new MoveEvaluationTracker();
-
         if (withTranspositionTable) {
             transpositionTableFirst = new TranspositionTableFirst();
         }
+
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
+
+        moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
 
@@ -129,6 +137,10 @@ public class AlphaBetaFirstChainBuilder {
 
         if (transpositionTableFirst != null) {
             filterActions.add(transpositionTableFirst);
+        }
+
+        if (withTriangularPV) {
+            filterActions.add(triangularPV);
         }
 
         return filterActions;
@@ -205,12 +217,21 @@ public class AlphaBetaFirstChainBuilder {
             tail = alphaBetaStatisticsVisited;
         }
 
-        if (tail instanceof MoveEvaluationTracker moveEvaluationTrackerTail) {
-            moveEvaluationTrackerTail.setNext(alphaBetaFlowControl);
-        } else if (tail instanceof AlphaBetaStatisticsVisited alphaBetaStatisticsVisitedTail) {
-            alphaBetaStatisticsVisitedTail.setNext(alphaBetaFlowControl);
-        } else {
-            throw new RuntimeException("Invalid tail");
+        if (triangularPV != null) {
+            if (tail instanceof MoveEvaluationTracker) {
+                moveEvaluationTracker.setNext(triangularPV);
+            } else if (tail instanceof AlphaBetaStatisticsVisited) {
+                alphaBetaStatisticsVisited.setNext(triangularPV);
+            }
+            tail = triangularPV;
+        }
+
+        if (tail instanceof MoveEvaluationTracker) {
+            moveEvaluationTracker.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof AlphaBetaStatisticsVisited) {
+            alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof TriangularPV) {
+            triangularPV.setNext(alphaBetaFlowControl);
         }
 
         alphaBetaFlowControl.setNext(next);

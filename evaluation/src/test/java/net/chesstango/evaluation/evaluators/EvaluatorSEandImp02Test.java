@@ -241,4 +241,59 @@ public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
     }
 
 
+    @Test
+    public void testEvaluation01() {
+        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.a3, Square.c4);
+        game.executeMove(Square.h8, Square.g8);
+
+        assertEquals(165300, evaluator.evaluate());
+    }
+
+    @Test
+    public void testEvaluation02() {
+        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.a3, Square.c2);
+        game.executeMove(Square.h8, Square.g8);
+        game.executeMove(Square.c2, Square.d4);
+
+
+        assertEquals(168750, evaluator.evaluate());
+    }
+
+    @Test
+    public void testEvaluation03() {
+        Game game = FENDecoder.loadGame("r2qnrnk/p2b2b1/1p1p2pp/2pPpp2/1PP1P3/PRNBB3/3QNPPP/5RK1 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.f2, Square.f4);
+        game.executeMove(Square.c5, Square.b4);
+        game.executeMove(Square.b3, Square.b4);
+        game.executeMove(Square.d8, Square.e7);
+        game.executeMove(Square.f4, Square.e5);
+        game.executeMove(Square.d6, Square.e5);
+
+
+        assertEquals(26000, evaluator.evaluate());
+    }
+
+    @Test
+    public void testEvaluation04() {
+        Game game = FENDecoder.loadGame("r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - 0 1");
+        evaluator.setGame(game);
+
+        game.executeMove(Square.c3, Square.d5);
+        game.executeMove(Square.f6, Square.d5);
+        game.executeMove(Square.f1, Square.f8);
+        game.executeMove(Square.g8, Square.f8);
+        game.executeMove(Square.e4, Square.d5);
+
+
+        assertEquals(19515, evaluator.evaluate());
+    }
+
 }

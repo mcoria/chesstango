@@ -23,10 +23,12 @@ public class QuiescenceChainBuilder {
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
+    private TriangularPV triangularPV;
     private List<SearchLifeCycle> filterActions;
     private boolean withQuiescence;
     private boolean withStatistics;
     private boolean withZobristTracker;
+    private boolean withTriangularPV;
 
 
     public QuiescenceChainBuilder() {
@@ -69,6 +71,11 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
+        return this;
+    }
+
     public QuiescenceChainBuilder withFilterActions(List<SearchLifeCycle> filterActions) {
         this.filterActions = filterActions;
         return this;
@@ -104,6 +111,9 @@ public class QuiescenceChainBuilder {
             if (withZobristTracker) {
                 zobristQTracker = new ZobristTracker();
             }
+            if (withTriangularPV) {
+                triangularPV = new TriangularPV();
+            }
         } else {
             quiescenceNull = new QuiescenceNull();
         }
@@ -124,6 +134,9 @@ public class QuiescenceChainBuilder {
             }
             if (transpositionTableQ != null) {
                 filterActions.add(transpositionTableQ);
+            }
+            if (withTriangularPV) {
+                filterActions.add(triangularPV);
             }
         } else {
             filterActions.add(quiescenceNull);
@@ -200,16 +213,24 @@ public class QuiescenceChainBuilder {
 
         if (quiescenceStatisticsVisited != null) {
             quiescence.setNext(quiescenceStatisticsVisited);
-            quiescenceStatisticsVisited.setNext(quiescenceFlowControl);
             tail = quiescenceStatisticsVisited;
+        }
+
+        if (triangularPV != null) {
+            if (tail instanceof Quiescence) {
+                quiescence.setNext(triangularPV);
+            } else if (tail instanceof QuiescenceStatisticsVisited) {
+                quiescenceStatisticsVisited.setNext(triangularPV);
+            }
+            tail = triangularPV;
         }
 
         if (tail instanceof Quiescence quiescenceTail) {
             quiescenceTail.setNext(quiescenceFlowControl);
         } else if (tail instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisitedTail) {
             quiescenceStatisticsVisitedTail.setNext(quiescenceFlowControl);
-        } else {
-            throw new RuntimeException("Invalid tail");
+        } else if (tail instanceof TriangularPV) {
+            triangularPV.setNext(quiescenceFlowControl);
         }
 
         quiescenceFlowControl.setNext(head);
