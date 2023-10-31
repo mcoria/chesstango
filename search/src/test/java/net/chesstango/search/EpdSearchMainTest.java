@@ -267,11 +267,11 @@ public class EpdSearchMainTest {
 
                 .withQuiescence()
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
+                .withTranspositionTable()
+                .withQTranspositionTable()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()

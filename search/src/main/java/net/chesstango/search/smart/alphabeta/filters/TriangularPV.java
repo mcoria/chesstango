@@ -14,7 +14,6 @@ public class TriangularPV implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private short[][] trianglePV;
     private Game game;
-    private int maxPly;
 
     @Override
     public void beforeSearch(Game game) {
@@ -24,7 +23,6 @@ public class TriangularPV implements AlphaBetaFilter {
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         this.trianglePV = context.getTrianglePV();
-        this.maxPly = context.getMaxPly();
     }
 
     @Override
@@ -77,13 +75,13 @@ public class TriangularPV implements AlphaBetaFilter {
         final short[] nextWorkingArray = trianglePV[currentPly];
 
         workingArray[0] = bestMove;
-        System.arraycopy(nextWorkingArray, 0, workingArray, 1, 29);
+        System.arraycopy(nextWorkingArray, 0, workingArray, 1, 39);
     }
 
 
     private void cleanNextWorkingArray(int currentPly) {
         final short[] nextWorkingArray = trianglePV[currentPly];
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 40; i++) {
             nextWorkingArray[i] = 0;
         }
     }

@@ -23,7 +23,7 @@ public class SetPVStorage implements SearchLifeCycle {
     private Game game;
 
     public SetPVStorage() {
-        trianglePV = new short[30][30];
+        trianglePV = new short[40][40];
     }
 
     @Override
