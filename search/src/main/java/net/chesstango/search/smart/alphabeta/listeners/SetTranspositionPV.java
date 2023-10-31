@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetPrincipalVariation implements SearchLifeCycle {
+public class SetTranspositionPV implements SearchLifeCycle {
     private TTable maxMap;
     private TTable minMap;
 
@@ -30,7 +30,6 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override

@@ -11,7 +11,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -200,7 +200,7 @@ public class TranspositionEntryTableTest {
                 quiescenceNull,
                 moveSorter,
                 gameEvaluator,
-                new SetPrincipalVariation(),
+                new SetTranspositionPV(),
                 alphaBetaFlowControl,
                 setupGameEvaluator));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
