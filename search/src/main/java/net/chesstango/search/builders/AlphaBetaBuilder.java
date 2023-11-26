@@ -180,8 +180,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
-                    .setTrackEvaluations(withTrackEvaluations);
+            gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
         }
 
         if (withTranspositionTable) {
@@ -189,10 +188,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
-        }
-
-        if (withStatistics) {
-            setNodeStatistics = new SetNodeStatistics();
+            setTranspositionPV = new SetTranspositionPV();
         }
 
         if (withTriangularPV) {
@@ -200,7 +196,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setTrianglePV.setGameEvaluator(gameEvaluator);
         }
 
-        setTranspositionPV = new SetTranspositionPV();
+        if (withStatistics) {
+            setNodeStatistics = new SetNodeStatistics();
+        }
 
         setBestMoves = new SetBestMoves();
 
@@ -216,20 +214,21 @@ public class AlphaBetaBuilder implements SearchBuilder {
             filterActions.add(setTranspositionTables);
         }
 
-        if (withStatistics) {
-            filterActions.add(setNodeStatistics);
-
+        if (setTranspositionPV != null) {
+            filterActions.add(setTranspositionPV);
         }
 
         if (setTrianglePV != null) {
             filterActions.add(setTrianglePV);
         }
 
+        if (withStatistics) {
+            filterActions.add(setNodeStatistics);
+        }
+
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             filterActions.add(evaluatorStatistics);
         }
-
-        filterActions.add(setTranspositionPV);
 
         filterActions.add(setBestMoves);
 
