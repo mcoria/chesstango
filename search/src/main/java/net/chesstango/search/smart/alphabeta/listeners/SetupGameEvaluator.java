@@ -14,6 +14,7 @@ public class SetupGameEvaluator implements SearchLifeCycle {
 
     @Setter
     private GameEvaluator gameEvaluator;
+
     @Override
     public void beforeSearch(Game game) {
         gameEvaluator.setGame(game);

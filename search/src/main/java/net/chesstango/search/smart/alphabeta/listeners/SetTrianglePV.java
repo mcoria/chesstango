@@ -39,7 +39,8 @@ public class SetTrianglePV implements SearchLifeCycle {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        validatePrincipalVariation(result.getEvaluation());
+        List<Move> principalVariation = calculatePrincipalVariation(result.getEvaluation());
+        result.setPrincipalVariation(principalVariation);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SetTrianglePV implements SearchLifeCycle {
     public void reset() {
     }
 
-    public void validatePrincipalVariation(int bestEvaluation) {
+    public List<Move> calculatePrincipalVariation(int bestEvaluation) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -79,6 +80,8 @@ public class SetTrianglePV implements SearchLifeCycle {
         for (int i = 0; i < pvMoveCounter; i++) {
             game.undoMove();
         }
+
+        return principalVariation;
     }
 
     private Move readMove(short bestMoveEncoded) {
