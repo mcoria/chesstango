@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetPVStorage implements SearchLifeCycle {
+public class SetTrianglePV implements SearchLifeCycle {
 
     @Setter
     private GameEvaluator gameEvaluator;
@@ -22,7 +22,7 @@ public class SetPVStorage implements SearchLifeCycle {
     private final short[][] trianglePV;
     private Game game;
 
-    public SetPVStorage() {
+    public SetTrianglePV() {
         trianglePV = new short[40][40];
     }
 

@@ -26,11 +26,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final QuiescenceChainBuilder quiescenceChainBuilder;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
-    private SetPrincipalVariation setPrincipalVariation;
+    private SetTranspositionPV setTranspositionPV;
     private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
     private SetupGameEvaluator setupGameEvaluator;
-    private SetPVStorage setPVStorage;
+    private SetTrianglePV setTrianglePV;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -196,11 +196,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTriangularPV) {
-            setPVStorage = new SetPVStorage();
-            setPVStorage.setGameEvaluator(gameEvaluator);
+            setTrianglePV = new SetTrianglePV();
+            setTrianglePV.setGameEvaluator(gameEvaluator);
         }
 
-        setPrincipalVariation = new SetPrincipalVariation();
+        setTranspositionPV = new SetTranspositionPV();
 
         setBestMoves = new SetBestMoves();
 
@@ -221,15 +221,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         }
 
-        if (setPVStorage != null) {
-            filterActions.add(setPVStorage);
+        if (setTrianglePV != null) {
+            filterActions.add(setTrianglePV);
         }
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             filterActions.add(evaluatorStatistics);
         }
 
-        filterActions.add(setPrincipalVariation);
+        filterActions.add(setTranspositionPV);
 
         filterActions.add(setBestMoves);
 

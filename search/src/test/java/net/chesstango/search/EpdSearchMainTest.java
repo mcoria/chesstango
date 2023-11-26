@@ -275,7 +275,7 @@ public class EpdSearchMainTest {
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
-                .withTriangularPV()
+                //.withTriangularPV()
 
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
