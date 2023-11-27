@@ -141,7 +141,7 @@ public class EpdSearch {
     private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
-                .withGameEvaluatorCache()
+                //.withGameEvaluatorCache()
 
                 .withQuiescence()
 
