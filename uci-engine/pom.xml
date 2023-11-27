@@ -81,6 +81,7 @@
                             </excludes>
                         </filter>
                     </filters>
+                    <finalName>chesstango-uci</finalName>
                     <!--
                     <artifactSet>
                         <excludes>

@@ -81,6 +81,7 @@
                             </excludes>
                         </filter>
                     </filters>
+                    <finalName>chesstango-lichess</finalName>
                     <!--
                     <artifactSet>
                         <excludes>
