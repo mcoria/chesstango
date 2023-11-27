@@ -200,7 +200,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(20, visitedNodesCountersTotal);
         assertEquals(0, visitedQNodesCounters[0]);
         assertEquals(0, visitedQNodesCountersTotal);
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
     }
 
     @Test
@@ -258,7 +258,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(20, visitedNodesCountersTotal);
         assertEquals(0, visitedQNodesCounters[0]);
         assertEquals(0, visitedQNodesCountersTotal);
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
     }
 
     @Test
@@ -346,6 +346,6 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[7]);
 
         assertEquals(28, visitedNodesCountersTotal);
-        assertEquals(35, executedMoves);
+        assertEquals(28, executedMoves);
     }
 }
