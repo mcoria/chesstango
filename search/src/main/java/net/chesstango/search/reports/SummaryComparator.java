@@ -17,8 +17,8 @@ import java.util.Objects;
 public class SummaryComparator {
 
     public static void main(String[] args) {
-        SummaryComparator summaryComparator = new SummaryComparator("depth-6-2023-10-13-15-15-v0.0.20");
-        summaryComparator.addSession("depth-6-2023-11-26-22-41");
+        SummaryComparator summaryComparator = new SummaryComparator("depth-5-2023-12-01-00-00-v0.0.21");
+        summaryComparator.addSession("depth-5-2023-12-01-00-25");
         //
         //
 
@@ -34,6 +34,8 @@ public class SummaryComparator {
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
+        summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
+        summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd");
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd");

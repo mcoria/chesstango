@@ -52,9 +52,7 @@ public class TranspositionTableQ implements AlphaBetaFilter {
 
         TranspositionEntry entry = maxMap.get(hash);
 
-        if (entry == null) {
-            entry = maxMap.allocate(hash);
-        } else {
+        if (entry.isStored(hash)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
@@ -79,9 +77,7 @@ public class TranspositionTableQ implements AlphaBetaFilter {
 
         TranspositionEntry entry = minMap.get(hash);
 
-        if (entry == null) {
-            entry = minMap.allocate(hash);
-        } else {
+        if (entry.isStored(hash)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {

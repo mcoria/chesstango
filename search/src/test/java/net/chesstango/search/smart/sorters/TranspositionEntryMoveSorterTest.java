@@ -53,7 +53,7 @@ public class TranspositionEntryMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry tableEntry = maxMap.allocate(hash);
+        TranspositionEntry tableEntry = maxMap.get(hash);
 
         updateTableEntry(hash, tableEntry, bestMove, secondBestMove);
 
