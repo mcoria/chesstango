@@ -48,6 +48,9 @@ public class TranspositionEntry implements Serializable {
 
     public void reset() {
         hash = 0;
+        searchDepth = 0;
+        movesAndValue = 0;
+        transpositionBound = null;
     }
 
     public boolean isStored(long hash) {

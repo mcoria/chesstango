@@ -5,6 +5,5 @@ package net.chesstango.search.smart.transposition;
  */
 public interface TTable {
     TranspositionEntry get(long hash);
-
     void clear();
 }
