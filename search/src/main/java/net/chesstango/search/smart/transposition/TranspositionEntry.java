@@ -11,14 +11,8 @@ public class TranspositionEntry implements Serializable {
 
     public long hash;
     public int searchDepth;
-
     public long movesAndValue;
-
     public TranspositionBound transpositionBound;
-
-    public void reset() {
-        hash = 0;
-    }
 
     public static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
     public static final long MOVE_MASK = 0b00000000_00000000_00000000_00000000_00000000_00000000_11111111_11111111L;
@@ -32,13 +26,13 @@ public class TranspositionEntry implements Serializable {
         long bestMoveEncodedLng = (MOVE_MASK & bestMoveEncoded) << 48;
 
         short secondBestMoveEncoded = secondBestMove != null ? secondBestMove.binaryEncoding() : (short) 0;
+
         long secondBestMoveEncodedLng = (MOVE_MASK & secondBestMoveEncoded) << 32;
 
         long valueEncodedLng = VALUE_MASK & value;
 
         return bestMoveEncodedLng | secondBestMoveEncodedLng | valueEncodedLng;
     }
-
 
     public static int decodeValue(long encodedMovesAndValue) {
         return (int) encodedMovesAndValue;
@@ -52,5 +46,14 @@ public class TranspositionEntry implements Serializable {
         return (short) (encodedMovesAndValue >> 32);
     }
 
+    public void reset() {
+        hash = 0;
+        searchDepth = 0;
+        movesAndValue = 0;
+        transpositionBound = null;
+    }
 
+    public boolean isStored(long hash) {
+        return this.hash == hash;
+    }
 }

@@ -56,11 +56,10 @@ public class TranspositionTable implements AlphaBetaFilter {
         int searchDepth = maxPly - currentPly;
 
         long hash = game.getChessPosition().getZobristHash();
+
         TranspositionEntry entry = maxMap.get(hash);
 
-        if (entry == null) {
-            entry = maxMap.allocate(hash);
-        } else if (searchDepth <= entry.searchDepth) {
+        if (entry.isStored(hash) && searchDepth <= entry.searchDepth) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
@@ -87,9 +86,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
         TranspositionEntry entry = minMap.get(hash);
 
-        if (entry == null) {
-            entry = minMap.allocate(hash);
-        } else if (searchDepth <= entry.searchDepth) {
+        if (entry.isStored(hash) && searchDepth <= entry.searchDepth) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {

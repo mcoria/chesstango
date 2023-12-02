@@ -12,11 +12,6 @@ public class MapTTable implements TTable {
 
     @Override
     public TranspositionEntry get(long hash) {
-        return table.get(hash);
-    }
-
-    @Override
-    public TranspositionEntry allocate(long hash) {
         return table.computeIfAbsent(hash, key -> new TranspositionEntry());
     }
 
