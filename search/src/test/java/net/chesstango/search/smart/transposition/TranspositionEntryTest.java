@@ -48,11 +48,9 @@ public class TranspositionEntryTest {
         long encodedMoveAndValue = 0b10000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L;
 
         short bestMove = TranspositionEntry.decodeBestMove(encodedMoveAndValue);
-        short secondBestMove = TranspositionEntry.decodeSecondBestMove(encodedMoveAndValue);
         int value = TranspositionEntry.decodeValue(encodedMoveAndValue);
 
         assertEquals((short) 0b10000000_00000000, bestMove);
-        assertEquals((short) 0b00001110_11011111, secondBestMove);
         assertEquals(0b10000000_00000000_00000000_00000010, value);
     }
 

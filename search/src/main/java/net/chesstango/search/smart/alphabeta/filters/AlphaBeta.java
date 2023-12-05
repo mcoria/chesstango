@@ -83,16 +83,14 @@ public class AlphaBeta implements AlphaBetaFilter {
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, secondBestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
-        Move secondBestMove = null;
 
         int minValue = GameEvaluator.INFINITE_POSITIVE;
-        int secondMinValue = GameEvaluator.INFINITE_POSITIVE;
 
         boolean search = true;
 
@@ -106,24 +104,19 @@ public class AlphaBeta implements AlphaBetaFilter {
             long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
-                secondMinValue = minValue;
                 minValue = currentValue;
 
-                secondBestMove = bestMove;
                 bestMove = move;
 
                 if (minValue <= alpha) {
                     search = false;
                 }
-            } else if (currentValue < secondMinValue) {
-                secondMinValue = currentValue;
-                secondBestMove = move;
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
     }
 
     @Override

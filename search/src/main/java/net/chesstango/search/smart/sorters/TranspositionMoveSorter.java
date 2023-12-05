@@ -77,24 +77,19 @@ public class TranspositionMoveSorter implements MoveSorter {
         }
 
         short bestMoveEncoded = 0;
-        short secondBestMoveEncoded = 0;
         if (entry != null) {
             bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
-            secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(entry.movesAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();
 
         Move bestMove = null;
-        Move secondBestMove = null;
         List<Move> unsortedMoveList = new LinkedList<>();
         List<MoveAndValue> unsortedMoveValueList = new LinkedList<>();
         for (Move move : game.getPossibleMoves()) {
             short encodedMove = move.binaryEncoding();
             if (encodedMove == bestMoveEncoded) {
                 bestMove = move;
-            } else if (encodedMove == secondBestMoveEncoded) {
-                secondBestMove = move;
             } else {
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
@@ -112,9 +107,6 @@ public class TranspositionMoveSorter implements MoveSorter {
 
         if (bestMove != null) {
             sortedMoveList.add(bestMove);
-            if (secondBestMove != null) {
-                sortedMoveList.add(secondBestMove);
-            }
         }
 
         if (!unsortedMoveValueList.isEmpty()) {

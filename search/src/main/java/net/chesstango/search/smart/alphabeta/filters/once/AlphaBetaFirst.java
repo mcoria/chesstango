@@ -53,7 +53,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, null, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class AlphaBetaFirst implements AlphaBetaFilter {
             }
             game = game.undoMove();
         }
-        return TranspositionEntry.encode(bestMove, null, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
     }
 
 

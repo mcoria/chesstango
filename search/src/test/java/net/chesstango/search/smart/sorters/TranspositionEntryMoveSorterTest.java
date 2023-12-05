@@ -42,12 +42,9 @@ public class TranspositionEntryMoveSorterTest {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         Move bestMove = null;
-        Move secondBestMove = null;
         for (Move move : game.getPossibleMoves()) {
             if (Square.c2.equals(move.getFrom().getSquare()) && Square.c3.equals(move.getTo().getSquare())) {
                 bestMove = move;
-            } else if (Square.g1.equals(move.getFrom().getSquare()) && Square.f3.equals(move.getTo().getSquare())) {
-                secondBestMove = move;
             }
         }
 
@@ -55,7 +52,7 @@ public class TranspositionEntryMoveSorterTest {
 
         TranspositionEntry tableEntry = maxMap.getForWrite(hash);
 
-        updateTableEntry(hash, tableEntry, bestMove, secondBestMove);
+        updateTableEntry(hash, tableEntry, bestMove);
 
         initMoveSorter(game);
 
@@ -67,11 +64,6 @@ public class TranspositionEntryMoveSorterTest {
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
         assertEquals(Square.c2, move.getFrom().getSquare());
         assertEquals(Square.c3, move.getTo().getSquare());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.g1, move.getFrom().getSquare());
-        assertEquals(Square.f3, move.getTo().getSquare());
     }
 
     private void initMoveSorter(Game game) {
@@ -86,8 +78,8 @@ public class TranspositionEntryMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private void updateTableEntry(long hash, TranspositionEntry entry, Move bestMove, Move secondBestMove) {
-        long bestMoveAndValue = TranspositionEntry.encode(bestMove, secondBestMove, 1);
+    private void updateTableEntry(long hash, TranspositionEntry entry, Move bestMove) {
+        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
         entry.hash = hash;
         entry.movesAndValue = bestMoveAndValue;
     }
