@@ -89,7 +89,7 @@ public class SetTranspositionPV implements SearchLifeCycle {
 
         if (maxMap != null && minMap != null) {
             long hash = game.getChessPosition().getZobristHash();
-            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.getForRead(hash) : minMap.getForRead(hash);
             if (entry != null) {
                 short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
                 for (Move posibleMove : game.getPossibleMoves()) {

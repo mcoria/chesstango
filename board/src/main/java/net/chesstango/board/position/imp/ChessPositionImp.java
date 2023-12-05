@@ -122,7 +122,7 @@ public class ChessPositionImp implements ChessPosition {
 
         move.undoMove(this.positionState);
 
-        move.executeMove(this.squareBoard);
+        move.undoMove(this.squareBoard);
 
         return zobristHash;
     }

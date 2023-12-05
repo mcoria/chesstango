@@ -8,6 +8,7 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
+    private static final MoveAndValueComparator moveAndValueComparator = new MoveAndValueComparator();
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -57,63 +59,84 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public List<Move> getSortedMoves() {
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry;
-        TranspositionEntry qentry;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
-            qentry = qMaxMap.get(hash);
+        if (Color.WHITE.equals(currentTurn)) {
+            entry = maxMap.getForRead(hash);
+            if (entry == null) {
+                entry = qMaxMap.getForRead(hash);
+            }
         } else {
-            entry = minMap.get(hash);
-            qentry = qMinMap.get(hash);
+            entry = minMap.getForRead(hash);
+            if (entry == null) {
+                entry = qMinMap.getForRead(hash);
+            }
         }
 
         short bestMoveEncoded = 0;
         short secondBestMoveEncoded = 0;
-
         if (entry != null) {
             bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
             secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(entry.movesAndValue);
-        } else if (qentry != null) {
-            bestMoveEncoded = TranspositionEntry.decodeBestMove(qentry.movesAndValue);
-            secondBestMoveEncoded = TranspositionEntry.decodeSecondBestMove(qentry.movesAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();
 
-        if (bestMoveEncoded != 0) {
-            Move bestMove = null;
-            Move secondBestMove = null;
-            List<Move> unsortedMoveList = new LinkedList<>();
-            for (Move move : game.getPossibleMoves()) {
-                short encodedMove = move.binaryEncoding();
-                if (encodedMove == bestMoveEncoded) {
-                    bestMove = move;
-                } else if (encodedMove == secondBestMoveEncoded) {
-                    secondBestMove = move;
+        Move bestMove = null;
+        Move secondBestMove = null;
+        List<Move> unsortedMoveList = new LinkedList<>();
+        List<MoveAndValue> unsortedMoveValueList = new LinkedList<>();
+        for (Move move : game.getPossibleMoves()) {
+            short encodedMove = move.binaryEncoding();
+            if (encodedMove == bestMoveEncoded) {
+                bestMove = move;
+            } else if (encodedMove == secondBestMoveEncoded) {
+                secondBestMove = move;
+            } else {
+                long zobristHashMove = game.getChessPosition().getZobristHash(move);
+
+                TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
+                        minMap.getForRead(zobristHashMove) : maxMap.getForRead(zobristHashMove);
+
+                if (moveEntry != null) {
+                    int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
+                    unsortedMoveValueList.add(new MoveAndValue(move, moveValue));
                 } else {
                     unsortedMoveList.add(move);
                 }
             }
+        }
 
-            if (bestMove != null) {
-                sortedMoveList.add(bestMove);
-            }
+        if (bestMove != null) {
+            sortedMoveList.add(bestMove);
             if (secondBestMove != null) {
                 sortedMoveList.add(secondBestMove);
             }
+        }
 
+        if (!unsortedMoveValueList.isEmpty()) {
+            unsortedMoveValueList.sort(Color.WHITE.equals(currentTurn) ? moveAndValueComparator.reversed() : moveAndValueComparator);
+            unsortedMoveValueList.stream().map(MoveAndValue::move).forEach(sortedMoveList::add);
+        }
+
+        if (!unsortedMoveList.isEmpty()) {
             unsortedMoveList.sort(moveComparator.reversed());
-
             sortedMoveList.addAll(unsortedMoveList);
-
-        } else {
-            game.getPossibleMoves().forEach(sortedMoveList::add);
-
-            sortedMoveList.sort(moveComparator.reversed());
         }
 
         return sortedMoveList;
+    }
+
+    private record MoveAndValue(Move move, int value) {
+    }
+
+    private static class MoveAndValueComparator implements Comparator<MoveAndValue> {
+        @Override
+        public int compare(MoveAndValue o1, MoveAndValue o2) {
+            return Integer.compare(o1.value, o2.value);
+        }
     }
 }
