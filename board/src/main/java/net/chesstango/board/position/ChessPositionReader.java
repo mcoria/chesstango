@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.ChessRepresentationBuilder;
+import net.chesstango.board.moves.Move;
 
 import java.util.Iterator;
 
@@ -18,4 +19,6 @@ public interface ChessPositionReader extends SquareBoardReader, BitBoardReader, 
 	Iterator<PiecePositioned> iteratorAllPieces();
 
 	void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder);
+
+	long getZobristHash(Move move);
 }

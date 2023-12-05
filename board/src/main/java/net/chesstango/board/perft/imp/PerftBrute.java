@@ -25,15 +25,27 @@ public class PerftBrute implements Perft {
         PerftResult perftResult = new PerftResult();
         long totalNodes = 0;
 
-        Iterable<Move> movimientosPosible = game.getPossibleMoves();
+        Iterable<Move> possibleMoves = game.getPossibleMoves();
 
-        for (Move move : movimientosPosible) {
+        long zobristHashBefore = game.getChessPosition().getZobristHash();
+        for (Move move : possibleMoves) {
             long nodeCount = 0;
 
             if (maxLevel > 1) {
+
+                long zobristHashMove = game.getChessPosition().getZobristHash(move);
                 game.executeMove(move);
+                if (zobristHashMove != game.getChessPosition().getZobristHash()) {
+                    throw new RuntimeException("Invalid game.getChessPosition().getZobristHash(move);");
+                }
                 nodeCount = visitChild(game, 2);
+
+
                 game.undoMove();
+                long zobristHashAfter = game.getChessPosition().getZobristHash();
+                if (zobristHashBefore != zobristHashAfter) {
+                    throw new RuntimeException("hashBefore != hashAfter");
+                }
             } else {
                 nodeCount = 1;
             }
@@ -56,19 +68,21 @@ public class PerftBrute implements Perft {
 
         if (level < this.maxLevel) {
 
+            long zobristHashBefore = game.getChessPosition().getZobristHash();
+
             for (Move move : movimientosPosible) {
 
-                long hashBefore = game.getChessPosition().getZobristHash();
-
+                long zobristHashMove = game.getChessPosition().getZobristHash(move);
                 game.executeMove(move);
+                if (zobristHashMove != game.getChessPosition().getZobristHash()) {
+                    throw new RuntimeException("Invalid game.getChessPosition().getZobristHash(move);");
+                }
 
                 totalNodes += visitChild(game, level + 1);
 
                 game.undoMove();
-
-                long hashAfter = game.getChessPosition().getZobristHash();
-
-                if(hashBefore != hashAfter) {
+                long zobristHashAfter = game.getChessPosition().getZobristHash();
+                if (zobristHashBefore != zobristHashAfter) {
                     throw new RuntimeException("hashBefore != hashAfter");
                 }
 

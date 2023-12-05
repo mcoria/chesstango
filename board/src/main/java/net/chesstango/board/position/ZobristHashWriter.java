@@ -22,7 +22,7 @@ public interface ZobristHashWriter {
 
     void xorEnPassantSquare(Square enPassantSquare);
 
-    void xorOldEnPassantSquare();
+    void clearEnPassantSquare();
 
     void pushState();
 

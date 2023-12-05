@@ -28,7 +28,6 @@ class AlgoZobrist {
             hash.xorCastleWhiteQueen();
         }
 
-
         if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
             hash.xorCastleBlackKing();
         }
@@ -37,7 +36,7 @@ class AlgoZobrist {
             hash.xorCastleBlackQueen();
         }
 
-        hash.xorOldEnPassantSquare();
+        hash.clearEnPassantSquare();
 
         hash.xorTurn();
     }

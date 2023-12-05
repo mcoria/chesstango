@@ -19,27 +19,23 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ChessPositionImpTest {
 
-    private ChessPositionImp chessPosition;
-
-    @BeforeEach
-    public void setUp() {
-        chessPosition = new ChessPositionImp();
-    }
 
     @Test
     public void test_iterator() {
-        SquareBoardImp tablero = new SquareBoardImp();
+        ChessPositionImp chessPosition = new ChessPositionImp();
 
-        tablero.setPiece(Square.a1, Piece.ROOK_WHITE);
-        tablero.setPiece(Square.b7, Piece.PAWN_BLACK);
-        tablero.setPiece(Square.b8, Piece.KNIGHT_BLACK);
-        tablero.setPiece(Square.e1, Piece.KING_WHITE);
-        tablero.setPiece(Square.e8, Piece.KING_BLACK);
+        SquareBoardImp squareBoardImp = new SquareBoardImp();
+
+        squareBoardImp.setPiece(Square.a1, Piece.ROOK_WHITE);
+        squareBoardImp.setPiece(Square.b7, Piece.PAWN_BLACK);
+        squareBoardImp.setPiece(Square.b8, Piece.KNIGHT_BLACK);
+        squareBoardImp.setPiece(Square.e1, Piece.KING_WHITE);
+        squareBoardImp.setPiece(Square.e8, Piece.KING_BLACK);
 
         BitBoard bitBoard = new BitBoardImp();
-        bitBoard.init(tablero);
+        bitBoard.init(squareBoardImp);
 
-        chessPosition.setPiecePlacement(tablero);
+        chessPosition.setPiecePlacement(squareBoardImp);
         chessPosition.setColorBoard(bitBoard);
 
         List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();

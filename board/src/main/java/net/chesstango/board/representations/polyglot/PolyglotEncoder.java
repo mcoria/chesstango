@@ -14,6 +14,13 @@ import net.chesstango.board.representations.fen.FENDecoder;
  */
 public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
 
+    public static final int CASTLE_WHITE_KING_OFFSET = 768;
+    public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
+    public static final int CASTLE_BLACK_KING_OFFSET = 770;
+    public static final int CASTLE_BLACK_QUEEN_OFFSET = 771;
+    public static final int EN_PASSANT_OFFSET = 772;
+    public static final int TURN_OFFSET = 780;
+
     @Override
     public Long getChessRepresentation() {
         long piece = 0;
@@ -25,34 +32,34 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
             }
         }
 
-        long turn = Color.WHITE.equals(this.turn) ? KEYS[780] : 0;
+        long turn = Color.WHITE.equals(this.turn) ? KEYS[TURN_OFFSET] : 0;
 
         long castle =
-                (castlingWhiteKingAllowed ? KEYS[768] : 0) ^
-                        (castlingWhiteQueenAllowed ? KEYS[769] : 0) ^
-                        (castlingBlackKingAllowed ? KEYS[770] : 0) ^
-                        (castlingBlackQueenAllowed ? KEYS[771] : 0);
+                (castlingWhiteKingAllowed ? KEYS[CASTLE_WHITE_KING_OFFSET] : 0) ^
+                        (castlingWhiteQueenAllowed ? KEYS[CASTLE_WHITE_QUEEN_OFFSET] : 0) ^
+                        (castlingBlackKingAllowed ? KEYS[CASTLE_BLACK_KING_OFFSET] : 0) ^
+                        (castlingBlackQueenAllowed ? KEYS[CASTLE_BLACK_QUEEN_OFFSET] : 0);
 
         long enpassant = 0;
         if (enPassantSquare != null){
-            enpassant = calculateEnPassantSquare();
+            enpassant = zobristEnPassantSquare();
         }
 
 
         return  piece ^ castle ^ enpassant ^ turn;
     }
 
-    private long calculateEnPassantSquare() {
+    private long zobristEnPassantSquare() {
         long result = 0;
         if(Color.WHITE.equals(this.turn)){
             if(enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
             || enPassantSquare.getFile() + 1 < 8 &&  board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE ){
-                result = KEYS[772 + enPassantSquare.getFile()];
+                result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
             }
         } else {
             if(enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
                     || enPassantSquare.getFile() + 1 < 8 &&  board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK ){
-                result = KEYS[772 + enPassantSquare.getFile()];
+                result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
             }
         }
         return result;
