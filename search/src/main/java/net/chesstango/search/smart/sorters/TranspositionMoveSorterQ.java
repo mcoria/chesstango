@@ -59,12 +59,8 @@ public class TranspositionMoveSorterQ implements MoveSorter {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry;
-        if (Color.WHITE.equals(currentTurn)) {
-            entry = maxMap.getForRead(hash);
-        } else {
-            entry = minMap.getForRead(hash);
-        }
+        TranspositionEntry entry = (Color.WHITE.equals(currentTurn)) ?
+                maxMap.getForRead(hash) : minMap.getForRead(hash);
 
         short bestMoveEncoded = 0;
         short secondBestMoveEncoded = 0;
