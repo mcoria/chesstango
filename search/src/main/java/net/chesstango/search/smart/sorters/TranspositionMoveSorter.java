@@ -59,10 +59,12 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public List<Move> getSortedMoves() {
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+        if (Color.WHITE.equals(currentTurn)) {
             entry = maxMap.getForRead(hash);
             if (entry == null) {
                 entry = qMaxMap.getForRead(hash);
@@ -96,7 +98,7 @@ public class TranspositionMoveSorter implements MoveSorter {
             } else {
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
-                TranspositionEntry moveEntry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ?
+                TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
                         minMap.getForRead(zobristHashMove) : maxMap.getForRead(zobristHashMove);
 
                 if (moveEntry != null) {
@@ -115,11 +117,15 @@ public class TranspositionMoveSorter implements MoveSorter {
             }
         }
 
-        unsortedMoveValueList.sort(Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? moveAndValueComparator.reversed() : moveAndValueComparator);
-        unsortedMoveValueList.stream().map(MoveAndValue::move).forEach(sortedMoveList::add);
+        if (!unsortedMoveValueList.isEmpty()) {
+            unsortedMoveValueList.sort(Color.WHITE.equals(currentTurn) ? moveAndValueComparator.reversed() : moveAndValueComparator);
+            unsortedMoveValueList.stream().map(MoveAndValue::move).forEach(sortedMoveList::add);
+        }
 
-        unsortedMoveList.sort(moveComparator.reversed());
-        sortedMoveList.addAll(unsortedMoveList);
+        if (!unsortedMoveList.isEmpty()) {
+            unsortedMoveList.sort(moveComparator.reversed());
+            sortedMoveList.addAll(unsortedMoveList);
+        }
 
         return sortedMoveList;
     }
@@ -133,5 +139,4 @@ public class TranspositionMoveSorter implements MoveSorter {
             return Integer.compare(o1.value, o2.value);
         }
     }
-
 }
