@@ -60,7 +60,7 @@ public class TranspositionTableFirst implements AlphaBetaFilter {
 
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
-        TranspositionEntry entry = maxMap.get(hash);
+        TranspositionEntry entry = maxMap.getForWrite(hash);
 
         updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
 
@@ -75,7 +75,7 @@ public class TranspositionTableFirst implements AlphaBetaFilter {
 
         long moveAndValue = next.minimize(currentPly, alpha, beta);
 
-        TranspositionEntry entry = minMap.get(hash);
+        TranspositionEntry entry = minMap.getForWrite(hash);
 
         updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
 

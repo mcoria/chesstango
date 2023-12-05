@@ -62,11 +62,11 @@ public class TranspositionMoveSorter implements MoveSorter {
         TranspositionEntry entry;
         TranspositionEntry qentry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
-            qentry = qMaxMap.get(hash);
+            entry = maxMap.getForRead(hash);
+            qentry = qMaxMap.getForRead(hash);
         } else {
-            entry = minMap.get(hash);
-            qentry = qMinMap.get(hash);
+            entry = minMap.getForRead(hash);
+            qentry = qMinMap.getForRead(hash);
         }
 
         short bestMoveEncoded = 0;

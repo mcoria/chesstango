@@ -20,7 +20,7 @@ public class ArrayTTable implements TTable {
     }
 
     @Override
-    public TranspositionEntry get(long hash) {
+    public TranspositionEntry getForWrite(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 
         TranspositionEntry entry = transpositionArray[idx];
@@ -28,6 +28,19 @@ public class ArrayTTable implements TTable {
         if (sessionArray[idx] != currentSessionId) {
             entry.reset();
             sessionArray[idx] = currentSessionId;
+        }
+
+        return entry;
+    }
+
+    @Override
+    public TranspositionEntry getForRead(long hash) {
+        int idx = (int) Math.abs(hash % ARRAY_SIZE);
+
+        TranspositionEntry entry = transpositionArray[idx];
+
+        if (sessionArray[idx] != currentSessionId || !entry.isStored(hash)) {
+            return null;
         }
 
         return entry;

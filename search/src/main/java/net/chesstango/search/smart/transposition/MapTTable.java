@@ -11,8 +11,13 @@ public class MapTTable implements TTable {
     private Map<Long, TranspositionEntry> table = new HashMap<>();
 
     @Override
-    public TranspositionEntry get(long hash) {
+    public TranspositionEntry getForWrite(long hash) {
         return table.computeIfAbsent(hash, key -> new TranspositionEntry());
+    }
+
+    @Override
+    public TranspositionEntry getForRead(long hash) {
+        return table.get(hash);
     }
 
     @Override
