@@ -153,7 +153,7 @@ class MovePawnPromotion implements MovePromotion {
             hash.xorCastleBlackQueen();
         }
 
-        hash.xorOldEnPassantSquare();
+        hash.clearEnPassantSquare();
 
         hash.xorTurn();
     }

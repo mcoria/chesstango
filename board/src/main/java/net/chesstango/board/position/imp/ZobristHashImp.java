@@ -4,23 +4,29 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.ZobristHash;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
+ * This implementation is based on http://hgm.nubati.net/book_format.html
+ *
  * @author Mauricio Coria
  */
 public class ZobristHashImp implements ZobristHash {
+    public static final int CASTLE_WHITE_KING_OFFSET = 768;
+    public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
+    public static final int CASTLE_BLACK_KING_OFFSET = 770;
+    public static final int CASTLE_BLACK_QUEEN_OFFSET = 771;
+    public static final int EN_PASSANT_OFFSET = 772;
+    public static final int TURN_OFFSET = 780;
     private final Deque<ZobristHashData> stackZobristHistory = new ArrayDeque<>();
-
     private long zobristHash;
-
-    private long zobristOldEnPassantSquare;
+    private long zobristEnPassantSquare;
 
     @Override
     public long getZobristHash() {
@@ -28,39 +34,49 @@ public class ZobristHashImp implements ZobristHash {
     }
 
     @Override
-    public void init(ChessPositionReader piecePlacement) {
-        init(piecePlacement, piecePlacement);
+    public void init(ChessPositionReader chessPositionReader) {
+        init(chessPositionReader, chessPositionReader);
     }
 
     @Override
     public void init(SquareBoardReader piecePlacement, PositionStateReader positionState) {
-        for( PiecePositioned piecePositioned: piecePlacement){
-            if(piecePositioned.getPiece() != null){
+        for (PiecePositioned piecePositioned : piecePlacement) {
+            if (piecePositioned.getPiece() != null) {
                 xorPosition(piecePositioned);
             }
         }
 
-        if(Color.WHITE.equals(positionState.getCurrentTurn())) {
+        if (Color.WHITE.equals(positionState.getCurrentTurn())) {
             xorTurn();
         }
 
-        if(positionState.isCastlingWhiteKingAllowed()){
+        if (positionState.isCastlingWhiteKingAllowed()) {
             xorCastleWhiteKing();
         }
 
-        if(positionState.isCastlingWhiteQueenAllowed()){
+        if (positionState.isCastlingWhiteQueenAllowed()) {
             xorCastleWhiteQueen();
         }
 
-        if(positionState.isCastlingBlackKingAllowed()){
+        if (positionState.isCastlingBlackKingAllowed()) {
             xorCastleBlackKing();
         }
 
-        if(positionState.isCastlingBlackQueenAllowed()){
+        if (positionState.isCastlingBlackQueenAllowed()) {
             xorCastleBlackQueen();
         }
 
-        if(calculateEnPassantSquare(piecePlacement, positionState)) {
+        /**
+         * en passant
+         * If the opponent has performed a double pawn push and there is now a pawn next to it belonging to the player to move then "enpassant" is the entry from RandomEnPassant
+         * whose offset is the file of the pushed pawn (counted from 0(=a) to 7(=h)). If this does not apply then enpassant=0.
+         *
+         * Note that this is different from the FEN standard. In the FEN standard the presence of an "en passant target square" after a double pawn push is unconditional.
+         *
+         * Also note that it is irrelevant if the potential en passant capturing move is legal or not (examples where it would not be legal are when the capturing pawn is
+         * pinned or when the double pawn push was a discovered check).
+         */
+        if (isEnPassantActive(piecePlacement, positionState)) {
             xorEnPassantSquare(positionState.getEnPassantSquare());
         }
     }
@@ -72,45 +88,45 @@ public class ZobristHashImp implements ZobristHash {
     }
 
     @Override
-    public void xorTurn(){
-        zobristHash ^= KEYS[780];
+    public void xorTurn() {
+        zobristHash ^= KEYS[TURN_OFFSET];
     }
 
     @Override
     public void xorCastleWhiteKing() {
-        zobristHash ^= KEYS[768];
+        zobristHash ^= KEYS[CASTLE_WHITE_KING_OFFSET];
     }
 
     @Override
     public void xorCastleWhiteQueen() {
-        zobristHash ^= KEYS[769];
+        zobristHash ^= KEYS[CASTLE_WHITE_QUEEN_OFFSET];
     }
 
     @Override
     public void xorCastleBlackKing() {
-        zobristHash ^= KEYS[770];
+        zobristHash ^= KEYS[CASTLE_BLACK_KING_OFFSET];
     }
 
     @Override
     public void xorCastleBlackQueen() {
-        zobristHash ^= KEYS[771];
+        zobristHash ^= KEYS[CASTLE_BLACK_QUEEN_OFFSET];
     }
 
     @Override
     public void xorEnPassantSquare(Square enPassantSquare) {
-        zobristHash ^= KEYS[772 + enPassantSquare.getFile()];
-        zobristOldEnPassantSquare = KEYS[772 + enPassantSquare.getFile()];
+        zobristEnPassantSquare = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
+        zobristHash ^= zobristEnPassantSquare;
     }
 
     @Override
-    public void xorOldEnPassantSquare() {
-        zobristHash ^= zobristOldEnPassantSquare;
-        zobristOldEnPassantSquare = 0;
+    public void clearEnPassantSquare() {
+        zobristHash ^= zobristEnPassantSquare;
+        zobristEnPassantSquare = 0;
     }
 
     @Override
     public void pushState() {
-        ZobristHashData node = new ZobristHashData(zobristHash, zobristOldEnPassantSquare);
+        ZobristHashData node = new ZobristHashData(zobristHash, zobristEnPassantSquare);
 
         stackZobristHistory.push(node);
     }
@@ -120,7 +136,7 @@ public class ZobristHashImp implements ZobristHash {
         ZobristHashData lastState = stackZobristHistory.pop();
 
         zobristHash = lastState.zobristHash;
-        zobristOldEnPassantSquare = lastState.zobristOldEnPassantSquare;
+        zobristEnPassantSquare = lastState.zobristEnPassantSquare;
     }
 
     private final static long[] KEYS = {
@@ -322,7 +338,7 @@ public class ZobristHashImp implements ZobristHash {
             0xF8D626AAAF278509L
     };
 
-    private int getKindOfPiece(Piece piece){
+    private int getKindOfPiece(Piece piece) {
         return switch (piece) {
             case PAWN_BLACK -> 0;
             case PAWN_WHITE -> 1;
@@ -344,9 +360,9 @@ public class ZobristHashImp implements ZobristHash {
         };
     }
 
-    private boolean calculateEnPassantSquare(SquareBoardReader piecePlacement, PositionStateReader positionState) {
+    private boolean isEnPassantActive(SquareBoardReader piecePlacement, PositionStateReader positionState) {
         Square enPassantSquare = positionState.getEnPassantSquare();
-        if(positionState.getEnPassantSquare() != null){
+        if (positionState.getEnPassantSquare() != null) {
             if (Color.WHITE.equals(positionState.getCurrentTurn())) {
                 if (enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
                         || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE) {
@@ -362,5 +378,6 @@ public class ZobristHashImp implements ZobristHash {
         return false;
     }
 
-    private record ZobristHashData(long zobristHash, long zobristOldEnPassantSquare) {}
+    private record ZobristHashData(long zobristHash, long zobristEnPassantSquare) {
+    }
 }

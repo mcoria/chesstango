@@ -95,7 +95,7 @@ class MovePawnTwoSquares implements Move {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
-        hash.xorOldEnPassantSquare();
+        hash.clearEnPassantSquare();
 
         if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
