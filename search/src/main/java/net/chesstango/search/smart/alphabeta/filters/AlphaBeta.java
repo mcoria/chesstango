@@ -49,10 +49,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
-        Move secondBestMove = null;
-
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
-        int secondMaxValue = GameEvaluator.INFINITE_NEGATIVE;
 
         boolean search = true;
 
@@ -66,33 +63,24 @@ public class AlphaBeta implements AlphaBetaFilter {
             long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue > maxValue) {
-                secondMaxValue = maxValue;
                 maxValue = currentValue;
-
-                secondBestMove = bestMove;
                 bestMove = move;
 
                 if (maxValue >= beta) {
                     search = false;
                 }
-            } else if (currentValue > secondMaxValue) {
-                secondMaxValue = currentValue;
-                secondBestMove = move;
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, secondBestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
-        Move secondBestMove = null;
-
         int minValue = GameEvaluator.INFINITE_POSITIVE;
-        int secondMinValue = GameEvaluator.INFINITE_POSITIVE;
 
         boolean search = true;
 
@@ -106,24 +94,18 @@ public class AlphaBeta implements AlphaBetaFilter {
             long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
-                secondMinValue = minValue;
                 minValue = currentValue;
-
-                secondBestMove = bestMove;
                 bestMove = move;
 
                 if (minValue <= alpha) {
                     search = false;
                 }
-            } else if (currentValue < secondMinValue) {
-                secondMinValue = currentValue;
-                secondBestMove = move;
             }
 
             game = game.undoMove();
         }
 
-        return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
     }
 
     @Override

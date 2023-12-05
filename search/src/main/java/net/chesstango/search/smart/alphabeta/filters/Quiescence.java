@@ -56,10 +56,6 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         Move bestMove = null;
-        Move secondBestMove = null;
-
-        int secondMaxValue = maxValue;
-
         boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -74,24 +70,18 @@ public class Quiescence implements AlphaBetaFilter {
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
                 if (currentValue > maxValue) {
-                    secondMaxValue = maxValue;
                     maxValue = currentValue;
-
-                    secondBestMove = bestMove;
                     bestMove = move;
 
                     if (maxValue >= beta) {
                         search = false;
                     }
-                } else if (currentValue > secondMaxValue) {
-                    secondMaxValue = currentValue;
-                    secondBestMove = move;
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, secondBestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
     @Override
@@ -102,10 +92,6 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         Move bestMove = null;
-        Move secondBestMove = null;
-
-        int secondMinValue = minValue;
-
         boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -120,24 +106,18 @@ public class Quiescence implements AlphaBetaFilter {
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
                 if (currentValue < minValue) {
-                    secondMinValue = minValue;
                     minValue = currentValue;
-
-                    secondBestMove = bestMove;
                     bestMove = move;
 
                     if (minValue <= alpha) {
                         search = false;
                     }
-                } else if (currentValue < secondMinValue) {
-                    secondMinValue = currentValue;
-                    secondBestMove = move;
                 }
 
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, secondBestMove, minValue);
+        return TranspositionEntry.encode(bestMove, minValue);
     }
 
 

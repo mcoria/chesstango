@@ -21,17 +21,14 @@ public class TranspositionEntry implements Serializable {
         return VALUE_MASK & value;
     }
 
-    public static long encode(Move bestMove, Move secondBestMove, int value) {
+    public static long encode(Move bestMove, int value) {
         short bestMoveEncoded = bestMove != null ? bestMove.binaryEncoding() : (short) 0;
+
         long bestMoveEncodedLng = (MOVE_MASK & bestMoveEncoded) << 48;
-
-        short secondBestMoveEncoded = secondBestMove != null ? secondBestMove.binaryEncoding() : (short) 0;
-
-        long secondBestMoveEncodedLng = (MOVE_MASK & secondBestMoveEncoded) << 32;
 
         long valueEncodedLng = VALUE_MASK & value;
 
-        return bestMoveEncodedLng | secondBestMoveEncodedLng | valueEncodedLng;
+        return bestMoveEncodedLng | valueEncodedLng;
     }
 
     public static int decodeValue(long encodedMovesAndValue) {
@@ -40,10 +37,6 @@ public class TranspositionEntry implements Serializable {
 
     public static short decodeBestMove(long encodedMovesAndValue) {
         return (short) (encodedMovesAndValue >> 48);
-    }
-
-    public static short decodeSecondBestMove(long encodedMovesAndValue) {
-        return (short) (encodedMovesAndValue >> 32);
     }
 
     public void reset() {

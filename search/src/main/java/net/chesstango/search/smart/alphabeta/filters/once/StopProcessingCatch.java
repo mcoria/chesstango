@@ -100,7 +100,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
             throw new RuntimeException("Stopped too early");
         }
 
-        return TranspositionEntry.encode(bestMove, null, bestValue);
+        return TranspositionEntry.encode(bestMove, bestValue);
     }
 
     private void undoMoves(long startHash) {
