@@ -3,11 +3,13 @@ package net.chesstango.search.smart.sorters;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +19,6 @@ import java.util.List;
  */
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
-    private static final MoveAndValueComparator moveAndValueComparator = new MoveAndValueComparator();
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -85,7 +86,7 @@ public class TranspositionMoveSorter implements MoveSorter {
 
         Move bestMove = null;
         List<Move> unsortedMoveList = new LinkedList<>();
-        List<MoveAndValue> unsortedMoveValueList = new LinkedList<>();
+        List<MoveEvaluation> unsortedMoveValueList = new LinkedList<>();
         for (Move move : game.getPossibleMoves()) {
             short encodedMove = move.binaryEncoding();
             if (encodedMove == bestMoveEncoded) {
@@ -93,12 +94,23 @@ public class TranspositionMoveSorter implements MoveSorter {
             } else {
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
-                TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
-                        minMap.getForRead(zobristHashMove) : maxMap.getForRead(zobristHashMove);
+                TranspositionEntry moveEntry;
+
+                if (Color.WHITE.equals(currentTurn)) {
+                    moveEntry = minMap.getForRead(zobristHashMove);
+                    if (moveEntry == null) {
+                        moveEntry = qMinMap.getForRead(zobristHashMove);
+                    }
+                } else {
+                    moveEntry = maxMap.getForRead(zobristHashMove);
+                    if (moveEntry == null) {
+                        moveEntry = qMaxMap.getForRead(zobristHashMove);
+                    }
+                }
 
                 if (moveEntry != null) {
                     int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
-                    unsortedMoveValueList.add(new MoveAndValue(move, moveValue));
+                    unsortedMoveValueList.add(new MoveEvaluation(move, moveValue));
                 } else {
                     unsortedMoveList.add(move);
                 }
@@ -110,8 +122,8 @@ public class TranspositionMoveSorter implements MoveSorter {
         }
 
         if (!unsortedMoveValueList.isEmpty()) {
-            unsortedMoveValueList.sort(Color.WHITE.equals(currentTurn) ? moveAndValueComparator.reversed() : moveAndValueComparator);
-            unsortedMoveValueList.stream().map(MoveAndValue::move).forEach(sortedMoveList::add);
+            unsortedMoveValueList.sort(Color.WHITE.equals(currentTurn) ? Comparator.reverseOrder() : Comparator.naturalOrder());
+            unsortedMoveValueList.stream().map(MoveEvaluation::move).forEach(sortedMoveList::add);
         }
 
         if (!unsortedMoveList.isEmpty()) {
@@ -120,15 +132,5 @@ public class TranspositionMoveSorter implements MoveSorter {
         }
 
         return sortedMoveList;
-    }
-
-    private record MoveAndValue(Move move, int value) {
-    }
-
-    private static class MoveAndValueComparator implements Comparator<MoveAndValue> {
-        @Override
-        public int compare(MoveAndValue o1, MoveAndValue o2) {
-            return Integer.compare(o1.value, o2.value);
-        }
     }
 }

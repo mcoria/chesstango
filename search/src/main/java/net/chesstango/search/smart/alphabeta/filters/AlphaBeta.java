@@ -49,10 +49,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
-        Move secondBestMove = null;
-
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
-        int secondMaxValue = GameEvaluator.INFINITE_NEGATIVE;
 
         boolean search = true;
 
@@ -66,18 +63,12 @@ public class AlphaBeta implements AlphaBetaFilter {
             long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue > maxValue) {
-                secondMaxValue = maxValue;
                 maxValue = currentValue;
-
-                secondBestMove = bestMove;
                 bestMove = move;
 
                 if (maxValue >= beta) {
                     search = false;
                 }
-            } else if (currentValue > secondMaxValue) {
-                secondMaxValue = currentValue;
-                secondBestMove = move;
             }
 
             game = game.undoMove();
@@ -89,7 +80,6 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         Move bestMove = null;
-
         int minValue = GameEvaluator.INFINITE_POSITIVE;
 
         boolean search = true;
@@ -105,7 +95,6 @@ public class AlphaBeta implements AlphaBetaFilter {
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
             if (currentValue < minValue) {
                 minValue = currentValue;
-
                 bestMove = move;
 
                 if (minValue <= alpha) {
