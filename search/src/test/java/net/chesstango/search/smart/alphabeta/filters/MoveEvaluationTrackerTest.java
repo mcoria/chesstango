@@ -9,7 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaFirst;
+import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoves;
 import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
@@ -39,14 +39,14 @@ public class MoveEvaluationTrackerTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
 
-        AlphaBetaFirst alphaBetaFirst = new AlphaBetaFirst();
+        AlphaBetaRoot alphaBetaRoot = new AlphaBetaRoot();
         MoveEvaluationTracker moveEvaluationTracker = new MoveEvaluationTracker();
         AlphaBetaFlowControl alphaBetaFirstFlowControl = new AlphaBetaFlowControl();
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
-        alphaBetaFirst.setNext(moveEvaluationTracker);
+        alphaBetaRoot.setNext(moveEvaluationTracker);
 
         moveEvaluationTracker.setNext(alphaBetaFirstFlowControl);
 
@@ -64,8 +64,8 @@ public class MoveEvaluationTrackerTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaFirst);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaFirst, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
+        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaRoot);
+        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaRoot, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
     }
 
 

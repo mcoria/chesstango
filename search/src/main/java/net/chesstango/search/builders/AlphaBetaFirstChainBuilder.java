@@ -12,7 +12,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaFirstChainBuilder {
-    private final AlphaBetaFirst alphaBetaFirst;
+    private final AlphaBetaRoot alphaBetaRoot;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
@@ -34,7 +34,7 @@ public class AlphaBetaFirstChainBuilder {
     private boolean withTriangularPV;
 
     public AlphaBetaFirstChainBuilder() {
-        alphaBetaFirst = new AlphaBetaFirst();
+        alphaBetaRoot = new AlphaBetaRoot();
 
         alphaBetaFlowControl = new AlphaBetaFlowControl();
     }
@@ -117,7 +117,7 @@ public class AlphaBetaFirstChainBuilder {
 
 
     private List<SearchLifeCycle> createSearchActions() {
-        filterActions.add(alphaBetaFirst);
+        filterActions.add(alphaBetaRoot);
         filterActions.add(moveEvaluationTracker);
         filterActions.add(alphaBetaFlowControl);
 
@@ -196,19 +196,19 @@ public class AlphaBetaFirstChainBuilder {
         }
 
         if (head == null) {
-            head = alphaBetaFirst;
+            head = alphaBetaRoot;
         }
         if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
-            stopProcessingCatchTail.setNext(alphaBetaFirst);
+            stopProcessingCatchTail.setNext(alphaBetaRoot);
         } else if (tail instanceof TranspositionTableFirst transpositionTableFirstTail) {
-            transpositionTableFirstTail.setNext(alphaBetaFirst);
+            transpositionTableFirstTail.setNext(alphaBetaRoot);
         } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
-            aspirationWindowsTail.setNext(alphaBetaFirst);
+            aspirationWindowsTail.setNext(alphaBetaRoot);
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
-            alphaBetaStatisticsExpectedTail.setNext(alphaBetaFirst);
+            alphaBetaStatisticsExpectedTail.setNext(alphaBetaRoot);
         }
 
-        alphaBetaFirst.setNext(moveEvaluationTracker);
+        alphaBetaRoot.setNext(moveEvaluationTracker);
         moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
         tail = moveEvaluationTracker;
 
