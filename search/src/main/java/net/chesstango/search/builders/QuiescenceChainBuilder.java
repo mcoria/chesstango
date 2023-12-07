@@ -176,16 +176,6 @@ public class QuiescenceChainBuilder {
             tail = zobristQTracker;
         }
 
-        if (transpositionTableQ != null) {
-            if (head == null) {
-                head = transpositionTableQ;
-            }
-            if (tail instanceof ZobristTracker zobristTrackerTail) {
-                zobristTrackerTail.setNext(transpositionTableQ);
-            }
-            tail = transpositionTableQ;
-        }
-
         if (quiescenceStatisticsExpected != null) {
             if (head == null) {
                 head = quiescenceStatisticsExpected;
@@ -203,8 +193,6 @@ public class QuiescenceChainBuilder {
         }
         if (tail instanceof ZobristTracker zobristTrackerTail) {
             zobristTrackerTail.setNext(quiescence);
-        } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
-            transpositionTableTail.setNext(quiescence);
         } else if (tail instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpectedTail) {
             quiescenceStatisticsExpectedTail.setNext(quiescence);
         }
@@ -225,12 +213,25 @@ public class QuiescenceChainBuilder {
             tail = triangularPV;
         }
 
+        if (transpositionTableQ != null) {
+            if (tail instanceof Quiescence) {
+                quiescence.setNext(transpositionTableQ);
+            } else if (tail instanceof QuiescenceStatisticsVisited) {
+                quiescenceStatisticsVisited.setNext(transpositionTableQ);
+            } else if (tail instanceof TriangularPV) {
+                triangularPV.setNext(transpositionTableQ);
+            }
+            tail = transpositionTableQ;
+        }
+
         if (tail instanceof Quiescence quiescenceTail) {
             quiescenceTail.setNext(quiescenceFlowControl);
         } else if (tail instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisitedTail) {
             quiescenceStatisticsVisitedTail.setNext(quiescenceFlowControl);
         } else if (tail instanceof TriangularPV) {
             triangularPV.setNext(quiescenceFlowControl);
+        } else if (tail instanceof TranspositionTableQ) {
+            transpositionTableQ.setNext(quiescenceFlowControl);
         }
 
         quiescenceFlowControl.setNext(head);

@@ -23,6 +23,7 @@ public class AlphaBetaFirstChainBuilder {
     private AspirationWindows aspirationWindows;
     private MoveEvaluationTracker moveEvaluationTracker;
     private TranspositionTableRoot transpositionTableRoot;
+    private TranspositionTable transpositionTable;
     private TriangularPV triangularPV;
 
     private List<SearchLifeCycle> filterActions;
@@ -89,7 +90,7 @@ public class AlphaBetaFirstChainBuilder {
     public AlphaBetaFilter build() {
         buildObjects();
 
-        createSearchActions();
+        addSearchLifeCycleListeners();
 
         return createChain();
     }
@@ -106,6 +107,7 @@ public class AlphaBetaFirstChainBuilder {
 
         if (withTranspositionTable) {
             transpositionTableRoot = new TranspositionTableRoot();
+            transpositionTable = new TranspositionTable();
         }
 
         if (withTriangularPV) {
@@ -116,7 +118,7 @@ public class AlphaBetaFirstChainBuilder {
     }
 
 
-    private List<SearchLifeCycle> createSearchActions() {
+    private void addSearchLifeCycleListeners() {
         filterActions.add(alphaBetaRoot);
         filterActions.add(moveEvaluationTracker);
         filterActions.add(alphaBetaFlowControl);
@@ -135,15 +137,15 @@ public class AlphaBetaFirstChainBuilder {
             filterActions.add(stopProcessingCatch);
         }
 
-        if (transpositionTableRoot != null) {
+        if (withTranspositionTable) {
             filterActions.add(transpositionTableRoot);
+            filterActions.add(transpositionTable);
         }
 
         if (withTriangularPV) {
             filterActions.add(triangularPV);
         }
 
-        return filterActions;
     }
 
 
@@ -226,12 +228,25 @@ public class AlphaBetaFirstChainBuilder {
             tail = triangularPV;
         }
 
+        if (transpositionTable != null) {
+            if (tail instanceof MoveEvaluationTracker) {
+                moveEvaluationTracker.setNext(transpositionTable);
+            } else if (tail instanceof AlphaBetaStatisticsVisited) {
+                alphaBetaStatisticsVisited.setNext(transpositionTable);
+            } else if (tail instanceof TriangularPV) {
+                triangularPV.setNext(transpositionTable);
+            }
+            tail = transpositionTable;
+        }
+
         if (tail instanceof MoveEvaluationTracker) {
             moveEvaluationTracker.setNext(alphaBetaFlowControl);
         } else if (tail instanceof AlphaBetaStatisticsVisited) {
             alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
         } else if (tail instanceof TriangularPV) {
             triangularPV.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof TranspositionTable) {
+            transpositionTable.setNext(alphaBetaFlowControl);
         }
 
         alphaBetaFlowControl.setNext(next);
