@@ -36,6 +36,10 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
+    public void stopSearching() {
+    }
+
+    @Override
     public void beforeSearchByDepth(SearchContext context) {
     }
 
@@ -45,34 +49,29 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public void reset() {
-
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
+        boolean search = true;
+        Move bestMove = null;
         int maxValue = gameEvaluator.evaluate();
         if (maxValue >= beta) {
             return TranspositionEntry.encode(maxValue);
         }
 
-        Move bestMove = null;
-        boolean search = true;
-
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-
             if (!move.isQuiet()) {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMove = move;
-
                     if (maxValue >= beta) {
                         search = false;
                     }
@@ -86,29 +85,25 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
+        boolean search = true;
+        Move bestMove = null;
         int minValue = gameEvaluator.evaluate();
         if (minValue <= alpha) {
             return TranspositionEntry.encode(minValue);
         }
 
-        Move bestMove = null;
-        boolean search = true;
-
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-
             if (!move.isQuiet()) {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-
                 if (currentValue < minValue) {
                     minValue = currentValue;
                     bestMove = move;
-
                     if (minValue <= alpha) {
                         search = false;
                     }
@@ -120,8 +115,5 @@ public class Quiescence implements AlphaBetaFilter {
         return TranspositionEntry.encode(bestMove, minValue);
     }
 
-
-    public void stopSearching() {
-    }
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public abstract class AlphaBetaFilterAbstract implements AlphaBetaFilter {
+public abstract class AlphaBetaAbstract implements AlphaBetaFilter {
 
     @Setter
     private AlphaBetaFilter next;
@@ -45,7 +45,6 @@ public abstract class AlphaBetaFilterAbstract implements AlphaBetaFilter {
             }
             game = game.undoMove();
         }
-
         return TranspositionEntry.encode(bestMove, maxValue);
     }
 
@@ -72,7 +71,6 @@ public abstract class AlphaBetaFilterAbstract implements AlphaBetaFilter {
             }
             game = game.undoMove();
         }
-
         return TranspositionEntry.encode(bestMove, minValue);
     }
 

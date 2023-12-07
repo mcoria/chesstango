@@ -38,7 +38,7 @@ public class SearchesTest {
                 .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
-                //.withAspirationWindows()
+                .withAspirationWindows()
                 //.withTriangularPV()
 
                 .withStatistics()

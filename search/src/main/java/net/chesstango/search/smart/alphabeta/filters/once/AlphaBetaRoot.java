@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilterAbstract;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaAbstract;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 import java.util.Comparator;
@@ -17,9 +17,8 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaRoot extends AlphaBetaFilterAbstract {
+public class AlphaBetaRoot extends AlphaBetaAbstract {
     private static final MoveComparator moveComparator = new MoveComparator();
-
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
 

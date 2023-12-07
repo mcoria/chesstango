@@ -37,7 +37,7 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-        LinkedList<SearchMoveResult> bestMovesByDepth = new LinkedList<>();
+        LinkedList<SearchMoveResult> searchMoveResults = new LinkedList<>();
 
         searchSmart.beforeSearch(game);
 
@@ -51,8 +51,8 @@ public class IterativeDeepening implements SearchMove {
 
             SearchContext context = new SearchContext(currentSearchDepth);
 
-            if (!bestMovesByDepth.isEmpty()) {
-                setupContext(context, bestMovesByDepth.getLast());
+            if (!searchMoveResults.isEmpty()) {
+                setupContext(context, searchMoveResults.getLast());
             }
 
             searchSmart.beforeSearchByDepth(context);
@@ -61,7 +61,7 @@ public class IterativeDeepening implements SearchMove {
 
             searchSmart.afterSearchByDepth(searchResult);
 
-            bestMovesByDepth.add(searchResult);
+            searchMoveResults.add(searchResult);
 
             Instant endDepthInstant = Instant.now();
 
