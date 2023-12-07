@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,13 +51,13 @@ public class SearchesTest {
     @AfterEach
     public void printReport() {
         if (PRINT_REPORT) {
-            /*
             new NodesReport()
                     .withMoveResults(List.of(searchResult))
                     .withCutoffStatistics()
                     .withNodesVisitedStatistics()
                     .printReport(System.out);
 
+                        /*
             new EvaluationReport()
                     .withMoveResults(List.of(searchResult))
                     //.withExportEvaluations()
@@ -74,7 +75,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 3);
         searchResult = searchMove.search(game);
     }
 

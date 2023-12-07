@@ -1,12 +1,13 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.alphabeta.filters.once;
 
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.filters.TranspositionTableAbstract;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTable extends TranspositionTableAbstract {
+public class TranspositionTableRoot extends TranspositionTableAbstract {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
@@ -17,6 +18,6 @@ public class TranspositionTable extends TranspositionTableAbstract {
 
     @Override
     protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {
-        return entry.isStored(hash) && searchDepth <= entry.searchDepth;
+        return false;
     }
 }
