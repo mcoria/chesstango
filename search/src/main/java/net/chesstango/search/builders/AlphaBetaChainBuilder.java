@@ -159,16 +159,6 @@ public class AlphaBetaChainBuilder {
             tail = zobristTracker;
         }
 
-        if (transpositionTable != null) {
-            if (head == null) {
-                head = transpositionTable;
-            }
-            if (tail instanceof ZobristTracker zobristTrackerTail) {
-                zobristTrackerTail.setNext(transpositionTable);
-            }
-            tail = transpositionTable;
-        }
-
 
         if (alphaBetaStatisticsExpected != null) {
             if (head == null) {
@@ -187,8 +177,6 @@ public class AlphaBetaChainBuilder {
         }
         if (tail instanceof ZobristTracker zobristTrackerTail) {
             zobristTrackerTail.setNext(alphaBeta);
-        } else if (tail instanceof TranspositionTable transpositionTableTail) {
-            transpositionTableTail.setNext(alphaBeta);
         } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
             alphaBetaStatisticsExpectedTail.setNext(alphaBeta);
         }
@@ -208,12 +196,26 @@ public class AlphaBetaChainBuilder {
             tail = triangularPV;
         }
 
+
+        if (transpositionTable != null) {
+            if (tail instanceof AlphaBeta) {
+                alphaBeta.setNext(transpositionTable);
+            } else if (tail instanceof AlphaBetaStatisticsVisited) {
+                alphaBetaStatisticsVisited.setNext(transpositionTable);
+            } else if (tail instanceof TriangularPV) {
+                triangularPV.setNext(transpositionTable);
+            }
+            tail = transpositionTable;
+        }
+
         if (tail instanceof AlphaBeta) {
             alphaBeta.setNext(alphaBetaFlowControl);
         } else if (tail instanceof AlphaBetaStatisticsVisited) {
             alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
         } else if (tail instanceof TriangularPV) {
             triangularPV.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof TranspositionTable) {
+            transpositionTable.setNext(alphaBetaFlowControl);
         }
 
         alphaBetaFlowControl.setNext(head);

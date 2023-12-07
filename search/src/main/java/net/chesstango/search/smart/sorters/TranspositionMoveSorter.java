@@ -9,7 +9,6 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +21,6 @@ public class TranspositionMoveSorter implements MoveSorter {
     private Game game;
     private TTable maxMap;
     private TTable minMap;
-    private TTable qMaxMap;
-    private TTable qMinMap;
 
     @Override
     public void beforeSearch(Game game) {
@@ -39,8 +36,6 @@ public class TranspositionMoveSorter implements MoveSorter {
     public void beforeSearchByDepth(SearchContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
     }
 
     @Override
@@ -64,18 +59,8 @@ public class TranspositionMoveSorter implements MoveSorter {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry;
-        if (Color.WHITE.equals(currentTurn)) {
-            entry = maxMap.getForRead(hash);
-            if (entry == null) {
-                entry = qMaxMap.getForRead(hash);
-            }
-        } else {
-            entry = minMap.getForRead(hash);
-            if (entry == null) {
-                entry = qMinMap.getForRead(hash);
-            }
-        }
+        TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
+                maxMap.getForRead(hash) : minMap.getForRead(hash);
 
         short bestMoveEncoded = 0;
         if (entry != null) {
@@ -83,7 +68,6 @@ public class TranspositionMoveSorter implements MoveSorter {
         }
 
         List<Move> sortedMoveList = new LinkedList<>();
-
         Move bestMove = null;
         List<Move> unsortedMoveList = new LinkedList<>();
         List<MoveEvaluation> unsortedMoveValueList = new LinkedList<>();
@@ -94,19 +78,8 @@ public class TranspositionMoveSorter implements MoveSorter {
             } else {
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
-                TranspositionEntry moveEntry;
-
-                if (Color.WHITE.equals(currentTurn)) {
-                    moveEntry = minMap.getForRead(zobristHashMove);
-                    if (moveEntry == null) {
-                        moveEntry = qMinMap.getForRead(zobristHashMove);
-                    }
-                } else {
-                    moveEntry = maxMap.getForRead(zobristHashMove);
-                    if (moveEntry == null) {
-                        moveEntry = qMaxMap.getForRead(zobristHashMove);
-                    }
-                }
+                TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
+                        minMap.getForRead(zobristHashMove) : maxMap.getForRead(zobristHashMove);
 
                 if (moveEntry != null) {
                     int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);

@@ -29,13 +29,13 @@ public class SearchesTest {
                 .withGameEvaluator(new DefaultEvaluator())
                 //.withGameEvaluatorCache()
 
-                //.withQuiescence()
+                .withQuiescence()
 
                 .withTranspositionTable()
-                //.withQTranspositionTable()
+                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
                 //.withAspirationWindows()
@@ -75,7 +75,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 3);
+        searchMove.setParameter(SearchParameter.MAX_DEPTH, 6);
         searchResult = searchMove.search(game);
     }
 
