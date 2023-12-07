@@ -3,7 +3,7 @@
     <parent>
         <groupId>net.chesstango</groupId>
         <artifactId>chesstango</artifactId>
-        <version>0.0.22-SNAPSHOT</version>
+        <version>0.0.22</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
