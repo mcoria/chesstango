@@ -46,12 +46,16 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
         minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
-        this.searchMove = new IterativeDeepening(minMaxPruning);
+        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
+
+        IterativeDeepening iterativeDeepening = new IterativeDeepening(minMaxPruning);
+        iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+        this.searchMove = iterativeDeepening;
     }
 }

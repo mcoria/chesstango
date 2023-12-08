@@ -32,6 +32,8 @@ public class DetectCycleEnabledTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
+    private SmartListenerMediator smartListenerMediator;
+
     private EvaluatorByCondition evaluator;
 
     @BeforeEach
@@ -69,8 +71,13 @@ public class DetectCycleEnabledTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(
+        this.smartListenerMediator = new SmartListenerMediator();
+
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
+
+        this.smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
@@ -80,11 +87,8 @@ public class DetectCycleEnabledTest {
                 transpositionTable,
                 moveSorter,
                 alphaBetaFlowControl,
-                setupGameEvaluator));
-
-        this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
+                setupGameEvaluator,
+                alphaBetaFacade));
     }
 
 
@@ -135,6 +139,7 @@ public class DetectCycleEnabledTest {
 
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 23);
         SearchMoveResult searchResult = searchMove
@@ -193,6 +198,7 @@ public class DetectCycleEnabledTest {
 
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 17);
         SearchMoveResult searchResult = searchMove
@@ -244,6 +250,7 @@ public class DetectCycleEnabledTest {
 
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 3);
         SearchMoveResult searchResult = searchMove
@@ -280,6 +287,7 @@ public class DetectCycleEnabledTest {
         });
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 4);
         SearchMoveResult searchResult = searchMove

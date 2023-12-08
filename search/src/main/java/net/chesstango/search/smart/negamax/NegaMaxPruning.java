@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.statistics.NodeStatistics;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SearchSmart {
+public class NegaMaxPruning implements SearchSmart, SearchCycleListener {
     private volatile boolean keepProcessing;
     private final NegaQuiescence negaQuiescence;
     private Game game;

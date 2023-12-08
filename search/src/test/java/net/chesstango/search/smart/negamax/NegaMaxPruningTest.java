@@ -7,10 +7,13 @@ import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,6 +27,8 @@ public class NegaMaxPruningTest {
 
     private NegaMaxPruning negaMaxPruning;
 
+    private SmartListenerMediator smartListenerMediator;
+
     @BeforeEach
     public void setup() {
         evaluator = new GameMockEvaluator();
@@ -36,6 +41,9 @@ public class NegaMaxPruningTest {
 
         negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
+
+        smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
     }
 
     @Test
@@ -103,13 +111,13 @@ public class NegaMaxPruningTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMaxPruning.beforeSearch(game);
+        smartListenerMediator.triggerBeforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = negaMaxPruning.search(context);
 
-        negaMaxPruning.afterSearch(result);
+        smartListenerMediator.triggerAfterSearch(result);
 
         return result;
     }

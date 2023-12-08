@@ -15,17 +15,6 @@ public interface SearchSmart {
 
 
     /**
-     * Invoked once before searching
-     */
-    void beforeSearch(Game game);
-
-
-    /**
-     * Invoked once after searching is done
-     */
-    void afterSearch(SearchMoveResult result);
-
-    /**
      * Invoked once per search depth
      * If Iterating Deeping is disabled then once,
      * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth

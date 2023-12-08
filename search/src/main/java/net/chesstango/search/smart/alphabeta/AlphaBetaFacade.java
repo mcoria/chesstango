@@ -6,16 +6,17 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchSmart {
+public class AlphaBetaFacade implements SearchSmart, SearchCycleListener {
 
     @Setter
     private AlphaBetaFilter alphaBetaFilter;
@@ -58,12 +59,10 @@ public class AlphaBetaFacade implements SearchSmart {
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
-        smartListenerMediator.triggerBeforeSearch(game);
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        smartListenerMediator.triggerAfterSearch(result);
     }
 
     @Override

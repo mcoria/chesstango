@@ -32,6 +32,8 @@ public class AlphaBetaTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
+    private SmartListenerMediator smartListenerMediator;
+
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -39,7 +41,7 @@ public class AlphaBetaTest {
         evaluator = new GameMockEvaluator();
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
@@ -54,12 +56,13 @@ public class AlphaBetaTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+        smartListenerMediator = new SmartListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
         this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
+
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
     }
 
     @Test
@@ -127,7 +130,7 @@ public class AlphaBetaTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        alphaBetaFacade.beforeSearch(game);
+        smartListenerMediator.triggerBeforeSearch(game);
 
         SearchContext context = new SearchContext(depth);
 
@@ -137,7 +140,7 @@ public class AlphaBetaTest {
 
         alphaBetaFacade.afterSearchByDepth(result);
 
-        alphaBetaFacade.afterSearch(result);
+        smartListenerMediator.triggerAfterSearch(result);
 
         return result;
     }

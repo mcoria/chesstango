@@ -45,14 +45,18 @@ public class AlphaBetaMateIn4Test extends MateIn4Test {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
         minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
-        this.searchMove = new NoIterativeDeepening(minMaxPruning);
-        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 7);
+        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
+
+        NoIterativeDeepening noIterativeDeepening =  new NoIterativeDeepening(minMaxPruning);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH, 7);
+
+        this.searchMove = noIterativeDeepening;
     }
 
 }

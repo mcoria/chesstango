@@ -2,8 +2,6 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -46,14 +44,17 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
         minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
-        this.searchMove = new NoIterativeDeepening(minMaxPruning);
-        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 5);
-    }
+        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
 
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH, 5);
+
+        this.searchMove = noIterativeDeepening;
+    }
 }

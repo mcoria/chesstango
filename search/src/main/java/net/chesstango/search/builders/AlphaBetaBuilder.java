@@ -6,7 +6,6 @@ import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -14,8 +13,6 @@ import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.statistics.GameStatisticsCycleListener;
 import net.chesstango.search.smart.statistics.SearchMoveWrapper;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -151,19 +148,21 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         setupListenerMediator();
 
-        AlphaBetaFilter head = createChain();
-
-        // ====================================================
-        alphaBetaFacade = new AlphaBetaFacade();
-        alphaBetaFacade.setAlphaBetaFilter(head);
+        alphaBetaFacade.setAlphaBetaFilter(createChain());
         alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
 
         SearchMove searchMove;
 
         if (withIterativeDeepening) {
-            searchMove = new IterativeDeepening(alphaBetaFacade);
+            IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade);
+            iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+            searchMove = iterativeDeepening;
         } else {
-            searchMove = new NoIterativeDeepening(alphaBetaFacade);
+            NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(alphaBetaFacade);
+            noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+            searchMove = noIterativeDeepening;
         }
 
         if (withStatistics) {
@@ -207,7 +206,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaFacade = new AlphaBetaFacade();
-        alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
     }
 
 
@@ -237,6 +235,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         smartListenerMediator.add(setBestMoves);
 
         smartListenerMediator.add(setupGameEvaluator);
+
+        smartListenerMediator.add(alphaBetaFacade);
     }
 
 

@@ -31,6 +31,8 @@ public class MoveEvaluationTrackerTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
+    private SmartListenerMediator smartListenerMediator;
+
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -64,12 +66,22 @@ public class MoveEvaluationTrackerTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(Arrays.asList(alphaBetaRoot, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
+        this.smartListenerMediator = new SmartListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaRoot);
         this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
+
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBetaRoot,
+                moveEvaluationTracker,
+                quiescence,
+                moveSorter,
+                alphaBetaFirstFlowControl,
+                alphaBeta,
+                alphaBetaFlowControl,
+                new SetBestMoves(),
+                setupGameEvaluator,
+                alphaBetaFacade));
     }
 
 
@@ -77,7 +89,8 @@ public class MoveEvaluationTrackerTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMove searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
         SearchMoveResult searchResult = searchMove.search(game);
 
@@ -88,7 +101,8 @@ public class MoveEvaluationTrackerTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMove searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
+        searchMove.setSmartListenerMediator(smartListenerMediator);
         searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
         SearchMoveResult searchResult = searchMove.search(game);
 

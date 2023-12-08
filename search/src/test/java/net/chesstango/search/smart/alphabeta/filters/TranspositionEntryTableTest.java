@@ -144,6 +144,11 @@ public class TranspositionEntryTableTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
+
         smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
@@ -154,13 +159,13 @@ public class TranspositionEntryTableTest {
                 moveSorter,
                 gameEvaluator,
                 alphaBetaFlowControl,
-                setupGameEvaluator));
+                setupGameEvaluator,
+                minMaxPruning));
 
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
 
-        return new NoIterativeDeepening(minMaxPruning);
+        return noIterativeDeepening;
     }
 
     private SearchMove createSearchWithTT() {
@@ -194,6 +199,11 @@ public class TranspositionEntryTableTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
+
         smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
@@ -206,12 +216,12 @@ public class TranspositionEntryTableTest {
                 gameEvaluator,
                 new SetTranspositionPV(),
                 alphaBetaFlowControl,
-                setupGameEvaluator));
+                setupGameEvaluator,
+                minMaxPruning));
 
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
+        IterativeDeepening iterativeDeepening = new IterativeDeepening(minMaxPruning);
+        iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
 
-        return new IterativeDeepening(minMaxPruning);
+        return iterativeDeepening;
     }
 }

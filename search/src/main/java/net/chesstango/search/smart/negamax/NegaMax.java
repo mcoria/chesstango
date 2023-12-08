@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.SearchSmart;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax implements SearchSmart {
+public class NegaMax implements SearchSmart, SearchCycleListener {
 
     private static final int DEFAULT_MAX_PLIES = 4;
 
