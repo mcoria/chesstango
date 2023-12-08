@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -63,9 +64,12 @@ public class MoveEvaluationTrackerTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(alphaBetaRoot, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaRoot);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaRoot, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
+        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
     }
 
 

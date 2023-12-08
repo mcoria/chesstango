@@ -9,6 +9,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
@@ -63,9 +64,8 @@ public class DetectCycleDisabledTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
-        this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(
                 new SetNodeStatistics(),
                 alphaBeta,
                 alphaBetaStatisticsExpected,
@@ -74,6 +74,10 @@ public class DetectCycleDisabledTest {
                 moveSorter,
                 alphaBetaFlowControl,
                 setupGameEvaluator));
+
+        this.alphaBetaFacade = new AlphaBetaFacade();
+        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
     }
 
 

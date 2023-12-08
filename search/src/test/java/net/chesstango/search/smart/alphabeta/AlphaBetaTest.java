@@ -7,6 +7,7 @@ import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
@@ -53,9 +54,12 @@ public class AlphaBetaTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
     }
 
     @Test

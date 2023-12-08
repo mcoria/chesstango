@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListener;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -24,7 +25,7 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private TriangularPV triangularPV;
-    private List<SmartListener> filterActions;
+    private SmartListenerMediator smartListenerMediator;
     private boolean withQuiescence;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -76,8 +77,8 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withFilterActions(List<SmartListener> filterActions) {
-        this.filterActions = filterActions;
+    public QuiescenceChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
@@ -95,7 +96,7 @@ public class QuiescenceChainBuilder {
     public AlphaBetaFilter build() {
         buildObjects();
 
-        createSearchActions();
+        setupListenerMediator();
 
         return createQuiescenceChain();
     }
@@ -119,32 +120,32 @@ public class QuiescenceChainBuilder {
         }
     }
 
-    private void createSearchActions() {
+    private void setupListenerMediator() {
         // =============  quiescence setup =====================
         if (withQuiescence) {
-            filterActions.add(qMoveSorter);
-            filterActions.add(quiescence);
-            filterActions.add(quiescenceFlowControl);
+            smartListenerMediator.add(qMoveSorter);
+            smartListenerMediator.add(quiescence);
+            smartListenerMediator.add(quiescenceFlowControl);
             if (withStatistics) {
-                filterActions.add(quiescenceStatisticsExpected);
-                filterActions.add(quiescenceStatisticsVisited);
+                smartListenerMediator.add(quiescenceStatisticsExpected);
+                smartListenerMediator.add(quiescenceStatisticsVisited);
             }
             if (zobristQTracker != null) {
-                filterActions.add(zobristQTracker);
+                smartListenerMediator.add(zobristQTracker);
             }
             if (transpositionTableQ != null) {
-                filterActions.add(transpositionTableQ);
+                smartListenerMediator.add(transpositionTableQ);
             }
             if (withTriangularPV) {
-                filterActions.add(triangularPV);
+                smartListenerMediator.add(triangularPV);
             }
         } else {
-            filterActions.add(quiescenceNull);
+            smartListenerMediator.add(quiescenceNull);
         }
         // ====================================================
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
-            filterActions.add(evaluatorStatistics);
+            smartListenerMediator.add(evaluatorStatistics);
         }
 
     }

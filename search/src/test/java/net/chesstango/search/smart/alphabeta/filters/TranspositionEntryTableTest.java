@@ -9,6 +9,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionPV;
@@ -142,8 +143,8 @@ public class TranspositionEntryTableTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
@@ -154,7 +155,10 @@ public class TranspositionEntryTableTest {
                 gameEvaluator,
                 alphaBetaFlowControl,
                 setupGameEvaluator));
+
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         return new NoIterativeDeepening(minMaxPruning);
     }
@@ -189,8 +193,8 @@ public class TranspositionEntryTableTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
@@ -203,7 +207,10 @@ public class TranspositionEntryTableTest {
                 new SetTranspositionPV(),
                 alphaBetaFlowControl,
                 setupGameEvaluator));
+
+        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         return new IterativeDeepening(minMaxPruning);
     }

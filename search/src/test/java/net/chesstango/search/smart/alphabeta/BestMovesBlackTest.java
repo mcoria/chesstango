@@ -4,6 +4,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.smart.AbstractBestMovesBlackTest;
 import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
@@ -43,9 +44,13 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
     }

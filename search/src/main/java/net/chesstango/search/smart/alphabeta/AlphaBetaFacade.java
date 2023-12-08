@@ -20,15 +20,8 @@ public class AlphaBetaFacade implements SearchSmart {
     @Setter
     private AlphaBetaFilter alphaBetaFilter;
 
-
-    private List<StopSearchListener> stopSearchListeners;
-
-    private List<ResetListener> resetListeners;
-
-    private List<SearchByDepthListener> searchByDepthListeners;
-
-    private List<SearchCycleListener> searchCycleListeners;
-
+    @Setter
+    private SmartListenerMediator smartListenerMediator;
 
     private Game game;
 
@@ -59,55 +52,32 @@ public class AlphaBetaFacade implements SearchSmart {
 
     @Override
     public void stopSearching() {
-        stopSearchListeners.forEach(StopSearchListener::stopSearching);
+        smartListenerMediator.triggerStopSearching();
     }
 
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
-        searchCycleListeners.forEach(filter -> filter.beforeSearch(game));
+        smartListenerMediator.triggerBeforeSearch(game);
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        searchCycleListeners.forEach(filter -> filter.afterSearch(result));
+        smartListenerMediator.triggerAfterSearch(result);
     }
 
     @Override
     public void reset() {
-        resetListeners.forEach(ResetListener::reset);
+        smartListenerMediator.triggerReset();
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
+        smartListenerMediator.triggerBeforeSearchByDepth(context);
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        searchByDepthListeners.forEach(filter -> filter.afterSearchByDepth(result));
-    }
-
-    public void setSearchActions(List<SmartListener> searchActions) {
-        stopSearchListeners = searchActions.stream()
-                .filter(StopSearchListener.class::isInstance)
-                .map(StopSearchListener.class::cast)
-                .toList();
-
-
-        resetListeners = searchActions.stream()
-                .filter(ResetListener.class::isInstance)
-                .map(ResetListener.class::cast)
-                .toList();
-
-        searchByDepthListeners = searchActions.stream()
-                .filter(SearchByDepthListener.class::isInstance)
-                .map(SearchByDepthListener.class::cast)
-                .toList();
-
-        searchCycleListeners = searchActions.stream()
-                .filter(SearchCycleListener.class::isInstance)
-                .map(SearchCycleListener.class::cast)
-                .toList();
+        smartListenerMediator.triggerAfterSearchByDepth(result);
     }
 }
