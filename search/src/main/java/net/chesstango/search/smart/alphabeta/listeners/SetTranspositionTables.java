@@ -7,6 +7,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.ArrayTTable;
+import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
@@ -20,10 +21,17 @@ public class SetTranspositionTables implements SearchCycleListener, ResetListene
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables() {
+        /*
         this.maxMap = new ArrayTTable();
         this.minMap = new ArrayTTable();
         this.qMaxMap = new ArrayTTable();
         this.qMinMap = new ArrayTTable();
+         */
+
+        this.maxMap = new MapTTable();
+        this.minMap = new MapTTable();
+        this.qMaxMap = new MapTTable();
+        this.qMinMap = new MapTTable();
     }
 
     @Override

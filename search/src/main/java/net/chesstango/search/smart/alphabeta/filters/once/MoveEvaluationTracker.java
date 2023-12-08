@@ -12,6 +12,7 @@ import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -32,22 +33,24 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
 
     @Override
     public void beforeSearch(Game game) {
-        this.currentMoveEvaluations = null;
         this.game = game;
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
+        System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
         currentMoveEvaluations = new LinkedList<>();
     }
 
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
-        //System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
+        System.out.printf("Searching with Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
-        //currentMoveEvaluations.stream().sorted(Comparator.comparingInt(MoveEvaluation::evaluation)).forEach(System.out::println);
-        //System.out.printf("------------\n");
+        currentMoveEvaluations.stream()
+                .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
+                .forEach(System.out::println);
+        System.out.printf("------------\n");
 
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
@@ -57,12 +60,18 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
             /**
              * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva
              */
-            currentMoveEvaluations = new LinkedList<>();
+            currentMoveEvaluations.clear();
         }
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
+        System.out.printf("After Search By Depth\n");
+        currentMoveEvaluations.stream()
+                .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
+                .forEach(System.out::println);
+        System.out.printf("------------\n");
+
         result.setMoveEvaluations(currentMoveEvaluations);
     }
 
