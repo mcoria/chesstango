@@ -1,17 +1,11 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
-public interface SearchLifeCycle {
-
-    /**
-     * Invoked once before searching
-     */
-    void beforeSearch(Game game);
+public interface SearchByDepthListener extends SmartListener{
 
     /**
      * Invoked once per search depth
@@ -27,19 +21,4 @@ public interface SearchLifeCycle {
      * If result == null, it means search was stopped before completion
      */
     void afterSearchByDepth(SearchMoveResult result);
-
-    /**
-     * Invoked once after searching is done
-     */
-    void afterSearch(SearchMoveResult result);
-
-    /**
-     * Stop searching. This method may be called while another thread is searching
-     */
-    void stopSearching();
-
-    /**
-     * Reset internal buffers
-     */
-    void reset();
 }

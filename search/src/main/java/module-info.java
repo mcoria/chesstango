@@ -26,4 +26,5 @@ module net.chesstango.search {
     opens net.chesstango.search.reports;
     opens net.chesstango.search;
     opens net.chesstango.search.smart;
+    opens net.chesstango.search.smart.statistics;
 }

@@ -54,7 +54,7 @@ public class AlphaBetaTest {
         setupGameEvaluator.setGameEvaluator(evaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBeta);
+        this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
     }
 

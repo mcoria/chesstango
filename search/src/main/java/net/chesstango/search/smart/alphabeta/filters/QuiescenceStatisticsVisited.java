@@ -2,12 +2,14 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
+public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
     private int maxPly;
@@ -29,14 +31,6 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
     }
 
     @Override

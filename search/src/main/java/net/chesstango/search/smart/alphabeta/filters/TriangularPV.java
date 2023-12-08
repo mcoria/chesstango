@@ -3,13 +3,15 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class TriangularPV implements AlphaBetaFilter {
+public class TriangularPV implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
     private short[][] trianglePV;
@@ -33,13 +35,6 @@ public class TriangularPV implements AlphaBetaFilter {
     public void afterSearch(SearchMoveResult result) {
     }
 
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
-    }
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {

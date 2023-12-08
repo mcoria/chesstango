@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class Quiescence implements AlphaBetaFilter {
+public class Quiescence implements AlphaBetaFilter, SearchCycleListener {
     @Setter
     private AlphaBetaFilter next;
 
@@ -33,22 +34,6 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void reset() {
     }
 
     @Override

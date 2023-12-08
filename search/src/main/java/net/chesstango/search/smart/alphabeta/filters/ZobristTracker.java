@@ -5,14 +5,16 @@ import net.chesstango.board.Game;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 
 import java.util.*;
 
 /**
  * @author Mauricio Coria
  */
-public class ZobristTracker implements AlphaBetaFilter {
+public class ZobristTracker implements AlphaBetaFilter, SearchCycleListener, ResetListener {
     @Setter
     private AlphaBetaFilter next;
     private Map<Long, String> maxMap = new HashMap<>();
@@ -27,20 +29,9 @@ public class ZobristTracker implements AlphaBetaFilter {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
     public void afterSearch(SearchMoveResult result) {
     }
 
-    @Override
-    public void stopSearching() {
-    }
 
     @Override
     public void reset() {

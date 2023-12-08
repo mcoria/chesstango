@@ -69,7 +69,7 @@ public class DetectCycleEnabledTest {
         setupGameEvaluator.setGameEvaluator(evaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaStatisticsExpected);
+        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),

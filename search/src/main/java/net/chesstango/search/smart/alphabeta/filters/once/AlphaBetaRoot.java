@@ -1,10 +1,10 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaAbstract;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -17,27 +17,10 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaRoot extends AlphaBetaAbstract {
+public class AlphaBetaRoot extends AlphaBetaAbstract implements SearchByDepthListener {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void reset() {
-    }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {

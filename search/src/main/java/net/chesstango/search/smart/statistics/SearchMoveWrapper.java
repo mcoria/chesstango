@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smart.statistics;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMove;
@@ -9,10 +9,10 @@ import net.chesstango.search.smart.statistics.GameStatistics;
 /**
  * @author Mauricio Coria
  */
-public class IterativeWrapper implements SearchMove {
+public class SearchMoveWrapper implements SearchMove {
     private final SearchMove imp;
 
-    public IterativeWrapper(SearchMove imp) {
+    public SearchMoveWrapper(SearchMove imp) {
         this.imp = imp;
     }
 

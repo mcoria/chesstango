@@ -6,7 +6,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -18,7 +20,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class StopProcessingCatch implements AlphaBetaFilter {
+public class StopProcessingCatch implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -26,8 +28,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     @Setter
     private Game game;
 
-    //@Setter
-    //private List<MoveEvaluation> currentMoveEvaluations;
 
     private Move lastBestMove;
 
@@ -53,14 +53,6 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
     }
 
     @Override
