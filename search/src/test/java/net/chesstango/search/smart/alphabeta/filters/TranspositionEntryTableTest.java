@@ -154,7 +154,7 @@ public class TranspositionEntryTableTest {
                 gameEvaluator,
                 alphaBetaFlowControl,
                 setupGameEvaluator));
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
 
         return new NoIterativeDeepening(minMaxPruning);
     }
@@ -203,7 +203,7 @@ public class TranspositionEntryTableTest {
                 new SetTranspositionPV(),
                 alphaBetaFlowControl,
                 setupGameEvaluator));
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatisticsExpected);
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
 
         return new IterativeDeepening(minMaxPruning);
     }

@@ -6,8 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.statistics.EvaluationEntry;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
 
@@ -17,7 +16,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
+public class EvaluatorStatistics implements GameEvaluator, SearchCycleListener {
     private final GameEvaluator imp;
     private final GameEvaluatorCache cache;
     private long evaluationsCounter;
@@ -68,20 +67,5 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
         result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
 
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
-    }
 
 }

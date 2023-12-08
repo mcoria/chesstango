@@ -7,12 +7,14 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.StopSearchListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceFlowControl implements AlphaBetaFilter {
+public class QuiescenceFlowControl implements AlphaBetaFilter, SearchCycleListener, StopSearchListener {
     private volatile boolean keepProcessing;
 
     @Setter
@@ -29,24 +31,12 @@ public class QuiescenceFlowControl implements AlphaBetaFilter {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
     public void afterSearch(SearchMoveResult result) {
     }
 
     @Override
     public void stopSearching() {
         this.keepProcessing = false;
-    }
-
-    @Override
-    public void reset() {
     }
 
     @Override

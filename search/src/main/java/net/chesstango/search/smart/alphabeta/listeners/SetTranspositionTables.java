@@ -2,15 +2,17 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.ResetListener;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionTables implements SearchLifeCycle {
+public class SetTranspositionTables implements SearchCycleListener, ResetListener, SearchByDepthListener {
     private final TTable maxMap;
     private final TTable minMap;
     private final TTable qMaxMap;
@@ -45,11 +47,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-
     }
 
     @Override

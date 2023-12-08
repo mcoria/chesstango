@@ -3,12 +3,14 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
+public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -35,13 +37,6 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
     public void afterSearchByDepth(SearchMoveResult result) {
     }
 
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
-    }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {

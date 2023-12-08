@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
 
@@ -26,7 +26,7 @@ public class AlphaBetaFirstChainBuilder {
     private TranspositionTable transpositionTable;
     private TriangularPV triangularPV;
 
-    private List<SearchLifeCycle> filterActions;
+    private List<SmartListener> filterActions;
 
     private boolean withStatistics;
 
@@ -51,7 +51,7 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
-    public AlphaBetaFirstChainBuilder withFilterActions(List<SearchLifeCycle> searchActions) {
+    public AlphaBetaFirstChainBuilder withFilterActions(List<SmartListener> searchActions) {
         this.filterActions = searchActions;
         return this;
     }

@@ -4,11 +4,12 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceNull implements AlphaBetaFilter {
+public class QuiescenceNull implements AlphaBetaFilter, SearchCycleListener {
 
     private GameEvaluator evaluator;
 
@@ -21,22 +22,6 @@ public class QuiescenceNull implements AlphaBetaFilter {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
     }
 
     @Override

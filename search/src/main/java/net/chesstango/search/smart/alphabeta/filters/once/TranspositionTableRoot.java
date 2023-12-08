@@ -3,9 +3,10 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.TranspositionTableAbstract;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -13,7 +14,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTableRoot implements AlphaBetaFilter {
+public class TranspositionTableRoot implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -40,14 +41,6 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
     }
 
 

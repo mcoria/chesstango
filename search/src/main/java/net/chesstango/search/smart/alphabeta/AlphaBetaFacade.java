@@ -1,13 +1,12 @@
 package net.chesstango.search.smart.alphabeta;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -18,9 +17,18 @@ import java.util.List;
  */
 public class AlphaBetaFacade implements SearchSmart {
 
+    @Setter
     private AlphaBetaFilter alphaBetaFilter;
 
-    private List<SearchLifeCycle> searchActions;
+
+    private List<StopSearchListener> stopSearchListeners;
+
+    private List<ResetListener> resetListeners;
+
+    private List<SearchByDepthListener> searchByDepthListeners;
+
+    private List<SearchCycleListener> searchCycleListeners;
+
 
     private Game game;
 
@@ -51,53 +59,55 @@ public class AlphaBetaFacade implements SearchSmart {
 
     @Override
     public void stopSearching() {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(SearchLifeCycle::stopSearching);
-        }
+        stopSearchListeners.forEach(StopSearchListener::stopSearching);
     }
 
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.beforeSearch(game));
-        }
+        searchCycleListeners.forEach(filter -> filter.beforeSearch(game));
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.afterSearch(result));
-        }
+        searchCycleListeners.forEach(filter -> filter.afterSearch(result));
     }
 
     @Override
     public void reset() {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.reset());
-        }
+        resetListeners.forEach(ResetListener::reset);
     }
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.beforeSearchByDepth(context));
-        }
+        searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.afterSearchByDepth(result));
-        }
+        searchByDepthListeners.forEach(filter -> filter.afterSearchByDepth(result));
     }
 
-    public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
-        this.alphaBetaFilter = alphaBetaFilter;
-    }
+    public void setSearchActions(List<SmartListener> searchActions) {
+        stopSearchListeners = searchActions.stream()
+                .filter(StopSearchListener.class::isInstance)
+                .map(StopSearchListener.class::cast)
+                .toList();
 
-    public void setSearchActions(List<SearchLifeCycle> searchActions) {
-        this.searchActions = searchActions;
-    }
 
+        resetListeners = searchActions.stream()
+                .filter(ResetListener.class::isInstance)
+                .map(ResetListener.class::cast)
+                .toList();
+
+        searchByDepthListeners = searchActions.stream()
+                .filter(SearchByDepthListener.class::isInstance)
+                .map(SearchByDepthListener.class::cast)
+                .toList();
+
+        searchCycleListeners = searchActions.stream()
+                .filter(SearchCycleListener.class::isInstance)
+                .map(SearchCycleListener.class::cast)
+                .toList();
+    }
 }

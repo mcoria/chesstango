@@ -4,6 +4,8 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public abstract class AlphaBetaAbstract implements AlphaBetaFilter {
+public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchCycleListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -20,6 +22,15 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter {
     protected Game game;
 
     protected abstract List<Move> getSortedMoves();
+
+    @Override
+    public void beforeSearch(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public void afterSearch(SearchMoveResult result) {
+    }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {

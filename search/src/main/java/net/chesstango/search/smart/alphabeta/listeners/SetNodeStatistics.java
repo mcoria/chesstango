@@ -2,14 +2,15 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
  */
-public class SetNodeStatistics implements SearchLifeCycle {
+public class SetNodeStatistics implements SearchCycleListener, SearchByDepthListener {
 
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
@@ -50,11 +51,4 @@ public class SetNodeStatistics implements SearchLifeCycle {
         this.expectedNodesCountersQuiescence = null;
     }
 
-    @Override
-    public void stopSearching() {
-    }
-
-    @Override
-    public void reset() {
-    }
 }

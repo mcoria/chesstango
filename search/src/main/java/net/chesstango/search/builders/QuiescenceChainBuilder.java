@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -24,7 +24,7 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private TriangularPV triangularPV;
-    private List<SearchLifeCycle> filterActions;
+    private List<SmartListener> filterActions;
     private boolean withQuiescence;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -76,7 +76,7 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withFilterActions(List<SearchLifeCycle> filterActions) {
+    public QuiescenceChainBuilder withFilterActions(List<SmartListener> filterActions) {
         this.filterActions = filterActions;
         return this;
     }
@@ -119,7 +119,7 @@ public class QuiescenceChainBuilder {
         }
     }
 
-    private List<SearchLifeCycle> createSearchActions() {
+    private void createSearchActions() {
         // =============  quiescence setup =====================
         if (withQuiescence) {
             filterActions.add(qMoveSorter);
@@ -147,7 +147,6 @@ public class QuiescenceChainBuilder {
             filterActions.add(evaluatorStatistics);
         }
 
-        return filterActions;
     }
 
 

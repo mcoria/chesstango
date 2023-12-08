@@ -64,7 +64,7 @@ public class MoveEvaluationTrackerTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaSearch(alphaBetaRoot);
+        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaRoot);
         this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBetaRoot, moveEvaluationTracker, quiescence, moveSorter, alphaBetaFirstFlowControl, alphaBeta, alphaBetaFlowControl, new SetBestMoves(), setupGameEvaluator));
     }
 

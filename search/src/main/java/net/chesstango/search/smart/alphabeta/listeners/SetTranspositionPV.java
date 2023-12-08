@@ -4,8 +4,9 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionPV implements SearchLifeCycle {
+public class SetTranspositionPV implements SearchCycleListener, SearchByDepthListener {
     private TTable maxMap;
     private TTable minMap;
 
@@ -46,15 +47,6 @@ public class SetTranspositionPV implements SearchLifeCycle {
         result.setPrincipalVariation(principalVariation);
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
-
-    @Override
-    public void reset() {
-
-    }
 
     public List<Move> calculatePrincipalVariation(Move bestMove,
                                                   int depth) {

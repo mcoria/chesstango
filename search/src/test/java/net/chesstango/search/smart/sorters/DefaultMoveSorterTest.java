@@ -421,7 +421,7 @@ public class DefaultMoveSorterTest {
 
         SearchContext context = new SearchContext(1);
 
-        moveSorter.beforeSearchByDepth(context);
+        //moveSorter.beforeSearchByDepth(context);
     }
 
 }

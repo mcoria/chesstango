@@ -5,14 +5,14 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.IterativeWrapper;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.statistics.GameStatisticsListener;
+import net.chesstango.search.smart.statistics.GameStatisticsCycleListener;
+import net.chesstango.search.smart.statistics.SearchMoveWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTranspositionPV setTranspositionPV;
     private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
+    private GameStatisticsCycleListener gameStatisticsListener;
     private SetupGameEvaluator setupGameEvaluator;
     private SetTrianglePV setTrianglePV;
 
@@ -146,13 +147,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
     public SearchMove build() {
         buildObjects();
 
-        List<SearchLifeCycle> searchActions = createSearchActions();
+        List<SmartListener> searchActions = createSearchActions();
 
         AlphaBetaFilter head = createChain(searchActions);
 
         // ====================================================
         AlphaBetaFacade alphaBetaFacade = new AlphaBetaFacade();
-        alphaBetaFacade.setAlphaBetaSearch(head);
+        alphaBetaFacade.setAlphaBetaFilter(head);
         alphaBetaFacade.setSearchActions(searchActions);
 
         SearchMove searchMove;
@@ -164,11 +165,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            IterativeWrapper iterativeWrapper = new IterativeWrapper(searchMove);
-
-            searchActions.add(new GameStatisticsListener());
-
-            searchMove = iterativeWrapper;
+            searchMove = new SearchMoveWrapper(searchMove);
         }
 
         return searchMove;
@@ -181,6 +178,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
+            gameStatisticsListener = new GameStatisticsCycleListener();
         }
 
         if (withTranspositionTable) {
@@ -206,8 +204,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    private List<SearchLifeCycle> createSearchActions() {
-        List<SearchLifeCycle> filterActions = new LinkedList<>();
+    private List<SmartListener> createSearchActions() {
+        List<SmartListener> filterActions = new LinkedList<>();
 
         if (setTranspositionTables != null) {
             // Este filtro necesita agregarse primero
@@ -224,6 +222,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             filterActions.add(setNodeStatistics);
+            filterActions.add(gameStatisticsListener);
         }
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
@@ -238,7 +237,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    private AlphaBetaFilter createChain(List<SearchLifeCycle> searchActions) {
+    private AlphaBetaFilter createChain(List<SmartListener> searchActions) {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         quiescenceChainBuilder.withFilterActions(searchActions);

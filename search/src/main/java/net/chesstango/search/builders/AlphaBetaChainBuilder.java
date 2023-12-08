@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -24,7 +24,7 @@ public class AlphaBetaChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaFilter quiescence;
     private TriangularPV triangularPV;
-    private List<SearchLifeCycle> filterActions;
+    private List<SmartListener> filterActions;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTriangularPV;
@@ -71,7 +71,7 @@ public class AlphaBetaChainBuilder {
         return this;
     }
 
-    public AlphaBetaChainBuilder withFilterActions(List<SearchLifeCycle> filterActions) {
+    public AlphaBetaChainBuilder withFilterActions(List<SmartListener> filterActions) {
         this.filterActions = filterActions;
         return this;
     }
@@ -125,7 +125,7 @@ public class AlphaBetaChainBuilder {
         alphaBeta.setMoveSorter(moveSorter);
     }
 
-    private List<SearchLifeCycle> createSearchActions() {
+    private void createSearchActions() {
         filterActions.add(moveSorter);
         filterActions.add(alphaBeta);
         filterActions.add(alphaBetaFlowControl);
@@ -145,7 +145,6 @@ public class AlphaBetaChainBuilder {
             filterActions.add(triangularPV);
         }
 
-        return filterActions;
     }
 
 

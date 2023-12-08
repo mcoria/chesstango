@@ -45,7 +45,7 @@ public class AlphaBetaGenericTest extends GenericTest {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setAlphaBetaSearch(alphaBeta);
+        minMaxPruning.setAlphaBetaFilter(alphaBeta);
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);

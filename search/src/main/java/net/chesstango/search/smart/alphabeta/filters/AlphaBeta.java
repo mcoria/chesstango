@@ -22,28 +22,4 @@ public class AlphaBeta extends AlphaBetaAbstract {
         return moveSorter.getSortedMoves();
     }
 
-    @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void reset() {
-    }
-
-    @Override
-    public void stopSearching() {
-    }
 }

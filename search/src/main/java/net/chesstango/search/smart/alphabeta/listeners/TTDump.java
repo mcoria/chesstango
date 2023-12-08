@@ -2,8 +2,9 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class TTDump implements SearchLifeCycle {
+public class TTDump implements SearchCycleListener, SearchByDepthListener {
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -53,16 +54,6 @@ public class TTDump implements SearchLifeCycle {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString())) {
             dumpTables(result.getDepth());
         }
-    }
-
-    @Override
-    public void stopSearching() {
-
-    }
-
-    @Override
-    public void reset() {
-
     }
 
     private void dumpTables(int searchCycle) {

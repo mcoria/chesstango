@@ -4,27 +4,16 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.SearchCycleListener;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class SetBestMoves implements SearchLifeCycle {
+public class SetBestMoves implements SearchCycleListener {
     @Override
     public void beforeSearch(Game game) {
-
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
 
     }
 
@@ -39,13 +28,4 @@ public class SetBestMoves implements SearchLifeCycle {
         result.setBestMoves(bestMoves);
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
-
-    @Override
-    public void reset() {
-
-    }
 }
