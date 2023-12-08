@@ -75,7 +75,6 @@ public class DetectCycleEnabledTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
 
         this.smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),

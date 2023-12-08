@@ -149,7 +149,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         setupListenerMediator();
 
         alphaBetaFacade.setAlphaBetaFilter(createChain());
-        alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
 
         SearchMove searchMove;
 

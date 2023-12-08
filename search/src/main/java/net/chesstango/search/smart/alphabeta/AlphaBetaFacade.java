@@ -9,7 +9,6 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.SearchSmart;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -20,9 +19,6 @@ public class AlphaBetaFacade implements SearchSmart, SearchCycleListener {
 
     @Setter
     private AlphaBetaFilter alphaBetaFilter;
-
-    @Setter
-    private SmartListenerMediator smartListenerMediator;
 
     private Game game;
 
@@ -52,22 +48,12 @@ public class AlphaBetaFacade implements SearchSmart, SearchCycleListener {
     }
 
     @Override
-    public void stopSearching() {
-        smartListenerMediator.triggerStopSearching();
-    }
-
-    @Override
     public void beforeSearch(Game game) {
         this.game = game;
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void reset() {
-        smartListenerMediator.triggerReset();
     }
 
 }

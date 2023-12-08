@@ -48,7 +48,6 @@ public class AlphaBetaMateIn4Test extends MateIn4Test {
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
 

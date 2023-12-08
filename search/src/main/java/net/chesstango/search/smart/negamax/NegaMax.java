@@ -59,11 +59,6 @@ public class NegaMax implements SearchSmart, SearchCycleListener {
         return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
-
 
     protected int negaMax(Game game, final int currentPly) {
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
@@ -93,12 +88,6 @@ public class NegaMax implements SearchSmart, SearchCycleListener {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
-    }
-
-    @Override
-    public void reset() {
-
     }
 
 }

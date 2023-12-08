@@ -110,12 +110,12 @@ public class IterativeDeepening implements SearchMove {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        searchSmart.stopSearching();
+        smartListenerMediator.triggerStopSearching();
     }
 
     @Override
     public void reset() {
-        searchSmart.reset();
+        smartListenerMediator.triggerReset();
     }
 
     @Override

@@ -48,7 +48,6 @@ public class AlphaBetaGenericTest extends GenericTest {
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBeta);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
 

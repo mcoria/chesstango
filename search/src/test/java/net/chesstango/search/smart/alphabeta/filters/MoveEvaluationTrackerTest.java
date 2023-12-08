@@ -70,7 +70,6 @@ public class MoveEvaluationTrackerTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaRoot);
-        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
 
         this.smartListenerMediator.addAll(Arrays.asList(alphaBetaRoot,
                 moveEvaluationTracker,

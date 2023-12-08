@@ -147,7 +147,6 @@ public class TranspositionEntryTableTest {
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
@@ -202,7 +201,6 @@ public class TranspositionEntryTableTest {
 
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
         minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-        minMaxPruning.setSmartListenerMediator(smartListenerMediator);
 
         smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),

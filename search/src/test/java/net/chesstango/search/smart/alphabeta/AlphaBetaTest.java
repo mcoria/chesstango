@@ -60,7 +60,6 @@ public class AlphaBetaTest {
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
-        this.alphaBetaFacade.setSmartListenerMediator(smartListenerMediator);
 
         this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
     }

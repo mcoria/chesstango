@@ -42,12 +42,12 @@ public class NoIterativeDeepening implements SearchMove {
 
     @Override
     public void stopSearching() {
-        this.searchSmart.stopSearching();
+        this.smartListenerMediator.triggerStopSearching();
     }
 
     @Override
     public void reset() {
-        this.searchSmart.reset();
+        this.smartListenerMediator.triggerReset();
     }
 
     @Override
