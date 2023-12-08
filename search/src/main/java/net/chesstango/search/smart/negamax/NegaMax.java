@@ -92,16 +92,6 @@ public class NegaMax implements SearchSmart, SearchCycleListener {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
-
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
-    }
-
-    @Override
     public void afterSearch(SearchMoveResult result) {
 
     }

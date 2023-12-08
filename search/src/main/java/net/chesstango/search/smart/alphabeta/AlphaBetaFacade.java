@@ -70,13 +70,4 @@ public class AlphaBetaFacade implements SearchSmart, SearchCycleListener {
         smartListenerMediator.triggerReset();
     }
 
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-        smartListenerMediator.triggerBeforeSearchByDepth(context);
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-        smartListenerMediator.triggerAfterSearchByDepth(result);
-    }
 }

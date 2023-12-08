@@ -134,11 +134,11 @@ public class AlphaBetaTest {
 
         SearchContext context = new SearchContext(depth);
 
-        alphaBetaFacade.beforeSearchByDepth(context);
+        smartListenerMediator.triggerBeforeSearchByDepth(context);
 
         SearchMoveResult result = alphaBetaFacade.search(context);
 
-        alphaBetaFacade.afterSearchByDepth(result);
+        smartListenerMediator.triggerAfterSearchByDepth(result);
 
         smartListenerMediator.triggerAfterSearch(result);
 
