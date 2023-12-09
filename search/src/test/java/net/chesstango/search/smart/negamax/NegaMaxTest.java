@@ -108,7 +108,7 @@ public class NegaMaxTest {
 
         negaMax.afterSearchByDepth(searchResult);
 
-        negaMax.afterSearch(searchResult);
+        negaMax.afterSearch();
 
         return searchResult;
     }

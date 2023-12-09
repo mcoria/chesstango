@@ -1,10 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
@@ -21,7 +18,7 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycl
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
         this.visitedNodesCounters = null;
     }
 

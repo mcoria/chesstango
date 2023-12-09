@@ -37,7 +37,7 @@ public class TTDump implements SearchByCycleListener, SearchByDepthListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
 
     }
 

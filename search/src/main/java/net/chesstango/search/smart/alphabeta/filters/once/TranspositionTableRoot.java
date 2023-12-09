@@ -37,7 +37,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

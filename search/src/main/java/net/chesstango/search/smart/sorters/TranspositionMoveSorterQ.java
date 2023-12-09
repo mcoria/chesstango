@@ -32,7 +32,7 @@ public class TranspositionMoveSorterQ implements MoveSorter, SearchByDepthListen
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
 
     }
 

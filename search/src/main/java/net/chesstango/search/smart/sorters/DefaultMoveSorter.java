@@ -2,7 +2,6 @@ package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -113,7 +112,7 @@ public class DefaultMoveSorter implements SearchByCycleListener, MoveSorter {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

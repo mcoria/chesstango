@@ -43,7 +43,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

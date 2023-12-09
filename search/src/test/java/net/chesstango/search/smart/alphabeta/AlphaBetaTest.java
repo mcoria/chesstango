@@ -145,7 +145,7 @@ public class AlphaBetaTest {
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        smartListenerMediator.triggerAfterSearch();
 
         return searchResult;
     }

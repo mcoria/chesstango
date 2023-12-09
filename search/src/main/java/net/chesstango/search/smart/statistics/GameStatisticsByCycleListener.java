@@ -3,11 +3,13 @@ package net.chesstango.search.smart.statistics;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 /**
  * @author Mauricio Coria
  */
-public class GameStatisticsByCycleListener implements SearchByCycleListener {
+public class GameStatisticsByCycleListener implements SearchByCycleListener, SearchByDepthListener {
     private GameStatistics gameStatistic;
 
     @Override
@@ -17,7 +19,16 @@ public class GameStatisticsByCycleListener implements SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
         result.setExecutedMoves(gameStatistic.getExecutedMoves());
     }
 }

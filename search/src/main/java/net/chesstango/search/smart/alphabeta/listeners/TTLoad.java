@@ -36,7 +36,7 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
 
     }
 

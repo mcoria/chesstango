@@ -20,7 +20,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
         this.visitedNodesCounters = null;
     }
 

@@ -105,7 +105,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

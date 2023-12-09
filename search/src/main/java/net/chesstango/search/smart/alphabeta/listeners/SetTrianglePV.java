@@ -46,7 +46,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     public List<Move> calculatePrincipalVariation(int bestEvaluation) {

@@ -4,7 +4,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -31,7 +30,7 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

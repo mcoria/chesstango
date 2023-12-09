@@ -81,7 +81,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

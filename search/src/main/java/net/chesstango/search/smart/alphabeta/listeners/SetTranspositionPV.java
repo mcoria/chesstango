@@ -35,7 +35,7 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

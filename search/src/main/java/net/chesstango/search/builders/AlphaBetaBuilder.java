@@ -24,7 +24,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionPV setTranspositionPV;
-    private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
     private SetupGameEvaluator setupGameEvaluator;
@@ -200,8 +199,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setNodeStatistics = new SetNodeStatistics();
         }
 
-        setBestMoves = new SetBestMoves();
-
         setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaFacade = new AlphaBetaFacade();
@@ -230,8 +227,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             smartListenerMediator.add(evaluatorStatistics);
         }
-
-        smartListenerMediator.add(setBestMoves);
 
         smartListenerMediator.add(setupGameEvaluator);
 

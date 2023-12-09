@@ -33,7 +33,7 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
 

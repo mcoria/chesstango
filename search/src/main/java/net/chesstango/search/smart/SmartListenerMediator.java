@@ -1,6 +1,5 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -25,8 +24,8 @@ public class SmartListenerMediator {
     }
 
 
-    public void triggerAfterSearch(SearchMoveResult result) {
-        searchByCycleListeners.forEach(filter -> filter.afterSearch(result));
+    public void triggerAfterSearch() {
+        searchByCycleListeners.forEach(SearchByCycleListener::afterSearch);
     }
 
 

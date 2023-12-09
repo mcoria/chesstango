@@ -115,7 +115,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

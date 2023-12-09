@@ -40,7 +40,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
 
     }
 

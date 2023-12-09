@@ -127,7 +127,7 @@ public class NegaMaxPruningTest {
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        smartListenerMediator.triggerAfterSearch();
 
         return searchResult;
     }

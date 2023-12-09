@@ -43,7 +43,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

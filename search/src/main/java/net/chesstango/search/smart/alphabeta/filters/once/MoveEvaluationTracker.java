@@ -65,10 +65,18 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
         result.setMoveEvaluations(currentMoveEvaluations);
+
+        int bestValue = result.getEvaluation();
+        List<Move> bestMoves = currentMoveEvaluations.stream()
+                .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
+                .map(MoveEvaluation::move)
+                .toList();
+
+        result.setBestMoves(bestMoves);
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
 

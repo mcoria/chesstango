@@ -54,7 +54,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

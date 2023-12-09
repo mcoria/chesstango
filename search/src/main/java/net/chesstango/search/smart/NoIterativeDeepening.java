@@ -40,7 +40,7 @@ public class NoIterativeDeepening implements SearchMove {
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        smartListenerMediator.triggerAfterSearch();
 
         return searchResult;
     }

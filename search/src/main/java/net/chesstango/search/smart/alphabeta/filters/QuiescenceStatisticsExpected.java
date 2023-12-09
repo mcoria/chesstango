@@ -24,7 +24,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
         this.game = null;
         this.expectedNodesCounters =  null;
     }

@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -23,7 +22,7 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCyc
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
         this.game = null;
         this.expectedNodesCounters = null;
     }

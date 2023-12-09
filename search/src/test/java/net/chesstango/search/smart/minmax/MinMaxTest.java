@@ -110,7 +110,7 @@ public class MinMaxTest {
 
         minMax.afterSearchByDepth(searchResult);
 
-        minMax.afterSearch(searchResult);
+        minMax.afterSearch();
 
         return searchResult;
     }

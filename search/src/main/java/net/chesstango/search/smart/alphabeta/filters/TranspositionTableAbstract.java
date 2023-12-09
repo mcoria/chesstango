@@ -29,7 +29,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override
