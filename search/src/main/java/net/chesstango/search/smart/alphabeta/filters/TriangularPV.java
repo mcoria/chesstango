@@ -4,7 +4,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -23,7 +23,7 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.trianglePV = context.getTrianglePV();
     }
 

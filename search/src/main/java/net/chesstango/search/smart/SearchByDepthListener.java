@@ -12,7 +12,7 @@ public interface SearchByDepthListener extends SmartListener {
      * If Iterating Deeping is disabled then once,
      * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
      */
-    void beforeSearchByDepth(SearchContext context);
+    void beforeSearchByDepth(SearchByDepthContext context);
 
     /**
      * Invoked once per search depth

@@ -51,7 +51,7 @@ public class IterativeDeepening implements SearchMove {
         do {
             Instant startDepthInstant = Instant.now();
 
-            SearchContext context = new SearchContext(currentSearchDepth);
+            SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
             if (!searchMoveResults.isEmpty()) {
                 setupContext(context, searchMoveResults.getLast());
@@ -91,7 +91,7 @@ public class IterativeDeepening implements SearchMove {
     /**
      * Moverlo a un filtro que sirva de memoria
      */
-    private void setupContext(SearchContext context, SearchMoveResult searchMoveResult) {
+    private void setupContext(SearchByDepthContext context, SearchMoveResult searchMoveResult) {
         context.setLastBestMove(searchMoveResult.getBestMove());
         context.setLastBestEvaluation(searchMoveResult.getEvaluation());
         context.setLastMoveEvaluations(searchMoveResult.getMoveEvaluations());

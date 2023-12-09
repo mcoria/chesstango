@@ -30,7 +30,7 @@ public class SmartListenerMediator {
     }
 
 
-    public void triggerBeforeSearchByDepth(SearchContext context) {
+    public void triggerBeforeSearchByDepth(SearchByDepthContext context) {
         searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
     }
 

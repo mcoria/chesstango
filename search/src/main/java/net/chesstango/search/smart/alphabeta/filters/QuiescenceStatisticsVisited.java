@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
@@ -24,7 +24,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
         this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
     }

@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.TTable;
@@ -38,7 +38,7 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
         context.setQMaxMap(qMaxMap);

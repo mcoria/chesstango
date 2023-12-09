@@ -7,7 +7,6 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
     }
 

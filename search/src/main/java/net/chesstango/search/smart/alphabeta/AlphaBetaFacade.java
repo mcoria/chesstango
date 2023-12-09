@@ -58,7 +58,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
     }
 
     @Override

@@ -85,7 +85,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
     }
 

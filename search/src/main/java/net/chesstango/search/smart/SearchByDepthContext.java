@@ -14,7 +14,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class SearchContext {
+public class SearchByDepthContext {
 
     private final int maxPly;
 
@@ -40,7 +40,7 @@ public class SearchContext {
      */
     private short[][] trianglePV;
 
-    public SearchContext(int maxPly) {
+    public SearchByDepthContext(int maxPly) {
         this.maxPly = maxPly;
     }
 }

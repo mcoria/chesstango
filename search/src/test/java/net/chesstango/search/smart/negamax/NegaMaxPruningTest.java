@@ -7,7 +7,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -114,7 +114,7 @@ public class NegaMaxPruningTest {
     private SearchMoveResult search(GameMock game, int depth) {
         smartListenerMediator.triggerBeforeSearch(game);
 
-        SearchContext context = new SearchContext(depth);
+        SearchByDepthContext context = new SearchByDepthContext(depth);
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 

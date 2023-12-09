@@ -28,7 +28,7 @@ public class NoIterativeDeepening implements SearchMove {
     public SearchMoveResult search(Game game) {
         smartListenerMediator.triggerBeforeSearch(game);
 
-        SearchContext context = new SearchContext(maxDepth);
+        SearchByDepthContext context = new SearchByDepthContext(maxDepth);
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 

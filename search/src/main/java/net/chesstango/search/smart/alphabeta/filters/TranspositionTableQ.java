@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
@@ -11,7 +11,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class TranspositionTableQ extends TranspositionTableAbstract implements SearchByDepthListener {
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getQMaxMap();
         this.minMap = context.getQMinMap();
