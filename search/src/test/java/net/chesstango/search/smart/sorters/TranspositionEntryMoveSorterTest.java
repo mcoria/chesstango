@@ -5,7 +5,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -67,13 +68,15 @@ public class TranspositionEntryMoveSorterTest {
     }
 
     private void initMoveSorter(Game game) {
-        moveSorter.beforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        searchByCycleContext.setMaxMap(maxMap);
+        searchByCycleContext.setMinMap(minMap);
+        searchByCycleContext.setQMaxMap(qMaxMap);
+        searchByCycleContext.setQMinMap(qMinMap);
 
-        SearchContext context = new SearchContext(1);
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
-        context.setQMaxMap(qMaxMap);
-        context.setQMinMap(qMinMap);
+        moveSorter.beforeSearch(searchByCycleContext);
+
+        SearchByDepthContext context = new SearchByDepthContext(1);
 
         moveSorter.beforeSearchByDepth(context);
     }

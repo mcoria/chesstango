@@ -1,7 +1,6 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -62,9 +61,8 @@ class Searching implements UCIEngine, SearchListener {
 
 
     @Override
-    public void searchInfo(SearchInfo info) {
+    public void searchInfo(SearchMoveResult searchMoveResult) {
         StringBuilder sb = new StringBuilder();
-        SearchMoveResult searchMoveResult = info.searchMoveResult();
         List<Move> pv = searchMoveResult.getPrincipalVariation();
         for (Move move : pv) {
             sb.append(String.format("%s ", UCIEncoder.encode(move)));

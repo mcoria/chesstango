@@ -5,6 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -16,7 +17,14 @@ public class NegaMaxMateIn1Test extends MateIn1Test {
     public void setup() {
         NegaMax negaMax = new NegaMax();
         negaMax.setGameEvaluator(new EvaluatorByMaterial());
-        this.searchMove = new NoIterativeDeepening(negaMax);
-        this.searchMove.setParameter(SearchParameter.MAX_DEPTH,1);
+
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.add(negaMax);
+
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMax);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH,1);
+
+        this.searchMove = noIterativeDeepening;
     }
 }

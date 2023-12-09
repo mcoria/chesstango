@@ -2,11 +2,14 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
@@ -31,6 +34,8 @@ public class AlphaBetaTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
+    private SmartListenerMediator smartListenerMediator;
+
     @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
@@ -38,7 +43,7 @@ public class AlphaBetaTest {
         evaluator = new GameMockEvaluator();
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
+        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
 
@@ -53,9 +58,12 @@ public class AlphaBetaTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
+        this.smartListenerMediator = new SmartListenerMediator();
+
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
-        this.alphaBetaFacade.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator));
+
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
     }
 
     @Test
@@ -123,18 +131,22 @@ public class AlphaBetaTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        alphaBetaFacade.beforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        SearchContext context = new SearchContext(depth);
+        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
-        alphaBetaFacade.beforeSearchByDepth(context);
+        SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        SearchMoveResult result = alphaBetaFacade.search(context);
+        smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        alphaBetaFacade.afterSearchByDepth(result);
+        MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
 
-        alphaBetaFacade.afterSearch(result);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
-        return result;
+        smartListenerMediator.triggerAfterSearchByDepth(searchResult);
+
+        smartListenerMediator.triggerAfterSearch();
+
+        return searchResult;
     }
 }

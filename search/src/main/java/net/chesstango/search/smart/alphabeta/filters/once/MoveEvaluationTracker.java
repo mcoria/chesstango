@@ -6,9 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
 
@@ -31,13 +32,13 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
     private Game game;
 
     @Override
-    public void beforeSearch(Game game) {
+    public void beforeSearch(SearchByCycleContext context) {
         this.currentMoveEvaluations = null;
-        this.game = game;
+        this.game = context.getGame();
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         currentMoveEvaluations = new LinkedList<>();
     }
 
@@ -64,10 +65,18 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
         result.setMoveEvaluations(currentMoveEvaluations);
+
+        int bestValue = result.getEvaluation();
+        List<Move> bestMoves = currentMoveEvaluations.stream()
+                .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
+                .map(MoveEvaluation::move)
+                .toList();
+
+        result.setBestMoves(bestMoves);
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
 

@@ -2,11 +2,13 @@ package net.chesstango.search.smart.minmax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,15 +96,23 @@ public class MinMaxTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        minMax.beforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        SearchContext context = new SearchContext(depth);
+        minMax.beforeSearch(searchByCycleContext);
 
-        SearchMoveResult result = minMax.search(context);
+        SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        minMax.afterSearch(result);
+        minMax.beforeSearchByDepth(context);
 
-        return result;
+        MoveEvaluation bestMoveEvaluation = minMax.search();
+
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+
+        minMax.afterSearchByDepth(searchResult);
+
+        minMax.afterSearch();
+
+        return searchResult;
     }
 
 }

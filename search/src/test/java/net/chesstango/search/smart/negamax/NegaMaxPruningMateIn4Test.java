@@ -5,9 +5,12 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn4Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -25,7 +28,13 @@ public class NegaMaxPruningMateIn4Test extends MateIn4Test {
         NegaMaxPruning negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
 
-        this.searchMove = new NoIterativeDeepening(negaMaxPruning);
-        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 7);
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH,7);
+
+        this.searchMove = noIterativeDeepening;
     }
 }

@@ -2,15 +2,13 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -18,23 +16,15 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchCycle
     private Game game;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-        this.game = null;
-        this.expectedNodesCounters =  null;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearch() {
+        this.game = null;
+        this.expectedNodesCounters = null;
     }
 
 

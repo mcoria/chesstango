@@ -5,8 +5,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -24,19 +25,19 @@ public class TranspositionMoveSorterQ implements MoveSorter, SearchByDepthListen
     private TTable minMap;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.maxMap = context.getQMaxMap();
         this.minMap = context.getQMinMap();
+    }
+
+    @Override
+    public void afterSearch() {
+
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
     }
 
     @Override

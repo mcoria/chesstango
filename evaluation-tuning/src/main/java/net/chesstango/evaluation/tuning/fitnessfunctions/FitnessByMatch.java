@@ -61,7 +61,7 @@ public class FitnessByMatch implements FitnessFunction {
     }
 
     public EngineController createTango(GameEvaluator gameEvaluator) {
-        DefaultSearchMove search = new DefaultSearchMove(gameEvaluator);
+        DefaultSearchMove search = new DefaultSearchMove(gameEvaluator, null);
 
         EngineController tango = new EngineControllerImp(new UciTango(new Tango(search)));
 

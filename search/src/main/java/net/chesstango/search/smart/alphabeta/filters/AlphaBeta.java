@@ -1,10 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaAbstract;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
@@ -23,7 +23,7 @@ public class AlphaBetaRoot extends AlphaBetaAbstract implements SearchByDepthLis
     private List<MoveEvaluation> lastMoveEvaluations;
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         lastBestMove = context.getLastBestMove();
         lastMoveEvaluations = context.getLastMoveEvaluations();
     }

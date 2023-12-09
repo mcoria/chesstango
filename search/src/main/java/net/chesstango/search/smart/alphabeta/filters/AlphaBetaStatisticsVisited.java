@@ -1,36 +1,25 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener {
     @Setter
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
 
     @Override
-    public void beforeSearch(Game game) {
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-        this.visitedNodesCounters = null;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearch(SearchByCycleContext context) {
         this.visitedNodesCounters = context.getVisitedNodesCounters();
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearch() {
+        this.visitedNodesCounters = null;
     }
 
 
