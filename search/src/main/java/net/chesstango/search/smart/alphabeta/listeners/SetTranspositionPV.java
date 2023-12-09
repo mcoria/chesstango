@@ -5,9 +5,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -28,6 +28,10 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
@@ -36,10 +40,6 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
     }
 
     @Override

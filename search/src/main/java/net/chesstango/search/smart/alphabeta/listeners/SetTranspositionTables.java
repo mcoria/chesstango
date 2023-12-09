@@ -24,6 +24,10 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
+        context.setMaxMap(maxMap);
+        context.setMinMap(minMap);
+        context.setQMaxMap(qMaxMap);
+        context.setQMinMap(qMinMap);
     }
 
     @Override
@@ -35,10 +39,6 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
-        context.setQMaxMap(qMaxMap);
-        context.setQMinMap(qMinMap);
     }
 
     @Override

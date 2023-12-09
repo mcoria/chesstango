@@ -27,6 +27,8 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByDepthListene
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
     }
 
     @Override
@@ -36,8 +38,6 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByDepthListene
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
     }
 
     @Override

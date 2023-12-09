@@ -27,6 +27,8 @@ public class TranspositionMoveSorterQ implements MoveSorter, SearchByDepthListen
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
 
     @Override
@@ -36,8 +38,6 @@ public class TranspositionMoveSorterQ implements MoveSorter, SearchByDepthListen
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxMap = context.getQMaxMap();
-        this.minMap = context.getQMinMap();
     }
 
     @Override

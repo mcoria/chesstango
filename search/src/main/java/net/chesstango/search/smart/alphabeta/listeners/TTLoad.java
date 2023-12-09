@@ -3,9 +3,9 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -31,6 +31,8 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
     }
 
     @Override
@@ -40,9 +42,6 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateLoaded) {
             loadTables();
             initialStateLoaded = true;

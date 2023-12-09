@@ -18,14 +18,6 @@ public class SearchByDepthContext {
 
     private final int maxPly;
 
-    private TTable maxMap;
-
-    private TTable minMap;
-
-    private TTable qMaxMap;
-
-    private TTable qMinMap;
-
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
     private int[] visitedNodesCountersQuiescence;

@@ -27,13 +27,13 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
     }
 
     @Override

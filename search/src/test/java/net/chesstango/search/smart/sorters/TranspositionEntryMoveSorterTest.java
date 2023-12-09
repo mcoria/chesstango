@@ -69,14 +69,14 @@ public class TranspositionEntryMoveSorterTest {
 
     private void initMoveSorter(Game game) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        searchByCycleContext.setMaxMap(maxMap);
+        searchByCycleContext.setMinMap(minMap);
+        searchByCycleContext.setQMaxMap(qMaxMap);
+        searchByCycleContext.setQMinMap(qMinMap);
 
         moveSorter.beforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(1);
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
-        context.setQMaxMap(qMaxMap);
-        context.setQMinMap(qMinMap);
 
         moveSorter.beforeSearchByDepth(context);
     }

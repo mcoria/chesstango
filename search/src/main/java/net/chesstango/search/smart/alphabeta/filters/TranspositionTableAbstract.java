@@ -5,6 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -12,7 +14,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByCycleListener {
+public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -28,6 +30,16 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public void afterSearch(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
     }
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
