@@ -20,6 +20,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
@@ -31,7 +32,6 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override

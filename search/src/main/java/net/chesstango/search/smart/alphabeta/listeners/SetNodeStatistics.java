@@ -10,7 +10,7 @@ import net.chesstango.search.smart.statistics.NodeStatistics;
 /**
  * @author Mauricio Coria
  */
-public class SetNodeStatistics implements SearchByCycleListener, SearchByDepthListener {
+public class SetNodeStatistics implements SearchByCycleListener {
 
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
@@ -23,20 +23,12 @@ public class SetNodeStatistics implements SearchByCycleListener, SearchByDepthLi
         this.expectedNodesCounters = new int[30];
         this.visitedNodesCountersQuiescence = new int[30];
         this.expectedNodesCountersQuiescence = new int[30];
-    }
 
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
         context.setVisitedNodesCounters(visitedNodesCounters);
         context.setExpectedNodesCounters(expectedNodesCounters);
 
         context.setVisitedNodesCountersQuiescence(visitedNodesCountersQuiescence);
         context.setExpectedNodesCountersQuiescence(expectedNodesCountersQuiescence);
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     @Override

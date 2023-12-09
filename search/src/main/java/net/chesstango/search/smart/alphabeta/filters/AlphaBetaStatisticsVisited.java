@@ -10,27 +10,19 @@ import net.chesstango.search.smart.SearchByCycleListener;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener {
     @Setter
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
+        this.visitedNodesCounters = context.getVisitedNodesCounters();
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
         this.visitedNodesCounters = null;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCounters();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
 

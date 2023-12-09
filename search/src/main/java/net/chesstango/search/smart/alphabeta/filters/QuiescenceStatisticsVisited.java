@@ -16,6 +16,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
+        this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
     }
 
     @Override
@@ -26,7 +27,6 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-        this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
     }
 
     @Override

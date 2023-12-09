@@ -20,6 +20,11 @@ public class SearchByCycleContext {
     private TTable qMaxMap;
     private TTable qMinMap;
 
+    private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
+    private int[] visitedNodesCountersQuiescence;
+    private int[] expectedNodesCountersQuiescence;
+
     public SearchByCycleContext(Game game) {
         this.game = game;
     }

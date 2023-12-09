@@ -18,11 +18,6 @@ public class SearchByDepthContext {
 
     private final int maxPly;
 
-    private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
-    private int[] visitedNodesCountersQuiescence;
-    private int[] expectedNodesCountersQuiescence;
-
     private Move lastBestMove;
     private Integer lastBestEvaluation;
     private List<MoveEvaluation> lastMoveEvaluations;
