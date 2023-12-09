@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public interface SearchByDepthListener extends SmartListener{
+public interface SearchByDepthListener extends SmartListener {
 
     /**
      * Invoked once per search depth

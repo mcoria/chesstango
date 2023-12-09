@@ -5,13 +5,13 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class TriangularPV implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
     private short[][] trianglePV;

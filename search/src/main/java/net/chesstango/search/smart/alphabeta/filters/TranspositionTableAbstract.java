@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -11,7 +11,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchCycleListener {
+public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
     private AlphaBetaFilter next;

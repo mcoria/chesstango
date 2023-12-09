@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
+public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
 
     private static final int DEFAULT_MAX_PLIES = 4;
     private GameEvaluator evaluator;

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
+public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
     private Game game;

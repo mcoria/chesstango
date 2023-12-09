@@ -4,14 +4,14 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class SetBestMoves implements SearchCycleListener {
+public class SetBestMoves implements SearchByCycleListener {
     @Override
     public void beforeSearch(Game game) {
 

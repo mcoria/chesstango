@@ -2,12 +2,12 @@ package net.chesstango.search.smart.statistics;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class GameStatisticsCycleListener implements SearchCycleListener {
+public class GameStatisticsByCycleListener implements SearchByCycleListener {
     private GameStatistics gameStatistic;
 
     @Override

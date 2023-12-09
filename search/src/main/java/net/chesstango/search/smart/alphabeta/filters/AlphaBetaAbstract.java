@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchCycleListener {
+public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
     private AlphaBetaFilter next;

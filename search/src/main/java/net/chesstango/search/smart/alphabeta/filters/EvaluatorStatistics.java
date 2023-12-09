@@ -6,7 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.statistics.EvaluationEntry;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
 
@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatistics implements GameEvaluator, SearchCycleListener {
+public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener {
     private final GameEvaluator imp;
     private final GameEvaluatorCache cache;
     private long evaluationsCounter;

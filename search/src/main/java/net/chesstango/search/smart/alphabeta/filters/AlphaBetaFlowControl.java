@@ -8,14 +8,14 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.StopSearchListener;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.StopSearchingListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener, StopSearchListener {
+public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter

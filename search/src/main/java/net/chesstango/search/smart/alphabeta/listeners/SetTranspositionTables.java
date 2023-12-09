@@ -5,14 +5,14 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionTables implements SearchCycleListener, ResetListener, SearchByDepthListener {
+public class SetTranspositionTables implements SearchByCycleListener, ResetListener, SearchByDepthListener {
     private final TTable maxMap;
     private final TTable minMap;
     private final TTable qMaxMap;

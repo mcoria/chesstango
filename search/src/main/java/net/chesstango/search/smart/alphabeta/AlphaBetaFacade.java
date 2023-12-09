@@ -8,7 +8,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -16,7 +16,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
+public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter alphaBetaFilter;

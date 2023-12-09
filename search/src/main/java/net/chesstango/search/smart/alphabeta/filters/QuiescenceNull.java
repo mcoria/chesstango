@@ -3,13 +3,12 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceNull implements AlphaBetaFilter, SearchCycleListener {
+public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
 
     private GameEvaluator evaluator;
 

@@ -7,7 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchCycleListener, SearchByDepthListener {
+public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private GameEvaluator gameEvaluator;

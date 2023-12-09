@@ -5,12 +5,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchCycleListener,  SearchByDepthListener {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener,  SearchByDepthListener {
     private AlphaBetaFilter next;
     private int[] expectedNodesCounters;
     private Game game;

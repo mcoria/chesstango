@@ -11,22 +11,22 @@ import java.util.List;
  */
 public class SmartListenerMediator {
 
-    private List<SearchCycleListener> searchCycleListeners = new LinkedList<>();
+    private List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
     private List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
-    private List<StopSearchListener> stopSearchListeners = new LinkedList<>();
+    private List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
     private List<ResetListener> resetListeners = new LinkedList<>();
 
 
     public void triggerBeforeSearch(Game game) {
-        searchCycleListeners.forEach(filter -> filter.beforeSearch(game));
+        searchByCycleListeners.forEach(filter -> filter.beforeSearch(game));
     }
 
 
     public void triggerAfterSearch(SearchMoveResult result) {
-        searchCycleListeners.forEach(filter -> filter.afterSearch(result));
+        searchByCycleListeners.forEach(filter -> filter.afterSearch(result));
     }
 
 
@@ -40,7 +40,7 @@ public class SmartListenerMediator {
     }
 
     public void triggerStopSearching() {
-        stopSearchListeners.forEach(StopSearchListener::stopSearching);
+        stopSearchingListeners.forEach(StopSearchingListener::stopSearching);
     }
 
     public void triggerReset() {
@@ -48,16 +48,16 @@ public class SmartListenerMediator {
     }
 
     public void add(SmartListener listener) {
-        if (listener instanceof SearchCycleListener searchCycleListener) {
-            searchCycleListeners.add(searchCycleListener);
+        if (listener instanceof SearchByCycleListener searchByCycleListener) {
+            searchByCycleListeners.add(searchByCycleListener);
         }
 
         if (listener instanceof SearchByDepthListener searchByDepthListener) {
             searchByDepthListeners.add(searchByDepthListener);
         }
 
-        if (listener instanceof StopSearchListener stopSearchListener) {
-            stopSearchListeners.add(stopSearchListener);
+        if (listener instanceof StopSearchingListener stopSearchingListener) {
+            stopSearchingListeners.add(stopSearchingListener);
         }
 
         if (listener instanceof ResetListener resetListener) {

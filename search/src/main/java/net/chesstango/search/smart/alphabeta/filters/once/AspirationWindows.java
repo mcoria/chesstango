@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class AspirationWindows implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
 

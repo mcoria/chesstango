@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionPV implements SearchCycleListener, SearchByDepthListener {
+public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthListener {
     private TTable maxMap;
     private TTable minMap;
 

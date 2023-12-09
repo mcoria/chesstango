@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.statistics.GameStatisticsCycleListener;
+import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
 import net.chesstango.search.smart.statistics.SearchMoveWrapper;
 
 /**
@@ -26,7 +26,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTranspositionPV setTranspositionPV;
     private SetBestMoves setBestMoves;
     private SetNodeStatistics setNodeStatistics;
-    private GameStatisticsCycleListener gameStatisticsListener;
+    private GameStatisticsByCycleListener gameStatisticsListener;
     private SetupGameEvaluator setupGameEvaluator;
     private SetTrianglePV setTrianglePV;
     private SmartListenerMediator smartListenerMediator;
@@ -180,7 +180,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
-            gameStatisticsListener = new GameStatisticsCycleListener();
+            gameStatisticsListener = new GameStatisticsByCycleListener();
         }
 
         if (withTranspositionTable) {

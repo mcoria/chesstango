@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class TTDump implements SearchCycleListener, SearchByDepthListener {
+public class TTDump implements SearchByCycleListener, SearchByDepthListener {
     private Game game;
     private TTable maxMap;
     private TTable minMap;

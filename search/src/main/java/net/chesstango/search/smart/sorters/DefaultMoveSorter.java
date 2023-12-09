@@ -3,7 +3,7 @@ package net.chesstango.search.smart.sorters;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -101,7 +101,7 @@ import java.util.List;
  * |   d6e7 |     68 % |     58 % |     83 % |     75 % |     75 % |     82 % |     80 % |
  * -------------------------------------------------------------------------------------
  */
-public class DefaultMoveSorter implements SearchCycleListener, MoveSorter {
+public class DefaultMoveSorter implements SearchByCycleListener, MoveSorter {
 
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
