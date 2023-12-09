@@ -2,6 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -31,7 +32,9 @@ public class NoIterativeDeepening implements SearchMove {
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        SearchMoveResult searchResult = smartAlgorithm.search();
+        MoveEvaluation bestMoveEvaluation = smartAlgorithm.search();
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

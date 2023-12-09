@@ -2,6 +2,7 @@ package net.chesstango.search.smart.minmax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
@@ -100,13 +101,15 @@ public class MinMaxTest {
 
         minMax.beforeSearchByDepth(context);
 
-        SearchMoveResult result = minMax.search();
+        MoveEvaluation bestMoveEvaluation = minMax.search();
 
-        minMax.afterSearchByDepth(result);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
-        minMax.afterSearch(result);
+        minMax.afterSearchByDepth(searchResult);
 
-        return result;
+        minMax.afterSearch(searchResult);
+
+        return searchResult;
     }
 
 }

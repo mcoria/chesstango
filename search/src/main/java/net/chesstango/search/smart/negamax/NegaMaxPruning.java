@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -30,11 +31,9 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
-    public SearchMoveResult search() {
+    public MoveEvaluation search() {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[30];
-
-        //this.moveSorter.beforeSearchByDepth(context);
 
         final boolean minOrMax = !Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -72,9 +71,13 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
+        /*
         return new SearchMoveResult(maxPly, minOrMax ? -bestValue : bestValue, bestMove, null)
                 .setRegularNodeStatistics(new NodeStatistics(new int[30], visitedNodesCounter))
                 .setBestMoves(bestMoves);
+         */
+
+        return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue);
     }
 
     @Override

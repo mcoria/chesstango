@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.statistics.NodeStatistics;
@@ -24,7 +25,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     private GameEvaluator evaluator;
 
     @Override
-    public SearchMoveResult search() {
+    public MoveEvaluation search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -59,10 +60,13 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
         }
 
 
+        /*
         return new SearchMoveResult(maxPly, betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounter))
                 //.setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoves(bestMoves);
+         */
+        return new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {

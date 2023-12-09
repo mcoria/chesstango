@@ -2,6 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
@@ -117,12 +118,14 @@ public class NegaMaxPruningTest {
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        SearchMoveResult result = negaMaxPruning.search();
+        MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
 
-        smartListenerMediator.triggerAfterSearchByDepth(result);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
-        smartListenerMediator.triggerAfterSearch(result);
+        smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
-        return result;
+        smartListenerMediator.triggerAfterSearch(searchResult);
+
+        return searchResult;
     }
 }

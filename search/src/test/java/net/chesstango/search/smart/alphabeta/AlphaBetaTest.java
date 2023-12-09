@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
@@ -56,7 +57,7 @@ public class AlphaBetaTest {
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
-        smartListenerMediator = new SmartListenerMediator();
+        this.smartListenerMediator = new SmartListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
@@ -135,12 +136,14 @@ public class AlphaBetaTest {
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        SearchMoveResult result = alphaBetaFacade.search();
+        MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
 
-        smartListenerMediator.triggerAfterSearchByDepth(result);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
-        smartListenerMediator.triggerAfterSearch(result);
+        smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
-        return result;
+        smartListenerMediator.triggerAfterSearch(searchResult);
+
+        return searchResult;
     }
 }
