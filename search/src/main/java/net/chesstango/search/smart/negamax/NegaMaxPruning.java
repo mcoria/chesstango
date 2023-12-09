@@ -4,12 +4,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSelector;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,12 +16,12 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SearchSmart {
-    private volatile boolean keepProcessing;
+public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
     private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;
     private int[] visitedNodesCounter;
+    private int maxPly;
 
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
@@ -31,11 +29,8 @@ public class NegaMaxPruning implements SearchSmart {
     }
 
     @Override
-    public SearchMoveResult search(SearchContext context) {
-        this.keepProcessing = true;
+    public MoveEvaluation search() {
         this.visitedNodesCounter = new int[30];
-
-        //this.moveSorter.beforeSearchByDepth(context);
 
         final boolean minOrMax = !Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -46,12 +41,12 @@ public class NegaMaxPruning implements SearchSmart {
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search && keepProcessing) {
+        while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
             game.executeMove(move);
 
-            int currentValue = -negaMax(game, context.getMaxPly() - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
+            int currentValue = -negaMax(game, maxPly - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
 
             if (currentValue > bestValue) {
                 bestValue = currentValue;
@@ -73,14 +68,13 @@ public class NegaMaxPruning implements SearchSmart {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, bestMove, null)
+        /*
+        return new SearchMoveResult(maxPly, minOrMax ? -bestValue : bestValue, bestMove, null)
                 .setRegularNodeStatistics(new NodeStatistics(new int[30], visitedNodesCounter))
                 .setBestMoves(bestMoves);
-    }
+         */
 
-    @Override
-    public void stopSearching() {
-        this.keepProcessing = false;
+        return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
@@ -93,7 +87,7 @@ public class NegaMaxPruning implements SearchSmart {
 
             List<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
-            while (moveIterator.hasNext() && search && keepProcessing) {
+            while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
 
                 game = game.executeMove(move);
@@ -113,34 +107,32 @@ public class NegaMaxPruning implements SearchSmart {
         }
     }
 
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+        this.moveSorter.beforeSearch(context);
+        this.negaQuiescence.setupGameEvaluator(context.getGame());
+    }
+
+    @Override
+    public void afterSearch() {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
     public void setVisitedNodesCounter(int[] visitedNodesCounter) {
         this.visitedNodesCounter = visitedNodesCounter;
     }
 
     public void setMoveSorter(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
-    }
-
-    @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-        this.moveSorter.beforeSearch(game);
-        this.negaQuiescence.setupGameEvaluator(game);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void reset() {
     }
 }

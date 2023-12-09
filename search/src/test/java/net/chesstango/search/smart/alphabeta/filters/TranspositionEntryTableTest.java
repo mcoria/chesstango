@@ -9,6 +9,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionPV;
@@ -142,8 +143,12 @@ public class TranspositionEntryTableTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+
+        smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
@@ -153,10 +158,13 @@ public class TranspositionEntryTableTest {
                 moveSorter,
                 gameEvaluator,
                 alphaBetaFlowControl,
-                setupGameEvaluator));
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+                setupGameEvaluator,
+                minMaxPruning));
 
-        return new NoIterativeDeepening(minMaxPruning);
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+        return noIterativeDeepening;
     }
 
     private SearchMove createSearchWithTT() {
@@ -189,8 +197,12 @@ public class TranspositionEntryTableTest {
 
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
 
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+
         AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setSearchActions(Arrays.asList(
+        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+
+        smartListenerMediator.addAll(Arrays.asList(
                 new SetTranspositionTables(),
                 new SetNodeStatistics(),
                 alphaBeta,
@@ -202,9 +214,12 @@ public class TranspositionEntryTableTest {
                 gameEvaluator,
                 new SetTranspositionPV(),
                 alphaBetaFlowControl,
-                setupGameEvaluator));
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
+                setupGameEvaluator,
+                minMaxPruning));
 
-        return new IterativeDeepening(minMaxPruning);
+        IterativeDeepening iterativeDeepening = new IterativeDeepening(minMaxPruning);
+        iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+        return iterativeDeepening;
     }
 }

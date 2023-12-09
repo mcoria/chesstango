@@ -3,34 +3,35 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchCycleListener,  SearchByDepthListener {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener,  SearchByDepthListener {
     private AlphaBetaFilter next;
     private int[] expectedNodesCounters;
     private Game game;
     private int maxPly;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
         this.game = null;
         this.expectedNodesCounters =  null;
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override

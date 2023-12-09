@@ -6,7 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.statistics.EvaluationEntry;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
 
@@ -16,7 +19,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatistics implements GameEvaluator, SearchCycleListener {
+public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener, SearchByDepthListener {
     private final GameEvaluator imp;
     private final GameEvaluatorCache cache;
     private long evaluationsCounter;
@@ -51,7 +54,7 @@ public class EvaluatorStatistics implements GameEvaluator, SearchCycleListener {
     }
 
     @Override
-    public void beforeSearch(Game game) {
+    public void beforeSearch(SearchByCycleContext context) {
         evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
@@ -62,10 +65,18 @@ public class EvaluatorStatistics implements GameEvaluator, SearchCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
-        long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
-        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
+    public void afterSearch() {
     }
 
 
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+        long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
+        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
+    }
 }

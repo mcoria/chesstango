@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListener;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -24,7 +25,7 @@ public class AlphaBetaChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaFilter quiescence;
     private TriangularPV triangularPV;
-    private List<SmartListener> filterActions;
+    private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTriangularPV;
@@ -71,8 +72,8 @@ public class AlphaBetaChainBuilder {
         return this;
     }
 
-    public AlphaBetaChainBuilder withFilterActions(List<SmartListener> filterActions) {
-        this.filterActions = filterActions;
+    public AlphaBetaChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
@@ -106,7 +107,7 @@ public class AlphaBetaChainBuilder {
     public AlphaBetaFilter build() {
         buildObjects();
 
-        createSearchActions();
+        setupListenerMediator();
 
         return createChain();
     }
@@ -125,24 +126,24 @@ public class AlphaBetaChainBuilder {
         alphaBeta.setMoveSorter(moveSorter);
     }
 
-    private void createSearchActions() {
-        filterActions.add(moveSorter);
-        filterActions.add(alphaBeta);
-        filterActions.add(alphaBetaFlowControl);
+    private void setupListenerMediator() {
+        smartListenerMediator.add(moveSorter);
+        smartListenerMediator.add(alphaBeta);
+        smartListenerMediator.add(alphaBetaFlowControl);
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
-            filterActions.add(alphaBetaStatisticsExpected);
-            filterActions.add(alphaBetaStatisticsVisited);
+            smartListenerMediator.add(alphaBetaStatisticsExpected);
+            smartListenerMediator.add(alphaBetaStatisticsVisited);
         }
         if (zobristTracker != null) {
-            filterActions.add(zobristTracker);
+            smartListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
-            filterActions.add(transpositionTable);
+            smartListenerMediator.add(transpositionTable);
         }
         if (withTriangularPV) {
-            filterActions.add(triangularPV);
+            smartListenerMediator.add(triangularPV);
         }
 
     }

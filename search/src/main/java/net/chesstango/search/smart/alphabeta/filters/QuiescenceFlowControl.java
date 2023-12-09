@@ -4,17 +4,16 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.StopSearchListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.StopSearchingListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceFlowControl implements AlphaBetaFilter, SearchCycleListener, StopSearchListener {
+public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter
@@ -25,13 +24,13 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchCycleListen
     private Game game;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.keepProcessing = true;
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override

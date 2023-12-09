@@ -3,9 +3,10 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
@@ -14,7 +15,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTableRoot implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -24,19 +25,19 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchCycleListe
     protected int maxPly;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
-        this.maxPly = context.getMaxPly();
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearch() {
     }
 
     @Override

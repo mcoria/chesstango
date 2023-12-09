@@ -5,9 +5,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchCycleListener, SearchByDepthListener {
+public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private GameEvaluator gameEvaluator;
@@ -28,13 +29,13 @@ public class SetTrianglePV implements SearchCycleListener, SearchByDepthListener
     }
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
     }
 
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         context.setTrianglePV(trianglePV);
     }
 
@@ -45,7 +46,7 @@ public class SetTrianglePV implements SearchCycleListener, SearchByDepthListener
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     public List<Move> calculatePrincipalVariation(int bestEvaluation) {

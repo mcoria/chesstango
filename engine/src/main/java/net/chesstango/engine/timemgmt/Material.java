@@ -2,7 +2,7 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchInfo;
+import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +23,7 @@ public class Material implements TimeMgmt {
     }
 
     @Override
-    public boolean keepSearching(int timeOut, SearchInfo searchInfo) {
+    public boolean keepSearching(int timeOut, SearchMoveResult searchInfo) {
         return true;
     }
 

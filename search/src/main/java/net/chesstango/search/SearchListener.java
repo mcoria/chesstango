@@ -7,7 +7,7 @@ public interface SearchListener {
     default void searchStarted(){
     }
 
-    default void searchInfo(SearchInfo info){
+    default void searchInfo(SearchMoveResult info){
     }
 
     default void searchFinished(SearchMoveResult searchResult) {

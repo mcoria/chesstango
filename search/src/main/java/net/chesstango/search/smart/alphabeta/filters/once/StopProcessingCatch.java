@@ -6,9 +6,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -20,7 +21,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class StopProcessingCatch implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter next;
@@ -35,18 +36,18 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchCycleListener
 
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.lastBestMove = null;
         this.lastBestValue = null;
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         lastBestValue = context.getLastBestEvaluation();
         lastBestMove = context.getLastBestMove();
     }

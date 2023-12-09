@@ -4,17 +4,16 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.*;
 
 /**
  * @author Mauricio Coria
  */
-public class ZobristTracker implements AlphaBetaFilter, SearchCycleListener, ResetListener {
+public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener, ResetListener {
     @Setter
     private AlphaBetaFilter next;
     private Map<Long, String> maxMap = new HashMap<>();
@@ -24,12 +23,12 @@ public class ZobristTracker implements AlphaBetaFilter, SearchCycleListener, Res
 
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
 

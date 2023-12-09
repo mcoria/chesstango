@@ -10,7 +10,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -417,9 +418,11 @@ public class DefaultMoveSorterTest {
     }
 
     private void initMoveSorter(MoveSorter moveSorter, Game game) {
-        moveSorter.beforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        SearchContext context = new SearchContext(1);
+        moveSorter.beforeSearch(searchByCycleContext);
+
+        SearchByDepthContext context = new SearchByDepthContext(1);
 
         //moveSorter.beforeSearchByDepth(context);
     }

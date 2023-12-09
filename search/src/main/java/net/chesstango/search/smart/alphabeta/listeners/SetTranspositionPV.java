@@ -4,9 +4,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionPV implements SearchCycleListener, SearchByDepthListener {
+public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthListener {
     private TTable maxMap;
     private TTable minMap;
 
@@ -25,20 +26,20 @@ public class SetTranspositionPV implements SearchCycleListener, SearchByDepthLis
     private Game game;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void afterSearch(SearchMoveResult result) {
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
         this.qMaxMap = context.getQMaxMap();
         this.qMinMap = context.getQMinMap();
+    }
+
+    @Override
+    public void afterSearch() {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
     }
 
     @Override

@@ -6,9 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -20,7 +21,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
 
@@ -32,18 +33,19 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
     private Game game;
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.currentMoveEvaluations = null;
+        this.game = context.getGame();
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
-        System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+		System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
         currentMoveEvaluations = new LinkedList<>();
     }
 
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
-        System.out.printf("Searching with Alpha=%d Beta=%d\n", alphaBound, betaBound);
+        System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
@@ -51,7 +53,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
                 .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
                 .forEach(System.out::println);
         System.out.printf("------------\n");
-
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
                 //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
@@ -66,17 +67,25 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchCycleListen
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
+        result.setMoveEvaluations(currentMoveEvaluations);
+        
         System.out.printf("After Search By Depth\n");
         currentMoveEvaluations.stream()
                 .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
                 .forEach(System.out::println);
-        System.out.printf("------------\n");
+        System.out.printf("------------\n");        result.setMoveEvaluations(currentMoveEvaluations);
+        
+        int bestValue = result.getEvaluation();
+        List<Move> bestMoves = currentMoveEvaluations.stream()
+                .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
+                .map(MoveEvaluation::move)
+                .toList();
 
-        result.setMoveEvaluations(currentMoveEvaluations);
-    }
+        result.setBestMoves(bestMoves);
+}
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
     }
 
 

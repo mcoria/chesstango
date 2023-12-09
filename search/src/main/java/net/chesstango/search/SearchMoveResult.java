@@ -8,7 +8,6 @@ import net.chesstango.search.smart.statistics.EvaluationStatistics;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -48,6 +47,10 @@ public class SearchMoveResult {
     private int executedMoves;
 
     private String epdID;
+
+    private long timeSearching;
+
+    private long timeSearchingLastDepth;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;

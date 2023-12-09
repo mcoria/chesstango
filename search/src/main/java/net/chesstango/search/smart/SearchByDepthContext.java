@@ -14,22 +14,9 @@ import java.util.List;
 
 @Setter
 @Getter
-public class SearchContext {
+public class SearchByDepthContext {
 
     private final int maxPly;
-
-    private TTable maxMap;
-
-    private TTable minMap;
-
-    private TTable qMaxMap;
-
-    private TTable qMinMap;
-
-    private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
-    private int[] visitedNodesCountersQuiescence;
-    private int[] expectedNodesCountersQuiescence;
 
     private Move lastBestMove;
     private Integer lastBestEvaluation;
@@ -40,7 +27,7 @@ public class SearchContext {
      */
     private short[][] trianglePV;
 
-    public SearchContext(int maxPly) {
+    public SearchByDepthContext(int maxPly) {
         this.maxPly = maxPly;
     }
 }

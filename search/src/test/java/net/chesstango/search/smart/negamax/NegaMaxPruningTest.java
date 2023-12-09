@@ -2,15 +2,20 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,6 +29,8 @@ public class NegaMaxPruningTest {
 
     private NegaMaxPruning negaMaxPruning;
 
+    private SmartListenerMediator smartListenerMediator;
+
     @BeforeEach
     public void setup() {
         evaluator = new GameMockEvaluator();
@@ -36,6 +43,9 @@ public class NegaMaxPruningTest {
 
         negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
+
+        smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
     }
 
     @Test
@@ -103,14 +113,22 @@ public class NegaMaxPruningTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMaxPruning.beforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        SearchContext context = new SearchContext(depth);
+        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
-        SearchMoveResult result = negaMaxPruning.search(context);
+        SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        negaMaxPruning.afterSearch(result);
+        smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        return result;
+        MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
+
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+
+        smartListenerMediator.triggerAfterSearchByDepth(searchResult);
+
+        smartListenerMediator.triggerAfterSearch();
+
+        return searchResult;
     }
 }

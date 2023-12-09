@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListener;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
 
@@ -25,8 +26,7 @@ public class AlphaBetaFirstChainBuilder {
     private TranspositionTableRoot transpositionTableRoot;
     private TranspositionTable transpositionTable;
     private TriangularPV triangularPV;
-
-    private List<SmartListener> filterActions;
+    private SmartListenerMediator smartListenerMediator;
 
     private boolean withStatistics;
 
@@ -51,8 +51,8 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
-    public AlphaBetaFirstChainBuilder withFilterActions(List<SmartListener> searchActions) {
-        this.filterActions = searchActions;
+    public AlphaBetaFirstChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
@@ -90,7 +90,7 @@ public class AlphaBetaFirstChainBuilder {
     public AlphaBetaFilter build() {
         buildObjects();
 
-        addSearchLifeCycleListeners();
+        setupListenerMediator();
 
         return createChain();
     }
@@ -118,32 +118,32 @@ public class AlphaBetaFirstChainBuilder {
     }
 
 
-    private void addSearchLifeCycleListeners() {
-        filterActions.add(alphaBetaRoot);
-        filterActions.add(moveEvaluationTracker);
-        filterActions.add(alphaBetaFlowControl);
+    private void setupListenerMediator() {
+        smartListenerMediator.add(alphaBetaRoot);
+        smartListenerMediator.add(moveEvaluationTracker);
+        smartListenerMediator.add(alphaBetaFlowControl);
 
 
         if (withStatistics) {
-            filterActions.add(alphaBetaStatisticsExpected);
-            filterActions.add(alphaBetaStatisticsVisited);
+            smartListenerMediator.add(alphaBetaStatisticsExpected);
+            smartListenerMediator.add(alphaBetaStatisticsVisited);
         }
 
         if (aspirationWindows != null) {
-            filterActions.add(aspirationWindows);
+            smartListenerMediator.add(aspirationWindows);
         }
 
         if (stopProcessingCatch != null) {
-            filterActions.add(stopProcessingCatch);
+            smartListenerMediator.add(stopProcessingCatch);
         }
 
         if (withTranspositionTable) {
-            filterActions.add(transpositionTableRoot);
-            filterActions.add(transpositionTable);
+            smartListenerMediator.add(transpositionTableRoot);
+            smartListenerMediator.add(transpositionTable);
         }
 
         if (withTriangularPV) {
-            filterActions.add(triangularPV);
+            smartListenerMediator.add(triangularPV);
         }
 
     }

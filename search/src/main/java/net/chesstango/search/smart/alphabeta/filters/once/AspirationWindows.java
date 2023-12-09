@@ -1,11 +1,11 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class AspirationWindows implements AlphaBetaFilter, SearchCycleListener, SearchByDepthListener {
+public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
     private AlphaBetaFilter next;
 
@@ -25,12 +25,12 @@ public class AspirationWindows implements AlphaBetaFilter, SearchCycleListener, 
     private Integer lastBestValue;
 
     @Override
-    public void beforeSearch(Game game) {
+    public void beforeSearch(SearchByCycleContext context) {
         lastBestValue = null;
     }
 
     @Override
-    public void beforeSearchByDepth(SearchContext context) {
+    public void beforeSearchByDepth(SearchByDepthContext context) {
         lastBestValue = context.getLastBestEvaluation();
     }
 
@@ -40,7 +40,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchCycleListener, 
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch() {
 
     }
 

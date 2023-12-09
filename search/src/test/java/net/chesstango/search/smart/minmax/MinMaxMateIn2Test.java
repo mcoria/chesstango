@@ -5,6 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -16,8 +17,15 @@ public class MinMaxMateIn2Test extends MateIn2Test {
     public void setup() {
         MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new EvaluatorByMaterial());
-        this.searchMove = new NoIterativeDeepening(searchMove);
-        this.searchMove.setParameter(SearchParameter.MAX_DEPTH, 4);
+
+        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
+        smartListenerMediator.add(searchMove);
+
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(searchMove);
+        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH, 4);
+
+        this.searchMove = noIterativeDeepening;
     }
 
 
