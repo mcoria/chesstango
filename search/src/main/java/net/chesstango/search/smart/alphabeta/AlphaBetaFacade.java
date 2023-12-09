@@ -49,8 +49,8 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
     }
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
     }
 
     @Override

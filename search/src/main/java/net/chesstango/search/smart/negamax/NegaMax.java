@@ -75,9 +75,9 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
     }
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-        this.evaluator.setGame(game);
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+        this.evaluator.setGame(context.getGame());
     }
 
     @Override

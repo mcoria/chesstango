@@ -1,8 +1,8 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -25,7 +25,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     private Integer lastBestValue;
 
     @Override
-    public void beforeSearch(Game game) {
+    public void beforeSearch(SearchByCycleContext context) {
         lastBestValue = null;
     }
 

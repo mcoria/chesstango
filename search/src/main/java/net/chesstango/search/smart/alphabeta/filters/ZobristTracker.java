@@ -6,6 +6,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.*;
@@ -23,8 +24,8 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener, R
 
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
     }
 
     @Override

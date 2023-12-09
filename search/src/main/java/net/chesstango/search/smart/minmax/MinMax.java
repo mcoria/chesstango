@@ -97,8 +97,8 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     }
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.evaluator.setGame(game);

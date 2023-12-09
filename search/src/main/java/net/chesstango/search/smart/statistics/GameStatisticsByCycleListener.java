@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.statistics;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
@@ -11,8 +11,8 @@ public class GameStatisticsByCycleListener implements SearchByCycleListener {
     private GameStatistics gameStatistic;
 
     @Override
-    public void beforeSearch(Game game) {
-        gameStatistic = (GameStatistics) game;
+    public void beforeSearch(SearchByCycleContext context) {
+        gameStatistic = (GameStatistics) context.getGame();
         gameStatistic.setExecutedMoves(0);
     }
 

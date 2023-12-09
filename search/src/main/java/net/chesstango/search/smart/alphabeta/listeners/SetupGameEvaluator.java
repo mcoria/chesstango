@@ -1,9 +1,9 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
@@ -15,8 +15,8 @@ public class SetupGameEvaluator implements SearchByCycleListener {
     private GameEvaluator gameEvaluator;
 
     @Override
-    public void beforeSearch(Game game) {
-        gameEvaluator.setGame(game);
+    public void beforeSearch(SearchByCycleContext context) {
+        gameEvaluator.setGame(context.getGame());
     }
 
 

@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -18,7 +18,7 @@ public class SetNodeStatistics implements SearchByCycleListener, SearchByDepthLi
     private int[] expectedNodesCountersQuiescence;
 
     @Override
-    public void beforeSearch(Game game) {
+    public void beforeSearch(SearchByCycleContext context) {
         this.visitedNodesCounters = new int[30];
         this.expectedNodesCounters = new int[30];
         this.visitedNodesCountersQuiescence = new int[30];

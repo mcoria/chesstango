@@ -41,7 +41,9 @@ public class IterativeDeepening implements SearchMove {
 
         LinkedList<SearchMoveResult> searchMoveResults = new LinkedList<>();
 
-        smartListenerMediator.triggerBeforeSearch(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+
+        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
         SearchInfo searchInfo = null;

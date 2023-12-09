@@ -20,8 +20,8 @@ public class SmartListenerMediator {
     private List<ResetListener> resetListeners = new LinkedList<>();
 
 
-    public void triggerBeforeSearch(Game game) {
-        searchByCycleListeners.forEach(filter -> filter.beforeSearch(game));
+    public void triggerBeforeSearch(SearchByCycleContext context) {
+        searchByCycleListeners.forEach(filter -> filter.beforeSearch(context));
     }
 
 

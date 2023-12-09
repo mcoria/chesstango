@@ -115,10 +115,10 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
-    public void beforeSearch(Game game) {
-        this.game = game;
-        this.moveSorter.beforeSearch(game);
-        this.negaQuiescence.setupGameEvaluator(game);
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+        this.moveSorter.beforeSearch(context);
+        this.negaQuiescence.setupGameEvaluator(context.getGame());
     }
 
     @Override
