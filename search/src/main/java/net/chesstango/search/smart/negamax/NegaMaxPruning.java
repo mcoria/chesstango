@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener, StopSearchingListener {
-    private volatile boolean keepProcessing;
+public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
     private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;
@@ -31,7 +30,6 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
 
     @Override
     public MoveEvaluation search() {
-        this.keepProcessing = true;
         this.visitedNodesCounter = new int[30];
 
         final boolean minOrMax = !Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
@@ -43,7 +41,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search && keepProcessing) {
+        while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
             game.executeMove(move);
@@ -79,11 +77,6 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
         return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue);
     }
 
-    @Override
-    public void stopSearching() {
-        this.keepProcessing = false;
-    }
-
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
         visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
@@ -94,7 +87,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
 
             List<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
-            while (moveIterator.hasNext() && search && keepProcessing) {
+            while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
 
                 game = game.executeMove(move);
