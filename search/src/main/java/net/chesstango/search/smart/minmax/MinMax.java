@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax implements SearchSmart, SearchCycleListener {
+public class MinMax implements SmartAlgorithm, SearchCycleListener {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
 

@@ -8,14 +8,14 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchSmart, SearchCycleListener {
+public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener {
 
     @Setter
     private AlphaBetaFilter alphaBetaFilter;

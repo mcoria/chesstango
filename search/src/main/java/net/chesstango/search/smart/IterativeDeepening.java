@@ -24,7 +24,7 @@ import static net.chesstango.search.SearchParameter.SEARCH_PREDICATE;
 public class IterativeDeepening implements SearchMove {
     private volatile boolean keepProcessing;
     private volatile CountDownLatch countDownLatch;
-    private final SearchSmart searchSmart;
+    private final SmartAlgorithm smartAlgorithm;
 
     @Setter
     private SmartListenerMediator smartListenerMediator;
@@ -33,8 +33,8 @@ public class IterativeDeepening implements SearchMove {
     private int maxDepth = Integer.MAX_VALUE;
     private Predicate<SearchInfo> searchPredicate = searchMoveResult -> true;
 
-    public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
-        this.searchSmart = searchSmartAlgorithm;
+    public IterativeDeepening(SmartAlgorithm smartAlgorithm) {
+        this.smartAlgorithm = smartAlgorithm;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class IterativeDeepening implements SearchMove {
 
             smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-            searchResult = searchSmart.search(context);
+            searchResult = smartAlgorithm.search(context);
 
             smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

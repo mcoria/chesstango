@@ -1,12 +1,11 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
-public interface SearchSmart {
+public interface SmartAlgorithm {
 
     /**
      * Invoked once per search depth
