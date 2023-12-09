@@ -30,6 +30,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTrianglePV setTrianglePV;
     private SmartListenerMediator smartListenerMediator;
     private AlphaBetaFacade alphaBetaFacade;
+    private SetContext setContext;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -199,6 +200,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setNodeStatistics = new SetNodeStatistics();
         }
 
+        if (withIterativeDeepening) {
+            setContext = new SetContext();
+        }
+
         setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaFacade = new AlphaBetaFacade();
@@ -206,6 +211,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     private void setupListenerMediator() {
+        if (setContext != null) {
+            smartListenerMediator.add(setContext);
+        }
+
         if (setTranspositionTables != null) {
             // Este filtro necesita agregarse primero
             smartListenerMediator.add(setTranspositionTables);

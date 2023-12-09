@@ -40,7 +40,7 @@ public class Tango {
             }
 
             @Override
-            public void searchInfo(SearchInfo info) {
+            public void searchInfo(SearchMoveResult info) {
                 if (listenerClient != null) {
                     listenerClient.searchInfo(info);
                 }

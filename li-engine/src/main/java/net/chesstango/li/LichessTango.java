@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -42,9 +41,8 @@ public class LichessTango implements Runnable {
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
             @Override
-            public void searchInfo(SearchInfo info) {
+            public void searchInfo(SearchMoveResult searchResult) {
                 StringBuilder pvString = new StringBuilder();
-                SearchMoveResult searchResult = info.searchMoveResult();
                 List<Move> pv = searchResult.getPrincipalVariation();
                 for (Move move : pv) {
                     pvString.append(String.format("%s ", UCIEncoder.encode(move)));

@@ -92,7 +92,7 @@ public final class SearchManager {
         searchImp(game, depth, timeOut, searchMoveResult -> true);
     }
 
-    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchInfo> searchPredicate) {
+    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchMoveResult> searchPredicate) {
         executorService.execute(() -> {
             try {
                 listenerClient.searchStarted();
