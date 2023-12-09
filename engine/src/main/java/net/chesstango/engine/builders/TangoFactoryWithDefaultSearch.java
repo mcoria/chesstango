@@ -30,7 +30,7 @@ public class TangoFactoryWithDefaultSearch implements TangoFactory {
     public Tango build() {
         try {
 
-            SearchMove search = new DefaultSearchMove(gameEvaluatorClass.getDeclaredConstructor().newInstance());
+            SearchMove search = new DefaultSearchMove(gameEvaluatorClass.getDeclaredConstructor().newInstance(), null);
 
             return new Tango(search);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

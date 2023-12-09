@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -31,6 +32,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SmartListenerMediator smartListenerMediator;
     private AlphaBetaFacade alphaBetaFacade;
     private SetContext setContext;
+    private SearchListener searchListener;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -143,6 +145,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     @Override
+    public AlphaBetaBuilder withSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
+        return this;
+    }
+
+    @Override
     public SearchMove build() {
         buildObjects();
 
@@ -155,6 +163,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withIterativeDeepening) {
             IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade);
             iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+
+            if (this.searchListener != null) {
+                iterativeDeepening.setSearchStatusListener(searchListener::searchInfo);
+            }
 
             searchMove = iterativeDeepening;
         } else {
