@@ -16,12 +16,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, StopSearchListener {
+public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener, StopSearchListener {
     private volatile boolean keepProcessing;
     private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;
     private int[] visitedNodesCounter;
+    private int maxPly;
 
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
@@ -29,7 +30,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, Stop
     }
 
     @Override
-    public SearchMoveResult search(SearchContext context) {
+    public SearchMoveResult search() {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[30];
 
@@ -49,7 +50,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, Stop
 
             game.executeMove(move);
 
-            int currentValue = -negaMax(game, context.getMaxPly() - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
+            int currentValue = -negaMax(game, maxPly - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
 
             if (currentValue > bestValue) {
                 bestValue = currentValue;
@@ -71,7 +72,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, Stop
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, bestMove, null)
+        return new SearchMoveResult(maxPly, minOrMax ? -bestValue : bestValue, bestMove, null)
                 .setRegularNodeStatistics(new NodeStatistics(new int[30], visitedNodesCounter))
                 .setBestMoves(bestMoves);
     }
@@ -111,14 +112,6 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, Stop
         }
     }
 
-    public void setVisitedNodesCounter(int[] visitedNodesCounter) {
-        this.visitedNodesCounter = visitedNodesCounter;
-    }
-
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
-    }
-
     @Override
     public void beforeSearch(Game game) {
         this.game = game;
@@ -128,5 +121,23 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchCycleListener, Stop
 
     @Override
     public void afterSearch(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
+    public void setVisitedNodesCounter(int[] visitedNodesCounter) {
+        this.visitedNodesCounter = visitedNodesCounter;
+    }
+
+    public void setMoveSorter(MoveSorter moveSorter) {
+        this.moveSorter = moveSorter;
     }
 }

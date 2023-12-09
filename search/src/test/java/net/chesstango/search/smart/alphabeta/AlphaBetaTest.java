@@ -135,7 +135,7 @@ public class AlphaBetaTest {
 
         smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-        SearchMoveResult result = alphaBetaFacade.search(context);
+        SearchMoveResult result = alphaBetaFacade.search();
 
         smartListenerMediator.triggerAfterSearchByDepth(result);
 

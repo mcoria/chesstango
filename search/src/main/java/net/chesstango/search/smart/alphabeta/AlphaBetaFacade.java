@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchCycleListener;
 import net.chesstango.search.smart.SmartAlgorithm;
@@ -15,15 +16,17 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener {
+public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
 
     @Setter
     private AlphaBetaFilter alphaBetaFilter;
 
     private Game game;
 
+    private int maxPly;
+
     @Override
-    public SearchMoveResult search(SearchContext context) {
+    public SearchMoveResult search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
@@ -44,7 +47,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener {
             throw new RuntimeException("BestMove not found");
         }
 
-        return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
+        return new SearchMoveResult(maxPly, bestValue, bestMove, null);
     }
 
     @Override
@@ -56,4 +59,13 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchCycleListener {
     public void afterSearch(SearchMoveResult result) {
     }
 
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
 }

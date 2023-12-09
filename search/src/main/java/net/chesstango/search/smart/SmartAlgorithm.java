@@ -10,6 +10,6 @@ public interface SmartAlgorithm {
     /**
      * Invoked once per search depth
      */
-    SearchMoveResult search(SearchContext context);
+    SearchMoveResult search();
 
 }

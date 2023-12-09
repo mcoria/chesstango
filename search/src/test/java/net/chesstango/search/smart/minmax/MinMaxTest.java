@@ -98,7 +98,11 @@ public class MinMaxTest {
 
         SearchContext context = new SearchContext(depth);
 
-        SearchMoveResult result = minMax.search(context);
+        minMax.beforeSearchByDepth(context);
+
+        SearchMoveResult result = minMax.search();
+
+        minMax.afterSearchByDepth(result);
 
         minMax.afterSearch(result);
 

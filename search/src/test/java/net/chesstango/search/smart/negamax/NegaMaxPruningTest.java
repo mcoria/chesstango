@@ -115,7 +115,11 @@ public class NegaMaxPruningTest {
 
         SearchContext context = new SearchContext(depth);
 
-        SearchMoveResult result = negaMaxPruning.search(context);
+        smartListenerMediator.triggerBeforeSearchByDepth(context);
+
+        SearchMoveResult result = negaMaxPruning.search();
+
+        smartListenerMediator.triggerAfterSearchByDepth(result);
 
         smartListenerMediator.triggerAfterSearch(result);
 

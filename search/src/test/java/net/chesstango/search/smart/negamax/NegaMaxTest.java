@@ -96,7 +96,11 @@ public class NegaMaxTest {
 
         SearchContext context = new SearchContext(depth);
 
-        SearchMoveResult result = negaMax.search(context);
+        negaMax.beforeSearchByDepth(context);
+
+        SearchMoveResult result = negaMax.search();
+
+        negaMax.afterSearchByDepth(result);
 
         negaMax.afterSearch(result);
 

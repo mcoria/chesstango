@@ -62,7 +62,7 @@ public class IterativeDeepening implements SearchMove {
 
             smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-            searchResult = smartAlgorithm.search(context);
+            searchResult = smartAlgorithm.search();
 
             smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

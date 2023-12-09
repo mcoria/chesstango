@@ -5,10 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSelector;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.SmartAlgorithm;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.ArrayList;
@@ -17,24 +14,17 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax implements SmartAlgorithm, SearchCycleListener {
+public class MinMax implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
-
     private Game game;
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
     private GameEvaluator evaluator;
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
-    }
-
     @Override
-    public SearchMoveResult search(SearchContext context) {
-        this.maxPly = context.getMaxPly();
-
+    public SearchMoveResult search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -45,7 +35,7 @@ public class MinMax implements SmartAlgorithm, SearchCycleListener {
         for (Move move : game.getPossibleMoves()) {
             game.executeMove(move);
 
-            int currentEvaluation = minMax(game, !minOrMax, context.getMaxPly() - 1);
+            int currentEvaluation = minMax(game, !minOrMax, maxPly - 1);
 
             if (currentEvaluation == betterEvaluation) {
                 bestMoves.add(move);
@@ -69,7 +59,7 @@ public class MinMax implements SmartAlgorithm, SearchCycleListener {
         }
 
 
-        return new SearchMoveResult(context.getMaxPly(), betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
+        return new SearchMoveResult(maxPly, betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounter))
                 //.setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoves(bestMoves);
@@ -113,5 +103,19 @@ public class MinMax implements SmartAlgorithm, SearchCycleListener {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = evaluator;
     }
 }

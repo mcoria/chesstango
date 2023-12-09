@@ -5,10 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSelector;
-import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.SearchCycleListener;
-import net.chesstango.search.smart.SmartAlgorithm;
+import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +13,15 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax implements SmartAlgorithm, SearchCycleListener {
+public class NegaMax implements SmartAlgorithm, SearchCycleListener, SearchByDepthListener {
 
     private static final int DEFAULT_MAX_PLIES = 4;
-
     private GameEvaluator evaluator;
-
     private Game game;
-
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
-    }
+    private int maxPly;
 
     @Override
-    public SearchMoveResult search(SearchContext context) {
+    public SearchMoveResult search() {
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
@@ -39,7 +31,7 @@ public class NegaMax implements SmartAlgorithm, SearchCycleListener {
         for (Move move : game.getPossibleMoves()) {
             game.executeMove(move);
 
-            int currentEvaluation = -negaMax(game, context.getMaxPly() - 1);
+            int currentEvaluation = -negaMax(game, maxPly - 1);
 
             if (currentEvaluation == betterEvaluation) {
                 bestMoves.add(move);
@@ -56,7 +48,7 @@ public class NegaMax implements SmartAlgorithm, SearchCycleListener {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
+        return new SearchMoveResult(maxPly, minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
     }
 
 
@@ -90,4 +82,17 @@ public class NegaMax implements SmartAlgorithm, SearchCycleListener {
     public void afterSearch(SearchMoveResult result) {
     }
 
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
+    }
 }
