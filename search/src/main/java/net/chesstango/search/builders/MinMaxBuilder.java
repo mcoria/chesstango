@@ -26,11 +26,6 @@ public class MinMaxBuilder implements SearchBuilder {
     }
 
     @Override
-    public MinMaxBuilder withSearchListener(SearchListener searchListener) {
-        return this;
-    }
-
-    @Override
     public SearchMove build() {
         MinMax minMax = new MinMax();
         minMax.setGameEvaluator(gameEvaluator);

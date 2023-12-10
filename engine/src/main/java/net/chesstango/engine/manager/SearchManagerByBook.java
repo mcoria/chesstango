@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.engine.polyglot.MappedPolyglotBook;
 import net.chesstango.engine.polyglot.PolyglotEntry;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 
@@ -40,6 +41,11 @@ public final class SearchManagerByBook implements SearchManagerChain {
             book.load(Path.of(path));
         }
         next.setParameter(parameter, value);
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        next.setSearchListener(searchListener);
     }
 
     @Override

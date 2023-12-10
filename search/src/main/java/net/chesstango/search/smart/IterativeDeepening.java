@@ -21,13 +21,10 @@ import static net.chesstango.search.SearchParameter.SEARCH_PREDICATE;
 public class IterativeDeepening implements SearchMove {
     private volatile boolean keepProcessing;
     private volatile CountDownLatch countDownLatch;
-    private final SmartAlgorithm smartAlgorithm;
-
     @Setter
     private SmartListenerMediator smartListenerMediator;
-
-    @Setter
-    private Consumer<SearchMoveResult> searchStatusListener;
+    private final SmartAlgorithm smartAlgorithm;
+    private SearchListener searchListener;
     private int maxDepth = Integer.MAX_VALUE;
     private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
 
@@ -40,9 +37,11 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
+        if (searchListener != null) {
+            searchListener.searchStarted();
+        }
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
@@ -65,8 +64,8 @@ public class IterativeDeepening implements SearchMove {
             searchResult.setTimeSearching(Duration.between(startInstant, endDepthInstant).toMillis());
             searchResult.setTimeSearchingLastDepth(Duration.between(startDepthInstant, endDepthInstant).toMillis());
 
-            if (searchStatusListener != null) {
-                searchStatusListener.accept(searchResult);
+            if (searchListener != null) {
+                searchListener.searchInfo(searchResult);
             }
 
             if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
@@ -79,6 +78,9 @@ public class IterativeDeepening implements SearchMove {
         } while (keepProcessing && currentSearchDepth <= maxDepth && searchPredicate.test(searchResult));
 
         smartListenerMediator.triggerAfterSearch();
+        if (searchListener != null) {
+            searchListener.searchFinished(searchResult);
+        }
 
         return searchResult;
     }
@@ -110,6 +112,11 @@ public class IterativeDeepening implements SearchMove {
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
         }
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
     }
 
 }

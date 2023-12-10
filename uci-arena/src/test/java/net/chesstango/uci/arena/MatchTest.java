@@ -26,8 +26,12 @@ public class MatchTest {
 
     @BeforeEach
     public void setup() {
-        smartEngine = new EngineControllerImp(new UciTango()).overrideEngineName("Smart");
-        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy()))).overrideEngineName("Dummy");
+        smartEngine = new EngineControllerImp(new UciTango())
+                .overrideEngineName("Smart");
+
+
+        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy())))
+                .overrideEngineName("Dummy");
 
         smartEngine.startEngine();
         dummyEngine.startEngine();
@@ -42,6 +46,7 @@ public class MatchTest {
     @Test
     public void testCompete() {
         Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(3));
+        //match.setDebugEnabled(true);
 
         match.setFen(FENDecoder.INITIAL_FEN);
         match.setChairs(smartEngine, dummyEngine);

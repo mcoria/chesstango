@@ -93,4 +93,9 @@ public interface SearchMove {
      *
      */
     void setParameter(SearchParameter parameter, Object value);
+
+    /**
+     * Set SearchListener
+     */
+    void setSearchListener(SearchListener searchListener);
 }

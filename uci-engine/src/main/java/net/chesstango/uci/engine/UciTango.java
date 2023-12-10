@@ -21,6 +21,7 @@ public class UciTango implements Service {
 
     @Getter
     protected final Tango tango;
+
     @Setter
     private UCIOutputStream responseOutputStream;
     protected final UCIOutputStreamEngineExecutor engineExecutor;

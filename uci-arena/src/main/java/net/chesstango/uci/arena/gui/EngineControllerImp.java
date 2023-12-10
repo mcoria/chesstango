@@ -1,14 +1,13 @@
 package net.chesstango.uci.arena.gui;
 
-import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.Service;
+import net.chesstango.uci.ServiceVisitor;
 import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
-import net.chesstango.uci.Service;
-import net.chesstango.uci.ServiceVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +59,7 @@ public class EngineControllerImp implements EngineController {
     @Override
     public void send_CmdUci() {
         service.open();
-		currentState = new WaitRspUciOk();
+        currentState = new WaitRspUciOk();
         sendRequest(new CmdUci(), true);
     }
 
@@ -129,7 +128,7 @@ public class EngineControllerImp implements EngineController {
         if (waitResponse) {
             try {
                 int waitingCounter = 0;
-                while (response == null && waitingCounter < 20 ) {
+                while (response == null && waitingCounter < 20) {
                     wait(1000);
                     waitingCounter++;
                 }

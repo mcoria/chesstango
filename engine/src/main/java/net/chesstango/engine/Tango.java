@@ -2,7 +2,10 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.*;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchListener;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +52,6 @@ public class Tango {
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
                 currentSession.addResult(searchResult);
-
                 if (listenerClient != null) {
                     listenerClient.searchFinished(searchResult);
                 }

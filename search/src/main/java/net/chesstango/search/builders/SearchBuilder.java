@@ -11,8 +11,6 @@ public interface SearchBuilder {
 
     <T extends SearchBuilder> T withGameEvaluatorCache();
 
-    <T extends SearchBuilder> T withSearchListener(SearchListener searchListener);
-
     <T extends SearchBuilder> T withGameEvaluator(GameEvaluator gameEvaluator);
 
     SearchMove build();

@@ -2,10 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
+import net.chesstango.search.*;
 
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
@@ -18,6 +15,8 @@ public class NoIterativeDeepening implements SearchMove {
     @Setter
     private SmartListenerMediator smartListenerMediator;
 
+    private SearchListener searchListener;
+
     private int maxDepth = Integer.MAX_VALUE;
 
     public NoIterativeDeepening(SmartAlgorithm smartAlgorithm) {
@@ -28,6 +27,9 @@ public class NoIterativeDeepening implements SearchMove {
     public SearchMoveResult search(Game game) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
+        if (searchListener != null) {
+            searchListener.searchStarted();
+        }
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(maxDepth);
@@ -36,11 +38,14 @@ public class NoIterativeDeepening implements SearchMove {
 
         MoveEvaluation bestMoveEvaluation = smartAlgorithm.search();
 
-        SearchMoveResult searchResult = new SearchMoveResult(1, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+        SearchMoveResult searchResult = new SearchMoveResult(maxDepth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 
         smartListenerMediator.triggerAfterSearch();
+        if (searchListener != null) {
+            searchListener.searchFinished(searchResult);
+        }
 
         return searchResult;
     }
@@ -60,6 +65,11 @@ public class NoIterativeDeepening implements SearchMove {
         if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             maxDepth = maxDepthParam;
         }
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
     }
 
 }

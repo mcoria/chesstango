@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.statistics;
 
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -34,5 +35,10 @@ public class SearchMoveWrapper implements SearchMove {
     @Override
     public void setParameter(SearchParameter parameter, Object value) {
         imp.setParameter(parameter, value);
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        imp.setSearchListener(searchListener);
     }
 }

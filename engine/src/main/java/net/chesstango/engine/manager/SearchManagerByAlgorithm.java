@@ -10,11 +10,10 @@ import net.chesstango.search.SearchParameter;
  * @author Mauricio Coria
  */
 public final class SearchManagerByAlgorithm implements SearchManagerChain {
-    private final SearchListener listenerClient;
+
     private final SearchMove searchMove;
 
-    public SearchManagerByAlgorithm(SearchMove searchMove, SearchListener listenerClient) {
-        this.listenerClient = listenerClient;
+    public SearchManagerByAlgorithm(SearchMove searchMove) {
         this.searchMove = searchMove;
     }
 
@@ -26,6 +25,11 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     @Override
     public void setParameter(SearchParameter parameter, Object value) {
         searchMove.setParameter(parameter, value);
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        searchMove.setSearchListener(searchListener);
     }
 
     @Override

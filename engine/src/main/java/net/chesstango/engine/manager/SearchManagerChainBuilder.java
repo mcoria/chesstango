@@ -29,7 +29,7 @@ public final class SearchManagerChainBuilder {
     }
 
     public SearchManagerChain build() {
-        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
+        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove);
         SearchManagerByBook searchManagerByBook = null;
         if (searchByBookEnabled) {
             searchManagerByBook = new SearchManagerByBook();
