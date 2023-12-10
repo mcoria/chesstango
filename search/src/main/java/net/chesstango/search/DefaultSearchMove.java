@@ -12,15 +12,12 @@ public class DefaultSearchMove implements SearchMove {
 
     private final SearchMove imp;
 
+
     public DefaultSearchMove() {
-        this(null);
+        this(new DefaultEvaluator());
     }
 
-    public DefaultSearchMove(final SearchListener searchListener) {
-        this(new DefaultEvaluator(), searchListener);
-    }
-
-    public DefaultSearchMove(final GameEvaluator gameEvaluator, final SearchListener searchListener) {
+    public DefaultSearchMove(final GameEvaluator gameEvaluator) {
         this.imp = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
                 .withGameEvaluatorCache()
@@ -40,8 +37,6 @@ public class DefaultSearchMove implements SearchMove {
                 .withStopProcessingCatch()
 
                 //.withStatics()
-
-                .withSearchListener(searchListener)
 
                 .build();
     }
@@ -64,6 +59,11 @@ public class DefaultSearchMove implements SearchMove {
     @Override
     public void setParameter(SearchParameter parameter, Object value) {
         imp.setParameter(parameter, value);
+    }
+
+    @Override
+    public void setProgressListener(ProgressListener progressListener) {
+        imp.setProgressListener(progressListener);
     }
 
     public SearchMove getImplementation() {

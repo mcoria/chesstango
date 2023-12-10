@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.ProgressListener;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -47,6 +48,11 @@ public class Dummy implements SearchMove {
 
     @Override
     public void setParameter(SearchParameter parameter, Object value) {
+    }
+
+    @Override
+    public void setProgressListener(ProgressListener progressListener) {
+
     }
 
 }

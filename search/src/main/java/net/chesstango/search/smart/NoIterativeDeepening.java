@@ -2,10 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
+import net.chesstango.search.*;
 
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
@@ -60,6 +57,11 @@ public class NoIterativeDeepening implements SearchMove {
         if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             maxDepth = maxDepthParam;
         }
+    }
+
+    @Override
+    public void setProgressListener(ProgressListener progressListener) {
+
     }
 
 }

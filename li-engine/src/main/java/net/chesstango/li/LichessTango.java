@@ -5,8 +5,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class LichessTango implements Runnable {
                     pvString.append(String.format("%s ", UCIEncoder.encode(move)));
                 }
 
-                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d",searchResult.getDepth()), String.format("%8d", searchResult.getEvaluation()), pvString);
+                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d", searchResult.getDepth()), String.format("%8d", searchResult.getEvaluation()), pvString);
             }
 
             @Override

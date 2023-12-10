@@ -8,6 +8,7 @@ import net.chesstango.engine.polyglot.MappedPolyglotBook;
 import net.chesstango.engine.polyglot.PolyglotEntry;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.ProgressListener;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -40,6 +41,11 @@ public final class SearchManagerByBook implements SearchManagerChain {
             book.load(Path.of(path));
         }
         next.setParameter(parameter, value);
+    }
+
+    @Override
+    public void setProgressListener(ProgressListener progressListener) {
+        next.setProgressListener(progressListener);
     }
 
     @Override
