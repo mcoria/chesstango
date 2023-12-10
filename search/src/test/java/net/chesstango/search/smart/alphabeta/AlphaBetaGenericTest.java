@@ -52,7 +52,7 @@ public class AlphaBetaGenericTest extends GenericTest {
         smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, minMaxPruning));
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
-        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH, 1);
+        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
         noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
 
         this.searchMove = noIterativeDeepening;

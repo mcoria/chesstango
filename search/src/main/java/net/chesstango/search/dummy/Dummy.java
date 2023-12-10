@@ -47,7 +47,7 @@ public class Dummy implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
+    public void setSearchParameter(SearchParameter parameter, Object value) {
     }
 
     @Override

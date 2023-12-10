@@ -87,7 +87,7 @@ public class MoveEvaluationTrackerTest {
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
         SearchMoveResult searchResult = searchMove.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());
@@ -99,7 +99,7 @@ public class MoveEvaluationTrackerTest {
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 1);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
         SearchMoveResult searchResult = searchMove.search(game);
 
         assertEquals(20, searchResult.getBestMovesCounter());

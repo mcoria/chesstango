@@ -22,8 +22,8 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
-        searchMove.setParameter(parameter, value);
+    public void setSearchParameter(SearchParameter parameter, Object value) {
+        searchMove.setSearchParameter(parameter, value);
     }
 
     @Override

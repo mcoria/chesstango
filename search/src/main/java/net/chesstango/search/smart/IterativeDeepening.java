@@ -100,7 +100,7 @@ public class IterativeDeepening implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
+    public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
             this.searchPredicate = (Predicate<SearchMoveResult>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {

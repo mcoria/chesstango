@@ -53,7 +53,7 @@ public class NoIterativeDeepening implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
+    public void setSearchParameter(SearchParameter parameter, Object value) {
         if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             maxDepth = maxDepthParam;
         }

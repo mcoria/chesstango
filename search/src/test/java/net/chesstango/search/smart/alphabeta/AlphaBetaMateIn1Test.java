@@ -52,7 +52,7 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
         noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH, 1);
+        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
 
         this.searchMove = noIterativeDeepening;
     }

@@ -82,7 +82,7 @@ public final class SearchManager {
     }
 
     public void setPolyglotBook(String path) {
-        searchManagerByBook.setParameter(SearchParameter.POLYGLOT_PATH, path);
+        searchManagerByBook.setSearchParameter(SearchParameter.POLYGLOT_PATH, path);
     }
 
     private void searchImp(Game game, int depth, int timeOut) {
@@ -99,8 +99,8 @@ public final class SearchManager {
                     stopTask = executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
-                searchManagerChain.setParameter(SearchParameter.MAX_DEPTH, depth);
-                searchManagerChain.setParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
+                searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+                searchManagerChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
                 SearchMoveResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {

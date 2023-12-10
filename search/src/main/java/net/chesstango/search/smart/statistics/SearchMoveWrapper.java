@@ -32,8 +32,8 @@ public class SearchMoveWrapper implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
-        imp.setParameter(parameter, value);
+    public void setSearchParameter(SearchParameter parameter, Object value) {
+        imp.setSearchParameter(parameter, value);
     }
 
     @Override
