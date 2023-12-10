@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
-import net.chesstango.search.smart.statistics.GameStatistics;
+import net.chesstango.search.ProgressListener;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +32,12 @@ public class SearchMoveWrapper implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
-        imp.setParameter(parameter, value);
+    public void setSearchParameter(SearchParameter parameter, Object value) {
+        imp.setSearchParameter(parameter, value);
+    }
+
+    @Override
+    public void setProgressListener(ProgressListener progressListener) {
+        imp.setProgressListener(progressListener);
     }
 }

@@ -11,6 +11,7 @@ import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.matchtypes.MatchByClock;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
+import net.chesstango.uci.arena.matchtypes.MatchByTime;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import org.slf4j.Logger;
@@ -26,9 +27,9 @@ import java.util.List;
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+    //private static final MatchType MATCH_TYPE = new MatchByDepth(2);
 
-    //private static final MatchType MATCH_TYPE = new MatchByMoveTime(1000);
+    private static final MatchType MATCH_TYPE = new MatchByTime(5000);
 
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
     private static final boolean MATCH_DEBUG = false;
@@ -56,11 +57,11 @@ public class MatchMain implements MatchListener {
                                 .withTranspositionMoveSorter()
                                 .withQTranspositionMoveSorter()
 
-                                //.withStopProcessingCatch()
+                                .withStopProcessingCatch()
                                 .withIterativeDeepening()
 
                                 .withStatistics()
-                        //.withTrackEvaluations()
+                                //.withTrackEvaluations()
                 );
 
 

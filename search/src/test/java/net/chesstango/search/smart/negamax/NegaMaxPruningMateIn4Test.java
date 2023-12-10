@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn4Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -33,7 +32,7 @@ public class NegaMaxPruningMateIn4Test extends MateIn4Test {
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning);
         noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-        noIterativeDeepening.setParameter(SearchParameter.MAX_DEPTH,7);
+        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH,7);
 
         this.searchMove = noIterativeDeepening;
     }

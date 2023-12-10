@@ -90,7 +90,12 @@ public interface SearchMove {
     void reset();
 
     /**
-     *
+     * Set search parameters
      */
-    void setParameter(SearchParameter parameter, Object value);
+    void setSearchParameter(SearchParameter parameter, Object value);
+
+    /**
+     * Set search progress listener
+     */
+    void setProgressListener(ProgressListener progressListener);
 }

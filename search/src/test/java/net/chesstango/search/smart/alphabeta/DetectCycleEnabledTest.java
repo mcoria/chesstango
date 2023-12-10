@@ -140,7 +140,7 @@ public class DetectCycleEnabledTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 23);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 23);
         SearchMoveResult searchResult = searchMove
                 .search(game);
 
@@ -199,7 +199,7 @@ public class DetectCycleEnabledTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 17);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 17);
         SearchMoveResult searchResult = searchMove
                 .search(game);
 
@@ -251,7 +251,7 @@ public class DetectCycleEnabledTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 3);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
         SearchMoveResult searchResult = searchMove
                 .search(game);
 
@@ -288,7 +288,7 @@ public class DetectCycleEnabledTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
         searchMove.setSmartListenerMediator(smartListenerMediator);
 
-        searchMove.setParameter(SearchParameter.MAX_DEPTH, 4);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchMoveResult searchResult = searchMove
                 .search(game);
 

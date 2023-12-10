@@ -7,9 +7,7 @@ import net.chesstango.search.*;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
@@ -25,9 +23,7 @@ public class IterativeDeepening implements SearchMove {
 
     @Setter
     private SmartListenerMediator smartListenerMediator;
-
-    @Setter
-    private Consumer<SearchMoveResult> searchStatusListener;
+    private ProgressListener progressListener;
     private int maxDepth = Integer.MAX_VALUE;
     private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
 
@@ -65,8 +61,8 @@ public class IterativeDeepening implements SearchMove {
             searchResult.setTimeSearching(Duration.between(startInstant, endDepthInstant).toMillis());
             searchResult.setTimeSearchingLastDepth(Duration.between(startDepthInstant, endDepthInstant).toMillis());
 
-            if (searchStatusListener != null) {
-                searchStatusListener.accept(searchResult);
+            if (progressListener != null) {
+                progressListener.accept(searchResult);
             }
 
             if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
@@ -104,12 +100,16 @@ public class IterativeDeepening implements SearchMove {
     }
 
     @Override
-    public void setParameter(SearchParameter parameter, Object value) {
+    public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
             this.searchPredicate = (Predicate<SearchMoveResult>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
         }
+    }
+
+    public void setProgressListener(ProgressListener progressListener) {
+        this.progressListener = progressListener;
     }
 
 }

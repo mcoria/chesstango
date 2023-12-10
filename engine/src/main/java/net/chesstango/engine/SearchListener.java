@@ -1,4 +1,6 @@
-package net.chesstango.search;
+package net.chesstango.engine;
+
+import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
