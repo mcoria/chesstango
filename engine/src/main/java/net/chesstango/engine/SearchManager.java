@@ -6,8 +6,9 @@ import net.chesstango.engine.manager.SearchManagerByBook;
 import net.chesstango.engine.manager.SearchManagerChain;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.*;
-import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,20 +28,16 @@ public final class SearchManager {
     private ScheduledExecutorService executorService;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
-        if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
-            SearchMove searchImp = searchMoveDefault.getImplementation();
-
-            if (searchImp instanceof IterativeDeepening iterativeDeepening) {
-                iterativeDeepening.setSearchStatusListener(listenerClient::searchInfo);
-            }
-        }
-
         this.listenerClient = listenerClient;
-        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
+
+        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove);
+
         this.searchManagerByBook = new SearchManagerByBook();
         this.searchManagerByBook.setNext(searchManagerByAlgorithm);
 
         this.searchManagerChain = this.searchManagerByBook;
+        this.searchManagerChain.setProgressListener(listenerClient::searchInfo);
+
         this.timeMgmt = new FivePercentage();
     }
 

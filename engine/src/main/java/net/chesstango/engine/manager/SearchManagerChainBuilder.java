@@ -1,6 +1,6 @@
 package net.chesstango.engine.manager;
 
-import net.chesstango.search.SearchListener;
+import net.chesstango.engine.SearchListener;
 import net.chesstango.search.SearchMove;
 
 import java.util.Objects;
@@ -29,7 +29,7 @@ public final class SearchManagerChainBuilder {
     }
 
     public SearchManagerChain build() {
-        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove, listenerClient);
+        SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove);
         SearchManagerByBook searchManagerByBook = null;
         if (searchByBookEnabled) {
             searchManagerByBook = new SearchManagerByBook();

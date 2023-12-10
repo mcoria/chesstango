@@ -1,7 +1,7 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchListener;
+import net.chesstango.engine.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIEngine;
