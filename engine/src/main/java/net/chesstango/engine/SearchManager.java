@@ -36,9 +36,7 @@ public final class SearchManager {
         this.searchManagerByBook.setSearchListener(new SearchListener() {
             @Override
             public void searchInfo(SearchMoveResult info) {
-                if (listenerClient != null) {
-                    listenerClient.searchInfo(info);
-                }
+                listenerClient.searchInfo(info);
             }
         });
 
