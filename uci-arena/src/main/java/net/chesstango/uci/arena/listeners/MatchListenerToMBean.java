@@ -2,7 +2,11 @@ package net.chesstango.uci.arena.listeners;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.GameStateReader;
+import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.mbeans.GameDescriptionCurrent;
@@ -11,9 +15,7 @@ import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -50,9 +52,34 @@ public class MatchListenerToMBean implements MatchListener {
         List<String> theMoves = new ArrayList<>();
 
         //Arreglarlo
-        game.accept(null);
+        game.accept(new GameVisitor() {
+            @Override
+            public void visit(ChessPositionReader chessPositionReader) {
 
-        String[] arrayMoveStr = theMoves.toArray(new String[theMoves.size()]);
+            }
+
+            @Override
+            public void visit(GameStateReader gameState) {
+                List<Move> theMovesReversed = new LinkedList<>();
+                GameStateReader currentGameState = gameState.getPreviousState();
+                while (currentGameState != null) {
+                    theMovesReversed.add(currentGameState.getSelectedMove());
+                    currentGameState = currentGameState.getPreviousState();
+                }
+                Collections.reverse(theMovesReversed);
+                theMovesReversed
+                        .stream()
+                        .map(MatchListenerToMBean::encodeMove)
+                        .forEach(theMoves::add);
+            }
+
+            @Override
+            public void visit(MoveGenerator moveGenerator) {
+
+            }
+        });
+
+        String[] arrayMoveStr = theMoves.toArray(String[]::new);
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
@@ -72,7 +99,7 @@ public class MatchListenerToMBean implements MatchListener {
     }
 
     // TODO: obviously some moves are not encoded properly
-    protected String encodeMove(Move move) {
+    protected static String encodeMove(Move move) {
         return String.format("%s-%s", move.getFrom().getSquare(), move.getTo().getSquare());
     }
 
