@@ -40,19 +40,22 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-		System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
+        //System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
         currentMoveEvaluations = new LinkedList<>();
     }
 
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
-        System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
+        //System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
+        /*
         currentMoveEvaluations.stream()
                 .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
                 .forEach(System.out::println);
         System.out.printf("------------\n");
+         */
+
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
                 //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
@@ -67,22 +70,23 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        result.setMoveEvaluations(currentMoveEvaluations);
-        
+        /*
         System.out.printf("After Search By Depth\n");
         currentMoveEvaluations.stream()
                 .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
                 .forEach(System.out::println);
-        System.out.printf("------------\n");        result.setMoveEvaluations(currentMoveEvaluations);
-        
+        System.out.printf("------------\n");
+        */
+
         int bestValue = result.getEvaluation();
         List<Move> bestMoves = currentMoveEvaluations.stream()
                 .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
                 .map(MoveEvaluation::move)
                 .toList();
 
+        result.setMoveEvaluations(currentMoveEvaluations);
         result.setBestMoves(bestMoves);
-}
+    }
 
     @Override
     public void afterSearch() {

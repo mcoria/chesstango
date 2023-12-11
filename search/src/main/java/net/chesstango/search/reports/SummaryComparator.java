@@ -17,10 +17,12 @@ import java.util.Objects;
 public class SummaryComparator {
 
     public static void main(String[] args) {
-        SummaryComparator summaryComparator = new SummaryComparator("depth-4-2023-12-07-15-41-v0.0.22");
-        summaryComparator.addSession("depth-4-2023-12-07-23-46-CHT-195");
-        summaryComparator.addSession("depth-4-2023-12-09-16-59-CHT-195");
-        summaryComparator.addSession("depth-4-2023-12-10-22-10-CHT-201");
+        SummaryComparator summaryComparator = new SummaryComparator("depth-4-2023-11-30-23-54-v0.0.21");
+        summaryComparator.addSession("depth-4-2023-12-07-15-41-v0.0.22");
+        //summaryComparator.addSession("depth-4-2023-12-07-23-46-CHT-195");
+        //summaryComparator.addSession("depth-4-2023-12-09-16-59-CHT-195");
+        //summaryComparator.addSession("depth-4-2023-12-10-22-10-CHT-201");
+        summaryComparator.addSession("depth-4-2023-12-10-22-42-CHT-196");
         //
         //
 
