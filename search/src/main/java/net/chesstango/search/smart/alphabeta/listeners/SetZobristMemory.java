@@ -39,7 +39,12 @@ public class SetZobristMemory implements SearchByCycleListener, ResetListener {
 
     @Override
     public void afterSearch() {
-
+        if (zobristCollisions.isEmpty()) {
+            System.out.println("No Zobrist collision");
+        } else {
+            System.out.println("Zobrist collisions:");
+            zobristCollisions.forEach(collision -> System.out.printf("%s\n", collision));
+        }
     }
 
     private void trackRootNode(Game game, Map<Long, String> map) {
