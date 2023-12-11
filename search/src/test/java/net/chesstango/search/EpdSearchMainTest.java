@@ -278,6 +278,7 @@ public class EpdSearchMainTest {
                 //.withTriangularPV()
 
                 .withStatistics()
+                //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
 
                 .build();

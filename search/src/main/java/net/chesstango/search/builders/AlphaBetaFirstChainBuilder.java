@@ -2,12 +2,9 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -27,12 +24,13 @@ public class AlphaBetaFirstChainBuilder {
     private TranspositionTable transpositionTable;
     private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
+    private ZobristTracker zobristTracker;
 
     private boolean withStatistics;
-
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
     private boolean withTriangularPV;
+    private boolean withZobristTracker;
 
     public AlphaBetaFirstChainBuilder() {
         alphaBetaRoot = new AlphaBetaRoot();
@@ -87,6 +85,11 @@ public class AlphaBetaFirstChainBuilder {
         return this;
     }
 
+    public AlphaBetaFirstChainBuilder withZobristTracker() {
+        this.withZobristTracker = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -114,7 +117,12 @@ public class AlphaBetaFirstChainBuilder {
             triangularPV = new TriangularPV();
         }
 
+        if (withZobristTracker) {
+            zobristTracker = new ZobristTracker();
+        }
+
         moveEvaluationTracker = new MoveEvaluationTracker();
+        moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
     }
 
 
@@ -137,15 +145,18 @@ public class AlphaBetaFirstChainBuilder {
             smartListenerMediator.add(stopProcessingCatch);
         }
 
+        if (triangularPV != null) {
+            smartListenerMediator.add(triangularPV);
+        }
+
+        if (zobristTracker != null) {
+            smartListenerMediator.add(zobristTracker);
+        }
+
         if (withTranspositionTable) {
             smartListenerMediator.add(transpositionTableRoot);
             smartListenerMediator.add(transpositionTable);
         }
-
-        if (withTriangularPV) {
-            smartListenerMediator.add(triangularPV);
-        }
-
     }
 
 
@@ -164,8 +175,8 @@ public class AlphaBetaFirstChainBuilder {
             if (head == null) {
                 head = transpositionTableRoot;
             }
-            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
-                stopProcessingCatchTail.setNext(transpositionTableRoot);
+            if (tail instanceof StopProcessingCatch) {
+                stopProcessingCatch.setNext(transpositionTableRoot);
             }
             tail = transpositionTableRoot;
         }
@@ -175,10 +186,10 @@ public class AlphaBetaFirstChainBuilder {
                 head = aspirationWindows;
             }
             aspirationWindows.setMoveEvaluationTracker(moveEvaluationTracker);
-            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
-                stopProcessingCatchTail.setNext(aspirationWindows);
-            } else if (tail instanceof TranspositionTableRoot transpositionTableRootTail) {
-                transpositionTableRootTail.setNext(aspirationWindows);
+            if (tail instanceof StopProcessingCatch) {
+                stopProcessingCatch.setNext(aspirationWindows);
+            } else if (tail instanceof TranspositionTableRoot) {
+                transpositionTableRoot.setNext(aspirationWindows);
             }
             tail = aspirationWindows;
         }
@@ -187,41 +198,50 @@ public class AlphaBetaFirstChainBuilder {
             if (head == null) {
                 head = alphaBetaStatisticsExpected;
             }
-            if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
-                stopProcessingCatchTail.setNext(alphaBetaStatisticsExpected);
-            } else if (tail instanceof TranspositionTableRoot transpositionTableRootTail) {
-                transpositionTableRootTail.setNext(alphaBetaStatisticsExpected);
-            } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
-                aspirationWindowsTail.setNext(alphaBetaStatisticsExpected);
+            if (tail instanceof StopProcessingCatch) {
+                stopProcessingCatch.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof TranspositionTableRoot) {
+                transpositionTableRoot.setNext(alphaBetaStatisticsExpected);
+            } else if (tail instanceof AspirationWindows) {
+                aspirationWindows.setNext(alphaBetaStatisticsExpected);
             }
             tail = alphaBetaStatisticsExpected;
         }
 
         if (head == null) {
             head = alphaBetaRoot;
-        }
-        if (tail instanceof StopProcessingCatch stopProcessingCatchTail) {
-            stopProcessingCatchTail.setNext(alphaBetaRoot);
-        } else if (tail instanceof TranspositionTableRoot transpositionTableRootTail) {
-            transpositionTableRootTail.setNext(alphaBetaRoot);
-        } else if (tail instanceof AspirationWindows aspirationWindowsTail) {
-            aspirationWindowsTail.setNext(alphaBetaRoot);
-        } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
-            alphaBetaStatisticsExpectedTail.setNext(alphaBetaRoot);
+        } else if (tail instanceof StopProcessingCatch) {
+            stopProcessingCatch.setNext(alphaBetaRoot);
+        } else if (tail instanceof TranspositionTableRoot) {
+            transpositionTableRoot.setNext(alphaBetaRoot);
+        } else if (tail instanceof AspirationWindows) {
+            aspirationWindows.setNext(alphaBetaRoot);
+        } else if (tail instanceof AlphaBetaStatisticsExpected) {
+            alphaBetaStatisticsExpected.setNext(alphaBetaRoot);
         }
 
         alphaBetaRoot.setNext(moveEvaluationTracker);
-        moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
         tail = moveEvaluationTracker;
 
+        if (zobristTracker != null) {
+            moveEvaluationTracker.setNext(zobristTracker);
+            tail = zobristTracker;
+        }
+
         if (alphaBetaStatisticsVisited != null) {
-            moveEvaluationTracker.setNext(alphaBetaStatisticsVisited);
+            if (tail instanceof MoveEvaluationTracker) {
+                moveEvaluationTracker.setNext(alphaBetaStatisticsVisited);
+            } else if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(alphaBetaStatisticsVisited);
+            }
             tail = alphaBetaStatisticsVisited;
         }
 
         if (triangularPV != null) {
             if (tail instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(triangularPV);
+            } else if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(triangularPV);
             } else if (tail instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(triangularPV);
             }
@@ -231,6 +251,9 @@ public class AlphaBetaFirstChainBuilder {
         if (transpositionTable != null) {
             if (tail instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(transpositionTable);
+            }
+            if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(transpositionTable);
             } else if (tail instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(transpositionTable);
             } else if (tail instanceof TriangularPV) {
@@ -241,6 +264,9 @@ public class AlphaBetaFirstChainBuilder {
 
         if (tail instanceof MoveEvaluationTracker) {
             moveEvaluationTracker.setNext(alphaBetaFlowControl);
+        }
+        if (tail instanceof ZobristTracker) {
+            zobristTracker.setNext(alphaBetaFlowControl);
         } else if (tail instanceof AlphaBetaStatisticsVisited) {
             alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
         } else if (tail instanceof TriangularPV) {

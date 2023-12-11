@@ -2,14 +2,11 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -28,8 +25,8 @@ public class QuiescenceChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private boolean withQuiescence;
     private boolean withStatistics;
-    private boolean withZobristTracker;
     private boolean withTriangularPV;
+    private boolean withZobristTracker;
 
 
     public QuiescenceChainBuilder() {
@@ -68,7 +65,7 @@ public class QuiescenceChainBuilder {
     }
 
     public QuiescenceChainBuilder withZobristTracker() {
-        withZobristTracker = true;
+        this.withZobristTracker = true;
         return this;
     }
 
@@ -109,11 +106,11 @@ public class QuiescenceChainBuilder {
                 quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
                 quiescenceStatisticsVisited = new QuiescenceStatisticsVisited();
             }
-            if (withZobristTracker) {
-                zobristQTracker = new ZobristTracker();
-            }
             if (withTriangularPV) {
                 triangularPV = new TriangularPV();
+            }
+            if (withZobristTracker) {
+                zobristQTracker = new ZobristTracker();
             }
         } else {
             quiescenceNull = new QuiescenceNull();
@@ -171,42 +168,37 @@ public class QuiescenceChainBuilder {
         AlphaBetaFilter tail = null;
 
 
-        if (zobristQTracker != null) {
-            head = zobristQTracker;
-            tail = zobristQTracker;
-        }
-
         if (quiescenceStatisticsExpected != null) {
-            if (head == null) {
-                head = quiescenceStatisticsExpected;
-            }
-            if (tail instanceof ZobristTracker zobristTrackerTail) {
-                zobristTrackerTail.setNext(quiescenceStatisticsExpected);
-            } else if (tail instanceof TranspositionTableQ transpositionTableTail) {
-                transpositionTableTail.setNext(quiescenceStatisticsExpected);
-            }
+            head = quiescenceStatisticsExpected;
             tail = quiescenceStatisticsExpected;
         }
 
         if (head == null) {
             head = quiescence;
-        }
-        if (tail instanceof ZobristTracker zobristTrackerTail) {
-            zobristTrackerTail.setNext(quiescence);
-        } else if (tail instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpectedTail) {
-            quiescenceStatisticsExpectedTail.setNext(quiescence);
+        } else if (tail instanceof QuiescenceStatisticsExpected) {
+            quiescenceStatisticsExpected.setNext(quiescence);
         }
         tail = quiescence;
 
+        if (zobristQTracker != null) {
+            quiescence.setNext(zobristQTracker);
+            tail = zobristQTracker;
+        }
 
         if (quiescenceStatisticsVisited != null) {
-            quiescence.setNext(quiescenceStatisticsVisited);
+            if (tail instanceof Quiescence) {
+                quiescence.setNext(quiescenceStatisticsVisited);
+            } else if (tail instanceof ZobristTracker) {
+                zobristQTracker.setNext(quiescenceStatisticsVisited);
+            }
             tail = quiescenceStatisticsVisited;
         }
 
         if (triangularPV != null) {
             if (tail instanceof Quiescence) {
                 quiescence.setNext(triangularPV);
+            } else if (tail instanceof ZobristTracker) {
+                zobristQTracker.setNext(triangularPV);
             } else if (tail instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(triangularPV);
             }
@@ -216,6 +208,8 @@ public class QuiescenceChainBuilder {
         if (transpositionTableQ != null) {
             if (tail instanceof Quiescence) {
                 quiescence.setNext(transpositionTableQ);
+            } else if (tail instanceof ZobristTracker) {
+                zobristQTracker.setNext(transpositionTableQ);
             } else if (tail instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(transpositionTableQ);
             } else if (tail instanceof TriangularPV) {
@@ -224,10 +218,12 @@ public class QuiescenceChainBuilder {
             tail = transpositionTableQ;
         }
 
-        if (tail instanceof Quiescence quiescenceTail) {
-            quiescenceTail.setNext(quiescenceFlowControl);
-        } else if (tail instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisitedTail) {
-            quiescenceStatisticsVisitedTail.setNext(quiescenceFlowControl);
+        if (tail instanceof Quiescence) {
+            quiescence.setNext(quiescenceFlowControl);
+        } else if (tail instanceof ZobristTracker) {
+            zobristQTracker.setNext(quiescenceFlowControl);
+        } else if (tail instanceof QuiescenceStatisticsVisited) {
+            quiescenceStatisticsVisited.setNext(quiescenceFlowControl);
         } else if (tail instanceof TriangularPV) {
             triangularPV.setNext(quiescenceFlowControl);
         } else if (tail instanceof TranspositionTableQ) {

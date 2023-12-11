@@ -10,6 +10,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
+import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
 import net.chesstango.search.smart.statistics.SearchMoveWrapper;
@@ -31,6 +32,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SmartListenerMediator smartListenerMediator;
     private AlphaBetaFacade alphaBetaFacade;
     private SetContext setContext;
+    private SetZobristMemory setZobristMemory;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -39,6 +41,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
     private boolean withTriangularPV;
+    private boolean withZobristTracker;
 
 
     public AlphaBetaBuilder() {
@@ -125,7 +128,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     public AlphaBetaBuilder withZobristTracker() {
+        withZobristTracker = true;
+        alphaBetaFirstChainBuilder.withZobristTracker();
         alphaBetaChainBuilder.withZobristTracker();
+        quiescenceChainBuilder.withZobristTracker();
         return this;
     }
 
@@ -204,6 +210,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setContext = new SetContext();
         }
 
+        if (withZobristTracker) {
+            setZobristMemory = new SetZobristMemory();
+        }
+
         setupGameEvaluator = new SetupGameEvaluator();
 
         alphaBetaFacade = new AlphaBetaFacade();
@@ -216,8 +226,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (setTranspositionTables != null) {
-            // Este filtro necesita agregarse primero
             smartListenerMediator.add(setTranspositionTables);
+        }
+
+        if (setZobristMemory != null) {
+            smartListenerMediator.add(setZobristMemory);
         }
 
         if (setTranspositionPV != null) {
