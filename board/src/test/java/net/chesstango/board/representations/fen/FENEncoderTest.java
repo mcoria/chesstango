@@ -260,6 +260,17 @@ public class FENEncoderTest {
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", fenWithoutClocks);
 	}
 
+	@Test
+	public void test_encode_zobrist(){
+		Game game = FENDecoder.loadGame("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3");
+
+		game.getChessPosition().constructChessPositionRepresentation(coder);
+
+		String fenZobrist = coder.getFENZobrist();
+
+		assertEquals("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - -", fenZobrist);
+	}
+
 
 	@Test
 	public void test_encode_with_clocks1(){

@@ -2,14 +2,11 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SmartListener;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -27,8 +24,8 @@ public class AlphaBetaChainBuilder {
     private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
-    private boolean withZobristTracker;
     private boolean withTriangularPV;
+    private boolean withZobristTracker;
 
     public AlphaBetaChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -63,7 +60,7 @@ public class AlphaBetaChainBuilder {
     }
 
     public AlphaBetaChainBuilder withZobristTracker() {
-        withZobristTracker = true;
+        this.withZobristTracker = true;
         return this;
     }
 
@@ -117,12 +114,13 @@ public class AlphaBetaChainBuilder {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
         }
-        if (withZobristTracker) {
-            zobristTracker = new ZobristTracker();
-        }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
+        if (withZobristTracker) {
+            zobristTracker = new ZobristTracker();
+        }
+
         alphaBeta.setMoveSorter(moveSorter);
     }
 
@@ -145,7 +143,6 @@ public class AlphaBetaChainBuilder {
         if (withTriangularPV) {
             smartListenerMediator.add(triangularPV);
         }
-
     }
 
 
@@ -154,42 +151,40 @@ public class AlphaBetaChainBuilder {
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
         AlphaBetaFilter tail = null;
-        if (zobristTracker != null) {
-            head = zobristTracker;
-            tail = zobristTracker;
-        }
-
 
         if (alphaBetaStatisticsExpected != null) {
-            if (head == null) {
-                head = alphaBetaStatisticsExpected;
-            }
-            if (tail instanceof ZobristTracker zobristTrackerTail) {
-                zobristTrackerTail.setNext(alphaBetaStatisticsExpected);
-            } else if (tail instanceof TranspositionTable transpositionTableTail) {
-                transpositionTableTail.setNext(alphaBetaStatisticsExpected);
-            }
+            head = alphaBetaStatisticsExpected;
             tail = alphaBetaStatisticsExpected;
         }
 
         if (head == null) {
             head = alphaBeta;
+        } else if (tail instanceof AlphaBetaStatisticsExpected) {
+            alphaBetaStatisticsExpected.setNext(alphaBeta);
         }
-        if (tail instanceof ZobristTracker zobristTrackerTail) {
-            zobristTrackerTail.setNext(alphaBeta);
-        } else if (tail instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpectedTail) {
-            alphaBetaStatisticsExpectedTail.setNext(alphaBeta);
-        }
+
         tail = alphaBeta;
 
+
+        if (zobristTracker != null) {
+            alphaBeta.setNext(zobristTracker);
+            tail = zobristTracker;
+        }
+
         if (alphaBetaStatisticsVisited != null) {
-            alphaBeta.setNext(alphaBetaStatisticsVisited);
+            if (tail instanceof AlphaBeta) {
+                alphaBeta.setNext(alphaBetaStatisticsVisited);
+            } else if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(alphaBetaStatisticsVisited);
+            }
             tail = alphaBetaStatisticsVisited;
         }
 
         if (triangularPV != null) {
             if (tail instanceof AlphaBeta) {
                 alphaBeta.setNext(triangularPV);
+            } else if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(triangularPV);
             } else if (tail instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(triangularPV);
             }
@@ -200,6 +195,8 @@ public class AlphaBetaChainBuilder {
         if (transpositionTable != null) {
             if (tail instanceof AlphaBeta) {
                 alphaBeta.setNext(transpositionTable);
+            } else if (tail instanceof ZobristTracker) {
+                zobristTracker.setNext(transpositionTable);
             } else if (tail instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(transpositionTable);
             } else if (tail instanceof TriangularPV) {
@@ -210,6 +207,8 @@ public class AlphaBetaChainBuilder {
 
         if (tail instanceof AlphaBeta) {
             alphaBeta.setNext(alphaBetaFlowControl);
+        } else if (tail instanceof ZobristTracker) {
+            zobristTracker.setNext(alphaBetaFlowControl);
         } else if (tail instanceof AlphaBetaStatisticsVisited) {
             alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
         } else if (tail instanceof TriangularPV) {
