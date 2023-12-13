@@ -2,12 +2,9 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -16,13 +13,13 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     private volatile boolean keepProcessing;
 
     @Setter
-    private GameEvaluator gameEvaluator;
+    private AlphaBetaFilter interiorNode;
 
     @Setter
-    private AlphaBetaFilter next;
+    private AlphaBetaFilter horizonNode;
 
     @Setter
-    private AlphaBetaFilter quiescence;
+    private AlphaBetaFilter terminalNode;
 
     private int maxPly;
     private Game game;
@@ -56,17 +53,16 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
-        if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
+
+        if (game.getStatus().isFinalStatus()) {
+            return terminalNode.maximize(currentPly, alpha, beta);
         }
+
         if (currentPly == maxPly) {
-            if (isCurrentPositionQuiet()) {
-                return TranspositionEntry.encode(gameEvaluator.evaluate());
-            } else {
-                return quiescence.maximize(currentPly, alpha, beta);
-            }
+            return horizonNode.maximize(currentPly, alpha, beta);
         }
-        return next.maximize(currentPly, alpha, beta);
+
+        return interiorNode.maximize(currentPly, alpha, beta);
     }
 
     @Override
@@ -74,21 +70,15 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
-        if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
-        }
-        if (currentPly == maxPly) {
-            if (isCurrentPositionQuiet()) {
-                return TranspositionEntry.encode(gameEvaluator.evaluate());
-            } else {
-                return quiescence.minimize(currentPly, alpha, beta);
-            }
-        }
-        return next.minimize(currentPly, alpha, beta);
-    }
 
-    private boolean isCurrentPositionQuiet() {
-        MoveContainerReader possibleMoves = game.getPossibleMoves();
-        return possibleMoves.hasQuietMoves();
+        if (game.getStatus().isFinalStatus()) {
+            return terminalNode.minimize(currentPly, alpha, beta);
+        }
+
+        if (currentPly == maxPly) {
+            return horizonNode.minimize(currentPly, alpha, beta);
+        }
+
+        return interiorNode.minimize(currentPly, alpha, beta);
     }
 }
