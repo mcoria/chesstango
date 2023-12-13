@@ -10,9 +10,7 @@ import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -43,6 +41,8 @@ public class AlphaBetaTest {
         evaluator = new GameMockEvaluator();
 
         AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaHorizon horizon = new AlphaBetaHorizon();
+        AlphaBetaTerminal terminal = new AlphaBetaTerminal();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
@@ -50,11 +50,16 @@ public class AlphaBetaTest {
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        alphaBetaFlowControl.setNext(alphaBeta);
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(evaluator);
+        horizon.setNext(terminal);
+
+        alphaBetaFlowControl.setTerminalNode(new AlphaBetaTerminal());
+        alphaBetaFlowControl.setHorizonNode(horizon);
+        alphaBetaFlowControl.setTerminalNode(terminal);
+        alphaBetaFlowControl.setInteriorNode(alphaBeta);
 
         quiescence.setGameEvaluator(evaluator);
+        terminal.setGameEvaluator(evaluator);
+        horizon.setGameEvaluator(evaluator);
 
         setupGameEvaluator.setGameEvaluator(evaluator);
 
@@ -63,7 +68,7 @@ public class AlphaBetaTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, horizon, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
     }
 
     @Test

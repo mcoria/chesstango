@@ -17,10 +17,11 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
     private volatile boolean keepProcessing;
 
     @Setter
-    private GameEvaluator gameEvaluator;
+    private AlphaBetaFilter leafNode;
 
     @Setter
-    private AlphaBetaFilter next;
+    private AlphaBetaFilter interiorNode;
+
     private Game game;
 
     @Override
@@ -43,15 +44,12 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
-        if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
+
+        if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
+            leafNode.maximize(currentPly, alpha, beta);
         }
 
-        if (isCurrentPositionQuiet()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
-        }
-
-        return next.maximize(currentPly, alpha, beta);
+        return interiorNode.maximize(currentPly, alpha, beta);
     }
 
     @Override
@@ -59,15 +57,12 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
         if (!keepProcessing) {
             throw new StopSearchingException();
         }
-        if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
+
+        if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
+            leafNode.minimize(currentPly, alpha, beta);
         }
 
-        if (isCurrentPositionQuiet()) {
-            return TranspositionEntry.encode(gameEvaluator.evaluate());
-        }
-
-        return next.minimize(currentPly, alpha, beta);
+        return interiorNode.minimize(currentPly, alpha, beta);
     }
 
     private boolean isCurrentPositionQuiet() {
