@@ -30,9 +30,8 @@ public class NegaMaxPruningGenericTest extends GenericTest {
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
-        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning);
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, smartListenerMediator);
         noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
 
         this.searchMove = noIterativeDeepening;
     }

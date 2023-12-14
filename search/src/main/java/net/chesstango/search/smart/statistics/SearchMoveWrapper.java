@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.statistics;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
@@ -10,6 +11,8 @@ import net.chesstango.search.ProgressListener;
  * @author Mauricio Coria
  */
 public class SearchMoveWrapper implements SearchMove {
+
+    @Getter
     private final SearchMove imp;
 
     public SearchMoveWrapper(SearchMove imp) {
@@ -40,4 +43,6 @@ public class SearchMoveWrapper implements SearchMove {
     public void setProgressListener(ProgressListener progressListener) {
         imp.setProgressListener(progressListener);
     }
+
+
 }

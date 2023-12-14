@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -16,7 +17,9 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+
     @Setter
+    @Getter
     private AlphaBetaFilter next;
 
     @Setter

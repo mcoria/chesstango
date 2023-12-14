@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -11,6 +12,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
+    @Getter
     private AlphaBetaFilter next;
     private int[] expectedNodesCounters;
     private Game game;

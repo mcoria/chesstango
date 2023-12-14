@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
@@ -19,16 +20,21 @@ import static net.chesstango.search.SearchParameter.SEARCH_PREDICATE;
 public class IterativeDeepening implements SearchMove {
     private volatile boolean keepProcessing;
     private volatile CountDownLatch countDownLatch;
+
+    @Getter
     private final SmartAlgorithm smartAlgorithm;
 
+    @Getter
+    private final SmartListenerMediator smartListenerMediator;
+
     @Setter
-    private SmartListenerMediator smartListenerMediator;
     private ProgressListener progressListener;
     private int maxDepth = Integer.MAX_VALUE;
     private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
 
-    public IterativeDeepening(SmartAlgorithm smartAlgorithm) {
+    public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
         this.smartAlgorithm = smartAlgorithm;
+        this.smartListenerMediator = smartListenerMediator;
     }
 
     @Override
@@ -108,8 +114,5 @@ public class IterativeDeepening implements SearchMove {
         }
     }
 
-    public void setProgressListener(ProgressListener progressListener) {
-        this.progressListener = progressListener;
-    }
 
 }

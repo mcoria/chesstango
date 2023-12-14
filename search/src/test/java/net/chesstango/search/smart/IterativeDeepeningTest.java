@@ -26,7 +26,7 @@ public class IterativeDeepeningTest {
     public void setup() {
         smart = new AlphaBetaFacade();
 
-        iterativeDeepening = new IterativeDeepening(smart);
+        iterativeDeepening = new IterativeDeepening(smart, null);
     }
 
     @Test

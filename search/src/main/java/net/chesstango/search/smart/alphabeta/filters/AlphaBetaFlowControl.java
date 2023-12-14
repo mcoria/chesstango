@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
@@ -13,12 +14,15 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     private volatile boolean keepProcessing;
 
     @Setter
+    @Getter
     private AlphaBetaFilter interiorNode;
 
     @Setter
+    @Getter
     private AlphaBetaFilter horizonNode;
 
     @Setter
+    @Getter
     private AlphaBetaFilter terminalNode;
 
     private int maxPly;

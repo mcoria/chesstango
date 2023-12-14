@@ -32,8 +32,7 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
-        IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning);
-        iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning, smartListenerMediator);
 
         this.searchMove = iterativeDeepening;
     }

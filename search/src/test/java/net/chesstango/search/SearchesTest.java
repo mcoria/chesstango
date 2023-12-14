@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private SearchMove searchMove;
     private SearchMoveResult searchResult;
 
@@ -44,6 +44,8 @@ public class SearchesTest {
                 .withStatistics()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
+
+                .withPrintChain()
 
                 .build();
     }

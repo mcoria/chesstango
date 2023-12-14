@@ -4,9 +4,6 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class QuiescenceLeafChainBuilder {
-    private final AlphaBetaTerminal leaf;
+    private final AlphaBetaEvaluation leaf;
     private GameEvaluator gameEvaluator;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
@@ -25,7 +22,7 @@ public class QuiescenceLeafChainBuilder {
 
 
     public QuiescenceLeafChainBuilder() {
-        leaf = new AlphaBetaTerminal();
+        leaf = new AlphaBetaEvaluation();
     }
 
     public QuiescenceLeafChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -112,7 +109,7 @@ public class QuiescenceLeafChainBuilder {
                 zobristQTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTableQ) {
                 transpositionTableQ.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaTerminal) {
+            } else if (currentFilter instanceof AlphaBetaEvaluation) {
                 //leaf
             } else {
                 throw new RuntimeException("filter not found");

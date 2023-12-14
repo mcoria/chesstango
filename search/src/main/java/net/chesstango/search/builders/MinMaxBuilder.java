@@ -4,6 +4,7 @@ import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.minmax.MinMax;
 
 /**
@@ -28,6 +29,6 @@ public class MinMaxBuilder implements SearchBuilder {
     public SearchMove build() {
         MinMax minMax = new MinMax();
         minMax.setGameEvaluator(gameEvaluator);
-        return new NoIterativeDeepening(minMax);
+        return new NoIterativeDeepening(minMax, new SmartListenerMediator());
     }
 }

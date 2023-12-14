@@ -47,6 +47,14 @@ public class SmartListenerMediator {
     }
 
     public void add(SmartListener listener) {
+
+        if (searchByCycleListeners.contains(listener) ||
+                searchByDepthListeners.contains(listener) ||
+                stopSearchingListeners.contains(listener) ||
+                resetListeners.contains(listener)) {
+            throw new RuntimeException(String.format("Listener already added %s", listener));
+        }
+
         if (listener instanceof SearchByCycleListener searchByCycleListener) {
             searchByCycleListeners.add(searchByCycleListener);
         }
