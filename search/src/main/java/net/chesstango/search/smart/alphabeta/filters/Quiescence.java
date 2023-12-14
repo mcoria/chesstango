@@ -22,9 +22,11 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     private AlphaBetaFilter next;
 
     @Setter
+    @Getter
     private MoveSorter moveSorter;
 
     @Setter
+    @Getter
     private GameEvaluator gameEvaluator;
     private Game game;
 

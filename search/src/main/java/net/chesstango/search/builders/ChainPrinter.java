@@ -140,7 +140,7 @@ public class ChainPrinter {
     }
 
     private void printChainQuiescence(Quiescence quiescence, int nestedChain) {
-        printNodeObjectText(quiescence, nestedChain);
+        printChainText(String.format("%s [%s, %s]", nodeObjectText(quiescence), nodeObjectText(quiescence.getGameEvaluator()), nodeObjectText(quiescence.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescence.getNext(), nestedChain);
     }
@@ -162,12 +162,12 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBetaTerminal(AlphaBetaEvaluation alphaBetaEvaluation, int nestedChain) {
-        printChainText( String.format("%s [%s]", nodeObjectText(alphaBetaEvaluation), nodeObjectText(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
+        printChainText(String.format("%s [%s]", nodeObjectText(alphaBetaEvaluation), nodeObjectText(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
         printChainText("", nestedChain);
     }
 
     private void printChainAlphaBeta(AlphaBeta alphaBeta, int nestedChain) {
-        printNodeObjectText(alphaBeta, nestedChain);
+        printChainText(String.format("%s [%s]", nodeObjectText(alphaBeta), nodeObjectText(alphaBeta.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
     }
