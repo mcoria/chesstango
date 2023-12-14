@@ -147,8 +147,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withZobristTracker() {
         withZobristTracker = true;
+
         alphaBetaRootChainBuilder.withZobristTracker();
         alphaBetaInteriorChainBuilder.withZobristTracker();
+        alphaBetaTerminalChainBuilder.withZobristTracker();
+        alphaBetaHorizonChainBuilder.withZobristTracker();
+
         quiescenceChainBuilder.withZobristTracker();
         return this;
     }

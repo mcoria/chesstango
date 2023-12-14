@@ -102,6 +102,8 @@ public class ChainPrinter {
                 printChainQuiescenceStatisticsVisited(quiescenceStatisticsVisited, nestedChain);
             } else if (alphaBetaFilter instanceof QuiescenceFlowControl quiescenceFlowControl) {
                 printChainQuiescenceFlowControl(quiescenceFlowControl, nestedChain);
+            } else if (alphaBetaFilter instanceof ZobristTracker zobristTracker) {
+                printChainZobristTracker(zobristTracker, nestedChain);
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
@@ -115,6 +117,7 @@ public class ChainPrinter {
             }
         }
     }
+
 
     private void printChainQuiescenceFlowControl(QuiescenceFlowControl quiescenceFlowControl, int nestedChain) {
         printNodeObjectText(quiescenceFlowControl, nestedChain);
@@ -137,6 +140,12 @@ public class ChainPrinter {
         printNodeObjectText(quiescenceStatisticsVisited, nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescenceStatisticsVisited.getNext(), nestedChain);
+    }
+
+    private void printChainZobristTracker(ZobristTracker zobristTracker, int nestedChain) {
+        printNodeObjectText(zobristTracker, nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(zobristTracker.getNext(), nestedChain);
     }
 
     private void printChainQuiescence(Quiescence quiescence, int nestedChain) {
