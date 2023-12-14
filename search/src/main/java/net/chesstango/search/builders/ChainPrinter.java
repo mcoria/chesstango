@@ -40,6 +40,7 @@ public class ChainPrinter {
     private void printChainNoIterativeDeepening(NoIterativeDeepening noIterativeDeepening) {
         printNodeObjectText(noIterativeDeepening, 0);
         printChainDownLine(0);
+        printChainSmartAlgorithm(noIterativeDeepening.getSmartAlgorithm());
     }
 
     private void printChainIterativeDeepening(IterativeDeepening iterativeDeepening) {
@@ -87,8 +88,8 @@ public class ChainPrinter {
                 printChainAlphaBeta(alphaBeta, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaFlowControl alphaBetaFlowControl) {
                 printChainAlphaBetaFlowControl(alphaBetaFlowControl, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaTerminal alphaBetaTerminal) {
-                printChainAlphaBetaTerminal(alphaBetaTerminal, nestedChain);
+            } else if (alphaBetaFilter instanceof AlphaBetaEvaluation alphaBetaEvaluation) {
+                printChainAlphaBetaTerminal(alphaBetaEvaluation, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaHorizon alphaBetaHorizon) {
                 printChainAlphaBetaHorizon(alphaBetaHorizon, nestedChain);
             } else if (alphaBetaFilter instanceof TranspositionTableQ transpositionTableQ) {
@@ -160,8 +161,8 @@ public class ChainPrinter {
         printChainAlphaBetaFilter(alphaBetaHorizon.getQuiescence(), nestedChainLevelDown);
     }
 
-    private void printChainAlphaBetaTerminal(AlphaBetaTerminal alphaBetaTerminal, int nestedChain) {
-        printNodeObjectText(alphaBetaTerminal, nestedChain);
+    private void printChainAlphaBetaTerminal(AlphaBetaEvaluation alphaBetaEvaluation, int nestedChain) {
+        printChainText( String.format("%s [%s]", nodeObjectText(alphaBetaEvaluation), nodeObjectText(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
         printChainText("", nestedChain);
     }
 

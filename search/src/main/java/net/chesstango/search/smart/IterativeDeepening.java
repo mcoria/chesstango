@@ -24,16 +24,17 @@ public class IterativeDeepening implements SearchMove {
     @Getter
     private final SmartAlgorithm smartAlgorithm;
 
-    @Setter
-    private SmartListenerMediator smartListenerMediator;
+    @Getter
+    private final SmartListenerMediator smartListenerMediator;
 
     @Setter
     private ProgressListener progressListener;
     private int maxDepth = Integer.MAX_VALUE;
     private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
 
-    public IterativeDeepening(SmartAlgorithm smartAlgorithm) {
+    public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
         this.smartAlgorithm = smartAlgorithm;
+        this.smartListenerMediator = smartListenerMediator;
     }
 
     @Override

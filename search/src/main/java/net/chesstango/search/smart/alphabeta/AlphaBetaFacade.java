@@ -20,9 +20,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
     @Setter
     @Getter
     private AlphaBetaFilter alphaBetaFilter;
-
     private Game game;
-
 
     @Override
     public MoveEvaluation search() {

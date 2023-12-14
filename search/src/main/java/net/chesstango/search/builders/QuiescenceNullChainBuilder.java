@@ -4,7 +4,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaTerminal;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class QuiescenceNullChainBuilder {
-    private final AlphaBetaTerminal alphaBetaTerminal;
+    private final AlphaBetaEvaluation alphaBetaEvaluation;
     private GameEvaluator gameEvaluator;
     private ZobristTracker zobristTracker;
     private SmartListenerMediator smartListenerMediator;
@@ -22,7 +22,7 @@ public class QuiescenceNullChainBuilder {
     private boolean withZobristTracker;
 
     public QuiescenceNullChainBuilder() {
-        alphaBetaTerminal = new AlphaBetaTerminal();
+        alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
     public QuiescenceNullChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -54,7 +54,7 @@ public class QuiescenceNullChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaTerminal.setGameEvaluator(gameEvaluator);
+        alphaBetaEvaluation.setGameEvaluator(gameEvaluator);
 
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
@@ -76,7 +76,7 @@ public class QuiescenceNullChainBuilder {
             chain.add(zobristTracker);
         }
 
-        chain.add(alphaBetaTerminal);
+        chain.add(alphaBetaEvaluation);
 
         for (int i = 0; i < chain.size() - 1; i++) {
             AlphaBetaFilter currentFilter = chain.get(i);

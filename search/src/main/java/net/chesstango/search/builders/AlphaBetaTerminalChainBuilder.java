@@ -11,7 +11,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaTerminalChainBuilder {
-    private final AlphaBetaTerminal alphaBetaTerminal;
+    private final AlphaBetaEvaluation alphaBetaEvaluation;
     private GameEvaluator gameEvaluator;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
@@ -20,7 +20,7 @@ public class AlphaBetaTerminalChainBuilder {
     private boolean withZobristTracker;
 
     public AlphaBetaTerminalChainBuilder() {
-        alphaBetaTerminal = new AlphaBetaTerminal();
+        alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
     public AlphaBetaTerminalChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -57,7 +57,7 @@ public class AlphaBetaTerminalChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaTerminal.setGameEvaluator(gameEvaluator);
+        alphaBetaEvaluation.setGameEvaluator(gameEvaluator);
 
 
         if (withZobristTracker) {
@@ -90,7 +90,7 @@ public class AlphaBetaTerminalChainBuilder {
             chain.add(transpositionTable);
         }
 
-        chain.add(alphaBetaTerminal);
+        chain.add(alphaBetaEvaluation);
 
         for (int i = 0; i < chain.size() - 1; i++) {
             AlphaBetaFilter currentFilter = chain.get(i);

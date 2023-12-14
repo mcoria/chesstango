@@ -181,13 +181,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         SearchMove searchMove;
 
         if (withIterativeDeepening) {
-            IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade);
-            iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+            IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
 
             searchMove = iterativeDeepening;
         } else {
-            NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(alphaBetaFacade);
-            noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+            NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
 
             searchMove = noIterativeDeepening;
         }
@@ -280,7 +278,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private AlphaBetaFilter createChain() {
         setupGameEvaluator.setGameEvaluator(gameEvaluator);
-
 
         AlphaBetaFilter quiescenceChain;
         if (withQuiescence) {

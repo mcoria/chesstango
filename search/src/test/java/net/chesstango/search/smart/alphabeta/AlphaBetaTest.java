@@ -42,7 +42,7 @@ public class AlphaBetaTest {
 
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaHorizon horizon = new AlphaBetaHorizon();
-        AlphaBetaTerminal terminal = new AlphaBetaTerminal();
+        AlphaBetaEvaluation terminal = new AlphaBetaEvaluation();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
         SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
@@ -52,7 +52,7 @@ public class AlphaBetaTest {
 
         horizon.setQuiescence(terminal);
 
-        alphaBetaFlowControl.setTerminalNode(new AlphaBetaTerminal());
+        alphaBetaFlowControl.setTerminalNode(new AlphaBetaEvaluation());
         alphaBetaFlowControl.setHorizonNode(horizon);
         alphaBetaFlowControl.setTerminalNode(terminal);
         alphaBetaFlowControl.setInteriorNode(alphaBeta);
