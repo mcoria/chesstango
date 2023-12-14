@@ -15,15 +15,12 @@ import java.util.List;
  */
 public class AlphaBetaInteriorChainBuilder {
     private final AlphaBeta alphaBeta;
-    private final AlphaBetaFlowControl alphaBetaFlowControl;
-    private AlphaBetaFilter terminal;
-    private AlphaBetaFilter horizon;
     private MoveSorter moveSorter;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
-    private TriangularPV triangularPV;
+    private AlphaBetaFlowControl alphaBetaFlowControl;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -32,8 +29,6 @@ public class AlphaBetaInteriorChainBuilder {
         alphaBeta = new AlphaBeta();
 
         moveSorter = new DefaultMoveSorter();
-
-        alphaBetaFlowControl = new AlphaBetaFlowControl();
     }
 
     public AlphaBetaInteriorChainBuilder withStatistics() {
@@ -69,15 +64,11 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withTerminal(AlphaBetaFilter terminalChain) {
-        this.terminal = terminalChain;
+    public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+        this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withHorizon(AlphaBetaFilter alphaBetaHorizon) {
-        this.horizon = alphaBetaHorizon;
-        return this;
-    }
 
 
     /**
@@ -106,7 +97,6 @@ public class AlphaBetaInteriorChainBuilder {
     private void setupListenerMediator() {
         smartListenerMediator.add(moveSorter);
         smartListenerMediator.add(alphaBeta);
-        smartListenerMediator.add(alphaBetaFlowControl);
 
         // =============  alphaBeta setup =====================
         if (withStatistics) {
@@ -166,10 +156,6 @@ public class AlphaBetaInteriorChainBuilder {
                 throw new RuntimeException("filter not found");
             }
         }
-
-        alphaBetaFlowControl.setHorizonNode(horizon);
-        alphaBetaFlowControl.setTerminalNode(terminal);
-        alphaBetaFlowControl.setInteriorNode(chain.get(0));
 
 
         return chain.get(0);

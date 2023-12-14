@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     @Setter
+    @Getter
     private AlphaBetaFilter next;
 
     @Setter

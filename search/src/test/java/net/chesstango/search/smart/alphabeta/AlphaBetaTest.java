@@ -50,7 +50,7 @@ public class AlphaBetaTest {
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        horizon.setNext(terminal);
+        horizon.setQuiescence(terminal);
 
         alphaBetaFlowControl.setTerminalNode(new AlphaBetaTerminal());
         alphaBetaFlowControl.setHorizonNode(horizon);

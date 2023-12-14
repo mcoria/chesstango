@@ -1,15 +1,20 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 /**
  * @author Mauricio Coria
  */
 public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+
+    @Setter
+    @Getter
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
     private int maxPly;
@@ -43,11 +48,6 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     public long minimize(final int currentPly, final int alpha, final int beta) {
         updateCounters(currentPly);
         return next.minimize(currentPly, alpha, beta);
-    }
-
-
-    public void setNext(AlphaBetaFilter next) {
-        this.next = next;
     }
 
     protected void updateCounters(final int currentPly) {

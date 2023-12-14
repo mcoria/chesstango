@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -17,6 +18,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
+    @Getter
     private AlphaBetaFilter alphaBetaFilter;
 
     private Game game;

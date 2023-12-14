@@ -13,11 +13,7 @@ import java.util.List;
  */
 public class AlphaBetaRootChainBuilder {
     private final AlphaBetaRoot alphaBetaRoot;
-    private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final MoveEvaluationTracker moveEvaluationTracker;
-    private AlphaBetaFilter terminal;
-    private AlphaBetaFilter interior;
-    private AlphaBetaFilter horizon;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private StopProcessingCatch stopProcessingCatch;
@@ -31,13 +27,13 @@ public class AlphaBetaRootChainBuilder {
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
+    private AlphaBetaFilter alphaBetaFlowControl;
 
     public AlphaBetaRootChainBuilder() {
         alphaBetaRoot = new AlphaBetaRoot();
 
         moveEvaluationTracker = new MoveEvaluationTracker();
 
-        alphaBetaFlowControl = new AlphaBetaFlowControl();
     }
 
 
@@ -57,13 +53,8 @@ public class AlphaBetaRootChainBuilder {
     }
 
 
-    public AlphaBetaRootChainBuilder withInterior(AlphaBetaFilter alphaBeta) {
-        this.interior = alphaBeta;
-        return this;
-    }
-
-    public AlphaBetaRootChainBuilder withHorizon(AlphaBetaFilter horizon) {
-        this.horizon = horizon;
+    public AlphaBetaRootChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+        this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
 
@@ -83,11 +74,6 @@ public class AlphaBetaRootChainBuilder {
 
     public AlphaBetaRootChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
-        return this;
-    }
-
-    public AlphaBetaRootChainBuilder withTerminal(AlphaBetaFilter terminal) {
-        this.terminal = terminal;
         return this;
     }
 
@@ -125,7 +111,6 @@ public class AlphaBetaRootChainBuilder {
     private void setupListenerMediator() {
         smartListenerMediator.add(alphaBetaRoot);
         smartListenerMediator.add(moveEvaluationTracker);
-        smartListenerMediator.add(alphaBetaFlowControl);
 
 
         if (withStatistics) {
@@ -176,11 +161,12 @@ public class AlphaBetaRootChainBuilder {
         }
 
         chain.add(alphaBetaRoot);
-        chain.add(moveEvaluationTracker);
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
         }
+
+        chain.add(moveEvaluationTracker);
 
         chain.add(alphaBetaFlowControl);
 
@@ -209,10 +195,6 @@ public class AlphaBetaRootChainBuilder {
                 throw new RuntimeException("filter not found");
             }
         }
-
-        alphaBetaFlowControl.setInteriorNode(interior);
-        alphaBetaFlowControl.setHorizonNode(horizon);
-        alphaBetaFlowControl.setTerminalNode(terminal);
 
         return chain.get(0);
     }

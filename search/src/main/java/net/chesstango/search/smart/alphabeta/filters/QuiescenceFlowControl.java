@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -17,9 +18,11 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
     private volatile boolean keepProcessing;
 
     @Setter
+    @Getter
     private AlphaBetaFilter leafNode;
 
     @Setter
+    @Getter
     private AlphaBetaFilter interiorNode;
 
     private Game game;

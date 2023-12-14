@@ -111,7 +111,7 @@ public class AlphaBetaHorizonChainBuilder {
             } else if (currentFilter instanceof TranspositionTable) {
                 transpositionTable.setNext(next);
             } else if (currentFilter instanceof AlphaBetaHorizon) {
-                alphaBetaHorizon.setNext(next);
+                alphaBetaHorizon.setQuiescence(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

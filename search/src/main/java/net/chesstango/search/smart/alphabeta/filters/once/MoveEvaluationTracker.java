@@ -22,6 +22,7 @@ import java.util.Objects;
  */
 public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
+    @Getter
     private AlphaBetaFilter next;
 
     @Setter

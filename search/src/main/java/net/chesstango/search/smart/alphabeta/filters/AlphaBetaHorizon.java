@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -14,7 +15,8 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class AlphaBetaHorizon implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
-    private AlphaBetaFilter next;
+    @Getter
+    private AlphaBetaFilter quiescence;
 
     @Setter
     private GameEvaluator gameEvaluator;
@@ -36,7 +38,7 @@ public class AlphaBetaHorizon implements AlphaBetaFilter, SearchByCycleListener 
         if (isCurrentPositionQuiet()) {
             return TranspositionEntry.encode(gameEvaluator.evaluate());
         } else {
-            return next.maximize(currentPly, alpha, beta);
+            return quiescence.maximize(currentPly, alpha, beta);
         }
     }
 
@@ -45,7 +47,7 @@ public class AlphaBetaHorizon implements AlphaBetaFilter, SearchByCycleListener 
         if (isCurrentPositionQuiet()) {
             return TranspositionEntry.encode(gameEvaluator.evaluate());
         } else {
-            return next.minimize(currentPly, alpha, beta);
+            return quiescence.minimize(currentPly, alpha, beta);
         }
     }
 
