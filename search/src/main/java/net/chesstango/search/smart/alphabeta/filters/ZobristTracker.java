@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.ChessPositionReader;
@@ -17,6 +18,7 @@ import java.util.Objects;
  */
 public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     @Setter
+    @Getter
     private AlphaBetaFilter next;
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;

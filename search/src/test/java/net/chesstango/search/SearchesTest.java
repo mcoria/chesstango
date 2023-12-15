@@ -42,6 +42,7 @@ public class SearchesTest {
                 //.withTriangularPV()
 
                 .withStatistics()
+                .withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
 
