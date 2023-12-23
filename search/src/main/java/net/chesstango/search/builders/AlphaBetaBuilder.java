@@ -12,8 +12,9 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
+import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
-import net.chesstango.search.smart.statistics.SearchMoveWrapper;
+import net.chesstango.search.SearchMoveGameWrapper;
 
 /**
  * @author Mauricio Corias
@@ -147,8 +148,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withZobristTracker() {
         withZobristTracker = true;
+
         alphaBetaRootChainBuilder.withZobristTracker();
         alphaBetaInteriorChainBuilder.withZobristTracker();
+        alphaBetaTerminalChainBuilder.withZobristTracker();
+        alphaBetaHorizonChainBuilder.withZobristTracker();
+
         quiescenceChainBuilder.withZobristTracker();
         return this;
     }
@@ -181,17 +186,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
         SearchMove searchMove;
 
         if (withIterativeDeepening) {
-            IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
-
-            searchMove = iterativeDeepening;
+            searchMove = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
         } else {
-            NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
-
-            searchMove = noIterativeDeepening;
+            searchMove = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveWrapper(searchMove);
+            searchMove = new SearchMoveGameWrapper(searchMove, GameStatistics::new);
         }
 
         if (withPrintChain) {

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import lombok.Getter;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -10,12 +11,16 @@ import java.util.List;
  */
 public class SmartListenerMediator {
 
+    @Getter
     private List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
+    @Getter
     private List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
+    @Getter
     private List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
+    @Getter
     private List<ResetListener> resetListeners = new LinkedList<>();
 
 
