@@ -205,6 +205,15 @@ public class EpdSearchMainTest {
     }
 
     @Test
+    @Disabled
+    public void test_40H_10021() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - bm Qe5-f6+; ce +M3; pv Qe5-f6+ Rd7-e7 Qf6-f8+ Re7-e8 Qf8-d6+; id \"10021\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+    @Test
     public void test_40H_10255() {
         epdSearch.setDepth(6);
         EPDEntry epdEntry = epdReader.readEdpLine("5r2/ppbqn2k/7B/2p1p2p/P1NpP1P1/3P4/1PP2r2/R1Q1K1R1 b Q - bm Qd7xg4; ce -M3; pv Qd7xg4 Rg1xg4 Rf2-f1+ Ke1-e2 Rf8-f2+; id \"10255\";");

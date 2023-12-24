@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.ArrayTTable;
+import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
