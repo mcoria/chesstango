@@ -1,10 +1,11 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.move;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.move.SANEncoder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

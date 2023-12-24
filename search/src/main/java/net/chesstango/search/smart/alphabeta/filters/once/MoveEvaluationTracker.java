@@ -6,14 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +17,10 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+
     @Setter
+    @Getter
     private AlphaBetaFilter next;
 
     @Setter
@@ -40,22 +38,15 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        //System.out.printf("Searching DEPTH = %d\n", context.getMaxPly());
         currentMoveEvaluations = new LinkedList<>();
     }
 
+    @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
-        //System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
+    @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
-        /*
-        currentMoveEvaluations.stream()
-                .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
-                .forEach(System.out::println);
-        System.out.printf("------------\n");
-         */
-
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
                 //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);
@@ -64,19 +55,13 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
             /**
              * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva
              */
-            currentMoveEvaluations.clear();
+            currentMoveEvaluations = new LinkedList<>();
         }
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        /*
-        System.out.printf("After Search By Depth\n");
-        currentMoveEvaluations.stream()
-                .sorted(Comparator.comparingInt(MoveEvaluation::evaluation))
-                .forEach(System.out::println);
-        System.out.printf("------------\n");
-        */
+        result.setMoveEvaluations(currentMoveEvaluations);
 
         int bestValue = result.getEvaluation();
         List<Move> bestMoves = currentMoveEvaluations.stream()
@@ -84,7 +69,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
                 .map(MoveEvaluation::move)
                 .toList();
 
-        result.setMoveEvaluations(currentMoveEvaluations);
         result.setBestMoves(bestMoves);
     }
 

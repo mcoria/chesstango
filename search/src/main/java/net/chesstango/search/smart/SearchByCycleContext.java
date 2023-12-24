@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.transposition.TTable;
 
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class SearchByCycleContext {
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
+
+    private PrintStream debugOut;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

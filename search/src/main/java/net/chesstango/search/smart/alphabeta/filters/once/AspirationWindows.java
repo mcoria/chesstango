@@ -1,11 +1,9 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -16,11 +14,13 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+
     @Setter
+    @Getter
     private AlphaBetaFilter next;
 
     @Setter
-    private MoveEvaluationTracker moveEvaluationTracker;
+    private SmartListenerMediator smartListenerMediator;
 
     private Integer lastBestValue;
 
@@ -36,12 +36,10 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     @Override
     public void afterSearch() {
-
     }
 
 
@@ -68,12 +66,10 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
         long bestMoveAndValue;
         int bestValue;
 
-        //System.out.printf("MaxPly = %d alphaCycle=%d betaCycle=%d\n", maxPly, alphaCycle, betaCycle);
         int alphaCycle = 1;
         int betaCycle = 1;
         do {
-
-            moveEvaluationTracker.beforeSearchByWindows(alphaBound, betaBound);
+            smartListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound);
 
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 
@@ -97,10 +93,8 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
                 search = false;
             }
 
-            moveEvaluationTracker.afterSearchByWindows(!search);
+            smartListenerMediator.triggerAfterSearchByWindows(!search);
         } while (search);
-
-        //System.out.printf("\n\n");
 
         return bestMoveAndValue;
     }

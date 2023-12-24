@@ -4,35 +4,41 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
-import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 import net.chesstango.search.smart.alphabeta.listeners.*;
+import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
-import net.chesstango.search.smart.statistics.SearchMoveWrapper;
 
 /**
- * @author Mauricio Coria
+ * @author Mauricio Corias
  */
 public class AlphaBetaBuilder implements SearchBuilder {
-    private final AlphaBetaFirstChainBuilder alphaBetaFirstChainBuilder;
-    private final AlphaBetaChainBuilder alphaBetaChainBuilder;
+    private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
+    private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
+    private final AlphaBetaTerminalChainBuilder alphaBetaTerminalChainBuilder;
+    private final AlphaBetaHorizonChainBuilder alphaBetaHorizonChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
+    private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
+    private final SetGameEvaluator setGameEvaluator;
+    private final AlphaBetaFacade alphaBetaFacade;
+    private final SmartListenerMediator smartListenerMediator;
+    private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
-    private SetupGameEvaluator setupGameEvaluator;
     private SetTrianglePV setTrianglePV;
-    private SmartListenerMediator smartListenerMediator;
-    private AlphaBetaFacade alphaBetaFacade;
     private SetContext setContext;
     private SetZobristMemory setZobristMemory;
+    private SetDebugSearchTree setDebugSearchTree;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -42,12 +48,23 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withGameEvaluatorCache;
     private boolean withTriangularPV;
     private boolean withZobristTracker;
-
+    private boolean withQuiescence;
+    private boolean withPrintChain;
+    private boolean withDebugSearchTree;
 
     public AlphaBetaBuilder() {
-        alphaBetaFirstChainBuilder = new AlphaBetaFirstChainBuilder();
-        alphaBetaChainBuilder = new AlphaBetaChainBuilder();
+        alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
+        alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
+        alphaBetaTerminalChainBuilder = new AlphaBetaTerminalChainBuilder();
+        alphaBetaHorizonChainBuilder = new AlphaBetaHorizonChainBuilder();
+
         quiescenceChainBuilder = new QuiescenceChainBuilder();
+        quiescenceNullChainBuilder = new QuiescenceNullChainBuilder();
+
+        alphaBetaFacade = new AlphaBetaFacade();
+        setGameEvaluator = new SetGameEvaluator();
+        smartListenerMediator = new SmartListenerMediator();
+        alphaBetaFlowControl = new AlphaBetaFlowControl();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -69,32 +86,35 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQuiescence() {
-        quiescenceChainBuilder.withQuiescence();
+        this.withQuiescence = true;
         return this;
     }
 
     public AlphaBetaBuilder withStatistics() {
         this.withStatistics = true;
+        alphaBetaRootChainBuilder.withStatistics();
+        alphaBetaInteriorChainBuilder.withStatistics();
+
         quiescenceChainBuilder.withStatistics();
-        alphaBetaChainBuilder.withStatistics();
-        alphaBetaFirstChainBuilder.withStatistics();
         return this;
     }
 
     public AlphaBetaBuilder withTranspositionTable() {
         withTranspositionTable = true;
-        alphaBetaFirstChainBuilder.withTranspositionTable();
-        alphaBetaChainBuilder.withTranspositionTable();
+        alphaBetaRootChainBuilder.withTranspositionTable();
+        alphaBetaInteriorChainBuilder.withTranspositionTable();
+        alphaBetaTerminalChainBuilder.withTranspositionTable();
+        alphaBetaHorizonChainBuilder.withTranspositionTable();
+        return this;
+    }
+
+    public AlphaBetaBuilder withTranspositionMoveSorter() {
+        alphaBetaInteriorChainBuilder.withTranspositionMoveSorter();
         return this;
     }
 
     public AlphaBetaBuilder withQTranspositionTable() {
         quiescenceChainBuilder.withTranspositionTable();
-        return this;
-    }
-
-    public AlphaBetaBuilder withTranspositionMoveSorter() {
-        alphaBetaChainBuilder.withTranspositionMoveSorter();
         return this;
     }
 
@@ -104,7 +124,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withStopProcessingCatch() {
-        alphaBetaFirstChainBuilder.withStopProcessingCatch();
+        alphaBetaRootChainBuilder.withStopProcessingCatch();
         return this;
     }
 
@@ -129,22 +149,39 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withZobristTracker() {
         withZobristTracker = true;
-        alphaBetaFirstChainBuilder.withZobristTracker();
-        alphaBetaChainBuilder.withZobristTracker();
+
+        alphaBetaRootChainBuilder.withZobristTracker();
+        alphaBetaInteriorChainBuilder.withZobristTracker();
+        alphaBetaTerminalChainBuilder.withZobristTracker();
+        alphaBetaHorizonChainBuilder.withZobristTracker();
+
         quiescenceChainBuilder.withZobristTracker();
         return this;
     }
 
     public AlphaBetaBuilder withAspirationWindows() {
-        alphaBetaFirstChainBuilder.withAspirationWindows();
+        alphaBetaRootChainBuilder.withAspirationWindows();
         return this;
     }
 
     public AlphaBetaBuilder withTriangularPV() {
         withTriangularPV = true;
-        alphaBetaFirstChainBuilder.withTriangularPV();
-        alphaBetaChainBuilder.withTriangularPV();
-        quiescenceChainBuilder.withTriangularPV();
+        alphaBetaRootChainBuilder.withTriangularPV();
+        alphaBetaInteriorChainBuilder.withTriangularPV();
+        return this;
+    }
+
+    public AlphaBetaBuilder withPrintChain() {
+        this.withPrintChain = true;
+        return this;
+    }
+
+    public AlphaBetaBuilder withDebugSearchTree() {
+        alphaBetaRootChainBuilder.withDebugSearchTree();
+        alphaBetaInteriorChainBuilder.withDebugSearchTree();
+
+        quiescenceChainBuilder.withDebugSearchTree();
+        this.withDebugSearchTree = true;
         return this;
     }
 
@@ -159,27 +196,23 @@ public class AlphaBetaBuilder implements SearchBuilder {
         SearchMove searchMove;
 
         if (withIterativeDeepening) {
-            IterativeDeepening iterativeDeepening = new IterativeDeepening(alphaBetaFacade);
-            iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-
-            searchMove = iterativeDeepening;
+            searchMove = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
         } else {
-            NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(alphaBetaFacade);
-            noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-
-            searchMove = noIterativeDeepening;
+            searchMove = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveWrapper(searchMove);
+            searchMove = new SearchMoveGameWrapper(searchMove, GameStatistics::new);
+        }
+
+        if (withPrintChain) {
+            new ChainPrinter().printChain(searchMove);
         }
 
         return searchMove;
     }
 
     private void buildObjects() {
-        smartListenerMediator = new SmartListenerMediator();
-
         if (withGameEvaluatorCache) {
             gameEvaluator = new GameEvaluatorCache(gameEvaluator);
         }
@@ -214,9 +247,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setZobristMemory = new SetZobristMemory();
         }
 
-        setupGameEvaluator = new SetupGameEvaluator();
+        if (withDebugSearchTree) {
+            setDebugSearchTree = new SetDebugSearchTree();
+        }
 
-        alphaBetaFacade = new AlphaBetaFacade();
     }
 
 
@@ -250,32 +284,57 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(evaluatorStatistics);
         }
 
-        smartListenerMediator.add(setupGameEvaluator);
+        if (setDebugSearchTree != null) {
+            smartListenerMediator.add(setDebugSearchTree);
+        }
+
+        smartListenerMediator.add(setGameEvaluator);
 
         smartListenerMediator.add(alphaBetaFacade);
+
+        smartListenerMediator.add(alphaBetaFlowControl);
     }
 
 
     private AlphaBetaFilter createChain() {
-        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+        setGameEvaluator.setGameEvaluator(gameEvaluator);
 
-        quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
-        quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
-        AlphaBetaFilter quiescenceChain = quiescenceChainBuilder.build();
+        AlphaBetaFilter quiescenceChain;
+        if (withQuiescence) {
+            quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
+            quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceChain = quiescenceChainBuilder.build();
+        } else {
+            quiescenceNullChainBuilder.withSmartListenerMediator(smartListenerMediator);
+            quiescenceNullChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceChain = quiescenceNullChainBuilder.build();
+        }
+
+        alphaBetaTerminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        alphaBetaTerminalChainBuilder.withGameEvaluator(gameEvaluator);
+        AlphaBetaFilter terminalChain = alphaBetaTerminalChainBuilder.build();
 
 
-        alphaBetaChainBuilder.withSmartListenerMediator(smartListenerMediator);
-        alphaBetaChainBuilder.withGameEvaluator(gameEvaluator);
-        alphaBetaChainBuilder.withQuiescence(quiescenceChain);
-        AlphaBetaFilter alphaBetaChain = alphaBetaChainBuilder.build();
+        alphaBetaHorizonChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        alphaBetaHorizonChainBuilder.withGameEvaluator(gameEvaluator);
+        alphaBetaHorizonChainBuilder.withQuiescence(quiescenceChain);
+        AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
 
-        alphaBetaFirstChainBuilder.withSmartListenerMediator(smartListenerMediator);
-        alphaBetaFirstChainBuilder.withGameEvaluator(gameEvaluator);
-        alphaBetaFirstChainBuilder.withNext(alphaBetaChain);
-        alphaBetaFirstChainBuilder.withQuiescence(quiescenceChain);
 
-        return alphaBetaFirstChainBuilder.build();
+        alphaBetaInteriorChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
+
+        alphaBetaFlowControl.setHorizonNode(horizonChain);
+        alphaBetaFlowControl.setInteriorNode(interiorChain);
+        alphaBetaFlowControl.setTerminalNode(terminalChain);
+
+        alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+
+        return alphaBetaRootChainBuilder.build();
     }
 
 
 }
+

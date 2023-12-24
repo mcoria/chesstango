@@ -1,7 +1,7 @@
 package net.chesstango;
 
-import net.chesstango.board.representations.SANDecoderTest;
-import net.chesstango.board.representations.SANEncoderTest;
+import net.chesstango.board.representations.move.SANDecoderTest;
+import net.chesstango.board.representations.move.SANEncoderTest;
 import net.chesstango.board.representations.TranscodingTest;
 import net.chesstango.board.representations.ascii.ASCIIEncoderTest;
 import net.chesstango.board.representations.fen.FENDecoderTest;

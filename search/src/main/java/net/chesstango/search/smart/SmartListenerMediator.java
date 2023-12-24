@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import lombok.Getter;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -10,12 +11,19 @@ import java.util.List;
  */
 public class SmartListenerMediator {
 
+    @Getter
     private List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
+    @Getter
     private List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
+    @Getter
+    private List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
+
+    @Getter
     private List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
+    @Getter
     private List<ResetListener> resetListeners = new LinkedList<>();
 
 
@@ -33,10 +41,19 @@ public class SmartListenerMediator {
         searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
     }
 
-
     public void triggerAfterSearchByDepth(SearchMoveResult result) {
         searchByDepthListeners.forEach(filter -> filter.afterSearchByDepth(result));
     }
+
+
+    public void triggerBeforeSearchByWindows(int alphaBound, int betaBound) {
+        searchByWindowsListeners.forEach(filter -> filter.beforeSearchByWindows(alphaBound, betaBound));
+    }
+
+    public void triggerAfterSearchByWindows(boolean searchByWindowsFinished) {
+        searchByWindowsListeners.forEach(filter -> filter.afterSearchByWindows(searchByWindowsFinished));
+    }
+
 
     public void triggerStopSearching() {
         stopSearchingListeners.forEach(StopSearchingListener::stopSearching);
@@ -47,12 +64,25 @@ public class SmartListenerMediator {
     }
 
     public void add(SmartListener listener) {
+
+        if (searchByCycleListeners.contains(listener) ||
+                searchByDepthListeners.contains(listener) ||
+                searchByWindowsListeners.contains(listener) ||
+                stopSearchingListeners.contains(listener) ||
+                resetListeners.contains(listener)) {
+            throw new RuntimeException(String.format("Listener already added %s", listener));
+        }
+
         if (listener instanceof SearchByCycleListener searchByCycleListener) {
             searchByCycleListeners.add(searchByCycleListener);
         }
 
         if (listener instanceof SearchByDepthListener searchByDepthListener) {
             searchByDepthListeners.add(searchByDepthListener);
+        }
+
+        if (listener instanceof SearchByWindowsListener searchByWindowsListener) {
+            searchByWindowsListeners.add(searchByWindowsListener);
         }
 
         if (listener instanceof StopSearchingListener stopSearchingListener) {

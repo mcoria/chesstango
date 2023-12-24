@@ -6,20 +6,13 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,64 +23,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class DetectCycleEnabledTest {
 
-    private AlphaBetaFacade alphaBetaFacade;
-
-    private SmartListenerMediator smartListenerMediator;
-
     private EvaluatorByCondition evaluator;
+    private SearchMove searchMove;
 
     @BeforeEach
     public void setup() {
         evaluator = new EvaluatorByCondition();
         evaluator.setDefaultValue(0);
 
-        // FILTERS START
-        MoveSorter moveSorter = new DefaultMoveSorter();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(evaluator);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
-        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
-        TranspositionTable transpositionTable = new TranspositionTable();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
-
-        transpositionTable.setNext(alphaBetaStatisticsExpected);
-
-        alphaBetaStatisticsExpected.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaStatisticsVisited);
-        alphaBeta.setMoveSorter(moveSorter);
-
-        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
-
-        alphaBetaFlowControl.setNext(transpositionTable);
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(evaluator);
-
-        quiescence.setGameEvaluator(evaluator);
-
-        setupGameEvaluator.setGameEvaluator(evaluator);
-
-        this.smartListenerMediator = new SmartListenerMediator();
-
-        this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-
-        this.smartListenerMediator.addAll(Arrays.asList(
-                new SetTranspositionTables(),
-                new SetNodeStatistics(),
-                alphaBeta,
-                alphaBetaStatisticsExpected,
-                alphaBetaStatisticsVisited,
-                quiescence,
-                transpositionTable,
-                moveSorter,
-                alphaBetaFlowControl,
-                setupGameEvaluator,
-                alphaBetaFacade));
+        this.searchMove = new AlphaBetaBuilder()
+                .withGameEvaluator(evaluator)
+                .withTranspositionTable()
+                .withStatistics()
+                .build();
     }
 
 
@@ -137,15 +86,12 @@ public class DetectCycleEnabledTest {
         });
 
 
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
-
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 23);
         SearchMoveResult searchResult = searchMove
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(3, searchResult.getEvaluation());
+        assertEquals(1, searchResult.getEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -165,19 +111,19 @@ public class DetectCycleEnabledTest {
         assertEquals(31, visitedNodesCounters[10]);
         assertEquals(42, visitedNodesCounters[11]);
         assertEquals(45, visitedNodesCounters[12]);
-        assertEquals(63, visitedNodesCounters[13]);
-        assertEquals(44, visitedNodesCounters[14]);
-        assertEquals(56, visitedNodesCounters[15]);
-        assertEquals(60, visitedNodesCounters[16]);
-        assertEquals(73, visitedNodesCounters[17]);
-        assertEquals(67, visitedNodesCounters[18]);
-        assertEquals(73, visitedNodesCounters[19]);
-        assertEquals(87, visitedNodesCounters[20]);
-        assertEquals(89, visitedNodesCounters[21]);
+        assertEquals(64, visitedNodesCounters[13]);
+        assertEquals(49, visitedNodesCounters[14]);
+        assertEquals(53, visitedNodesCounters[15]);
+        assertEquals(51, visitedNodesCounters[16]);
+        assertEquals(57, visitedNodesCounters[17]);
+        assertEquals(56, visitedNodesCounters[18]);
+        assertEquals(66, visitedNodesCounters[19]);
+        assertEquals(61, visitedNodesCounters[20]);
+        assertEquals(67, visitedNodesCounters[21]);
         assertEquals(42, visitedNodesCounters[22]);
         assertEquals(0, visitedNodesCounters[23]);
 
-        assertEquals(981, visitedNodesTotal);
+        assertEquals(893, visitedNodesTotal);
     }
 
 
@@ -194,10 +140,6 @@ public class DetectCycleEnabledTest {
                 default -> null;
             };
         });
-
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 17);
         SearchMoveResult searchResult = searchMove
@@ -217,20 +159,20 @@ public class DetectCycleEnabledTest {
         assertEquals(6, visitedNodesCounters[3]);
         assertEquals(8, visitedNodesCounters[4]);
         assertEquals(9, visitedNodesCounters[5]);
-        assertEquals(10, visitedNodesCounters[6]);
-        assertEquals(9, visitedNodesCounters[7]);
-        assertEquals(10, visitedNodesCounters[8]);
-        assertEquals(11, visitedNodesCounters[9]);
-        assertEquals(13, visitedNodesCounters[10]);
+        assertEquals(11, visitedNodesCounters[6]);
+        assertEquals(12, visitedNodesCounters[7]);
+        assertEquals(14, visitedNodesCounters[8]);
+        assertEquals(15, visitedNodesCounters[9]);
+        assertEquals(15, visitedNodesCounters[10]);
         assertEquals(15, visitedNodesCounters[11]);
-        assertEquals(10, visitedNodesCounters[12]);
-        assertEquals(12, visitedNodesCounters[13]);
-        assertEquals(14, visitedNodesCounters[14]);
-        assertEquals(11, visitedNodesCounters[15]);
-        assertEquals(10, visitedNodesCounters[16]);
+        assertEquals(14, visitedNodesCounters[12]);
+        assertEquals(14, visitedNodesCounters[13]);
+        assertEquals(17, visitedNodesCounters[14]);
+        assertEquals(19, visitedNodesCounters[15]);
+        assertEquals(11, visitedNodesCounters[16]);
         assertEquals(0, visitedNodesCounters[17]);
 
-        assertEquals(158, visitedNodesTotal);
+        assertEquals(190, visitedNodesTotal);
     }
 
     @Test
@@ -246,10 +188,6 @@ public class DetectCycleEnabledTest {
                 default -> null;
             };
         });
-
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
         SearchMoveResult searchResult = searchMove
@@ -284,9 +222,6 @@ public class DetectCycleEnabledTest {
                 default -> null;
             };
         });
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchMoveResult searchResult = searchMove

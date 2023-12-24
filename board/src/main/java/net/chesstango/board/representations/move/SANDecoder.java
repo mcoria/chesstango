@@ -1,4 +1,4 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.move;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;

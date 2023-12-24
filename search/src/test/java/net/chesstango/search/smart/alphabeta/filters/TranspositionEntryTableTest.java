@@ -6,18 +6,8 @@ import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.NodesReport;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionPV;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -119,107 +109,18 @@ public class TranspositionEntryTableTest {
     private SearchMove createSearchWithoutTT() {
         EvaluatorStatistics gameEvaluator = new EvaluatorStatistics(new EvaluatorSEandImp02());
 
-        MoveSorter moveSorter = new DefaultMoveSorter();
-
-        QuiescenceNull quiescenceNull = new QuiescenceNull();
-        quiescenceNull.setGameEvaluator(gameEvaluator);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
-        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
-        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
-        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
-
-        alphaBetaStatisticsExpected.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaStatisticsVisited);
-        alphaBeta.setMoveSorter(moveSorter);
-
-        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
-
-        alphaBetaFlowControl.setNext(alphaBetaStatisticsExpected);
-        alphaBetaFlowControl.setQuiescence(quiescenceNull);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        setupGameEvaluator.setGameEvaluator(gameEvaluator);
-
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-
-        smartListenerMediator.addAll(Arrays.asList(
-                new SetTranspositionTables(),
-                new SetNodeStatistics(),
-                alphaBeta,
-                alphaBetaStatisticsExpected,
-                alphaBetaStatisticsVisited,
-                quiescenceNull,
-                moveSorter,
-                gameEvaluator,
-                alphaBetaFlowControl,
-                setupGameEvaluator,
-                minMaxPruning));
-
-        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(minMaxPruning);
-        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-
-        return noIterativeDeepening;
+        return new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluator)
+                .build();
     }
 
     private SearchMove createSearchWithTT() {
         EvaluatorStatistics gameEvaluator = new EvaluatorStatistics(new EvaluatorSEandImp02());
 
-        MoveSorter moveSorter = new TranspositionMoveSorter();
-
-        QuiescenceNull quiescenceNull = new QuiescenceNull();
-        quiescenceNull.setGameEvaluator(gameEvaluator);
-
-        AlphaBeta alphaBeta = new AlphaBeta();
-        TranspositionTable transpositionTable = new TranspositionTable();
-        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
-        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
-        AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
-        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
-
-        transpositionTable.setNext(alphaBetaStatisticsExpected);
-
-        alphaBetaStatisticsExpected.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaStatisticsVisited);
-        alphaBeta.setMoveSorter(moveSorter);
-
-        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
-
-        alphaBetaFlowControl.setNext(transpositionTable);
-        alphaBetaFlowControl.setQuiescence(quiescenceNull);
-        alphaBetaFlowControl.setGameEvaluator(gameEvaluator);
-
-        setupGameEvaluator.setGameEvaluator(gameEvaluator);
-
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-
-        AlphaBetaFacade minMaxPruning = new AlphaBetaFacade();
-        minMaxPruning.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-
-        smartListenerMediator.addAll(Arrays.asList(
-                new SetTranspositionTables(),
-                new SetNodeStatistics(),
-                alphaBeta,
-                transpositionTable,
-                alphaBetaStatisticsExpected,
-                alphaBetaStatisticsVisited,
-                quiescenceNull,
-                moveSorter,
-                gameEvaluator,
-                new SetTranspositionPV(),
-                alphaBetaFlowControl,
-                setupGameEvaluator,
-                minMaxPruning));
-
-        IterativeDeepening iterativeDeepening = new IterativeDeepening(minMaxPruning);
-        iterativeDeepening.setSmartListenerMediator(smartListenerMediator);
-
-        return iterativeDeepening;
+        return new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluator)
+                .withTranspositionTable()
+                .withTranspositionMoveSorter()
+                .build();
     }
 }

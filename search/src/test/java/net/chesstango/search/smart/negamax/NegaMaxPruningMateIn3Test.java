@@ -30,8 +30,7 @@ public class NegaMaxPruningMateIn3Test extends MateIn3Test {
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
-        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning);
-        noIterativeDeepening.setSmartListenerMediator(smartListenerMediator);
+        NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, smartListenerMediator);
         noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH,5);
 
         this.searchMove = noIterativeDeepening;

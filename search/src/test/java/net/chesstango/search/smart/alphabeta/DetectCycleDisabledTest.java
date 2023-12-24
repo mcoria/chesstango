@@ -6,20 +6,14 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,56 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class DetectCycleDisabledTest {
 
-    private AlphaBetaFacade alphaBetaFacade;
-
-    private SmartListenerMediator smartListenerMediator;
     private EvaluatorByCondition evaluator;
+    private SearchMove searchMove;
 
     @BeforeEach
     public void setup() {
         evaluator = new EvaluatorByCondition();
         evaluator.setDefaultValue(0);
 
-        // FILTERS START
-        MoveSorter moveSorter = new DefaultMoveSorter();
 
-        QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(evaluator);
-
-        AlphaBetaStatisticsExpected alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
-        AlphaBetaStatisticsVisited alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
-        AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaFlowControl alphaBetaFlowControl =  new AlphaBetaFlowControl();
-        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
-
-        alphaBetaStatisticsExpected.setNext(alphaBeta);
-
-        alphaBeta.setNext(alphaBetaStatisticsVisited);
-        alphaBeta.setMoveSorter(moveSorter);
-
-        alphaBetaStatisticsVisited.setNext(alphaBetaFlowControl);
-
-        alphaBetaFlowControl.setNext(alphaBetaStatisticsExpected);
-        alphaBetaFlowControl.setQuiescence(quiescence);
-        alphaBetaFlowControl.setGameEvaluator(evaluator);
-
-        setupGameEvaluator.setGameEvaluator(evaluator);
-
-        this.smartListenerMediator = new SmartListenerMediator();
-
-        this.alphaBetaFacade = new AlphaBetaFacade();
-        this.alphaBetaFacade.setAlphaBetaFilter(alphaBetaStatisticsExpected);
-
-        this.smartListenerMediator.addAll(Arrays.asList(
-                new SetNodeStatistics(),
-                alphaBeta,
-                alphaBetaStatisticsExpected,
-                alphaBetaStatisticsVisited,
-                quiescence,
-                moveSorter,
-                alphaBetaFlowControl,
-                setupGameEvaluator,
-                alphaBetaFacade));
+        this.searchMove = new AlphaBetaBuilder()
+                .withGameEvaluator(evaluator)
+                .withStatistics()
+                .build();
     }
 
 
@@ -129,8 +86,6 @@ public class DetectCycleDisabledTest {
             };
         });
 
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 23);
         SearchMoveResult searchResult = searchMove
@@ -188,9 +143,6 @@ public class DetectCycleDisabledTest {
         });
 
 
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
-
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 17);
         SearchMoveResult searchResult = searchMove
                 .search(game);
@@ -222,7 +174,6 @@ public class DetectCycleDisabledTest {
         assertEquals(694, visitedNodesCounters[16]);
         assertEquals(0, visitedNodesCounters[17]);
 
-
         assertEquals(2642, visitedNodesTotal);
     }
 
@@ -239,10 +190,6 @@ public class DetectCycleDisabledTest {
                 default -> null;
             };
         });
-
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
         SearchMoveResult searchResult = searchMove
@@ -277,9 +224,6 @@ public class DetectCycleDisabledTest {
                 default -> null;
             };
         });
-
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(alphaBetaFacade);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchMoveResult searchResult = searchMove

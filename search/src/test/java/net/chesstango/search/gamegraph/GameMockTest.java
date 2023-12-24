@@ -31,8 +31,7 @@ public class GameMockTest {
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.add(minMax);
 
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax);
-        searchMove.setSmartListenerMediator(smartListenerMediator);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchMoveResult searchResult = searchMove.search(game);

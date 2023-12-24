@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private SearchMove searchMove;
     private SearchMoveResult searchResult;
 
@@ -31,19 +31,23 @@ public class SearchesTest {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
                 //.withTriangularPV()
 
                 .withStatistics()
+                //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
+
+                .withPrintChain()
+                .withDebugSearchTree()
 
                 .build();
     }
@@ -94,7 +98,7 @@ public class SearchesTest {
     public void testSearch_02() {
         Game game = FENDecoder.loadGame("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
         searchResult = searchMove.search(game);
     }
 
