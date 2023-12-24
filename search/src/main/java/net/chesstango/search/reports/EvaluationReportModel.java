@@ -1,6 +1,7 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statistics.EvaluationEntry;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
@@ -96,10 +97,11 @@ public class EvaluationReportModel {
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
         Move bestMove = searchMoveResult.getBestMove();
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
         reportModelDetail.id = searchMoveResult.getEpdID();
-        reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
+        reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
         reportModelDetail.bestMovesCounter = searchMoveResult.getBestMovesCounter();
 

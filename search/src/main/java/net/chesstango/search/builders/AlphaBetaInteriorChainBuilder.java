@@ -21,9 +21,11 @@ public class AlphaBetaInteriorChainBuilder {
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
+    private DebugTree debugTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
+    private boolean withDebugSearchTree;
 
     public AlphaBetaInteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -69,7 +71,11 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
-
+    public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
+        this.debugTree = new DebugTree();
+        this.withDebugSearchTree = true;
+        return this;
+    }
 
     /**
      * @return
@@ -90,6 +96,9 @@ public class AlphaBetaInteriorChainBuilder {
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
+        if (withDebugSearchTree) {
+            debugTree = new DebugTree();
+        }
 
         alphaBeta.setMoveSorter(moveSorter);
     }
@@ -98,7 +107,6 @@ public class AlphaBetaInteriorChainBuilder {
         smartListenerMediator.add(moveSorter);
         smartListenerMediator.add(alphaBeta);
 
-        // =============  alphaBeta setup =====================
         if (withStatistics) {
             smartListenerMediator.add(alphaBetaStatisticsExpected);
             smartListenerMediator.add(alphaBetaStatisticsVisited);
@@ -108,6 +116,9 @@ public class AlphaBetaInteriorChainBuilder {
         }
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
+        }
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
         }
     }
 
@@ -134,6 +145,9 @@ public class AlphaBetaInteriorChainBuilder {
             chain.add(alphaBetaStatisticsVisited);
         }
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
 
         chain.add(alphaBetaFlowControl);
 
@@ -152,6 +166,8 @@ public class AlphaBetaInteriorChainBuilder {
                 alphaBeta.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugTree.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
-import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.slf4j.Logger;

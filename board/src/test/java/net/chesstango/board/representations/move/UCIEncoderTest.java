@@ -1,4 +1,4 @@
-package net.chesstango.uci.protocol;
+package net.chesstango.board.representations.move;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  */
 public class UCIEncoderTest {
-    private UCIEncoder encoder;
+    private SimpleMoveEncoder encoder;
 
     private MoveFactory moveFactoryWhite;
 
     @BeforeEach
     public void setup(){
-        encoder = new UCIEncoder();
+        encoder = new SimpleMoveEncoder();
         moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
     }
 

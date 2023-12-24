@@ -29,24 +29,25 @@ public class SearchesTest {
                 .withGameEvaluator(new DefaultEvaluator())
                 //.withGameEvaluatorCache()
 
-                .withQuiescence()
+                //.withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
-                .withAspirationWindows()
+                //.withAspirationWindows()
                 //.withTriangularPV()
 
                 .withStatistics()
-                .withZobristTracker()
+                //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
 
                 .withPrintChain()
+                .withDebugSearchTree()
 
                 .build();
     }

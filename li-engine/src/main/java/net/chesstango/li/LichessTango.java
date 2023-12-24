@@ -5,10 +5,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,8 @@ import java.util.stream.Stream;
  */
 public class LichessTango implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(LichessTango.class);
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
@@ -45,7 +47,7 @@ public class LichessTango implements Runnable {
                 StringBuilder pvString = new StringBuilder();
                 List<Move> pv = searchResult.getPrincipalVariation();
                 for (Move move : pv) {
-                    pvString.append(String.format("%s ", UCIEncoder.encode(move)));
+                    pvString.append(simpleMoveEncoder.encode(move));
                 }
 
                 logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d", searchResult.getDepth()), String.format("%8d", searchResult.getEvaluation()), pvString);
@@ -53,7 +55,7 @@ public class LichessTango implements Runnable {
 
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
-                String moveUci = UCIEncoder.encode(searchResult.getBestMove());
+                String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
                 logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
             }

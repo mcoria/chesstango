@@ -4,6 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -14,7 +15,6 @@ import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
-import net.chesstango.search.SearchMoveGameWrapper;
 
 /**
  * @author Mauricio Corias
@@ -38,6 +38,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTrianglePV setTrianglePV;
     private SetContext setContext;
     private SetZobristMemory setZobristMemory;
+    private SetDebugSearchTree setDebugSearchTree;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -49,7 +50,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withPrintChain;
-
+    private boolean withDebugSearchTree;
 
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
@@ -175,6 +176,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withDebugSearchTree() {
+        alphaBetaRootChainBuilder.withDebugSearchTree();
+        alphaBetaInteriorChainBuilder.withDebugSearchTree();
+
+        quiescenceChainBuilder.withDebugSearchTree();
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
     @Override
     public SearchMove build() {
         buildObjects();
@@ -236,6 +246,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withZobristTracker) {
             setZobristMemory = new SetZobristMemory();
         }
+
+        if (withDebugSearchTree) {
+            setDebugSearchTree = new SetDebugSearchTree();
+        }
+
     }
 
 
@@ -267,6 +282,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             smartListenerMediator.add(evaluatorStatistics);
+        }
+
+        if (setDebugSearchTree != null) {
+            smartListenerMediator.add(setDebugSearchTree);
         }
 
         smartListenerMediator.add(setupGameEvaluator);

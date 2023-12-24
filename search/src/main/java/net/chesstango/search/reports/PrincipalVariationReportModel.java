@@ -1,6 +1,7 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -42,10 +43,11 @@ public class PrincipalVariationReportModel {
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
         PrincipalVariationReportModelDetail reportModelDetail = new PrincipalVariationReportModelDetail();
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
-        reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
+        reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
         reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
@@ -53,14 +55,14 @@ public class PrincipalVariationReportModel {
     }
 
 
-
     private static String getPrincipalVariation(List<Move> principalVariation) {
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
         if (principalVariation == null) {
             return "-";
         } else {
             StringBuilder sb = new StringBuilder();
             for (Move move : principalVariation) {
-                sb.append(String.format("%s ", String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare())));
+                sb.append(simpleMoveEncoder.encode(move));
             }
             return sb.toString();
         }

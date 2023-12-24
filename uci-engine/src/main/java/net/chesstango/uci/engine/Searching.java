@@ -1,9 +1,9 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -15,6 +15,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 class Searching implements UCIEngine, SearchListener {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final UciTango uciTango;
 
     protected Searching(UciTango uciTango) {
@@ -65,7 +66,7 @@ class Searching implements UCIEngine, SearchListener {
         StringBuilder sb = new StringBuilder();
         List<Move> pv = searchMoveResult.getPrincipalVariation();
         for (Move move : pv) {
-            sb.append(String.format("%s ", UCIEncoder.encode(move)));
+            sb.append(simpleMoveEncoder.encode(move));
         }
 
         String infoStr = String.format("depth %d seldepth %d pv %s", searchMoveResult.getDepth(), searchMoveResult.getDepth(), sb);
@@ -76,7 +77,7 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void searchFinished(SearchMoveResult searchResult) {
-        String selectedMoveStr = UCIEncoder.encode(searchResult.getBestMove());
+        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
 
         synchronized (uciTango.engineExecutor) {
             uciTango.reply(new RspBestMove(selectedMoveStr));
