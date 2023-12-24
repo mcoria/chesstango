@@ -9,11 +9,15 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.io.PrintStream;
+
 /**
  * @author Mauricio Coria
  */
 public class DebugTree implements AlphaBetaFilter, SearchByCycleListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
+    private PrintStream debugOut;
 
     private Game game;
 
@@ -24,6 +28,7 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener {
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.debugOut = context.getDebugOut();
     }
 
     @Override
@@ -43,18 +48,18 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     private long debugSearch(int currentPly, int alpha, int beta, AlphaBetaFunction fn, String fnString) {
-        System.out.print("\n");
+        debugOut.print("\n");
 
         Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
-        System.out.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(currentPly - 1), simpleMoveEncoder.encode(currentMove), fnString, alpha, beta);
+        debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(currentPly), simpleMoveEncoder.encode(currentMove), fnString, alpha, beta);
 
         long result = fn.search(currentPly, alpha, beta);
 
         int currentValue = TranspositionEntry.decodeValue(result);
 
-        System.out.print("\n");
-        System.out.printf("%s%s value=%d", ">\t".repeat(currentPly - 1), simpleMoveEncoder.encode(currentMove), currentValue);
+        debugOut.print("\n");
+        debugOut.printf("%s%s value=%d", ">\t".repeat(currentPly), simpleMoveEncoder.encode(currentMove), currentValue);
 
         return result;
     }

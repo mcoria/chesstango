@@ -100,7 +100,7 @@ public class AlphaBetaRootChainBuilder {
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
-            aspirationWindows.setMoveEvaluationTracker(moveEvaluationTracker);
+            aspirationWindows.setSmartListenerMediator(smartListenerMediator);
         }
 
         if (withTranspositionTable) {

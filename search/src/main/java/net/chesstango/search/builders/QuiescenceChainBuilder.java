@@ -141,6 +141,7 @@ public class QuiescenceChainBuilder {
         }
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
+            smartListenerMediator.add(debugStandingPat);
         }
     }
 

@@ -11,7 +11,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.listeners.SetupGameEvaluator;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +45,7 @@ public class AlphaBetaTest {
         AlphaBetaEvaluation terminal = new AlphaBetaEvaluation();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
-        SetupGameEvaluator setupGameEvaluator = new SetupGameEvaluator();
+        SetGameEvaluator setGameEvaluator = new SetGameEvaluator();
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
@@ -61,14 +61,14 @@ public class AlphaBetaTest {
         terminal.setGameEvaluator(evaluator);
         horizon.setGameEvaluator(evaluator);
 
-        setupGameEvaluator.setGameEvaluator(evaluator);
+        setGameEvaluator.setGameEvaluator(evaluator);
 
         this.smartListenerMediator = new SmartListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, horizon, quiescence, moveSorter, alphaBetaFlowControl, setupGameEvaluator, alphaBetaFacade));
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, horizon, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
     }
 
     @Test

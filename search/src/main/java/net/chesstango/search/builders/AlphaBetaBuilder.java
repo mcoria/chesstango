@@ -26,7 +26,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaHorizonChainBuilder alphaBetaHorizonChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
-    private final SetupGameEvaluator setupGameEvaluator;
+    private final SetGameEvaluator setGameEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SmartListenerMediator smartListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
@@ -62,7 +62,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         quiescenceNullChainBuilder = new QuiescenceNullChainBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
-        setupGameEvaluator = new SetupGameEvaluator();
+        setGameEvaluator = new SetGameEvaluator();
         smartListenerMediator = new SmartListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
     }
@@ -288,7 +288,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(setDebugSearchTree);
         }
 
-        smartListenerMediator.add(setupGameEvaluator);
+        smartListenerMediator.add(setGameEvaluator);
 
         smartListenerMediator.add(alphaBetaFacade);
 
@@ -297,7 +297,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     private AlphaBetaFilter createChain() {
-        setupGameEvaluator.setGameEvaluator(gameEvaluator);
+        setGameEvaluator.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFilter quiescenceChain;
         if (withQuiescence) {
