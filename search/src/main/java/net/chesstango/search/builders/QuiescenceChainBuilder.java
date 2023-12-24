@@ -25,16 +25,19 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private TriangularPV triangularPV;
+    private DebugTree debugSearchTree;
+    private DebugStandingPat debugStandingPat;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withTranspositionMoveSorter;
+    private boolean withDebugSearchTree;
 
 
     public QuiescenceChainBuilder() {
-        quiescenceLeafChainBuilder = new QuiescenceLeafChainBuilder();
         quiescence = new Quiescence();
+        quiescenceLeafChainBuilder = new QuiescenceLeafChainBuilder();
         quiescenceFlowControl = new QuiescenceFlowControl();
     }
 
@@ -75,6 +78,11 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
 
     /**
      * <p>
@@ -107,8 +115,13 @@ public class QuiescenceChainBuilder {
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
         }
-        if(withTranspositionTable){
+        if (withTranspositionTable) {
             transpositionTableQ = new TranspositionTableQ();
+        }
+        if (withDebugSearchTree) {
+            this.debugSearchTree = new DebugTree();
+            this.debugStandingPat = new DebugStandingPat();
+            this.debugStandingPat.setGameEvaluator(gameEvaluator);
         }
     }
 
@@ -126,6 +139,10 @@ public class QuiescenceChainBuilder {
         if (transpositionTableQ != null) {
             smartListenerMediator.add(transpositionTableQ);
         }
+        if (debugSearchTree != null) {
+            smartListenerMediator.add(debugSearchTree);
+            smartListenerMediator.add(debugStandingPat);
+        }
     }
 
     private AlphaBetaFilter createChain() {
@@ -137,6 +154,9 @@ public class QuiescenceChainBuilder {
         if (transpositionTableQ != null) {
             chain.add(transpositionTableQ);
         }
+        if (debugStandingPat != null) {
+            chain.add(debugStandingPat);
+        }
         if (quiescenceStatisticsExpected != null) {
             chain.add(quiescenceStatisticsExpected);
         }
@@ -145,6 +165,11 @@ public class QuiescenceChainBuilder {
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
         }
+
+        if (debugSearchTree != null) {
+            chain.add(debugSearchTree);
+        }
+
         chain.add(quiescenceFlowControl);
 
 
@@ -162,6 +187,10 @@ public class QuiescenceChainBuilder {
                 quiescence.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugSearchTree.setNext(next);
+            } else if (currentFilter instanceof DebugStandingPat) {
+                debugStandingPat.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

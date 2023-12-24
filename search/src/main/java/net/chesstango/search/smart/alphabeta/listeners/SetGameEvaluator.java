@@ -8,7 +8,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 /**
  * @author Mauricio Coria
  */
-public class SetupGameEvaluator implements SearchByCycleListener {
+public class SetGameEvaluator implements SearchByCycleListener {
 
     @Setter
     private GameEvaluator gameEvaluator;

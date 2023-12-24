@@ -1,4 +1,4 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.move;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -33,7 +33,7 @@ public class SANEncoder {
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
         Piece piece = from.getPiece();
-        boolean capture = to.getPiece() == null ? false : true;
+        boolean capture = to.getPiece() != null;
 
         sb.append(getPieceCode(piece));
         sb.append(solvePieceAmbiguityFrom(move, possibleMoves));

@@ -6,10 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -20,7 +17,8 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+
     @Setter
     @Getter
     private AlphaBetaFilter next;
@@ -43,14 +41,12 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         currentMoveEvaluations = new LinkedList<>();
     }
 
+    @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound) {
-        //System.out.printf("Alpha=%d Beta=%d\n", alphaBound, betaBound);
     }
 
+    @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
-        //currentMoveEvaluations.stream().sorted(Comparator.comparingInt(MoveEvaluation::evaluation)).forEach(System.out::println);
-        //System.out.printf("------------\n");
-
         if (!searchByWindowsFinished) {
             if (Objects.nonNull(stopProcessingCatch)) {
                 //stopProcessingCatch.setCurrentMoveEvaluations(currentMoveEvaluations);

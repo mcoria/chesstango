@@ -18,6 +18,9 @@ public class SmartListenerMediator {
     private List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
     @Getter
+    private List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
+
+    @Getter
     private List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
     @Getter
@@ -38,10 +41,19 @@ public class SmartListenerMediator {
         searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
     }
 
-
     public void triggerAfterSearchByDepth(SearchMoveResult result) {
         searchByDepthListeners.forEach(filter -> filter.afterSearchByDepth(result));
     }
+
+
+    public void triggerBeforeSearchByWindows(int alphaBound, int betaBound) {
+        searchByWindowsListeners.forEach(filter -> filter.beforeSearchByWindows(alphaBound, betaBound));
+    }
+
+    public void triggerAfterSearchByWindows(boolean searchByWindowsFinished) {
+        searchByWindowsListeners.forEach(filter -> filter.afterSearchByWindows(searchByWindowsFinished));
+    }
+
 
     public void triggerStopSearching() {
         stopSearchingListeners.forEach(StopSearchingListener::stopSearching);
@@ -55,6 +67,7 @@ public class SmartListenerMediator {
 
         if (searchByCycleListeners.contains(listener) ||
                 searchByDepthListeners.contains(listener) ||
+                searchByWindowsListeners.contains(listener) ||
                 stopSearchingListeners.contains(listener) ||
                 resetListeners.contains(listener)) {
             throw new RuntimeException(String.format("Listener already added %s", listener));
@@ -66,6 +79,10 @@ public class SmartListenerMediator {
 
         if (listener instanceof SearchByDepthListener searchByDepthListener) {
             searchByDepthListeners.add(searchByDepthListener);
+        }
+
+        if (listener instanceof SearchByWindowsListener searchByWindowsListener) {
+            searchByWindowsListeners.add(searchByWindowsListener);
         }
 
         if (listener instanceof StopSearchingListener stopSearchingListener) {

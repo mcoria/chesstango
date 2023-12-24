@@ -21,19 +21,20 @@ public class AlphaBetaRootChainBuilder {
     private TranspositionTableRoot transpositionTableRoot;
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
-
+    private DebugTree debugTree;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
+    private boolean withDebugSearchTree;
+
     private AlphaBetaFilter alphaBetaFlowControl;
 
     public AlphaBetaRootChainBuilder() {
         alphaBetaRoot = new AlphaBetaRoot();
 
         moveEvaluationTracker = new MoveEvaluationTracker();
-
     }
 
 
@@ -77,6 +78,12 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
+    public AlphaBetaRootChainBuilder withDebugSearchTree() {
+        this.debugTree = new DebugTree();
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -93,7 +100,7 @@ public class AlphaBetaRootChainBuilder {
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
-            aspirationWindows.setMoveEvaluationTracker(moveEvaluationTracker);
+            aspirationWindows.setSmartListenerMediator(smartListenerMediator);
         }
 
         if (withTranspositionTable) {
@@ -102,6 +109,10 @@ public class AlphaBetaRootChainBuilder {
 
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
+        }
+
+        if (withDebugSearchTree) {
+            debugTree = new DebugTree();
         }
 
         moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
@@ -132,6 +143,10 @@ public class AlphaBetaRootChainBuilder {
 
         if (transpositionTableRoot != null) {
             smartListenerMediator.add(transpositionTableRoot);
+        }
+
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
         }
     }
 
@@ -168,6 +183,10 @@ public class AlphaBetaRootChainBuilder {
 
         chain.add(moveEvaluationTracker);
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
         chain.add(alphaBetaFlowControl);
 
 
@@ -191,6 +210,8 @@ public class AlphaBetaRootChainBuilder {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugTree.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }
