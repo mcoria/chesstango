@@ -4,9 +4,10 @@ package net.chesstango.search.smart.transposition;
  * @author Mauricio Coria
  */
 public interface TTable {
-    TranspositionEntry getForWrite(long hash);
 
-    TranspositionEntry getForRead(long hash);
+    TranspositionEntry read(long hash);
+
+    TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound);
 
     void clear();
 }
