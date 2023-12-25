@@ -3,6 +3,8 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Objects;
+
 /**
  * @author Mauricio Coria
  */
@@ -18,6 +20,6 @@ public class TranspositionTable extends TranspositionTableAbstract {
 
     @Override
     protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {
-        return entry.isStored(hash) && searchDepth <= entry.searchDepth;
+        return Objects.nonNull(entry) && entry.isStored(hash) && searchDepth <= entry.searchDepth;
     }
 }

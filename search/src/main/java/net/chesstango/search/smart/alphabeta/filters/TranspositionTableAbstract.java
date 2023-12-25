@@ -54,7 +54,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = maxMap.getForWrite(hash);
+        TranspositionEntry entry = maxMap.read(hash);
 
         if (isTranspositionEntryValid(entry, hash, searchDepth)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
@@ -70,9 +70,9 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
-        updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
+        updateEntry(maxMap, hash, searchDepth, alpha, beta, moveAndValue);
 
-        return entry.movesAndValue;
+        return moveAndValue;
     }
 
     @Override
@@ -81,7 +81,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = minMap.getForWrite(hash);
+        TranspositionEntry entry = minMap.read(hash);
 
         if (isTranspositionEntryValid(entry, hash, searchDepth)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
@@ -97,12 +97,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long moveAndValue = next.minimize(currentPly, alpha, beta);
 
-        updateEntry(entry, hash, searchDepth, alpha, beta, moveAndValue);
+        updateEntry(minMap, hash, searchDepth, alpha, beta, moveAndValue);
 
-        return entry.movesAndValue;
+        return moveAndValue;
     }
 
-    protected void updateEntry(TranspositionEntry entry, long hash, int depth, int alpha, int beta, long moveAndValue) {
+    protected void updateEntry(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
         int value = TranspositionEntry.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;
@@ -114,9 +114,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
             transpositionBound = TranspositionBound.EXACT;
         }
 
-        entry.hash = hash;
-        entry.searchDepth = depth;
-        entry.transpositionBound = transpositionBound;
-        entry.movesAndValue = moveAndValue;
+        table.write(hash, depth, moveAndValue, transpositionBound);
     }
 }

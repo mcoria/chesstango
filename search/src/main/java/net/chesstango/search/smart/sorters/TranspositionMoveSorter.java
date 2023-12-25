@@ -51,7 +51,7 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByDepthListene
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
-                maxMap.getForRead(hash) : minMap.getForRead(hash);
+                maxMap.read(hash) : minMap.read(hash);
 
         short bestMoveEncoded = 0;
         if (entry != null) {
@@ -70,7 +70,7 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByDepthListene
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
                 TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
-                        minMap.getForRead(zobristHashMove) : maxMap.getForRead(zobristHashMove);
+                        minMap.read(zobristHashMove) : maxMap.read(zobristHashMove);
 
                 if (moveEntry != null) {
                     int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
