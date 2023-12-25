@@ -31,14 +31,14 @@ public class SearchesTest {
 
                 .withQuiescence()
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
+                .withTranspositionTable()
+                .withQTranspositionTable()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
-                .withAspirationWindows()
+                //.withAspirationWindows()
                 //.withTriangularPV()
 
                 .withStatistics()

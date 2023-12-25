@@ -3,24 +3,27 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.ArrayTTable;
-import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 
 /**
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchByCycleListener, ResetListener, SearchByDepthListener {
-    private final TTable maxMap;
-    private final TTable minMap;
-    private final TTable qMaxMap;
-    private final TTable qMinMap;
-    private boolean reuseTranspositionTable;
+    protected final TTable maxMap;
+    protected final TTable minMap;
+    protected final TTable qMaxMap;
+    protected final TTable qMinMap;
+    protected boolean reuseTranspositionTable;
 
     public SetTranspositionTables() {
-        this.maxMap = new ArrayTTable();
-        this.minMap = new ArrayTTable();
-        this.qMaxMap = new ArrayTTable();
-        this.qMinMap = new ArrayTTable();
+        this.maxMap = createTTable();
+        this.minMap = createTTable();
+        this.qMaxMap = createTTable();
+        this.qMinMap = createTTable();
+    }
+
+    protected TTable createTTable() {
+        return new ArrayTTable();
     }
 
     @Override

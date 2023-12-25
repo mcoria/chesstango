@@ -32,6 +32,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
+    private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
@@ -223,7 +224,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            setTranspositionTables = new SetTranspositionTables();
+            if (withDebugSearchTree) {
+                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
+            } else {
+                setTranspositionTables = new SetTranspositionTables();
+            }
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
@@ -259,8 +264,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(setContext);
         }
 
-        if (setTranspositionTables != null) {
-            smartListenerMediator.add(setTranspositionTables);
+        if (withTranspositionTable) {
+            if (withDebugSearchTree) {
+                smartListenerMediator.add(setTranspositionTablesDebug);
+            } else {
+                smartListenerMediator.add(setTranspositionTables);
+            }
         }
 
         if (setZobristMemory != null) {
@@ -286,6 +295,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setDebugSearchTree != null) {
             smartListenerMediator.add(setDebugSearchTree);
+
+            if (setTranspositionTablesDebug != null) {
+                smartListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getMinMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            }
         }
 
         smartListenerMediator.add(setGameEvaluator);
