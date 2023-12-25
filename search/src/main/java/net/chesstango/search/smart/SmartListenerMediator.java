@@ -46,8 +46,8 @@ public class SmartListenerMediator {
     }
 
 
-    public void triggerBeforeSearchByWindows(int alphaBound, int betaBound) {
-        searchByWindowsListeners.forEach(filter -> filter.beforeSearchByWindows(alphaBound, betaBound));
+    public void triggerBeforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
+        searchByWindowsListeners.forEach(filter -> filter.beforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle));
     }
 
     public void triggerAfterSearchByWindows(boolean searchByWindowsFinished) {

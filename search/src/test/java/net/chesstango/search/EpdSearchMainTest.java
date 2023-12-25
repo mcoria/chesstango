@@ -289,6 +289,7 @@ public class EpdSearchMainTest {
                 .withStatistics()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
+                //.withDebugSearchTree()
 
                 .build();
     }
