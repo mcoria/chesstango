@@ -5,9 +5,9 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
@@ -53,11 +53,9 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = maxMap.getForWrite(hash);
+        updateEntry(maxMap, hash, maxPly, alpha, beta, moveAndValue);
 
-        updateEntry(entry, hash, maxPly, alpha, beta, moveAndValue);
-
-        return entry.movesAndValue;
+        return moveAndValue;
     }
 
     @Override
@@ -66,14 +64,12 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = minMap.getForWrite(hash);
+        updateEntry(minMap, hash, maxPly, alpha, beta, moveAndValue);
 
-        updateEntry(entry, hash, maxPly, alpha, beta, moveAndValue);
-
-        return entry.movesAndValue;
+        return moveAndValue;
     }
 
-    protected void updateEntry(TranspositionEntry entry, long hash, int depth, int alpha, int beta, long moveAndValue) {
+    protected void updateEntry(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
         int value = TranspositionEntry.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;
@@ -85,9 +81,6 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
             transpositionBound = TranspositionBound.EXACT;
         }
 
-        entry.hash = hash;
-        entry.searchDepth = depth;
-        entry.transpositionBound = transpositionBound;
-        entry.movesAndValue = moveAndValue;
+        table.write(hash, depth, moveAndValue, transpositionBound);
     }
 }

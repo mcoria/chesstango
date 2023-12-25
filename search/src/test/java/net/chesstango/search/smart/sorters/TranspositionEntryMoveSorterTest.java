@@ -9,6 +9,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,9 +52,11 @@ public class TranspositionEntryMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry tableEntry = maxMap.getForWrite(hash);
+        TranspositionEntry tableEntry = maxMap.read(hash);
 
-        updateTableEntry(hash, tableEntry, bestMove);
+        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
+
+        maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
 
         initMoveSorter(game);
 
@@ -79,12 +82,6 @@ public class TranspositionEntryMoveSorterTest {
         SearchByDepthContext context = new SearchByDepthContext(1);
 
         moveSorter.beforeSearchByDepth(context);
-    }
-
-    private void updateTableEntry(long hash, TranspositionEntry entry, Move bestMove) {
-        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
-        entry.hash = hash;
-        entry.movesAndValue = bestMoveAndValue;
     }
 
 }
