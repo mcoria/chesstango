@@ -56,6 +56,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     private long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         int alphaBound = alpha;
         int betaBound = beta;
+        int searchByWindowsCycle = 0;
 
         if (Objects.nonNull(lastBestValue)) {
             alphaBound = lastBestValue - diffBound(alpha, lastBestValue, 0);
@@ -69,7 +70,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
         int alphaCycle = 1;
         int betaCycle = 1;
         do {
-            smartListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound);
+            smartListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 

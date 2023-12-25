@@ -42,7 +42,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     }
 
     @Override
-    public void beforeSearchByWindows(int alphaBound, int betaBound) {
+    public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
     }
 
     @Override
