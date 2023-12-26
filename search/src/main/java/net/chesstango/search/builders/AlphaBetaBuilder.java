@@ -52,6 +52,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withQuiescence;
     private boolean withPrintChain;
     private boolean withDebugSearchTree;
+    private boolean withAspirationWindows;
 
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
@@ -162,6 +163,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withAspirationWindows() {
         alphaBetaRootChainBuilder.withAspirationWindows();
+        this.withAspirationWindows = true;
         return this;
     }
 
@@ -255,7 +257,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearchTree = new SetDebugSearchTree();
+            setDebugSearchTree = new SetDebugSearchTree(withAspirationWindows);
         }
 
     }

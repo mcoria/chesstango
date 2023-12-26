@@ -16,9 +16,11 @@ public class QuiescenceLeafChainBuilder {
     private GameEvaluator gameEvaluator;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
+    private DebugTree debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
+    private boolean withDebugSearchTree;
 
 
     public QuiescenceLeafChainBuilder() {
@@ -43,6 +45,11 @@ public class QuiescenceLeafChainBuilder {
 
     public QuiescenceLeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
+        return this;
+    }
+
+    public QuiescenceLeafChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
         return this;
     }
 
@@ -72,8 +79,13 @@ public class QuiescenceLeafChainBuilder {
             zobristQTracker = new ZobristTracker();
         }
 
-        if(withTranspositionTable){
+        if (withTranspositionTable) {
             transpositionTableQ = new TranspositionTableQ();
+        }
+
+        if (withDebugSearchTree) {
+            this.debugSearchTree = new DebugTree();
+            this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
 
@@ -83,6 +95,9 @@ public class QuiescenceLeafChainBuilder {
         }
         if (transpositionTableQ != null) {
             smartListenerMediator.add(transpositionTableQ);
+        }
+        if (debugSearchTree != null) {
+            smartListenerMediator.add(debugSearchTree);
         }
     }
 
@@ -109,6 +124,8 @@ public class QuiescenceLeafChainBuilder {
                 zobristQTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTableQ) {
                 transpositionTableQ.setNext(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugSearchTree.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {
                 //leaf
             } else {
@@ -119,5 +136,4 @@ public class QuiescenceLeafChainBuilder {
 
         return chain.get(0);
     }
-
 }

@@ -79,6 +79,7 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        quiescenceLeafChainBuilder.withDebugSearchTree();
         return this;
     }
 
@@ -118,7 +119,7 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree();
+            this.debugSearchTree = new DebugTree(true);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
@@ -145,6 +146,9 @@ public class QuiescenceChainBuilder {
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
+        if (debugSearchTree != null) {
+            chain.add(debugSearchTree);
+        }
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);
         }
@@ -155,13 +159,8 @@ public class QuiescenceChainBuilder {
             chain.add(quiescenceStatisticsExpected);
         }
         chain.add(quiescence);
-
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
-        }
-
-        if (debugSearchTree != null) {
-            chain.add(debugSearchTree);
         }
 
         chain.add(quiescenceFlowControl);

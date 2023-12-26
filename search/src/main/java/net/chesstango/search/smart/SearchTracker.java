@@ -56,7 +56,7 @@ public class SearchTracker {
     }
 
     public void reset() {
-        currentNodeTracker = new SearchNodeTracker();
+        currentNodeTracker = null;
     }
 
     public SearchNodeTracker getRootNode() {

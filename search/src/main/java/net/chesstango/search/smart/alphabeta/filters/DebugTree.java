@@ -27,6 +27,16 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
     private AlphaBetaFilter next;
     private int maxPly;
 
+    private final boolean skipHorizonPly;
+
+    public DebugTree() {
+        this(false);
+    }
+
+    public DebugTree(boolean skipHorizonPly) {
+        this.skipHorizonPly = skipHorizonPly;
+    }
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
@@ -50,12 +60,18 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
+        if (skipHorizonPly && maxPly == currentPly) {
+            return next.maximize(currentPly, alpha, beta);
+        }
         return debugSearch(next::maximize, "MAX", currentPly, alpha, beta);
     }
 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
+        if (skipHorizonPly && maxPly == currentPly) {
+            return next.minimize(currentPly, alpha, beta);
+        }
         return debugSearch(next::minimize, "MIN", currentPly, alpha, beta);
     }
 
