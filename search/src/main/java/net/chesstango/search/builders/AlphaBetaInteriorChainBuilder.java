@@ -72,7 +72,6 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
-        this.debugTree = new DebugTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -127,6 +126,10 @@ public class AlphaBetaInteriorChainBuilder {
 
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
         if (zobristTracker != null) {
             chain.add(zobristTracker);
         }
@@ -143,10 +146,6 @@ public class AlphaBetaInteriorChainBuilder {
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
-        }
-
-        if (debugTree != null) {
-            chain.add(debugTree);
         }
 
         chain.add(alphaBetaFlowControl);

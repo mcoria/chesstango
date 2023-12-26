@@ -2,33 +2,35 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.statistics.GameStatistics;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.io.PrintStream;
 
 /**
  * @author Mauricio Coria
  */
-public class DebugTree implements AlphaBetaFilter, SearchByCycleListener {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
-    private PrintStream debugOut;
+    private SearchTracker searchTracker;
 
-    private GameStatistics game;
+    private Game game;
+
+    @Setter
+    @Getter
+    private GameEvaluator gameEvaluator;
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
+    private int maxPly;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = (GameStatistics) context.getGame();
-        this.debugOut = context.getDebugOut();
+        this.game = context.getGame();
+        this.searchTracker = context.getSearchTracker();
     }
 
     @Override
@@ -37,35 +39,49 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.maxPly = context.getMaxPly();
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
+    @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return debugSearch(currentPly, alpha, beta, next::maximize, "MAX");
+        return debugSearch(next::maximize, "MAX", currentPly, alpha, beta);
     }
 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return debugSearch(currentPly, alpha, beta, next::minimize, "MIN");
+        return debugSearch(next::minimize, "MIN", currentPly, alpha, beta);
     }
 
-    private long debugSearch(int currentPly, int alpha, int beta, AlphaBetaFunction fn, String fnString) {
-        debugOut.print("\n");
+    private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
 
-        Move currentMove = game.getState().getPreviousState().getSelectedMove();
+        searchTracker.newNode();
 
-        debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(currentPly), simpleMoveEncoder.encode(currentMove), fnString, alpha, beta);
+        if (game.getState().getPreviousState() != null) {
+            Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
-        int execMovesBeforeSearch = game.getExecutedMoves();
+            searchTracker.setSelectedMove(currentMove);
+        }
+
+        searchTracker.debugSearch(fnString, alpha, beta);
 
         long result = fn.search(currentPly, alpha, beta);
 
         int currentValue = TranspositionEntry.decodeValue(result);
 
-        if (execMovesBeforeSearch < game.getExecutedMoves()) {
-            debugOut.print("\n");
-            debugOut.printf("%s%s %s value=%d", ">\t".repeat(currentPly), simpleMoveEncoder.encode(currentMove), fnString, currentValue);
-        } else {
-            debugOut.printf(" value=%d", currentValue);
+        searchTracker.setValue(currentValue);
+
+        if (maxPly <= currentPly) {
+            searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
+
+        searchTracker.save();
 
         return result;
     }

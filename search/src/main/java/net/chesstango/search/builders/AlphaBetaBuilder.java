@@ -180,6 +180,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     public AlphaBetaBuilder withDebugSearchTree() {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
+        alphaBetaTerminalChainBuilder.withDebugSearchTree();
+        alphaBetaHorizonChainBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;

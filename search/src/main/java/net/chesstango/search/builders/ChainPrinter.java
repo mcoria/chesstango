@@ -133,8 +133,6 @@ public class ChainPrinter {
                 printChainZobristTracker(zobristTracker, nestedChain);
             } else if (alphaBetaFilter instanceof DebugTree debugTree) {
                 printChainDebugTree(debugTree, nestedChain);
-            } else if (alphaBetaFilter instanceof DebugStandingPat debugStandingPat) {
-                printChainDebugStandingPat(debugStandingPat, nestedChain);
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
@@ -177,12 +175,6 @@ public class ChainPrinter {
         printNodeObjectText(debugTree, nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(debugTree.getNext(), nestedChain);
-    }
-
-    private void printChainDebugStandingPat(DebugStandingPat debugStandingPat, int nestedChain) {
-        printNodeObjectText(debugStandingPat, nestedChain);
-        printChainDownLine(nestedChain);
-        printChainAlphaBetaFilter(debugStandingPat.getNext(), nestedChain);
     }
 
     private void printChainZobristTracker(ZobristTracker zobristTracker, int nestedChain) {

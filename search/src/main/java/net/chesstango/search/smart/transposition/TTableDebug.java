@@ -2,9 +2,7 @@ package net.chesstango.search.smart.transposition;
 
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.statistics.GameStatistics;
-
-import java.io.PrintStream;
+import net.chesstango.search.smart.SearchTracker;
 
 /**
  * @author Mauricio Coria
@@ -12,7 +10,7 @@ import java.io.PrintStream;
 public class TTableDebug implements TTable, SearchByCycleListener {
 
     private final TTable tTable;
-    private PrintStream debugOut;
+    private SearchTracker searchTracker;
 
     public TTableDebug(TTable tTable){
         this.tTable = tTable;
@@ -20,12 +18,14 @@ public class TTableDebug implements TTable, SearchByCycleListener {
 
     @Override
     public TranspositionEntry read(long hash) {
-        return tTable.read(hash);
+        TranspositionEntry entry = tTable.read(hash);
+        searchTracker.readTranspositionEntry(entry);
+        return entry;
     }
 
     @Override
     public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        debugOut.print(" WriteTT");
+        searchTracker.writeTranspositionEntry(hash, searchDepth, movesAndValue, bound);
         return tTable.write(hash, searchDepth, movesAndValue, bound);
     }
 
@@ -36,7 +36,7 @@ public class TTableDebug implements TTable, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.debugOut = context.getDebugOut();
+        this.searchTracker = context.getSearchTracker();
     }
 
     @Override

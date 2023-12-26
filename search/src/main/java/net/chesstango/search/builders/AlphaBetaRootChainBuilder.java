@@ -37,7 +37,6 @@ public class AlphaBetaRootChainBuilder {
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
-
     public AlphaBetaRootChainBuilder withStatistics() {
         this.withStatistics = true;
         return this;
@@ -79,7 +78,6 @@ public class AlphaBetaRootChainBuilder {
     }
 
     public AlphaBetaRootChainBuilder withDebugSearchTree() {
-        this.debugTree = new DebugTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -133,6 +131,10 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(aspirationWindows);
         }
 
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
+        }
+
         if (stopProcessingCatch != null) {
             smartListenerMediator.add(stopProcessingCatch);
         }
@@ -143,10 +145,6 @@ public class AlphaBetaRootChainBuilder {
 
         if (transpositionTableRoot != null) {
             smartListenerMediator.add(transpositionTableRoot);
-        }
-
-        if (debugTree != null) {
-            smartListenerMediator.add(debugTree);
         }
     }
 
@@ -171,6 +169,10 @@ public class AlphaBetaRootChainBuilder {
             chain.add(aspirationWindows);
         }
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
         if (alphaBetaStatisticsExpected != null) {
             chain.add(alphaBetaStatisticsExpected);
         }
@@ -182,10 +184,6 @@ public class AlphaBetaRootChainBuilder {
         }
 
         chain.add(moveEvaluationTracker);
-
-        if (debugTree != null) {
-            chain.add(debugTree);
-        }
 
         chain.add(alphaBetaFlowControl);
 

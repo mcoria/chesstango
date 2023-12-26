@@ -36,7 +36,7 @@ public class SearchByCycleContext {
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
 
-    private PrintStream debugOut;
+    private SearchTracker searchTracker;
 
     public SearchByCycleContext(Game game) {
         this.game = game;
