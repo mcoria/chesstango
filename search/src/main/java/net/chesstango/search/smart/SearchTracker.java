@@ -24,7 +24,7 @@ public class SearchTracker {
         currentNodeTracker = newNode;
     }
 
-    public void debugSearch(String fnString, int alpha, int beta) {
+    public void setDebugSearch(String fnString, int alpha, int beta) {
         currentNodeTracker.fnString = fnString;
         currentNodeTracker.alpha = alpha;
         currentNodeTracker.beta = beta;
@@ -42,11 +42,26 @@ public class SearchTracker {
         currentNodeTracker.standingPat = value;
     }
 
-
-    public void writeTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
+    public void setZobristHash(long zobristHash) {
+        currentNodeTracker.zobristHash = zobristHash;
     }
 
-    public void readTranspositionEntry(TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(TranspositionEntry entry) {
+        if (entry != null) {
+            currentNodeTracker.readTT = true;
+            currentNodeTracker.read_hash = entry.hash;
+            currentNodeTracker.read_searchDepth = entry.searchDepth;
+            currentNodeTracker.read_movesAndValue = entry.movesAndValue;
+            currentNodeTracker.read_bound = entry.transpositionBound;
+        }
+    }
+
+    public void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
+        currentNodeTracker.writeTT = true;
+        currentNodeTracker.write_hash = hash;
+        currentNodeTracker.write_searchDepth = searchDepth;
+        currentNodeTracker.write_movesAndValue = movesAndValue;
+        currentNodeTracker.write_bound = bound;
     }
 
     public void save() {
@@ -68,6 +83,7 @@ public class SearchTracker {
 
 
     public class SearchNodeTracker {
+        public long zobristHash;
         public SearchNodeTracker parent;
         public Move selectedMove;
         public String fnString;
@@ -75,6 +91,18 @@ public class SearchTracker {
         public int beta;
         public int value;
         public Integer standingPat;
+
+        public boolean readTT;
+        public long read_hash;
+        public int read_searchDepth;
+        public long read_movesAndValue;
+        public TranspositionBound read_bound;
+
+        public boolean writeTT;
+        public long write_hash;
+        public int write_searchDepth;
+        public long write_movesAndValue;
+        public TranspositionBound write_bound;
 
         public List<SearchNodeTracker> childNodes = new LinkedList<>();
 

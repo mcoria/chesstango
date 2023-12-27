@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.transposition;
 
+import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchTracker;
@@ -9,6 +10,7 @@ import net.chesstango.search.smart.SearchTracker;
  */
 public class TTableDebug implements TTable, SearchByCycleListener {
 
+    @Getter
     private final TTable tTable;
     private SearchTracker searchTracker;
 
@@ -19,13 +21,13 @@ public class TTableDebug implements TTable, SearchByCycleListener {
     @Override
     public TranspositionEntry read(long hash) {
         TranspositionEntry entry = tTable.read(hash);
-        searchTracker.readTranspositionEntry(entry);
+        searchTracker.trackReadTranspositionEntry(entry);
         return entry;
     }
 
     @Override
     public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        searchTracker.writeTranspositionEntry(hash, searchDepth, movesAndValue, bound);
+        searchTracker.trackWriteTranspositionEntry(hash, searchDepth, movesAndValue, bound);
         return tTable.write(hash, searchDepth, movesAndValue, bound);
     }
 

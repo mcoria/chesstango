@@ -79,13 +79,15 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
         searchTracker.newNode();
 
+        searchTracker.setZobristHash(game.getChessPosition().getZobristHash());
+
         if (game.getState().getPreviousState() != null) {
             Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
             searchTracker.setSelectedMove(currentMove);
         }
 
-        searchTracker.debugSearch(fnString, alpha, beta);
+        searchTracker.setDebugSearch(fnString, alpha, beta);
 
         long result = fn.search(currentPly, alpha, beta);
 

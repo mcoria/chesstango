@@ -161,16 +161,16 @@ public class AlphaBetaRootChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (transpositionTableRoot != null) {
-            chain.add(transpositionTableRoot);
-        }
-
         if (aspirationWindows != null) {
             chain.add(aspirationWindows);
         }
 
         if (debugTree != null) {
             chain.add(debugTree);
+        }
+
+        if (transpositionTableRoot != null) {
+            chain.add(transpositionTableRoot);
         }
 
         if (alphaBetaStatisticsExpected != null) {

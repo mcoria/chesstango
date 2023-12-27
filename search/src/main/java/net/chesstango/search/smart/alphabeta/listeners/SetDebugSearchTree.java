@@ -4,11 +4,13 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HexFormat;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ import java.util.List;
 public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    private HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final boolean withAspirationWindows;
     private FileOutputStream fos;
     private BufferedOutputStream bos;
@@ -100,6 +103,30 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
                 debugOut.printf(" SP=%d", currentNode.standingPat);
             }
 
+            /*
+            if (currentNode.readTT || currentNode.writeTT) {
+                debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.zobristHash)));
+            }*/
+
+            debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.zobristHash)));
+
+            if (currentNode.readTT) {
+                int ttValue = TranspositionEntry.decodeValue(currentNode.read_movesAndValue);
+                debugOut.printf(" ReadTT[ 0x%s depth=%d value=%d]", hexFormat.formatHex(longToByte(currentNode.read_hash)), currentNode.read_searchDepth, ttValue);
+            }
+
+            if (currentNode.writeTT) {
+                int ttValue = TranspositionEntry.decodeValue(currentNode.write_movesAndValue);
+                //debugOut.printf(" WriteTT[ 0x%s depth=%d value=%d]", hexFormat.formatHex(longToByte(currentNode.write_hash)), currentNode.write_searchDepth, ttValue);
+                if (currentNode.zobristHash != currentNode.write_hash) {
+                    throw new RuntimeException("currentNode.zobristHash != currentNode.write_hash");
+                }
+                if (currentNode.value != ttValue) {
+                    throw new RuntimeException("currentNode.value!=ttValue");
+                }
+                debugOut.print(" WriteTT");
+            }
+
             debugOut.print("\n");
         }
 
@@ -117,5 +144,18 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
             sb.append(" ");
         }
         return sb.toString();
+    }
+
+    private byte[] longToByte(long lng) {
+        return new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
     }
 }

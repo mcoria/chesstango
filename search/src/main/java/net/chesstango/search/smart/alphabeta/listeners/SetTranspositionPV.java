@@ -9,6 +9,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TTableDebug;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import java.util.List;
 public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthListener {
     private TTable maxMap;
     private TTable minMap;
-
     private TTable qMaxMap;
     private TTable qMinMap;
     private Game game;
@@ -28,10 +28,10 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
+        this.maxMap = context.getMaxMap() instanceof TTableDebug tTableDebug ? tTableDebug.getTTable() : context.getMaxMap();
+        this.minMap = context.getMinMap() instanceof TTableDebug tTableDebug ? tTableDebug.getTTable() : context.getMinMap();
+        this.qMaxMap = context.getQMaxMap() instanceof TTableDebug tTableDebug ? tTableDebug.getTTable() : context.getQMaxMap();
+        this.qMinMap = context.getQMinMap() instanceof TTableDebug tTableDebug ? tTableDebug.getTTable() : context.getQMinMap();
     }
 
     @Override
