@@ -12,22 +12,24 @@ public class TTableDebug implements TTable, SearchByCycleListener {
 
     @Getter
     private final TTable tTable;
+    private final String tableName;
     private SearchTracker searchTracker;
 
-    public TTableDebug(TTable tTable){
+    public TTableDebug(String tableName, TTable tTable){
+        this.tableName = tableName;
         this.tTable = tTable;
     }
 
     @Override
     public TranspositionEntry read(long hash) {
         TranspositionEntry entry = tTable.read(hash);
-        searchTracker.trackReadTranspositionEntry(entry);
+        searchTracker.trackReadTranspositionEntry(tableName, entry);
         return entry;
     }
 
     @Override
     public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        searchTracker.trackWriteTranspositionEntry(hash, searchDepth, movesAndValue, bound);
+        searchTracker.trackWriteTranspositionEntry(tableName, hash, searchDepth, movesAndValue, bound);
         return tTable.write(hash, searchDepth, movesAndValue, bound);
     }
 

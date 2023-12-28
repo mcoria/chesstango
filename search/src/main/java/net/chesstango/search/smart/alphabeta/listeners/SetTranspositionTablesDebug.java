@@ -9,8 +9,8 @@ import net.chesstango.search.smart.transposition.TTableDebug;
 public class SetTranspositionTablesDebug extends SetTranspositionTables {
 
     @Override
-    protected TTable createTTable() {
-        return new TTableDebug(super.createTTable());
+    protected TTable createTTable(String tableName) {
+        return new TTableDebug(tableName, super.createTTable(tableName));
     }
 
     public TTableDebug getMaxMap() {

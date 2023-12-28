@@ -27,14 +27,10 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
     private AlphaBetaFilter next;
     private int maxPly;
 
-    private final boolean skipHorizonPly;
+    private final SearchTracker.NodeType nodeType;
 
-    public DebugTree() {
-        this(false);
-    }
-
-    public DebugTree(boolean skipHorizonPly) {
-        this.skipHorizonPly = skipHorizonPly;
+    public DebugTree(SearchTracker.NodeType nodeType) {
+        this.nodeType = nodeType;
     }
 
     @Override
@@ -60,24 +56,18 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        if (skipHorizonPly && maxPly == currentPly) {
-            return next.maximize(currentPly, alpha, beta);
-        }
         return debugSearch(next::maximize, "MAX", currentPly, alpha, beta);
     }
 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        if (skipHorizonPly && maxPly == currentPly) {
-            return next.minimize(currentPly, alpha, beta);
-        }
         return debugSearch(next::minimize, "MIN", currentPly, alpha, beta);
     }
 
     private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
 
-        searchTracker.newNode();
+        searchTracker.newNode(nodeType);
 
         searchTracker.setZobristHash(game.getChessPosition().getZobristHash());
 
@@ -89,18 +79,18 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
         searchTracker.setDebugSearch(fnString, alpha, beta);
 
-        long result = fn.search(currentPly, alpha, beta);
-
-        int currentValue = TranspositionEntry.decodeValue(result);
-
-        searchTracker.setValue(currentValue);
-
         if (maxPly <= currentPly) {
             searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
 
+        long bestMoveAndValue = fn.search(currentPly, alpha, beta);
+
+        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+
+        searchTracker.setValue(currentValue);
+
         searchTracker.save();
 
-        return result;
+        return bestMoveAndValue;
     }
 }

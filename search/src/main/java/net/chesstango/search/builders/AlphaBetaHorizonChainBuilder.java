@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -80,7 +81,7 @@ public class AlphaBetaHorizonChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugTree = new DebugTree();
+            this.debugTree = new DebugTree(SearchTracker.NodeType.HORIZON);
             this.debugTree.setGameEvaluator(gameEvaluator);
         }
     }

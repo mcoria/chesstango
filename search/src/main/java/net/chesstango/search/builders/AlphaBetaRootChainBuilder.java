@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
@@ -110,7 +111,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugTree = new DebugTree();
+            debugTree = new DebugTree(SearchTracker.NodeType.ROOT);
         }
 
         moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);

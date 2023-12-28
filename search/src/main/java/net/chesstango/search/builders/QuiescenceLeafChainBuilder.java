@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -84,7 +85,7 @@ public class QuiescenceLeafChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree();
+            this.debugSearchTree = new DebugTree(SearchTracker.NodeType.Q_LEAF);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }

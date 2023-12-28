@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -96,7 +97,7 @@ public class AlphaBetaInteriorChainBuilder {
             zobristTracker = new ZobristTracker();
         }
         if (withDebugSearchTree) {
-            debugTree = new DebugTree();
+            debugTree = new DebugTree(SearchTracker.NodeType.INTERIOR);
         }
 
         alphaBeta.setMoveSorter(moveSorter);

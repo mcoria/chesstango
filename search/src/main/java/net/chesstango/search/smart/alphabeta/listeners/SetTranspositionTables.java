@@ -16,13 +16,13 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     protected boolean reuseTranspositionTable;
 
     public SetTranspositionTables() {
-        this.maxMap = createTTable();
-        this.minMap = createTTable();
-        this.qMaxMap = createTTable();
-        this.qMinMap = createTTable();
+        this.maxMap = createTTable("maxMap");
+        this.minMap = createTTable("minMap");
+        this.qMaxMap = createTTable("qMaxMap");
+        this.qMinMap = createTTable("qMinMap");
     }
 
-    protected TTable createTTable() {
+    protected TTable createTTable(String tableName) {
         return new ArrayTTable();
     }
 

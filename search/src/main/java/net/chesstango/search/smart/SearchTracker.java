@@ -12,10 +12,13 @@ import java.util.List;
  */
 public class SearchTracker {
 
+    public enum NodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, Q_LEAF}
+
     private SearchNodeTracker currentNodeTracker;
 
-    public void newNode() {
+    public void newNode(NodeType nodeType) {
         SearchNodeTracker newNode = new SearchNodeTracker();
+        newNode.nodeType = nodeType;
 
         if (currentNodeTracker != null) {
             currentNodeTracker.addChild(newNode);
@@ -46,9 +49,10 @@ public class SearchTracker {
         currentNodeTracker.zobristHash = zobristHash;
     }
 
-    public void trackReadTranspositionEntry(TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(String tableName, TranspositionEntry entry) {
         if (entry != null) {
             currentNodeTracker.readTT = true;
+            currentNodeTracker.read_tableName = tableName;
             currentNodeTracker.read_hash = entry.hash;
             currentNodeTracker.read_searchDepth = entry.searchDepth;
             currentNodeTracker.read_movesAndValue = entry.movesAndValue;
@@ -56,8 +60,9 @@ public class SearchTracker {
         }
     }
 
-    public void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
+    public void trackWriteTranspositionEntry(String tableName, long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
         currentNodeTracker.writeTT = true;
+        currentNodeTracker.write_tableName = tableName;
         currentNodeTracker.write_hash = hash;
         currentNodeTracker.write_searchDepth = searchDepth;
         currentNodeTracker.write_movesAndValue = movesAndValue;
@@ -83,6 +88,7 @@ public class SearchTracker {
 
 
     public class SearchNodeTracker {
+        public NodeType nodeType;
         public long zobristHash;
         public SearchNodeTracker parent;
         public Move selectedMove;
@@ -93,12 +99,14 @@ public class SearchTracker {
         public Integer standingPat;
 
         public boolean readTT;
+        public String read_tableName;
         public long read_hash;
         public int read_searchDepth;
         public long read_movesAndValue;
         public TranspositionBound read_bound;
 
         public boolean writeTT;
+        public String write_tableName;
         public long write_hash;
         public int write_searchDepth;
         public long write_movesAndValue;
