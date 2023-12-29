@@ -85,7 +85,11 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
 
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
-        dumpSearchTracker();
+        if(searchByWindowsFinished) {
+            dumpSearchTracker();
+        }else {
+            searchTracker.reset();
+        }
     }
 
 
@@ -142,10 +146,10 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
             }
         }
 
-        int nextDepth = SearchNode.SearchNodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
+        //int nextDepth = SearchNode.SearchNodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
 
         for (SearchNode childNode : currentNode.getChildNodes()) {
-            dumpNode(nextDepth, childNode);
+            dumpNode(depth + 1, childNode);
         }
     }
 
