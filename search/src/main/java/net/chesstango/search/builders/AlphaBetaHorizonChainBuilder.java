@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SearchTracker;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 

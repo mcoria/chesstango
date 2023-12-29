@@ -6,7 +6,11 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
@@ -79,7 +83,8 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
         searchTracker.setDebugSearch(fnString, alpha, beta);
 
-        if (maxPly <= currentPly) {
+        if (maxPly <= currentPly && (SearchTracker.NodeType.QUIESCENCE.equals(nodeType) ||
+                                    SearchTracker.NodeType.Q_LEAF.equals(nodeType))) {
             searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
 

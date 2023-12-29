@@ -3,11 +3,9 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TTable;
 
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 

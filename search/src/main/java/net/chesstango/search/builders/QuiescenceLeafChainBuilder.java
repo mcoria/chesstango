@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.SearchTracker;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -103,9 +103,11 @@ public class QuiescenceLeafChainBuilder {
     }
 
     private AlphaBetaFilter createChain() {
-
-
         List<AlphaBetaFilter> chain = new LinkedList<>();
+
+        if (debugSearchTree != null) {
+            chain.add(debugSearchTree);
+        }
 
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);

@@ -4,6 +4,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.debug.SearchNodeTT;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -91,44 +94,57 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         searchTracker.reset();
     }
 
-    private void dumpNode(int depth, SearchTracker.SearchNodeTracker currentNode) {
+    private void dumpNode(int depth, SearchNode currentNode) {
         if (depth == 0) {
-            debugOut.printf("%s alpha=%d beta=%d", currentNode.fnString, currentNode.alpha, currentNode.beta);
+            debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
         } else {
-            String moveStr = simpleMoveEncoder.encode(currentNode.selectedMove);
+            String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
 
-            debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(depth), moveStr, currentNode.fnString, currentNode.alpha, currentNode.beta);
+            debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
         }
 
-        if (currentNode.standingPat != null) {
-            debugOut.printf(" SP=%d", currentNode.standingPat);
+        if (currentNode.getStandingPat() != null) {
+            debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
 
-        debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.zobristHash)));
+        debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
 
-        if (currentNode.readTT) {
-            int ttValue = TranspositionEntry.decodeValue(currentNode.read_movesAndValue);
-            debugOut.printf(" ReadTT[ %s 0x%s depth=%d value=%d]", currentNode.read_tableName, hexFormat.formatHex(longToByte(currentNode.read_hash)), currentNode.read_searchDepth, ttValue);
-        }
-
-        if (currentNode.writeTT) {
-            int ttValue = TranspositionEntry.decodeValue(currentNode.write_movesAndValue);
-            if (currentNode.zobristHash != currentNode.write_hash) {
-                throw new RuntimeException("currentNode.zobristHash != currentNode.write_hash");
-            }
-            if (currentNode.value != ttValue) {
-                throw new RuntimeException("currentNode.value!=ttValue");
-            }
-            debugOut.printf(" WriteTT[ %s depth=%d ]", currentNode.write_tableName, currentNode.write_searchDepth);
-        }
-
-        debugOut.printf(" value=%d", currentNode.value);
+        debugOut.printf(" value=%d", currentNode.getValue());
 
         debugOut.print("\n");
 
-        int nextDepth = SearchTracker.NodeType.HORIZON.equals(currentNode.nodeType) ? depth : depth + 1;
+        for (SearchNodeTT ttOperations :
+                currentNode.getTranspositionOperations()) {
 
-        for (SearchTracker.SearchNodeTracker childNode : currentNode.childNodes) {
+            if (SearchNodeTT.Type.READ.equals(ttOperations.type())) {
+                int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
+                debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d]\n",
+                        ">\t".repeat(depth),
+                        ttOperations.tableName(),
+                        hexFormat.formatHex(longToByte(ttOperations.hash())),
+                        ttOperations.depth(),
+                        ttValue);
+            }
+
+            if (SearchNodeTT.Type.WRITE.equals(ttOperations.type())) {
+                int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
+
+                if (currentNode.getValue() != ttValue) {
+                    throw new RuntimeException("currentNodeTracker.value != ttValue");
+                }
+
+                debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d]\n",
+                        ">\t".repeat(depth),
+                        ttOperations.tableName(),
+                        hexFormat.formatHex(longToByte(ttOperations.hash())),
+                        ttOperations.depth(),
+                        ttValue);
+            }
+        }
+
+        int nextDepth = SearchTracker.NodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
+
+        for (SearchNode childNode : currentNode.getChildNodes()) {
             dumpNode(nextDepth, childNode);
         }
     }

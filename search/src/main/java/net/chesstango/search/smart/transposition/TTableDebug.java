@@ -3,7 +3,7 @@ package net.chesstango.search.smart.transposition;
 import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchTracker;
+import net.chesstango.search.smart.debug.SearchTracker;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +23,7 @@ public class TTableDebug implements TTable, SearchByCycleListener {
     @Override
     public TranspositionEntry read(long hash) {
         TranspositionEntry entry = tTable.read(hash);
-        searchTracker.trackReadTranspositionEntry(tableName, entry);
+        searchTracker.trackReadTranspositionEntry(tableName, hash, entry);
         return entry;
     }
 
