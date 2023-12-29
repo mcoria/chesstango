@@ -2,7 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.debug.SearchTracker;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -120,7 +120,7 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree(SearchTracker.NodeType.QUIESCENCE);
+            this.debugSearchTree = new DebugTree(SearchNode.SearchNodeType.QUIESCENCE);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }

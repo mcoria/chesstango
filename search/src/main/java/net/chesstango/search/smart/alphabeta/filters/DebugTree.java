@@ -10,6 +10,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -31,10 +32,10 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
     private AlphaBetaFilter next;
     private int maxPly;
 
-    private final SearchTracker.NodeType nodeType;
+    private final SearchNode.SearchNodeType searchNodeType;
 
-    public DebugTree(SearchTracker.NodeType nodeType) {
-        this.nodeType = nodeType;
+    public DebugTree(SearchNode.SearchNodeType searchNodeType) {
+        this.searchNodeType = searchNodeType;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
     private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
 
-        searchTracker.newNode(nodeType);
+        searchTracker.newNode(searchNodeType);
 
         searchTracker.setZobristHash(game.getChessPosition().getZobristHash());
 
@@ -83,8 +84,8 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
         searchTracker.setDebugSearch(fnString, alpha, beta);
 
-        if (maxPly <= currentPly && (SearchTracker.NodeType.QUIESCENCE.equals(nodeType) ||
-                                    SearchTracker.NodeType.Q_LEAF.equals(nodeType))) {
+        if (maxPly <= currentPly && (SearchNode.SearchNodeType.QUIESCENCE.equals(searchNodeType) ||
+                                    SearchNode.SearchNodeType.Q_LEAF.equals(searchNodeType))) {
             searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
 

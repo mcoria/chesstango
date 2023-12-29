@@ -5,12 +5,12 @@ import net.chesstango.search.smart.transposition.TranspositionBound;
 /**
  * @author Mauricio Coria
  */
-public record SearchNodeTT(Type type,
+public record SearchNodeTT(TranspositionOperationType transpositionOperation,
                            long hash_requested,
                            String tableName,
                            long hash,
                            int depth,
                            long movesAndValue,
                            TranspositionBound bound) {
-    public enum Type {READ, WRITE}
+    public enum TranspositionOperationType {READ, WRITE}
 }

@@ -9,13 +9,11 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
  */
 public class SearchTracker {
 
-    public enum NodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, Q_LEAF}
-
     private SearchNode currentNodeTracker;
 
-    public void newNode(NodeType nodeType) {
+    public void newNode(SearchNode.SearchNodeType searchNodeType) {
         SearchNode newNode = new SearchNode();
-        newNode.nodeType = nodeType;
+        newNode.nodeType = searchNodeType;
 
         if (currentNodeTracker != null) {
             currentNodeTracker.addChild(newNode);
@@ -48,7 +46,7 @@ public class SearchTracker {
 
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
         if (entry != null) {
-            currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.Type.READ,
+            currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.TranspositionOperationType.READ,
                     hashRequested,
                     tableName,
                     entry.hash,
@@ -63,7 +61,7 @@ public class SearchTracker {
         if (currentNodeTracker.zobristHash != hash) {
             throw new RuntimeException("currentNodeTracker.zobristHash != hash");
         }
-        currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.Type.WRITE,
+        currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.TranspositionOperationType.WRITE,
                 hash,
                 tableName,
                 hash,

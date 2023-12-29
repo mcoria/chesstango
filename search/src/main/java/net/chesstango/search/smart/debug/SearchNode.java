@@ -2,7 +2,6 @@ package net.chesstango.search.smart.debug;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.transposition.TranspositionBound;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class SearchNode {
     @Getter
-    SearchTracker.NodeType nodeType;
+    SearchNodeType nodeType;
     @Getter
     long zobristHash;
     @Getter
@@ -29,10 +28,8 @@ public class SearchNode {
     int value;
     @Getter
     Integer standingPat;
-
     @Getter
     List<SearchNode> childNodes = new LinkedList<>();
-
     @Getter
     List<SearchNodeTT> transpositionOperations = new LinkedList<>();
 
@@ -40,4 +37,6 @@ public class SearchNode {
         childNodes.add(newNode);
         newNode.parent = this;
     }
+
+    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, Q_LEAF}
 }

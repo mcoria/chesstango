@@ -116,7 +116,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         for (SearchNodeTT ttOperations :
                 currentNode.getTranspositionOperations()) {
 
-            if (SearchNodeTT.Type.READ.equals(ttOperations.type())) {
+            if (SearchNodeTT.TranspositionOperationType.READ.equals(ttOperations.transpositionOperation())) {
                 int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
                 debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d]\n",
                         ">\t".repeat(depth),
@@ -126,7 +126,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
                         ttValue);
             }
 
-            if (SearchNodeTT.Type.WRITE.equals(ttOperations.type())) {
+            if (SearchNodeTT.TranspositionOperationType.WRITE.equals(ttOperations.transpositionOperation())) {
                 int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
 
                 if (currentNode.getValue() != ttValue) {
@@ -142,7 +142,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
             }
         }
 
-        int nextDepth = SearchTracker.NodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
+        int nextDepth = SearchNode.SearchNodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
 
         for (SearchNode childNode : currentNode.getChildNodes()) {
             dumpNode(nextDepth, childNode);
