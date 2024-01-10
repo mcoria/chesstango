@@ -19,7 +19,7 @@ import java.util.List;
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-    private HexFormat hexFormat = HexFormat.of().withUpperCase();
+    private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final boolean withAspirationWindows;
     private FileOutputStream fos;
     private BufferedOutputStream bos;
