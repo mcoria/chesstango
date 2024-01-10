@@ -9,7 +9,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TTableDebug;
+import net.chesstango.search.smart.debug.TTableDebug;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;

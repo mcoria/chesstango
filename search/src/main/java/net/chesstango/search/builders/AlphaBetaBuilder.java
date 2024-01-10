@@ -13,6 +13,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
+import net.chesstango.search.smart.debug.SetDebugSearchTree;
+import net.chesstango.search.smart.debug.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
 

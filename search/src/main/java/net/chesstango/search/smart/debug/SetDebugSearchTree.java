@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -85,11 +85,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
 
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
-        if(searchByWindowsFinished) {
-            dumpSearchTracker();
-        }else {
-            searchTracker.reset();
-        }
+        dumpSearchTracker();
     }
 
 
@@ -117,12 +113,13 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
 
         debugOut.print("\n");
 
+
         for (SearchNodeTT ttOperations :
                 currentNode.getTranspositionOperations()) {
 
             if (SearchNodeTT.TranspositionOperationType.READ.equals(ttOperations.transpositionOperation())) {
                 int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
-                debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d]\n",
+                debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]\n",
                         ">\t".repeat(depth),
                         ttOperations.tableName(),
                         hexFormat.formatHex(longToByte(ttOperations.hash())),
@@ -137,7 +134,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
 
-                debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d]\n",
+                debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d ]\n",
                         ">\t".repeat(depth),
                         ttOperations.tableName(),
                         hexFormat.formatHex(longToByte(ttOperations.hash())),

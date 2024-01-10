@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.debug.DebugTree;
 
 import java.util.LinkedList;
 import java.util.List;

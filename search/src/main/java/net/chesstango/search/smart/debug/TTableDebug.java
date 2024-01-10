@@ -1,9 +1,12 @@
-package net.chesstango.search.smart.transposition;
+package net.chesstango.search.smart.debug;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.debug.SearchTracker;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionBound;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
