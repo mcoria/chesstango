@@ -3,7 +3,7 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.smart.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TTable;
 
 import java.util.List;

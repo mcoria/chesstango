@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
@@ -9,31 +9,31 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchNode {
-    @Getter
+@Getter
+public class DebugNode {
     SearchNodeType nodeType;
-    @Getter
-    long zobristHash;
-    @Getter
-    SearchNode parent;
-    @Getter
-    Move selectedMove;
-    @Getter
-    String fnString;
-    @Getter
-    int alpha;
-    @Getter
-    int beta;
-    @Getter
-    int value;
-    @Getter
-    Integer standingPat;
-    @Getter
-    List<SearchNode> childNodes = new LinkedList<>();
-    @Getter
-    List<SearchNodeTT> transpositionOperations = new LinkedList<>();
 
-    public void addChild(SearchNode newNode) {
+    long zobristHash;
+
+    DebugNode parent;
+
+    Move selectedMove;
+
+    String fnString;
+
+    int alpha;
+
+    int beta;
+
+    int value;
+
+    Integer standingPat;
+
+    List<DebugNode> childNodes = new LinkedList<>();
+
+    List<DebugNodeTT> transpositionOperations = new LinkedList<>();
+
+    public void addChild(DebugNode newNode) {
         childNodes.add(newNode);
         newNode.parent = this;
     }

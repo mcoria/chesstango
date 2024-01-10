@@ -2,8 +2,8 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.debug.DebugTree;
-import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -27,7 +27,7 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private TriangularPV triangularPV;
-    private DebugTree debugSearchTree;
+    private DebugFilter debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -121,7 +121,7 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree(SearchNode.SearchNodeType.QUIESCENCE);
+            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.QUIESCENCE);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
@@ -182,7 +182,7 @@ public class QuiescenceChainBuilder {
                 quiescence.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(next);
-            } else if (currentFilter instanceof DebugTree) {
+            } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");

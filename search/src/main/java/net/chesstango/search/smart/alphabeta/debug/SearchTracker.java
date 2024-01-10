@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.transposition.TranspositionBound;
@@ -9,44 +9,45 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
  */
 public class SearchTracker {
 
-    private SearchNode currentNodeTracker;
+    private DebugNode debugNode;
 
-    public void newNode(SearchNode.SearchNodeType searchNodeType) {
-        SearchNode newNode = new SearchNode();
+    public void newNode(DebugNode.SearchNodeType searchNodeType) {
+        DebugNode newNode = new DebugNode();
+
         newNode.nodeType = searchNodeType;
 
-        if (currentNodeTracker != null) {
-            currentNodeTracker.addChild(newNode);
+        if (debugNode != null) {
+            debugNode.addChild(newNode);
         }
 
-        currentNodeTracker = newNode;
+        debugNode = newNode;
     }
 
     public void setDebugSearch(String fnString, int alpha, int beta) {
-        currentNodeTracker.fnString = fnString;
-        currentNodeTracker.alpha = alpha;
-        currentNodeTracker.beta = beta;
+        debugNode.fnString = fnString;
+        debugNode.alpha = alpha;
+        debugNode.beta = beta;
     }
 
     public void setSelectedMove(Move currentMove) {
-        currentNodeTracker.selectedMove = currentMove;
+        debugNode.selectedMove = currentMove;
     }
 
     public void setValue(int value) {
-        currentNodeTracker.value = value;
+        debugNode.value = value;
     }
 
     public void setStandingPat(Integer value) {
-        currentNodeTracker.standingPat = value;
+        debugNode.standingPat = value;
     }
 
     public void setZobristHash(long zobristHash) {
-        currentNodeTracker.zobristHash = zobristHash;
+        debugNode.zobristHash = zobristHash;
     }
 
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
-        if (entry != null) {
-            currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.TranspositionOperationType.READ,
+        if (debugNode != null && entry != null) {
+            debugNode.transpositionOperations.add(new DebugNodeTT(DebugNodeTT.TranspositionOperationType.READ,
                     hashRequested,
                     tableName,
                     entry.hash,
@@ -58,10 +59,10 @@ public class SearchTracker {
     }
 
     public void trackWriteTranspositionEntry(String tableName, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
-        if (currentNodeTracker.zobristHash != hash) {
+        if (debugNode.zobristHash != hash) {
             throw new RuntimeException("currentNodeTracker.zobristHash != hash");
         }
-        currentNodeTracker.transpositionOperations.add(new SearchNodeTT(SearchNodeTT.TranspositionOperationType.WRITE,
+        debugNode.transpositionOperations.add(new DebugNodeTT(DebugNodeTT.TranspositionOperationType.WRITE,
                 hash,
                 tableName,
                 hash,
@@ -72,20 +73,20 @@ public class SearchTracker {
     }
 
     public void save() {
-        if (currentNodeTracker.parent != null) {
-            currentNodeTracker = currentNodeTracker.parent;
+        if (debugNode.parent != null) {
+            debugNode = debugNode.parent;
         }
     }
 
     public void reset() {
-        currentNodeTracker = null;
+        debugNode = null;
     }
 
-    public SearchNode getRootNode() {
-        if (currentNodeTracker.parent != null) {
+    public DebugNode getRootNode() {
+        if (debugNode.parent != null) {
             throw new RuntimeException("Still searching?");
         }
-        return currentNodeTracker;
+        return debugNode;
     }
 
 

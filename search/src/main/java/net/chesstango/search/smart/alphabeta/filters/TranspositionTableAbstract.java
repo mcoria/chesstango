@@ -70,7 +70,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
-        updateEntry(maxMap, hash, searchDepth, alpha, beta, moveAndValue);
+        writeTransposition(maxMap, hash, searchDepth, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
@@ -97,12 +97,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long moveAndValue = next.minimize(currentPly, alpha, beta);
 
-        updateEntry(minMap, hash, searchDepth, alpha, beta, moveAndValue);
+        writeTransposition(minMap, hash, searchDepth, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
 
-    protected void updateEntry(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
+    protected void writeTransposition(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
         int value = TranspositionEntry.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;

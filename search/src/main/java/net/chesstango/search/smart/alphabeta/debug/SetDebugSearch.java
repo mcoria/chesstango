@@ -1,12 +1,9 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.debug.SearchNode;
-import net.chesstango.search.smart.debug.SearchNodeTT;
-import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -19,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private HexFormat hexFormat = HexFormat.of().withUpperCase();
@@ -29,7 +26,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
     private PrintStream debugOut;
     private SearchTracker searchTracker;
 
-    public SetDebugSearchTree(boolean withAspirationWindows) {
+    public SetDebugSearch(boolean withAspirationWindows) {
         this.withAspirationWindows = withAspirationWindows;
     }
 
@@ -46,6 +43,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         debugOut.print("Search started\n");
 
         searchTracker = new SearchTracker();
+
         context.setSearchTracker(searchTracker);
     }
 
@@ -75,7 +73,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
 
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-");
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
     }
 
     @Override
@@ -94,7 +92,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         searchTracker.reset();
     }
 
-    private void dumpNode(int depth, SearchNode currentNode) {
+    private void dumpNode(int depth, DebugNode currentNode) {
         if (depth == 0) {
             debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
         } else {
@@ -114,10 +112,10 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         debugOut.print("\n");
 
 
-        for (SearchNodeTT ttOperations :
+        for (DebugNodeTT ttOperations :
                 currentNode.getTranspositionOperations()) {
 
-            if (SearchNodeTT.TranspositionOperationType.READ.equals(ttOperations.transpositionOperation())) {
+            if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperations.transpositionOperation())) {
                 int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
                 debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]\n",
                         ">\t".repeat(depth),
@@ -127,7 +125,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
                         ttValue);
             }
 
-            if (SearchNodeTT.TranspositionOperationType.WRITE.equals(ttOperations.transpositionOperation())) {
+            if (DebugNodeTT.TranspositionOperationType.WRITE.equals(ttOperations.transpositionOperation())) {
                 int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
 
                 if (currentNode.getValue() != ttValue) {
@@ -143,9 +141,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
             }
         }
 
-        //int nextDepth = SearchNode.SearchNodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
-
-        for (SearchNode childNode : currentNode.getChildNodes()) {
+        for (DebugNode childNode : currentNode.getChildNodes()) {
             dumpNode(depth + 1, childNode);
         }
     }

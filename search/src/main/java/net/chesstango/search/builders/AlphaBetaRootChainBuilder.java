@@ -1,8 +1,8 @@
 package net.chesstango.search.builders;
 
 
-import net.chesstango.search.smart.debug.DebugTree;
-import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
@@ -23,7 +23,7 @@ public class AlphaBetaRootChainBuilder {
     private TranspositionTableRoot transpositionTableRoot;
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
-    private DebugTree debugTree;
+    private DebugFilter debugFilter;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -112,7 +112,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugTree = new DebugTree(SearchNode.SearchNodeType.ROOT);
+            debugFilter = new DebugFilter(DebugNode.SearchNodeType.ROOT);
         }
 
         moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
@@ -133,8 +133,8 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(aspirationWindows);
         }
 
-        if (debugTree != null) {
-            smartListenerMediator.add(debugTree);
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
         }
 
         if (stopProcessingCatch != null) {
@@ -167,8 +167,8 @@ public class AlphaBetaRootChainBuilder {
             chain.add(aspirationWindows);
         }
 
-        if (debugTree != null) {
-            chain.add(debugTree);
+        if (debugFilter != null) {
+            chain.add(debugFilter);
         }
 
         if (transpositionTableRoot != null) {
@@ -210,8 +210,8 @@ public class AlphaBetaRootChainBuilder {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(next);
-            } else if (currentFilter instanceof DebugTree) {
-                debugTree.setNext(next);
+            } else if (currentFilter instanceof DebugFilter) {
+                debugFilter.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

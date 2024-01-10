@@ -1,8 +1,8 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.debug.DebugTree;
-import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -19,7 +19,7 @@ public class AlphaBetaHorizonChainBuilder {
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
-    private DebugTree debugTree;
+    private DebugFilter debugFilter;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
@@ -82,8 +82,8 @@ public class AlphaBetaHorizonChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugTree = new DebugTree(SearchNode.SearchNodeType.HORIZON);
-            this.debugTree.setGameEvaluator(gameEvaluator);
+            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.HORIZON);
+            this.debugFilter.setGameEvaluator(gameEvaluator);
         }
     }
 
@@ -96,16 +96,16 @@ public class AlphaBetaHorizonChainBuilder {
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
         }
-        if (debugTree != null) {
-            smartListenerMediator.add(debugTree);
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
         }
     }
 
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
-        if (debugTree != null) {
-            chain.add(debugTree);
+        if (debugFilter != null) {
+            chain.add(debugFilter);
         }
 
         if (zobristTracker != null) {
@@ -130,8 +130,8 @@ public class AlphaBetaHorizonChainBuilder {
                 transpositionTable.setNext(next);
             } else if (currentFilter instanceof AlphaBetaHorizon) {
                 alphaBetaHorizon.setQuiescence(next);
-            } else if (currentFilter instanceof DebugTree) {
-                debugTree.setNext(next);
+            } else if (currentFilter instanceof DebugFilter) {
+                debugFilter.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
-import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,6 +63,11 @@ public class ChainPrinter {
 
         System.out.print("SearchByDepthListener:\n");
         smartListenerMediator.getSearchByDepthListeners()
+                .forEach(listener -> printNodeObjectText(listener, 1));
+        System.out.print("\n");
+
+        System.out.print("SearchByWindowsListeners:\n");
+        smartListenerMediator.getSearchByWindowsListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
 
@@ -132,8 +137,8 @@ public class ChainPrinter {
                 printChainQuiescenceFlowControl(quiescenceFlowControl, nestedChain);
             } else if (alphaBetaFilter instanceof ZobristTracker zobristTracker) {
                 printChainZobristTracker(zobristTracker, nestedChain);
-            } else if (alphaBetaFilter instanceof DebugTree debugTree) {
-                printChainDebugTree(debugTree, nestedChain);
+            } else if (alphaBetaFilter instanceof DebugFilter debugFilter) {
+                printChainDebugTree(debugFilter, nestedChain);
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
@@ -172,10 +177,10 @@ public class ChainPrinter {
         printChainAlphaBetaFilter(quiescenceStatisticsVisited.getNext(), nestedChain);
     }
 
-    private void printChainDebugTree(DebugTree debugTree, int nestedChain) {
-        printNodeObjectText(debugTree, nestedChain);
+    private void printChainDebugTree(DebugFilter debugFilter, int nestedChain) {
+        printNodeObjectText(debugFilter, nestedChain);
         printChainDownLine(nestedChain);
-        printChainAlphaBetaFilter(debugTree.getNext(), nestedChain);
+        printChainAlphaBetaFilter(debugFilter.getNext(), nestedChain);
     }
 
     private void printChainZobristTracker(ZobristTracker zobristTracker, int nestedChain) {

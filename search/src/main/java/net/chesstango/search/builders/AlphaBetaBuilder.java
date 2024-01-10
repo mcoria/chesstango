@@ -13,8 +13,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.debug.SetDebugSearchTree;
-import net.chesstango.search.smart.debug.SetTranspositionTablesDebug;
+import net.chesstango.search.smart.alphabeta.debug.SetDebugSearch;
+import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
 import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
 
@@ -34,14 +34,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
-    private SetTranspositionTablesDebug setTranspositionTablesDebug;
+    private SetDebugTranspositionTables setDebugTranspositionTables;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetContext setContext;
     private SetZobristMemory setZobristMemory;
-    private SetDebugSearchTree setDebugSearchTree;
+    private SetDebugSearch setDebugSearch;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -231,7 +231,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTranspositionTable) {
             if (withDebugSearchTree) {
-                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
+                setDebugTranspositionTables = new SetDebugTranspositionTables();
             } else {
                 setTranspositionTables = new SetTranspositionTables();
             }
@@ -259,7 +259,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearchTree = new SetDebugSearchTree(withAspirationWindows);
+            setDebugSearch = new SetDebugSearch(withAspirationWindows);
         }
 
     }
@@ -272,7 +272,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTranspositionTable) {
             if (withDebugSearchTree) {
-                smartListenerMediator.add(setTranspositionTablesDebug);
+                smartListenerMediator.add(setDebugTranspositionTables);
             } else {
                 smartListenerMediator.add(setTranspositionTables);
             }
@@ -299,14 +299,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(evaluatorStatistics);
         }
 
-        if (setDebugSearchTree != null) {
-            smartListenerMediator.add(setDebugSearchTree);
+        if (setDebugSearch != null) {
+            smartListenerMediator.add(setDebugSearch);
 
-            if (setTranspositionTablesDebug != null) {
-                smartListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
-                smartListenerMediator.add(setTranspositionTablesDebug.getMinMap());
-                smartListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
-                smartListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            if (setDebugTranspositionTables != null) {
+                smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());
+                smartListenerMediator.add(setDebugTranspositionTables.getMinMap());
+                smartListenerMediator.add(setDebugTranspositionTables.getQMaxMap());
+                smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
             }
         }
 
