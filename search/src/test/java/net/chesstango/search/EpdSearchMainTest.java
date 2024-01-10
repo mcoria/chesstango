@@ -290,7 +290,7 @@ public class EpdSearchMainTest {
                 .withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                .withDebugSearchTree()
+                //.withDebugSearchTree()
 
                 .build();
     }
