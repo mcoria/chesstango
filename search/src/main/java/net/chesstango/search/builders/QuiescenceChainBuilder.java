@@ -2,6 +2,8 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -26,7 +28,6 @@ public class QuiescenceChainBuilder {
     private ZobristTracker zobristQTracker;
     private TriangularPV triangularPV;
     private DebugTree debugSearchTree;
-    private DebugStandingPat debugStandingPat;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
@@ -80,6 +81,7 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        quiescenceLeafChainBuilder.withDebugSearchTree();
         return this;
     }
 
@@ -119,9 +121,8 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree();
-            this.debugStandingPat = new DebugStandingPat();
-            this.debugStandingPat.setGameEvaluator(gameEvaluator);
+            this.debugSearchTree = new DebugTree(SearchNode.SearchNodeType.QUIESCENCE);
+            this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
 
@@ -141,33 +142,27 @@ public class QuiescenceChainBuilder {
         }
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
-            smartListenerMediator.add(debugStandingPat);
         }
     }
 
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
+        if (debugSearchTree != null) {
+            chain.add(debugSearchTree);
+        }
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);
         }
         if (transpositionTableQ != null) {
             chain.add(transpositionTableQ);
         }
-        if (debugStandingPat != null) {
-            chain.add(debugStandingPat);
-        }
         if (quiescenceStatisticsExpected != null) {
             chain.add(quiescenceStatisticsExpected);
         }
         chain.add(quiescence);
-
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
-        }
-
-        if (debugSearchTree != null) {
-            chain.add(debugSearchTree);
         }
 
         chain.add(quiescenceFlowControl);
@@ -189,8 +184,6 @@ public class QuiescenceChainBuilder {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugTree) {
                 debugSearchTree.setNext(next);
-            } else if (currentFilter instanceof DebugStandingPat) {
-                debugStandingPat.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

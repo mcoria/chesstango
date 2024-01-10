@@ -13,6 +13,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.listeners.*;
+import net.chesstango.search.smart.debug.SetDebugSearchTree;
+import net.chesstango.search.smart.debug.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.statistics.GameStatistics;
 import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
 
@@ -32,6 +34,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
+    private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
@@ -51,6 +54,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withQuiescence;
     private boolean withPrintChain;
     private boolean withDebugSearchTree;
+    private boolean withAspirationWindows;
 
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
@@ -161,6 +165,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withAspirationWindows() {
         alphaBetaRootChainBuilder.withAspirationWindows();
+        this.withAspirationWindows = true;
         return this;
     }
 
@@ -179,6 +184,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     public AlphaBetaBuilder withDebugSearchTree() {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
+        alphaBetaTerminalChainBuilder.withDebugSearchTree();
+        alphaBetaHorizonChainBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
@@ -223,7 +230,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            setTranspositionTables = new SetTranspositionTables();
+            if (withDebugSearchTree) {
+                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
+            } else {
+                setTranspositionTables = new SetTranspositionTables();
+            }
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
@@ -248,7 +259,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearchTree = new SetDebugSearchTree();
+            setDebugSearchTree = new SetDebugSearchTree(withAspirationWindows);
         }
 
     }
@@ -259,8 +270,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(setContext);
         }
 
-        if (setTranspositionTables != null) {
-            smartListenerMediator.add(setTranspositionTables);
+        if (withTranspositionTable) {
+            if (withDebugSearchTree) {
+                smartListenerMediator.add(setTranspositionTablesDebug);
+            } else {
+                smartListenerMediator.add(setTranspositionTables);
+            }
         }
 
         if (setZobristMemory != null) {
@@ -286,6 +301,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setDebugSearchTree != null) {
             smartListenerMediator.add(setDebugSearchTree);
+
+            if (setTranspositionTablesDebug != null) {
+                smartListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getMinMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
+                smartListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            }
         }
 
         smartListenerMediator.add(setGameEvaluator);

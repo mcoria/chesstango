@@ -72,15 +72,13 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     protected void updateEntry(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
         int value = TranspositionEntry.decodeValue(moveAndValue);
 
-        TranspositionBound transpositionBound;
+        //TranspositionBound transpositionBound;
         if (beta <= value) {
-            transpositionBound = TranspositionBound.LOWER_BOUND;
+            //transpositionBound = TranspositionBound.LOWER_BOUND;
         } else if (value <= alpha) {
-            transpositionBound = TranspositionBound.UPPER_BOUND;
+            //transpositionBound = TranspositionBound.UPPER_BOUND;
         } else {
-            transpositionBound = TranspositionBound.EXACT;
+            table.write(hash, depth, moveAndValue, TranspositionBound.EXACT);
         }
-
-        table.write(hash, depth, moveAndValue, transpositionBound);
     }
 }

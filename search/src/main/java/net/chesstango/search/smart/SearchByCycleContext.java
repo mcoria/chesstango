@@ -3,11 +3,9 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TTable;
 
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +34,7 @@ public class SearchByCycleContext {
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
 
-    private PrintStream debugOut;
+    private SearchTracker searchTracker;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

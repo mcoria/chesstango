@@ -1,6 +1,8 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -15,9 +17,11 @@ public class AlphaBetaTerminalChainBuilder {
     private GameEvaluator gameEvaluator;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
+    private DebugTree debugTree;
     private SmartListenerMediator smartListenerMediator;
 
     private boolean withZobristTracker;
+    private boolean withDebugSearchTree;
 
     public AlphaBetaTerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
@@ -44,6 +48,11 @@ public class AlphaBetaTerminalChainBuilder {
         return this;
     }
 
+    public AlphaBetaTerminalChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
 
     /**
      * @return
@@ -64,16 +73,22 @@ public class AlphaBetaTerminalChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
+        if (withDebugSearchTree) {
+            this.debugTree = new DebugTree(SearchNode.SearchNodeType.TERMINAL);
+            this.debugTree.setGameEvaluator(gameEvaluator);
+        }
+
     }
 
     private void setupListenerMediator() {
-
-        // =============  alphaBeta setup =====================
         if (zobristTracker != null) {
             smartListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
+        }
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
         }
     }
 
@@ -81,6 +96,10 @@ public class AlphaBetaTerminalChainBuilder {
     private AlphaBetaFilter createChain() {
 
         List<AlphaBetaFilter> chain = new LinkedList<>();
+
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
@@ -100,9 +119,11 @@ public class AlphaBetaTerminalChainBuilder {
                 zobristTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTable) {
                 transpositionTable.setNext(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugTree.setNext(next);
             } else if (currentFilter instanceof AlphaBeta) {
                 //alphaBetaTerminal.setNext(next);
-            }else {
+            } else {
                 throw new RuntimeException("filter not found");
             }
         }

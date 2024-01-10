@@ -71,14 +71,15 @@ public class IterativeDeepening implements SearchMove {
                 progressListener.accept(searchResult);
             }
 
-            if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
-                break;
-            }
-
             countDownLatch.countDown();
             currentSearchDepth++;
 
-        } while (keepProcessing && currentSearchDepth <= maxDepth && searchPredicate.test(searchResult));
+        } while (keepProcessing &&
+                currentSearchDepth <= maxDepth &&
+                searchPredicate.test(searchResult) &&
+                GameEvaluator.WHITE_WON != searchResult.getEvaluation() &&
+                GameEvaluator.BLACK_WON != searchResult.getEvaluation()
+        );
 
         smartListenerMediator.triggerAfterSearch();
 

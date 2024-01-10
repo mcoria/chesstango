@@ -1,6 +1,8 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -72,7 +74,6 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
-        this.debugTree = new DebugTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -97,7 +98,7 @@ public class AlphaBetaInteriorChainBuilder {
             zobristTracker = new ZobristTracker();
         }
         if (withDebugSearchTree) {
-            debugTree = new DebugTree();
+            debugTree = new DebugTree(SearchNode.SearchNodeType.INTERIOR);
         }
 
         alphaBeta.setMoveSorter(moveSorter);
@@ -127,6 +128,10 @@ public class AlphaBetaInteriorChainBuilder {
 
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
         if (zobristTracker != null) {
             chain.add(zobristTracker);
         }
@@ -143,10 +148,6 @@ public class AlphaBetaInteriorChainBuilder {
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
-        }
-
-        if (debugTree != null) {
-            chain.add(debugTree);
         }
 
         chain.add(alphaBetaFlowControl);

@@ -49,7 +49,7 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
-            leafNode.maximize(currentPly, alpha, beta);
+            return leafNode.maximize(currentPly, alpha, beta);
         }
 
         return interiorNode.maximize(currentPly, alpha, beta);
@@ -62,7 +62,7 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
-            leafNode.minimize(currentPly, alpha, beta);
+            return leafNode.minimize(currentPly, alpha, beta);
         }
 
         return interiorNode.minimize(currentPly, alpha, beta);

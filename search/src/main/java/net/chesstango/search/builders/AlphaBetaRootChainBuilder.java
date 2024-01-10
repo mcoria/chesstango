@@ -1,6 +1,8 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
@@ -36,7 +38,6 @@ public class AlphaBetaRootChainBuilder {
 
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
-
 
     public AlphaBetaRootChainBuilder withStatistics() {
         this.withStatistics = true;
@@ -79,7 +80,6 @@ public class AlphaBetaRootChainBuilder {
     }
 
     public AlphaBetaRootChainBuilder withDebugSearchTree() {
-        this.debugTree = new DebugTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -112,7 +112,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugTree = new DebugTree();
+            debugTree = new DebugTree(SearchNode.SearchNodeType.ROOT);
         }
 
         moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
@@ -133,6 +133,10 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(aspirationWindows);
         }
 
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
+        }
+
         if (stopProcessingCatch != null) {
             smartListenerMediator.add(stopProcessingCatch);
         }
@@ -143,10 +147,6 @@ public class AlphaBetaRootChainBuilder {
 
         if (transpositionTableRoot != null) {
             smartListenerMediator.add(transpositionTableRoot);
-        }
-
-        if (debugTree != null) {
-            smartListenerMediator.add(debugTree);
         }
     }
 
@@ -163,12 +163,16 @@ public class AlphaBetaRootChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (transpositionTableRoot != null) {
-            chain.add(transpositionTableRoot);
-        }
-
         if (aspirationWindows != null) {
             chain.add(aspirationWindows);
+        }
+
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
+        if (transpositionTableRoot != null) {
+            chain.add(transpositionTableRoot);
         }
 
         if (alphaBetaStatisticsExpected != null) {
@@ -182,10 +186,6 @@ public class AlphaBetaRootChainBuilder {
         }
 
         chain.add(moveEvaluationTracker);
-
-        if (debugTree != null) {
-            chain.add(debugTree);
-        }
 
         chain.add(alphaBetaFlowControl);
 

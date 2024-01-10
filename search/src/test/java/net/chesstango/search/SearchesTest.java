@@ -31,17 +31,17 @@ public class SearchesTest {
 
                 .withQuiescence()
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
+                .withTranspositionTable()
+                .withQTranspositionTable()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
                 //.withTriangularPV()
 
-                .withStatistics()
+                //.withStatistics()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
@@ -98,7 +98,7 @@ public class SearchesTest {
     public void testSearch_02() {
         Game game = FENDecoder.loadGame("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
         searchResult = searchMove.search(game);
     }
 

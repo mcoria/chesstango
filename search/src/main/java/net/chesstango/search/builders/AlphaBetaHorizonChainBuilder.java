@@ -1,11 +1,10 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.debug.DebugTree;
+import net.chesstango.search.smart.debug.SearchNode;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHorizon;
-import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
-import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
+import net.chesstango.search.smart.alphabeta.filters.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,10 +18,11 @@ public class AlphaBetaHorizonChainBuilder {
     private GameEvaluator gameEvaluator;
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
-
     private ZobristTracker zobristTracker;
+    private DebugTree debugTree;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
+    private boolean withDebugSearchTree;
 
     public AlphaBetaHorizonChainBuilder() {
         alphaBetaHorizon = new AlphaBetaHorizon();
@@ -54,6 +54,11 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
+    public AlphaBetaHorizonChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
     /**
      * @return
      */
@@ -75,6 +80,11 @@ public class AlphaBetaHorizonChainBuilder {
         if (withTranspositionTable) {
             transpositionTable = new TranspositionTable();
         }
+
+        if (withDebugSearchTree) {
+            this.debugTree = new DebugTree(SearchNode.SearchNodeType.HORIZON);
+            this.debugTree.setGameEvaluator(gameEvaluator);
+        }
     }
 
     private void setupListenerMediator() {
@@ -86,14 +96,22 @@ public class AlphaBetaHorizonChainBuilder {
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
         }
+        if (debugTree != null) {
+            smartListenerMediator.add(debugTree);
+        }
     }
 
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
+        if (debugTree != null) {
+            chain.add(debugTree);
+        }
+
         if (zobristTracker != null) {
             chain.add(zobristTracker);
         }
+
         if (transpositionTable != null) {
             chain.add(transpositionTable);
         }
@@ -112,6 +130,8 @@ public class AlphaBetaHorizonChainBuilder {
                 transpositionTable.setNext(next);
             } else if (currentFilter instanceof AlphaBetaHorizon) {
                 alphaBetaHorizon.setQuiescence(next);
+            } else if (currentFilter instanceof DebugTree) {
+                debugTree.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }
