@@ -27,6 +27,6 @@ module net.chesstango.search {
     opens net.chesstango.search;
     opens net.chesstango.search.smart;
     opens net.chesstango.search.smart.statistics;
-    exports net.chesstango.search.smart.debug;
-    opens net.chesstango.search.smart.debug;
+    exports net.chesstango.search.smart.alphabeta.debug;
+    opens net.chesstango.search.smart.alphabeta.debug;
 }

@@ -1,12 +1,9 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.debug.SearchNode;
-import net.chesstango.search.smart.debug.SearchNodeTT;
-import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -19,17 +16,17 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-    private HexFormat hexFormat = HexFormat.of().withUpperCase();
+    private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final boolean withAspirationWindows;
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
     private SearchTracker searchTracker;
 
-    public SetDebugSearchTree(boolean withAspirationWindows) {
+    public SetDebugSearch(boolean withAspirationWindows) {
         this.withAspirationWindows = withAspirationWindows;
     }
 
@@ -46,6 +43,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         debugOut.print("Search started\n");
 
         searchTracker = new SearchTracker();
+
         context.setSearchTracker(searchTracker);
     }
 
@@ -72,10 +70,9 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
-
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-");
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
     }
 
     @Override
@@ -94,7 +91,7 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
         searchTracker.reset();
     }
 
-    private void dumpNode(int depth, SearchNode currentNode) {
+    private void dumpNode(int depth, DebugNode currentNode) {
         if (depth == 0) {
             debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
         } else {
@@ -111,41 +108,69 @@ public class SetDebugSearchTree implements SearchByCycleListener, SearchByDepthL
 
         debugOut.printf(" value=%d", currentNode.getValue());
 
-        debugOut.print("\n");
+        if (currentNode.getTranspositionOperations().size() == 1) {
+            DebugNodeTT ttOperation = currentNode.getTranspositionOperations().get(0);
 
+            int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
 
-        for (SearchNodeTT ttOperations :
-                currentNode.getTranspositionOperations()) {
-
-            if (SearchNodeTT.TranspositionOperationType.READ.equals(ttOperations.transpositionOperation())) {
-                int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
-                debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]\n",
-                        ">\t".repeat(depth),
-                        ttOperations.tableName(),
-                        hexFormat.formatHex(longToByte(ttOperations.hash())),
-                        ttOperations.depth(),
+            if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
+                if (currentNode.getZobristHash() != ttOperation.hash()) {
+                    throw new RuntimeException("currentNodeTracker.value != ttValue");
+                }
+                debugOut.printf(" ReadTT[ %s depth=%d value=%d ]",
+                        ttOperation.tableName(),
+                        ttOperation.depth(),
                         ttValue);
             }
 
-            if (SearchNodeTT.TranspositionOperationType.WRITE.equals(ttOperations.transpositionOperation())) {
-                int ttValue = TranspositionEntry.decodeValue(ttOperations.movesAndValue());
-
+            if (DebugNodeTT.TranspositionOperationType.WRITE.equals(ttOperation.transpositionOperation())) {
                 if (currentNode.getValue() != ttValue) {
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
 
-                debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d ]\n",
-                        ">\t".repeat(depth),
-                        ttOperations.tableName(),
-                        hexFormat.formatHex(longToByte(ttOperations.hash())),
-                        ttOperations.depth(),
+                debugOut.printf(" WriteTT[ %s depth=%d value=%d ]",
+                        ttOperation.tableName(),
+                        ttOperation.depth(),
                         ttValue);
             }
         }
 
-        //int nextDepth = SearchNode.SearchNodeType.HORIZON.equals(currentNode.getNodeType()) ? depth : depth + 1;
+        debugOut.print("\n");
 
-        for (SearchNode childNode : currentNode.getChildNodes()) {
+
+        if (currentNode.getTranspositionOperations().size() > 1) {
+            for (DebugNodeTT ttOperation :
+                    currentNode.getTranspositionOperations()) {
+
+                int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
+
+                if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
+                    debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]",
+                            ">\t".repeat(depth),
+                            ttOperation.tableName(),
+                            hexFormat.formatHex(longToByte(ttOperation.hash())),
+                            ttOperation.depth(),
+                            ttValue);
+                }
+
+                if (DebugNodeTT.TranspositionOperationType.WRITE.equals(ttOperation.transpositionOperation())) {
+                    if (currentNode.getValue() != ttValue) {
+                        throw new RuntimeException("currentNodeTracker.value != ttValue");
+                    }
+
+                    debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d ]",
+                            ">\t".repeat(depth),
+                            ttOperation.tableName(),
+                            hexFormat.formatHex(longToByte(ttOperation.hash())),
+                            ttOperation.depth(),
+                            ttValue);
+                }
+
+                debugOut.print("\n");
+            }
+        }
+
+        for (DebugNode childNode : currentNode.getChildNodes()) {
             dumpNode(depth + 1, childNode);
         }
     }

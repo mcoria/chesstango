@@ -1,8 +1,8 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.debug.DebugTree;
-import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -17,7 +17,7 @@ public class AlphaBetaTerminalChainBuilder {
     private GameEvaluator gameEvaluator;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
-    private DebugTree debugTree;
+    private DebugFilter debugFilter;
     private SmartListenerMediator smartListenerMediator;
 
     private boolean withZobristTracker;
@@ -74,8 +74,8 @@ public class AlphaBetaTerminalChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugTree = new DebugTree(SearchNode.SearchNodeType.TERMINAL);
-            this.debugTree.setGameEvaluator(gameEvaluator);
+            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.TERMINAL);
+            this.debugFilter.setGameEvaluator(gameEvaluator);
         }
 
     }
@@ -87,8 +87,8 @@ public class AlphaBetaTerminalChainBuilder {
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
         }
-        if (debugTree != null) {
-            smartListenerMediator.add(debugTree);
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
         }
     }
 
@@ -97,8 +97,8 @@ public class AlphaBetaTerminalChainBuilder {
 
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
-        if (debugTree != null) {
-            chain.add(debugTree);
+        if (debugFilter != null) {
+            chain.add(debugFilter);
         }
 
         if (zobristTracker != null) {
@@ -119,8 +119,8 @@ public class AlphaBetaTerminalChainBuilder {
                 zobristTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTable) {
                 transpositionTable.setNext(next);
-            } else if (currentFilter instanceof DebugTree) {
-                debugTree.setNext(next);
+            } else if (currentFilter instanceof DebugFilter) {
+                debugFilter.setNext(next);
             } else if (currentFilter instanceof AlphaBeta) {
                 //alphaBetaTerminal.setNext(next);
             } else {

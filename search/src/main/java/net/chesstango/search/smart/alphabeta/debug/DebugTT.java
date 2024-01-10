@@ -1,9 +1,7 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
-import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -11,14 +9,13 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class TTableDebug implements TTable, SearchByCycleListener {
+public class DebugTT implements TTable, SearchByCycleListener {
 
-    @Getter
     private final TTable tTable;
     private final String tableName;
     private SearchTracker searchTracker;
 
-    public TTableDebug(String tableName, TTable tTable){
+    public DebugTT(String tableName, TTable tTable) {
         this.tableName = tableName;
         this.tTable = tTable;
     }

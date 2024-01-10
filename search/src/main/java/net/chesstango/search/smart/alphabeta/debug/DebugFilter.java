@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.debug;
+package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,14 +12,12 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.debug.SearchNode;
-import net.chesstango.search.smart.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     private SearchTracker searchTracker;
 
@@ -34,9 +32,9 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
     private AlphaBetaFilter next;
     private int maxPly;
 
-    private final SearchNode.SearchNodeType searchNodeType;
+    private final DebugNode.SearchNodeType searchNodeType;
 
-    public DebugTree(SearchNode.SearchNodeType searchNodeType) {
+    public DebugFilter(DebugNode.SearchNodeType searchNodeType) {
         this.searchNodeType = searchNodeType;
     }
 
@@ -86,8 +84,8 @@ public class DebugTree implements AlphaBetaFilter, SearchByCycleListener, Search
 
         searchTracker.setDebugSearch(fnString, alpha, beta);
 
-        if (maxPly <= currentPly && (SearchNode.SearchNodeType.QUIESCENCE.equals(searchNodeType) ||
-                                    SearchNode.SearchNodeType.Q_LEAF.equals(searchNodeType))) {
+        if (maxPly <= currentPly && (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType) ||
+                                    DebugNode.SearchNodeType.Q_LEAF.equals(searchNodeType))) {
             searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
 

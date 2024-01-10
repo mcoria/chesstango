@@ -2,8 +2,8 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.debug.DebugTree;
-import net.chesstango.search.smart.debug.SearchNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
@@ -18,7 +18,7 @@ public class QuiescenceLeafChainBuilder {
     private GameEvaluator gameEvaluator;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
-    private DebugTree debugSearchTree;
+    private DebugFilter debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -86,7 +86,7 @@ public class QuiescenceLeafChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugTree(SearchNode.SearchNodeType.Q_LEAF);
+            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.Q_LEAF);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
@@ -128,7 +128,7 @@ public class QuiescenceLeafChainBuilder {
                 zobristQTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTableQ) {
                 transpositionTableQ.setNext(next);
-            } else if (currentFilter instanceof DebugTree) {
+            } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {
                 //leaf
