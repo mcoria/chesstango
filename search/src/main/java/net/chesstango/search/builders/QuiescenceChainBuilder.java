@@ -17,9 +17,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class QuiescenceChainBuilder {
-    private final QuiescenceLeafChainBuilder quiescenceLeafChainBuilder;
     private final Quiescence quiescence;
-    private final QuiescenceFlowControl quiescenceFlowControl;
+    private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
     private MoveSorter qMoveSorter;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
@@ -38,13 +37,20 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder() {
         quiescence = new Quiescence();
-        quiescenceLeafChainBuilder = new QuiescenceLeafChainBuilder();
-        quiescenceFlowControl = new QuiescenceFlowControl();
     }
 
     public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
-        quiescenceLeafChainBuilder.withGameEvaluator(gameEvaluator);
+        return this;
+    }
+
+    public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
+        this.extensionFlowControl = extensionFlowControl;
+        return this;
+    }
+
+    public QuiescenceChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
@@ -55,7 +61,6 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
-        quiescenceLeafChainBuilder.withTranspositionTable();
         return this;
     }
 
@@ -69,19 +74,11 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
-        quiescenceLeafChainBuilder.withZobristTracker();
-        return this;
-    }
-
-    public QuiescenceChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
-        quiescenceLeafChainBuilder.withSmartListenerMediator(smartListenerMediator);
         return this;
     }
 
     public QuiescenceChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
-        quiescenceLeafChainBuilder.withDebugSearchTree();
         return this;
     }
 
@@ -129,7 +126,6 @@ public class QuiescenceChainBuilder {
     private void setupListenerMediator() {
         smartListenerMediator.add(qMoveSorter);
         smartListenerMediator.add(quiescence);
-        smartListenerMediator.add(quiescenceFlowControl);
         if (withStatistics) {
             smartListenerMediator.add(quiescenceStatisticsExpected);
             smartListenerMediator.add(quiescenceStatisticsVisited);
@@ -165,7 +161,7 @@ public class QuiescenceChainBuilder {
             chain.add(quiescenceStatisticsVisited);
         }
 
-        chain.add(quiescenceFlowControl);
+        chain.add(extensionFlowControl);
 
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -188,9 +184,6 @@ public class QuiescenceChainBuilder {
                 throw new RuntimeException("filter not found");
             }
         }
-
-        quiescenceFlowControl.setInteriorNode(chain.get(0));
-        quiescenceFlowControl.setLeafNode(quiescenceLeafChainBuilder.build());
 
         return chain.get(0);
     }

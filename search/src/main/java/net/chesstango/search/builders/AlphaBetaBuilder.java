@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
+import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugSearch;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
@@ -27,11 +28,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaTerminalChainBuilder alphaBetaTerminalChainBuilder;
     private final AlphaBetaHorizonChainBuilder alphaBetaHorizonChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
+    private final QuiescenceLeafChainBuilder quiescenceLeafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final SetGameEvaluator setGameEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SmartListenerMediator smartListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
+    private final ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
     private SetTranspositionTables setTranspositionTables;
     private SetDebugTranspositionTables setDebugTranspositionTables;
@@ -63,12 +66,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaHorizonChainBuilder = new AlphaBetaHorizonChainBuilder();
 
         quiescenceChainBuilder = new QuiescenceChainBuilder();
+        quiescenceLeafChainBuilder = new  QuiescenceLeafChainBuilder();
         quiescenceNullChainBuilder = new QuiescenceNullChainBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
         setGameEvaluator = new SetGameEvaluator();
         smartListenerMediator = new SmartListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
+        extensionFlowControl = new ExtensionFlowControl();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -119,6 +124,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withQTranspositionTable() {
         quiescenceChainBuilder.withTranspositionTable();
+        quiescenceLeafChainBuilder.withTranspositionTable();
         return this;
     }
 
@@ -160,6 +166,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaHorizonChainBuilder.withZobristTracker();
 
         quiescenceChainBuilder.withZobristTracker();
+        quiescenceLeafChainBuilder.withZobristTracker();
         return this;
     }
 
@@ -188,6 +195,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
+        quiescenceLeafChainBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -315,6 +323,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         smartListenerMediator.add(alphaBetaFacade);
 
         smartListenerMediator.add(alphaBetaFlowControl);
+
+        smartListenerMediator.add(extensionFlowControl);
     }
 
 
@@ -322,14 +332,21 @@ public class AlphaBetaBuilder implements SearchBuilder {
         setGameEvaluator.setGameEvaluator(gameEvaluator);
 
         AlphaBetaFilter quiescenceChain;
+        AlphaBetaFilter quiescenceLeaf;
         if (withQuiescence) {
             quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
             quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
             quiescenceChain = quiescenceChainBuilder.build();
+
+            quiescenceLeafChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceLeafChainBuilder.withSmartListenerMediator(smartListenerMediator);
+            quiescenceLeaf = quiescenceLeafChainBuilder.build();
         } else {
             quiescenceNullChainBuilder.withSmartListenerMediator(smartListenerMediator);
             quiescenceNullChainBuilder.withGameEvaluator(gameEvaluator);
             quiescenceChain = quiescenceNullChainBuilder.build();
+            quiescenceLeaf = quiescenceChain;
         }
 
         alphaBetaTerminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
@@ -339,7 +356,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaHorizonChainBuilder.withGameEvaluator(gameEvaluator);
-        alphaBetaHorizonChainBuilder.withQuiescence(quiescenceChain);
+        alphaBetaHorizonChainBuilder.withExtension(extensionFlowControl);
         AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
 
 
@@ -350,6 +367,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl.setHorizonNode(horizonChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
         alphaBetaFlowControl.setTerminalNode(terminalChain);
+
+        extensionFlowControl.setQuiescenceNode(quiescenceChain);
+        extensionFlowControl.setLeafNode(quiescenceLeaf);
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
