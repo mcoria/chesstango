@@ -140,7 +140,6 @@ public class ChainPrinter {
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
-            //QuiescenceFlowControl
         } else {
             printChainText(String.format("%s @%s -> LOOP", alphaBetaFilter.getClass().getSimpleName(), Integer.toHexString(alphaBetaFilter.hashCode())), nestedChain);
             printChainText("", nestedChain);
@@ -258,6 +257,11 @@ public class ChainPrinter {
         printChainText(" -> QuiescenceNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(quiescenceNode, nestedChainLevelDown);
+
+        AlphaBetaFilter checkResolverNode = extensionFlowControl.getCheckResolverNode();
+        printChainText(" -> CheckResolverNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(checkResolverNode, nestedChainLevelDown);
 
         AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
         printChainText(" -> LeafNode", nestedChain);

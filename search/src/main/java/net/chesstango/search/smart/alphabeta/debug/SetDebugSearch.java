@@ -72,7 +72,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-"); //getPrincipalVariation(result)
     }
 
     @Override
@@ -93,11 +93,11 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
     private void dumpNode(int depth, DebugNode currentNode) {
         if (depth == 0) {
-            debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
+            debugOut.printf("%s alpha=%d beta=%d %s", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta(), currentNode.nodeType);
         } else {
             String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
 
-            debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
+            debugOut.printf("%s%s %s alpha=%d beta=%d %s", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta(), currentNode.nodeType);
         }
 
         if (currentNode.getStandingPat() != null) {

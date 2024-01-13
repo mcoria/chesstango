@@ -23,6 +23,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter quiescenceNode;
 
+    @Setter
+    @Getter
+    private AlphaBetaFilter checkResolverNode;
+
     private Game game;
 
     @Override
@@ -46,6 +50,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
+        if (game.getStatus().isCheck()) {
+            return checkResolverNode.maximize(currentPly, alpha, beta);
+        }
+
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
             return leafNode.maximize(currentPly, alpha, beta);
         }
@@ -57,6 +65,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     public long minimize(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
+        }
+
+        if (game.getStatus().isCheck()) {
+            return checkResolverNode.minimize(currentPly, alpha, beta);
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
