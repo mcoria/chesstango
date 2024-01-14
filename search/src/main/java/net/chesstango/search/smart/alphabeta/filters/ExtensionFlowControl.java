@@ -4,17 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.StopSearchingListener;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
+public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter
@@ -23,7 +21,11 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
 
     @Setter
     @Getter
-    private AlphaBetaFilter interiorNode;
+    private AlphaBetaFilter quiescenceNode;
+
+    @Setter
+    @Getter
+    private AlphaBetaFilter checkResolverNode;
 
     private Game game;
 
@@ -48,11 +50,15 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
             throw new StopSearchingException();
         }
 
+        if (game.getStatus().isCheck()) {
+            return checkResolverNode.maximize(currentPly, alpha, beta);
+        }
+
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
             return leafNode.maximize(currentPly, alpha, beta);
         }
 
-        return interiorNode.maximize(currentPly, alpha, beta);
+        return quiescenceNode.maximize(currentPly, alpha, beta);
     }
 
     @Override
@@ -61,11 +67,15 @@ public class QuiescenceFlowControl implements AlphaBetaFilter, SearchByCycleList
             throw new StopSearchingException();
         }
 
+        if (game.getStatus().isCheck()) {
+            return checkResolverNode.minimize(currentPly, alpha, beta);
+        }
+
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
             return leafNode.minimize(currentPly, alpha, beta);
         }
 
-        return interiorNode.minimize(currentPly, alpha, beta);
+        return quiescenceNode.minimize(currentPly, alpha, beta);
     }
 
     private boolean isCurrentPositionQuiet() {

@@ -214,6 +214,14 @@ public class EpdSearchMainTest {
     }
 
     @Test
+    public void test_40H_022() {
+        epdSearch.setDepth(1);
+        EPDEntry epdEntry = epdReader.readEdpLine("6kr/1p3ppp/p1q2b2/2Bp1N2/3P4/6Q1/PP3PPP/4R1K1 w - - bm Nf5-h6+; ce +M1; pv Nf5-h6+; id \"022\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+    @Test
     public void test_40H_10255() {
         epdSearch.setDepth(6);
         EPDEntry epdEntry = epdReader.readEdpLine("5r2/ppbqn2k/7B/2p1p2p/P1NpP1P1/3P4/1PP2r2/R1Q1K1R1 b Q - bm Qd7xg4; ce -M3; pv Qd7xg4 Rg1xg4 Rf2-f1+ Ke1-e2 Rf8-f2+; id \"10255\";");
@@ -274,6 +282,7 @@ public class EpdSearchMainTest {
                 .withGameEvaluator(new DefaultEvaluator())
                 //.withGameEvaluatorCache()
 
+                //.withExtensionCheckResolver()
                 .withQuiescence()
 
                 .withTranspositionTable()
@@ -287,7 +296,7 @@ public class EpdSearchMainTest {
                 //.withTriangularPV()
 
                 .withStatistics()
-                .withPrintChain()
+                //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withDebugSearchTree()

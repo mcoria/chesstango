@@ -48,9 +48,11 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
 
+    protected abstract int getDepth(int currentPly);
+
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = maxPly > currentPly ? maxPly - currentPly : currentPly - maxPly;
+        int searchDepth = getDepth(currentPly);
 
         long hash = game.getChessPosition().getZobristHash();
 
@@ -77,7 +79,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = maxPly > currentPly ? maxPly - currentPly : currentPly - maxPly;
+        int searchDepth = getDepth(currentPly);
 
         long hash = game.getChessPosition().getZobristHash();
 

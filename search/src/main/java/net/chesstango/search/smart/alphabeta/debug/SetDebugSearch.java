@@ -72,7 +72,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-"); //getPrincipalVariation(result)
     }
 
     @Override
@@ -92,19 +92,17 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
     private void dumpNode(int depth, DebugNode currentNode) {
-        if (depth == 0) {
-            debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
-        } else {
+        if (depth > 0) {
             String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
-
-            debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
+            debugOut.printf("%s%s", ">\t".repeat(depth), moveStr);
         }
+
+        debugOut.printf(" %s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.nodeType, hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
+
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
-
-        debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
 
         debugOut.printf(" value=%d", currentNode.getValue());
 

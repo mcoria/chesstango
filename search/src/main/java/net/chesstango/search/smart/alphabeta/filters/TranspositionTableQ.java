@@ -20,7 +20,12 @@ public class TranspositionTableQ extends TranspositionTableAbstract {
 
     @Override
     protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {
-        return Objects.nonNull(entry) && entry.isStored(hash);
+        return Objects.nonNull(entry);
+    }
+
+    @Override
+    protected int getDepth(int currentPly) {
+        return currentPly - maxPly;
     }
 
 }

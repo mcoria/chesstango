@@ -58,9 +58,13 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     protected void updateCounters(final int currentPly) {
         final int qLevel = currentPly - maxPly;
         int expectedMoves = 0;
-        for (Move move : game.getPossibleMoves()) {
-            if (!move.isQuiet()) {
-                expectedMoves++;
+        if(game.getStatus().isCheck()){
+            expectedMoves = game.getPossibleMoves().size();
+        } else {
+            for (Move move : game.getPossibleMoves()) {
+                if (!move.isQuiet()) {
+                    expectedMoves++;
+                }
             }
         }
         expectedNodesCounters[qLevel] += expectedMoves;

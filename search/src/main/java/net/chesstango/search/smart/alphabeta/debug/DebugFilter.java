@@ -84,8 +84,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
         searchTracker.setDebugSearch(fnString, alpha, beta);
 
-        if (maxPly <= currentPly && (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType) ||
-                                    DebugNode.SearchNodeType.Q_LEAF.equals(searchNodeType))) {
+        if (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType)) {
             searchTracker.setStandingPat(gameEvaluator.evaluate());
         }
 

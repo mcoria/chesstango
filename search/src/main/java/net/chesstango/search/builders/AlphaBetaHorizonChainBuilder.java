@@ -1,10 +1,12 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +15,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaHorizonChainBuilder {
-    private final AlphaBetaHorizon alphaBetaHorizon;
     private SmartListenerMediator smartListenerMediator;
     private GameEvaluator gameEvaluator;
     private AlphaBetaFilter quiescence;
@@ -25,7 +26,6 @@ public class AlphaBetaHorizonChainBuilder {
     private boolean withDebugSearchTree;
 
     public AlphaBetaHorizonChainBuilder() {
-        alphaBetaHorizon = new AlphaBetaHorizon();
     }
 
     public AlphaBetaHorizonChainBuilder withTranspositionTable() {
@@ -49,7 +49,7 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
-    public AlphaBetaHorizonChainBuilder withQuiescence(AlphaBetaFilter quiescenceChain) {
+    public AlphaBetaHorizonChainBuilder withExtension(AlphaBetaFilter quiescenceChain) {
         this.quiescence = quiescenceChain;
         return this;
     }
@@ -71,8 +71,6 @@ public class AlphaBetaHorizonChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaHorizon.setGameEvaluator(gameEvaluator);
-
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -88,16 +86,14 @@ public class AlphaBetaHorizonChainBuilder {
     }
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(alphaBetaHorizon);
-
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
+        }
         if (zobristTracker != null) {
             smartListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
-        }
-        if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
         }
     }
 
@@ -116,8 +112,6 @@ public class AlphaBetaHorizonChainBuilder {
             chain.add(transpositionTable);
         }
 
-        chain.add(alphaBetaHorizon);
-
         chain.add(quiescence);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -128,8 +122,6 @@ public class AlphaBetaHorizonChainBuilder {
                 zobristTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTable) {
                 transpositionTable.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaHorizon) {
-                alphaBetaHorizon.setQuiescence(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
             } else {

@@ -38,5 +38,5 @@ public class DebugNode {
         newNode.parent = this;
     }
 
-    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, Q_LEAF}
+    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, CHECK_EXTENSION, LEAF}
 }

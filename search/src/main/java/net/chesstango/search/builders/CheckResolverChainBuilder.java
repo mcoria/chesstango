@@ -2,9 +2,9 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceChainBuilder {
-    private final Quiescence quiescence;
+public class CheckResolverChainBuilder {
+    private final AlphaBeta alphaBeta;
     private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
     private MoveSorter qMoveSorter;
@@ -25,7 +25,6 @@ public class QuiescenceChainBuilder {
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
-    private TriangularPV triangularPV;
     private DebugFilter debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
@@ -35,36 +34,36 @@ public class QuiescenceChainBuilder {
     private boolean withDebugSearchTree;
 
 
-    public QuiescenceChainBuilder() {
-        quiescence = new Quiescence();
+    public CheckResolverChainBuilder() {
+        alphaBeta = new AlphaBeta();
     }
 
-    public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+    public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
 
-    public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
+    public CheckResolverChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
         this.extensionFlowControl = extensionFlowControl;
         return this;
     }
 
-    public QuiescenceChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+    public CheckResolverChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
-    public QuiescenceChainBuilder withStatistics() {
+    public CheckResolverChainBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withTranspositionTable() {
+    public CheckResolverChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withTranspositionMoveSorter() {
+    public CheckResolverChainBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
@@ -72,27 +71,17 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withZobristTracker() {
+    public CheckResolverChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withDebugSearchTree() {
+    public CheckResolverChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
 
-    /**
-     * <p>
-     * <p>
-     * *  QuiescenceStatics -> ZobristTracker -> TranspositionTableQ -> QuiescenceFlowControl -> Quiescence
-     * *            ^                                                                              |
-     * *            |                                                                              |
-     * *            -------------------------------------------------------------------------------
-     *
-     * @return
-     */
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -104,8 +93,7 @@ public class QuiescenceChainBuilder {
     private void buildObjects() {
         qMoveSorter = withTranspositionMoveSorter ? new TranspositionMoveSorterQ() : new DefaultMoveSorter();
 
-        quiescence.setMoveSorter(qMoveSorter);
-        quiescence.setGameEvaluator(gameEvaluator);
+        alphaBeta.setMoveSorter(qMoveSorter);
 
         if (withStatistics) {
             quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
@@ -118,14 +106,14 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.QUIESCENCE);
+            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }
 
     private void setupListenerMediator() {
         smartListenerMediator.add(qMoveSorter);
-        smartListenerMediator.add(quiescence);
+        smartListenerMediator.add(alphaBeta);
         if (withStatistics) {
             smartListenerMediator.add(quiescenceStatisticsExpected);
             smartListenerMediator.add(quiescenceStatisticsVisited);
@@ -156,7 +144,9 @@ public class QuiescenceChainBuilder {
         if (quiescenceStatisticsExpected != null) {
             chain.add(quiescenceStatisticsExpected);
         }
-        chain.add(quiescence);
+
+        chain.add(alphaBeta);
+
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
         }
@@ -174,8 +164,8 @@ public class QuiescenceChainBuilder {
                 transpositionTableQ.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsExpected) {
                 quiescenceStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof Quiescence) {
-                quiescence.setNext(next);
+            } else if (currentFilter instanceof AlphaBeta) {
+                alphaBeta.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {

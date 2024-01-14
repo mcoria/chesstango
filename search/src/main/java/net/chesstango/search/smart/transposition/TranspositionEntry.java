@@ -46,7 +46,7 @@ public class TranspositionEntry implements Serializable {
         transpositionBound = null;
     }
 
-    public boolean isStored(long hash) {
+    boolean isStored(long hash) {
         return this.hash == hash;
     }
 }
