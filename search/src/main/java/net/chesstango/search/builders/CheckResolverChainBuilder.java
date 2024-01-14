@@ -106,7 +106,7 @@ public class CheckResolverChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.CHECKRESOLVER);
+            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }

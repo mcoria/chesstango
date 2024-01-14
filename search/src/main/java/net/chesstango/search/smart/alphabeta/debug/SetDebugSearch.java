@@ -92,19 +92,17 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
     private void dumpNode(int depth, DebugNode currentNode) {
-        if (depth == 0) {
-            debugOut.printf("%s alpha=%d beta=%d %s", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta(), currentNode.nodeType);
-        } else {
+        if (depth > 0) {
             String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
-
-            debugOut.printf("%s%s %s alpha=%d beta=%d %s", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta(), currentNode.nodeType);
+            debugOut.printf("%s%s", ">\t".repeat(depth), moveStr);
         }
+
+        debugOut.printf(" %s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.nodeType, hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
+
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
-
-        debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
 
         debugOut.printf(" value=%d", currentNode.getValue());
 

@@ -20,8 +20,10 @@ public class AlphaBetaHorizonChainBuilder {
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
+    private DebugFilter debugFilter;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
+    private boolean withDebugSearchTree;
 
     public AlphaBetaHorizonChainBuilder() {
     }
@@ -52,6 +54,11 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
+    public AlphaBetaHorizonChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
+        return this;
+    }
+
     /**
      * @return
      */
@@ -71,10 +78,17 @@ public class AlphaBetaHorizonChainBuilder {
         if (withTranspositionTable) {
             transpositionTable = new TranspositionTable();
         }
+
+        if (withDebugSearchTree) {
+            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.HORIZON);
+            this.debugFilter.setGameEvaluator(gameEvaluator);
+        }
     }
 
     private void setupListenerMediator() {
-
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
+        }
         if (zobristTracker != null) {
             smartListenerMediator.add(zobristTracker);
         }
@@ -85,6 +99,10 @@ public class AlphaBetaHorizonChainBuilder {
 
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
+
+        if (debugFilter != null) {
+            chain.add(debugFilter);
+        }
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
@@ -104,6 +122,8 @@ public class AlphaBetaHorizonChainBuilder {
                 zobristTracker.setNext(next);
             } else if (currentFilter instanceof TranspositionTable) {
                 transpositionTable.setNext(next);
+            } else if (currentFilter instanceof DebugFilter) {
+                debugFilter.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }
