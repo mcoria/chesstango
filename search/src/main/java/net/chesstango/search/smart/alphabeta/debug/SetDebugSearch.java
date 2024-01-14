@@ -115,8 +115,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 if (currentNode.getZobristHash() != ttOperation.hash()) {
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
-                debugOut.printf(" ReadTT[ %s depth=%d value=%d ]",
+                debugOut.printf(" ReadTT[ %s %s depth=%d value=%d ]",
                         ttOperation.tableName(),
+                        ttOperation.bound(),
                         ttOperation.depth(),
                         ttValue);
             }
@@ -126,8 +127,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
 
-                debugOut.printf(" WriteTT[ %s depth=%d value=%d ]",
+                debugOut.printf(" WriteTT[ %s %s depth=%d value=%d ]",
                         ttOperation.tableName(),
+                        ttOperation.bound(),
                         ttOperation.depth(),
                         ttValue);
             }
@@ -143,9 +145,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
 
                 if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
-                    debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]",
+                    debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(depth),
                             ttOperation.tableName(),
+                            ttOperation.bound(),
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
                             ttOperation.depth(),
                             ttValue);
@@ -156,9 +159,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                         throw new RuntimeException("currentNodeTracker.value != ttValue");
                     }
 
-                    debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d ]",
+                    debugOut.printf("%s WriteTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(depth),
                             ttOperation.tableName(),
+                            ttOperation.bound(),
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
                             ttOperation.depth(),
                             ttValue);
