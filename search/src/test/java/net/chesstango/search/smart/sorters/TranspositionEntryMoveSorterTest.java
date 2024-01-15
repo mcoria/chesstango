@@ -52,9 +52,7 @@ public class TranspositionEntryMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry tableEntry = maxMap.read(hash);
-
-        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
+        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 0, 1);
 
         maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
 

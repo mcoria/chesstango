@@ -44,8 +44,9 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
         boolean search = true;
         Move bestMove = null;
         int maxValue = gameEvaluator.evaluate();
+        int valueDepth = currentPly;
         if (maxValue >= beta) {
-            return TranspositionEntry.encode(maxValue);
+            return TranspositionEntry.encode(valueDepth, maxValue);
         }
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -60,6 +61,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMove = move;
+                    valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                     if (maxValue >= beta) {
                         search = false;
                     }
@@ -68,7 +70,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, valueDepth, maxValue);
     }
 
     @Override
@@ -76,8 +78,9 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
         boolean search = true;
         Move bestMove = null;
         int minValue = gameEvaluator.evaluate();
+        int valueDepth = currentPly;
         if (minValue <= alpha) {
-            return TranspositionEntry.encode(minValue);
+            return TranspositionEntry.encode(valueDepth, minValue);
         }
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -92,6 +95,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                 if (currentValue < minValue) {
                     minValue = currentValue;
                     bestMove = move;
+                    valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                     if (minValue <= alpha) {
                         search = false;
                     }
@@ -100,7 +104,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, minValue);
+        return TranspositionEntry.encode(bestMove, valueDepth, minValue);
     }
 
 

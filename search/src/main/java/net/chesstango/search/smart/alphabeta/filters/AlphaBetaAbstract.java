@@ -39,6 +39,7 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
         boolean search = true;
         Move bestMove = null;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
+        int valueDepth = currentPly;
 
         List<Move> sortedMoves = getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -51,14 +52,14 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMove = move;
-
+                valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                 if (maxValue >= beta) {
                     search = false;
                 }
             }
             game = game.undoMove();
         }
-        return TranspositionEntry.encode(bestMove, maxValue);
+        return TranspositionEntry.encode(bestMove, valueDepth, maxValue);
     }
 
     @Override
@@ -66,6 +67,7 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
         boolean search = true;
         Move bestMove = null;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
+        int valueDepth = currentPly;
 
         List<Move> sortedMoves = getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -78,13 +80,14 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
             if (currentValue < minValue) {
                 minValue = currentValue;
                 bestMove = move;
+                valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                 if (minValue <= alpha) {
                     search = false;
                 }
             }
             game = game.undoMove();
         }
-        return TranspositionEntry.encode(bestMove, minValue);
+        return TranspositionEntry.encode(bestMove, valueDepth, minValue);
     }
 
 }

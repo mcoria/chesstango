@@ -15,11 +15,11 @@ public class AlphaBetaEvaluation implements AlphaBetaFilter {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(gameEvaluator.evaluate());
+        return TranspositionEntry.encode(currentPly, gameEvaluator.evaluate());
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(gameEvaluator.evaluate());
+        return TranspositionEntry.encode(currentPly, gameEvaluator.evaluate());
     }
 }
