@@ -30,23 +30,23 @@ public class TranspositionEntryTest {
 
     @Test
     public void testEncodedMoveAndValue() {
-        short bestMove = (short) 0b10000000_00000000;
-        int value = 0b10000000_00000000_00000000_00000010;
+        short bestMove = (short) 0b10000000_00000001;
+        int value = 0b10000000_00000000_00000000_00000001;
 
         long encodedMoveAndValue = TranspositionEntry.encode(bestMove, value);
 
-        assertEquals(0b00000000_00000000_10000000_00000000_10000000_00000000_00000000_00000010L, encodedMoveAndValue);
+        assertEquals(0b00000000_10000000_00000001_00000000_10000000_00000000_00000000_00000001L, encodedMoveAndValue);
     }
 
     @Test
     public void testDecodeMovesAndValue() {
-        long encodedMoveAndValue = 0b00000000_00000000_10000000_00000000_10000000_00000000_00000000_00000010L;
+        long encodedMoveAndValue = 0b00000000_10101010_10101010_00000000_11111111_11111111_11111111_11111111L;
 
         short bestMove = TranspositionEntry.decodeBestMove(encodedMoveAndValue);
         int value = TranspositionEntry.decodeValue(encodedMoveAndValue);
 
-        assertEquals((short) 0b10000000_00000000, bestMove);
-        assertEquals(0b10000000_00000000_00000000_00000010, value);
+        assertEquals((short) 0b10101010_10101010, bestMove);
+        assertEquals(0b11111111_11111111_11111111_11111111, value);
     }
 
     @Test

@@ -16,7 +16,7 @@ public class TranspositionEntry implements Serializable {
 
     public static final long INTEGER_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
     public static final long SHORT_MASK = 0b00000000_00000000_00000000_00000000_00000000_00000000_11111111_11111111L;
-    public static final int MOVE_SHIFT = 32;
+    public static final int MOVE_SHIFT = 40;
 
     public static long encode(int value) {
         return encode((short) 0, value);
