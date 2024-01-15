@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TranspositionEntryTest {
 
     @Test
-    public void shift() {
+    public void testShortOne() {
         short one = 0b00000000_00000001;
         assertEquals(1, one);
     }
@@ -31,21 +31,16 @@ public class TranspositionEntryTest {
     @Test
     public void testEncodedMoveAndValue() {
         short bestMove = (short) 0b10000000_00000000;
-        short secondBestMove = 0b00001110_11011111;
         int value = 0b10000000_00000000_00000000_00000010;
 
-        long bestMoveEncodedLng = (TranspositionEntry.MOVE_MASK & bestMove) << 48;
-        long secondMoveEncodedLng = (TranspositionEntry.MOVE_MASK & secondBestMove) << 32;
-        long encodedValueLng = TranspositionEntry.VALUE_MASK & value;
+        long encodedMoveAndValue = TranspositionEntry.encode(bestMove, value);
 
-        long encodedMoveAndValue = encodedValueLng | bestMoveEncodedLng | secondMoveEncodedLng;
-
-        assertEquals(0b10000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L, encodedMoveAndValue);
+        assertEquals(0b00000000_00000000_10000000_00000000_10000000_00000000_00000000_00000010L, encodedMoveAndValue);
     }
 
     @Test
     public void testDecodeMovesAndValue() {
-        long encodedMoveAndValue = 0b10000000_00000000_00001110_11011111_10000000_00000000_00000000_00000010L;
+        long encodedMoveAndValue = 0b00000000_00000000_10000000_00000000_10000000_00000000_00000000_00000010L;
 
         short bestMove = TranspositionEntry.decodeBestMove(encodedMoveAndValue);
         int value = TranspositionEntry.decodeValue(encodedMoveAndValue);
@@ -55,39 +50,119 @@ public class TranspositionEntryTest {
     }
 
     @Test
-    public void testValueMaxEncoding() {
+    public void testEncodeDecodeValueMax() {
         long maxEncoded = TranspositionEntry.encode(Integer.MAX_VALUE);
+
         int maxDecoded = TranspositionEntry.decodeValue(maxEncoded);
         assertEquals(Integer.MAX_VALUE, maxDecoded);
     }
 
     @Test
-    public void testValueMinEncoding() {
+    public void testEncodeDecodeValueMin() {
         long minEncoded = TranspositionEntry.encode(Integer.MIN_VALUE);
+
         int minDecoded = TranspositionEntry.decodeValue(minEncoded);
         assertEquals(Integer.MIN_VALUE, minDecoded);
     }
 
     @Test
-    public void testValueAllOneEncoding() {
+    public void testEncodeDecodeAllOneEncoding() {
         int value = 0b11111111_11111111_11111111_11111111;
         long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L, valueEncoded);
+
         int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
         assertEquals(value, valueDecoded);
     }
 
     @Test
-    public void testValue01() {
+    public void testEncodeDecodeValue01() {
         int value = 0b10000000_00000000_00000000_00000000;
         long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_10000000_00000000_00000000_00000000L, valueEncoded);
+
         int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
         assertEquals(value, valueDecoded);
     }
 
     @Test
-    public void testValue02() {
+    public void testEncodeDecodeValue02() {
         int value = 0b01000000_00000000_00000000_00000000;
         long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_01000000_00000000_00000000_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testEncodeDecodeValue03() {
+        int value = 0b00100000_00000000_00000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00100000_00000000_00000000_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+
+    }
+
+    @Test
+    public void testEncodeDecodeValue04() {
+        int value = 0b00000000_10000000_00000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_10000000_00000000_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testEncodeDecodeValue05() {
+        int value = 0b00000000_00000001_00000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000001_00000000_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testEncodeDecodeValue06() {
+        int value = 0b00000000_00000000_10000000_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_10000000_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testEncodeDecodeValue07() {
+        int value = 0b00000000_00000000_00000001_00000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000001_00000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+
+    @Test
+    public void testEncodeDecodeValue08() {
+        int value = 0b00000000_00000000_00000000_10000000;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_10000000L, valueEncoded);
+
+        int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
+        assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testEncodeDecodeValue09() {
+        int value = 0b00000000_00000000_00000000_00000001;
+        long valueEncoded = TranspositionEntry.encode(value);
+        assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000001L, valueEncoded);
+
         int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
         assertEquals(value, valueDecoded);
     }
