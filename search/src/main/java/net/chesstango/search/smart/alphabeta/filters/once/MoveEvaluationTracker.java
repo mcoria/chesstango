@@ -94,6 +94,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     private void trackMove(long bestMoveAndValue) {
         Move currentMove = game.getState().getPreviousState().getSelectedMove();
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
         currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue));
     }
 

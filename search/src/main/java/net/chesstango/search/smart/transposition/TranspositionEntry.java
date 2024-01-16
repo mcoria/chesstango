@@ -53,6 +53,25 @@ public class TranspositionEntry implements Serializable {
         return (int) ((encodedMovesAndValue >> VALUE_DEPTH_SHIFT) & BYTE_MASK);
     }
 
+    public static boolean greaterThan(int currentValueDepth, int currentValue, int maxValueDepth, int maxValue) {
+        if (currentValue > maxValue) {
+            return true;
+        } else if (currentValue == maxValue) {
+            return currentValueDepth < maxValueDepth;
+        }
+        return false;
+    }
+
+    public static boolean lowerThan(int currentValueDepth, int currentValue, int minValueDepth, int minValue) {
+        if (currentValue < minValue) {
+            return true;
+        } else if (currentValue == minValue) {
+            return currentValueDepth < minValueDepth;
+        }
+        return false;
+    }
+
+
     public void reset() {
         hash = 0;
         searchDepth = 0;

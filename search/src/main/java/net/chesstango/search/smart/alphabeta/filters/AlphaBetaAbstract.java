@@ -39,7 +39,7 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
         boolean search = true;
         Move bestMove = null;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
-        int valueDepth = currentPly;
+        int maxValueDepth = currentPly;
 
         List<Move> sortedMoves = getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -48,18 +48,19 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
             game = game.executeMove(move);
 
             long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
+            int currentValueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-            if (currentValue > maxValue) {
+            if (TranspositionEntry.greaterThan(currentValueDepth, currentValue, maxValueDepth, maxValue)) {
                 maxValue = currentValue;
+                maxValueDepth = currentValueDepth;
                 bestMove = move;
-                valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                 if (maxValue >= beta) {
                     search = false;
                 }
             }
             game = game.undoMove();
         }
-        return TranspositionEntry.encode(bestMove, valueDepth, maxValue);
+        return TranspositionEntry.encode(bestMove, maxValueDepth, maxValue);
     }
 
     @Override
@@ -67,7 +68,7 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
         boolean search = true;
         Move bestMove = null;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
-        int valueDepth = currentPly;
+        int minValueDepth = currentPly;
 
         List<Move> sortedMoves = getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -76,18 +77,19 @@ public abstract class AlphaBetaAbstract implements AlphaBetaFilter, SearchByCycl
             game = game.executeMove(move);
 
             long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
+            int currentValueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-            if (currentValue < minValue) {
+            if (TranspositionEntry.lowerThan(currentValueDepth, currentValue, minValueDepth, minValue)) {
                 minValue = currentValue;
+                minValueDepth = currentValueDepth;
                 bestMove = move;
-                valueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
                 if (minValue <= alpha) {
                     search = false;
                 }
             }
             game = game.undoMove();
         }
-        return TranspositionEntry.encode(bestMove, valueDepth, minValue);
+        return TranspositionEntry.encode(bestMove, minValueDepth, minValue);
     }
 
 }

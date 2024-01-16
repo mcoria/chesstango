@@ -2,7 +2,7 @@ package net.chesstango.search.smart.transposition;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -176,5 +176,46 @@ public class TranspositionEntryTest {
 
         int valueDecoded = TranspositionEntry.decodeValue(valueEncoded);
         assertEquals(value, valueDecoded);
+    }
+
+    @Test
+    public void testGreaterThan01() {
+        assertTrue(TranspositionEntry.greaterThan(2, 100, 2, 50));
+    }
+
+    @Test
+    public void testGreaterThan02() {
+        assertFalse(TranspositionEntry.greaterThan(2, 50, 2, 100));
+    }
+
+    @Test
+    public void testGreaterThan03() {
+        assertTrue(TranspositionEntry.greaterThan(1, 100, 2, 100));
+    }
+
+    @Test
+    public void testGreaterThan04() {
+        assertFalse(TranspositionEntry.greaterThan(1, 100, 1, 100));
+    }
+
+
+    @Test
+    public void testLowerThan01() {
+        assertFalse(TranspositionEntry.lowerThan(2, 100, 2, 50));
+    }
+
+    @Test
+    public void testLowerThan02() {
+        assertTrue(TranspositionEntry.lowerThan(2, 50, 2, 100));
+    }
+
+    @Test
+    public void testLowerThan03() {
+        assertTrue(TranspositionEntry.lowerThan(1, 100, 2, 100));
+    }
+
+    @Test
+    public void testLowerThan04() {
+        assertFalse(TranspositionEntry.lowerThan(1, 100, 1, 100));
     }
 }

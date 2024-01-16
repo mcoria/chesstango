@@ -31,6 +31,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
                 alphaBetaFilter.minimize(0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int bestValueDepth = TranspositionEntry.decodeValueDepth(bestMoveAndValue);
         short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
 
         Move bestMove = null;
@@ -44,7 +45,6 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
             throw new RuntimeException("BestMove not found");
         }
 
-        //return new SearchMoveResult(maxPly, bestValue, bestMove, null);
         return new MoveEvaluation(bestMove, bestValue);
     }
 
