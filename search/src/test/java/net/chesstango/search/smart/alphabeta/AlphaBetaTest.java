@@ -143,7 +143,7 @@ public class AlphaBetaTest {
 
         MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

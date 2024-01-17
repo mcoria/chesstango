@@ -4,10 +4,7 @@ package net.chesstango.search.dummy;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
-import net.chesstango.search.ProgressListener;
+import net.chesstango.search.*;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -35,7 +32,9 @@ public class Dummy implements SearchMove {
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-        return new SearchMoveResult(1, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+        MoveEvaluation bestMove = new MoveEvaluation(selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), 0, MoveEvaluationType.EXACT);
+
+        return new SearchMoveResult(1, bestMove, null);
     }
 
     @Override

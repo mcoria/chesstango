@@ -104,7 +104,7 @@ public class NegaMaxTest {
 
         MoveEvaluation bestMoveEvaluation = negaMax.search();
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
 
         negaMax.afterSearchByDepth(searchResult);
 

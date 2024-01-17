@@ -66,9 +66,9 @@ public class SearchMoveResult {
 
     private long timeSearchingLastDepth;
 
-    public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
+    public SearchMoveResult(int depth, MoveEvaluation bestMove, Move ponderMove) {
         this.depth = depth;
-        this.bestMove = new MoveEvaluation(bestMove, evaluation, MoveEvaluationType.EXACT);
+        this.bestMove = bestMove;
         this.ponderMove = ponderMove;
     }
 
