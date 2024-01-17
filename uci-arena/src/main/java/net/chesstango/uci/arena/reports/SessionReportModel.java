@@ -62,9 +62,9 @@ public class SessionReportModel {
     private void load(List<SearchMoveResult> searchMoveResults) {
         this.searches = searchMoveResults.size();
 
-        this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value == 1).count();
+        this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(moveResult -> moveResult.getPossibleCollisions().size()).filter(value -> value == 1).count();
         this.searchesWithoutCollisionsPercentage = (int) ((this.searchesWithoutCollisions * 100) / this.searches);
-        this.searchesWithCollisions = searchMoveResults.stream().mapToInt(SearchMoveResult::getBestMovesCounter).filter(value -> value > 1).count();
+        this.searchesWithCollisions = searchMoveResults.stream().mapToInt(moveResult -> moveResult.getPossibleCollisions().size()).filter(value -> value > 1).count();
         this.searchesWithCollisionsPercentage = (int) ((this.searchesWithCollisions * 100) / this.searches);
 
 

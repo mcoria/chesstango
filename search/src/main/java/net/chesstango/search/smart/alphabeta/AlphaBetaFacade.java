@@ -7,6 +7,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -44,8 +45,7 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
             throw new RuntimeException("BestMove not found");
         }
 
-        //return new SearchMoveResult(maxPly, bestValue, bestMove, null);
-        return new MoveEvaluation(bestMove, bestValue);
+        return new MoveEvaluation(bestMove, bestValue, MoveEvaluationType.EXACT);
     }
 
     @Override

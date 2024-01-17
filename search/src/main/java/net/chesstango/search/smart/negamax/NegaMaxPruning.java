@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -74,7 +75,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
                 .setBestMoves(bestMoves);
          */
 
-        return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue);
+        return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {

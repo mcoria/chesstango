@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -64,12 +65,13 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         result.setMoveEvaluations(currentMoveEvaluations);
 
         int bestValue = result.getEvaluation();
-        List<Move> bestMoves = currentMoveEvaluations.stream()
+        List<Move> possibleCollisions = currentMoveEvaluations.stream()
                 .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
+                .filter(moveEvaluation -> !MoveEvaluationType.EXACT.equals(moveEvaluation.moveEvaluationType()))
                 .map(MoveEvaluation::move)
                 .toList();
 
-        result.setBestMoves(bestMoves);
+        result.setPossibleCollisions(possibleCollisions);
     }
 
     @Override
@@ -80,21 +82,34 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-        trackMove(bestMoveAndValue);
+        trackMove(bestMoveAndValue, alpha, beta);
         return bestMoveAndValue;
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-        trackMove(bestMoveAndValue);
+        trackMove(bestMoveAndValue, alpha, beta);
         return bestMoveAndValue;
     }
 
-    private void trackMove(long bestMoveAndValue) {
+    private void trackMove(long bestMoveAndValue, int alpha, int beta) {
         Move currentMove = game.getState().getPreviousState().getSelectedMove();
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue));
+
+
+        MoveEvaluationType moveEvaluationType = null;
+
+        if (currentValue <= alpha) {
+            moveEvaluationType = MoveEvaluationType.UPPER_BOUND;
+        } else if (beta <= currentValue) {
+            moveEvaluationType = MoveEvaluationType.LOWER_BOUND;
+        } else {
+            moveEvaluationType = MoveEvaluationType.EXACT;
+        }
+
+
+        currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
     }
 
 }

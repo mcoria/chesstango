@@ -74,7 +74,7 @@ public class EvaluationReportModel {
          */
         public int evaluationPositionValueCollisionsPercentage;
 
-        public int bestMovesCounter;
+        public int possibleCollisionsCounter;
 
     }
 
@@ -103,7 +103,7 @@ public class EvaluationReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
-        reportModelDetail.bestMovesCounter = searchMoveResult.getBestMovesCounter();
+        reportModelDetail.possibleCollisionsCounter = searchMoveResult.getPossibleCollisions().size();
 
         if (searchMoveResult.getEvaluationStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchMoveResult);
