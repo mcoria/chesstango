@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -93,6 +94,14 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
         searchTracker.setValue(currentValue);
+
+        if (currentValue <= alpha) {
+            searchTracker.setEvaluationType(MoveEvaluationType.UPPER_BOUND);
+        } else if (beta <= currentValue) {
+            searchTracker.setEvaluationType(MoveEvaluationType.LOWER_BOUND);
+        } else {
+            searchTracker.setEvaluationType(MoveEvaluationType.EXACT);
+        }
 
         searchTracker.save();
 
