@@ -109,9 +109,8 @@ class MoveImp implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Move) {
-            Move theOther = (Move) obj;
-            return getFrom().equals(theOther.getFrom()) && getTo().equals(theOther.getTo());
+        if (obj instanceof MoveImp theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
     }

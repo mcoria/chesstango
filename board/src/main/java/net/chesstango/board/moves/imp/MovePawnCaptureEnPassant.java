@@ -56,7 +56,7 @@ public class MovePawnCaptureEnPassant implements Move {
 
         positionState.resetHalfMoveClock();
 
-        if(Color.BLACK.equals(from.getPiece().getColor())){
+        if (Color.BLACK.equals(from.getPiece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
@@ -126,9 +126,8 @@ public class MovePawnCaptureEnPassant implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePawnCaptureEnPassant){
-            MovePawnCaptureEnPassant theOther = (MovePawnCaptureEnPassant) obj;
-            return from.equals(theOther.from) &&  to.equals(to);
+        if (obj instanceof MovePawnCaptureEnPassant theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
     }

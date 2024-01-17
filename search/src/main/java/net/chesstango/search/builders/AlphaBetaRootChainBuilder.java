@@ -115,7 +115,7 @@ public class AlphaBetaRootChainBuilder {
             debugFilter = new DebugFilter(DebugNode.SearchNodeType.ROOT);
         }
 
-        moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
+        //moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
     }
 
 

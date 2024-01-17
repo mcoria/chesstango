@@ -180,8 +180,7 @@ class MovePawnPromotion implements MovePromotion {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePawnPromotion){
-            MovePawnPromotion theOther = (MovePawnPromotion) obj;
+        if(obj instanceof MovePawnPromotion theOther){
             return from.equals(theOther.from) &&  to.equals(theOther.to) && promotion.equals(theOther.promotion);
         }
         return false;
