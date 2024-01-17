@@ -216,6 +216,7 @@ public class NodesReportModel {
             StringBuilder sb = new StringBuilder();
             for (Move move : principalVariation) {
                 sb.append(simpleMoveEncoder.encode(move));
+                sb.append(" ");
             }
             return sb.toString();
         }

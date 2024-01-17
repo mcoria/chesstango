@@ -311,7 +311,7 @@ public class FitnessBySearchTest {
     }
 
     private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
-        SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
+        SearchMoveResult searchResult = new SearchMoveResult(DEPTH, new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT), null);
         searchResult.setMoveEvaluations(moveEvaluations);
 
         return searchResult;

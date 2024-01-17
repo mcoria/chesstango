@@ -1,14 +1,17 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.search.EpdSearchResult;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -347,5 +351,55 @@ public class AlphaBetaStatisticsTest {
 
         assertEquals(28, visitedNodesCountersTotal);
         assertEquals(28, executedMoves);
+    }
+
+
+    @Test
+    public void test_40H_2820() {
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withIterativeDeepening()
+                .withAspirationWindows()
+                .withStatistics()
+                .build();
+
+
+        Game game = FENDecoder.loadGame("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - -");
+        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
+        searchResult = moveFinder.search(game);
+
+        /**
+         * Ahora se prueba el inverso
+         */
+        Game game1 = FENDecoder.loadGame("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - -");
+        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
+        SearchMoveResult searchResult1 = moveFinder.search(game1);
+
+
+        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
+        int[] visitedNodesQuiescenceCounter = quiescenceNodeStatistics.visitedNodesCounters();
+
+        NodeStatistics quiescenceNodeStatistics1 = searchResult1.getQuiescenceNodeStatistics();
+        int[] visitedNodesQuiescenceCounter1 = quiescenceNodeStatistics1.visitedNodesCounters();
+
+        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
+
+        int[] expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
+        int[] visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
+
+        int[] expectedNodesCounters1 = regularNodeStatistics1.expectedNodesCounters();
+        int[] visitedNodesCounters1 = regularNodeStatistics1.visitedNodesCounters();
+
+        for (int i = 0; i < 30; i++) {
+            assertEquals(expectedNodesCounters[i], expectedNodesCounters1[i]);
+            assertEquals(visitedNodesCounters[i], visitedNodesCounters1[i]);
+            assertEquals(visitedNodesQuiescenceCounter[i], visitedNodesQuiescenceCounter1[i]);
+        }
+
+        /**
+         * Esta fallando esta linea, podriamos hacer un dump de la ejecucion de los movimientos
+         */
+        assertEquals(searchResult.getExecutedMoves(), searchResult1.getExecutedMoves());
     }
 }

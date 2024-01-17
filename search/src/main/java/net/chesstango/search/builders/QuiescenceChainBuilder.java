@@ -2,9 +2,9 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -33,6 +33,7 @@ public class QuiescenceChainBuilder {
     private boolean withTranspositionTable;
     private boolean withTranspositionMoveSorter;
     private boolean withDebugSearchTree;
+    private boolean withTriangularPV;
 
 
     public QuiescenceChainBuilder() {
@@ -82,6 +83,11 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
+        return this;
+    }
+
 
     /**
      * <p>
@@ -121,6 +127,9 @@ public class QuiescenceChainBuilder {
             this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.QUIESCENCE);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
     }
 
     private void setupListenerMediator() {
@@ -139,6 +148,9 @@ public class QuiescenceChainBuilder {
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
         }
+        if (triangularPV != null) {
+            smartListenerMediator.add(triangularPV);
+        }
     }
 
     private AlphaBetaFilter createChain() {
@@ -147,18 +159,27 @@ public class QuiescenceChainBuilder {
         if (debugSearchTree != null) {
             chain.add(debugSearchTree);
         }
+
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);
         }
+
         if (transpositionTableQ != null) {
             chain.add(transpositionTableQ);
         }
+
         if (quiescenceStatisticsExpected != null) {
             chain.add(quiescenceStatisticsExpected);
         }
+
         chain.add(quiescence);
+
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
+        }
+
+        if (triangularPV != null) {
+            chain.add(triangularPV);
         }
 
         chain.add(extensionFlowControl);
@@ -180,6 +201,8 @@ public class QuiescenceChainBuilder {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
+            } else if (currentFilter instanceof TriangularPV) {
+                triangularPV.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

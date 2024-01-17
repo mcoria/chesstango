@@ -7,12 +7,12 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
-import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -131,6 +131,8 @@ public class ChainPrinter {
                 printChainQuiescence(quiescence, nestedChain);
             } else if (alphaBetaFilter instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
                 printChainQuiescenceStatisticsVisited(quiescenceStatisticsVisited, nestedChain);
+            } else if (alphaBetaFilter instanceof TriangularPV triangularPV) {
+                printTriangularPV(triangularPV, nestedChain);
             } else if (alphaBetaFilter instanceof ExtensionFlowControl extensionFlowControl) {
                 printChainQuiescenceFlowControl(extensionFlowControl, nestedChain);
             } else if (alphaBetaFilter instanceof ZobristTracker zobristTracker) {
@@ -151,6 +153,12 @@ public class ChainPrinter {
         printNodeObjectText(quiescenceStatisticsVisited, nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescenceStatisticsVisited.getNext(), nestedChain);
+    }
+
+    private void printTriangularPV(TriangularPV triangularPV, int nestedChain) {
+        printNodeObjectText(triangularPV, nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(triangularPV.getNext(), nestedChain);
     }
 
     private void printChainDebugTree(DebugFilter debugFilter, int nestedChain) {
