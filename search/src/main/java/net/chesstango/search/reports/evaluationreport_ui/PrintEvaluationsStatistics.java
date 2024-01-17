@@ -43,7 +43,7 @@ public class PrintEvaluationsStatistics {
 
         // Nombre de las columnas
         out.printf("| Move   ");
-        out.printf("| BestMoves ");
+        out.printf("| Collisions ");
         out.printf("| Evaluations ");
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
@@ -58,7 +58,7 @@ public class PrintEvaluationsStatistics {
         // Cuerpo
         for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
-            out.printf("| %9d ", moveDetail.bestMovesCounter);
+            out.printf("| %10d ", moveDetail.possibleCollisionsCounter);
             out.printf("| %11d ", moveDetail.evaluationCounter);
             out.printf("| %11d ", moveDetail.evaluationsCacheHitCounter);
             out.printf("| %12d ", moveDetail.evaluationPositionCounter);
@@ -72,7 +72,7 @@ public class PrintEvaluationsStatistics {
 
         // Totales
         out.printf("|--------");
-        out.printf("|-----------");
+        out.printf("|------------");
         out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
@@ -86,7 +86,7 @@ public class PrintEvaluationsStatistics {
 
 
         out.printf("| SUM    ");
-        out.printf("|           ");
+        out.printf("|            ");
         out.printf("| %11d ", reportModel.evaluationCounterTotal);
         out.printf("| %11d ", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("| %12d ", reportModel.evaluationPositionCounterTotal);
@@ -101,7 +101,7 @@ public class PrintEvaluationsStatistics {
 
         // Marco inferior de la tabla
         out.printf(" ---------");
-        out.printf("-------------");
+        out.printf("--------------");
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
@@ -110,7 +110,13 @@ public class PrintEvaluationsStatistics {
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
         }
-        out.printf("\n\n");
+        out.printf("\n");
+
+        out.printf("Collisions = posibles colisiones (puede o no serlo) \n");
+
+        out.printf("\n");
+
+
     }
 }
 

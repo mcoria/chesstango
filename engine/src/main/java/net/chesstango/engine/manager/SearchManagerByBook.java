@@ -6,9 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.engine.polyglot.MappedPolyglotBook;
 import net.chesstango.engine.polyglot.PolyglotEntry;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
-import net.chesstango.search.ProgressListener;
+import net.chesstango.search.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -84,7 +82,8 @@ public final class SearchManagerByBook implements SearchManagerChain {
             for (PolyglotEntry polyglotEntry : bookSearchResult) {
                 Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
                 if (move != null) {
-                    return new SearchMoveResult(1, 0, move, null);
+                    MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
+                    return new SearchMoveResult(1, bestMove, null);
                 }
             }
         }

@@ -123,7 +123,7 @@ public class NegaMaxPruningTest {
 
         MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

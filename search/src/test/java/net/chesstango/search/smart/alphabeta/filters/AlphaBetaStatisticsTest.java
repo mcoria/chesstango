@@ -114,7 +114,7 @@ public class AlphaBetaStatisticsTest {
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
         searchResult = moveFinder.search(game);
 
-        assertEquals(20, searchResult.getBestMovesCounter());
+        assertEquals(19, searchResult.getPossibleCollisions().size());
     }
 
     @Test
@@ -175,7 +175,7 @@ public class AlphaBetaStatisticsTest {
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
         searchResult = moveFinder.search(game);
 
-        assertEquals(20, searchResult.getBestMovesCounter());
+        assertEquals(19, searchResult.getPossibleCollisions().size());
     }
 
     @Test

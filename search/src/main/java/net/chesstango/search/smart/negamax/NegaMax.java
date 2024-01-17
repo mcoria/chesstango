@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 
@@ -50,7 +51,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
         //return new SearchMoveResult(maxPly, minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
-        return new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation);
+        return new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation, MoveEvaluationType.EXACT);
     }
 
 

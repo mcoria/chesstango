@@ -24,7 +24,8 @@ public class SummaryComparator {
         summaryComparator.addSession("depth-5-2024-01-12-19-34-CHT-209");
         summaryComparator.addSession("depth-5-2024-01-14-17-17-CHT-209");
         summaryComparator.addSession("depth-5-2024-01-16-00-06-main");
-        //depth-5-2024-01-14-17-17-CHT-209
+        summaryComparator.addSession("depth-5-2024-01-16-23-24-CHT-211");
+        //
         //
         //
         //

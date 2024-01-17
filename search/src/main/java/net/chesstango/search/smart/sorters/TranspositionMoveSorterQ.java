@@ -4,10 +4,11 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -76,7 +77,12 @@ public class TranspositionMoveSorterQ implements MoveSorter, SearchByDepthListen
 
                     if (moveEntry != null) {
                         int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
-                        unsortedMoveValueList.add(new MoveEvaluation(move, moveValue));
+                        MoveEvaluationType moveEvaluationType = switch (moveEntry.transpositionBound) {
+                            case EXACT -> MoveEvaluationType.EXACT;
+                            case UPPER_BOUND -> MoveEvaluationType.UPPER_BOUND;
+                            case LOWER_BOUND -> MoveEvaluationType.LOWER_BOUND;
+                        };
+                        unsortedMoveValueList.add(new MoveEvaluation(move, moveValue, moveEvaluationType));
                     } else {
                         unsortedMoveList.add(move);
                     }
