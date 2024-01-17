@@ -26,12 +26,14 @@ public class CheckResolverChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
+    private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withTranspositionMoveSorter;
     private boolean withDebugSearchTree;
+    private boolean withTriangularPV;
 
 
     public CheckResolverChainBuilder() {
@@ -81,6 +83,11 @@ public class CheckResolverChainBuilder {
         return this;
     }
 
+    public CheckResolverChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
+        return this;
+    }
+
 
     public AlphaBetaFilter build() {
         buildObjects();
@@ -109,6 +116,9 @@ public class CheckResolverChainBuilder {
             this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
     }
 
     private void setupListenerMediator() {
@@ -127,6 +137,9 @@ public class CheckResolverChainBuilder {
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
         }
+        if (triangularPV != null) {
+            smartListenerMediator.add(triangularPV);
+        }
     }
 
     private AlphaBetaFilter createChain() {
@@ -135,12 +148,15 @@ public class CheckResolverChainBuilder {
         if (debugSearchTree != null) {
             chain.add(debugSearchTree);
         }
+
         if (zobristQTracker != null) {
             chain.add(zobristQTracker);
         }
+
         if (transpositionTableQ != null) {
             chain.add(transpositionTableQ);
         }
+
         if (quiescenceStatisticsExpected != null) {
             chain.add(quiescenceStatisticsExpected);
         }
@@ -149,6 +165,10 @@ public class CheckResolverChainBuilder {
 
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
+        }
+
+        if (triangularPV != null) {
+            chain.add(triangularPV);
         }
 
         chain.add(extensionFlowControl);
@@ -170,6 +190,8 @@ public class CheckResolverChainBuilder {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
+            } else if (currentFilter instanceof TriangularPV) {
+                triangularPV.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

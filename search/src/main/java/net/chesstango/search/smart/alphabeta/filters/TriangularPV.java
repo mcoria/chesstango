@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
@@ -14,6 +15,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
  */
 public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
     @Setter
+    @Getter
     private AlphaBetaFilter next;
     private short[][] trianglePV;
     private Game game;

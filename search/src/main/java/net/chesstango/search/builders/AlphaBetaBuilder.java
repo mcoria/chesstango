@@ -135,6 +135,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (!withQuiescence) {
             throw new RuntimeException("You must enable Quiescence first");
         }
+        if (!withTranspositionTable) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
         quiescenceChainBuilder.withTranspositionTable();
         quiescenceLeafChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
@@ -184,7 +187,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         quiescenceChainBuilder.withZobristTracker();
         quiescenceLeafChainBuilder.withZobristTracker();
-        alphaBetaRootChainBuilder.withZobristTracker();
+        checkResolverChainBuilder.withZobristTracker();
         return this;
     }
 
@@ -198,6 +201,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         withTriangularPV = true;
         alphaBetaRootChainBuilder.withTriangularPV();
         alphaBetaInteriorChainBuilder.withTriangularPV();
+        quiescenceChainBuilder.withTriangularPV();
+        checkResolverChainBuilder.withTriangularPV();
         return this;
     }
 
@@ -222,6 +227,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public SearchMove build() {
+        if (withTranspositionTable && withTriangularPV) {
+            throw new RuntimeException("TranspositionTable and TriangularPV should not be enabled simultaneously");
+        }
+
         buildObjects();
 
         setupListenerMediator();
