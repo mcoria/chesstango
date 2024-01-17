@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluationType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class DebugNode {
     int value;
 
     Integer standingPat;
+
+    MoveEvaluationType moveEvaluationType;
 
     List<DebugNode> childNodes = new LinkedList<>();
 

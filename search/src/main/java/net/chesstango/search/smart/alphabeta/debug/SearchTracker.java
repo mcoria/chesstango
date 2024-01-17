@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -43,6 +44,10 @@ public class SearchTracker {
 
     public void setZobristHash(long zobristHash) {
         debugNode.zobristHash = zobristHash;
+    }
+
+    public void setEvaluationType(MoveEvaluationType moveEvaluationType) {
+        debugNode.moveEvaluationType = moveEvaluationType;
     }
 
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
@@ -88,6 +93,5 @@ public class SearchTracker {
         }
         return debugNode;
     }
-
 
 }
