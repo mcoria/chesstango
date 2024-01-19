@@ -75,6 +75,16 @@ public class GameState implements GameStateReader, GameStateWriter {
     }
 
     @Override
+    public int getRepetitionCounter() {
+        return currentGameState.repetitionCounter;
+    }
+
+    @Override
+    public void setRepetitionCounter(int repetitionCounter) {
+        currentGameState.repetitionCounter = repetitionCounter;
+    }
+
+    @Override
     public GameStateReader getPreviousState() {
         return currentGameState.previousGameState;
     }
@@ -104,6 +114,7 @@ public class GameState implements GameStateReader, GameStateWriter {
         protected GameStatus gameStatus;
         protected long zobristHash;
         protected long positionHash;
+        protected int repetitionCounter;
         protected GameStateData previousGameState = null;
 
         @Override
@@ -134,6 +145,11 @@ public class GameState implements GameStateReader, GameStateWriter {
         @Override
         public long getPositionHash() {
             return positionHash;
+        }
+
+        @Override
+        public int getRepetitionCounter() {
+            return repetitionCounter;
         }
 
         @Override

@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -58,6 +59,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
+        if (game.getState().getRepetitionCounter() > 1) {
+            return TranspositionEntry.encode(null, 0);
+        }
+
         if (game.getStatus().isFinalStatus()) {
             return terminalNode.maximize(currentPly, alpha, beta);
         }
@@ -73,6 +78,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     public long minimize(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
+        }
+
+        if (game.getState().getRepetitionCounter() > 1) {
+            return TranspositionEntry.encode(null, 0);
         }
 
         if (game.getStatus().isFinalStatus()) {

@@ -35,12 +35,13 @@ public class PositionAnalyzer {
 
         GameStatus gameStatus = null;
 
+        int repetitionCounter = getRepetitionCounter();
+
         if (existsLegalMove) {
             if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
                 gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
             } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
-                int repetitionCounter = getRepetitionCounter();
-                if (repetitionCounter >= 3) {
+                if (repetitionCounter > 2) {
                     gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
@@ -64,6 +65,7 @@ public class PositionAnalyzer {
         gameState.setAnalyzerResult(analysis);
         gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
+        gameState.setRepetitionCounter(repetitionCounter);
 
         if (gameStatus.isFinalStatus()) {
             gameState.setLegalMoves(new MoveContainer());
@@ -118,17 +120,29 @@ public class PositionAnalyzer {
         final long positionHash = positionReader.getAllPositions();
 
         int repetitionCounter = 1;
-        int counter = positionReader.getHalfMoveClock();
 
         GameStateReader currentState = gameState.getPreviousState();
-        while (currentState != null && counter > 0) {
-            if (zobristHash == currentState.getZobristHash() &&
-                    positionHash == currentState.getPositionHash()) {
-                repetitionCounter++;
-            }
+        if (currentState != null) {
             currentState = currentState.getPreviousState();
-            counter--;
         }
+
+        int halfMoveClockCounter = positionReader.getHalfMoveClock();
+        halfMoveClockCounter -= 2;
+
+        while (currentState != null && halfMoveClockCounter >= 0) {
+
+            if (zobristHash == currentState.getZobristHash() && positionHash == currentState.getPositionHash()) {
+                repetitionCounter = currentState.getRepetitionCounter() + 1;
+                break;
+            }
+
+            currentState = currentState.getPreviousState();
+            if (currentState != null) {
+                currentState = currentState.getPreviousState();
+            }
+            halfMoveClockCounter -= 2;
+        }
+
         return repetitionCounter;
     }
 }

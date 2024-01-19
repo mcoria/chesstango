@@ -250,6 +250,40 @@ public class GameTest {
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
 
+
+    @Test
+    public void testGetRepetitionCounter() {
+        Game game = getGame(FENDecoder.INITIAL_FEN);
+
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
+        assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
+        assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
+        assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+        assertEquals(0, game.getChessPosition().getHalfMoveClock());
+        assertEquals(1, game.getChessPosition().getFullMoveClock());
+        assertEquals(20, game.getPossibleMoves().size());
+
+        game
+                .executeMove(Square.g1, Square.f3)
+                .executeMove(Square.b8, Square.c6)
+                .executeMove(Square.f3, Square.g1)
+                .executeMove(Square.c6, Square.b8);
+
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(2, game.getState().getRepetitionCounter());
+        assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
+        assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
+        assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
+        assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+        assertEquals(4, game.getChessPosition().getHalfMoveClock());
+        assertEquals(3, game.getChessPosition().getFullMoveClock());
+        assertEquals(20, game.getPossibleMoves().size());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+    }
+
     @Test
     public void test_undo() {
         Game game = getGame(FENDecoder.INITIAL_FEN);

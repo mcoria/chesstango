@@ -65,6 +65,15 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.bestMoveFound());
     }
 
+    // Evita entrar en loop
+    @Test
+    public void test_WAC008() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("r4q1k/p2bR1rp/2p2Q1N/5p2/5p2/2P5/PP3PPP/R5K1 w - - bm Rf7; id \"WAC.008\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
     @Test
     public void test_WAC012() {
         epdSearch.setDepth(5);
@@ -89,6 +98,17 @@ public class EpdSearchMainTest {
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
     }
+
+
+
+    @Test
+    public void test_WAC111() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("6k1/p5p1/5p2/2P2Q2/3pN2p/3PbK1P/7P/6q1 b - - bm Qf1+; id \"WAC.111\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
 
     @Test
     public void test_BK01() {

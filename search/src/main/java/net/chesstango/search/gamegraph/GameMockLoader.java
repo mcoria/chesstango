@@ -92,7 +92,7 @@ public class GameMockLoader {
                 ChessPosition position = FENDecoder.loadChessPosition(node.fen);
                 Game game = loadGame(position);
                 node.position = game.getChessPosition();
-                node.gameStatus = game.getStatus();
+                node.gameState = game.getState();
             }
 
             FENEncoder fenEncoder = new FENEncoder();
@@ -121,7 +121,7 @@ public class GameMockLoader {
                 game.executeMove(selectedMove);
 
                 nodeLink.mockNode.position = game.getChessPosition();
-                nodeLink.mockNode.gameStatus = game.getStatus();
+                nodeLink.mockNode.gameState = game.getState();
 
             } else {
                 throw new RuntimeException("Invalid move " + nodeLink.moveStr);

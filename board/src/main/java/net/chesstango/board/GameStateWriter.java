@@ -20,4 +20,6 @@ public interface GameStateWriter {
     void setZobristHash(long zobristHash);
 
     void setPositionHash(long positionHash);
+
+    void setRepetitionCounter(int repetitionCounter);
 }
