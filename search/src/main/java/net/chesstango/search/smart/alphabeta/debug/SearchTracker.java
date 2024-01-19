@@ -5,6 +5,8 @@ import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Objects;
+
 /**
  * @author Mauricio Coria
  */
@@ -12,42 +14,19 @@ public class SearchTracker {
 
     private DebugNode debugNode;
 
-    public void newNode(DebugNode.SearchNodeType searchNodeType) {
+    public DebugNode newNode(DebugNode.SearchNodeType searchNodeType) {
         DebugNode newNode = new DebugNode();
 
         newNode.nodeType = searchNodeType;
 
         if (debugNode != null) {
-            debugNode.addChild(newNode);
+            debugNode.childNodes.add(newNode);
+            newNode.parent = debugNode;
         }
 
         debugNode = newNode;
-    }
 
-    public void setDebugSearch(String fnString, int alpha, int beta) {
-        debugNode.fnString = fnString;
-        debugNode.alpha = alpha;
-        debugNode.beta = beta;
-    }
-
-    public void setSelectedMove(Move currentMove) {
-        debugNode.selectedMove = currentMove;
-    }
-
-    public void setValue(int value) {
-        debugNode.value = value;
-    }
-
-    public void setStandingPat(Integer value) {
-        debugNode.standingPat = value;
-    }
-
-    public void setZobristHash(long zobristHash) {
-        debugNode.zobristHash = zobristHash;
-    }
-
-    public void setEvaluationType(MoveEvaluationType moveEvaluationType) {
-        debugNode.moveEvaluationType = moveEvaluationType;
+        return debugNode;
     }
 
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
@@ -84,14 +63,16 @@ public class SearchTracker {
     }
 
     public void reset() {
+        if (Objects.nonNull(debugNode) && debugNode.parent != null) {
+            throw new RuntimeException("Still searching?");
+        }
         debugNode = null;
     }
 
     public DebugNode getRootNode() {
-        if (debugNode.parent != null) {
+        if (Objects.nonNull(debugNode) && debugNode.parent != null) {
             throw new RuntimeException("Still searching?");
         }
         return debugNode;
     }
-
 }

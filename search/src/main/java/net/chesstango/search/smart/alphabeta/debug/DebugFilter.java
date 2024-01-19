@@ -73,34 +73,34 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
     private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
 
-        searchTracker.newNode(searchNodeType);
+        DebugNode debugNode = searchTracker.newNode(searchNodeType);
 
-        searchTracker.setZobristHash(game.getChessPosition().getZobristHash());
+        debugNode.setZobristHash(game.getChessPosition().getZobristHash());
 
         if (game.getState().getPreviousState() != null) {
             Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
-            searchTracker.setSelectedMove(currentMove);
+            debugNode.setSelectedMove(currentMove);
         }
 
-        searchTracker.setDebugSearch(fnString, alpha, beta);
+        debugNode.setDebugSearch(fnString, alpha, beta);
 
         if (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType)) {
-            searchTracker.setStandingPat(gameEvaluator.evaluate());
+            debugNode.setStandingPat(gameEvaluator.evaluate());
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
 
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        searchTracker.setValue(currentValue);
+        debugNode.setValue(currentValue);
 
         if (currentValue <= alpha) {
-            searchTracker.setEvaluationType(MoveEvaluationType.UPPER_BOUND);
+            debugNode.setEvaluationType(MoveEvaluationType.UPPER_BOUND);
         } else if (beta <= currentValue) {
-            searchTracker.setEvaluationType(MoveEvaluationType.LOWER_BOUND);
+            debugNode.setEvaluationType(MoveEvaluationType.LOWER_BOUND);
         } else {
-            searchTracker.setEvaluationType(MoveEvaluationType.EXACT);
+            debugNode.setEvaluationType(MoveEvaluationType.EXACT);
         }
 
         searchTracker.save();
