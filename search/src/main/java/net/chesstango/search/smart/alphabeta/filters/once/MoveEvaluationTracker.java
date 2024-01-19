@@ -22,7 +22,7 @@ import java.util.Map;
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, SearchPvListener {
 
     @Setter
     @Getter
@@ -33,6 +33,8 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     private Map<Short, Long> moveToMoveAndValueMap;
 
     private Game game;
+    private boolean trackPV;
+    private int trackValue;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -44,6 +46,8 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     public void beforeSearchByDepth(SearchByDepthContext context) {
         currentMoveEvaluations = new LinkedList<>();
         moveToMoveAndValueMap = new HashMap<>();
+        trackPV = false;
+        trackValue = 0;
     }
 
     @Override
@@ -60,6 +64,17 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     @Override
     public void afterSearchByWindows(boolean searchByWindowsFinished) {
+    }
+
+    @Override
+    public void beforePVSearch(int bestValue) {
+        trackPV = true;
+        trackValue = bestValue;
+    }
+
+    @Override
+    public void afterPVSearch(List<Move> principalVariation) {
+        trackPV = false;
     }
 
     @Override
@@ -80,15 +95,38 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     public void afterSearch() {
     }
 
-
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
+        if (trackPV) {
+            return processTrackPV(currentPly, alpha, beta, next::maximize);
+        }
         return process(currentPly, alpha, beta, next::maximize);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
+        if (trackPV) {
+            return processTrackPV(currentPly, alpha, beta, next::minimize);
+        }
         return process(currentPly, alpha, beta, next::minimize);
+    }
+
+    private long processTrackPV(int currentPly, int alpha, int beta, AlphaBetaFunction fn) {
+        Move currentMove = game.getState().getPreviousState().getSelectedMove();
+
+        for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
+            if (evaluatedMove.move().equals(currentMove)) {
+                if (evaluatedMove.evaluation() != trackValue) {
+                    return moveToMoveAndValueMap.get(evaluatedMove.move().binaryEncoding());
+                } else if (!MoveEvaluationType.EXACT.equals(evaluatedMove.moveEvaluationType())) {
+                    return moveToMoveAndValueMap.get(evaluatedMove.move().binaryEncoding());
+                } else {
+                    return fn.search(currentPly, alpha, beta);
+                }
+            }
+        }
+
+        throw new RuntimeException("Move should be present in currentMoveEvaluations list");
     }
 
     private long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
@@ -125,5 +163,4 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
         moveToMoveAndValueMap.put(currentMove.binaryEncoding(), bestMoveAndValue);
     }
-
 }

@@ -20,12 +20,15 @@ public class SummaryComparator {
         SummaryComparator summaryComparator = new SummaryComparator("depth-5-2023-12-13-09-12-CHT-202");
         //summaryComparator.addSession("depth-5-2023-12-07-15-47-v0.0.22");
         //summaryComparator.addSession("depth-5-2023-12-07-23-54-CHT-195");
-        summaryComparator.addSession("depth-5-2023-12-25-11-18-CHT-208");
-        summaryComparator.addSession("depth-5-2024-01-12-19-34-CHT-209");
-        summaryComparator.addSession("depth-5-2024-01-14-17-17-CHT-209");
-        summaryComparator.addSession("depth-5-2024-01-16-00-06-main");
-        summaryComparator.addSession("depth-5-2024-01-16-23-24-CHT-211");
-        summaryComparator.addSession("depth-5-2024-01-17-16-27-CHT-212");
+        //summaryComparator.addSession("depth-5-2023-12-25-11-18-CHT-208");
+        //summaryComparator.addSession("depth-5-2024-01-12-19-34-CHT-209");
+        //summaryComparator.addSession("depth-5-2024-01-14-17-17-CHT-209");
+        //summaryComparator.addSession("depth-5-2024-01-16-00-06-main");
+        //summaryComparator.addSession("depth-5-2024-01-16-23-24-CHT-211");
+        //summaryComparator.addSession("depth-5-2024-01-17-16-27-CHT-212");
+        //summaryComparator.addSession("depth-5-2024-01-18-21-21-CHT-213");
+        summaryComparator.addSession("depth-5-2024-01-18-22-07-CHT-213");
+        //depth-5-2024-01-18-21-21-CHT-213
         //
         //
         //

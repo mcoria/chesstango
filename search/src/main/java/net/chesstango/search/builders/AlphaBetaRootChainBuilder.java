@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class AlphaBetaRootChainBuilder {
     private final AlphaBetaRoot alphaBetaRoot;
+    private final PrincipalVariation principalVariation;
     private final MoveEvaluationTracker moveEvaluationTracker;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
@@ -34,11 +36,12 @@ public class AlphaBetaRootChainBuilder {
     private boolean withTriangularPV;
 
     private AlphaBetaFilter alphaBetaFlowControl;
+    private GameEvaluator gameEvaluator;
 
     public AlphaBetaRootChainBuilder() {
         alphaBetaRoot = new AlphaBetaRoot();
-
         moveEvaluationTracker = new MoveEvaluationTracker();
+        principalVariation = new PrincipalVariation();
     }
 
     public AlphaBetaRootChainBuilder withStatistics() {
@@ -87,6 +90,11 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
+    public AlphaBetaRootChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+        this.gameEvaluator = gameEvaluator;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -96,6 +104,9 @@ public class AlphaBetaRootChainBuilder {
     }
 
     private void buildObjects() {
+        principalVariation.setSmartListenerMediator(smartListenerMediator);
+        principalVariation.setGameEvaluator(gameEvaluator);
+
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
@@ -127,6 +138,7 @@ public class AlphaBetaRootChainBuilder {
 
 
     private void setupListenerMediator() {
+        smartListenerMediator.add(principalVariation);
         smartListenerMediator.add(alphaBetaRoot);
         smartListenerMediator.add(moveEvaluationTracker);
 
@@ -173,6 +185,8 @@ public class AlphaBetaRootChainBuilder {
         if (zobristTracker != null) {
             chain.add(zobristTracker);
         }
+
+        chain.add(principalVariation);
 
         if (aspirationWindows != null) {
             chain.add(aspirationWindows);
@@ -229,6 +243,8 @@ public class AlphaBetaRootChainBuilder {
                 debugFilter.setNext(next);
             } else if (currentFilter instanceof TriangularPV) {
                 triangularPV.setNext(next);
+            } else if (currentFilter instanceof PrincipalVariation) {
+                principalVariation.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }
@@ -236,4 +252,5 @@ public class AlphaBetaRootChainBuilder {
 
         return chain.get(0);
     }
+
 }

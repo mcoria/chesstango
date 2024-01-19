@@ -3,19 +3,19 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.List;
+
 /**
  * @author Mauricio Coria
  */
-public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchPvListener {
 
     @Setter
     @Getter
@@ -27,6 +27,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     protected Game game;
 
     protected int maxPly;
+    private boolean trackPV;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -40,10 +41,21 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
+        this.trackPV = false;
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforePVSearch(int bestValue) {
+        trackPV = true;
+    }
+
+    @Override
+    public void afterPVSearch(List<Move> principalVariation) {
+        trackPV = false;
     }
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
@@ -52,6 +64,10 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
+        if (trackPV) {
+            return next.maximize(currentPly, alpha, beta);
+        }
+
         int searchDepth = getDepth(currentPly);
 
         long hash = game.getChessPosition().getZobristHash();
@@ -79,6 +95,10 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
+        if (trackPV) {
+            return next.minimize(currentPly, alpha, beta);
+        }
+
         int searchDepth = getDepth(currentPly);
 
         long hash = game.getChessPosition().getZobristHash();

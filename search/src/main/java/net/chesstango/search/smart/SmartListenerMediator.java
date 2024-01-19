@@ -1,6 +1,7 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -25,6 +26,9 @@ public class SmartListenerMediator {
 
     @Getter
     private List<ResetListener> resetListeners = new LinkedList<>();
+
+    @Getter
+    private List<SearchPvListener> searchPvListeners = new LinkedList<>();
 
 
     public void triggerBeforeSearch(SearchByCycleContext context) {
@@ -54,7 +58,6 @@ public class SmartListenerMediator {
         searchByWindowsListeners.forEach(filter -> filter.afterSearchByWindows(searchByWindowsFinished));
     }
 
-
     public void triggerStopSearching() {
         stopSearchingListeners.forEach(StopSearchingListener::stopSearching);
     }
@@ -63,13 +66,23 @@ public class SmartListenerMediator {
         resetListeners.forEach(ResetListener::reset);
     }
 
+    public void triggerBeforePVSearch(int bestValue) {
+        searchPvListeners.forEach(searchPvListener -> searchPvListener.beforePVSearch(bestValue));
+    }
+
+    public void triggerAfterPVSearch(List<Move> principalVariation) {
+        searchPvListeners.forEach(searchPvListener -> searchPvListener.afterPVSearch(principalVariation));
+    }
+
     public void add(SmartListener listener) {
 
         if (searchByCycleListeners.contains(listener) ||
                 searchByDepthListeners.contains(listener) ||
                 searchByWindowsListeners.contains(listener) ||
                 stopSearchingListeners.contains(listener) ||
-                resetListeners.contains(listener)) {
+                resetListeners.contains(listener) ||
+                searchPvListeners.contains(listener)
+        ) {
             throw new RuntimeException(String.format("Listener already added %s", listener));
         }
 
@@ -91,6 +104,10 @@ public class SmartListenerMediator {
 
         if (listener instanceof ResetListener resetListener) {
             resetListeners.add(resetListener);
+        }
+
+        if (listener instanceof SearchPvListener searchPvListener) {
+            searchPvListeners.add(searchPvListener);
         }
     }
 

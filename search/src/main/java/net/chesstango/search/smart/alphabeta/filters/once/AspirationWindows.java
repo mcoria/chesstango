@@ -2,18 +2,20 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchPvListener {
 
     @Setter
     @Getter
@@ -24,6 +26,8 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
 
     private Integer lastBestValue;
 
+    private boolean trackPV;
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         lastBestValue = null;
@@ -32,10 +36,21 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         lastBestValue = context.getLastBestEvaluation();
+        trackPV = false;
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforePVSearch(int bestValue) {
+        trackPV = true;
+    }
+
+    @Override
+    public void afterPVSearch(List<Move> principalVariation) {
+        trackPV = false;
     }
 
     @Override
@@ -45,11 +60,17 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
+        if (trackPV) {
+            return next.maximize(currentPly, alpha, beta);
+        }
         return process(currentPly, alpha, beta, next::maximize);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
+        if (trackPV) {
+            return next.minimize(currentPly, alpha, beta);
+        }
         return process(currentPly, alpha, beta, next::minimize);
     }
 

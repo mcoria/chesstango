@@ -7,7 +7,6 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -229,6 +227,13 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.bestMoveFound());
     }
 
+    @Test
+    public void test_40H_1568() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("1r1q1r2/4p3/3p2Q1/4kB2/p3P2P/P7/1P3P2/1K5R w - - bm Qg6-g7+; ce +M3; pv Qg6-g7+ Rf8-f6 Qg7-g3+ Ke5-d4 Qg3-c3+; id \"1568\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
 
 
     private SearchMove buildSearchMove() {

@@ -53,7 +53,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
-    private boolean withTriangularPV;
     private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
@@ -197,15 +196,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withTriangularPV() {
-        withTriangularPV = true;
-        alphaBetaRootChainBuilder.withTriangularPV();
-        alphaBetaInteriorChainBuilder.withTriangularPV();
-        quiescenceChainBuilder.withTriangularPV();
-        checkResolverChainBuilder.withTriangularPV();
-        return this;
-    }
-
     public AlphaBetaBuilder withPrintChain() {
         this.withPrintChain = true;
         return this;
@@ -227,9 +217,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public SearchMove build() {
-        if (withTranspositionTable && withTriangularPV) {
-            throw new RuntimeException("TranspositionTable and TriangularPV should not be enabled simultaneously");
-        }
+        alphaBetaRootChainBuilder.withTriangularPV();
+        alphaBetaInteriorChainBuilder.withTriangularPV();
+        quiescenceChainBuilder.withTriangularPV();
+        checkResolverChainBuilder.withTriangularPV();
 
         buildObjects();
 
@@ -275,13 +266,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
-            setTranspositionPV = new SetTranspositionPV();
         }
 
-        if (withTriangularPV) {
-            setTrianglePV = new SetTrianglePV();
-            setTrianglePV.setGameEvaluator(gameEvaluator);
-        }
+        setTrianglePV = new SetTrianglePV();
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
@@ -296,7 +283,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows);
+            setDebugSearch = new SetDebugSearch();
         }
 
     }
@@ -360,7 +347,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private AlphaBetaFilter createChain() {
         setGameEvaluator.setGameEvaluator(gameEvaluator);
 
-
         alphaBetaTerminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaTerminalChainBuilder.withGameEvaluator(gameEvaluator);
         AlphaBetaFilter terminalChain = alphaBetaTerminalChainBuilder.build();
@@ -381,6 +367,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl.setTerminalNode(terminalChain);
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        alphaBetaRootChainBuilder.withGameEvaluator(gameEvaluator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
 
         return alphaBetaRootChainBuilder.build();

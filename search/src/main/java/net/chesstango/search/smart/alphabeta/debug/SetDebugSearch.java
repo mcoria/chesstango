@@ -16,19 +16,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, SearchPvListener {
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
-    private final boolean withAspirationWindows;
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
     private SearchTracker searchTracker;
-
-    public SetDebugSearch(boolean withAspirationWindows) {
-        this.withAspirationWindows = withAspirationWindows;
-    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -63,16 +58,13 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         debugOut.printf("Search by depth %d started\n", context.getMaxPly());
+        searchTracker.reset();
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        if (!withAspirationWindows) {
-            dumpSearchTracker();
-        }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-"); //getPrincipalVariation(result)
     }
 
     @Override
@@ -85,6 +77,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         dumpSearchTracker();
     }
 
+
+    @Override
+    public void beforePVSearch(int bestValue) {
+        if (searchTracker.getRootNode() != null) {
+            dumpSearchTracker();
+        }
+        debugOut.print("Searching PV\n");
+    }
+
+    @Override
+    public void afterPVSearch(List<Move> principalVariation) {
+        dumpSearchTracker();
+        debugOut.printf("PV =  %s\n", getPrincipalVariation(principalVariation)); //getPrincipalVariation(result)
+    }
 
     private void dumpSearchTracker() {
         dumpNode(0, searchTracker.getRootNode());
@@ -106,15 +112,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         debugOut.printf(" value=%d %s", currentNode.getValue(), currentNode.moveEvaluationType);
 
+
         if (currentNode.getTranspositionOperations().size() == 1) {
             DebugNodeTT ttOperation = currentNode.getTranspositionOperations().get(0);
 
             int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
 
             if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
+
+
                 if (currentNode.getZobristHash() != ttOperation.hash()) {
-                    throw new RuntimeException("currentNodeTracker.value != ttValue");
+                    debugOut.print(" ReadTT??");
+                    //throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
+
                 debugOut.printf(" ReadTT[ %s %s depth=%d value=%d ]",
                         ttOperation.tableName(),
                         ttOperation.bound(),
@@ -137,7 +148,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         debugOut.print("\n");
 
-
+        /*
         if (currentNode.getTranspositionOperations().size() > 1) {
             for (DebugNodeTT ttOperation :
                     currentNode.getTranspositionOperations()) {
@@ -171,6 +182,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 debugOut.print("\n");
             }
         }
+         */
 
         for (DebugNode childNode : currentNode.getChildNodes()) {
             dumpNode(depth + 1, childNode);
@@ -178,10 +190,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
 
-    private String getPrincipalVariation(SearchMoveResult result) {
+    private String getPrincipalVariation(List<Move> principalVariation) {
         StringBuilder sb = new StringBuilder();
-        List<Move> pv = result.getPrincipalVariation();
-        for (Move move : pv) {
+        for (Move move : principalVariation) {
             sb.append(simpleMoveEncoder.encode(move));
             sb.append(" ");
         }

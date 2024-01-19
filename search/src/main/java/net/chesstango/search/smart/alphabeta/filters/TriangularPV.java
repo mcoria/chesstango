@@ -3,22 +3,24 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchPvListener {
     @Setter
     @Getter
     private AlphaBetaFilter next;
     private short[][] trianglePV;
     private Game game;
+
+    private boolean trackPV;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -28,10 +30,21 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.trianglePV = context.getTrianglePV();
+        this.trackPV = false;
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
+    }
+
+    @Override
+    public void beforePVSearch(int bestValue) {
+        trackPV = true;
+    }
+
+    @Override
+    public void afterPVSearch(List<Move> principalVariation) {
+        trackPV = false;
     }
 
     @Override
@@ -41,29 +54,37 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        cleanNextWorkingArray(currentPly);
+        if (trackPV) {
+            cleanNextWorkingArray(currentPly);
 
-        long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+            long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+            int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        if (currentValue < beta) {
-            updatePVTable(currentPly);
+            if (currentValue < beta) {
+                updatePVTable(currentPly);
+            }
+            return bestMoveAndValue;
+        } else {
+            return next.maximize(currentPly, alpha, beta);
         }
-        return bestMoveAndValue;
     }
 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        cleanNextWorkingArray(currentPly);
+        if (trackPV) {
+            cleanNextWorkingArray(currentPly);
 
-        long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+            long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+            int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        if (currentValue > alpha) {
-            updatePVTable(currentPly);
+            if (currentValue > alpha) {
+                updatePVTable(currentPly);
+            }
+            return bestMoveAndValue;
+        } else {
+            return next.minimize(currentPly, alpha, beta);
         }
-        return bestMoveAndValue;
     }
 
     private void updatePVTable(int currentPly) {

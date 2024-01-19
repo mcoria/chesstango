@@ -9,10 +9,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
-import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.filters.once.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -80,6 +77,11 @@ public class ChainPrinter {
         smartListenerMediator.getResetListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
+
+        System.out.print("SearchPvListeners:\n");
+        smartListenerMediator.getSearchPvListeners()
+                .forEach(listener -> printNodeObjectText(listener, 1));
+        System.out.print("\n");
     }
 
     private void printChainSmartAlgorithm(SmartAlgorithm smartAlgorithm) {
@@ -133,7 +135,9 @@ public class ChainPrinter {
                 printChainQuiescenceStatisticsVisited(quiescenceStatisticsVisited, nestedChain);
             } else if (alphaBetaFilter instanceof TriangularPV triangularPV) {
                 printTriangularPV(triangularPV, nestedChain);
-            } else if (alphaBetaFilter instanceof ExtensionFlowControl extensionFlowControl) {
+            } else if (alphaBetaFilter instanceof PrincipalVariation principalVariation) {
+                printPrincipalVariation(principalVariation, nestedChain);
+            }else if (alphaBetaFilter instanceof ExtensionFlowControl extensionFlowControl) {
                 printChainQuiescenceFlowControl(extensionFlowControl, nestedChain);
             } else if (alphaBetaFilter instanceof ZobristTracker zobristTracker) {
                 printChainZobristTracker(zobristTracker, nestedChain);
@@ -159,6 +163,12 @@ public class ChainPrinter {
         printNodeObjectText(triangularPV, nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(triangularPV.getNext(), nestedChain);
+    }
+
+    private void printPrincipalVariation(PrincipalVariation principalVariation, int nestedChain) {
+        printNodeObjectText(principalVariation, nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(principalVariation.getNext(), nestedChain);
     }
 
     private void printChainDebugTree(DebugFilter debugFilter, int nestedChain) {

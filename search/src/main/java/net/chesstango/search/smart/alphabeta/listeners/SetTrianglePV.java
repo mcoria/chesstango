@@ -1,89 +1,32 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
-import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
-
-    @Setter
-    private GameEvaluator gameEvaluator;
+public class SetTrianglePV implements SearchByDepthListener {
 
     private final short[][] trianglePV;
-    private Game game;
 
     public SetTrianglePV() {
         trianglePV = new short[40][40];
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-    }
-
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 40; j++) {
+                trianglePV[i][j] = 0;
+            }
+        }
         context.setTrianglePV(trianglePV);
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        List<Move> principalVariation = calculatePrincipalVariation(result.getEvaluation());
-        result.setPrincipalVariation(principalVariation);
     }
 
-    @Override
-    public void afterSearch() {
-    }
-
-    public List<Move> calculatePrincipalVariation(int bestEvaluation) {
-
-        List<Move> principalVariation = new ArrayList<>();
-
-        Move move = null;
-        int pvMoveCounter = 0;
-        short[] pvMoves = trianglePV[0];
-        do {
-            move = readMove(pvMoves[pvMoveCounter]);
-
-            principalVariation.add(move);
-
-            game.executeMove(move);
-
-            pvMoveCounter++;
-
-        } while (pvMoves[pvMoveCounter] != 0);
-
-        if (gameEvaluator.evaluate() != bestEvaluation) {
-            throw new RuntimeException("La evaluacion no coincide");
-        }
-
-        for (int i = 0; i < pvMoveCounter; i++) {
-            game.undoMove();
-        }
-
-        return principalVariation;
-    }
-
-    private Move readMove(short bestMoveEncoded) {
-        for (Move posibleMove : game.getPossibleMoves()) {
-            if (posibleMove.binaryEncoding() == bestMoveEncoded) {
-                return posibleMove;
-            }
-        }
-        throw new RuntimeException("Move not found");
-    }
 }
