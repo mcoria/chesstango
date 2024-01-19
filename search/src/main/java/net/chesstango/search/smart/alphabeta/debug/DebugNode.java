@@ -6,6 +6,7 @@ import net.chesstango.search.MoveEvaluationType;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -36,9 +37,35 @@ public class DebugNode {
 
     List<DebugNodeTT> transpositionOperations = new LinkedList<>();
 
-    public void addChild(DebugNode newNode) {
-        childNodes.add(newNode);
-        newNode.parent = this;
+    public void setZobristHash(long zobristHash) {
+        this.zobristHash = zobristHash;
+        if (Objects.nonNull(this.parent) &&
+                            this.parent.childNodes.stream()
+                                .filter(otherNode -> otherNode.getZobristHash() == zobristHash)
+                                .count() > 1) {
+            throw new RuntimeException("Duplicated Node");
+        }
+    }
+    public void setDebugSearch(String fnString, int alpha, int beta) {
+        this.fnString = fnString;
+        this.alpha = alpha;
+        this.beta = beta;
+    }
+
+    public void setSelectedMove(Move currentMove) {
+        this.selectedMove = currentMove;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setStandingPat(Integer value) {
+        this.standingPat = value;
+    }
+
+    public void setEvaluationType(MoveEvaluationType moveEvaluationType) {
+        this.moveEvaluationType = moveEvaluationType;
     }
 
     public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, CHECK_EXTENSION, LEAF}
