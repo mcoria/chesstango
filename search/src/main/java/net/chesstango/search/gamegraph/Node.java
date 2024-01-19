@@ -2,6 +2,7 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
@@ -78,7 +79,7 @@ class Node {
             public Move getMove(Square from, Square to) {
                 for (Move move : this) {
                     if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
-                        if(move instanceof MovePromotion){
+                        if (move instanceof MovePromotion) {
                             return null;
                         }
                         return move;
@@ -117,9 +118,13 @@ class Node {
         return position;
     }
 
-    GameStatus gameStatus;
+    GameStateReader gameState;
 
     GameStatus getStatus() {
-        return gameStatus;
+        return gameState.getStatus();
+    }
+
+    GameStateReader getState() {
+        return gameState;
     }
 }

@@ -344,13 +344,13 @@ public class AlphaBetaStatisticsTest {
         assertEquals(6, visitedNodesCounters[1]);
         assertEquals(5, visitedNodesCounters[2]);
         assertEquals(4, visitedNodesCounters[3]);
-        assertEquals(3, visitedNodesCounters[4]);
-        assertEquals(2, visitedNodesCounters[5]);
-        assertEquals(1, visitedNodesCounters[6]);
+        assertEquals(0, visitedNodesCounters[4]); // Esta perfecto, el 4to movimiento conduce a una es una repeticion
+        assertEquals(0, visitedNodesCounters[5]);
+        assertEquals(0, visitedNodesCounters[6]);
         assertEquals(0, visitedNodesCounters[7]);
 
-        assertEquals(28, visitedNodesCountersTotal);
-        assertEquals(28, executedMoves);
+        assertEquals(22, visitedNodesCountersTotal);
+        assertEquals(22, executedMoves);
     }
 
 

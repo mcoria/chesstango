@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -17,6 +18,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+    private final static boolean ONLY_EXACT = true;
+
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
@@ -72,7 +75,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), "-"); //getPrincipalVariation(result)
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
     }
 
     @Override
@@ -173,7 +176,13 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
 
         for (DebugNode childNode : currentNode.getChildNodes()) {
-            dumpNode(depth + 1, childNode);
+            if (ONLY_EXACT) {
+                if (childNode.moveEvaluationType.equals(MoveEvaluationType.EXACT)) {
+                    dumpNode(depth + 1, childNode);
+                }
+            } else {
+                dumpNode(depth + 1, childNode);
+            }
         }
     }
 
