@@ -12,25 +12,31 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HexFormat;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final static boolean ONLY_EXACT = true;
-
+    private final static boolean TRANSPOSITION_ACCESS = false;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private final boolean withAspirationWindows;
+    private final DebugNodeTrap debugNodeTrap;
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
     private SearchTracker searchTracker;
 
-    public SetDebugSearch(boolean withAspirationWindows) {
+    private List<String> debugErrorMessages;
+
+    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap) {
         this.withAspirationWindows = withAspirationWindows;
+        this.debugNodeTrap = debugNodeTrap;
     }
 
     @Override
@@ -88,66 +94,89 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         dumpSearchTracker();
     }
 
-
     private void dumpSearchTracker() {
+        debugErrorMessages = new LinkedList<>();
         dumpNode(0, searchTracker.getRootNode());
+        debugErrorMessages.forEach(debugOut::println);
+        debugOut.flush();
         searchTracker.reset();
     }
 
     private void dumpNode(int depth, DebugNode currentNode) {
         if (depth > 0) {
-            String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
+            String moveStr = simpleMoveEncoder.encode(currentNode.selectedMove);
             debugOut.printf("%s%s ", ">\t".repeat(depth), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.nodeType, hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.fnString, currentNode.nodeType, hexFormat.formatHex(longToByte(currentNode.zobristHash)), currentNode.alpha, currentNode.beta);
 
-
-        if (currentNode.getStandingPat() != null) {
-            debugOut.printf(" SP=%d", currentNode.getStandingPat());
+        if (currentNode.standingPat != null) {
+            debugOut.printf(" SP=%d", currentNode.standingPat);
         }
 
-        debugOut.printf(" value=%d %s", currentNode.getValue(), currentNode.moveEvaluationType);
+        debugOut.printf(" value=%d %s", currentNode.value, currentNode.moveEvaluationType);
 
-        if (currentNode.getTranspositionOperations().size() == 1) {
-            DebugNodeTT ttOperation = currentNode.getTranspositionOperations().get(0);
-
-            int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
-
-            if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
-                if (currentNode.getZobristHash() != ttOperation.hash()) {
-                    throw new RuntimeException("currentNodeTracker.value != ttValue");
-                }
-                debugOut.printf(" ReadTT[ %s %s depth=%d value=%d ]",
-                        ttOperation.tableName(),
-                        ttOperation.bound(),
-                        ttOperation.depth(),
-                        ttValue);
-            }
-
-            if (DebugNodeTT.TranspositionOperationType.WRITE.equals(ttOperation.transpositionOperation())) {
-                if (currentNode.getValue() != ttValue) {
-                    throw new RuntimeException("currentNodeTracker.value != ttValue");
-                }
-
-                debugOut.printf(" WriteTT[ %s %s depth=%d value=%d ]",
-                        ttOperation.tableName(),
-                        ttOperation.bound(),
-                        ttOperation.depth(),
-                        ttValue);
-            }
+        if (Objects.nonNull(currentNode.parent) &&
+                currentNode.parent.childNodes.stream()
+                        .filter(otherNode -> otherNode.zobristHash == currentNode.zobristHash)
+                        .count() > 1) {
+            debugOut.print(" DUPLICATED CHILD NODE");
+            debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.zobristHash));
         }
 
         debugOut.print("\n");
 
+        if (TRANSPOSITION_ACCESS) {
+            if (currentNode.entryRead != null) {
+                int ttValue = TranspositionEntry.decodeValue(currentNode.entryRead.movesAndValue());
+                debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
+                        ">\t".repeat(depth),
+                        currentNode.entryRead.tableName(),
+                        currentNode.entryRead.bound(),
+                        currentNode.entryRead.depth(),
+                        ttValue);
+                if (currentNode.zobristHash != currentNode.entryRead.hash()) {
+                    debugOut.print(" WRONG TT_READ ENTRY");
+                    debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.zobristHash));
+                }
+                debugOut.print("\n");
+            }
 
-        if (currentNode.getTranspositionOperations().size() > 1) {
-            for (DebugNodeTT ttOperation :
-                    currentNode.getTranspositionOperations()) {
+            if (currentNode.entryWrite != null) {
+                int ttValue = TranspositionEntry.decodeValue(currentNode.entryWrite.movesAndValue());
+                debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
+                        ">\t".repeat(depth),
+                        currentNode.entryWrite.tableName(),
+                        currentNode.entryWrite.bound(),
+                        currentNode.entryWrite.depth(),
+                        ttValue);
 
-                int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
+                if (currentNode.zobristHash != currentNode.entryWrite.hash_requested()) {
+                    debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
+                    debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.zobristHash));
+                }
 
-                if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
+                if (currentNode.value != ttValue) {
+                    debugOut.print(" WRONG TT_WRITE_VALUE");
+                    debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.zobristHash));
+                }
+                debugOut.print("\n");
+            }
+        }
+
+
+        if (currentNode.sortedMovesStr != null) {
+            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(depth), currentNode.sortedMovesStr);
+        }
+
+        if (TRANSPOSITION_ACCESS) {
+            if (!currentNode.sorterReads.isEmpty()) {
+                debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(depth));
+                for (DebugNodeTT ttOperation :
+                        currentNode.sorterReads) {
+
+                    int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
+
                     debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(depth),
                             ttOperation.tableName(),
@@ -155,27 +184,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
                             ttOperation.depth(),
                             ttValue);
+
+                    debugOut.print("\n");
                 }
-
-                if (DebugNodeTT.TranspositionOperationType.WRITE.equals(ttOperation.transpositionOperation())) {
-                    if (currentNode.getValue() != ttValue) {
-                        throw new RuntimeException("currentNodeTracker.value != ttValue");
-                    }
-
-                    debugOut.printf("%s WriteTT[ %s %s 0x%s depth=%d value=%d ]",
-                            ">\t".repeat(depth),
-                            ttOperation.tableName(),
-                            ttOperation.bound(),
-                            hexFormat.formatHex(longToByte(ttOperation.hash())),
-                            ttOperation.depth(),
-                            ttValue);
-                }
-
-                debugOut.print("\n");
             }
         }
 
-        for (DebugNode childNode : currentNode.getChildNodes()) {
+        if (Objects.nonNull(debugNodeTrap)) {
+            if (debugNodeTrap.test(currentNode)) {
+                debugNodeTrap.debug(depth, currentNode, debugOut);
+            }
+        }
+
+
+        for (DebugNode childNode : currentNode.childNodes) {
             if (ONLY_EXACT) {
                 if (childNode.moveEvaluationType.equals(MoveEvaluationType.EXACT)) {
                     dumpNode(depth + 1, childNode);

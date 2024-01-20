@@ -19,7 +19,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
         GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();

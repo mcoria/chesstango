@@ -101,7 +101,7 @@ import java.util.List;
  * |   d6e7 |     68 % |     58 % |     83 % |     75 % |     75 % |     82 % |     80 % |
  * -------------------------------------------------------------------------------------
  */
-public class DefaultMoveSorter implements SearchByCycleListener, MoveSorter {
+public class DefaultMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;

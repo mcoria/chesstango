@@ -13,6 +13,8 @@ import java.util.Objects;
  */
 @Getter
 public class DebugNode {
+    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
+
     SearchNodeType nodeType;
 
     long zobristHash;
@@ -27,6 +29,8 @@ public class DebugNode {
 
     int beta;
 
+    String sortedMovesStr;
+
     int value;
 
     Integer standingPat;
@@ -35,13 +39,17 @@ public class DebugNode {
 
     List<DebugNode> childNodes = new LinkedList<>();
 
-    List<DebugNodeTT> transpositionOperations = new LinkedList<>();
+    List<DebugNodeTT> sorterReads = new LinkedList<>();
+
+    DebugNodeTT entryRead;
+
+    DebugNodeTT entryWrite;
 
     public void setZobristHash(long zobristHash) {
         this.zobristHash = zobristHash;
         if (Objects.nonNull(this.parent) &&
                 this.parent.childNodes.stream()
-                        .filter(otherNode -> otherNode.getZobristHash() == zobristHash)
+                        .filter(otherNode -> otherNode.zobristHash == zobristHash)
                         .count() > 1) {
             throw new RuntimeException("Duplicated Node");
         }
@@ -52,22 +60,4 @@ public class DebugNode {
         this.alpha = alpha;
         this.beta = beta;
     }
-
-    public void setSelectedMove(Move currentMove) {
-        this.selectedMove = currentMove;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public void setStandingPat(Integer value) {
-        this.standingPat = value;
-    }
-
-    public void setEvaluationType(MoveEvaluationType moveEvaluationType) {
-        this.moveEvaluationType = moveEvaluationType;
-    }
-
-    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
 }

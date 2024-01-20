@@ -36,7 +36,7 @@ public class AlphaBetaTest {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
         evaluator = new GameMockEvaluator();
 

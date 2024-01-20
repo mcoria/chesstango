@@ -7,6 +7,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorter implements MoveSorter, SearchByDepthListener {
+public class TranspositionMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
     private TTable maxMap;

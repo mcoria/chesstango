@@ -7,7 +7,7 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.smart.statistics.NodeStatistics;
+import net.chesstango.search.smart.alphabeta.debug.traps.SampleTrap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -106,7 +105,6 @@ public class EpdSearchMainTest {
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
     }
-
 
 
     @Test
@@ -258,7 +256,6 @@ public class EpdSearchMainTest {
     }
 
 
-
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
@@ -281,7 +278,7 @@ public class EpdSearchMainTest {
                 //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                //.withDebugSearchTree()
+                //.withDebugSearchTree(new SampleTrap())
 
                 .build();
     }

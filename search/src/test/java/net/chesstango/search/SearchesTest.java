@@ -46,8 +46,8 @@ public class SearchesTest {
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
 
-                .withPrintChain()
-                .withDebugSearchTree()
+                //.withPrintChain()
+                //.withDebugSearchTree(null)
 
                 .build();
     }
