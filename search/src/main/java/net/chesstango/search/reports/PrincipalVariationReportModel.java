@@ -49,13 +49,13 @@ public class PrincipalVariationReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getEvaluation();
-        reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
+        reportModelDetail.principalVariation = getPrincipalVariationString(searchMoveResult.getPrincipalVariation());
 
         moveDetails.add(reportModelDetail);
     }
 
 
-    private static String getPrincipalVariation(List<Move> principalVariation) {
+    private static String getPrincipalVariationString(List<Move> principalVariation) {
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
         if (principalVariation == null) {
             return "-";
