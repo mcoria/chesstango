@@ -53,6 +53,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
+    private boolean withQTranspositionTable;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
@@ -131,6 +132,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withTranspositionMoveSorter() {
+        if (!withTranspositionTable) {
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
         alphaBetaInteriorChainBuilder.withTranspositionMoveSorter();
         return this;
     }
@@ -139,9 +143,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (!withQuiescence) {
             throw new RuntimeException("You must enable Quiescence first");
         }
-        if (!withTranspositionTable) {
-            throw new RuntimeException("You must enable TranspositionTable first");
-        }
+        withQTranspositionTable = true;
         quiescenceChainBuilder.withTranspositionTable();
         quiescenceLeafChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
@@ -149,8 +151,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQTranspositionMoveSorter() {
-        if (!withQuiescence) {
-            throw new RuntimeException("You must enable Quiescence first");
+        if (!withQTranspositionTable) {
+            throw new RuntimeException("You must enable QTranspositionTable first");
         }
         quiescenceChainBuilder.withTranspositionMoveSorter();
         //checkResolverChainBuilder.withTranspositionMoveSorter();
@@ -198,7 +200,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     public AlphaBetaBuilder withAspirationWindows() {
         alphaBetaRootChainBuilder.withAspirationWindows();
-        this.withAspirationWindows = true;
+        withAspirationWindows = true;
         return this;
     }
 
@@ -212,7 +214,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withPrintChain() {
-        this.withPrintChain = true;
+        withPrintChain = true;
         return this;
     }
 
@@ -234,8 +236,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public SearchMove build() {
-        if (withTranspositionTable && withTriangularPV) {
-            throw new RuntimeException("TranspositionTable and TriangularPV should not be enabled simultaneously");
+        if (!withTranspositionTable && !withQTranspositionTable) {
+            withTriangularPV();
+        }
+
+        if (withTriangularPV && (withTranspositionTable || withQTranspositionTable)) {
+            throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
         }
 
         buildObjects();
@@ -308,7 +314,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     }
 
-
     private void setupListenerMediator() {
         if (setContext != null) {
             smartListenerMediator.add(setContext);
@@ -366,7 +371,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private AlphaBetaFilter createChain() {
         setGameEvaluator.setGameEvaluator(gameEvaluator);
-
 
         alphaBetaTerminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaTerminalChainBuilder.withGameEvaluator(gameEvaluator);

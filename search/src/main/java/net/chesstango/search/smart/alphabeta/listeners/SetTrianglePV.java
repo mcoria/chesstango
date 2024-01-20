@@ -3,12 +3,13 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +68,15 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
         } while (pvMoves[pvMoveCounter] != 0);
 
-        if (gameEvaluator.evaluate() != bestEvaluation) {
-            throw new RuntimeException("La evaluacion no coincide");
+        int pvEvaluation = gameEvaluator.evaluate();
+
+        // En caso que se llegó a loop
+        if (game.getState().getRepetitionCounter() > 1) {
+            pvEvaluation = 0;
+        }
+
+        if (bestEvaluation != pvEvaluation) {
+            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestEvaluation, pvEvaluation, getPrincipalVariationString(principalVariation)));
         }
 
         for (int i = 0; i < pvMoveCounter; i++) {
@@ -85,5 +93,20 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
             }
         }
         throw new RuntimeException("Move not found");
+    }
+
+
+    private static String getPrincipalVariationString(List<Move> principalVariation) {
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+        if (principalVariation == null) {
+            return "-";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (Move move : principalVariation) {
+                sb.append(simpleMoveEncoder.encode(move));
+                sb.append(" ");
+            }
+            return sb.toString();
+        }
     }
 }
