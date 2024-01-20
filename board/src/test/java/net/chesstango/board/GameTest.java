@@ -285,6 +285,26 @@ public class GameTest {
     }
 
     @Test
+    public void testGetRepetitionCounter01() {
+        Game game = getGame("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - 0 1");
+
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+
+        game
+                .executeMove(Square.a1, Square.a7)
+                .executeMove(Square.c7, Square.c6)
+                .executeMove(Square.d1, Square.d6)
+                .executeMove(Square.c6, Square.c7)
+                .executeMove(Square.d6, Square.d1);
+
+        assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(2, game.getState().getRepetitionCounter());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+    }
+
+    @Test
     public void test_undo() {
         Game game = getGame(FENDecoder.INITIAL_FEN);
 

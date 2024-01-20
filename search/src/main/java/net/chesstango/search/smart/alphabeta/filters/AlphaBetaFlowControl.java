@@ -26,6 +26,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter terminalNode;
 
+    @Setter
+    @Getter
+    private AlphaBetaFilter loopNode;
+
     private int maxPly;
     private Game game;
 
@@ -60,7 +64,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
+            return loopNode.maximize(currentPly, alpha, beta);
         }
 
         if (game.getStatus().isFinalStatus()) {
@@ -81,7 +85,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
+            return loopNode.minimize(currentPly, alpha, beta);
         }
 
         if (game.getStatus().isFinalStatus()) {

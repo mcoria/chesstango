@@ -139,6 +139,8 @@ public class ChainPrinter {
                 printChainZobristTracker(zobristTracker, nestedChain);
             } else if (alphaBetaFilter instanceof DebugFilter debugFilter) {
                 printChainDebugTree(debugFilter, nestedChain);
+            } else if (alphaBetaFilter instanceof LoopEvaluation loopEvaluation) {
+                printChainLoopEvaluation(loopEvaluation, nestedChain);
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
@@ -165,6 +167,11 @@ public class ChainPrinter {
         printNodeObjectText(debugFilter, nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(debugFilter.getNext(), nestedChain);
+    }
+
+    private void printChainLoopEvaluation(LoopEvaluation loopEvaluation, int nestedChain) {
+        printNodeObjectText(loopEvaluation, nestedChain);
+        printChainText("", nestedChain);
     }
 
     private void printChainZobristTracker(ZobristTracker zobristTracker, int nestedChain) {
@@ -247,6 +254,11 @@ public class ChainPrinter {
         printChainText(" -> TerminalNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(terminalNode, nestedChainLevelDown);
+
+        AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
+        printChainText(" -> LoopNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(loopNode, nestedChainLevelDown);
 
 
         AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();

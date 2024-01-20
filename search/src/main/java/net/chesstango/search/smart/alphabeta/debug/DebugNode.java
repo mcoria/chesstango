@@ -40,12 +40,13 @@ public class DebugNode {
     public void setZobristHash(long zobristHash) {
         this.zobristHash = zobristHash;
         if (Objects.nonNull(this.parent) &&
-                            this.parent.childNodes.stream()
-                                .filter(otherNode -> otherNode.getZobristHash() == zobristHash)
-                                .count() > 1) {
+                this.parent.childNodes.stream()
+                        .filter(otherNode -> otherNode.getZobristHash() == zobristHash)
+                        .count() > 1) {
             throw new RuntimeException("Duplicated Node");
         }
     }
+
     public void setDebugSearch(String fnString, int alpha, int beta) {
         this.fnString = fnString;
         this.alpha = alpha;
@@ -68,5 +69,5 @@ public class DebugNode {
         this.moveEvaluationType = moveEvaluationType;
     }
 
-    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, QUIESCENCE, CHECK_EXTENSION, LEAF}
+    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
 }
