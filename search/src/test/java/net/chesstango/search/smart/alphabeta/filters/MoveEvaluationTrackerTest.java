@@ -35,16 +35,16 @@ public class MoveEvaluationTrackerTest {
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
         SearchMoveResult searchResult = searchMove.search(game);
 
-        assertEquals(20, searchResult.getBestMovesCounter());
+        assertEquals(19, searchResult.getPossibleCollisions().size());
     }
 
     @Test
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
         SearchMoveResult searchResult = searchMove.search(game);
 
-        assertEquals(20, searchResult.getBestMovesCounter());
+        assertEquals(19, searchResult.getPossibleCollisions().size());
     }
 }

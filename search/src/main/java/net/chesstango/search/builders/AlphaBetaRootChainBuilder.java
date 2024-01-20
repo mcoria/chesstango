@@ -1,9 +1,9 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.*;
 
@@ -24,12 +24,14 @@ public class AlphaBetaRootChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
+    private TriangularPV triangularPV;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
     private boolean withTranspositionTable;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
+    private boolean withTriangularPV;
 
     private AlphaBetaFilter alphaBetaFlowControl;
 
@@ -71,7 +73,8 @@ public class AlphaBetaRootChainBuilder {
     }
 
     public AlphaBetaRootChainBuilder withTriangularPV() {
-        throw new RuntimeException("Please review implementation");
+        this.withTriangularPV = true;
+        return this;
     }
 
     public AlphaBetaRootChainBuilder withZobristTracker() {
@@ -115,7 +118,11 @@ public class AlphaBetaRootChainBuilder {
             debugFilter = new DebugFilter(DebugNode.SearchNodeType.ROOT);
         }
 
-        moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
+
+        //moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
     }
 
 
@@ -147,6 +154,10 @@ public class AlphaBetaRootChainBuilder {
 
         if (transpositionTableRoot != null) {
             smartListenerMediator.add(transpositionTableRoot);
+        }
+
+        if (triangularPV != null) {
+            smartListenerMediator.add(triangularPV);
         }
     }
 
@@ -187,6 +198,10 @@ public class AlphaBetaRootChainBuilder {
 
         chain.add(moveEvaluationTracker);
 
+        if (triangularPV != null) {
+            chain.add(triangularPV);
+        }
+
         chain.add(alphaBetaFlowControl);
 
 
@@ -212,6 +227,8 @@ public class AlphaBetaRootChainBuilder {
                 alphaBetaStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
+            } else if (currentFilter instanceof TriangularPV) {
+                triangularPV.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

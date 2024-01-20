@@ -86,7 +86,7 @@ public class QuiescenceLeafChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.Q_LEAF);
+            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.LEAF);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
     }

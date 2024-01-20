@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -72,28 +73,35 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
     private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
 
-        searchTracker.newNode(searchNodeType);
+        DebugNode debugNode = searchTracker.newNode(searchNodeType);
 
-        searchTracker.setZobristHash(game.getChessPosition().getZobristHash());
+        debugNode.setZobristHash(game.getChessPosition().getZobristHash());
 
         if (game.getState().getPreviousState() != null) {
             Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
-            searchTracker.setSelectedMove(currentMove);
+            debugNode.setSelectedMove(currentMove);
         }
 
-        searchTracker.setDebugSearch(fnString, alpha, beta);
+        debugNode.setDebugSearch(fnString, alpha, beta);
 
-        if (maxPly <= currentPly && (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType) ||
-                                    DebugNode.SearchNodeType.Q_LEAF.equals(searchNodeType))) {
-            searchTracker.setStandingPat(gameEvaluator.evaluate());
+        if (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType)) {
+            debugNode.setStandingPat(gameEvaluator.evaluate());
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
 
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        searchTracker.setValue(currentValue);
+        debugNode.setValue(currentValue);
+
+        if (currentValue <= alpha) {
+            debugNode.setEvaluationType(MoveEvaluationType.UPPER_BOUND);
+        } else if (beta <= currentValue) {
+            debugNode.setEvaluationType(MoveEvaluationType.LOWER_BOUND);
+        } else {
+            debugNode.setEvaluationType(MoveEvaluationType.EXACT);
+        }
 
         searchTracker.save();
 

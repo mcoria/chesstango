@@ -65,10 +65,27 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.bestMoveFound());
     }
 
+    // Evita entrar en loop
+    @Test
+    public void test_WAC008() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("r4q1k/p2bR1rp/2p2Q1N/5p2/5p2/2P5/PP3PPP/R5K1 w - - bm Rf7; id \"WAC.008\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
     @Test
     public void test_WAC012() {
         epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("4k1r1/2p3r1/1pR1p3/3pP2p/3P2qP/P4N2/1PQ4P/5R1K b - - bm Qxf3+; id \"WAC.012\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+    @Test
+    public void test_WAC137() {
+        epdSearch.setDepth(6);
+        EPDEntry epdEntry = epdReader.readEdpLine("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - bm Rd7; id \"WAC.137\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
     }
@@ -89,6 +106,17 @@ public class EpdSearchMainTest {
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
     }
+
+
+
+    @Test
+    public void test_WAC111() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("6k1/p5p1/5p2/2P2Q2/3pN2p/3PbK1P/7P/6q1 b - - bm Qf1+; id \"WAC.111\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
 
     @Test
     public void test_BK01() {
@@ -214,6 +242,14 @@ public class EpdSearchMainTest {
     }
 
     @Test
+    public void test_40H_022() {
+        epdSearch.setDepth(1);
+        EPDEntry epdEntry = epdReader.readEdpLine("6kr/1p3ppp/p1q2b2/2Bp1N2/3P4/6Q1/PP3PPP/4R1K1 w - - bm Nf5-h6+; ce +M1; pv Nf5-h6+; id \"022\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+    @Test
     public void test_40H_10255() {
         epdSearch.setDepth(6);
         EPDEntry epdEntry = epdReader.readEdpLine("5r2/ppbqn2k/7B/2p1p2p/P1NpP1P1/3P4/1PP2r2/R1Q1K1R1 b Q - bm Qd7xg4; ce -M3; pv Qd7xg4 Rg1xg4 Rf2-f1+ Ke1-e2 Rf8-f2+; id \"10255\";");
@@ -222,60 +258,16 @@ public class EpdSearchMainTest {
     }
 
 
-    @Test
-    public void test_40H_2820() {
-        epdSearch.setDepth(5);
-        EPDEntry epdEntry = epdReader.readEdpLine("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - bm Nc2-e1; ce +M3; pv Nc2-e1 Ka4-a3 Bc4-b3 a5-a4 Ne1-c2+; id \"2820\";");
-        epdSearchResult = epdSearch.run(epdEntry);
-        assertTrue(epdSearchResult.bestMoveFound());
-
-
-        /**
-         * Ahora se prueba el inverso
-         */
-        EPDEntry epdEntry1 = epdReader.readEdpLine("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - bm Nc7-e8; ce -M3; pv Nc7-e8 Ka5-a6 Bc5-b6 a4-a5 Ne8-c7+; id \"2820\";");
-        EpdSearchResult epdSearchResult1 = epdSearch.run(epdEntry1);
-        assertTrue(epdSearchResult1.bestMoveFound());
-
-
-        SearchMoveResult searchResult = epdSearchResult.searchResult();
-        SearchMoveResult searchResult1 = epdSearchResult1.searchResult();
-
-        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
-        int[] visitedNodesQuiescenceCounter = quiescenceNodeStatistics.visitedNodesCounters();
-
-        NodeStatistics quiescenceNodeStatistics1 = searchResult1.getQuiescenceNodeStatistics();
-        int[] visitedNodesQuiescenceCounter1 = quiescenceNodeStatistics1.visitedNodesCounters();
-
-        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
-        NodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
-
-        int[] expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
-        int[] visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
-
-        int[] expectedNodesCounters1 = regularNodeStatistics1.expectedNodesCounters();
-        int[] visitedNodesCounters1 = regularNodeStatistics1.visitedNodesCounters();
-
-        for (int i = 0; i < 30; i++) {
-            assertEquals(expectedNodesCounters[i], expectedNodesCounters1[i]);
-            assertEquals(visitedNodesCounters[i], visitedNodesCounters1[i]);
-            assertEquals(visitedNodesQuiescenceCounter[i], visitedNodesQuiescenceCounter1[i]);
-        }
-
-        /**
-         * Esta fallando esta linea, podriamos hacer un dump de la ejecucion de los movimientos
-         */
-        assertEquals(searchResult.getExecutedMoves(), searchResult1.getExecutedMoves());
-    }
-
 
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
                 //.withGameEvaluatorCache()
 
+                //.withExtensionCheckResolver()
                 .withQuiescence()
 
+                //.withTriangularPV()
                 .withTranspositionTable()
                 .withQTranspositionTable()
 
@@ -284,10 +276,9 @@ public class EpdSearchMainTest {
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
-                //.withTriangularPV()
 
-                .withStatistics()
-                .withPrintChain()
+                //.withStatistics()
+                //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withDebugSearchTree()

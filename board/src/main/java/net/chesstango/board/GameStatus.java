@@ -24,4 +24,8 @@ public enum GameStatus {
     public boolean isFinalStatus() {
         return !isInProgress();
     }
+
+    public boolean isCheck() {
+        return CHECK.equals(this);
+    }
 }

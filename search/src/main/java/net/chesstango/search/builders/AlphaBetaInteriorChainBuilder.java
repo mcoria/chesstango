@@ -1,9 +1,9 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -24,10 +24,12 @@ public class AlphaBetaInteriorChainBuilder {
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private DebugFilter debugFilter;
+    private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
+    private boolean withTriangularPV;
 
     public AlphaBetaInteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -60,7 +62,8 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withTriangularPV() {
-        throw new RuntimeException("Please review implementation");
+        this.withTriangularPV = true;
+        return this;
     }
 
     public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
@@ -100,6 +103,9 @@ public class AlphaBetaInteriorChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.SearchNodeType.INTERIOR);
         }
+        if (withTriangularPV) {
+            triangularPV = new TriangularPV();
+        }
 
         alphaBeta.setMoveSorter(moveSorter);
     }
@@ -120,6 +126,9 @@ public class AlphaBetaInteriorChainBuilder {
         }
         if (debugFilter != null) {
             smartListenerMediator.add(debugFilter);
+        }
+        if (triangularPV != null) {
+            smartListenerMediator.add(triangularPV);
         }
     }
 
@@ -150,6 +159,10 @@ public class AlphaBetaInteriorChainBuilder {
             chain.add(alphaBetaStatisticsVisited);
         }
 
+        if (triangularPV != null) {
+            chain.add(triangularPV);
+        }
+
         chain.add(alphaBetaFlowControl);
 
 
@@ -169,6 +182,8 @@ public class AlphaBetaInteriorChainBuilder {
                 alphaBetaStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
+            } else if (currentFilter instanceof TriangularPV) {
+                triangularPV.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

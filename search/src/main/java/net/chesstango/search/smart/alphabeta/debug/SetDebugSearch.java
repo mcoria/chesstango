@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -17,6 +18,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+    private final static boolean ONLY_EXACT = true;
+
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
@@ -72,7 +75,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), result.getPrincipalVariation() == null ? "-" : getPrincipalVariation(result.getPrincipalVariation()));
     }
 
     @Override
@@ -92,21 +95,19 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
     private void dumpNode(int depth, DebugNode currentNode) {
-        if (depth == 0) {
-            debugOut.printf("%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
-        } else {
+        if (depth > 0) {
             String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
-
-            debugOut.printf("%s%s %s alpha=%d beta=%d", ">\t".repeat(depth), moveStr, currentNode.getFnString(), currentNode.getAlpha(), currentNode.getBeta());
+            debugOut.printf("%s%s ", ">\t".repeat(depth), moveStr);
         }
+
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.nodeType, hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
+
 
         if (currentNode.getStandingPat() != null) {
             debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
 
-        debugOut.printf(" hash=0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
-
-        debugOut.printf(" value=%d", currentNode.getValue());
+        debugOut.printf(" value=%d %s", currentNode.getValue(), currentNode.moveEvaluationType);
 
         if (currentNode.getTranspositionOperations().size() == 1) {
             DebugNodeTT ttOperation = currentNode.getTranspositionOperations().get(0);
@@ -117,8 +118,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 if (currentNode.getZobristHash() != ttOperation.hash()) {
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
-                debugOut.printf(" ReadTT[ %s depth=%d value=%d ]",
+                debugOut.printf(" ReadTT[ %s %s depth=%d value=%d ]",
                         ttOperation.tableName(),
+                        ttOperation.bound(),
                         ttOperation.depth(),
                         ttValue);
             }
@@ -128,8 +130,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                     throw new RuntimeException("currentNodeTracker.value != ttValue");
                 }
 
-                debugOut.printf(" WriteTT[ %s depth=%d value=%d ]",
+                debugOut.printf(" WriteTT[ %s %s depth=%d value=%d ]",
                         ttOperation.tableName(),
+                        ttOperation.bound(),
                         ttOperation.depth(),
                         ttValue);
             }
@@ -145,9 +148,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
 
                 if (DebugNodeTT.TranspositionOperationType.READ.equals(ttOperation.transpositionOperation())) {
-                    debugOut.printf("%s ReadTT[ %s 0x%s depth=%d value=%d ]",
+                    debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(depth),
                             ttOperation.tableName(),
+                            ttOperation.bound(),
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
                             ttOperation.depth(),
                             ttValue);
@@ -158,9 +162,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                         throw new RuntimeException("currentNodeTracker.value != ttValue");
                     }
 
-                    debugOut.printf("%s WriteTT[ %s 0x%s depth=%d value=%d ]",
+                    debugOut.printf("%s WriteTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(depth),
                             ttOperation.tableName(),
+                            ttOperation.bound(),
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
                             ttOperation.depth(),
                             ttValue);
@@ -171,14 +176,19 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
 
         for (DebugNode childNode : currentNode.getChildNodes()) {
-            dumpNode(depth + 1, childNode);
+            if (ONLY_EXACT) {
+                if (childNode.moveEvaluationType.equals(MoveEvaluationType.EXACT)) {
+                    dumpNode(depth + 1, childNode);
+                }
+            } else {
+                dumpNode(depth + 1, childNode);
+            }
         }
     }
 
 
-    private String getPrincipalVariation(SearchMoveResult result) {
+    private String getPrincipalVariation(List<Move> pv) {
         StringBuilder sb = new StringBuilder();
-        List<Move> pv = result.getPrincipalVariation();
         for (Move move : pv) {
             sb.append(simpleMoveEncoder.encode(move));
             sb.append(" ");

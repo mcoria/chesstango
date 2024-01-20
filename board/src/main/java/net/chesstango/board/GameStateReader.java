@@ -20,5 +20,7 @@ public interface GameStateReader {
 
     long getPositionHash();
 
+    int getRepetitionCounter();
+
     GameStateReader getPreviousState();
 }

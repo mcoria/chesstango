@@ -41,7 +41,6 @@ public class AlphaBetaTest {
         evaluator = new GameMockEvaluator();
 
         AlphaBeta alphaBeta = new AlphaBeta();
-        AlphaBetaHorizon horizon = new AlphaBetaHorizon();
         AlphaBetaEvaluation terminal = new AlphaBetaEvaluation();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
@@ -50,16 +49,14 @@ public class AlphaBetaTest {
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
 
-        horizon.setQuiescence(terminal);
 
         alphaBetaFlowControl.setTerminalNode(new AlphaBetaEvaluation());
-        alphaBetaFlowControl.setHorizonNode(horizon);
+        alphaBetaFlowControl.setHorizonNode(terminal);
         alphaBetaFlowControl.setTerminalNode(terminal);
         alphaBetaFlowControl.setInteriorNode(alphaBeta);
 
         quiescence.setGameEvaluator(evaluator);
         terminal.setGameEvaluator(evaluator);
-        horizon.setGameEvaluator(evaluator);
 
         setGameEvaluator.setGameEvaluator(evaluator);
 
@@ -68,7 +65,7 @@ public class AlphaBetaTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, horizon, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
     }
 
     @Test
@@ -146,7 +143,7 @@ public class AlphaBetaTest {
 
         MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation.evaluation(), bestMoveEvaluation.move(), null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
 
         smartListenerMediator.triggerAfterSearchByDepth(searchResult);
 

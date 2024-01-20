@@ -17,4 +17,12 @@ class MoveKingImp extends MoveImp implements MoveKing {
         super(from, to);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MoveKingImp theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to);
+        }
+        return false;
+    }
+
 }

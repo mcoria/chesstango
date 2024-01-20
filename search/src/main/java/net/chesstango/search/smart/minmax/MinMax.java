@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 
@@ -58,14 +59,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
             game.undoMove();
         }
 
-
-        /*
-        return new SearchMoveResult(maxPly, betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
-                .setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounter))
-                //.setEvaluationCollisions(bestMoves.size() - 1)
-                .setBestMoves(bestMoves);
-         */
-        return new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation);
+        return new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation, MoveEvaluationType.EXACT);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
