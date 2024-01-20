@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
@@ -78,29 +77,27 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
         debugNode.setZobristHash(game.getChessPosition().getZobristHash());
 
         if (game.getState().getPreviousState() != null) {
-            Move currentMove = game.getState().getPreviousState().getSelectedMove();
-
-            debugNode.setSelectedMove(currentMove);
+            debugNode.selectedMove = game.getState().getPreviousState().getSelectedMove();
         }
 
         debugNode.setDebugSearch(fnString, alpha, beta);
 
         if (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType)) {
-            debugNode.setStandingPat(gameEvaluator.evaluate());
+            debugNode.standingPat = gameEvaluator.evaluate();
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
 
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        debugNode.setValue(currentValue);
+        debugNode.value = currentValue;
 
         if (currentValue <= alpha) {
-            debugNode.setEvaluationType(MoveEvaluationType.UPPER_BOUND);
+            debugNode.moveEvaluationType = MoveEvaluationType.UPPER_BOUND;
         } else if (beta <= currentValue) {
-            debugNode.setEvaluationType(MoveEvaluationType.LOWER_BOUND);
+            debugNode.moveEvaluationType = MoveEvaluationType.LOWER_BOUND;
         } else {
-            debugNode.setEvaluationType(MoveEvaluationType.EXACT);
+            debugNode.moveEvaluationType = MoveEvaluationType.EXACT;
         }
 
         searchTracker.save();

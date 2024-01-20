@@ -9,6 +9,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugSearch;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -47,6 +48,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetContext setContext;
     private SetZobristMemory setZobristMemory;
     private SetDebugSearch setDebugSearch;
+    private DebugNodeTrap debugNodeTrap;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -214,7 +216,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree() {
+    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
@@ -226,6 +228,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         checkResolverChainBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
+        this.debugNodeTrap = debugNodeTrap;
         return this;
     }
 
@@ -300,7 +303,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows);
+            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap);
         }
 
     }

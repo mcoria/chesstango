@@ -8,6 +8,6 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public interface MoveSorter extends SearchByCycleListener {
+public interface MoveSorter {
     List<Move> getSortedMoves();
 }

@@ -417,12 +417,12 @@ public class DefaultMoveSorterTest {
         }
     }
 
-    private void initMoveSorter(MoveSorter moveSorter, Game game) {
+    private void initMoveSorter(DefaultMoveSorter moveSorter, Game game) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         moveSorter.beforeSearch(searchByCycleContext);
 
-        SearchByDepthContext context = new SearchByDepthContext(1);
+        //SearchByDepthContext context = new SearchByDepthContext(1);
 
         //moveSorter.beforeSearchByDepth(context);
     }

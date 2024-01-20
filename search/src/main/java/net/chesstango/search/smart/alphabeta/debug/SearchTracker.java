@@ -1,7 +1,5 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
-import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -13,6 +11,8 @@ import java.util.Objects;
 public class SearchTracker {
 
     private DebugNode debugNode;
+
+    private boolean sorting;
 
     public DebugNode newNode(DebugNode.SearchNodeType searchNodeType) {
         DebugNode newNode = new DebugNode();
@@ -29,31 +29,61 @@ public class SearchTracker {
         return debugNode;
     }
 
+    public void sortingON() {
+        sorting = true;
+    }
+
+    public void sortingOFF() {
+        sorting = false;
+    }
+
+
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
-        if (debugNode != null && entry != null) {
-            debugNode.transpositionOperations.add(new DebugNodeTT(DebugNodeTT.TranspositionOperationType.READ,
-                    hashRequested,
-                    tableName,
-                    entry.hash,
-                    entry.searchDepth,
-                    entry.movesAndValue,
-                    entry.transpositionBound
-            ));
+        if (entry != null && debugNode != null) {
+            if (sorting) {
+                debugNode.sorterReads.add(new DebugNodeTT(hashRequested,
+                        tableName,
+                        entry.hash,
+                        entry.searchDepth,
+                        entry.movesAndValue,
+                        entry.transpositionBound
+                ));
+            } else {
+                if (debugNode.entryRead != null) {
+                    throw new RuntimeException("Overriding debugNode.entryRead");
+                }
+                debugNode.entryRead = new DebugNodeTT(hashRequested,
+                        tableName,
+                        entry.hash,
+                        entry.searchDepth,
+                        entry.movesAndValue,
+                        entry.transpositionBound
+                );
+            }
         }
     }
 
     public void trackWriteTranspositionEntry(String tableName, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
-        if (debugNode.zobristHash != hash) {
-            throw new RuntimeException("currentNodeTracker.zobristHash != hash");
+        if (sorting) {
+            throw new RuntimeException("Writing TT while sorting");
+        } else {
+            if (debugNode.entryWrite != null) {
+                throw new RuntimeException("Overriding debugNode.entryWrite");
+            }
+            debugNode.entryWrite = new DebugNodeTT(hash,
+                    tableName,
+                    hash,
+                    searchDepth,
+                    movesAndValue,
+                    transpositionBound
+            );
         }
-        debugNode.transpositionOperations.add(new DebugNodeTT(DebugNodeTT.TranspositionOperationType.WRITE,
-                hash,
-                tableName,
-                hash,
-                searchDepth,
-                movesAndValue,
-                transpositionBound
-        ));
+    }
+
+    public void trackSortedMoves(String sortedMovesStr) {
+        if (debugNode != null) {
+            debugNode.sortedMovesStr = sortedMovesStr;
+        }
     }
 
     public void save() {

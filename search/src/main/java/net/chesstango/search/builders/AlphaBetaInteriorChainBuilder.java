@@ -4,6 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -17,7 +18,9 @@ import java.util.List;
  */
 public class AlphaBetaInteriorChainBuilder {
     private final AlphaBeta alphaBeta;
-    private MoveSorter moveSorter;
+    private DefaultMoveSorter defaultMoveSorter;
+    private TranspositionMoveSorter transpositionMoveSorter;
+    private DebugSorter debugSorter;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private TranspositionTable transpositionTable;
@@ -28,13 +31,23 @@ public class AlphaBetaInteriorChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
+    private boolean withTranspositionTable;
+    private boolean withTranspositionMoveSorter;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
 
     public AlphaBetaInteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
+    }
 
-        moveSorter = new DefaultMoveSorter();
+    public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+        this.alphaBetaFlowControl = alphaBetaFlowControl;
+        return this;
+    }
+
+    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.smartListenerMediator = smartListenerMediator;
+        return this;
     }
 
     public AlphaBetaInteriorChainBuilder withStatistics() {
@@ -43,16 +56,15 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withTranspositionTable() {
-        transpositionTable = new TranspositionTable();
+        this.withTranspositionTable = true;
         return this;
     }
 
-
     public AlphaBetaInteriorChainBuilder withTranspositionMoveSorter() {
-        if (transpositionTable == null) {
-            throw new RuntimeException("You must enable TranspositionTable first");
+        if (!withTranspositionTable) {
+            throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        moveSorter = new TranspositionMoveSorter();
+        this.withTranspositionMoveSorter = true;
         return this;
     }
 
@@ -66,24 +78,12 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
-        return this;
-    }
-
-    public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
-        this.alphaBetaFlowControl = alphaBetaFlowControl;
-        return this;
-    }
-
     public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
-    /**
-     * @return
-     */
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -93,27 +93,51 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     private void buildObjects() {
+        MoveSorter moveSorter;
+        if (withTranspositionMoveSorter) {
+            transpositionMoveSorter = new TranspositionMoveSorter();
+            moveSorter = transpositionMoveSorter;
+        } else {
+            defaultMoveSorter = new DefaultMoveSorter();
+            moveSorter = defaultMoveSorter;
+        }
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
+        }
+        if (withTranspositionTable) {
+            transpositionTable = new TranspositionTable();
         }
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.SearchNodeType.INTERIOR);
+
+            debugSorter = new DebugSorter();
+            if (withTranspositionMoveSorter) {
+                debugSorter.setMoveSorterImp(transpositionMoveSorter);
+            } else {
+                debugSorter.setMoveSorterImp(defaultMoveSorter);
+            }
+            moveSorter = debugSorter;
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
-
         alphaBeta.setMoveSorter(moveSorter);
     }
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(moveSorter);
-        smartListenerMediator.add(alphaBeta);
-
+        if (defaultMoveSorter != null) {
+            smartListenerMediator.add(defaultMoveSorter);
+        }
+        if (transpositionMoveSorter != null) {
+            smartListenerMediator.add(transpositionMoveSorter);
+        }
+        if (debugSorter != null) {
+            smartListenerMediator.add(debugSorter);
+        }
         if (withStatistics) {
             smartListenerMediator.add(alphaBetaStatisticsExpected);
             smartListenerMediator.add(alphaBetaStatisticsVisited);
@@ -130,11 +154,10 @@ public class AlphaBetaInteriorChainBuilder {
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
+        smartListenerMediator.add(alphaBeta);
     }
 
-
     private AlphaBetaFilter createChain() {
-
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (debugFilter != null) {
@@ -188,7 +211,6 @@ public class AlphaBetaInteriorChainBuilder {
                 throw new RuntimeException("filter not found");
             }
         }
-
 
         return chain.get(0);
     }

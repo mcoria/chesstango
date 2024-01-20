@@ -35,7 +35,7 @@ public class NegaMaxPruningTest {
     public void setup() {
         evaluator = new GameMockEvaluator();
 
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(evaluator);

@@ -18,7 +18,7 @@ public class NegaMaxPruningMateIn4Test extends MateIn4Test {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(new EvaluatorByMaterial());

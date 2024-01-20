@@ -5,6 +5,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -20,12 +21,14 @@ public class CheckResolverChainBuilder {
     private final AlphaBeta alphaBeta;
     private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
-    private MoveSorter qMoveSorter;
+    private DefaultMoveSorter defaultMoveSorter;
+    private TranspositionMoveSorterQ transpositionMoveSorterQ;
+    private DebugSorter debugSorter;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
-    private DebugFilter debugSearchTree;
+    private DebugFilter debugFilter;
     private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
@@ -78,13 +81,13 @@ public class CheckResolverChainBuilder {
         return this;
     }
 
-    public CheckResolverChainBuilder withDebugSearchTree() {
-        this.withDebugSearchTree = true;
+    public CheckResolverChainBuilder withTriangularPV() {
+        this.withTriangularPV = true;
         return this;
     }
 
-    public CheckResolverChainBuilder withTriangularPV() {
-        this.withTriangularPV = true;
+    public CheckResolverChainBuilder withDebugSearchTree() {
+        this.withDebugSearchTree = true;
         return this;
     }
 
@@ -98,9 +101,14 @@ public class CheckResolverChainBuilder {
     }
 
     private void buildObjects() {
-        qMoveSorter = withTranspositionMoveSorter ? new TranspositionMoveSorterQ() : new DefaultMoveSorter();
-
-        alphaBeta.setMoveSorter(qMoveSorter);
+        MoveSorter moveSorter;
+        if (withTranspositionMoveSorter) {
+            transpositionMoveSorterQ = new TranspositionMoveSorterQ();
+            moveSorter = transpositionMoveSorterQ;
+        } else {
+            defaultMoveSorter = new DefaultMoveSorter();
+            moveSorter = defaultMoveSorter;
+        }
 
         if (withStatistics) {
             quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
@@ -113,17 +121,31 @@ public class CheckResolverChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
-            this.debugSearchTree.setGameEvaluator(gameEvaluator);
+            debugFilter = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
+            debugFilter.setGameEvaluator(gameEvaluator);
+
+            if (withTranspositionMoveSorter) {
+                debugSorter = new DebugSorter();
+                debugSorter.setMoveSorterImp(transpositionMoveSorterQ);
+                moveSorter = debugSorter;
+            }
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
+        alphaBeta.setMoveSorter(moveSorter);
     }
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(qMoveSorter);
-        smartListenerMediator.add(alphaBeta);
+        if(defaultMoveSorter != null){
+            smartListenerMediator.add(defaultMoveSorter);
+        }
+        if (transpositionMoveSorterQ != null) {
+            smartListenerMediator.add(transpositionMoveSorterQ);
+        }
+        if (debugSorter != null) {
+            smartListenerMediator.add(debugSorter);
+        }
         if (withStatistics) {
             smartListenerMediator.add(quiescenceStatisticsExpected);
             smartListenerMediator.add(quiescenceStatisticsVisited);
@@ -134,19 +156,20 @@ public class CheckResolverChainBuilder {
         if (transpositionTableQ != null) {
             smartListenerMediator.add(transpositionTableQ);
         }
-        if (debugSearchTree != null) {
-            smartListenerMediator.add(debugSearchTree);
+        if (debugFilter != null) {
+            smartListenerMediator.add(debugFilter);
         }
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
+        smartListenerMediator.add(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
-        if (debugSearchTree != null) {
-            chain.add(debugSearchTree);
+        if (debugFilter != null) {
+            chain.add(debugFilter);
         }
 
         if (zobristQTracker != null) {
@@ -189,7 +212,7 @@ public class CheckResolverChainBuilder {
             } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
-                debugSearchTree.setNext(next);
+                debugFilter.setNext(next);
             } else if (currentFilter instanceof TriangularPV) {
                 triangularPV.setNext(next);
             } else {

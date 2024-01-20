@@ -18,7 +18,7 @@ public class NegaMaxPruningGenericTest extends GenericTest {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(new EvaluatorByMaterial());
