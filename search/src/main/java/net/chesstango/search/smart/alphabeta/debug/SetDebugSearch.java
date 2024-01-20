@@ -75,7 +75,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), getPrincipalVariation(result));
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), result.getPrincipalVariation() == null ? "-" : getPrincipalVariation(result.getPrincipalVariation()));
     }
 
     @Override
@@ -187,9 +187,8 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
 
-    private String getPrincipalVariation(SearchMoveResult result) {
+    private String getPrincipalVariation(List<Move> pv) {
         StringBuilder sb = new StringBuilder();
-        List<Move> pv = result.getPrincipalVariation();
         for (Move move : pv) {
             sb.append(simpleMoveEncoder.encode(move));
             sb.append(" ");

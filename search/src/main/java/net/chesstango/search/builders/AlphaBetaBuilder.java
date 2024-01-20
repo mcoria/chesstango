@@ -27,6 +27,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final AlphaBetaTerminalChainBuilder alphaBetaTerminalChainBuilder;
     private final AlphaBetaHorizonChainBuilder alphaBetaHorizonChainBuilder;
+    private final AlphaBetaLoopChainBuilder alphaBetaLoopChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
     private final QuiescenceLeafChainBuilder quiescenceLeafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
@@ -66,6 +67,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
         alphaBetaTerminalChainBuilder = new AlphaBetaTerminalChainBuilder();
         alphaBetaHorizonChainBuilder = new AlphaBetaHorizonChainBuilder();
+        alphaBetaLoopChainBuilder = new AlphaBetaLoopChainBuilder();
 
         quiescenceChainBuilder = new QuiescenceChainBuilder();
         quiescenceLeafChainBuilder = new QuiescenceLeafChainBuilder();
@@ -184,6 +186,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withZobristTracker();
         alphaBetaTerminalChainBuilder.withZobristTracker();
         alphaBetaHorizonChainBuilder.withZobristTracker();
+        alphaBetaLoopChainBuilder.withZobristTracker();
 
         quiescenceChainBuilder.withZobristTracker();
         quiescenceLeafChainBuilder.withZobristTracker();
@@ -216,6 +219,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
         alphaBetaTerminalChainBuilder.withDebugSearchTree();
+        alphaBetaLoopChainBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         quiescenceLeafChainBuilder.withDebugSearchTree();
@@ -376,9 +380,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
+        alphaBetaLoopChainBuilder.withSmartListenerMediator(smartListenerMediator);
+        AlphaBetaFilter loopChain = alphaBetaLoopChainBuilder.build();
+
         alphaBetaFlowControl.setHorizonNode(horizonChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
         alphaBetaFlowControl.setTerminalNode(terminalChain);
+        alphaBetaFlowControl.setLoopNode(loopChain);
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
