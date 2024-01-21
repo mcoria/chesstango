@@ -112,7 +112,7 @@ public class AlphaBetaInteriorChainBuilder {
             zobristTracker = new ZobristTracker();
         }
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.SearchNodeType.INTERIOR);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.INTERIOR);
 
             debugSorter = new DebugSorter();
             if (withTranspositionMoveSorter) {

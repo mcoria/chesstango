@@ -131,7 +131,7 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.SearchNodeType.QUIESCENCE);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
             debugFilter.setGameEvaluator(gameEvaluator);
 
             debugSorter = new DebugSorter();

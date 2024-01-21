@@ -63,6 +63,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withExtensionCheckResolver;
     private boolean withPrintChain;
     private boolean withDebugSearchTree;
+    private boolean showOnlyPV;
+    private boolean showTranspositionAccess;
     private boolean withAspirationWindows;
 
     public AlphaBetaBuilder() {
@@ -218,7 +220,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap) {
+    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showTranspositionAccess) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
@@ -231,6 +233,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         this.withDebugSearchTree = true;
         this.debugNodeTrap = debugNodeTrap;
+        this.showOnlyPV = showOnlyPV;
+        this.showTranspositionAccess = showTranspositionAccess;
         return this;
     }
 
@@ -309,7 +313,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap);
+            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showTranspositionAccess);
         }
 
     }

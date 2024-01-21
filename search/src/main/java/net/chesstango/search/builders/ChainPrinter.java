@@ -9,7 +9,6 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.AlphaBetaRoot;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
@@ -103,9 +102,7 @@ public class ChainPrinter {
 
         if (!printedAlphaBetaFilter.contains(alphaBetaFilter)) {
             printedAlphaBetaFilter.add(alphaBetaFilter);
-            if (alphaBetaFilter instanceof AlphaBetaRoot alphaBetaRoot) {
-                printChainAlphaBetaRoot(alphaBetaRoot, nestedChain);
-            } else if (alphaBetaFilter instanceof TranspositionTableRoot transpositionTableRoot) {
+            if (alphaBetaFilter instanceof TranspositionTableRoot transpositionTableRoot) {
                 printChainTranspositionTableRoot(transpositionTableRoot, nestedChain);
             } else if (alphaBetaFilter instanceof AspirationWindows aspirationWindows) {
                 printChainAspirationWindows(aspirationWindows, nestedChain);
@@ -201,12 +198,6 @@ public class ChainPrinter {
         printChainText(String.format("%s [%s]", objectText(alphaBeta), objectText(alphaBeta.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
-    }
-
-    private void printChainAlphaBetaRoot(AlphaBetaRoot alphaBetaRoot, int nestedChain) {
-        printNodeObjectText(alphaBetaRoot, nestedChain);
-        printChainDownLine(nestedChain);
-        printChainAlphaBetaFilter(alphaBetaRoot.getNext(), nestedChain);
     }
 
     private void printChainTranspositionTableRoot(TranspositionTableRoot transpositionTableRoot, int nestedChain) {
