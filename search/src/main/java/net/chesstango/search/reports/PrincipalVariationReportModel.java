@@ -48,7 +48,7 @@ public class PrincipalVariationReportModel {
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchMoveResult.getEvaluation();
+        reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
         reportModelDetail.principalVariation = getPrincipalVariationString(searchMoveResult.getPrincipalVariation());
 
         moveDetails.add(reportModelDetail);

@@ -38,7 +38,7 @@ public class AlphaBetaSymmetryTest {
         assertEquals(Square.h6, smartMove.getFrom().getSquare());
         assertEquals(Square.g7, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
 
 
         /**
@@ -56,7 +56,7 @@ public class AlphaBetaSymmetryTest {
         assertEquals(Square.h6.getMirrorSquare(), smartMoveMirror.getFrom().getSquare());
         assertEquals(Square.g7.getMirrorSquare(), smartMoveMirror.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResultMirror.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
 
         /**
          * Testing mirror

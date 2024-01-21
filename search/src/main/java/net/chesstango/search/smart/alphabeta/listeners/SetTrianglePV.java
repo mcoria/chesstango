@@ -42,7 +42,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        List<Move> principalVariation = calculatePrincipalVariation(result.getEvaluation());
+        List<Move> principalVariation = calculatePrincipalVariation(result.getBestEvaluation());
         result.setPrincipalVariation(principalVariation);
     }
 

@@ -80,7 +80,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             dumpSearchTracker();
         }
         debugOut.print("Search by depth completed\n");
-        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getEvaluation());
+        debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
         debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), result.getPrincipalVariation() == null ? "-" : getPrincipalVariation(result.getPrincipalVariation()));
     }
 

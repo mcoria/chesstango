@@ -138,7 +138,7 @@ public class NodesReportModel {
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchMoveResult.getEvaluation();
+        reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
         reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
         reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 

@@ -20,7 +20,7 @@ public class SearchMoveResult {
 
     private final int depth;
 
-    private final MoveEvaluation bestMove;
+    private final MoveEvaluation bestMoveEvaluation;
 
     private final Move ponderMove;
 
@@ -66,17 +66,17 @@ public class SearchMoveResult {
 
     private long timeSearchingLastDepth;
 
-    public SearchMoveResult(int depth, MoveEvaluation bestMove, Move ponderMove) {
+    public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
         this.depth = depth;
-        this.bestMove = bestMove;
+        this.bestMoveEvaluation = bestMoveEvaluation;
         this.ponderMove = ponderMove;
     }
-
-    public Move getBestMove() {
-        return bestMove.move();
+    
+	public Move getBestMove() {
+        return bestMoveEvaluation.move();
     }
 
-    public int getEvaluation() {
-        return bestMove.evaluation();
+    public int getBestEvaluation() {
+        return bestMoveEvaluation.evaluation();
     }
 }

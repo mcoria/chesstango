@@ -45,7 +45,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
-    private SetContext setContext;
+    private SetSearchByDepthContext setSearchByDepthContext;
     private SetZobristMemory setZobristMemory;
     private SetDebugSearch setDebugSearch;
     private DebugNodeTrap debugNodeTrap;
@@ -305,7 +305,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withIterativeDeepening) {
-            setContext = new SetContext();
+            setSearchByDepthContext = new SetSearchByDepthContext();
         }
 
         if (withZobristTracker) {
@@ -319,8 +319,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     private void setupListenerMediator() {
-        if (setContext != null) {
-            smartListenerMediator.add(setContext);
+        if (setSearchByDepthContext != null) {
+            smartListenerMediator.add(setSearchByDepthContext);
         }
 
         if (withTranspositionTable) {

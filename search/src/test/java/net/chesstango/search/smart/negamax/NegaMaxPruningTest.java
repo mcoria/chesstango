@@ -11,7 +11,6 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +58,7 @@ public class NegaMaxPruningTest {
         assertNotNull(searchResult);
         assertEquals(Square.b1, bestMove.getFrom().getSquare());
         assertEquals(Square.c3, bestMove.getTo().getSquare());
-        assertEquals(1, searchResult.getEvaluation());
+        assertEquals(1, searchResult.getBestEvaluation());
         assertEquals(3, evaluator.getNodesEvaluated());
         assertEquals(3, game.getNodesVisited());
     }
@@ -75,7 +74,7 @@ public class NegaMaxPruningTest {
         assertNotNull(searchResult);
         assertEquals(Square.b8, bestMove.getFrom().getSquare());
         assertEquals(Square.c6, bestMove.getTo().getSquare());
-        assertEquals(-1, searchResult.getEvaluation());
+        assertEquals(-1, searchResult.getBestEvaluation());
         assertEquals(3, evaluator.getNodesEvaluated());
         assertEquals(3, game.getNodesVisited());
     }
@@ -91,7 +90,7 @@ public class NegaMaxPruningTest {
         assertNotNull(searchResult);
         assertEquals(Square.d2, bestMove.getFrom().getSquare());
         assertEquals(Square.d4, bestMove.getTo().getSquare());
-        assertEquals(5, searchResult.getEvaluation());
+        assertEquals(5, searchResult.getBestEvaluation());
         assertEquals(6, evaluator.getNodesEvaluated());
         assertEquals(8, game.getNodesVisited());
     }
@@ -107,7 +106,7 @@ public class NegaMaxPruningTest {
         assertNotNull(searchResult);
         assertEquals(Square.d7, bestMove.getFrom().getSquare());
         assertEquals(Square.d5, bestMove.getTo().getSquare());
-        assertEquals(14, searchResult.getEvaluation());
+        assertEquals(14, searchResult.getBestEvaluation());
         assertEquals(9, evaluator.getNodesEvaluated());
         assertEquals(12, game.getNodesVisited());
     }

@@ -91,7 +91,7 @@ public class DetectCycleEnabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(2, searchResult.getEvaluation());
+        assertEquals(2, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -132,7 +132,7 @@ public class DetectCycleEnabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -176,7 +176,7 @@ public class DetectCycleEnabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -210,7 +210,7 @@ public class DetectCycleEnabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();

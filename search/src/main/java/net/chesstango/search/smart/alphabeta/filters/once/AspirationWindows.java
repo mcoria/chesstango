@@ -31,7 +31,11 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        lastBestValue = context.getLastBestEvaluation();
+        if(Objects.nonNull(context.getLastBestMoveEvaluation())) {
+            lastBestValue = context.getLastBestMoveEvaluation().evaluation();
+        } else {
+            lastBestValue = null;
+        }
     }
 
     @Override
