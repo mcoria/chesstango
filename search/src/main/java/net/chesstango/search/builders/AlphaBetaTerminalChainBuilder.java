@@ -74,7 +74,7 @@ public class AlphaBetaTerminalChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.TERMINAL);
+            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
             this.debugFilter.setGameEvaluator(gameEvaluator);
         }
 

@@ -80,7 +80,7 @@ public class AlphaBetaHorizonChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.HORIZON);
+            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.HORIZON);
             this.debugFilter.setGameEvaluator(gameEvaluator);
         }
     }

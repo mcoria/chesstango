@@ -14,10 +14,10 @@ public class SearchTracker {
 
     private boolean sorting;
 
-    public DebugNode newNode(DebugNode.SearchNodeType searchNodeType) {
+    public DebugNode newNode(DebugNode.NodeTopology topology) {
         DebugNode newNode = new DebugNode();
 
-        newNode.nodeType = searchNodeType;
+        newNode.topology = topology;
 
         if (debugNode != null) {
             debugNode.childNodes.add(newNode);

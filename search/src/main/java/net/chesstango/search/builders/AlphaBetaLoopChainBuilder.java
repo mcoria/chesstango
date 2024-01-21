@@ -14,8 +14,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaLoopChainBuilder {
-
-
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
@@ -59,7 +57,7 @@ public class AlphaBetaLoopChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.SearchNodeType.LOOP);
+            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
         }
 
     }

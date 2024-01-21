@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
@@ -32,10 +30,10 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
     private AlphaBetaFilter next;
     private int maxPly;
 
-    private final DebugNode.SearchNodeType searchNodeType;
+    private final DebugNode.NodeTopology topology;
 
-    public DebugFilter(DebugNode.SearchNodeType searchNodeType) {
-        this.searchNodeType = searchNodeType;
+    public DebugFilter(DebugNode.NodeTopology topology) {
+        this.topology = topology;
     }
 
     @Override
@@ -61,18 +59,53 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return debugSearch(next::maximize, "MAX", currentPly, alpha, beta);
+        DebugNode debugNode = beforeSearchImp("MAX", currentPly, alpha, beta);
+
+        long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+
+        debugNode.value = currentValue;
+
+        if (currentValue <= alpha) {
+            debugNode.type = DebugNode.NodeType.ALL;
+        } else if (beta <= currentValue) {
+            debugNode.type = DebugNode.NodeType.CUT;
+        } else {
+            debugNode.type = DebugNode.NodeType.PV;
+        }
+
+        searchTracker.save();
+
+        return bestMoveAndValue;
     }
 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return debugSearch(next::minimize, "MIN", currentPly, alpha, beta);
+        DebugNode debugNode = beforeSearchImp("MIN", currentPly, alpha, beta);
+
+        long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+
+        debugNode.value = currentValue;
+
+        if (currentValue <= alpha) {
+            debugNode.type = DebugNode.NodeType.CUT;
+        } else if (beta <= currentValue) {
+            debugNode.type = DebugNode.NodeType.ALL;
+        } else {
+            debugNode.type = DebugNode.NodeType.PV;
+        }
+
+        searchTracker.save();
+
+        return bestMoveAndValue;
     }
 
-    private long debugSearch(AlphaBetaFunction fn, String fnString, int currentPly, int alpha, int beta) {
-
-        DebugNode debugNode = searchTracker.newNode(searchNodeType);
+    private DebugNode beforeSearchImp(String fnString, int currentPly, int alpha, int beta) {
+        DebugNode debugNode = searchTracker.newNode(topology);
 
         debugNode.setZobristHash(game.getChessPosition().getZobristHash());
 
@@ -82,26 +115,10 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
         debugNode.setDebugSearch(fnString, alpha, beta);
 
-        if (DebugNode.SearchNodeType.QUIESCENCE.equals(searchNodeType)) {
+        if (DebugNode.NodeTopology.QUIESCENCE.equals(topology)) {
             debugNode.standingPat = gameEvaluator.evaluate();
         }
 
-        long bestMoveAndValue = fn.search(currentPly, alpha, beta);
-
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-
-        debugNode.value = currentValue;
-
-        if (currentValue <= alpha) {
-            debugNode.moveEvaluationType = MoveEvaluationType.UPPER_BOUND;
-        } else if (beta <= currentValue) {
-            debugNode.moveEvaluationType = MoveEvaluationType.LOWER_BOUND;
-        } else {
-            debugNode.moveEvaluationType = MoveEvaluationType.EXACT;
-        }
-
-        searchTracker.save();
-
-        return bestMoveAndValue;
+        return debugNode;
     }
 }
