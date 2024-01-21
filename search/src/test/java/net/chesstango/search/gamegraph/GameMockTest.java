@@ -40,7 +40,7 @@ public class GameMockTest {
         assertNotNull(searchResult);
         assertEquals(Square.c2, bestMove.getFrom().getSquare());
         assertEquals(Square.b1, bestMove.getTo().getSquare());
-        assertEquals(-1000, searchResult.getEvaluation());
+        assertEquals(-1000, searchResult.getBestEvaluation());
         assertEquals(5, game.getNodesVisited());
         assertEquals(2, evaluator.getNodesEvaluated());
     }

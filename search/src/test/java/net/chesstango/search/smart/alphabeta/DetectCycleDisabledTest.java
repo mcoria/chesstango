@@ -11,7 +11,6 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -91,7 +90,7 @@ public class DetectCycleDisabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(4, searchResult.getEvaluation());
+        assertEquals(4, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -133,7 +132,7 @@ public class DetectCycleDisabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -173,7 +172,7 @@ public class DetectCycleDisabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
@@ -207,7 +206,7 @@ public class DetectCycleDisabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();

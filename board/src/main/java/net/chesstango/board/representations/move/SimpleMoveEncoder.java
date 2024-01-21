@@ -1,8 +1,9 @@
 package net.chesstango.board.representations.move;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -23,14 +24,17 @@ public class SimpleMoveEncoder {
         return String.format("%s%s%s", move.getFrom().getSquare().toString(), move.getTo().getSquare().toString(), promotionStr);
     }
 
-    public Move selectMove(MoveContainerReader possibleMoves, String moveStr) {
-        for (Move move : possibleMoves) {
-            String encodedMoveStr = encode(move);
-            if (encodedMoveStr.equals(moveStr.toLowerCase())) {
-                return move;
+    public String encodeMoves(List<Move> moves) {
+        if (moves == null) {
+            return "-";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (Move move : moves) {
+                sb.append(encode(move));
+                sb.append(" ");
             }
+            return sb.toString();
         }
-        return null;
     }
 
 }

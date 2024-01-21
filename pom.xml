@@ -4,7 +4,7 @@
     <groupId>net.chesstango</groupId>
     <artifactId>chesstango</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.23-SNAPSHOT</version>
+    <version>0.0.24-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/mcoria/chesstango.git</developerConnection>

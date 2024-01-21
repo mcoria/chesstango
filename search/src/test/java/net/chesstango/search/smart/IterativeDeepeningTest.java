@@ -46,7 +46,7 @@ public class IterativeDeepeningTest {
         assertEquals(Square.e4, bestMove.getTo().getSquare());
 
         // En depth 1 el movimiento e2e4 es evaluado en 1
-        assertEquals(1, searchResult.getEvaluation());
+        assertEquals(1, searchResult.getBestEvaluation());
 
         /**
          * Repetimos la busqueda en depth = 3, acá la evaluacion de todos los movimientos es la misma.
@@ -58,6 +58,6 @@ public class IterativeDeepeningTest {
         assertEquals(Square.e4, bestMove.getTo().getSquare());
 
         // En depth > 1, tanto e2e4 como cualquier otro movimiento es valuado en 0
-        assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getBestEvaluation());
     }
 }

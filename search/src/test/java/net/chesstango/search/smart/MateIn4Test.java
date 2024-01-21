@@ -33,7 +33,7 @@ public abstract class MateIn4Test {
         assertEquals(Square.g4, smartMove.getFrom().getSquare());
         assertEquals(Square.g7, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
 
@@ -49,7 +49,7 @@ public abstract class MateIn4Test {
         assertEquals(Square.h8, smartMove.getFrom().getSquare());
         assertEquals(Square.d8, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     @Test //Alexander Meek vs. Paul Morphy
@@ -64,7 +64,7 @@ public abstract class MateIn4Test {
         assertEquals(Square.h3, smartMove.getFrom().getSquare());
         assertEquals(Square.g2, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -79,7 +79,7 @@ public abstract class MateIn4Test {
         assertEquals(Square.f4, smartMove.getFrom().getSquare());
         assertEquals(Square.h3, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
 }

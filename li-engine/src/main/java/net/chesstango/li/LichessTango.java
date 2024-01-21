@@ -44,19 +44,14 @@ public class LichessTango implements Runnable {
         this.tango.setListenerClient(new SearchListener() {
             @Override
             public void searchInfo(SearchMoveResult searchResult) {
-                StringBuilder pvString = new StringBuilder();
-                List<Move> pv = searchResult.getPrincipalVariation();
-                for (Move move : pv) {
-                    pvString.append(simpleMoveEncoder.encode(move));
-                }
-
-                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d", searchResult.getDepth()), String.format("%8d", searchResult.getEvaluation()), pvString);
+                String pvString = simpleMoveEncoder.encodeMoves(searchResult.getPrincipalVariation()) ;
+                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d", searchResult.getDepth()), String.format("%8d", searchResult.getBestEvaluation()), pvString);
             }
 
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
                 String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getEvaluation()), moveUci);
+                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
             }
         });

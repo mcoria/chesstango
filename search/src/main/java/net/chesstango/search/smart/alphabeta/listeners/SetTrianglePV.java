@@ -42,7 +42,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        List<Move> principalVariation = calculatePrincipalVariation(result.getEvaluation());
+        List<Move> principalVariation = calculatePrincipalVariation(result.getBestEvaluation());
         result.setPrincipalVariation(principalVariation);
     }
 
@@ -76,7 +76,8 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         }
 
         if (bestEvaluation != pvEvaluation) {
-            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestEvaluation, pvEvaluation, getPrincipalVariationString(principalVariation)));
+            SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestEvaluation, pvEvaluation, simpleMoveEncoder.encodeMoves(principalVariation)));
         }
 
         for (int i = 0; i < pvMoveCounter; i++) {
@@ -93,20 +94,5 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
             }
         }
         throw new RuntimeException("Move not found");
-    }
-
-
-    private static String getPrincipalVariationString(List<Move> principalVariation) {
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-        if (principalVariation == null) {
-            return "-";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (Move move : principalVariation) {
-                sb.append(simpleMoveEncoder.encode(move));
-                sb.append(" ");
-            }
-            return sb.toString();
-        }
     }
 }

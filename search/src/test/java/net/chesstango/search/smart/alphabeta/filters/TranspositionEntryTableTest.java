@@ -81,7 +81,7 @@ public class TranspositionEntryTableTest {
 
         //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult02.getBestMove()).toString() , searchResult02.getEvaluation(), depth - 1, searchWithTT, searchWithoutTT);
 
-        Assertions.assertEquals(searchResultWithoutTT.getEvaluation(), searchResultWithTT.getEvaluation());
+        Assertions.assertEquals(searchResultWithoutTT.getBestEvaluation(), searchResultWithTT.getBestEvaluation());
 
         Assertions.assertEquals(searchResultWithoutTT.getBestMove(), searchResultWithTT.getBestMove());
     }
@@ -95,11 +95,11 @@ public class TranspositionEntryTableTest {
 
             SearchMoveResult searchResult02 = searchMethod2.search(game02);
 
-            Assertions.assertEquals(evaluation, searchResult01.getEvaluation());
+            Assertions.assertEquals(evaluation, searchResult01.getBestEvaluation());
 
-            debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString(), searchResult01.getEvaluation(), depth - 1, searchMethod1, searchMethod2);
+            debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
 
-            Assertions.assertEquals(searchResult01.getEvaluation(), searchResult02.getEvaluation());
+            Assertions.assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
 
             Assertions.assertEquals(searchResult01.getBestMove(), searchResult02.getBestMove());
         }

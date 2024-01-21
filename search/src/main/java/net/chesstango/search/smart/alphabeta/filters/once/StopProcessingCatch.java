@@ -7,15 +7,13 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,17 +27,12 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     @Setter
     private Game game;
 
-
-    private Move lastBestMove;
-
-    private Integer lastBestValue;
-
+    private MoveEvaluation lastBestMoveEvaluation;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-        this.lastBestMove = null;
-        this.lastBestValue = null;
+        this.lastBestMoveEvaluation = null;
     }
 
     @Override
@@ -48,8 +41,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        lastBestValue = context.getLastBestEvaluation();
-        lastBestMove = context.getLastBestMove();
+        this.lastBestMoveEvaluation = context.getLastBestMoveEvaluation();
     }
 
     @Override
@@ -75,25 +67,16 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
             undoMoves(startHash);
         }
 
-        Move bestMove;
-        Integer bestValue;
-
-        /*
-        if (!currentMoveEvaluations.isEmpty()) {
-            sortMoveEvaluations(currentMoveEvaluations, naturalOrderSort);
-            MoveEvaluation moveEvaluation = currentMoveEvaluations.get(0);
-            bestMove = moveEvaluation.move();
-            bestValue = moveEvaluation.evaluation();
-        } else*/
-
-        if (Objects.nonNull(lastBestMove)) {
-            bestMove = lastBestMove;
-            bestValue = lastBestValue;
-        } else {
-            throw new RuntimeException("Stopped too early");
+        /**
+         * Podria retornar algo mejor que el resultado de la busqueda anterior
+         */
+        if (Objects.nonNull(lastBestMoveEvaluation)) {
+            Move bestMove = lastBestMoveEvaluation.move();
+            int bestValue = lastBestMoveEvaluation.evaluation();
+            return TranspositionEntry.encode(bestMove, bestValue);
         }
 
-        return TranspositionEntry.encode(bestMove, bestValue);
+        throw new RuntimeException("Stopped too early");
     }
 
     private void undoMoves(long startHash) {
@@ -101,14 +84,6 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
         while (currentHash != startHash) {
             game.undoMove();
             currentHash = game.getChessPosition().getZobristHash();
-        }
-    }
-
-    private void sortMoveEvaluations(List<MoveEvaluation> moveEvaluations, boolean naturalOrder) {
-        if (naturalOrder) {
-            moveEvaluations.sort(Comparator.comparing(MoveEvaluation::evaluation));
-        } else {
-            moveEvaluations.sort(Comparator.comparing(MoveEvaluation::evaluation).reversed());
         }
     }
 }

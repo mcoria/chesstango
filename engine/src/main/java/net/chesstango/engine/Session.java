@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Session {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
 
     /**
      * Resultado de las busquedas efectuadas durante el juego.
@@ -29,7 +29,7 @@ public class Session {
         game = FENDecoder.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
-                Move move = simpleMoveEncoder.selectMove(game.getPossibleMoves(), moveStr);
+                Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
                 if (move == null) {
                     throw new RuntimeException(String.format("No move found %s", moveStr));
                 }

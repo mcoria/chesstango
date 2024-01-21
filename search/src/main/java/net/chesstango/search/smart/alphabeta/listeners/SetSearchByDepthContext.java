@@ -9,7 +9,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 /**
  * @author Mauricio Coria
  */
-public class SetContext implements SearchByCycleListener, SearchByDepthListener {
+public class SetSearchByDepthContext implements SearchByCycleListener, SearchByDepthListener {
     private SearchMoveResult lastMoveResult;
 
     @Override
@@ -19,14 +19,12 @@ public class SetContext implements SearchByCycleListener, SearchByDepthListener 
 
     @Override
     public void afterSearch() {
-
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         if (lastMoveResult != null) {
-            context.setLastBestMove(lastMoveResult.getBestMove());
-            context.setLastBestEvaluation(lastMoveResult.getEvaluation());
+            context.setLastBestMoveEvaluation(lastMoveResult.getBestMoveEvaluation());
             context.setLastMoveEvaluations(lastMoveResult.getMoveEvaluations());
         }
     }

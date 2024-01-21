@@ -13,6 +13,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     private static final MoveComparator moveComparator = new MoveComparator();
-    protected Game game;
+    private Game game;
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
 
@@ -35,8 +36,9 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        lastBestMove = context.getLastBestMove();
-        lastMoveEvaluations = context.getLastMoveEvaluations();
+        lastBestMove = Objects.nonNull(context.getLastBestMoveEvaluation()) ? context.getLastBestMoveEvaluation().move() : null;
+
+        lastMoveEvaluations = Objects.nonNull(context.getLastMoveEvaluations()) ? context.getLastMoveEvaluations() : null;
     }
 
     @Override
