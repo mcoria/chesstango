@@ -4,8 +4,14 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.*;
+import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.RootMoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +20,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder {
-    private final AlphaBetaRoot alphaBetaRoot;
+    private final AlphaBeta alphaBeta;
+    private final RootMoveSorter rootMoveSorter;
     private final MoveEvaluationTracker moveEvaluationTracker;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
@@ -24,6 +31,7 @@ public class AlphaBetaRootChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
+    private DebugSorter debugSorter;
     private TriangularPV triangularPV;
 
     private boolean withStatistics;
@@ -36,8 +44,8 @@ public class AlphaBetaRootChainBuilder {
     private AlphaBetaFilter alphaBetaFlowControl;
 
     public AlphaBetaRootChainBuilder() {
-        alphaBetaRoot = new AlphaBetaRoot();
-
+        alphaBeta = new AlphaBeta();
+        rootMoveSorter = new RootMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
@@ -96,6 +104,8 @@ public class AlphaBetaRootChainBuilder {
     }
 
     private void buildObjects() {
+        MoveSorter moveSorter = rootMoveSorter;
+
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
@@ -114,22 +124,27 @@ public class AlphaBetaRootChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
+
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.SearchNodeType.ROOT);
+
+            debugSorter = new DebugSorter();
+            debugSorter.setMoveSorterImp(rootMoveSorter);
+
+            moveSorter = debugSorter;
         }
 
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
 
+        alphaBeta.setMoveSorter(moveSorter);
         //moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
     }
 
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(alphaBetaRoot);
         smartListenerMediator.add(moveEvaluationTracker);
-
 
         if (withStatistics) {
             smartListenerMediator.add(alphaBetaStatisticsExpected);
@@ -142,6 +157,10 @@ public class AlphaBetaRootChainBuilder {
 
         if (debugFilter != null) {
             smartListenerMediator.add(debugFilter);
+        }
+
+        if (debugSorter != null) {
+            smartListenerMediator.add(debugSorter);
         }
 
         if (stopProcessingCatch != null) {
@@ -159,6 +178,9 @@ public class AlphaBetaRootChainBuilder {
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
+
+        smartListenerMediator.add(alphaBeta);
+        smartListenerMediator.add(rootMoveSorter);
     }
 
 
@@ -190,7 +212,7 @@ public class AlphaBetaRootChainBuilder {
             chain.add(alphaBetaStatisticsExpected);
         }
 
-        chain.add(alphaBetaRoot);
+        chain.add(alphaBeta);
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
@@ -219,8 +241,8 @@ public class AlphaBetaRootChainBuilder {
                 aspirationWindows.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsExpected) {
                 alphaBetaStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaRoot) {
-                alphaBetaRoot.setNext(next);
+            } else if (currentFilter instanceof AlphaBeta) {
+                alphaBeta.setNext(next);
             } else if (currentFilter instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {

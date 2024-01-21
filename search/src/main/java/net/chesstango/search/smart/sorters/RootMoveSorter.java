@@ -1,13 +1,14 @@
-package net.chesstango.search.smart.alphabeta.filters.once;
+package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaAbstract;
-import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -17,10 +18,20 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaRoot extends AlphaBetaAbstract implements SearchByDepthListener {
+public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     private static final MoveComparator moveComparator = new MoveComparator();
+    protected Game game;
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
+
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+    }
+
+    @Override
+    public void afterSearch() {
+    }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
@@ -34,7 +45,7 @@ public class AlphaBetaRoot extends AlphaBetaAbstract implements SearchByDepthLis
 
 
     @Override
-    protected List<Move> getSortedMoves() {
+    public List<Move> getSortedMoves() {
         if (lastBestMove == null) {
             return getSortedMovesByMoveComparator();
         } else {
@@ -56,19 +67,14 @@ public class AlphaBetaRoot extends AlphaBetaAbstract implements SearchByDepthLis
 
         moveList.add(lastBestMove);
 
-        Stream<MoveEvaluation> moveStream = lastMoveEvaluations
-                .stream()
-                .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
+        Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream().filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
         boolean naturalOrder = Color.BLACK.equals(game.getChessPosition().getCurrentTurn());
 
-        moveStream = naturalOrder ?
-                moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation)) :
-                moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed());
+        moveStream = naturalOrder ? moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation)) : moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed());
 
         moveStream.map(MoveEvaluation::move).forEach(moveList::add);
 
         return moveList;
     }
-
 }
