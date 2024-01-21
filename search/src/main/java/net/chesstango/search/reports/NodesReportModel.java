@@ -139,7 +139,7 @@ public class NodesReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
-        reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
+        reportModelDetail.principalVariation = simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation());
         reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 
         if (searchMoveResult.getRegularNodeStatistics() != null) {
@@ -204,21 +204,6 @@ public class NodesReportModel {
                     reportModelDetail.cutoffQPercentages[i] = (100 - (100 * reportModelDetail.visitedQNodesCounters[i] / reportModelDetail.expectedQNodesCounters[i]));
                 }
             }
-        }
-    }
-
-
-    private String getPrincipalVariation(List<Move> principalVariation) {
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-        if (principalVariation == null) {
-            return "-";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (Move move : principalVariation) {
-                sb.append(simpleMoveEncoder.encode(move));
-                sb.append(" ");
-            }
-            return sb.toString();
         }
     }
 }

@@ -5,7 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -30,7 +30,7 @@ public class Match {
     private final EngineController controller1;
     private final EngineController controller2;
     private final MatchType matchType;
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
     private EngineController white;
     private EngineController black;
     private String fen;
@@ -126,7 +126,7 @@ public class Match {
 
             String moveStr = retrieveBestMoveFromController(currentTurn, executedMovesStr);
 
-            Move move = simpleMoveEncoder.selectMove(game.getPossibleMoves(), moveStr);
+            Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
 
             if (move == null) {
                 printDebug(System.err);
