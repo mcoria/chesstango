@@ -121,7 +121,7 @@ public class CheckResolverChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.SearchNodeType.CHECK_EXTENSION);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
             debugFilter.setGameEvaluator(gameEvaluator);
 
             if (withTranspositionMoveSorter) {

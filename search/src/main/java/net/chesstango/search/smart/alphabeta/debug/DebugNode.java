@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluationType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,9 +12,18 @@ import java.util.Objects;
  */
 @Getter
 public class DebugNode {
-    public enum SearchNodeType {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
+    public enum NodeTopology {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
 
-    SearchNodeType nodeType;
+    /**
+     * PV-Node Knuth's Type 1
+     * Cut-Node Knuth's Type 2, also called fail-high node
+     * All-Node Knuth's Type 3, also called fail-low node
+     */
+    public enum NodeType {PV, CUT, ALL}
+
+    NodeTopology topology;
+
+    NodeType type;
 
     long zobristHash;
 
@@ -34,8 +42,6 @@ public class DebugNode {
     int value;
 
     Integer standingPat;
-
-    MoveEvaluationType moveEvaluationType;
 
     List<DebugNode> childNodes = new LinkedList<>();
 

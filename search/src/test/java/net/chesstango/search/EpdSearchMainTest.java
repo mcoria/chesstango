@@ -7,7 +7,6 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EvaluationReport;
 import net.chesstango.search.reports.NodesReport;
 import net.chesstango.search.reports.PrincipalVariationReport;
-import net.chesstango.search.smart.alphabeta.debug.traps.SampleTrap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -278,7 +277,7 @@ public class EpdSearchMainTest {
                 //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                //.withDebugSearchTree(new SampleTrap())
+                //.withDebugSearchTree(null, false, false)
 
                 .build();
     }

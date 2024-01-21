@@ -126,7 +126,7 @@ public class AlphaBetaRootChainBuilder {
 
 
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.SearchNodeType.ROOT);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
 
             debugSorter = new DebugSorter();
             debugSorter.setMoveSorterImp(rootMoveSorter);
