@@ -63,13 +63,9 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void searchInfo(SearchMoveResult searchMoveResult) {
-        StringBuilder sb = new StringBuilder();
-        List<Move> pv = searchMoveResult.getPrincipalVariation();
-        for (Move move : pv) {
-            sb.append(simpleMoveEncoder.encode(move));
-        }
+        String pv = simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation());
 
-        String infoStr = String.format("depth %d seldepth %d pv %s", searchMoveResult.getDepth(), searchMoveResult.getDepth(), sb);
+        String infoStr = String.format("depth %d seldepth %d pv %s", searchMoveResult.getDepth(), searchMoveResult.getDepth(), pv);
 
         uciTango.reply(new RspInfo(infoStr));
     }
