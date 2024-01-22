@@ -1,53 +1,54 @@
 package net.chesstango.search.smart.sorters;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
-    private static final MoveComparator moveComparator = new MoveComparator();
+public class TranspositionMoveSorter implements MoveSorterElement, SearchByCycleListener {
+    private final Function<SearchByCycleContext, TTable> fnGetMaxMap;
+    private final Function<SearchByCycleContext, TTable> fnGetMinMap;
+
+    @Getter
+    @Setter
+    private MoveSorterElement next;
     private Game game;
     private TTable maxMap;
     private TTable minMap;
 
+    public TranspositionMoveSorter(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
+        this.fnGetMaxMap = fnGetMaxMap;
+        this.fnGetMinMap = fnGetMinMap;
+    }
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = fnGetMaxMap.apply(context);
+        this.minMap = fnGetMinMap.apply(context);
     }
 
     @Override
     public void afterSearch() {
-
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-    }
+    public void sort(List<Move> unsortedMoves, List<Move> sortedMoves) {
+        final List<MoveEvaluation> unsortedMoveEvaluations = new LinkedList<>();
 
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public List<Move> getSortedMoves() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long hash = game.getChessPosition().getZobristHash();
@@ -55,19 +56,15 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByCycleListene
         TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
                 maxMap.read(hash) : minMap.read(hash);
 
-        short bestMoveEncoded = 0;
-        if (entry != null) {
-            bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
-        }
+        short bestMoveEncoded = Objects.nonNull(entry) ? TranspositionEntry.decodeBestMove(entry.movesAndValue) : 0;
 
-        List<Move> sortedMoveList = new LinkedList<>();
-        Move bestMove = null;
-        List<Move> unsortedMoveList = new LinkedList<>();
-        List<MoveEvaluation> unsortedMoveValueList = new LinkedList<>();
-        for (Move move : game.getPossibleMoves()) {
+        Iterator<Move> moveIterator = unsortedMoves.iterator();
+        while (moveIterator.hasNext()) {
+            Move move = moveIterator.next();
             short encodedMove = move.binaryEncoding();
             if (encodedMove == bestMoveEncoded) {
-                bestMove = move;
+                sortedMoves.add(move);
+                moveIterator.remove();
             } else {
                 long zobristHashMove = game.getChessPosition().getZobristHash(move);
 
@@ -76,33 +73,25 @@ public class TranspositionMoveSorter implements MoveSorter, SearchByCycleListene
 
                 if (moveEntry != null) {
                     int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
+
                     MoveEvaluationType moveEvaluationType = switch (moveEntry.transpositionBound) {
                         case EXACT -> MoveEvaluationType.EXACT;
                         case UPPER_BOUND -> MoveEvaluationType.UPPER_BOUND;
                         case LOWER_BOUND -> MoveEvaluationType.LOWER_BOUND;
                     };
 
-                    unsortedMoveValueList.add(new MoveEvaluation(move, moveValue, moveEvaluationType));
-                } else {
-                    unsortedMoveList.add(move);
+                    unsortedMoveEvaluations.add(new MoveEvaluation(move, moveValue, moveEvaluationType));
+
+                    moveIterator.remove();
                 }
             }
         }
 
-        if (bestMove != null) {
-            sortedMoveList.add(bestMove);
+        if (!unsortedMoveEvaluations.isEmpty()) {
+            unsortedMoveEvaluations.sort(Color.WHITE.equals(currentTurn) ? Comparator.reverseOrder() : Comparator.naturalOrder());
+            unsortedMoveEvaluations.stream().map(MoveEvaluation::move).forEach(sortedMoves::add);
         }
 
-        if (!unsortedMoveValueList.isEmpty()) {
-            unsortedMoveValueList.sort(Color.WHITE.equals(currentTurn) ? Comparator.reverseOrder() : Comparator.naturalOrder());
-            unsortedMoveValueList.stream().map(MoveEvaluation::move).forEach(sortedMoveList::add);
-        }
-
-        if (!unsortedMoveList.isEmpty()) {
-            unsortedMoveList.sort(moveComparator.reversed());
-            sortedMoveList.addAll(unsortedMoveList);
-        }
-
-        return sortedMoveList;
+        next.sort(unsortedMoves, sortedMoves);
     }
 }

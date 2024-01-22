@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -16,6 +17,7 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter
+    @Getter
     private MoveSorter moveSorterImp;
 
     private SearchTracker searchTracker;

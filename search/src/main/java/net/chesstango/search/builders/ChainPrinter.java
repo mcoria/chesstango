@@ -8,10 +8,12 @@ import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.sorters.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -178,7 +180,7 @@ public class ChainPrinter {
     }
 
     private void printChainQuiescence(Quiescence quiescence, int nestedChain) {
-        printChainText(String.format("%s [%s, %s]", objectText(quiescence), objectText(quiescence.getGameEvaluator()), objectText(quiescence.getMoveSorter())), nestedChain);
+        printChainText(String.format("%s [%s, %s]", objectText(quiescence), objectText(quiescence.getGameEvaluator()), sorterText(quiescence.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescence.getNext(), nestedChain);
     }
@@ -195,9 +197,33 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBeta(AlphaBeta alphaBeta, int nestedChain) {
-        printChainText(String.format("%s [%s]", objectText(alphaBeta), objectText(alphaBeta.getMoveSorter())), nestedChain);
+        printChainText(String.format("%s [%s]", objectText(alphaBeta), sorterText(alphaBeta.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
+    }
+
+    private String sorterText(MoveSorter moveSorter) {
+        if (moveSorter instanceof DefaultMoveSorter defaultMoveSorter) {
+            return String.format("%s", objectText(defaultMoveSorter));
+        } else if (moveSorter instanceof RootMoveSorter rootMoveSorter) {
+            return String.format("%s", objectText(rootMoveSorter));
+        } else if (moveSorter instanceof MoveSorterStart moveSorterStart) {
+            return String.format("%s -> %s", objectText(moveSorterStart), moveSorterElementText(moveSorterStart.getNextMoveSorter()));
+        } else if (moveSorter instanceof DebugSorter debugSorter) {
+            return String.format("%s -> %s", objectText(debugSorter), sorterText(debugSorter.getMoveSorterImp()));
+        }
+
+        throw new RuntimeException(String.format("Unknown sorter %s", objectText(moveSorter)));
+    }
+
+    private String moveSorterElementText(MoveSorterElement moveSorter) {
+        if (moveSorter instanceof DefaultMoveSorterElement defaultMoveSorterElement) {
+            return String.format("%s", objectText(defaultMoveSorterElement));
+        } else if (moveSorter instanceof TranspositionMoveSorter transpositionMoveSorter) {
+            return String.format("%s -> %s", objectText(transpositionMoveSorter), moveSorterElementText(transpositionMoveSorter.getNext()));
+        }
+
+        throw new RuntimeException(String.format("Unknown moveSorterElement %s", objectText(moveSorter)));
     }
 
     private void printChainTranspositionTableRoot(TranspositionTableRoot transpositionTableRoot, int nestedChain) {
@@ -232,7 +258,7 @@ public class ChainPrinter {
 
     private void printChainAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl, int nestedChain) {
         printNodeObjectText(alphaBetaFlowControl, nestedChain);
-        printChainDownLink(nestedChain);
+        printChainDownLine(nestedChain);
 
         int nestedChainLevelDown = nestedChain + 1;
 
@@ -260,7 +286,7 @@ public class ChainPrinter {
 
     private void printChainQuiescenceFlowControl(ExtensionFlowControl extensionFlowControl, int nestedChain) {
         printNodeObjectText(extensionFlowControl, nestedChain);
-        printChainDownLink(nestedChain);
+        printChainDownLine(nestedChain);
 
         int nestedChainLevelDown = nestedChain + 1;
 
@@ -291,10 +317,6 @@ public class ChainPrinter {
         System.out.printf("%s|\n", "\t".repeat(nestedChain));
     }
 
-    private void printChainDownLink(int nestedChain) {
-        System.out.printf("%s|\n", "\t".repeat(nestedChain));
-    }
-
     private void printChainText(String text, int nestedChain) {
         System.out.printf("%s%s\n", "\t".repeat(nestedChain), text);
     }
@@ -302,7 +324,6 @@ public class ChainPrinter {
     private void printNodeObjectText(Object object, int nestedChain) {
         System.out.printf("%s%s\n", "\t".repeat(nestedChain), objectText(object));
     }
-
 
     private String objectText(Object object) {
         return String.format("%s @%s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode()));

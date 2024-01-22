@@ -4,11 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,9 +14,7 @@ import java.util.List;
  */
 public class AlphaBetaInteriorChainBuilder {
     private final AlphaBeta alphaBeta;
-    private DefaultMoveSorter defaultMoveSorter;
-    private TranspositionMoveSorter transpositionMoveSorter;
-    private DebugSorter debugSorter;
+    private final MoveSorterBuilder moveSorterBuilder;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private TranspositionTable transpositionTable;
@@ -32,12 +26,12 @@ public class AlphaBetaInteriorChainBuilder {
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
-    private boolean withTranspositionMoveSorter;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
 
     public AlphaBetaInteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
+        moveSorterBuilder = new MoveSorterBuilder();
     }
 
     public AlphaBetaInteriorChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
@@ -46,6 +40,7 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+        this.moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
         this.smartListenerMediator = smartListenerMediator;
         return this;
     }
@@ -64,7 +59,7 @@ public class AlphaBetaInteriorChainBuilder {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        this.withTranspositionMoveSorter = true;
+        moveSorterBuilder.withTranspositionMoveSorter();
         return this;
     }
 
@@ -79,6 +74,7 @@ public class AlphaBetaInteriorChainBuilder {
     }
 
     public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
+        moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -89,18 +85,12 @@ public class AlphaBetaInteriorChainBuilder {
 
         setupListenerMediator();
 
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+
         return createChain();
     }
 
     private void buildObjects() {
-        MoveSorter moveSorter;
-        if (withTranspositionMoveSorter) {
-            transpositionMoveSorter = new TranspositionMoveSorter();
-            moveSorter = transpositionMoveSorter;
-        } else {
-            defaultMoveSorter = new DefaultMoveSorter();
-            moveSorter = defaultMoveSorter;
-        }
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
@@ -113,31 +103,13 @@ public class AlphaBetaInteriorChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.INTERIOR);
-
-            debugSorter = new DebugSorter();
-            if (withTranspositionMoveSorter) {
-                debugSorter.setMoveSorterImp(transpositionMoveSorter);
-            } else {
-                debugSorter.setMoveSorterImp(defaultMoveSorter);
-            }
-            moveSorter = debugSorter;
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
-        alphaBeta.setMoveSorter(moveSorter);
     }
 
     private void setupListenerMediator() {
-        if (defaultMoveSorter != null) {
-            smartListenerMediator.add(defaultMoveSorter);
-        }
-        if (transpositionMoveSorter != null) {
-            smartListenerMediator.add(transpositionMoveSorter);
-        }
-        if (debugSorter != null) {
-            smartListenerMediator.add(debugSorter);
-        }
         if (withStatistics) {
             smartListenerMediator.add(alphaBetaStatisticsExpected);
             smartListenerMediator.add(alphaBetaStatisticsVisited);

@@ -7,6 +7,6 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public interface MoveSorter {
-    List<Move> getSortedMoves();
+public interface MoveSorterElement {
+    void sort(List<Move> unsortedMoves, List<Move> sortedMoves);
 }
