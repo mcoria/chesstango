@@ -19,8 +19,8 @@ public class SummaryComparator {
     public static void main(String[] args) {
         SummaryComparator summaryComparator = new SummaryComparator("depth-5-2023-12-01-00-00-v0.0.21");
         summaryComparator.addSession("depth-5-2023-12-07-15-47-v0.0.22");
-        summaryComparator.addSession("depth-5-2024-01-16-00-06-main");
-        summaryComparator.addSession("depth-5-2024-01-20-18-26-main");
+        summaryComparator.addSession("depth-5-2024-01-21-01-28-v0.0.23");
+        summaryComparator.addSession("depth-5-2024-01-22-11-00-CHT-215");
         // depth-6-2024-01-20-13-06-CHT-204
         //
         //
