@@ -8,4 +8,10 @@ import java.util.Comparator;
  * @author Mauricio Coria
  */
 public interface MoveComparator extends Comparator<Move> {
+
+
+    @Override
+    default MoveComparator reversed() {
+        return (m1, m2) -> this.compare(m2, m1);
+    }
 }

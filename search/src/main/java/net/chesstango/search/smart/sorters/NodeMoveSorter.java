@@ -22,7 +22,6 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private final Predicate<Move> filter;
 
-    @Setter
     @Getter
     private MoveComparator moveComparator;
 
@@ -47,7 +46,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
             }
         }
 
-        moveList.sort(moveComparator.reversed());
+        moveList.sort(moveComparator);
 
         return moveList;
     }
@@ -61,4 +60,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     public void afterSearch() {
     }
 
+    public void setMoveComparator(MoveComparator moveComparator) {
+        this.moveComparator = moveComparator.reversed();
+    }
 }

@@ -56,22 +56,14 @@ public class TranspositionTailMoveComparator implements Comparator<Move>, Search
         if (Objects.nonNull(moveEntry1) && Objects.nonNull(moveEntry2)) {
             int moveValue1 = TranspositionEntry.decodeValue(moveEntry1.movesAndValue);
             int moveValue2 = TranspositionEntry.decodeValue(moveEntry2.movesAndValue);
-
-            /*
-            COMPARAR BOUND
-            if (moveValue1 == moveValue2) {
-                if(moveEntry1.transpositionBound == )
+            if (moveValue1 != moveValue2) {
+                return Color.WHITE.equals(currentTurn) ? Integer.compare(moveValue1, moveValue2) : Integer.compare(moveValue2, moveValue1);
             }
-            */
-
-            return Color.WHITE.equals(currentTurn) ? Integer.compare(moveValue1, moveValue2) : Integer.compare(moveValue2, moveValue1);
-
         } else if (Objects.isNull(moveEntry1) && Objects.nonNull(moveEntry2)) {
             return -1;
         } else if (Objects.nonNull(moveEntry1) && Objects.isNull(moveEntry2)) {
             return 1;
         }
-
 
         return 0;
     }
