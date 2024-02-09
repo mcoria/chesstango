@@ -3,115 +3,112 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
-import net.chesstango.search.smart.sorters.*;
-
-import java.util.LinkedList;
-import java.util.List;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.ComposedMoveComparator;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.smart.sorters.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.sorters.comparators.TranspositionTailMoveComparator;
 
 /**
  * @author Mauricio Coria
  */
 public class MoveSorterBuilder {
-    private MoveSorterStart moveSorterStart;
     private SmartListenerMediator smartListenerMediator;
-    private TranspositionMoveSorter transpositionMoveSorter;
-    private DefaultMoveSorterElement defaultMoveSorterElement;
+    private NodeMoveSorter nodeMoveSorter;
+    private DefaultMoveComparator defaultMoveComparator;
+    private ComposedMoveComparator composedMoveComparator;
+    private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
+    private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private DebugSorter debugSorter;
-
-    private boolean withTranspositionMoveSorter;
-    private boolean withQTranspositionMoveSorter;
+    private boolean withQuietFilter;
+    private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
 
     public void withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
     }
 
-    public void withQTranspositionMoveSorter() {
-        this.withQTranspositionMoveSorter = true;
+    public void withMoveQuietFilter() {
+        this.withQuietFilter = true;
     }
 
-    public void withTranspositionMoveSorter() {
-        this.withTranspositionMoveSorter = true;
+    public void withTranspositionTable() {
+        this.withTranspositionTable = true;
     }
+
 
     public void withDebugSearchTree() {
         this.withDebugSearchTree = true;
     }
 
     public MoveSorter build() {
-        if (withTranspositionMoveSorter && withQTranspositionMoveSorter) {
-            throw new RuntimeException("TranspositionMoveSorter and QTranspositionMoveSorter are mutual exclusive");
-        }
-
         buildObjects();
 
         setupListenerMediator();
 
-        moveSorterStart.setNextMoveSorter(createChain());
-
-        MoveSorter sorter = moveSorterStart;
-
-        if (debugSorter != null) {
-            sorter = debugSorter;
-
-        }
-
-        return sorter;
+        return createChain();
     }
 
     private void buildObjects() {
-        if (withTranspositionMoveSorter) {
-            moveSorterStart = new MoveSorterStart();
-            transpositionMoveSorter = new TranspositionMoveSorter(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
-        } else if (withQTranspositionMoveSorter) {
-            moveSorterStart = new MoveSorterStart(move -> !move.isQuiet());
-            transpositionMoveSorter = new TranspositionMoveSorter(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+        nodeMoveSorter = withQuietFilter ? new NodeMoveSorter(move -> !move.isQuiet()) : new NodeMoveSorter();
+
+
+        if (withTranspositionTable) {
+            if (withQuietFilter) {
+                transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+                transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+            } else {
+                transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+                transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+            }
+            composedMoveComparator = new ComposedMoveComparator();
         } else {
-            moveSorterStart = new MoveSorterStart();
+            defaultMoveComparator = new DefaultMoveComparator();
         }
+
 
         if (withDebugSearchTree) {
             debugSorter = new DebugSorter();
-            debugSorter.setMoveSorterImp(moveSorterStart);
         }
-
-        defaultMoveSorterElement = new DefaultMoveSorterElement();
     }
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(moveSorterStart);
+        if (nodeMoveSorter != null) {
+            smartListenerMediator.add(nodeMoveSorter);
+        }
 
-        if (transpositionMoveSorter != null) {
-            smartListenerMediator.add(transpositionMoveSorter);
+        if (transpositionHeadMoveComparator != null) {
+            smartListenerMediator.add(transpositionHeadMoveComparator);
+        }
+
+        if (transpositionTailMoveComparator != null) {
+            smartListenerMediator.add(transpositionTailMoveComparator);
         }
 
         if (debugSorter != null) {
             smartListenerMediator.add(debugSorter);
         }
-
     }
 
-    private MoveSorterElement createChain() {
-        List<MoveSorterElement> chain = new LinkedList<>();
+    private MoveSorter createChain() {
+        MoveSorter result = nodeMoveSorter;
 
-        if (transpositionMoveSorter != null) {
-            chain.add(transpositionMoveSorter);
+        if (withTranspositionTable) {
+            composedMoveComparator.setTranspositionHeadMoveComparator(transpositionHeadMoveComparator);
+            composedMoveComparator.setTranspositionTailMoveComparator(transpositionTailMoveComparator);
+
+            nodeMoveSorter.setMoveComparator(composedMoveComparator);
+        } else {
+            nodeMoveSorter.setMoveComparator(defaultMoveComparator);
         }
 
-        chain.add(defaultMoveSorterElement);
-
-        for (int i = 0; i < chain.size() - 1; i++) {
-            MoveSorterElement currentSorter = chain.get(i);
-            MoveSorterElement next = chain.get(i + 1);
-
-            if (currentSorter instanceof TranspositionMoveSorter) {
-                transpositionMoveSorter.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
-            }
+        if (debugSorter != null) {
+            debugSorter.setMoveSorterImp(result);
+            result = debugSorter;
         }
 
-        return chain.get(0);
+        return result;
     }
 
 }

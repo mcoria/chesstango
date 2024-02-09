@@ -1,35 +1,25 @@
-package net.chesstango.search.smart.sorters;
+package net.chesstango.search.smart.sorters.comparators;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.*;
+import java.util.Comparator;
 import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorter implements MoveSorterElement, SearchByCycleListener {
+public class TranspositionTailMoveComparator implements Comparator<Move>, SearchByCycleListener {
     private final Function<SearchByCycleContext, TTable> fnGetMaxMap;
     private final Function<SearchByCycleContext, TTable> fnGetMinMap;
-
-    @Getter
-    @Setter
-    private MoveSorterElement next;
     private Game game;
     private TTable maxMap;
     private TTable minMap;
 
-    public TranspositionMoveSorter(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
+    public TranspositionTailMoveComparator(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
         this.fnGetMaxMap = fnGetMaxMap;
         this.fnGetMinMap = fnGetMinMap;
     }
@@ -46,7 +36,8 @@ public class TranspositionMoveSorter implements MoveSorterElement, SearchByCycle
     }
 
     @Override
-    public void sort(List<Move> unsortedMoves, List<Move> sortedMoves) {
+    public int compare(Move o1, Move o2) {
+        /*
         final List<MoveEvaluation> unsortedMoveEvaluations = new LinkedList<>();
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
@@ -93,5 +84,8 @@ public class TranspositionMoveSorter implements MoveSorterElement, SearchByCycle
         }
 
         next.sort(unsortedMoves, sortedMoves);
+         */
+
+        return 0;
     }
 }

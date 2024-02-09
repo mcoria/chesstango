@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.sorters;
+package net.chesstango.search.smart.sorters.comparators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
@@ -24,18 +23,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionEntryMoveSorterTest {
+public class TranspositionHeadMoveComparatorTest {
 
     private TTable maxMap;
     private TTable minMap;
-    private TranspositionMoveSorter moveSorter;
+    private TranspositionHeadMoveComparator headMoveComparator;
 
     @BeforeEach
     public void setup() {
         maxMap = new MapTTable();
         minMap = new MapTTable();
-        moveSorter = new TranspositionMoveSorter(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
-        moveSorter.setNext(new DefaultMoveSorterElement());
+        headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
     }
 
     @Test
@@ -67,15 +65,14 @@ public class TranspositionEntryMoveSorterTest {
     }
 
     private List<Move> getSortedMoves(Game game) {
-        List<Move> unsortedMoves = new LinkedList<>();
-        List<Move> sortedMoves = new LinkedList<>();
+        List<Move> movesList = new LinkedList<>();
 
         MoveContainerReader moves = game.getPossibleMoves();
-        moves.forEach(unsortedMoves::add);
+        moves.forEach(movesList::add);
 
-        moveSorter.sort(unsortedMoves, sortedMoves);
+        movesList.sort(headMoveComparator.reversed());
 
-        return sortedMoves;
+        return movesList;
     }
 
     private void initMoveSorter(Game game) {
@@ -83,7 +80,7 @@ public class TranspositionEntryMoveSorterTest {
         searchByCycleContext.setMaxMap(maxMap);
         searchByCycleContext.setMinMap(minMap);
 
-        moveSorter.beforeSearch(searchByCycleContext);
+        headMoveComparator.beforeSearch(searchByCycleContext);
     }
 
 }

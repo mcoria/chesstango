@@ -14,6 +14,8 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.statistics;
     exports net.chesstango.search.smart.transposition;
+    exports net.chesstango.search.smart.alphabeta.debug;
+    exports net.chesstango.search.smart.sorters.comparators;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
@@ -27,6 +29,5 @@ module net.chesstango.search {
     opens net.chesstango.search;
     opens net.chesstango.search.smart;
     opens net.chesstango.search.smart.statistics;
-    exports net.chesstango.search.smart.alphabeta.debug;
     opens net.chesstango.search.smart.alphabeta.debug;
 }

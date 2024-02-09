@@ -1,11 +1,9 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.IterativeDeepeningTest;
-import net.chesstango.search.smart.MoveSelectorTest;
 import net.chesstango.search.smart.sorters.DefaultMoveSorterTest;
-import net.chesstango.search.smart.sorters.MoveComparatorTest;
-import net.chesstango.search.smart.sorters.TranspositionEntryMoveSorterTest;
-import net.chesstango.search.smart.transposition.TranspositionEntryTest;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparatorReversedTest;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparatorTest;
+import net.chesstango.search.smart.sorters.comparators.TranspositionHeadMoveComparatorTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -14,9 +12,10 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        DefaultMoveSorterTest.class,
-        TranspositionEntryMoveSorterTest.class,
-        MoveComparatorTest.class
+        DefaultMoveComparatorTest.class,
+        DefaultMoveComparatorReversedTest.class,
+        TranspositionHeadMoveComparatorTest.class,
+        DefaultMoveSorterTest.class
 })
 public class SorterTestSuite {
 

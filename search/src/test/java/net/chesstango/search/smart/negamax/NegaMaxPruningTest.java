@@ -10,7 +10,8 @@ import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,8 @@ public class NegaMaxPruningTest {
     public void setup() {
         evaluator = new GameMockEvaluator();
 
-        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+        NodeMoveSorter moveSorter = new NodeMoveSorter();
+        moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(evaluator);

@@ -35,6 +35,7 @@ public class QuiescenceChainBuilder {
     public QuiescenceChainBuilder() {
         quiescence = new Quiescence();
         moveSorterBuilder = new MoveSorterBuilder();
+        moveSorterBuilder.withMoveQuietFilter();
     }
 
     public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -67,7 +68,7 @@ public class QuiescenceChainBuilder {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        moveSorterBuilder.withQTranspositionMoveSorter();
+        moveSorterBuilder.withTranspositionTable();
         return this;
     }
 

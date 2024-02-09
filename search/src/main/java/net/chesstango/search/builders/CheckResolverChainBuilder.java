@@ -35,6 +35,7 @@ public class CheckResolverChainBuilder {
     public CheckResolverChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterBuilder();
+        moveSorterBuilder.withMoveQuietFilter();
     }
 
     public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -67,7 +68,7 @@ public class CheckResolverChainBuilder {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        moveSorterBuilder.withQTranspositionMoveSorter();
+        moveSorterBuilder.withTranspositionTable();
         return this;
     }
 

@@ -5,8 +5,8 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
@@ -18,7 +18,8 @@ public class NegaMaxPruningGenericTest extends GenericTest {
 
     @BeforeEach
     public void setup() {
-        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+        NodeMoveSorter moveSorter = new NodeMoveSorter();
+        moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(new EvaluatorByMaterial());

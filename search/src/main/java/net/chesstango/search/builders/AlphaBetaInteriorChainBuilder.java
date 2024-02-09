@@ -59,7 +59,7 @@ public class AlphaBetaInteriorChainBuilder {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        moveSorterBuilder.withTranspositionMoveSorter();
+        moveSorterBuilder.withTranspositionTable();
         return this;
     }
 
