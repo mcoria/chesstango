@@ -1,12 +1,15 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -37,54 +40,38 @@ public class TranspositionTailMoveComparator implements Comparator<Move>, Search
 
     @Override
     public int compare(Move o1, Move o2) {
-        /*
-        final List<MoveEvaluation> unsortedMoveEvaluations = new LinkedList<>();
-
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        long hash = game.getChessPosition().getZobristHash();
+        final TTable map = Color.WHITE.equals(currentTurn) ? minMap : maxMap;
 
-        TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
-                maxMap.read(hash) : minMap.read(hash);
+        final long zobristHashMove1 = game.getChessPosition().getZobristHash(o1);
 
-        short bestMoveEncoded = Objects.nonNull(entry) ? TranspositionEntry.decodeBestMove(entry.movesAndValue) : 0;
+        final long zobristHashMove2 = game.getChessPosition().getZobristHash(o2);
 
-        Iterator<Move> moveIterator = unsortedMoves.iterator();
-        while (moveIterator.hasNext()) {
-            Move move = moveIterator.next();
-            short encodedMove = move.binaryEncoding();
-            if (encodedMove == bestMoveEncoded) {
-                sortedMoves.add(move);
-                moveIterator.remove();
-            } else {
-                long zobristHashMove = game.getChessPosition().getZobristHash(move);
+        final TranspositionEntry moveEntry1 = map.read(zobristHashMove1);
 
-                TranspositionEntry moveEntry = Color.WHITE.equals(currentTurn) ?
-                        minMap.read(zobristHashMove) : maxMap.read(zobristHashMove);
+        final TranspositionEntry moveEntry2 = map.read(zobristHashMove2);
 
-                if (moveEntry != null) {
-                    int moveValue = TranspositionEntry.decodeValue(moveEntry.movesAndValue);
 
-                    MoveEvaluationType moveEvaluationType = switch (moveEntry.transpositionBound) {
-                        case EXACT -> MoveEvaluationType.EXACT;
-                        case UPPER_BOUND -> MoveEvaluationType.UPPER_BOUND;
-                        case LOWER_BOUND -> MoveEvaluationType.LOWER_BOUND;
-                    };
+        if (Objects.nonNull(moveEntry1) && Objects.nonNull(moveEntry2)) {
+            int moveValue1 = TranspositionEntry.decodeValue(moveEntry1.movesAndValue);
+            int moveValue2 = TranspositionEntry.decodeValue(moveEntry2.movesAndValue);
 
-                    unsortedMoveEvaluations.add(new MoveEvaluation(move, moveValue, moveEvaluationType));
-
-                    moveIterator.remove();
-                }
+            /*
+            COMPARAR BOUND
+            if (moveValue1 == moveValue2) {
+                if(moveEntry1.transpositionBound == )
             }
+            */
+
+            return Color.WHITE.equals(currentTurn) ? Integer.compare(moveValue1, moveValue2) : Integer.compare(moveValue2, moveValue1);
+
+        } else if (Objects.isNull(moveEntry1) && Objects.nonNull(moveEntry2)) {
+            return -1;
+        } else if (Objects.nonNull(moveEntry1) && Objects.isNull(moveEntry2)) {
+            return 1;
         }
 
-        if (!unsortedMoveEvaluations.isEmpty()) {
-            unsortedMoveEvaluations.sort(Color.WHITE.equals(currentTurn) ? Comparator.reverseOrder() : Comparator.naturalOrder());
-            unsortedMoveEvaluations.stream().map(MoveEvaluation::move).forEach(sortedMoves::add);
-        }
-
-        next.sort(unsortedMoves, sortedMoves);
-         */
 
         return 0;
     }
