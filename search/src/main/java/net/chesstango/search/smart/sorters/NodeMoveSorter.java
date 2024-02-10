@@ -8,8 +8,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.comparators.MoveComparator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.PriorityQueue;
 import java.util.function.Predicate;
 
 /**
@@ -32,19 +31,16 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     }
 
     @Override
-    public List<Move> getSortedMoves() {
+    public Iterable<Move> getSortedMoves() {
         MoveContainerReader moves = game.getPossibleMoves();
 
-        List<Move> moveList = new ArrayList<>(moves.size());
-
+        PriorityQueue<Move> moveList = new PriorityQueue<>(moves.size(), moveComparator);
+        moveComparator.beforeSort();
         for (Move move : moves) {
             if (filter.test(move)) {
                 moveList.add(move);
             }
         }
-
-        moveComparator.beforeSort();
-        moveList.sort(moveComparator);
         moveComparator.afterSort();
 
         return moveList;

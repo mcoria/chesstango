@@ -44,7 +44,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Move bestMove = null;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-        List<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -71,7 +71,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Move bestMove = null;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
 
-        List<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();

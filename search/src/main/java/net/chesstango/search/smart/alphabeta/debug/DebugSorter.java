@@ -23,11 +23,11 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     private SearchTracker searchTracker;
 
     @Override
-    public List<Move> getSortedMoves() {
+    public Iterable<Move> getSortedMoves() {
 
         searchTracker.sortingON();
 
-        List<Move> sortedMoves = moveSorterImp.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorterImp.getSortedMoves();
 
         String sortedMovesStr = getMoveListAsString(sortedMoves);
 
@@ -49,7 +49,7 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     }
 
 
-    private String getMoveListAsString(List<Move> moves) {
+    private String getMoveListAsString(Iterable<Move> moves) {
         StringBuilder sb = new StringBuilder();
         for (Move move : moves) {
             sb.append(simpleMoveEncoder.encode(move));

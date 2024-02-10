@@ -56,7 +56,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
 
     @Override
-    public List<Move> getSortedMoves() {
+    public Iterable<Move> getSortedMoves() {
         if (lastBestMove == null) {
             return nodeMoveSorter.getSortedMoves();
         } else {

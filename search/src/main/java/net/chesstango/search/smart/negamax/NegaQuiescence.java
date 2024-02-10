@@ -26,7 +26,7 @@ public class NegaQuiescence {
             return maxValue;
         }
 
-        List<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();

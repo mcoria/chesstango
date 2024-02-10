@@ -40,7 +40,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
 
-        List<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -86,7 +86,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            List<Move> sortedMoves = moveSorter.getSortedMoves();
+            Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
             while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
