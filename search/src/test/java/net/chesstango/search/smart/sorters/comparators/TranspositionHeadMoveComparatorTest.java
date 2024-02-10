@@ -70,7 +70,9 @@ public class TranspositionHeadMoveComparatorTest {
         MoveContainerReader moves = game.getPossibleMoves();
         moves.forEach(movesList::add);
 
+        headMoveComparator.beforeSort();
         movesList.sort(headMoveComparator.reversed());
+        headMoveComparator.afterSort();
 
         return movesList;
     }

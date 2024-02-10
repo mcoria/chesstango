@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.sorters;
 
-
 import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -17,13 +16,12 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
-
     private final Predicate<Move> filter;
+
+    private Game game;
 
     @Getter
     private MoveComparator moveComparator;
-
-    private Game game;
 
     public NodeMoveSorter() {
         this(move -> true);
@@ -45,7 +43,9 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
             }
         }
 
+        moveComparator.beforeSort();
         moveList.sort(moveComparator);
+        moveComparator.afterSort();
 
         return moveList;
     }

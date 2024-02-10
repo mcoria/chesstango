@@ -39,4 +39,18 @@ public class ComposedMoveComparator implements MoveComparator {
 
         return result;
     }
+
+    @Override
+    public void beforeSort() {
+        transpositionHeadMoveComparator.beforeSort();
+        transpositionTailMoveComparator.beforeSort();
+        defaultMoveComparator.beforeSort();
+    }
+
+    @Override
+    public void afterSort() {
+        defaultMoveComparator.afterSort();
+        transpositionTailMoveComparator.afterSort();
+        transpositionHeadMoveComparator.afterSort();
+    }
 }

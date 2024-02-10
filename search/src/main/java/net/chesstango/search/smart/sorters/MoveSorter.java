@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@FunctionalInterface
 public interface MoveSorter {
     List<Move> getSortedMoves();
 }

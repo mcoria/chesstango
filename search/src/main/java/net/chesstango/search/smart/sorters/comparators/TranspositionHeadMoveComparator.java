@@ -8,19 +8,20 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionHeadMoveComparator implements Comparator<Move>, SearchByCycleListener {
+public class TranspositionHeadMoveComparator implements MoveComparator, SearchByCycleListener {
     private final Function<SearchByCycleContext, TTable> fnGetMaxMap;
     private final Function<SearchByCycleContext, TTable> fnGetMinMap;
     private Game game;
     private TTable maxMap;
     private TTable minMap;
+
+    private short bestMoveEncoded;
 
     public TranspositionHeadMoveComparator(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
         this.fnGetMaxMap = fnGetMaxMap;
@@ -38,9 +39,8 @@ public class TranspositionHeadMoveComparator implements Comparator<Move>, Search
     public void afterSearch() {
     }
 
-
     @Override
-    public int compare(Move o1, Move o2) {
+    public void beforeSort() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long hash = game.getChessPosition().getZobristHash();
@@ -49,12 +49,22 @@ public class TranspositionHeadMoveComparator implements Comparator<Move>, Search
                 maxMap.read(hash) : minMap.read(hash);
 
         if (Objects.nonNull(entry)) {
-            short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
-            if (o1.binaryEncoding() == bestMoveEncoded) {
-                return 1;
-            } else if (o2.binaryEncoding() == bestMoveEncoded) {
-                return -1;
-            }
+            bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+        }
+    }
+
+    @Override
+    public void afterSort() {
+        bestMoveEncoded = 0;
+    }
+
+
+    @Override
+    public int compare(Move o1, Move o2) {
+        if (o1.binaryEncoding() == bestMoveEncoded) {
+            return 1;
+        } else if (o2.binaryEncoding() == bestMoveEncoded) {
+            return -1;
         }
 
         return 0;
