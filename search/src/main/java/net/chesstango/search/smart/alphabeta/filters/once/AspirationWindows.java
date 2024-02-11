@@ -39,15 +39,6 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void afterSearch() {
-    }
-
-
-    @Override
     public long maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize);
     }

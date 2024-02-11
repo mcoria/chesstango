@@ -24,6 +24,7 @@ import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
  * @author Mauricio Corias
  */
 public class AlphaBetaBuilder implements SearchBuilder {
+    private final SetSearchContext setSearchContext;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final AlphaBetaTerminalChainBuilder alphaBetaTerminalChainBuilder;
@@ -45,7 +46,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetNodeStatistics setNodeStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
-    private SetSearchByDepthContext setSearchByDepthContext;
     private SetZobristMemory setZobristMemory;
     private SetDebugSearch setDebugSearch;
     private DebugNodeTrap debugNodeTrap;
@@ -85,6 +85,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         smartListenerMediator = new SmartListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
+
+        setSearchContext = new SetSearchContext();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -304,10 +306,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             setNodeStatistics = new SetNodeStatistics();
         }
 
-        if (withIterativeDeepening) {
-            setSearchByDepthContext = new SetSearchByDepthContext();
-        }
-
         if (withZobristTracker) {
             setZobristMemory = new SetZobristMemory();
         }
@@ -319,9 +317,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     private void setupListenerMediator() {
-        if (setSearchByDepthContext != null) {
-            smartListenerMediator.add(setSearchByDepthContext);
-        }
+        smartListenerMediator.add(setSearchContext);
 
         if (withTranspositionTable) {
             if (withDebugSearchTree) {

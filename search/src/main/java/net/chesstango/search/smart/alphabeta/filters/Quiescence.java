@@ -35,10 +35,6 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         Move bestMove = null;

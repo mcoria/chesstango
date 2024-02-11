@@ -99,17 +99,8 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     public void setGameEvaluator(GameEvaluator evaluator) {

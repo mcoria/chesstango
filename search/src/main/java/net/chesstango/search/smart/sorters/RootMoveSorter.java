@@ -39,8 +39,8 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     }
 
     @Override
-    public void afterSearch() {
-        this.nodeMoveSorter.afterSearch();
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        this.nodeMoveSorter.afterSearch(searchMoveResult);
     }
 
     @Override
@@ -48,10 +48,6 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
         lastBestMove = Objects.nonNull(context.getLastBestMoveEvaluation()) ? context.getLastBestMoveEvaluation().move() : null;
 
         lastMoveEvaluations = Objects.nonNull(context.getLastMoveEvaluations()) ? context.getLastMoveEvaluations() : null;
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
 

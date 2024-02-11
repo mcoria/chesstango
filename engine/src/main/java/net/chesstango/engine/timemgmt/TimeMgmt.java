@@ -1,6 +1,7 @@
 package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 
 /**
@@ -9,5 +10,5 @@ import net.chesstango.search.SearchMoveResult;
 public interface TimeMgmt {
     int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc);
 
-    boolean keepSearching(int timeOut, SearchMoveResult searchInfo);
+    boolean keepSearching(int timeOut, SearchByDepthResult searchByDepthResult);
 }

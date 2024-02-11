@@ -1,6 +1,6 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchByDepthResult;
 
 /**
  * @author Mauricio Coria
@@ -20,5 +20,6 @@ public interface SearchByDepthListener extends SmartListener {
      * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
      * If result == null, it means search was stopped before completion
      */
-    void afterSearchByDepth(SearchMoveResult result);
+    default void afterSearchByDepth(SearchByDepthResult result) {
+    }
 }

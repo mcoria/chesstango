@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -57,7 +57,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void afterSearch() {
+    public void afterSearch(SearchMoveResult searchMoveResult) {
         debugOut.print("Search completed\n");
         try {
             debugOut.flush();
@@ -75,7 +75,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchByDepthResult result) {
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }

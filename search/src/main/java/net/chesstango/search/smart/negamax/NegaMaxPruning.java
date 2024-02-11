@@ -118,18 +118,10 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
     }
 
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
-    }
 
     public void setVisitedNodesCounter(int[] visitedNodesCounter) {
         this.visitedNodesCounter = visitedNodesCounter;

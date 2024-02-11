@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -63,23 +64,22 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchByDepthResult result) {
         result.setMoveEvaluations(currentMoveEvaluations);
+    }
 
-        int bestValue = result.getBestEvaluation();
+
+    @Override
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        int bestValue = searchMoveResult.getBestMoveEvaluation().evaluation();
         List<Move> possibleCollisions = currentMoveEvaluations.stream()
                 .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
                 .filter(moveEvaluation -> !MoveEvaluationType.EXACT.equals(moveEvaluation.moveEvaluationType()))
                 .map(MoveEvaluation::move)
                 .toList();
 
-        result.setPossibleCollisions(possibleCollisions);
+        searchMoveResult.setPossibleCollisions(possibleCollisions);
     }
-
-    @Override
-    public void afterSearch() {
-    }
-
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {

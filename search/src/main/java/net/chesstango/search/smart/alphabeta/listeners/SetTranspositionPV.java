@@ -3,6 +3,8 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -24,6 +26,8 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     private TTable qMinMap;
     private Game game;
 
+    private List<Move> principalVariation;
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
@@ -31,10 +35,12 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
         this.minMap = context.getMinMap();
         this.qMaxMap = context.getQMaxMap();
         this.qMinMap = context.getQMinMap();
+        this.principalVariation = null;
     }
 
     @Override
-    public void afterSearch() {
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        searchMoveResult.setPrincipalVariation(principalVariation);
     }
 
     @Override
@@ -42,18 +48,18 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-        List<Move> principalVariation = calculatePrincipalVariation(result.getBestMove(), result.getDepth());
+    public void afterSearchByDepth(SearchByDepthResult result) {
+        principalVariation = calculatePrincipalVariation(result.getBestMoveEvaluation(), result.getDepth());
         result.setPrincipalVariation(principalVariation);
     }
 
 
-    public List<Move> calculatePrincipalVariation(Move bestMove,
+    public List<Move> calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation,
                                                   int depth) {
 
         List<Move> principalVariation = new ArrayList<>();
 
-        Move move = bestMove;
+        Move move = bestMoveEvaluation.move();
         int pvMoveCounter = 0;
         do {
 

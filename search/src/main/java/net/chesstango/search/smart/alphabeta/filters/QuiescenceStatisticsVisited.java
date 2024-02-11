@@ -25,17 +25,8 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     }
 
     @Override
-    public void afterSearch() {
-        this.visitedNodesCounters = null;
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

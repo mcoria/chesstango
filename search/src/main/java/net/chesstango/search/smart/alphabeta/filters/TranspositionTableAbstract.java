@@ -34,16 +34,8 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);

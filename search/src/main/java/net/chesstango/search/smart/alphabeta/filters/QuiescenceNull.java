@@ -20,10 +20,6 @@ public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate();
     }

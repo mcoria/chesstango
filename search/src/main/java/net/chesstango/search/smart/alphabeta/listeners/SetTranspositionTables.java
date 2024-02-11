@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -33,7 +34,7 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     @Override
-    public void afterSearch() {
+    public void afterSearch(SearchMoveResult searchMoveResult) {
         if (!reuseTranspositionTable) {
             reset();
         }

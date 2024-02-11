@@ -2,19 +2,18 @@ package net.chesstango.li;
 
 import chariot.model.*;
 import net.chesstango.board.Color;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -43,15 +42,15 @@ public class LichessTango implements Runnable {
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
             @Override
-            public void searchInfo(SearchMoveResult searchResult) {
-                String pvString = simpleMoveEncoder.encodeMoves(searchResult.getPrincipalVariation()) ;
-                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResult.getDepth()), String.format("%2d", searchResult.getDepth()), String.format("%8d", searchResult.getBestEvaluation()), pvString);
+            public void searchInfo(SearchByDepthResult searchByDepthResult) {
+                String pvString = simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation());
+                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchByDepthResult.getDepth()), String.format("%2d", searchByDepthResult.getDepth()), String.format("%8d", searchByDepthResult.getBestEvaluation()), pvString);
             }
 
             @Override
-            public void searchFinished(SearchMoveResult searchResult) {
-                String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
+            public void searchFinished(SearchMoveResult searchMoveResult) {
+                String moveUci = simpleMoveEncoder.encode(searchMoveResult.getBestMove());
+                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchMoveResult.getBestEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
             }
         });

@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -31,7 +32,7 @@ public class SetZobristMemory implements SearchByCycleListener, ResetListener {
     }
 
     @Override
-    public void afterSearch() {
+    public void afterSearch(SearchMoveResult searchMoveResult) {
         if (zobristCollisions.isEmpty()) {
             System.out.println("No Zobrist collision");
         } else {

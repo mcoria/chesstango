@@ -19,11 +19,6 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycl
         this.visitedNodesCounters = context.getVisitedNodesCounters();
     }
 
-    @Override
-    public void afterSearch() {
-        this.visitedNodesCounters = null;
-    }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {

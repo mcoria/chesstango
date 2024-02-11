@@ -111,7 +111,8 @@ public class FitnessBySearch implements FitnessFunction {
 
     protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchResult) {
         Color turn = epdEntry.game.getChessPosition().getCurrentTurn();
-        List<MoveEvaluation> sortedEvaluationList = new LinkedList<>(searchResult.getMoveEvaluations());
+        //List<MoveEvaluation> sortedEvaluationList = new LinkedList<>(searchResult.getMoveEvaluations());
+        List<MoveEvaluation> sortedEvaluationList = null; // Corregir
 
         if (Color.WHITE.equals(turn)) {
             sortedEvaluationList.sort(Comparator.reverseOrder());

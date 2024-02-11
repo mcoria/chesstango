@@ -41,11 +41,6 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
         searchTracker = context.getSearchTracker();
     }
 
-    @Override
-    public void afterSearch() {
-
-    }
-
 
     private String getMoveListAsString(Iterable<Move> moves) {
         StringBuilder sb = new StringBuilder();

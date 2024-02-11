@@ -23,12 +23,6 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCyc
         this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
-    @Override
-    public void afterSearch() {
-        this.game = null;
-        this.expectedNodesCounters = null;
-    }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {

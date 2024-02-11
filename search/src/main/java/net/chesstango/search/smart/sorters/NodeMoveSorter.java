@@ -54,10 +54,6 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
         game = context.getGame();
     }
 
-    @Override
-    public void afterSearch() {
-    }
-
     public void setMoveComparator(MoveComparator moveComparator) {
         this.moveComparator = moveComparator.reversed();
     }

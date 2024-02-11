@@ -46,12 +46,6 @@ public class SearchMoveResult {
      */
     private List<Move> possibleCollisions;
 
-    /**
-     * Evaluaciones de las posiciones que resultan de cada movimiento.
-     * La lista de evaluaciones puede no estar completa !!!
-     */
-    private List<MoveEvaluation> moveEvaluations;
-
     private EvaluationStatistics evaluationStatistics;
 
     private NodeStatistics regularNodeStatistics;
@@ -63,8 +57,6 @@ public class SearchMoveResult {
     private String epdID;
 
     private long timeSearching;
-
-    private long timeSearchingLastDepth;
 
     public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
         this.depth = depth;
