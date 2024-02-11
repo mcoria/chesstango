@@ -36,10 +36,6 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSort() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 

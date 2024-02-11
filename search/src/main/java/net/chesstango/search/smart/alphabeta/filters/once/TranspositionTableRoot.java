@@ -38,14 +38,6 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
         this.maxPly = context.getMaxPly();
     }
 
-    @Override
-    public void afterSearch() {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {

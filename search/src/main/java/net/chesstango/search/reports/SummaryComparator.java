@@ -17,8 +17,9 @@ import java.util.Objects;
 public class SummaryComparator {
 
     public static void main(String[] args) {
-        SummaryComparator summaryComparator = new SummaryComparator("depth-6-2024-01-21-01-42-v0.0.23");
-        summaryComparator.addSession("depth-6-2024-02-10-18-37-CHT-215");
+        SummaryComparator summaryComparator = new SummaryComparator("depth-5-2024-01-21-01-28-v0.0.23");
+        summaryComparator.addSession("depth-5-2024-02-11-11-53-CHT-215");
+        summaryComparator.addSession("depth-5-2024-02-11-16-09-CHT-221");
         //
         //
         //

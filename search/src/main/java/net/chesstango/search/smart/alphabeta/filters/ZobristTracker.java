@@ -35,10 +35,6 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public long maximize(int currentPly, int alpha, int beta) {
         findCollision(zobristMaxMap);
         return next.maximize(currentPly, alpha, beta);

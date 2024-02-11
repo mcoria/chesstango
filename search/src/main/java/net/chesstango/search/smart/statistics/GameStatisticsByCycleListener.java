@@ -19,16 +19,12 @@ public class GameStatisticsByCycleListener implements SearchByCycleListener, Sea
     }
 
     @Override
-    public void afterSearch() {
+    public void afterSearch(SearchMoveResult result) {
+        result.setExecutedMoves(gameStatistic.getExecutedMoves());
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
 
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-        result.setExecutedMoves(gameStatistic.getExecutedMoves());
     }
 }

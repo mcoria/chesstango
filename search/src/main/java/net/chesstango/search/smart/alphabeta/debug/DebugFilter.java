@@ -43,18 +43,8 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
     }
 
     @Override
-    public void afterSearch() {
-
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 
     @Override

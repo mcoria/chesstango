@@ -1,11 +1,8 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -37,11 +34,6 @@ public class TTDump implements SearchByCycleListener, SearchByDepthListener {
     }
 
     @Override
-    public void afterSearch() {
-
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateDumped) {
             dumpTables(0);
@@ -50,7 +42,7 @@ public class TTDump implements SearchByCycleListener, SearchByDepthListener {
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchByDepthResult result) {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString())) {
             dumpTables(result.getDepth());
         }

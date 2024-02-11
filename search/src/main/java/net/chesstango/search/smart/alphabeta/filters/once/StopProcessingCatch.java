@@ -36,16 +36,8 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.lastBestMoveEvaluation = context.getLastBestMoveEvaluation();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

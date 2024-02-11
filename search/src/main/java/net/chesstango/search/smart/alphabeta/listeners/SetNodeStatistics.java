@@ -2,15 +2,13 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
  */
-public class SetNodeStatistics implements SearchByCycleListener, SearchByDepthListener {
+public class SetNodeStatistics implements SearchByCycleListener {
 
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
@@ -32,19 +30,7 @@ public class SetNodeStatistics implements SearchByCycleListener, SearchByDepthLi
     }
 
     @Override
-    public void afterSearch() {
-        this.visitedNodesCounters = null;
-        this.expectedNodesCounters =  null;
-        this.visitedNodesCountersQuiescence = null;
-        this.expectedNodesCountersQuiescence = null;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
         if (result != null) {
             result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
             result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));

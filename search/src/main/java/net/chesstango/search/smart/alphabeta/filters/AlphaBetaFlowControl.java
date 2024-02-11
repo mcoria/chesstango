@@ -45,14 +45,6 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }

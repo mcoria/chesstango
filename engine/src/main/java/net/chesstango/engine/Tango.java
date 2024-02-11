@@ -40,18 +40,18 @@ public class Tango {
             }
 
             @Override
-            public void searchInfo(SearchMoveResult info) {
+            public void searchInfo(SearchByDepthResult searchByDepthResult) {
                 if (listenerClient != null) {
-                    listenerClient.searchInfo(info);
+                    listenerClient.searchInfo(searchByDepthResult);
                 }
             }
 
             @Override
-            public void searchFinished(SearchMoveResult searchResult) {
-                currentSession.addResult(searchResult);
+            public void searchFinished(SearchMoveResult searchMoveResult) {
+                currentSession.addResult(searchMoveResult);
 
                 if (listenerClient != null) {
-                    listenerClient.searchFinished(searchResult);
+                    listenerClient.searchFinished(searchMoveResult);
                 }
             }
         };

@@ -30,14 +30,6 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
         this.trianglePV = context.getTrianglePV();
     }
 
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-    }
-
-    @Override
-    public void afterSearch() {
-    }
-
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {

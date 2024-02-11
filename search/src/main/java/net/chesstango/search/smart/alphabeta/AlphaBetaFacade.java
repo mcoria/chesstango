@@ -8,15 +8,16 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener {
 
     @Setter
     @Getter
@@ -51,18 +52,5 @@ public class AlphaBetaFacade implements SmartAlgorithm, SearchByCycleListener, S
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-    }
-
-    @Override
-    public void afterSearch() {
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
-
     }
 }

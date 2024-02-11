@@ -18,9 +18,4 @@ public class SetGameEvaluator implements SearchByCycleListener {
         gameEvaluator.setGame(context.getGame());
     }
 
-
-    @Override
-    public void afterSearch() {
-    }
-
 }

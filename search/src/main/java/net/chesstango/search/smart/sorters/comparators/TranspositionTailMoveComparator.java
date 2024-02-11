@@ -40,10 +40,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void beforeSort() {
         moveToEntry = new HashMap<>();
         currentTurn = game.getChessPosition().getCurrentTurn();
@@ -52,7 +48,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
 
     @Override
     public void afterSort() {
-
     }
 
     @Override

@@ -42,8 +42,4 @@ public class DebugTT implements TTable, SearchByCycleListener {
     public void beforeSearch(SearchByCycleContext context) {
         this.searchTracker = context.getSearchTracker();
     }
-
-    @Override
-    public void afterSearch() {
-    }
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener, SearchByDepthListener {
+public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener {
     private final GameEvaluator imp;
     private final GameEvaluatorCache cache;
     private long evaluationsCounter;
@@ -65,18 +65,9 @@ public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
         long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
         result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
+
 }

@@ -5,11 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +38,9 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchByDepthResult result) {
         List<Move> principalVariation = calculatePrincipalVariation(result.getBestEvaluation());
         result.setPrincipalVariation(principalVariation);
-    }
-
-    @Override
-    public void afterSearch() {
     }
 
     public List<Move> calculatePrincipalVariation(int bestEvaluation) {

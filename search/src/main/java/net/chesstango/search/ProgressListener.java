@@ -6,5 +6,5 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 @FunctionalInterface
-public interface ProgressListener extends Consumer<SearchMoveResult> {
+public interface ProgressListener extends Consumer<SearchByDepthResult> {
 }

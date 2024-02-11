@@ -37,10 +37,6 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void afterSearch() {
-    }
-
-    @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }

@@ -30,7 +30,7 @@ public class IterativeDeepening implements SearchMove {
     @Setter
     private ProgressListener progressListener;
     private int maxDepth = Integer.MAX_VALUE;
-    private Predicate<SearchMoveResult> searchPredicate = searchMoveResult -> true;
+    private Predicate<SearchByDepthResult> searchPredicate = searchMoveResult -> true;
 
     public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
         this.smartAlgorithm = smartAlgorithm;
@@ -42,33 +42,29 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
-        SearchMoveResult searchResult = null;
         Instant startInstant = Instant.now();
+        SearchByDepthResult searchByDepthResult = null;
+        MoveEvaluation bestMoveEvaluation = null;
         do {
-            Instant startDepthInstant = Instant.now();
-
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
             smartListenerMediator.triggerBeforeSearchByDepth(context);
 
-            MoveEvaluation bestMoveEvaluation = smartAlgorithm.search();
+            bestMoveEvaluation = smartAlgorithm.search();
 
-            searchResult = new SearchMoveResult(currentSearchDepth, bestMoveEvaluation, null);
+            searchByDepthResult = new SearchByDepthResult();
+            searchByDepthResult.setDepth(currentSearchDepth);
+            searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
-            smartListenerMediator.triggerAfterSearchByDepth(searchResult);
-
-            Instant endDepthInstant = Instant.now();
-            searchResult.setTimeSearching(Duration.between(startInstant, endDepthInstant).toMillis());
-            searchResult.setTimeSearchingLastDepth(Duration.between(startDepthInstant, endDepthInstant).toMillis());
+            smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
             if (progressListener != null) {
-                progressListener.accept(searchResult);
+                progressListener.accept(searchByDepthResult);
             }
 
             countDownLatch.countDown();
@@ -76,12 +72,14 @@ public class IterativeDeepening implements SearchMove {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchPredicate.test(searchResult) &&
-                GameEvaluator.WHITE_WON != searchResult.getBestEvaluation() &&
-                GameEvaluator.BLACK_WON != searchResult.getBestEvaluation()
+                searchPredicate.test(searchByDepthResult) &&
+                GameEvaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
+                GameEvaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
-        smartListenerMediator.triggerAfterSearch();
+        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth, bestMoveEvaluation, null);
+        searchResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
+        smartListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }
@@ -109,7 +107,7 @@ public class IterativeDeepening implements SearchMove {
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicate = (Predicate<SearchMoveResult>) searchPredicateArg;
+            this.searchPredicate = (Predicate<SearchByDepthResult>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
         }

@@ -2,6 +2,7 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 
 /**
@@ -23,7 +24,7 @@ public class Material implements TimeMgmt {
     }
 
     @Override
-    public boolean keepSearching(int timeOut, SearchMoveResult searchInfo) {
+    public boolean keepSearching(int timeOut, SearchByDepthResult searchByDepthResult) {
         return true;
     }
 

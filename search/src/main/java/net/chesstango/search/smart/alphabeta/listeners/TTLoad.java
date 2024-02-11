@@ -34,22 +34,12 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
-
-    @Override
-    public void afterSearch() {
-
-    }
-
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateLoaded) {
             loadTables();
             initialStateLoaded = true;
         }
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     private void loadTables() {
