@@ -12,7 +12,8 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,8 @@ public class AlphaBetaTest {
 
     @BeforeEach
     public void setup() {
-        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+        NodeMoveSorter moveSorter = new NodeMoveSorter();
+        moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         evaluator = new GameMockEvaluator();
 

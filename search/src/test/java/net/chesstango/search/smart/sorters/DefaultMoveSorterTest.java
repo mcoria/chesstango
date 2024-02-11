@@ -2,16 +2,12 @@ package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
-import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,218 +16,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Mauricio Coria
  */
 public class DefaultMoveSorterTest {
 
-    private DefaultMoveSorter moveSorter;
-
-    private final MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-
-    private final MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+    private NodeMoveSorter nodeMoveSorter;
 
     @BeforeEach
     public void setUp() {
-        moveSorter = new DefaultMoveSorter();
-    }
-
-    @Test
-    public void sortMoveToEmptySquareWhite() {
-        Move move = null;
-
-        List<Move> moveList = new ArrayList<>();
-
-        moveList.add(moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-
-        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
-        Iterator<Move> movesSortedIt = movesSorted.iterator();
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
-
-        assertFalse(movesSortedIt.hasNext());
-    }
-
-
-    @Test
-    public void sortMoveCaptureWhite() {
-        Move move = null;
-
-        List<Move> moveList = new ArrayList<>();
-
-        moveList.add(moveFactoryWhite.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
-                PiecePositioned.getPiecePositioned(Square.f3, Piece.QUEEN_BLACK), Cardinal.NorteEste));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
-                PiecePositioned.getPosition(Square.e3)));
-
-        moveList.add(moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
-                PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_BLACK)));
-
-        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
-        Iterator<Move> movesSortedIt = movesSorted.iterator();
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
-
-        assertFalse(movesSortedIt.hasNext());
-    }
-
-    @Test
-    public void sortMoveToEmptySquareBlack() {
-        Move move = null;
-
-        List<Move> moveList = new ArrayList<>();
-
-        moveList.add(moveFactoryBlack.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-
-        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
-        Iterator<Move> movesSortedIt = movesSorted.iterator();
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
-
-        assertFalse(movesSortedIt.hasNext());
-    }
-
-    @Test
-    public void sortMoveCaptureBlack() {
-        Move move = null;
-
-        List<Move> moveList = new ArrayList<>();
-
-        moveList.add(moveFactoryBlack.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
-                PiecePositioned.getPiecePositioned(Square.f6, Piece.QUEEN_WHITE), Cardinal.SurEste));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
-                PiecePositioned.getPosition(Square.e5)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
-                PiecePositioned.getPosition(Square.e6)));
-
-        moveList.add(moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
-                PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
-
-
-        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
-        Iterator<Move> movesSortedIt = movesSorted.iterator();
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
-
-        move = movesSortedIt.next();
-        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
-
-        assertFalse(movesSortedIt.hasNext());
+        nodeMoveSorter = new NodeMoveSorter();
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
     }
 
     /**
@@ -244,9 +40,9 @@ public class DefaultMoveSorterTest {
 
         Game game = FENDecoder.loadGame("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4");
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
 
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -267,9 +63,9 @@ public class DefaultMoveSorterTest {
 
         Game game = FENDecoder.loadGame("rnbqkb1r/pppp1ppp/8/4p2n/5Q2/4P3/PPPP1PPP/RNB1KBNR b KQkq - 4 1");
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
 
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -296,9 +92,9 @@ public class DefaultMoveSorterTest {
 
         Game game = FENDecoder.loadGame("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1");
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
 
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -329,9 +125,9 @@ public class DefaultMoveSorterTest {
 
         Game game = FENDecoder.loadGame("rnbqkb1r/pppp1ppp/8/4p2n/3R1Q2/4P1B1/PPPP1PPP/1NB1K1NR b Kkq - 4 1");
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
 
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -360,10 +156,10 @@ public class DefaultMoveSorterTest {
     public void testInitial() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        initMoveSorter(moveSorter, game);
+        initMoveSorter(nodeMoveSorter, game);
 
         Move move;
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
@@ -384,17 +180,22 @@ public class DefaultMoveSorterTest {
 
 
     private void testMirror(Game game) {
-        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+        NodeMoveSorter moveSorter = new NodeMoveSorter();
+        moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         Game gameMirror = game.mirror();
 
-        DefaultMoveSorter moveSorterMirror = new DefaultMoveSorter();
+        NodeMoveSorter moveSorterMirror = new NodeMoveSorter();
+        moveSorterMirror.setMoveComparator(new DefaultMoveComparator());
 
         initMoveSorter(moveSorter, game);
         initMoveSorter(moveSorterMirror, gameMirror);
 
-        List<Move> movesSorted = moveSorter.getSortedMoves();
-        List<Move> movesSortedMirror = moveSorterMirror.getSortedMoves();
+        List<Move> movesSorted = new ArrayList<>();
+        moveSorter.getOrderedMoves().forEach(movesSorted::add);
+
+        List<Move> movesSortedMirror = new ArrayList<>();
+        moveSorterMirror.getOrderedMoves().forEach(movesSortedMirror::add);
 
         final int moveCounter = movesSorted.size();
 
@@ -417,14 +218,10 @@ public class DefaultMoveSorterTest {
         }
     }
 
-    private void initMoveSorter(DefaultMoveSorter moveSorter, Game game) {
+    private void initMoveSorter(NodeMoveSorter nodeMoveSorter, Game game) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        moveSorter.beforeSearch(searchByCycleContext);
-
-        //SearchByDepthContext context = new SearchByDepthContext(1);
-
-        //moveSorter.beforeSearchByDepth(context);
+        nodeMoveSorter.beforeSearch(searchByCycleContext);
     }
 
 }

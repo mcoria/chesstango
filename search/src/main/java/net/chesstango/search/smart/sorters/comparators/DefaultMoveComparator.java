@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.sorters;
+package net.chesstango.search.smart.sorters.comparators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
@@ -6,12 +6,10 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 
-import java.util.Comparator;
-
 /**
  * @author Mauricio Coria
  */
-public class MoveComparator implements Comparator<Move> {
+public class DefaultMoveComparator implements MoveComparator {
 
     @Override
     public int compare(Move move1, Move move2) {
@@ -146,5 +144,15 @@ public class MoveComparator implements Comparator<Move> {
             case KING_WHITE -> 0;
             default -> throw new RuntimeException("Invalid promotion piece");
         };
+    }
+
+    @Override
+    public void beforeSort() {
+
+    }
+
+    @Override
+    public void afterSort() {
+
     }
 }

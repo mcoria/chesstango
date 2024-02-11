@@ -1,12 +1,12 @@
-package net.chesstango.search.smart.sorters;
+package net.chesstango.search.smart.sorters.comparators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionBound;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,21 +23,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionEntryMoveSorterTest {
+public class TranspositionHeadMoveComparatorTest {
 
     private TTable maxMap;
     private TTable minMap;
-    private TTable qMaxMap;
-    private TTable qMinMap;
-    private TranspositionMoveSorter moveSorter;
+    private TranspositionHeadMoveComparator headMoveComparator;
 
     @BeforeEach
     public void setup() {
         maxMap = new MapTTable();
         minMap = new MapTTable();
-        qMaxMap = new MapTTable();
-        qMinMap = new MapTTable();
-        moveSorter = new TranspositionMoveSorter();
+        headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
     }
 
     @Test
@@ -52,36 +49,40 @@ public class TranspositionEntryMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry tableEntry = maxMap.read(hash);
-
         long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
 
         maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
 
         initMoveSorter(game);
 
-        Move move;
-        List<Move> movesSorted = moveSorter.getSortedMoves();
+        List<Move> movesSorted = getSortedMoves(game);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        move = movesSortedIt.next();
+        Move move = movesSortedIt.next();
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
         assertEquals(Square.c2, move.getFrom().getSquare());
         assertEquals(Square.c3, move.getTo().getSquare());
+    }
+
+    private List<Move> getSortedMoves(Game game) {
+        List<Move> movesList = new LinkedList<>();
+
+        MoveContainerReader moves = game.getPossibleMoves();
+        moves.forEach(movesList::add);
+
+        headMoveComparator.beforeSort();
+        movesList.sort(headMoveComparator.reversed());
+        headMoveComparator.afterSort();
+
+        return movesList;
     }
 
     private void initMoveSorter(Game game) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setMaxMap(maxMap);
         searchByCycleContext.setMinMap(minMap);
-        searchByCycleContext.setQMaxMap(qMaxMap);
-        searchByCycleContext.setQMinMap(qMinMap);
 
-        moveSorter.beforeSearch(searchByCycleContext);
-
-        SearchByDepthContext context = new SearchByDepthContext(1);
-
-        moveSorter.beforeSearchByDepth(context);
+        headMoveComparator.beforeSearch(searchByCycleContext);
     }
 
 }

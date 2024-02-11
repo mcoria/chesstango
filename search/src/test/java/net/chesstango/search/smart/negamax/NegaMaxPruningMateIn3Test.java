@@ -5,8 +5,8 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
@@ -18,7 +18,8 @@ public class NegaMaxPruningMateIn3Test extends MateIn3Test {
 
     @BeforeEach
     public void setup() {
-        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+        NodeMoveSorter moveSorter = new NodeMoveSorter();
+        moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(new EvaluatorByMaterial());
@@ -31,7 +32,7 @@ public class NegaMaxPruningMateIn3Test extends MateIn3Test {
         smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, smartListenerMediator);
-        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH,5);
+        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
 
         this.searchMove = noIterativeDeepening;
     }

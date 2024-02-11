@@ -5,11 +5,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.sorters.DefaultMoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorterQ;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,11 +15,9 @@ import java.util.List;
  */
 public class CheckResolverChainBuilder {
     private final AlphaBeta alphaBeta;
+    private final MoveSorterBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
-    private DefaultMoveSorter defaultMoveSorter;
-    private TranspositionMoveSorterQ transpositionMoveSorterQ;
-    private DebugSorter debugSorter;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -34,13 +28,14 @@ public class CheckResolverChainBuilder {
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
-    private boolean withTranspositionMoveSorter;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
 
 
     public CheckResolverChainBuilder() {
         alphaBeta = new AlphaBeta();
+        moveSorterBuilder = new MoveSorterBuilder();
+        moveSorterBuilder.withMoveQuietFilter();
     }
 
     public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
@@ -55,6 +50,7 @@ public class CheckResolverChainBuilder {
 
     public CheckResolverChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
         return this;
     }
 
@@ -72,7 +68,7 @@ public class CheckResolverChainBuilder {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
-        this.withTranspositionMoveSorter = true;
+        moveSorterBuilder.withTranspositionTable();
         return this;
     }
 
@@ -87,6 +83,7 @@ public class CheckResolverChainBuilder {
     }
 
     public CheckResolverChainBuilder withDebugSearchTree() {
+        moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
@@ -97,19 +94,12 @@ public class CheckResolverChainBuilder {
 
         setupListenerMediator();
 
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+
         return createChain();
     }
 
     private void buildObjects() {
-        MoveSorter moveSorter;
-        if (withTranspositionMoveSorter) {
-            transpositionMoveSorterQ = new TranspositionMoveSorterQ();
-            moveSorter = transpositionMoveSorterQ;
-        } else {
-            defaultMoveSorter = new DefaultMoveSorter();
-            moveSorter = defaultMoveSorter;
-        }
-
         if (withStatistics) {
             quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
             quiescenceStatisticsVisited = new QuiescenceStatisticsVisited();
@@ -123,29 +113,13 @@ public class CheckResolverChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
             debugFilter.setGameEvaluator(gameEvaluator);
-
-            if (withTranspositionMoveSorter) {
-                debugSorter = new DebugSorter();
-                debugSorter.setMoveSorterImp(transpositionMoveSorterQ);
-                moveSorter = debugSorter;
-            }
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
-        alphaBeta.setMoveSorter(moveSorter);
     }
 
     private void setupListenerMediator() {
-        if(defaultMoveSorter != null){
-            smartListenerMediator.add(defaultMoveSorter);
-        }
-        if (transpositionMoveSorterQ != null) {
-            smartListenerMediator.add(transpositionMoveSorterQ);
-        }
-        if (debugSorter != null) {
-            smartListenerMediator.add(debugSorter);
-        }
         if (withStatistics) {
             smartListenerMediator.add(quiescenceStatisticsExpected);
             smartListenerMediator.add(quiescenceStatisticsVisited);

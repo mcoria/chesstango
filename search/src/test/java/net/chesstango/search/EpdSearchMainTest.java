@@ -261,17 +261,17 @@ public class EpdSearchMainTest {
                 //.withGameEvaluatorCache()
 
                 //.withExtensionCheckResolver()
-                .withQuiescence()
+                //.withQuiescence()
 
                 //.withTriangularPV()
                 .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
-                .withAspirationWindows()
+                //.withAspirationWindows()
 
                 //.withStatistics()
                 //.withPrintChain()

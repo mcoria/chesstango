@@ -9,6 +9,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -20,18 +21,26 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
-    private static final MoveComparator moveComparator = new MoveComparator();
+    private final NodeMoveSorter nodeMoveSorter;
     private Game game;
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
 
+
+    public RootMoveSorter() {
+        this.nodeMoveSorter = new NodeMoveSorter();
+        this.nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+    }
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.nodeMoveSorter.beforeSearch(context);
     }
 
     @Override
     public void afterSearch() {
+        this.nodeMoveSorter.afterSearch();
     }
 
     @Override
@@ -47,22 +56,14 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
 
     @Override
-    public List<Move> getSortedMoves() {
+    public Iterable<Move> getOrderedMoves() {
         if (lastBestMove == null) {
-            return getSortedMovesByMoveComparator();
+            return nodeMoveSorter.getOrderedMoves();
         } else {
             return getSortedMovesByLastMoveEvaluations();
         }
     }
 
-    private List<Move> getSortedMovesByMoveComparator() {
-        List<Move> moves = new LinkedList<>();
-        for (Move move : game.getPossibleMoves()) {
-            moves.add(move);
-        }
-        moves.sort(moveComparator.reversed());
-        return moves;
-    }
 
     private List<Move> getSortedMovesByLastMoveEvaluations() {
         List<Move> moveList = new LinkedList<>();
