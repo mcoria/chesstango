@@ -295,6 +295,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
             setTranspositionPV = new SetTranspositionPV();
+            setTranspositionPV.setGameEvaluator(gameEvaluator);
         }
 
         if (withTriangularPV) {
