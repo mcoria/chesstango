@@ -30,10 +30,10 @@ public class SetNodeStatistics implements SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
-        if (result != null) {
-            result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-            result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        if (searchMoveResult != null) {
+            searchMoveResult.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
+            searchMoveResult.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));
         }
     }
 }

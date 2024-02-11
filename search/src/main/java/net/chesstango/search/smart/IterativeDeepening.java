@@ -47,7 +47,6 @@ public class IterativeDeepening implements SearchMove {
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
-        Instant startInstant = Instant.now();
         SearchByDepthResult searchByDepthResult = null;
         MoveEvaluation bestMoveEvaluation = null;
         do {
@@ -78,7 +77,6 @@ public class IterativeDeepening implements SearchMove {
         );
 
         SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth, bestMoveEvaluation, null);
-        searchResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
         smartListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;

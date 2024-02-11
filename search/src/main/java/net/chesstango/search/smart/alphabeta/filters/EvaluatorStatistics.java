@@ -65,9 +65,9 @@ public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult searchMoveResult) {
         long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
-        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
+        searchMoveResult.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
 
 }

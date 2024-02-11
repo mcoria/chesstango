@@ -39,8 +39,8 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
-        result.setPrincipalVariation(principalVariation);
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        searchMoveResult.setPrincipalVariation(principalVariation);
     }
 
     @Override

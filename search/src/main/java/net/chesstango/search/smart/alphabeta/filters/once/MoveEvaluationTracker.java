@@ -70,15 +70,15 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
-        int bestValue = result.getBestMoveEvaluation().evaluation();
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        int bestValue = searchMoveResult.getBestMoveEvaluation().evaluation();
         List<Move> possibleCollisions = currentMoveEvaluations.stream()
                 .filter(moveEvaluation -> moveEvaluation.evaluation() == bestValue)
                 .filter(moveEvaluation -> !MoveEvaluationType.EXACT.equals(moveEvaluation.moveEvaluationType()))
                 .map(MoveEvaluation::move)
                 .toList();
 
-        result.setPossibleCollisions(possibleCollisions);
+        searchMoveResult.setPossibleCollisions(possibleCollisions);
     }
 
     @Override
