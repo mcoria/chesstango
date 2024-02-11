@@ -50,12 +50,13 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
 
         if (Objects.nonNull(entry)) {
             bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+        } else {
+            bestMoveEncoded = 0;
         }
     }
 
     @Override
     public void afterSort() {
-        bestMoveEncoded = 0;
     }
 
 

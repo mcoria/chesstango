@@ -7,5 +7,5 @@ import net.chesstango.board.moves.Move;
  */
 @FunctionalInterface
 public interface MoveSorter {
-    Iterable<Move> getSortedMoves();
+    Iterable<Move> getOrderedMoves();
 }

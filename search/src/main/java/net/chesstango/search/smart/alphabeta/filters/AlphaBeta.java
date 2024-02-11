@@ -11,7 +11,6 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -44,7 +43,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Move bestMove = null;
         int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -71,7 +70,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Move bestMove = null;
         int minValue = GameEvaluator.INFINITE_POSITIVE;
 
-        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();

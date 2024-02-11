@@ -11,7 +11,6 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -48,7 +47,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
             return TranspositionEntry.encode(maxValue);
         }
 
-        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -80,7 +79,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
             return TranspositionEntry.encode(minValue);
         }
 
-        Iterable<Move> sortedMoves = moveSorter.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();

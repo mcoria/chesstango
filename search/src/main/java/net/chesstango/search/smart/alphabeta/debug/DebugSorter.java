@@ -8,8 +8,6 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
-import java.util.List;
-
 /**
  * @author Mauricio Coria
  */
@@ -23,11 +21,11 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     private SearchTracker searchTracker;
 
     @Override
-    public Iterable<Move> getSortedMoves() {
+    public Iterable<Move> getOrderedMoves() {
 
         searchTracker.sortingON();
 
-        Iterable<Move> sortedMoves = moveSorterImp.getSortedMoves();
+        Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves();
 
         String sortedMovesStr = getMoveListAsString(sortedMoves);
 

@@ -42,7 +42,7 @@ public class DefaultMoveSorterTest {
 
         initMoveSorter(nodeMoveSorter, game);
 
-        Iterable<Move> movesSorted = nodeMoveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -65,7 +65,7 @@ public class DefaultMoveSorterTest {
 
         initMoveSorter(nodeMoveSorter, game);
 
-        Iterable<Move> movesSorted = nodeMoveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -94,7 +94,7 @@ public class DefaultMoveSorterTest {
 
         initMoveSorter(nodeMoveSorter, game);
 
-        Iterable<Move> movesSorted = nodeMoveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -127,7 +127,7 @@ public class DefaultMoveSorterTest {
 
         initMoveSorter(nodeMoveSorter, game);
 
-        Iterable<Move> movesSorted = nodeMoveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
 
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
@@ -159,7 +159,7 @@ public class DefaultMoveSorterTest {
         initMoveSorter(nodeMoveSorter, game);
 
         Move move;
-        Iterable<Move> movesSorted = nodeMoveSorter.getSortedMoves();
+        Iterable<Move> movesSorted = nodeMoveSorter.getOrderedMoves();
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
@@ -192,10 +192,10 @@ public class DefaultMoveSorterTest {
         initMoveSorter(moveSorterMirror, gameMirror);
 
         List<Move> movesSorted = new ArrayList<>();
-        moveSorter.getSortedMoves().forEach(movesSorted::add);
+        moveSorter.getOrderedMoves().forEach(movesSorted::add);
 
         List<Move> movesSortedMirror = new ArrayList<>();
-        moveSorterMirror.getSortedMoves().forEach(movesSortedMirror::add);
+        moveSorterMirror.getOrderedMoves().forEach(movesSortedMirror::add);
 
         final int moveCounter = movesSorted.size();
 
