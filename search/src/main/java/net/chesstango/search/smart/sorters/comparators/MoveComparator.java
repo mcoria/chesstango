@@ -13,6 +13,7 @@ public interface MoveComparator extends Comparator<Move> {
 
     void afterSort();
 
+    /*
     @Override
     default MoveComparator reversed() {
         return new MoveComparator() {
@@ -32,4 +33,5 @@ public interface MoveComparator extends Comparator<Move> {
             }
         };
     }
+     */
 }
