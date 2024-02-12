@@ -1,9 +1,9 @@
-package net.chesstango.search.reports.pv_ui;
+package net.chesstango.search.reports.pv;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.reports.PrincipalVariationReportModel;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -18,19 +18,24 @@ public class PrintPrincipalVariation {
     }
 
     public void printPrincipalVariation() {
+        out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
+
         out.printf("Principal Variations\n");
-
-
-        // Nombre de las columnas
-        out.printf("Move\n");
-
         // Cuerpo
         for (PrincipalVariationReportModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
-            out.printf("%6s:", moveDetail.move);
-            out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation);
+            out.printf("%6s: %s", moveDetail.move, moveDetail.principalVariation);
+
+            out.printf("; eval=%d", moveDetail.evaluation);
             if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
-                out.printf(" MATE");
+                out.print(" MATE");
             }
+
+            out.printf("; pvAccuracy=%d%%", moveDetail.pvAccuracyPercentage);
+
+            if (Objects.nonNull(moveDetail.id)) {
+                out.printf("; ID=%s", moveDetail.id);
+            }
+
             out.printf("\n");
         }
     }

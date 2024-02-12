@@ -5,8 +5,13 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,9 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     private final short[][] trianglePV;
     private Game game;
 
+    private List<Move> principalVariation;
+    private boolean pvComplete;
+
     public SetTrianglePV() {
         trianglePV = new short[40][40];
     }
@@ -31,6 +39,11 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         this.game = context.getGame();
     }
 
+    @Override
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        searchMoveResult.setPrincipalVariation(principalVariation);
+        searchMoveResult.setPvComplete(pvComplete);
+    }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
@@ -38,14 +51,15 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
-        List<Move> principalVariation = calculatePrincipalVariation(result.getBestEvaluation());
-        result.setPrincipalVariation(principalVariation);
+    public void afterSearchByDepth(SearchByDepthResult searchByDepthResult) {
+        calculatePrincipalVariation(searchByDepthResult.getBestMoveEvaluation());
+        searchByDepthResult.setPrincipalVariation(principalVariation);
+        searchByDepthResult.setPvComplete(pvComplete);
     }
 
-    public List<Move> calculatePrincipalVariation(int bestEvaluation) {
-
-        List<Move> principalVariation = new ArrayList<>();
+    protected void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
+        principalVariation = new ArrayList<>();
+        pvComplete = false;
 
         Move move = null;
         int pvMoveCounter = 0;
@@ -68,16 +82,16 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
             pvEvaluation = 0;
         }
 
-        if (bestEvaluation != pvEvaluation) {
+        if (bestMoveEvaluation.evaluation() == pvEvaluation) {
+            pvComplete = true;
+        } else {
             SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestEvaluation, pvEvaluation, simpleMoveEncoder.encodeMoves(principalVariation)));
+            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestMoveEvaluation.evaluation(), pvEvaluation, simpleMoveEncoder.encodeMoves(principalVariation)));
         }
 
         for (int i = 0; i < pvMoveCounter; i++) {
             game.undoMove();
         }
-
-        return principalVariation;
     }
 
     private Move readMove(short bestMoveEncoded) {

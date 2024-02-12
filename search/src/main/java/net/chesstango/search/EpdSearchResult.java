@@ -8,8 +8,7 @@ import net.chesstango.board.representations.EPDEntry;
 public record EpdSearchResult(EPDEntry epdEntry,
                               SearchMoveResult searchResult,
                               String bestMoveFoundStr,
-                              boolean bestMoveFound,
-                              long searchDuration) {
+                              boolean bestMoveFound) {
     public String getText() {
         return epdEntry.text;
     }

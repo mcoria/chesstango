@@ -3,6 +3,14 @@ package net.chesstango.search;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.search.reports.*;
+import net.chesstango.search.reports.evaluation.EvaluationReport;
+import net.chesstango.search.reports.evaluation.EvaluationReportModel;
+import net.chesstango.search.reports.nodes.NodesReport;
+import net.chesstango.search.reports.nodes.NodesReportModel;
+import net.chesstango.search.reports.pv.PrincipalVariationReport;
+import net.chesstango.search.reports.pv.PrincipalVariationReportModel;
+import net.chesstango.search.reports.summary.SummaryModel;
+import net.chesstango.search.reports.summary.SummarySaver;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -82,18 +90,18 @@ public class EpdSearchMain {
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(suiteName, epdSearchResults);
         NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
         EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        PrincipalVariationReportModel principalVariationReportModel = PrincipalVariationReportModel.collectStatics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        SummaryModel summaryModel = SummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchResults, epdSearchReportModel, nodesReportModel, evaluationReportModel, principalVariationReportModel);
 
         //printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
 
         Path sessionDirectory = createSessionDirectory(suitePath);
-        saveReports(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
-        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
+        saveReports(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel, principalVariationReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, summaryModel);
     }
 
-    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
-        SummaryModel summaryModel = SummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, nodesReportModel, evaluationReportModel);
-
+    private void saveSearchSummary(Path sessionDirectory, String suiteName, SummaryModel summaryModel) {
         Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(searchSummaryPath.toFile()), true)) {
@@ -108,12 +116,12 @@ public class EpdSearchMain {
         }
     }
 
-    private void saveReports(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
+    private void saveReports(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel, PrincipalVariationReportModel principalVariationReportModel) {
         Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            printReports(out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
+            printReports(out, epdSearchReportModel, nodesReportModel, evaluationReportModel, principalVariationReportModel);
 
             out.flush();
         } catch (IOException e) {
@@ -121,7 +129,7 @@ public class EpdSearchMain {
         }
     }
 
-    private void printReports(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
+    private void printReports(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel, PrincipalVariationReportModel principalVariationReportModel) {
         new EpdSearchReport()
                 .setReportModel(epdSearchReportModel)
                 .printReport(output);
@@ -136,6 +144,11 @@ public class EpdSearchMain {
                 .setReportModel(evaluationReportModel)
                 //.withExportEvaluations()
                 .withEvaluationsStatistics()
+                .printReport(output);
+
+
+        new PrincipalVariationReport()
+                .setReportModel(principalVariationReportModel)
                 .printReport(output);
     }
 

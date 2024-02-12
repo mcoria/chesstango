@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
 
 import java.util.List;
 
@@ -21,6 +20,11 @@ public class SearchByDepthResult {
     private MoveEvaluation bestMoveEvaluation;
 
     private List<Move> principalVariation;
+
+    /**
+     * Si PV es complete entonces llegamos a la mimsma evaluacion ejecutando los movimientos
+     */
+    private boolean pvComplete;
 
     /**
      * Evaluaciones de las posiciones que resultan de cada movimiento.

@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.sorters;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -21,6 +22,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     private Game game;
 
     @Getter
+    @Setter
     private MoveComparator moveComparator;
 
     public NodeMoveSorter() {
@@ -43,7 +45,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
         }
 
         moveComparator.beforeSort();
-        moveList.sort(moveComparator);
+        moveList.sort(moveComparator.reversed());
         moveComparator.afterSort();
 
         return moveList;
@@ -52,9 +54,5 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         game = context.getGame();
-    }
-
-    public void setMoveComparator(MoveComparator moveComparator) {
-        this.moveComparator = moveComparator.reversed();
     }
 }

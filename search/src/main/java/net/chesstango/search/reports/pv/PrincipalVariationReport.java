@@ -1,9 +1,8 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.pv;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.pv_ui.PrintPrincipalVariation;
 
 import java.io.PrintStream;
 import java.util.List;

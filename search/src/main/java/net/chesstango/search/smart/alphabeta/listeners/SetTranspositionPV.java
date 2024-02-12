@@ -1,8 +1,10 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
@@ -20,13 +22,19 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthListener {
+
+    @Setter
+    private GameEvaluator gameEvaluator;
     private TTable maxMap;
     private TTable minMap;
     private TTable qMaxMap;
     private TTable qMinMap;
     private Game game;
 
+    private int maxPly;
     private List<Move> principalVariation;
+    private boolean pvComplete;
+
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -41,23 +49,25 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
         searchMoveResult.setPrincipalVariation(principalVariation);
+        searchMoveResult.setPvComplete(pvComplete);
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.maxPly = context.getMaxPly();
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
-        principalVariation = calculatePrincipalVariation(result.getBestMoveEvaluation(), result.getDepth());
-        result.setPrincipalVariation(principalVariation);
+    public void afterSearchByDepth(SearchByDepthResult searchByDepthResult) {
+        calculatePrincipalVariation(searchByDepthResult.getBestMoveEvaluation());
+        searchByDepthResult.setPrincipalVariation(principalVariation);
+        searchByDepthResult.setPvComplete(pvComplete);
     }
 
 
-    public List<Move> calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation,
-                                                  int depth) {
-
-        List<Move> principalVariation = new ArrayList<>();
+    protected void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
+        principalVariation = new ArrayList<>();
+        pvComplete = false;
 
         Move move = bestMoveEvaluation.move();
         int pvMoveCounter = 0;
@@ -69,17 +79,26 @@ public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthL
 
             pvMoveCounter++;
 
-            move = principalVariation.size() < depth
+            move = principalVariation.size() < maxPly
                     ? readMoveFromTT(maxMap, minMap)
                     : readMoveFromTT(qMaxMap, qMinMap);
 
         } while (move != null);
 
+        int pvEvaluation = gameEvaluator.evaluate();
+
+        // En caso que se llegó a loop
+        if (game.getState().getRepetitionCounter() > 1) {
+            pvEvaluation = 0;
+        }
+
+        if (bestMoveEvaluation.evaluation() == pvEvaluation) {
+            pvComplete = true;
+        }
+
         for (int i = 0; i < pvMoveCounter; i++) {
             game.undoMove();
         }
-
-        return principalVariation;
     }
 
     private Move readMoveFromTT(TTable maxMap, TTable minMap) {

@@ -4,9 +4,9 @@ import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.EvaluationReport;
-import net.chesstango.search.reports.NodesReport;
-import net.chesstango.search.reports.PrincipalVariationReport;
+import net.chesstango.search.reports.evaluation.EvaluationReport;
+import net.chesstango.search.reports.nodes.NodesReport;
+import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -36,7 +36,6 @@ public class EpdSearchMainTest {
     @AfterEach
     public void tearDown() {
         if (PRINT_REPORT) {
-            System.out.println("Time taken: " + epdSearchResult.searchDuration() + " ms");
             new NodesReport()
                     .withNodesVisitedStatistics()
                     //.withCutoffStatics()

@@ -6,8 +6,6 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.*;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
@@ -76,7 +74,7 @@ public class IterativeDeepening implements SearchMove {
                 GameEvaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
-        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth, bestMoveEvaluation, null);
+        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);
         smartListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;

@@ -17,21 +17,25 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     private SearchByDepthResult lastSearchByDepthResult;
     private Instant startInstant;
     private Instant startDepthInstant;
+    private int searchByDepthCounter;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.lastSearchByDepthResult = null;
         this.startInstant = Instant.now();
+        this.searchByDepthCounter = 0;
     }
 
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
         searchMoveResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
+        searchMoveResult.setSearchByDepthCounter(searchByDepthCounter);
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         startDepthInstant = Instant.now();
+        searchByDepthCounter++;
         if (lastSearchByDepthResult != null) {
             context.setLastBestMoveEvaluation(lastSearchByDepthResult.getBestMoveEvaluation());
             context.setLastMoveEvaluations(lastSearchByDepthResult.getMoveEvaluations());
@@ -40,7 +44,7 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
 
     @Override
     public void afterSearchByDepth(SearchByDepthResult searchByDepthResult) {
-        this.lastSearchByDepthResult = searchByDepthResult;
+        lastSearchByDepthResult = searchByDepthResult;
         searchByDepthResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
         searchByDepthResult.setTimeSearchingLastDepth(Duration.between(startDepthInstant, Instant.now()).toMillis());
     }

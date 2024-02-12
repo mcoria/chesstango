@@ -1,4 +1,4 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.pv;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -13,6 +13,11 @@ import java.util.List;
 public class PrincipalVariationReportModel {
     public String reportTitle;
 
+    /**
+     * Promedio de promedio
+     */
+    public int pvAccuracyAvgPercentageTotal;
+
     public List<PrincipalVariationReportModelDetail> moveDetails;
 
 
@@ -21,6 +26,11 @@ public class PrincipalVariationReportModel {
 
         public String move;
         public String principalVariation;
+
+        /**
+         * Que porcentaje de PVs estan completos del total de busquedas por depth
+         */
+        public int pvAccuracyPercentage;
 
         public int evaluation;
     }
@@ -33,6 +43,8 @@ public class PrincipalVariationReportModel {
 
         principalVariationReportModel.load(searchMoveResults);
 
+        principalVariationReportModel.pvAccuracyAvgPercentageTotal = principalVariationReportModel.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / principalVariationReportModel.moveDetails.size();
+
         return principalVariationReportModel;
     }
 
@@ -44,13 +56,15 @@ public class PrincipalVariationReportModel {
 
     private void loadModelDetail(SearchMoveResult searchMoveResult) {
         PrincipalVariationReportModelDetail reportModelDetail = new PrincipalVariationReportModelDetail();
+
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
-        reportModelDetail.principalVariation = simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation());
+        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation()), searchMoveResult.isPvComplete() ? "" : "truncated");
+        reportModelDetail.pvAccuracyPercentage = (100 * searchMoveResult.getSearchByDepthPvCompleteCounter() / searchMoveResult.getSearchByDepthCounter());
 
         moveDetails.add(reportModelDetail);
     }

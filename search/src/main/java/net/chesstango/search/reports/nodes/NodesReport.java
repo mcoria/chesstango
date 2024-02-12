@@ -1,10 +1,8 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.nodes;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.nodesreport_ui.PrintCutoff;
-import net.chesstango.search.reports.nodesreport_ui.PrintVisitedNodes;
 
 import java.io.PrintStream;
 import java.util.List;

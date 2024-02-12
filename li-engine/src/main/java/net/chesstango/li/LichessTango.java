@@ -43,7 +43,7 @@ public class LichessTango implements Runnable {
         this.tango.setListenerClient(new SearchListener() {
             @Override
             public void searchInfo(SearchByDepthResult searchByDepthResult) {
-                String pvString = simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation());
+                String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation()), searchByDepthResult.isPvComplete() ? "" : "*");
                 logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchByDepthResult.getDepth()), String.format("%2d", searchByDepthResult.getDepth()), String.format("%8d", searchByDepthResult.getBestEvaluation()), pvString);
             }
 

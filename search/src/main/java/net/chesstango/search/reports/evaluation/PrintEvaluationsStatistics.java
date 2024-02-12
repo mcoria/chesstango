@@ -1,6 +1,4 @@
-package net.chesstango.search.reports.evaluationreport_ui;
-
-import net.chesstango.search.reports.EvaluationReportModel;
+package net.chesstango.search.reports.evaluation;
 
 import java.io.PrintStream;
 import java.util.Objects;

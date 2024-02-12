@@ -1,4 +1,4 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.nodes;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -50,9 +50,6 @@ public class NodesReportModel {
         public String id;
 
         public String move;
-        public String principalVariation;
-
-        public int evaluation;
         public int executedMoves;
 
 
@@ -77,7 +74,6 @@ public class NodesReportModel {
         public int[] visitedQNodesCounters;
         public int visitedQNodesCounter;
         public int[] cutoffQPercentages;
-
     }
 
 
@@ -138,8 +134,6 @@ public class NodesReportModel {
         Move bestMove = searchMoveResult.getBestMove();
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
-        reportModelDetail.principalVariation = simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation());
         reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 
         if (searchMoveResult.getRegularNodeStatistics() != null) {

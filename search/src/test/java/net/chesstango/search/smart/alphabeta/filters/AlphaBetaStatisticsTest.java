@@ -1,16 +1,14 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
-import net.chesstango.search.EpdSearchResult;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.EvaluationReport;
-import net.chesstango.search.reports.NodesReport;
+import net.chesstango.search.reports.evaluation.EvaluationReport;
+import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

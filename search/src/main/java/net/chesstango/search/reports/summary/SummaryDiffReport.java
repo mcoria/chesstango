@@ -1,4 +1,4 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.summary;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -34,6 +34,7 @@ public class SummaryDiffReport {
     private static final String executedMovesFmt = "| %11d (%3d%%) ";
     private static final String evaluationCoincidencesFmt = "| %17d%% ";
     private static final String cutoffFmt = "| %17d%% ";
+    private static final String pvAccuracyFmt = "| %17d%% ";
 
     private void print() {
         SummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -123,6 +124,12 @@ public class SummaryDiffReport {
         out.printf("|  Collisions  ");
         out.printf(cutoffFmt, baseLineSearchSummary.evaluationCollisionPercentageTotal, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(cutoffFmt, searchSummaryList.get(i).evaluationCollisionPercentageTotal));
+        out.printf("|\n");
+
+
+        out.printf("| PV Accuracy  ");
+        out.printf(pvAccuracyFmt, baseLineSearchSummary.pvAccuracyAvgPercentageTotal);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(pvAccuracyFmt, searchSummaryList.get(i).pvAccuracyAvgPercentageTotal));
         out.printf("|\n");
 
 
