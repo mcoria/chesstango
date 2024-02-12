@@ -1,10 +1,18 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.summary;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.chesstango.search.EpdSearchResult;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.reports.EpdSearchReportModel;
+import net.chesstango.search.reports.evaluation.EvaluationReportModel;
+import net.chesstango.search.reports.nodes.NodesReportModel;
+import net.chesstango.search.reports.pv.PrincipalVariationReportModel;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -58,25 +66,27 @@ public class SummaryModel {
     List<SearchSummaryModeDetail> searchDetailList = new LinkedList<>();
 
     public static class SearchSummaryModeDetail {
-
         @JsonProperty("id")
         public String id;
 
         @JsonProperty("move")
         public String move;
+
         @JsonProperty("pv")
         public String pv;
 
         @JsonProperty("evaluation")
         public int evaluation;
-
     }
 
 
     public static SummaryModel collectStatics(String sessionId,
+                                              List<EpdSearchResult> epdSearchResults,
                                               EpdSearchReportModel epdSearchReportModel,
                                               NodesReportModel nodesReportModel,
-                                              EvaluationReportModel evaluationReportModel) {
+                                              EvaluationReportModel evaluationReportModel,
+                                              PrincipalVariationReportModel principalVariationReportModel) {
+
         SummaryModel model = new SummaryModel();
 
         model.sessionid = sessionId;
@@ -96,15 +106,21 @@ public class SummaryModel {
         model.evaluationCounterTotal = evaluationReportModel.evaluationCounterTotal;
         model.evaluationCollisionPercentageTotal = evaluationReportModel.evaluationCollisionPercentageTotal;
 
+        Map<String, PrincipalVariationReportModel.PrincipalVariationReportModelDetail> pvMap = new HashMap<>();
+        principalVariationReportModel.moveDetails.forEach(pvMoveDetail -> pvMap.put(pvMoveDetail.id, pvMoveDetail));
 
-        nodesReportModel.moveDetails.forEach(searchReportModelDetail -> {
+        epdSearchResults.stream().map(epdSearchResult -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
-            searchSummaryModeDetail.id = searchReportModelDetail.id;
-            searchSummaryModeDetail.move = searchReportModelDetail.move;
-            searchSummaryModeDetail.pv = searchReportModelDetail.principalVariation;
-            searchSummaryModeDetail.evaluation = searchReportModelDetail.evaluation;
-            model.searchDetailList.add(searchSummaryModeDetail);
-        });
+            SearchMoveResult searchMoveResult = epdSearchResult.searchResult();
+            PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epdEntry().id);
+
+            searchSummaryModeDetail.id = epdSearchResult.epdEntry().id;
+            searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundStr();
+            searchSummaryModeDetail.pv = pvDetail.principalVariation;
+            searchSummaryModeDetail.evaluation = searchMoveResult.getBestEvaluation();
+            return searchSummaryModeDetail;
+        }).forEach(model.searchDetailList::add);
+
 
         return model;
     }

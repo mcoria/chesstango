@@ -1,7 +1,6 @@
-package net.chesstango.search.reports.pv_ui;
+package net.chesstango.search.reports.pv;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.reports.PrincipalVariationReportModel;
 
 import java.io.PrintStream;
 

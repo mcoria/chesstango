@@ -1,4 +1,4 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.reports.summary;
 
 import java.util.List;
 

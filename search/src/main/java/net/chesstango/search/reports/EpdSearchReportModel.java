@@ -9,12 +9,14 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class EpdSearchReportModel {
-    String reportTitle;
-    int searches;
-    int success;
-    int successRate;
-    List<String> failedEntries;
-    long duration;
+    public String reportTitle;
+
+    public int searches;
+    public int success;
+    public int successRate;
+    public List<String> failedEntries;
+
+    public long duration;
 
     public static EpdSearchReportModel collectStatistics(String reportTitle, List<EpdSearchResult> edpEntries) {
         EpdSearchReportModel reportModel = new EpdSearchReportModel();

@@ -1,6 +1,4 @@
-package net.chesstango.search.reports.nodesreport_ui;
-
-import net.chesstango.search.reports.NodesReportModel;
+package net.chesstango.search.reports.nodes;
 
 import java.io.PrintStream;
 import java.util.stream.IntStream;

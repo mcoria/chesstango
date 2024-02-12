@@ -7,7 +7,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.NodesReport;
+import net.chesstango.search.reports.nodes.NodesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
