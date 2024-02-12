@@ -44,6 +44,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetDebugTranspositionTables setDebugTranspositionTables;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
+    private SetPVStatistics setPVStatistics;
     private GameStatisticsByCycleListener gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
@@ -305,6 +306,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
+            setPVStatistics = new SetPVStatistics();
         }
 
         if (withZobristTracker) {
@@ -342,6 +344,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             smartListenerMediator.add(setNodeStatistics);
+            smartListenerMediator.add(setPVStatistics);
             smartListenerMediator.add(gameStatisticsListener);
         }
 

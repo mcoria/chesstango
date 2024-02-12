@@ -61,6 +61,8 @@ public class SummaryModel {
     @JsonProperty("evaluationCollisionPercentageTotal")
     int evaluationCollisionPercentageTotal;
 
+    @JsonProperty("pvAccuracyAvgPercentage")
+    int pvAccuracyAvgPercentageTotal;
 
     @JsonProperty("searchDetail")
     List<SearchSummaryModeDetail> searchDetailList = new LinkedList<>();
@@ -74,6 +76,9 @@ public class SummaryModel {
 
         @JsonProperty("pv")
         public String pv;
+
+        @JsonProperty("pvAccuracyPercentage")
+        public int pvAccuracyPercentage;
 
         @JsonProperty("evaluation")
         public int evaluation;
@@ -105,6 +110,7 @@ public class SummaryModel {
         model.cutoffPercentageTotal = nodesReportModel.cutoffPercentageTotal;
         model.evaluationCounterTotal = evaluationReportModel.evaluationCounterTotal;
         model.evaluationCollisionPercentageTotal = evaluationReportModel.evaluationCollisionPercentageTotal;
+        model.pvAccuracyAvgPercentageTotal = principalVariationReportModel.pvAccuracyAvgPercentageTotal;
 
         Map<String, PrincipalVariationReportModel.PrincipalVariationReportModelDetail> pvMap = new HashMap<>();
         principalVariationReportModel.moveDetails.forEach(pvMoveDetail -> pvMap.put(pvMoveDetail.id, pvMoveDetail));
@@ -117,6 +123,7 @@ public class SummaryModel {
             searchSummaryModeDetail.id = epdSearchResult.epdEntry().id;
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundStr();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
+            searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;
             searchSummaryModeDetail.evaluation = searchMoveResult.getBestEvaluation();
             return searchSummaryModeDetail;
         }).forEach(model.searchDetailList::add);
