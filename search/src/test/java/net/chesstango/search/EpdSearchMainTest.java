@@ -36,7 +36,6 @@ public class EpdSearchMainTest {
     @AfterEach
     public void tearDown() {
         if (PRINT_REPORT) {
-            System.out.println("Time taken: " + epdSearchResult.searchDuration() + " ms");
             new NodesReport()
                     .withNodesVisitedStatistics()
                     //.withCutoffStatics()
