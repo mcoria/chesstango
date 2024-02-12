@@ -187,6 +187,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withComposedMoveSorter() {
+        alphaBetaInteriorChainBuilder.withComposedMoveSorter();
+        quiescenceChainBuilder.withComposedMoveSorter();
+        return this;
+    }
 
     public AlphaBetaBuilder withZobristTracker() {
         withZobristTracker = true;

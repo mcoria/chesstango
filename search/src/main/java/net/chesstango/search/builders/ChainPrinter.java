@@ -222,10 +222,11 @@ public class ChainPrinter {
         if (moveComparator instanceof DefaultMoveComparator defaultMoveComparator) {
             return String.format("%s", objectText(defaultMoveComparator));
         } else if (moveComparator instanceof ComposedMoveComparator composedMoveComparator) {
-            return String.format("%s:  %s -> %s -> %s",
+            return String.format("%s:  %s -> %s -> %s -> %s",
                     objectText(composedMoveComparator),
                     objectText(composedMoveComparator.getTranspositionHeadMoveComparator()),
                     objectText(composedMoveComparator.getTranspositionTailMoveComparator()),
+                    objectText(composedMoveComparator.getRecaptureMoveComparator()),
                     objectText(composedMoveComparator.getDefaultMoveComparator())
             );
         }

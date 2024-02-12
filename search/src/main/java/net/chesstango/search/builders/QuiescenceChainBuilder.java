@@ -88,6 +88,11 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withComposedMoveSorter() {
+        moveSorterBuilder.withComposedMoveSorter();
+        return this;
+    }
+
 
     /**
      * <p>

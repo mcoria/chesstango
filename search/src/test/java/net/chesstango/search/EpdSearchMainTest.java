@@ -268,6 +268,7 @@ public class EpdSearchMainTest {
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
+                .withComposedMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()

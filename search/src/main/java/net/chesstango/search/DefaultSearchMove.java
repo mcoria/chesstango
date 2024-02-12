@@ -30,6 +30,7 @@ public class DefaultSearchMove implements SearchMove {
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
+                .withComposedMoveSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()

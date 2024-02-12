@@ -79,6 +79,11 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
+    public AlphaBetaInteriorChainBuilder withComposedMoveSorter() {
+        moveSorterBuilder.withComposedMoveSorter();
+        return this;
+    }
+
 
     public AlphaBetaFilter build() {
         buildObjects();
