@@ -119,22 +119,19 @@ public class EpdSearch {
 
     private EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
 
-        Instant start = Instant.now();
-
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-        SearchMoveResult searchResult = searchMove.search(epdEntry.game);
 
-        long duration = Duration.between(start, Instant.now()).toMillis();
+        SearchMoveResult searchResult = searchMove.search(epdEntry.game);
 
         searchResult.setEpdID(epdEntry.id);
 
         Move bestMove = searchResult.getBestMove();
 
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+		String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
 
         boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
-        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, bestMoveFound, duration);
+        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, bestMoveFound);
     }
 
 

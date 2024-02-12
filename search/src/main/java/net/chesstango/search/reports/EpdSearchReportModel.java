@@ -1,9 +1,11 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.search.EpdSearchResult;
+import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -21,6 +23,8 @@ public class EpdSearchReportModel {
     public static EpdSearchReportModel collectStatistics(String reportTitle, List<EpdSearchResult> edpEntries) {
         EpdSearchReportModel reportModel = new EpdSearchReportModel();
 
+        List<SearchMoveResult> searchMoveResults = edpEntries.stream().map(EpdSearchResult::searchResult).toList();
+
         reportModel.reportTitle = reportTitle;
 
         reportModel.searches = edpEntries.size();
@@ -29,7 +33,7 @@ public class EpdSearchReportModel {
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
-        reportModel.duration = edpEntries.stream().mapToLong(EpdSearchResult::searchDuration).sum();
+        reportModel.duration = searchMoveResults.stream().mapToLong(SearchMoveResult::getTimeSearching).sum();
 
         reportModel.failedEntries = new ArrayList<>();
 
