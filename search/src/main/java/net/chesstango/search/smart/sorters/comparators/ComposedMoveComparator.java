@@ -17,6 +17,10 @@ public class ComposedMoveComparator implements MoveComparator {
     @Getter
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
 
+    @Setter
+    @Getter
+    private RecaptureMoveComparator recaptureMoveComparator;
+
     @Getter
     private final DefaultMoveComparator defaultMoveComparator;
 
@@ -26,15 +30,18 @@ public class ComposedMoveComparator implements MoveComparator {
 
     @Override
     public int compare(Move o1, Move o2) {
+        int result = transpositionHeadMoveComparator != null ? transpositionHeadMoveComparator.compare(o1, o2) : 0;
 
-        int result = transpositionHeadMoveComparator.compare(o1, o2);
+        if (result == 0 && transpositionTailMoveComparator != null) {
+            result = transpositionTailMoveComparator.compare(o1, o2);
+        }
+
+        if (result == 0 && recaptureMoveComparator != null) {
+            result = recaptureMoveComparator.compare(o1, o2);
+        }
 
         if (result == 0) {
-            result = transpositionTailMoveComparator.compare(o1, o2);
-
-            if (result == 0) {
-                result = defaultMoveComparator.compare(o1, o2);
-            }
+            result = defaultMoveComparator.compare(o1, o2);
         }
 
         return result;
@@ -44,12 +51,14 @@ public class ComposedMoveComparator implements MoveComparator {
     public void beforeSort() {
         transpositionHeadMoveComparator.beforeSort();
         transpositionTailMoveComparator.beforeSort();
+        recaptureMoveComparator.beforeSort();
         defaultMoveComparator.beforeSort();
     }
 
     @Override
     public void afterSort() {
         defaultMoveComparator.afterSort();
+        recaptureMoveComparator.afterSort();
         transpositionTailMoveComparator.afterSort();
         transpositionHeadMoveComparator.afterSort();
     }
