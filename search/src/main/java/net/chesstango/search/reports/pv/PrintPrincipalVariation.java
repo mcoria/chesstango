@@ -18,17 +18,20 @@ public class PrintPrincipalVariation {
     }
 
     public void printPrincipalVariation() {
-        out.printf("AccuracyAvgPercentage: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
+        out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
 
         out.printf("Principal Variations\n");
         // Cuerpo
         for (PrincipalVariationReportModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s: %s", moveDetail.move, moveDetail.principalVariation);
-            out.printf("; Eval=%d", moveDetail.evaluation);
+
+            out.printf("; eval=%d", moveDetail.evaluation);
             if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
                 out.print(" MATE");
             }
+
             out.printf("; pvAccuracy=%d%%", moveDetail.pvAccuracyPercentage);
+
             if (Objects.nonNull(moveDetail.id)) {
                 out.printf("; ID=%s", moveDetail.id);
             }

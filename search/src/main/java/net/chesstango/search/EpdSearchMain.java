@@ -7,6 +7,7 @@ import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.evaluation.EvaluationReportModel;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.nodes.NodesReportModel;
+import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReportModel;
 import net.chesstango.search.reports.summary.SummaryModel;
 import net.chesstango.search.reports.summary.SummarySaver;
@@ -143,6 +144,11 @@ public class EpdSearchMain {
                 .setReportModel(evaluationReportModel)
                 //.withExportEvaluations()
                 .withEvaluationsStatistics()
+                .printReport(output);
+
+
+        new PrincipalVariationReport()
+                .setReportModel(principalVariationReportModel)
                 .printReport(output);
     }
 

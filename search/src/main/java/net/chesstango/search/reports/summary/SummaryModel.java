@@ -61,7 +61,7 @@ public class SummaryModel {
     @JsonProperty("evaluationCollisionPercentageTotal")
     int evaluationCollisionPercentageTotal;
 
-    @JsonProperty("pvAccuracyAvgPercentage")
+    @JsonProperty("pvAccuracyAvgPercentageTotal")
     int pvAccuracyAvgPercentageTotal;
 
     @JsonProperty("searchDetail")

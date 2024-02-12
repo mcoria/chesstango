@@ -12,16 +12,16 @@ import net.chesstango.search.smart.SearchByDepthListener;
  */
 public class SetPVStatistics implements SearchByCycleListener, SearchByDepthListener {
 
-    private int pvTruncatedCounter;
+    private int pvCompleteCounter;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.pvTruncatedCounter = 0;
+        this.pvCompleteCounter = 0;
     }
 
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
-        searchMoveResult.setSearchByDepthPvCompleteCounter(pvTruncatedCounter);
+        searchMoveResult.setSearchByDepthPvCompleteCounter(pvCompleteCounter);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SetPVStatistics implements SearchByCycleListener, SearchByDepthList
     @Override
     public void afterSearchByDepth(SearchByDepthResult result) {
         if (result.isPvComplete()) {
-            pvTruncatedCounter++;
+            pvCompleteCounter++;
         }
     }
 }
