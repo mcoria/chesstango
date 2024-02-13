@@ -270,15 +270,20 @@ public class ChainPrinter {
 
         int nestedChainLevelDown = nestedChain + 1;
 
+        AlphaBetaFilter terminalNode = alphaBetaFlowControl.getTerminalNode();
+        printChainText(" -> TerminalNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(terminalNode, nestedChainLevelDown);
+
         AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
         printChainText(" -> LoopNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(loopNode, nestedChainLevelDown);
 
-        AlphaBetaFilter terminalNode = alphaBetaFlowControl.getTerminalNode();
-        printChainText(" -> TerminalNode", nestedChain);
+        AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
+        printChainText(" -> LeafNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
-        printChainAlphaBetaFilter(terminalNode, nestedChainLevelDown);
+        printChainAlphaBetaFilter(leafNode, nestedChainLevelDown);
 
         AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
         printChainText(" -> HorizonNode", nestedChain);
@@ -296,6 +301,11 @@ public class ChainPrinter {
         printChainDownLine(nestedChain);
 
         int nestedChainLevelDown = nestedChain + 1;
+
+        AlphaBetaFilter terminalNode = extensionFlowControl.getTerminalNode();
+        printChainText(" -> TerminalNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(terminalNode, nestedChainLevelDown);
 
         AlphaBetaFilter checkResolverNode = extensionFlowControl.getCheckResolverNode();
         if (Objects.nonNull(checkResolverNode)) {

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaLoopChainBuilder {
+public class LoopChainBuilder {
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
@@ -22,16 +22,16 @@ public class AlphaBetaLoopChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
 
-    public AlphaBetaLoopChainBuilder() {
+    public LoopChainBuilder() {
         loopEvaluation = new LoopEvaluation();
     }
 
-    public AlphaBetaLoopChainBuilder withZobristTracker() {
+    public LoopChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public AlphaBetaLoopChainBuilder withDebugSearchTree() {
+    public LoopChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
@@ -94,7 +94,7 @@ public class AlphaBetaLoopChainBuilder {
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
             } else if (currentFilter instanceof LoopEvaluation) {
-                debugFilter.setNext(next);
+
             } else {
                 throw new RuntimeException("filter not found");
             }

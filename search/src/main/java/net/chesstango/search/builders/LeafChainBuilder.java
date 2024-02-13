@@ -1,9 +1,9 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
 import java.util.LinkedList;
@@ -12,47 +12,49 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaTerminalChainBuilder {
-    private final AlphaBetaEvaluation alphaBetaEvaluation;
+public class LeafChainBuilder {
+    private final AlphaBetaEvaluation leaf;
     private GameEvaluator gameEvaluator;
-    private TranspositionTable transpositionTable;
-    private ZobristTracker zobristTracker;
-    private DebugFilter debugFilter;
+    private ZobristTracker zobristQTracker;
+    private DebugFilter debugSearchTree;
+    private TranspositionTableAbstract transpositionTable;
     private SmartListenerMediator smartListenerMediator;
-
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
 
-    public AlphaBetaTerminalChainBuilder() {
-        alphaBetaEvaluation = new AlphaBetaEvaluation();
+    public LeafChainBuilder() {
+        leaf = new AlphaBetaEvaluation();
     }
 
-    public AlphaBetaTerminalChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+    public LeafChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
 
-    public AlphaBetaTerminalChainBuilder withTranspositionTable() {
-        transpositionTable = new TranspositionTable();
-        return this;
-    }
 
-
-    public AlphaBetaTerminalChainBuilder withZobristTracker() {
+    public LeafChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public AlphaBetaTerminalChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+    public LeafChainBuilder withTranspositionTable() {
+        this.transpositionTable = new TranspositionTable();
+        return this;
+    }
+
+    public void withQTranspositionTable() {
+        this.transpositionTable = new TranspositionTableQ();
+    }
+
+    public LeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
-    public AlphaBetaTerminalChainBuilder withDebugSearchTree() {
+    public LeafChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
-
 
     /**
      * @return
@@ -66,63 +68,59 @@ public class AlphaBetaTerminalChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaEvaluation.setGameEvaluator(gameEvaluator);
-
+        leaf.setGameEvaluator(gameEvaluator);
 
         if (withZobristTracker) {
-            zobristTracker = new ZobristTracker();
+            zobristQTracker = new ZobristTracker();
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
-            this.debugFilter.setGameEvaluator(gameEvaluator);
+            this.debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
+            this.debugSearchTree.setGameEvaluator(gameEvaluator);
         }
-
     }
 
     private void setupListenerMediator() {
-        if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+        if (zobristQTracker != null) {
+            smartListenerMediator.add(zobristQTracker);
         }
         if (transpositionTable != null) {
             smartListenerMediator.add(transpositionTable);
         }
-        if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+        if (debugSearchTree != null) {
+            smartListenerMediator.add(debugSearchTree);
         }
     }
 
-
     private AlphaBetaFilter createChain() {
-
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
-        if (debugFilter != null) {
-            chain.add(debugFilter);
+        if (debugSearchTree != null) {
+            chain.add(debugSearchTree);
         }
 
-        if (zobristTracker != null) {
-            chain.add(zobristTracker);
+        if (zobristQTracker != null) {
+            chain.add(zobristQTracker);
         }
 
         if (transpositionTable != null) {
             chain.add(transpositionTable);
         }
 
-        chain.add(alphaBetaEvaluation);
+        chain.add(leaf);
 
         for (int i = 0; i < chain.size() - 1; i++) {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
             if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTable) {
+                zobristQTracker.setNext(next);
+            } else if (currentFilter instanceof TranspositionTableAbstract) {
                 transpositionTable.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof AlphaBeta) {
-                //alphaBetaTerminal.setNext(next);
+                debugSearchTree.setNext(next);
+            } else if (currentFilter instanceof AlphaBetaEvaluation) {
+                //leaf
             } else {
                 throw new RuntimeException("filter not found");
             }
