@@ -54,7 +54,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (checkResolverNode != null) {
             if (game.getState().getRepetitionCounter() > 1) {
                 /**
-                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque reputa una posicion
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque repita una posicion
                  * que se encuentre antes de horizonte
                  */
                 return loopNode.maximize(currentPly, alpha, beta);
@@ -82,7 +82,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (checkResolverNode != null) {
             if (game.getState().getRepetitionCounter() > 1) {
                 /**
-                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque reputa una posicion
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque repita una posicion
                  * que se encuentre antes de horizonte
                  */
                 return loopNode.minimize(currentPly, alpha, beta);
