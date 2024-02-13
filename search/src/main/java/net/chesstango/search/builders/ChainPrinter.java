@@ -299,6 +299,11 @@ public class ChainPrinter {
 
         AlphaBetaFilter checkResolverNode = extensionFlowControl.getCheckResolverNode();
         if (Objects.nonNull(checkResolverNode)) {
+            AlphaBetaFilter loopNode = extensionFlowControl.getLoopNode();
+            printChainText(" -> LoopNode", nestedChain);
+            printChainDownLine(nestedChainLevelDown);
+            printChainAlphaBetaFilter(loopNode, nestedChainLevelDown);
+
             printChainText(" -> CheckResolverNode", nestedChain);
             printChainDownLine(nestedChainLevelDown);
             printChainAlphaBetaFilter(checkResolverNode, nestedChainLevelDown);

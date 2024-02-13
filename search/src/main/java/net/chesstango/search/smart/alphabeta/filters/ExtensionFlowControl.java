@@ -27,6 +27,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter checkResolverNode;
 
+    @Setter
+    @Getter
+    private AlphaBetaFilter loopNode;
+
     private Game game;
 
     @Override
@@ -46,15 +50,20 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            /**
-             * Un movimiento no quiet por definicion es imposible repetir
-             */
-            throw new RuntimeException("No deberia entrar por este camino");
-        }
 
-        if (game.getStatus().isCheck() && checkResolverNode != null) {
-            return checkResolverNode.maximize(currentPly, alpha, beta);
+        if (checkResolverNode != null) {
+            if (game.getState().getRepetitionCounter() > 1) {
+                /**
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque reputa una posicion
+                 * que se encuentre antes de horizonte
+                 */
+                return loopNode.maximize(currentPly, alpha, beta);
+            }
+            if (game.getStatus().isCheck()) {
+                return checkResolverNode.maximize(currentPly, alpha, beta);
+            }
+        } else if (game.getState().getRepetitionCounter() > 1) {
+            throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
@@ -70,15 +79,20 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            /**
-             * Un movimiento no quiet por definicion es imposible repetir
-             */
-            throw new RuntimeException("No deberia entrar por este camino");
-        }
+        if (checkResolverNode != null) {
+            if (game.getState().getRepetitionCounter() > 1) {
+                /**
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque reputa una posicion
+                 * que se encuentre antes de horizonte
+                 */
+                return loopNode.minimize(currentPly, alpha, beta);
+            }
 
-        if (game.getStatus().isCheck() && checkResolverNode != null) {
-            return checkResolverNode.minimize(currentPly, alpha, beta);
+            if (game.getStatus().isCheck()) {
+                return checkResolverNode.minimize(currentPly, alpha, beta);
+            }
+        } else if (game.getState().getRepetitionCounter() > 1) {
+            throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
