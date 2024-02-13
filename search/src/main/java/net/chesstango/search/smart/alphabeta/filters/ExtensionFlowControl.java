@@ -8,7 +8,6 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.StopSearchingListener;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -27,6 +26,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Setter
     @Getter
     private AlphaBetaFilter checkResolverNode;
+
+    @Setter
+    @Getter
+    private AlphaBetaFilter loopNode;
 
     private Game game;
 
@@ -47,12 +50,20 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
-        }
 
-        if (game.getStatus().isCheck()) {
-            return checkResolverNode.maximize(currentPly, alpha, beta);
+        if (checkResolverNode != null) {
+            if (game.getState().getRepetitionCounter() > 1) {
+                /**
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque repita una posicion
+                 * que se encuentre antes de horizonte
+                 */
+                return loopNode.maximize(currentPly, alpha, beta);
+            }
+            if (game.getStatus().isCheck()) {
+                return checkResolverNode.maximize(currentPly, alpha, beta);
+            }
+        } else if (game.getState().getRepetitionCounter() > 1) {
+            throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
@@ -68,12 +79,20 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
-        }
+        if (checkResolverNode != null) {
+            if (game.getState().getRepetitionCounter() > 1) {
+                /**
+                 * Con checkresolver habilitado, puede que algun movimiento para resolver el Jaque repita una posicion
+                 * que se encuentre antes de horizonte
+                 */
+                return loopNode.minimize(currentPly, alpha, beta);
+            }
 
-        if (game.getStatus().isCheck()) {
-            return checkResolverNode.minimize(currentPly, alpha, beta);
+            if (game.getStatus().isCheck()) {
+                return checkResolverNode.minimize(currentPly, alpha, beta);
+            }
+        } else if (game.getState().getRepetitionCounter() > 1) {
+            throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
         if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {

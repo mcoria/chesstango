@@ -414,6 +414,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBetaFilter quiescenceChain;
         AlphaBetaFilter quiescenceLeaf;
         AlphaBetaFilter checkResolverChain;
+        AlphaBetaFilter loopChain;
 
         if (withQuiescence) {
             quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
@@ -430,16 +431,20 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 checkResolverChainBuilder.withGameEvaluator(gameEvaluator);
                 checkResolverChainBuilder.withExtensionFlowControl(extensionFlowControl);
                 checkResolverChain = checkResolverChainBuilder.build();
+
+                alphaBetaLoopChainBuilder.withSmartListenerMediator(smartListenerMediator);
+                loopChain = alphaBetaLoopChainBuilder.build();
             } else {
-                checkResolverChain = quiescenceChain;
+                checkResolverChain = null;
+                loopChain = null;
             }
 
             extensionFlowControl.setQuiescenceNode(quiescenceChain);
             extensionFlowControl.setLeafNode(quiescenceLeaf);
             extensionFlowControl.setCheckResolverNode(checkResolverChain);
+            extensionFlowControl.setLoopNode(loopChain);
 
             return extensionFlowControl;
-
         } else {
             quiescenceNullChainBuilder.withSmartListenerMediator(smartListenerMediator);
             quiescenceNullChainBuilder.withGameEvaluator(gameEvaluator);
