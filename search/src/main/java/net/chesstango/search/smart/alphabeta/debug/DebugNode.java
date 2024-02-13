@@ -12,6 +12,7 @@ import java.util.Objects;
  */
 @Getter
 public class DebugNode {
+
     public enum NodeTopology {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
 
     /**
@@ -24,6 +25,8 @@ public class DebugNode {
     NodeTopology topology;
 
     NodeType type;
+
+    int ply;
 
     long zobristHash;
 

@@ -95,7 +95,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
     }
 
     private DebugNode beforeSearchImp(String fnString, int currentPly, int alpha, int beta) {
-        DebugNode debugNode = searchTracker.newNode(topology);
+        DebugNode debugNode = searchTracker.newNode(topology, currentPly);
 
         debugNode.setZobristHash(game.getChessPosition().getZobristHash());
 

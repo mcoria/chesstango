@@ -54,11 +54,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         searchTracker = new SearchTracker();
 
         context.setSearchTracker(searchTracker);
+
+        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
+            debugNodeTrapSearchByCycleListener.beforeSearch(context);
+        }
     }
 
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
+        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
+            debugNodeTrapSearchByCycleListener.afterSearch(searchMoveResult);
+        }
+
         debugOut.print("Search completed\n");
+
         try {
             debugOut.flush();
             debugOut.close();
@@ -72,10 +81,16 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         debugOut.printf("Search by depth %d started\n", context.getMaxPly());
+        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
+            debugNodeTrapSearchByDepthListener.beforeSearchByDepth(context);
+        }
     }
 
     @Override
     public void afterSearchByDepth(SearchByDepthResult result) {
+        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
+            debugNodeTrapSearchByDepthListener.afterSearchByDepth(result);
+        }
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
@@ -96,30 +111,30 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
     private void dumpSearchTracker() {
         debugErrorMessages = new LinkedList<>();
-        dumpNode(0, searchTracker.getRootNode());
+        dumpNode(searchTracker.getRootNode());
         debugErrorMessages.forEach(debugOut::println);
         debugOut.flush();
         searchTracker.reset();
     }
 
-    private void dumpNode(int depth, DebugNode currentNode) {
-        dumpNodeHeader(depth, currentNode);
+    private void dumpNode(DebugNode currentNode) {
+        dumpNodeHeader(currentNode);
 
 
         if (currentNode.sortedMovesStr != null) {
-            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(depth), currentNode.sortedMovesStr);
+            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMovesStr);
         }
 
         if (showTranspositionAccess) {
             if (!currentNode.sorterReads.isEmpty()) {
-                debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(depth));
+                debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(currentNode.ply));
                 for (DebugNodeTT ttOperation :
                         currentNode.sorterReads) {
 
                     int ttValue = TranspositionEntry.decodeValue(ttOperation.movesAndValue());
 
                     debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
-                            ">\t".repeat(depth),
+                            ">\t".repeat(currentNode.ply),
                             ttOperation.tableName(),
                             ttOperation.bound(),
                             hexFormat.formatHex(longToByte(ttOperation.hash())),
@@ -131,9 +146,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             }
         }
 
-        if (Objects.nonNull(debugNodeTrap)) {
+        if (debugNodeTrap != null) {
             if (debugNodeTrap.test(currentNode)) {
-                debugNodeTrap.debug(depth, currentNode, debugOut);
+                debugNodeTrap.debug(currentNode, debugOut);
             }
         }
 
@@ -141,20 +156,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         for (DebugNode childNode : currentNode.childNodes) {
             if (showOnlyPV) {
                 if (childNode.type.equals(DebugNode.NodeType.PV)) {
-                    dumpNode(depth + 1, childNode);
+                    dumpNode(childNode);
                 } else {
-                    dumpNodeHeader(depth + 1, childNode);
+                    dumpNodeHeader(childNode);
                 }
             } else {
-                dumpNode(depth + 1, childNode);
+                dumpNode(childNode);
             }
         }
     }
 
-    private void dumpNodeHeader(int depth, DebugNode currentNode) {
-        if (depth > 0) {
+    private void dumpNodeHeader(DebugNode currentNode) {
+        if (currentNode.ply > 0) {
             String moveStr = simpleMoveEncoder.encode(currentNode.selectedMove);
-            debugOut.printf("%s%s ", ">\t".repeat(depth), moveStr);
+            debugOut.printf("%s%s ", ">\t".repeat(currentNode.ply), moveStr);
         }
 
         debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.fnString, currentNode.topology, hexFormat.formatHex(longToByte(currentNode.zobristHash)), currentNode.alpha, currentNode.beta);
@@ -179,7 +194,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             if (currentNode.entryRead != null) {
                 int ttValue = TranspositionEntry.decodeValue(currentNode.entryRead.movesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
-                        ">\t".repeat(depth),
+                        ">\t".repeat(currentNode.ply),
                         currentNode.entryRead.tableName(),
                         currentNode.entryRead.bound(),
                         currentNode.entryRead.depth(),
@@ -194,7 +209,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             if (currentNode.entryWrite != null) {
                 int ttValue = TranspositionEntry.decodeValue(currentNode.entryWrite.movesAndValue());
                 debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
-                        ">\t".repeat(depth),
+                        ">\t".repeat(currentNode.ply),
                         currentNode.entryWrite.tableName(),
                         currentNode.entryWrite.bound(),
                         currentNode.entryWrite.depth(),

@@ -15,7 +15,7 @@ public class SampleTrap implements DebugNodeTrap {
     }
 
     @Override
-    public void debug(int depth, DebugNode debugNode, PrintStream debugOut) {
-        debugOut.printf("%s JAJAJEJEJIJI\n", ">\t".repeat(depth));
+    public void debug(DebugNode debugNode, PrintStream debugOut) {
+        debugOut.printf("%s JAJAJEJEJIJI\n", ">\t".repeat(debugNode.getPly()));
     }
 }
