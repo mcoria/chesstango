@@ -431,7 +431,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 checkResolverChainBuilder.withExtensionFlowControl(extensionFlowControl);
                 checkResolverChain = checkResolverChainBuilder.build();
             } else {
-                checkResolverChain = quiescenceChain;
+                checkResolverChain = null;
             }
 
             extensionFlowControl.setQuiescenceNode(quiescenceChain);

@@ -35,7 +35,6 @@ public class CheckResolverChainBuilder {
     public CheckResolverChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterBuilder();
-        moveSorterBuilder.withMoveQuietFilter();
     }
 
     public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {

@@ -22,6 +22,7 @@ import net.chesstango.search.smart.sorters.comparators.MoveComparator;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Corias
@@ -269,26 +270,25 @@ public class ChainPrinter {
 
         int nestedChainLevelDown = nestedChain + 1;
 
-        AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
-        printChainText(" -> InteriorNode", nestedChain);
+        AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
+        printChainText(" -> LoopNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
-        printChainAlphaBetaFilter(interiorNode, nestedChainLevelDown);
+        printChainAlphaBetaFilter(loopNode, nestedChainLevelDown);
 
         AlphaBetaFilter terminalNode = alphaBetaFlowControl.getTerminalNode();
         printChainText(" -> TerminalNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(terminalNode, nestedChainLevelDown);
 
-        AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
-        printChainText(" -> LoopNode", nestedChain);
-        printChainDownLine(nestedChainLevelDown);
-        printChainAlphaBetaFilter(loopNode, nestedChainLevelDown);
-
-
         AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
         printChainText(" -> HorizonNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(horizonNode, nestedChainLevelDown);
+
+        AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
+        printChainText(" -> InteriorNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(interiorNode, nestedChainLevelDown);
     }
 
     private void printChainQuiescenceFlowControl(ExtensionFlowControl extensionFlowControl, int nestedChain) {
@@ -297,20 +297,22 @@ public class ChainPrinter {
 
         int nestedChainLevelDown = nestedChain + 1;
 
-        AlphaBetaFilter quiescenceNode = extensionFlowControl.getQuiescenceNode();
-        printChainText(" -> QuiescenceNode", nestedChain);
-        printChainDownLine(nestedChainLevelDown);
-        printChainAlphaBetaFilter(quiescenceNode, nestedChainLevelDown);
-
         AlphaBetaFilter checkResolverNode = extensionFlowControl.getCheckResolverNode();
-        printChainText(" -> CheckResolverNode", nestedChain);
-        printChainDownLine(nestedChainLevelDown);
-        printChainAlphaBetaFilter(checkResolverNode, nestedChainLevelDown);
+        if (Objects.nonNull(checkResolverNode)) {
+            printChainText(" -> CheckResolverNode", nestedChain);
+            printChainDownLine(nestedChainLevelDown);
+            printChainAlphaBetaFilter(checkResolverNode, nestedChainLevelDown);
+        }
 
         AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
         printChainText(" -> LeafNode", nestedChain);
         printChainDownLine(nestedChainLevelDown);
         printChainAlphaBetaFilter(leafNode, nestedChainLevelDown);
+
+        AlphaBetaFilter quiescenceNode = extensionFlowControl.getQuiescenceNode();
+        printChainText(" -> QuiescenceNode", nestedChain);
+        printChainDownLine(nestedChainLevelDown);
+        printChainAlphaBetaFilter(quiescenceNode, nestedChainLevelDown);
     }
 
 

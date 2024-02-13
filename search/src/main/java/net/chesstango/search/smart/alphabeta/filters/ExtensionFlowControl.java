@@ -8,7 +8,6 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.StopSearchingListener;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -48,10 +47,13 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
+            /**
+             * Un movimiento no quiet por definicion es imposible repetir
+             */
+            throw new RuntimeException("No deberia entrar por este camino");
         }
 
-        if (game.getStatus().isCheck()) {
+        if (game.getStatus().isCheck() && checkResolverNode != null) {
             return checkResolverNode.maximize(currentPly, alpha, beta);
         }
 
@@ -69,10 +71,13 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
         }
 
         if (game.getState().getRepetitionCounter() > 1) {
-            return TranspositionEntry.encode(null, 0);
+            /**
+             * Un movimiento no quiet por definicion es imposible repetir
+             */
+            throw new RuntimeException("No deberia entrar por este camino");
         }
 
-        if (game.getStatus().isCheck()) {
+        if (game.getStatus().isCheck() && checkResolverNode != null) {
             return checkResolverNode.minimize(currentPly, alpha, beta);
         }
 
