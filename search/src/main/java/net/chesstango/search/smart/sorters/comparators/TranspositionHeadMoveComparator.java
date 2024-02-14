@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -15,8 +17,13 @@ import java.util.function.Function;
  * @author Mauricio Coria
  */
 public class TranspositionHeadMoveComparator implements MoveComparator, SearchByCycleListener {
+
     private final Function<SearchByCycleContext, TTable> fnGetMaxMap;
     private final Function<SearchByCycleContext, TTable> fnGetMinMap;
+
+    @Getter
+    @Setter
+    private MoveComparator next;
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -49,10 +56,13 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
         } else {
             bestMoveEncoded = 0;
         }
+
+        next.beforeSort();
     }
 
     @Override
     public void afterSort() {
+        next.afterSort();
     }
 
 
@@ -64,6 +74,6 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
             return -1;
         }
 
-        return 0;
+        return next.compare(o1, o2);
     }
 }

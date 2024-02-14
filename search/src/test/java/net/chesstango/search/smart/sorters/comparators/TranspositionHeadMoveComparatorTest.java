@@ -34,6 +34,7 @@ public class TranspositionHeadMoveComparatorTest {
         maxMap = new MapTTable();
         minMap = new MapTTable();
         headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+        headMoveComparator.setNext(new DefaultMoveComparator());
     }
 
     @Test

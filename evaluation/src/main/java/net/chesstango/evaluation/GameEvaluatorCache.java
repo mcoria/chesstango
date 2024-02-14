@@ -12,6 +12,8 @@ import net.chesstango.board.GameVisitor;
 public class GameEvaluatorCache implements GameEvaluator {
 
     private static final int ARRAY_SIZE = 1024 * 512;
+
+    @Getter
     private final GameEvaluator imp;
     private final GameEvaluatorCacheEntry[] cache;
 

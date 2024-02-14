@@ -1,5 +1,6 @@
 package net.chesstango.evaluation;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 
@@ -8,6 +9,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
  */
 public class DefaultEvaluator implements GameEvaluator {
 
+    @Getter
     private GameEvaluator imp = new EvaluatorSEandImp02();
 
 

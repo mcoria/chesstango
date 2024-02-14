@@ -7,6 +7,9 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Mauricio Coria
  */
@@ -14,7 +17,6 @@ public class MoveSorterBuilder {
     private SmartListenerMediator smartListenerMediator;
     private NodeMoveSorter nodeMoveSorter;
     private DefaultMoveComparator defaultMoveComparator;
-    private ComposedMoveComparator composedMoveComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
@@ -22,7 +24,6 @@ public class MoveSorterBuilder {
     private boolean withQuietFilter;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
-    private boolean withComposedMoveSorter;
 
     public void withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
@@ -40,36 +41,39 @@ public class MoveSorterBuilder {
         this.withDebugSearchTree = true;
     }
 
-    public void withComposedMoveSorter() {
-        this.withComposedMoveSorter = true;
-    }
 
     public MoveSorter build() {
         buildObjects();
 
         setupListenerMediator();
 
-        return createChain();
+
+        MoveSorter moveSorter = nodeMoveSorter;
+        nodeMoveSorter.setMoveComparator(createComparatorChain());
+
+        if (debugSorter != null) {
+            debugSorter.setMoveSorterImp(moveSorter);
+            moveSorter = debugSorter;
+        }
+
+        return moveSorter;
     }
 
     private void buildObjects() {
         nodeMoveSorter = withQuietFilter ? new NodeMoveSorter(move -> !move.isQuiet()) : new NodeMoveSorter();
 
-        if (withComposedMoveSorter) {
-            composedMoveComparator = new ComposedMoveComparator();
-            recaptureMoveComparator = new RecaptureMoveComparator();
+        recaptureMoveComparator = new RecaptureMoveComparator();
 
-            if (withTranspositionTable) {
-                if (withQuietFilter) {
-                    transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
-                    transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
-                } else {
-                    transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
-                    transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
-                }
+        defaultMoveComparator = new DefaultMoveComparator();
+
+        if (withTranspositionTable) {
+            if (withQuietFilter) {
+                transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+                transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+            } else {
+                transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+                transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
             }
-        } else {
-            defaultMoveComparator = new DefaultMoveComparator();
         }
 
         if (withDebugSearchTree) {
@@ -82,10 +86,6 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(nodeMoveSorter);
         }
 
-        if (recaptureMoveComparator != null) {
-            smartListenerMediator.add(recaptureMoveComparator);
-        }
-
         if (transpositionHeadMoveComparator != null) {
             smartListenerMediator.add(transpositionHeadMoveComparator);
         }
@@ -94,33 +94,44 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(transpositionTailMoveComparator);
         }
 
+        if (recaptureMoveComparator != null) {
+            smartListenerMediator.add(recaptureMoveComparator);
+        }
+
         if (debugSorter != null) {
             smartListenerMediator.add(debugSorter);
         }
     }
 
-    private MoveSorter createChain() {
-        MoveSorter result = nodeMoveSorter;
 
-        if (withComposedMoveSorter) {
+    private MoveComparator createComparatorChain() {
+        List<MoveComparator> chain = new LinkedList<>();
 
-            if (withTranspositionTable) {
-                composedMoveComparator.setTranspositionHeadMoveComparator(transpositionHeadMoveComparator);
-                composedMoveComparator.setTranspositionTailMoveComparator(transpositionTailMoveComparator);
+        if (withTranspositionTable) {
+            chain.add(transpositionHeadMoveComparator);
+            chain.add(transpositionTailMoveComparator);
+        }
+
+        chain.add(recaptureMoveComparator);
+
+        chain.add(defaultMoveComparator);
+
+        for (int i = 0; i < chain.size() - 1; i++) {
+            MoveComparator currentComparator = chain.get(i);
+            MoveComparator next = chain.get(i + 1);
+
+            if (currentComparator instanceof TranspositionHeadMoveComparator) {
+                transpositionHeadMoveComparator.setNext(next);
+            } else if (currentComparator instanceof TranspositionTailMoveComparator) {
+                transpositionTailMoveComparator.setNext(next);
+            } else if (currentComparator instanceof RecaptureMoveComparator) {
+                recaptureMoveComparator.setNext(next);
+            } else {
+                throw new RuntimeException("Unknow MoveComparator");
             }
-            composedMoveComparator.setRecaptureMoveComparator(recaptureMoveComparator);
-
-            nodeMoveSorter.setMoveComparator(composedMoveComparator);
-        } else {
-            nodeMoveSorter.setMoveComparator(defaultMoveComparator);
         }
 
-        if (debugSorter != null) {
-            debugSorter.setMoveSorterImp(result);
-            result = debugSorter;
-        }
 
-        return result;
+        return chain.get(0);
     }
-
 }

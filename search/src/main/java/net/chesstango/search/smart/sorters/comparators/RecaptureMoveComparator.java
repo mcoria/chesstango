@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.Piece;
@@ -15,6 +17,9 @@ import java.util.Objects;
  */
 public class RecaptureMoveComparator implements MoveComparator, SearchByCycleListener {
 
+    @Getter
+    @Setter
+    private MoveComparator next;
     private Game game;
     private Move previousMove;
 
@@ -27,14 +32,18 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     public void beforeSort() {
         GameStateReader previousState = this.game.getState().getPreviousState();
         previousMove = previousState.getSelectedMove();
+
+        next.beforeSort();
     }
 
     @Override
     public void afterSort() {
+        next.afterSort();
     }
 
     @Override
     public int compare(Move o1, Move o2) {
+        int result = 0;
         if (Objects.nonNull(previousMove) && !previousMove.isQuiet()) {
             Square previousMoveToSquare = previousMove.getTo().getSquare();
             Square o1ToSquare = o1.getTo().getSquare();
@@ -46,7 +55,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
                     Piece o1Piece = o1.getFrom().getPiece();
                     Piece o2Piece = o2.getFrom().getPiece();
                     if (!o1Piece.equals(o2Piece)) {
-                        return getMovePieceValue(o1Piece) < getMovePieceValue(o2Piece) ? 1 : -1;
+                        result = getMovePieceValue(o1Piece) < getMovePieceValue(o2Piece) ? 1 : -1;
                     }
                 }
             } else {
@@ -58,7 +67,8 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
                 }
             }
         }
-        return 0;
+
+        return result == 0 ? next.compare(o1, o2) : result;
     }
 
 

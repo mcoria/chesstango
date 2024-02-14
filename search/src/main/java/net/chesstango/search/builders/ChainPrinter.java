@@ -1,5 +1,8 @@
 package net.chesstango.search.builders;
 
+import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -16,9 +19,8 @@ import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.ComposedMoveComparator;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
-import net.chesstango.search.smart.sorters.comparators.MoveComparator;
+import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.statistics.GameEvaluatorStatisticsWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -186,7 +188,7 @@ public class ChainPrinter {
     }
 
     private void printChainQuiescence(Quiescence quiescence, int nestedChain) {
-        printChainText(String.format("%s [%s, %s]", objectText(quiescence), objectText(quiescence.getGameEvaluator()), printMoveSorterText(quiescence.getMoveSorter())), nestedChain);
+        printChainText(String.format("%s [%s, %s]", objectText(quiescence), printGameEvaluator(quiescence.getGameEvaluator()), printMoveSorterText(quiescence.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescence.getNext(), nestedChain);
     }
@@ -198,7 +200,7 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBetaTerminal(AlphaBetaEvaluation alphaBetaEvaluation, int nestedChain) {
-        printChainText(String.format("%s [%s]", objectText(alphaBetaEvaluation), objectText(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
+        printChainText(String.format("%s [%s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
         printChainText("", nestedChain);
     }
 
@@ -219,18 +221,41 @@ public class ChainPrinter {
         throw new RuntimeException(String.format("Unknown sorter %s", objectText(moveSorter)));
     }
 
+
+    private String printGameEvaluator(GameEvaluator gameEvaluator) {
+        if (gameEvaluator instanceof GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper) {
+            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsWrapper), printGameEvaluator(gameEvaluatorStatisticsWrapper.getImp()));
+        } else if (gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
+            return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
+        } else if (gameEvaluator instanceof DefaultEvaluator defaultEvaluator) {
+            return String.format("%s -> %s", objectText(defaultEvaluator), printGameEvaluator(defaultEvaluator.getImp()));
+        }
+
+        return objectText(gameEvaluator);
+    }
+
+
     private String printMoveComparatorText(MoveComparator moveComparator) {
         if (moveComparator instanceof DefaultMoveComparator defaultMoveComparator) {
             return String.format("%s", objectText(defaultMoveComparator));
-        } else if (moveComparator instanceof ComposedMoveComparator composedMoveComparator) {
-            return String.format("%s:  %s -> %s -> %s -> %s",
-                    objectText(composedMoveComparator),
-                    objectText(composedMoveComparator.getTranspositionHeadMoveComparator()),
-                    objectText(composedMoveComparator.getTranspositionTailMoveComparator()),
-                    objectText(composedMoveComparator.getRecaptureMoveComparator()),
-                    objectText(composedMoveComparator.getDefaultMoveComparator())
-            );
+
+        } else if (moveComparator instanceof TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(transpositionHeadMoveComparator.getNext()));
+
+        } else if (moveComparator instanceof TranspositionTailMoveComparator transpositionTailMoveComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(transpositionTailMoveComparator.getNext()));
+
+        } else if (moveComparator instanceof RecaptureMoveComparator recaptureMoveComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(recaptureMoveComparator.getNext()));
+
         }
+
         throw new RuntimeException(String.format("Unknown MoveComparator %s", objectText(moveComparator)));
     }
 
