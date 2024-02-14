@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -40,17 +39,15 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
 
-    protected abstract int getDepth(int currentPly);
-
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = getDepth(currentPly);
+        int searchDepth = Math.abs(maxPly - currentPly);
 
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry = maxMap.read(hash);
 
-        if (isTranspositionEntryValid(entry, hash, searchDepth)) {
+        if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
@@ -71,13 +68,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = getDepth(currentPly);
+        int searchDepth = Math.abs(maxPly - currentPly);
 
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry = minMap.read(hash);
 
-        if (isTranspositionEntryValid(entry, hash, searchDepth)) {
+        if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
             int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
