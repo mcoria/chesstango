@@ -1,11 +1,12 @@
 package net.chesstango.search.builders;
 
-
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,57 +14,41 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceLeafChainBuilder {
+public class LeafChainBuilder {
     private final AlphaBetaEvaluation leaf;
     private GameEvaluator gameEvaluator;
-    private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
     private boolean withZobristTracker;
-    private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
 
-
-    public QuiescenceLeafChainBuilder() {
+    public LeafChainBuilder() {
         leaf = new AlphaBetaEvaluation();
     }
 
-    public QuiescenceLeafChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+    public LeafChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
 
 
-    public QuiescenceLeafChainBuilder withZobristTracker() {
+    public LeafChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public QuiescenceLeafChainBuilder withTranspositionTable() {
-        this.withTranspositionTable = true;
-        return this;
-    }
-
-    public QuiescenceLeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+    public LeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
         return this;
     }
 
-    public QuiescenceLeafChainBuilder withDebugSearchTree() {
+    public LeafChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
-
     /**
-     * <p>
-     * <p>
-     * *  QuiescenceStatics -> ZobristTracker -> TranspositionTableQ -> QuiescenceFlowControl -> Quiescence
-     * *            ^                                                                              |
-     * *            |                                                                              |
-     * *            -------------------------------------------------------------------------------
-     *
      * @return
      */
     public AlphaBetaFilter build() {
@@ -81,10 +66,6 @@ public class QuiescenceLeafChainBuilder {
             zobristQTracker = new ZobristTracker();
         }
 
-        if (withTranspositionTable) {
-            transpositionTableQ = new TranspositionTableQ();
-        }
-
         if (withDebugSearchTree) {
             this.debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
             this.debugSearchTree.setGameEvaluator(gameEvaluator);
@@ -94,9 +75,6 @@ public class QuiescenceLeafChainBuilder {
     private void setupListenerMediator() {
         if (zobristQTracker != null) {
             smartListenerMediator.add(zobristQTracker);
-        }
-        if (transpositionTableQ != null) {
-            smartListenerMediator.add(transpositionTableQ);
         }
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
@@ -114,10 +92,6 @@ public class QuiescenceLeafChainBuilder {
             chain.add(zobristQTracker);
         }
 
-        if (transpositionTableQ != null) {
-            chain.add(transpositionTableQ);
-        }
-
         chain.add(leaf);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -126,8 +100,6 @@ public class QuiescenceLeafChainBuilder {
 
             if (currentFilter instanceof ZobristTracker) {
                 zobristQTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableQ) {
-                transpositionTableQ.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {
@@ -136,7 +108,6 @@ public class QuiescenceLeafChainBuilder {
                 throw new RuntimeException("filter not found");
             }
         }
-
 
         return chain.get(0);
     }

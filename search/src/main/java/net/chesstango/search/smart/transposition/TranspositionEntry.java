@@ -29,7 +29,7 @@ public class TranspositionEntry implements Serializable {
         return encode(bestMoveEncoded, value);
     }
 
-    protected static long encode(short bestMoveEncoded, int value) {
+    public static long encode(short bestMoveEncoded, int value) {
         long valueEncodedLng = INTEGER_MASK & value;
 
         long bestMoveEncodedLng = (SHORT_MASK & bestMoveEncoded) << MOVE_SHIFT;
@@ -54,7 +54,7 @@ public class TranspositionEntry implements Serializable {
         transpositionBound = null;
     }
 
-    boolean isStored(long hash) {
+    public boolean isStored(long hash) {
         return this.hash == hash;
     }
 }

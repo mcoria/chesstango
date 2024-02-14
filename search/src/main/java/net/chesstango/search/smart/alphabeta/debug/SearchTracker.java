@@ -69,6 +69,7 @@ public class SearchTracker {
             throw new RuntimeException("Writing TT while sorting");
         } else {
             if (debugNode.entryWrite != null) {
+                // Probablemente a un nodo hijo le falta agregar DebugFilter y el nodo hijo esta sobreescribiendo la entrada
                 throw new RuntimeException("Overriding debugNode.entryWrite");
             }
             debugNode.entryWrite = new DebugNodeTT(hash,

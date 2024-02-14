@@ -17,9 +17,10 @@ import java.util.Objects;
 public class SummaryComparator {
 
     public static void main(String[] args) {
-        SummaryComparator summaryComparator = new SummaryComparator("depth-5-2024-01-21-01-28-v0.0.23");
-        summaryComparator.addSession("depth-5-2024-02-12-14-07-CHT-233");
-		summaryComparator.addSession("depth-5-2024-02-13-09-24-CHT-224");
+        SummaryComparator summaryComparator = new SummaryComparator("depth-5-2024-02-13-09-24-CHT-224");
+        //summaryComparator.addSession("depth-5-2024-02-12-14-07-CHT-233");
+		//summaryComparator.addSession("depth-5-2024-02-13-09-24-CHT-224");
+        summaryComparator.addSession("depth-5-2024-02-13-18-43-CHT-226");
         //
         //
 
@@ -126,5 +127,6 @@ public class SummaryComparator {
         searchSessions.add(sessionID);
     }
 }
+
 
 

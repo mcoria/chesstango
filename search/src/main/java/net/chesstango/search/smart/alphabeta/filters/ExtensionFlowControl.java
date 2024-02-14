@@ -17,6 +17,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
     @Setter
     @Getter
+    private AlphaBetaFilter terminalNode;
+
+    @Setter
+    @Getter
     private AlphaBetaFilter leafNode;
 
     @Setter
@@ -50,6 +54,9 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
+        if (game.getStatus().isFinalStatus()) {
+            return terminalNode.maximize(currentPly, alpha, beta);
+        }
 
         if (checkResolverNode != null) {
             if (game.getState().getRepetitionCounter() > 1) {
@@ -66,7 +73,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
-        if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
+        if (isCurrentPositionQuiet()) {
             return leafNode.maximize(currentPly, alpha, beta);
         }
 
@@ -77,6 +84,10 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     public long minimize(int currentPly, int alpha, int beta) {
         if (!keepProcessing) {
             throw new StopSearchingException();
+        }
+
+        if (game.getStatus().isFinalStatus()) {
+            return terminalNode.minimize(currentPly, alpha, beta);
         }
 
         if (checkResolverNode != null) {
@@ -95,7 +106,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new RuntimeException("No se deberia llegar a esta situacion");
         }
 
-        if (game.getStatus().isFinalStatus() || isCurrentPositionQuiet()) {
+        if (isCurrentPositionQuiet()) {
             return leafNode.minimize(currentPly, alpha, beta);
         }
 

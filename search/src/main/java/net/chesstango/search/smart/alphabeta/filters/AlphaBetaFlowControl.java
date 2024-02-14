@@ -3,16 +3,19 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
 public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, StopSearchingListener {
     private volatile boolean keepProcessing;
+
+    @Setter
+    @Getter
+    private AlphaBetaFilter terminalNode;
 
     @Setter
     @Getter
@@ -24,11 +27,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
     @Setter
     @Getter
-    private AlphaBetaFilter terminalNode;
+    private AlphaBetaFilter loopNode;
 
     @Setter
     @Getter
-    private AlphaBetaFilter loopNode;
+    private AlphaBetaFilter leafNode;
 
     private int maxPly;
     private Game game;
@@ -55,16 +58,20 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.maximize(currentPly, alpha, beta);
-        }
-
         if (game.getStatus().isFinalStatus()) {
             return terminalNode.maximize(currentPly, alpha, beta);
         }
 
+        if (game.getState().getRepetitionCounter() > 1) {
+            return loopNode.maximize(currentPly, alpha, beta);
+        }
+
         if (currentPly == maxPly) {
-            return horizonNode.maximize(currentPly, alpha, beta);
+            if (isCurrentPositionQuiet()) {
+                return leafNode.maximize(currentPly, alpha, beta);
+            } else {
+                return horizonNode.maximize(currentPly, alpha, beta);
+            }
         }
 
         return interiorNode.maximize(currentPly, alpha, beta);
@@ -76,18 +83,27 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.minimize(currentPly, alpha, beta);
-        }
-
         if (game.getStatus().isFinalStatus()) {
             return terminalNode.minimize(currentPly, alpha, beta);
         }
 
+        if (game.getState().getRepetitionCounter() > 1) {
+            return loopNode.minimize(currentPly, alpha, beta);
+        }
+
         if (currentPly == maxPly) {
-            return horizonNode.minimize(currentPly, alpha, beta);
+            if (isCurrentPositionQuiet()) {
+                return leafNode.minimize(currentPly, alpha, beta);
+            } else {
+                return horizonNode.minimize(currentPly, alpha, beta);
+            }
         }
 
         return interiorNode.minimize(currentPly, alpha, beta);
+    }
+
+    private boolean isCurrentPositionQuiet() {
+        MoveContainerReader possibleMoves = game.getPossibleMoves();
+        return possibleMoves.hasQuietMoves();
     }
 }
