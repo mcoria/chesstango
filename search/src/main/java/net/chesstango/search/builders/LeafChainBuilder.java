@@ -4,7 +4,9 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +19,6 @@ public class LeafChainBuilder {
     private GameEvaluator gameEvaluator;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
-    private TranspositionTableAbstract transpositionTable;
     private SmartListenerMediator smartListenerMediator;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
@@ -35,15 +36,6 @@ public class LeafChainBuilder {
     public LeafChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
-    }
-
-    public LeafChainBuilder withTranspositionTable() {
-        this.transpositionTable = new TranspositionTable();
-        return this;
-    }
-
-    public void withQTranspositionTable() {
-        this.transpositionTable = new TranspositionTableQ();
     }
 
     public LeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
@@ -84,9 +76,6 @@ public class LeafChainBuilder {
         if (zobristQTracker != null) {
             smartListenerMediator.add(zobristQTracker);
         }
-        if (transpositionTable != null) {
-            smartListenerMediator.add(transpositionTable);
-        }
         if (debugSearchTree != null) {
             smartListenerMediator.add(debugSearchTree);
         }
@@ -103,10 +92,6 @@ public class LeafChainBuilder {
             chain.add(zobristQTracker);
         }
 
-        if (transpositionTable != null) {
-            chain.add(transpositionTable);
-        }
-
         chain.add(leaf);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -115,8 +100,6 @@ public class LeafChainBuilder {
 
             if (currentFilter instanceof ZobristTracker) {
                 zobristQTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableAbstract) {
-                transpositionTable.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugSearchTree.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {

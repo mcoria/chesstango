@@ -91,25 +91,25 @@ public class DetectCycleEnabledTest {
                 .search(game);
 
         assertNotNull(searchResult);
-        assertEquals(2, searchResult.getBestEvaluation());
+        assertEquals(3, searchResult.getBestEvaluation());
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        //debug(visitedNodesTotal, visitedNodesCounters);
+        debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(3, visitedNodesCounters[0]);
-        assertEquals(8, visitedNodesCounters[1]);
-        assertEquals(28, visitedNodesCounters[2]);
-        assertEquals(60, visitedNodesCounters[3]);
-        assertEquals(81, visitedNodesCounters[4]);
-        assertEquals(86, visitedNodesCounters[5]);
-        assertEquals(74, visitedNodesCounters[6]);
-        assertEquals(80, visitedNodesCounters[7]);
-        assertEquals(64, visitedNodesCounters[8]);
+        assertEquals(5, visitedNodesCounters[1]);
+        assertEquals(15, visitedNodesCounters[2]);
+        assertEquals(19, visitedNodesCounters[3]);
+        assertEquals(35, visitedNodesCounters[4]);
+        assertEquals(45, visitedNodesCounters[5]);
+        assertEquals(53, visitedNodesCounters[6]);
+        assertEquals(79, visitedNodesCounters[7]);
+        assertEquals(54, visitedNodesCounters[8]);
         assertEquals(0, visitedNodesCounters[9]);
 
-        assertEquals(484, visitedNodesTotal);
+        assertEquals(308, visitedNodesTotal);
     }
 
 

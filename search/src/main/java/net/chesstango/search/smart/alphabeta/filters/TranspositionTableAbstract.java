@@ -61,6 +61,10 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
+        /**
+         * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
+         */
+
         writeTransposition(maxMap, hash, searchDepth, alpha, beta, moveAndValue);
 
         return moveAndValue;
@@ -87,6 +91,10 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
         }
 
         long moveAndValue = next.minimize(currentPly, alpha, beta);
+
+        /**
+         * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
+         */
 
         writeTransposition(minMap, hash, searchDepth, alpha, beta, moveAndValue);
 

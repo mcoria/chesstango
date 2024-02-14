@@ -15,7 +15,6 @@ import java.util.List;
 public class TerminalChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private GameEvaluator gameEvaluator;
-    private TranspositionTableAbstract transpositionTable;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private SmartListenerMediator smartListenerMediator;
@@ -35,16 +34,6 @@ public class TerminalChainBuilder {
 
     public TerminalChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
-        return this;
-    }
-
-    public TerminalChainBuilder withTranspositionTable() {
-        transpositionTable = new TranspositionTable();
-        return this;
-    }
-
-    public TerminalChainBuilder withQTranspositionTable() {
-        transpositionTable = new TranspositionTableQ();
         return this;
     }
 
@@ -87,9 +76,6 @@ public class TerminalChainBuilder {
         if (zobristTracker != null) {
             smartListenerMediator.add(zobristTracker);
         }
-        if (transpositionTable != null) {
-            smartListenerMediator.add(transpositionTable);
-        }
         if (debugFilter != null) {
             smartListenerMediator.add(debugFilter);
         }
@@ -106,10 +92,6 @@ public class TerminalChainBuilder {
             chain.add(zobristTracker);
         }
 
-        if (transpositionTable != null) {
-            chain.add(transpositionTable);
-        }
-
         chain.add(alphaBetaEvaluation);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -118,8 +100,6 @@ public class TerminalChainBuilder {
 
             if (currentFilter instanceof ZobristTracker) {
                 zobristTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableAbstract) {
-                transpositionTable.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {

@@ -140,9 +140,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         withTranspositionTable = true;
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
-        terminalChainBuilder.withTranspositionTable();
         alphaBetaHorizonChainBuilder.withTranspositionTable();
-        leafChainBuilder.withTranspositionTable();
         return this;
     }
 
@@ -160,9 +158,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
         withQTranspositionTable = true;
         quiescenceChainBuilder.withTranspositionTable();
-        quiescenceLeafChainBuilder.withQTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
-        quiescenceTerminalChainBuilder.withQTranspositionTable();
         return this;
     }
 
