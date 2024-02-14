@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.nodes.NodesReport;
+import net.chesstango.search.smart.statistics.GameEvaluatorStatisticsWrapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,7 +108,8 @@ public class TranspositionEntryTableTest {
 
 
     private SearchMove createSearchWithoutTT() {
-        EvaluatorStatistics gameEvaluator = new EvaluatorStatistics(new EvaluatorSEandImp02());
+        GameEvaluatorStatisticsWrapper gameEvaluator = new GameEvaluatorStatisticsWrapper()
+                .setImp(new EvaluatorSEandImp02());
 
         return new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
@@ -115,7 +117,8 @@ public class TranspositionEntryTableTest {
     }
 
     private SearchMove createSearchWithTT() {
-        EvaluatorStatistics gameEvaluator = new EvaluatorStatistics(new EvaluatorSEandImp02());
+        GameEvaluatorStatisticsWrapper gameEvaluator = new GameEvaluatorStatisticsWrapper()
+                .setImp(new EvaluatorSEandImp02());
 
         return new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)

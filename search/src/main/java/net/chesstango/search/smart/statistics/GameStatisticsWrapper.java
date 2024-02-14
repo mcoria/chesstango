@@ -10,14 +10,14 @@ import net.chesstango.board.position.ChessPositionReader;
 /**
  * @author Mauricio Coria
  */
-public class GameStatistics implements Game {
+public class GameStatisticsWrapper implements Game {
     private Game imp;
 
     @Setter
     @Getter
     private int executedMoves;
 
-    public GameStatistics(Game imp) {
+    public GameStatisticsWrapper(Game imp) {
         this.imp = imp;
     }
 

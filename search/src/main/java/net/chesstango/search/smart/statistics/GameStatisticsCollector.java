@@ -9,12 +9,12 @@ import net.chesstango.search.smart.SearchByDepthListener;
 /**
  * @author Mauricio Coria
  */
-public class GameStatisticsByCycleListener implements SearchByCycleListener, SearchByDepthListener {
-    private GameStatistics gameStatistic;
+public class GameStatisticsCollector implements SearchByCycleListener, SearchByDepthListener {
+    private GameStatisticsWrapper gameStatistic;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        gameStatistic = (GameStatistics) context.getGame();
+        gameStatistic = (GameStatisticsWrapper) context.getGame();
         gameStatistic.setExecutedMoves(0);
     }
 

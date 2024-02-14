@@ -14,11 +14,11 @@ import net.chesstango.search.smart.alphabeta.debug.SetDebugSearch;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.EvaluatorStatistics;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.statistics.GameStatistics;
-import net.chesstango.search.smart.statistics.GameStatisticsByCycleListener;
+import net.chesstango.search.smart.statistics.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.statistics.GameStatisticsCollector;
+import net.chesstango.search.smart.statistics.GameStatisticsWrapper;
 
 /**
  * @author Mauricio Corias
@@ -43,12 +43,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
+    private GameEvaluatorCache gameEvaluatorCache;
+    private GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
+
     private SetTranspositionTables setTranspositionTables;
     private SetDebugTranspositionTables setDebugTranspositionTables;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
-    private GameStatisticsByCycleListener gameStatisticsListener;
+    private GameStatisticsCollector gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugSearch setDebugSearch;
@@ -167,7 +170,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
         quiescenceChainBuilder.withTranspositionMoveSorter();
-        //checkResolverChainBuilder.withTranspositionMoveSorter();
         return this;
     }
 
@@ -283,7 +285,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveGameWrapper(searchMove, GameStatistics::new);
+            searchMove = new SearchMoveGameWrapper(searchMove, GameStatisticsWrapper::new);
         }
 
         if (withPrintChain) {
@@ -295,12 +297,20 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluator = new GameEvaluatorCache(gameEvaluator);
+            gameEvaluatorCache = new GameEvaluatorCache(gameEvaluator);
+
+            gameEvaluator = gameEvaluatorCache;
         }
 
         if (withStatistics) {
-            gameEvaluator = new EvaluatorStatistics(gameEvaluator).setTrackEvaluations(withTrackEvaluations);
-            gameStatisticsListener = new GameStatisticsByCycleListener();
+            gameEvaluatorStatisticsWrapper = new GameEvaluatorStatisticsWrapper()
+                    .setImp(gameEvaluator)
+                    .setGameEvaluatorCache(gameEvaluatorCache)
+                    .setTrackEvaluations(withTrackEvaluations);
+
+            gameEvaluator = gameEvaluatorStatisticsWrapper;
+
+            gameStatisticsListener = new GameStatisticsCollector();
         }
 
         if (withTranspositionTable) {
@@ -365,8 +375,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(gameStatisticsListener);
         }
 
-        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
-            smartListenerMediator.add(evaluatorStatistics);
+        if (gameEvaluatorStatisticsWrapper != null) {
+            smartListenerMediator.add(gameEvaluatorStatisticsWrapper);
         }
 
         if (setDebugSearch != null) {
