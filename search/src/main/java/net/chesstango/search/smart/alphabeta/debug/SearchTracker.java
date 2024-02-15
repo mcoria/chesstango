@@ -42,24 +42,25 @@ public class SearchTracker {
     public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
             if (sorting) {
-                debugNode.sorterReads.add(new DebugNodeTT(hashRequested,
-                        tableName,
-                        entry.hash,
-                        entry.searchDepth,
-                        entry.movesAndValue,
-                        entry.transpositionBound
-                ));
+                debugNode.sorterReads.add(new DebugNodeTT()
+                        .setHash_requested(hashRequested)
+                        .setTableName(tableName)
+                        .setHash(entry.hash)
+                        .setDepth(entry.searchDepth)
+                        .setMovesAndValue(entry.movesAndValue)
+                        .setBound(entry.transpositionBound)
+                );
             } else {
                 if (debugNode.entryRead != null) {
                     throw new RuntimeException("Overriding debugNode.entryRead");
                 }
-                debugNode.entryRead = new DebugNodeTT(hashRequested,
-                        tableName,
-                        entry.hash,
-                        entry.searchDepth,
-                        entry.movesAndValue,
-                        entry.transpositionBound
-                );
+                debugNode.entryRead = new DebugNodeTT()
+                        .setHash_requested(hashRequested)
+                        .setTableName(tableName)
+                        .setHash(entry.hash)
+                        .setDepth(entry.searchDepth)
+                        .setMovesAndValue(entry.movesAndValue)
+                        .setBound(entry.transpositionBound);
             }
         }
     }
@@ -72,13 +73,13 @@ public class SearchTracker {
                 // Probablemente a un nodo hijo le falta agregar DebugFilter y el nodo hijo esta sobreescribiendo la entrada
                 throw new RuntimeException("Overriding debugNode.entryWrite");
             }
-            debugNode.entryWrite = new DebugNodeTT(hash,
-                    tableName,
-                    hash,
-                    searchDepth,
-                    movesAndValue,
-                    transpositionBound
-            );
+            debugNode.entryWrite = new DebugNodeTT()
+                    .setHash_requested(hash)
+                    .setTableName(tableName)
+                    .setHash(hash)
+                    .setDepth(searchDepth)
+                    .setMovesAndValue(movesAndValue)
+                    .setBound(transpositionBound);
         }
     }
 
