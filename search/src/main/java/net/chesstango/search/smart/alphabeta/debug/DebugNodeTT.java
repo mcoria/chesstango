@@ -26,5 +26,5 @@ public class DebugNodeTT {
     /**
      * En caso de sorting cual es el movimiento por el cual llegamos a esta entrada
      */
-    private Move move;
+    private String move;
 }

@@ -3,6 +3,8 @@ package net.chesstango.search.smart.alphabeta.debug;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -42,14 +44,14 @@ public class SearchTracker {
     public void trackReadTranspositionEntry(DebugNodeTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
             if (sorting) {
-                debugNode.sorterReads.add(new DebugNodeTT()
-                        .setHashRequested(hashRequested)
-                        .setTableType(tableType)
-                        .setHash(entry.hash)
-                        .setDepth(entry.searchDepth)
-                        .setMovesAndValue(entry.movesAndValue)
-                        .setBound(entry.transpositionBound)
-                );
+                debugNode.sorterReads.computeIfAbsent(hashRequested, key ->
+                        new DebugNodeTT()
+                                .setHashRequested(hashRequested)
+                                .setTableType(tableType)
+                                .setHash(entry.hash)
+                                .setDepth(entry.searchDepth)
+                                .setMovesAndValue(entry.movesAndValue)
+                                .setBound(entry.transpositionBound));
             } else {
                 if (debugNode.entryRead != null) {
                     throw new RuntimeException("Overriding debugNode.entryRead");
@@ -83,7 +85,7 @@ public class SearchTracker {
         }
     }
 
-    public void trackSortedMoves(String sortedMovesStr) {
+    public void trackSortedMoves(List<String> sortedMovesStr) {
         if (debugNode != null) {
             debugNode.sortedMovesStr = sortedMovesStr;
         }
@@ -107,5 +109,9 @@ public class SearchTracker {
             throw new RuntimeException("Still searching?");
         }
         return debugNode;
+    }
+
+    public Map<Long, DebugNodeTT> getSorterReads() {
+        return debugNode.sorterReads;
     }
 }

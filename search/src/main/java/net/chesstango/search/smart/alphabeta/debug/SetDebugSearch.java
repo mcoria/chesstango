@@ -10,10 +10,9 @@ import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HexFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -130,21 +129,31 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         if (showNodeSorterTranspositionAccess) {
             if (!currentNode.sorterReads.isEmpty()) {
                 debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(currentNode.ply));
-                for (DebugNodeTT ttOperation :
-                        currentNode.sorterReads) {
 
-                    int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
 
-                    debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
-                            ">\t".repeat(currentNode.ply),
-                            ttOperation.getTableType(),
-                            ttOperation.getBound(),
-                            hexFormat.formatHex(longToByte(ttOperation.getHash())),
-                            ttOperation.getDepth(),
-                            ttValue);
+                Map<String, DebugNodeTT> moveStrToDebugTTMap = currentNode.
+                        sorterReads.values()
+                        .stream()
+                        .collect(Collectors.toMap(DebugNodeTT::getMove, Function.identity()));
 
-                    debugOut.print("\n");
-                }
+                currentNode.getSortedMovesStr().forEach(moveStr -> {
+                    DebugNodeTT ttOperation = moveStrToDebugTTMap.get(moveStr);
+
+                    if (ttOperation != null) {
+                        int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
+                        debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
+                                ">\t".repeat(currentNode.ply),
+                                ttOperation.getTableType(),
+                                ttOperation.getBound(),
+                                hexFormat.formatHex(longToByte(ttOperation.getHash())),
+                                ttOperation.getDepth(),
+                                ttValue,
+                                ttOperation.getMove());
+
+                        debugOut.print("\n");
+                    }
+                });
+
             }
         }
 

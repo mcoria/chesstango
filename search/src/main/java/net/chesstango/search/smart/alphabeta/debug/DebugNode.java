@@ -3,9 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -40,7 +38,7 @@ public class DebugNode {
 
     int beta;
 
-    String sortedMovesStr;
+    List<String> sortedMovesStr;
 
     int value;
 
@@ -48,7 +46,7 @@ public class DebugNode {
 
     List<DebugNode> childNodes = new LinkedList<>();
 
-    List<DebugNodeTT> sorterReads = new LinkedList<>();
+    Map<Long, DebugNodeTT> sorterReads = new HashMap<>();
 
     DebugNodeTT entryRead;
 

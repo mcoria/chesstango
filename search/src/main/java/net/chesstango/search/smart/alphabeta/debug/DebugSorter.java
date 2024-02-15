@@ -2,11 +2,17 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -19,6 +25,7 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     private MoveSorter moveSorterImp;
 
     private SearchTracker searchTracker;
+    private Game game;
 
     @Override
     public Iterable<Move> getOrderedMoves() {
@@ -27,9 +34,9 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
 
         Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves();
 
-        String sortedMovesStr = getMoveListAsString(sortedMoves);
+        searchTracker.trackSortedMoves(convertMoveListToStringList(sortedMoves));
 
-        searchTracker.trackSortedMoves(sortedMovesStr);
+        trackComparatorsReads(sortedMoves);
 
         searchTracker.sortingOFF();
 
@@ -38,16 +45,40 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
+        game = context.getGame();
         searchTracker = context.getSearchTracker();
     }
 
 
-    private String getMoveListAsString(Iterable<Move> moves) {
-        StringBuilder sb = new StringBuilder();
+    private List<String> convertMoveListToStringList(Iterable<Move> moves) {
+        List<String> sortedMovesStr = new ArrayList<>();
         for (Move move : moves) {
-            sb.append(simpleMoveEncoder.encode(move));
-            sb.append(" ");
+            sortedMovesStr.add(simpleMoveEncoder.encode(move));
         }
-        return sb.toString();
+        return sortedMovesStr;
+    }
+
+    public void trackComparatorsReads(Iterable<Move> moves) {
+        Map<Long, DebugNodeTT> sorterReads = searchTracker.getSorterReads();
+
+        final long positionHash = game.getChessPosition().getZobristHash();
+        final DebugNodeTT positionEntry = sorterReads.get(positionHash);
+        short bestMoveEncoded = 0;
+        if (positionEntry != null) {
+            bestMoveEncoded = TranspositionEntry.decodeBestMove(positionEntry.getMovesAndValue());
+        }
+
+        for (Move move : moves) {
+            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+
+            if (bestMoveEncoded == move.binaryEncoding() && positionEntry != null) {
+                positionEntry.setMove(simpleMoveEncoder.encode(move));
+            } else {
+                DebugNodeTT moveEntry = sorterReads.get(zobristHashMove);
+                if (moveEntry != null) {
+                    moveEntry.setMove(simpleMoveEncoder.encode(move));
+                }
+            }
+        }
     }
 }
