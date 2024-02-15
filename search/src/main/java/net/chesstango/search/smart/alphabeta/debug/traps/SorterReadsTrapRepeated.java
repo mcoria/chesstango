@@ -20,11 +20,11 @@ import java.util.Map;
 public class SorterReadsTrapRepeated implements DebugNodeTrap {
     @Override
     public boolean test(DebugNode debugNode) {
-        Map<Long, DebugNodeTT> sorterReads = debugNode.getSorterReads();
+        List<DebugNodeTT> sorterReads = debugNode.getSorterReads();
 
         Map<Integer, List<DebugNodeTT>> valueToDebugNodeTTMap = new HashMap<>();
 
-        sorterReads.values().forEach(debugNodeTT -> {
+        sorterReads.forEach(debugNodeTT -> {
             int ttValue = TranspositionEntry.decodeValue(debugNodeTT.getMovesAndValue());
             List<DebugNodeTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);

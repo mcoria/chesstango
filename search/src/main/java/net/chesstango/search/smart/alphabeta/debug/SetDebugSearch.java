@@ -11,8 +11,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -122,24 +120,25 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         dumpNodeHeader(currentNode);
 
 
-        if (currentNode.sortedMovesStr != null) {
-            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMovesStr);
+        if (currentNode.sortedMoves != null) {
+            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMoves);
         }
 
         if (showNodeSorterTranspositionAccess) {
-            if (!currentNode.sorterReads.isEmpty()) {
-                debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(currentNode.ply));
+            List<DebugNodeTT> sortedReads = currentNode.getSorterReads();
+            List<String> sortedMoves = currentNode.getSortedMoves();
+            if (!sortedReads.isEmpty()) {
+                debugOut.printf("%s Sorter Reads: transpositions=%d \n", ">\t".repeat(currentNode.ply), sortedReads.size());
 
+                sortedMoves.forEach(moveStr -> {
 
-                Map<String, DebugNodeTT> moveStrToDebugTTMap = currentNode.
-                        sorterReads.values()
-                        .stream()
-                        .collect(Collectors.toMap(DebugNodeTT::getMove, Function.identity()));
+                    Optional<DebugNodeTT> ttOperationOpt = sortedReads
+                            .stream()
+                            .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                            .findAny();
 
-                currentNode.getSortedMovesStr().forEach(moveStr -> {
-                    DebugNodeTT ttOperation = moveStrToDebugTTMap.get(moveStr);
-
-                    if (ttOperation != null) {
+                    if (ttOperationOpt.isPresent()) {
+                        DebugNodeTT ttOperation = ttOperationOpt.get();
                         int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
                         debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
                                 ">\t".repeat(currentNode.ply),
@@ -148,12 +147,27 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                                 hexFormat.formatHex(longToByte(ttOperation.getHash())),
                                 ttOperation.getDepth(),
                                 ttValue,
-                                ttOperation.getMove());
+                                moveStr);
 
                         debugOut.print("\n");
                     }
+
                 });
 
+                sortedReads
+                        .stream()
+                        .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                        .forEach(ttOperation -> {
+                            int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
+                            debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] NULL",
+                                    ">\t".repeat(currentNode.ply),
+                                    ttOperation.getTableType(),
+                                    ttOperation.getBound(),
+                                    hexFormat.formatHex(longToByte(ttOperation.getHash())),
+                                    ttOperation.getDepth(),
+                                    ttValue);
+                            debugOut.print("\n");
+                        });
             }
         }
 

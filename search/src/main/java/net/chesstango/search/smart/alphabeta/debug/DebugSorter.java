@@ -12,7 +12,6 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -59,26 +58,23 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     }
 
     public void trackComparatorsReads(Iterable<Move> moves) {
-        Map<Long, DebugNodeTT> sorterReads = searchTracker.getSorterReads();
+        List<DebugNodeTT> sorterReads = searchTracker.getSorterReads();
 
         final long positionHash = game.getChessPosition().getZobristHash();
-        final DebugNodeTT positionEntry = sorterReads.get(positionHash);
-        short bestMoveEncoded = 0;
-        if (positionEntry != null) {
-            bestMoveEncoded = TranspositionEntry.decodeBestMove(positionEntry.getMovesAndValue());
-        }
 
         for (Move move : moves) {
             final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final String moveStr = simpleMoveEncoder.encode(move);
+            final short moveEncoded = move.binaryEncoding();
 
-            if (bestMoveEncoded == move.binaryEncoding() && positionEntry != null) {
-                positionEntry.setMove(simpleMoveEncoder.encode(move));
-            } else {
-                DebugNodeTT moveEntry = sorterReads.get(zobristHashMove);
-                if (moveEntry != null) {
-                    moveEntry.setMove(simpleMoveEncoder.encode(move));
-                }
-            }
+            sorterReads.stream()
+                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getHashRequested())
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+            sorterReads.stream()
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
+                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
         }
     }
 }
