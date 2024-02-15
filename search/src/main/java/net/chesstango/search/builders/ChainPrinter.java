@@ -249,6 +249,11 @@ public class ChainPrinter {
                     objectText(moveComparator),
                     printMoveComparatorText(transpositionTailMoveComparator.getNext()));
 
+        } else if (moveComparator instanceof GameEvaluatorComparator gameEvaluatorComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(gameEvaluatorComparator.getNext()));
+
         } else if (moveComparator instanceof RecaptureMoveComparator recaptureMoveComparator) {
             return String.format("%s -> %s",
                     objectText(moveComparator),

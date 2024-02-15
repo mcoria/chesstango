@@ -2,7 +2,6 @@ package net.chesstango.evaluation;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameVisitor;
 
 /**
  * No se observan ganancias significativas cuando TT está habilitado y existe riesgo de colision
@@ -56,6 +55,14 @@ public class GameEvaluatorCache implements GameEvaluator {
 
     public void resetCacheHitsCounter() {
         cacheHitsCounter = 0;
+    }
+
+    public Integer readFromCache(long hash) {
+        int idx = (int) Math.abs(hash % ARRAY_SIZE);
+
+        GameEvaluatorCacheEntry entry = cache[idx];
+
+        return entry.hash == hash ? entry.evaluation : null;
     }
 
     private static class GameEvaluatorCacheEntry {

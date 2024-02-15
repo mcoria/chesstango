@@ -1,5 +1,6 @@
 package net.chesstango.search.builders;
 
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
@@ -21,24 +22,35 @@ public class MoveSorterBuilder {
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private DebugSorter debugSorter;
+    private GameEvaluatorCache gameEvaluatorCache;
+    private GameEvaluatorComparator gameEvaluatorComparator;
     private boolean withQuietFilter;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
 
-    public void withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+    public MoveSorterBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
+        return this;
     }
 
-    public void withMoveQuietFilter() {
+    public MoveSorterBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+        this.gameEvaluatorCache = gameEvaluatorCache;
+        return this;
+    }
+
+    public MoveSorterBuilder withMoveQuietFilter() {
         this.withQuietFilter = true;
+        return this;
     }
 
-    public void withTranspositionTable() {
+    public MoveSorterBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
+        return this;
     }
 
-    public void withDebugSearchTree() {
+    public MoveSorterBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        return this;
     }
 
 
@@ -76,6 +88,11 @@ public class MoveSorterBuilder {
             }
         }
 
+        if (gameEvaluatorCache != null) {
+            gameEvaluatorComparator = new GameEvaluatorComparator();
+            gameEvaluatorComparator.setGameEvaluatorCache(gameEvaluatorCache);
+        }
+
         if (withDebugSearchTree) {
             debugSorter = new DebugSorter();
         }
@@ -98,6 +115,10 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(recaptureMoveComparator);
         }
 
+        if (gameEvaluatorComparator != null) {
+            smartListenerMediator.add(gameEvaluatorComparator);
+        }
+
         if (debugSorter != null) {
             smartListenerMediator.add(debugSorter);
         }
@@ -114,6 +135,10 @@ public class MoveSorterBuilder {
 
         chain.add(recaptureMoveComparator);
 
+        if (gameEvaluatorComparator != null) {
+            chain.add(gameEvaluatorComparator);
+        }
+
         chain.add(defaultMoveComparator);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -126,6 +151,8 @@ public class MoveSorterBuilder {
                 transpositionTailMoveComparator.setNext(next);
             } else if (currentComparator instanceof RecaptureMoveComparator) {
                 recaptureMoveComparator.setNext(next);
+            } else if (currentComparator instanceof GameEvaluatorComparator) {
+                gameEvaluatorComparator.setNext(next);
             } else {
                 throw new RuntimeException("Unknow MoveComparator");
             }

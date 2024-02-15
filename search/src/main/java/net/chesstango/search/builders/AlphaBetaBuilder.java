@@ -414,6 +414,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         AlphaBetaFilter interiorChain = alphaBetaInteriorChainBuilder.build();
 
         loopChainBuilder.withSmartListenerMediator(smartListenerMediator);
@@ -440,6 +441,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withQuiescence) {
             quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
             quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
             quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
             quiescenceChain = quiescenceChainBuilder.build();
 

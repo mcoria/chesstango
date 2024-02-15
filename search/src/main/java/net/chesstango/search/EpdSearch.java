@@ -5,13 +5,11 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.move.SANEncoder;
-import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -127,7 +125,7 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-		String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
 
         boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
@@ -137,8 +135,8 @@ public class EpdSearch {
 
     private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
-                //.withGameEvaluatorCache()
+                .withGameEvaluator(new EvaluatorSEandImp02())
+                .withGameEvaluatorCache()
 
                 .withQuiescence()
 

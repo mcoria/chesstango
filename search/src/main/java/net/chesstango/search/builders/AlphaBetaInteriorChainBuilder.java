@@ -1,6 +1,7 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
@@ -76,6 +77,11 @@ public class AlphaBetaInteriorChainBuilder {
     public AlphaBetaInteriorChainBuilder withDebugSearchTree() {
         moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
+        return this;
+    }
+
+    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+        moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         return this;
     }
 
