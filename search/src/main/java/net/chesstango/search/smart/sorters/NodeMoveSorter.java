@@ -10,7 +10,9 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.comparators.MoveComparator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -44,9 +46,10 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
             }
         }
 
-        moveComparator.beforeSort();
+        Map<Short, Long> moveToZobrist = new HashMap<>();
+        moveComparator.beforeSort(moveToZobrist);
         moveList.sort(moveComparator.reversed());
-        moveComparator.afterSort();
+        moveComparator.afterSort(moveToZobrist);
 
         return moveList;
     }

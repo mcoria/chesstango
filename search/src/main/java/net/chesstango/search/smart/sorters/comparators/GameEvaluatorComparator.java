@@ -10,10 +10,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Mauricio Coria
@@ -29,7 +26,7 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     private GameEvaluatorCache gameEvaluatorCache;
 
     private Game game;
-    private Map<Short, Optional<Integer>> moveToEvaluation;
+    private Map<Short, Long> moveToZobrist;
     private Color currentTurn;
 
     @Override
@@ -39,46 +36,46 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort() {
-        moveToEvaluation = new HashMap<>();
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
+        this.moveToZobrist = moveToZobrist;
 
-        currentTurn = game.getChessPosition().getCurrentTurn();
+        this.currentTurn = game.getChessPosition().getCurrentTurn();
 
-        next.beforeSort();
+        next.beforeSort(moveToZobrist);
     }
 
     @Override
-    public void afterSort() {
-        next.afterSort();
+    public void afterSort(Map<Short, Long> moveToZobrist) {
+        next.afterSort(moveToZobrist);
     }
 
     @Override
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final Optional<Integer> moveEntry1 = getTranspositionEntry(o1);
-        final Optional<Integer> moveEntry2 = getTranspositionEntry(o2);
+        final Integer moveEvaluation1 = getTranspositionEntry(o1);
+        final Integer moveEvaluation2 = getTranspositionEntry(o2);
 
-        if (moveEntry1.isPresent() && moveEntry2.isPresent()) {
-            int evaluation1 = TranspositionEntry.decodeValue(moveEntry1.get());
-            int evaluation2 = TranspositionEntry.decodeValue(moveEntry2.get());
+        if (moveEvaluation1 != null && moveEvaluation2 != null) {
+            int evaluation1 = TranspositionEntry.decodeValue(moveEvaluation1);
+            int evaluation2 = TranspositionEntry.decodeValue(moveEvaluation2);
             result = Color.WHITE.equals(currentTurn) ? Integer.compare(evaluation1, evaluation2) : Integer.compare(evaluation2, evaluation1);
-        } else if (moveEntry1.isPresent()) {
+        } else if (moveEvaluation1 != null) {
             return 1;
-        } else if (moveEntry2.isPresent()) {
+        } else if (moveEvaluation2 != null) {
             return -1;
         }
 
         return result == 0 ? next.compare(o1, o2) : result;
     }
 
-    private Optional<Integer> getTranspositionEntry(Move move) {
-        final short key = move.binaryEncoding();
-        return moveToEvaluation.computeIfAbsent(key, k -> {
-            long zobristHashMove = game.getChessPosition().getZobristHash(move);
-            Integer evaluation = gameEvaluatorCache.readFromCache(zobristHashMove);
-            return Objects.nonNull(evaluation) ? Optional.of(evaluation) : Optional.empty();
-        });
+    private Integer getTranspositionEntry(Move move) {
+
+        final short moveEncoded = move.binaryEncoding();
+
+        final long zobristHashMove = moveToZobrist.computeIfAbsent(moveEncoded, k -> game.getChessPosition().getZobristHash(move));
+
+        return gameEvaluatorCache.readFromCache(zobristHashMove);
     }
 
 }

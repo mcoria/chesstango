@@ -10,6 +10,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -27,7 +28,6 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     private Game game;
     private TTable maxMap;
     private TTable minMap;
-
     private short bestMoveEncoded;
 
     public TranspositionHeadMoveComparator(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
@@ -43,7 +43,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void beforeSort() {
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long hash = game.getChessPosition().getZobristHash();
@@ -57,12 +57,12 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
             bestMoveEncoded = 0;
         }
 
-        next.beforeSort();
+        next.beforeSort(moveToZobrist);
     }
 
     @Override
-    public void afterSort() {
-        next.afterSort();
+    public void afterSort(Map<Short, Long> moveToZobrist) {
+        next.afterSort(moveToZobrist);
     }
 
 

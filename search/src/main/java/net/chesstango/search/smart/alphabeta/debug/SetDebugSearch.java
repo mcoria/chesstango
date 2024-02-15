@@ -20,7 +20,8 @@ import java.util.Objects;
  */
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
-    private final boolean showTranspositionAccess;
+    private final boolean showNodeTranspositionAccess;
+    private final boolean showNodeSorterTranspositionAccess;
     private final boolean withAspirationWindows;
     private final DebugNodeTrap debugNodeTrap;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
@@ -32,11 +33,12 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     private SearchTracker searchTracker;
     private List<String> debugErrorMessages;
 
-    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showTranspositionAccess) {
+    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showNodeSorterTranspositionAccess) {
         this.withAspirationWindows = withAspirationWindows;
         this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
-        this.showTranspositionAccess = showTranspositionAccess;
+        this.showNodeTranspositionAccess = showNodeTranspositionAccess;
+        this.showNodeSorterTranspositionAccess = showNodeSorterTranspositionAccess;
     }
 
     @Override
@@ -125,7 +127,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMovesStr);
         }
 
-        if (showTranspositionAccess) {
+        if (showNodeSorterTranspositionAccess) {
             if (!currentNode.sorterReads.isEmpty()) {
                 debugOut.printf("%s Sorter Reads:\n", ">\t".repeat(currentNode.ply));
                 for (DebugNodeTT ttOperation :
@@ -190,7 +192,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         debugOut.print("\n");
 
-        if (showTranspositionAccess) {
+        if (showNodeTranspositionAccess) {
             if (currentNode.entryRead != null) {
                 int ttValue = TranspositionEntry.decodeValue(currentNode.entryRead.movesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",

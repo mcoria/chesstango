@@ -71,7 +71,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withPrintChain;
     private boolean withDebugSearchTree;
     private boolean showOnlyPV;
-    private boolean showTranspositionAccess;
+    private boolean showNodeTranspositionAccess;
+    private boolean showNodeSorterTranspositionAccess;
     private boolean withAspirationWindows;
 
     public AlphaBetaBuilder() {
@@ -233,7 +234,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showTranspositionAccess) {
+    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showNodeSorterTranspositionAccess) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
@@ -250,7 +251,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         this.withDebugSearchTree = true;
         this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
-        this.showTranspositionAccess = showTranspositionAccess;
+        this.showNodeTranspositionAccess = showNodeTranspositionAccess;
+        this.showNodeSorterTranspositionAccess = showNodeSorterTranspositionAccess;
         return this;
     }
 
@@ -335,7 +337,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showTranspositionAccess);
+            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showNodeSorterTranspositionAccess);
         }
 
     }

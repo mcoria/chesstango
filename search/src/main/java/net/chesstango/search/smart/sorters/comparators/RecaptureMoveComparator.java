@@ -10,6 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,16 +30,16 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort() {
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
         GameStateReader previousState = this.game.getState().getPreviousState();
         previousMove = previousState.getSelectedMove();
 
-        next.beforeSort();
+        next.beforeSort(moveToZobrist);
     }
 
     @Override
-    public void afterSort() {
-        next.afterSort();
+    public void afterSort(Map<Short, Long> moveToZobrist) {
+        next.afterSort(moveToZobrist);
     }
 
     @Override
