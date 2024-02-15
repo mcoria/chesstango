@@ -171,7 +171,7 @@ public class ChainPrinter {
     }
 
     private void printChainDebugTree(DebugFilter debugFilter, int nestedChain) {
-        printNodeObjectText(debugFilter, nestedChain);
+        printChainText(String.format("%s", objectText(debugFilter)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(debugFilter.getNext(), nestedChain);
     }

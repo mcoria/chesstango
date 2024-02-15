@@ -130,7 +130,6 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            debugFilter.setGameEvaluator(gameEvaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();

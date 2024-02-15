@@ -68,7 +68,6 @@ public class TerminalChainBuilder {
 
         if (withDebugSearchTree) {
             this.debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
-            this.debugFilter.setGameEvaluator(gameEvaluator);
         }
     }
 

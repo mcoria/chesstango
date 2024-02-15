@@ -111,7 +111,6 @@ public class CheckResolverChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
-            debugFilter.setGameEvaluator(gameEvaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();

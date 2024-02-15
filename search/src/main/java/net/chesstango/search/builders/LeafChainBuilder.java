@@ -68,8 +68,7 @@ public class LeafChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
-            this.debugSearchTree.setGameEvaluator(gameEvaluator);
+            debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
         }
     }
 
