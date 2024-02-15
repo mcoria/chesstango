@@ -137,7 +137,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
                     debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ]",
                             ">\t".repeat(currentNode.ply),
-                            ttOperation.getTableName(),
+                            ttOperation.getTableType(),
                             ttOperation.getBound(),
                             hexFormat.formatHex(longToByte(ttOperation.getHash())),
                             ttOperation.getDepth(),
@@ -197,7 +197,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 int ttValue = TranspositionEntry.decodeValue(currentNode.entryRead.getMovesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
                         ">\t".repeat(currentNode.ply),
-                        currentNode.entryRead.getTableName(),
+                        currentNode.entryRead.getTableType(),
                         currentNode.entryRead.getBound(),
                         currentNode.entryRead.getDepth(),
                         ttValue);
@@ -212,12 +212,12 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 int ttValue = TranspositionEntry.decodeValue(currentNode.entryWrite.getMovesAndValue());
                 debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
                         ">\t".repeat(currentNode.ply),
-                        currentNode.entryWrite.getTableName(),
+                        currentNode.entryWrite.getTableType(),
                         currentNode.entryWrite.getBound(),
                         currentNode.entryWrite.getDepth(),
                         ttValue);
 
-                if (currentNode.zobristHash != currentNode.entryWrite.getHash_requested()) {
+                if (currentNode.zobristHash != currentNode.entryWrite.getHashRequested()) {
                     debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
                     debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.zobristHash));
                 }

@@ -12,24 +12,24 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class DebugTT implements TTable, SearchByCycleListener {
 
     private final TTable tTable;
-    private final String tableName;
+    private final DebugNodeTT.TableType tableType;
     private SearchTracker searchTracker;
 
-    public DebugTT(String tableName, TTable tTable) {
-        this.tableName = tableName;
+    public DebugTT(DebugNodeTT.TableType tableType, TTable tTable) {
+        this.tableType = tableType;
         this.tTable = tTable;
     }
 
     @Override
     public TranspositionEntry read(long hash) {
         TranspositionEntry entry = tTable.read(hash);
-        searchTracker.trackReadTranspositionEntry(tableName, hash, entry);
+        searchTracker.trackReadTranspositionEntry(tableType, hash, entry);
         return entry;
     }
 
     @Override
     public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        searchTracker.trackWriteTranspositionEntry(tableName, hash, searchDepth, movesAndValue, bound);
+        searchTracker.trackWriteTranspositionEntry(tableType, hash, searchDepth, movesAndValue, bound);
         return tTable.write(hash, searchDepth, movesAndValue, bound);
     }
 

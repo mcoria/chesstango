@@ -39,12 +39,12 @@ public class SearchTracker {
     }
 
 
-    public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(DebugNodeTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
             if (sorting) {
                 debugNode.sorterReads.add(new DebugNodeTT()
-                        .setHash_requested(hashRequested)
-                        .setTableName(tableName)
+                        .setHashRequested(hashRequested)
+                        .setTableType(tableType)
                         .setHash(entry.hash)
                         .setDepth(entry.searchDepth)
                         .setMovesAndValue(entry.movesAndValue)
@@ -55,8 +55,8 @@ public class SearchTracker {
                     throw new RuntimeException("Overriding debugNode.entryRead");
                 }
                 debugNode.entryRead = new DebugNodeTT()
-                        .setHash_requested(hashRequested)
-                        .setTableName(tableName)
+                        .setHashRequested(hashRequested)
+                        .setTableType(tableType)
                         .setHash(entry.hash)
                         .setDepth(entry.searchDepth)
                         .setMovesAndValue(entry.movesAndValue)
@@ -65,7 +65,7 @@ public class SearchTracker {
         }
     }
 
-    public void trackWriteTranspositionEntry(String tableName, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    public void trackWriteTranspositionEntry(DebugNodeTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
         if (sorting) {
             throw new RuntimeException("Writing TT while sorting");
         } else {
@@ -74,8 +74,8 @@ public class SearchTracker {
                 throw new RuntimeException("Overriding debugNode.entryWrite");
             }
             debugNode.entryWrite = new DebugNodeTT()
-                    .setHash_requested(hash)
-                    .setTableName(tableName)
+                    .setHashRequested(hash)
+                    .setTableType(tableType)
                     .setHash(hash)
                     .setDepth(searchDepth)
                     .setMovesAndValue(movesAndValue)
