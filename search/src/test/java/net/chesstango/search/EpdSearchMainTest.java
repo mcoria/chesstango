@@ -265,7 +265,7 @@ public class EpdSearchMainTest {
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
-                //.withGameEvaluatorCache()
+                .withGameEvaluatorCache()
 
                 //.withExtensionCheckResolver()
                 .withQuiescence()
@@ -276,7 +276,6 @@ public class EpdSearchMainTest {
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
-                .withComposedMoveSorter()
 
                 .withIterativeDeepening()
                 .withAspirationWindows()
