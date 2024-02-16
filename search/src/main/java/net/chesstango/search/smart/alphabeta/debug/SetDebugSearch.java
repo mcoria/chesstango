@@ -119,11 +119,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     private void dumpNode(DebugNode currentNode) {
         dumpNodeHeader(currentNode);
 
-
         if (currentNode.sortedMoves != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMoves);
 
-            if (showSorterOperations ) {
+            if (showSorterOperations) {
                 dumpSorterOperations(currentNode);
             }
         }
@@ -133,7 +132,6 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 debugNodeTrap.debug(currentNode, debugOut);
             }
         }
-
 
         for (DebugNode childNode : currentNode.childNodes) {
             if (showOnlyPV) {
@@ -153,7 +151,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        debugOut.printf("%s Sorter Reads: transpositions=%d \n", ">\t".repeat(currentNode.ply), sortedReads.size());
+        debugOut.printf("%s Sorter Reads: transpositions=%d cache=%d\n", ">\t".repeat(currentNode.ply), sortedReads.size(), evalCacheReads.size());
 
         sortedMoves.forEach(moveStr -> {
             Optional<DebugOperationTT> ttOperationOpt = sortedReads
