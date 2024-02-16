@@ -25,7 +25,7 @@ public class SorterReadsTrapRepeated implements DebugNodeTrap {
         Map<Integer, List<DebugNodeTT>> valueToDebugNodeTTMap = new HashMap<>();
 
         sorterReads.forEach(debugNodeTT -> {
-            int ttValue = TranspositionEntry.decodeValue(debugNodeTT.getMovesAndValue());
+            int ttValue = TranspositionEntry.decodeValue(debugNodeTT.getEntry().getMovesAndValue());
             List<DebugNodeTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);
         });
@@ -34,7 +34,7 @@ public class SorterReadsTrapRepeated implements DebugNodeTrap {
         for (Map.Entry<Integer, List<DebugNodeTT>> entry : valueToDebugNodeTTMap.entrySet()) {
             List<DebugNodeTT> entryList = entry.getValue();
             if (entryList.size() > 1 &&
-                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getBound()))) {
+                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getEntry().getTranspositionBound()))) {
                 return true;
             }
         }

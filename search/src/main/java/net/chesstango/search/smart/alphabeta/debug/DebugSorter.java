@@ -74,7 +74,7 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
 
             sorterReads.stream()
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
-                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getMovesAndValue()))
+                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
         }
 

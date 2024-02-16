@@ -139,13 +139,14 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
                     if (ttOperationOpt.isPresent()) {
                         DebugNodeTT ttOperation = ttOperationOpt.get();
-                        int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
+                        TranspositionEntry entry = ttOperation.getEntry();
+                        int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                         debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
                                 ">\t".repeat(currentNode.ply),
                                 ttOperation.getTableType(),
-                                ttOperation.getBound(),
-                                hexFormat.formatHex(longToByte(ttOperation.getHash())),
-                                ttOperation.getDepth(),
+                                entry.getTranspositionBound(),
+                                hexFormat.formatHex(longToByte(entry.getHash())),
+                                entry.getSearchDepth(),
                                 ttValue,
                                 moveStr);
 
@@ -158,13 +159,14 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                         .stream()
                         .filter(ttOperation -> "HORIZONTE".equals(ttOperation.getMove()))
                         .forEach(ttOperation -> {
-                            int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
+                            TranspositionEntry entry = ttOperation.getEntry();
+                            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                             debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] HORIZONTE",
                                     ">\t".repeat(currentNode.ply),
                                     ttOperation.getTableType(),
-                                    ttOperation.getBound(),
-                                    hexFormat.formatHex(longToByte(ttOperation.getHash())),
-                                    ttOperation.getDepth(),
+                                    entry.getTranspositionBound(),
+                                    hexFormat.formatHex(longToByte(entry.getHash())),
+                                    entry.getSearchDepth(),
                                     ttValue);
                             debugOut.print("\n");
                         });
@@ -217,14 +219,15 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         if (showNodeTranspositionAccess) {
             if (currentNode.entryRead != null) {
-                int ttValue = TranspositionEntry.decodeValue(currentNode.entryRead.getMovesAndValue());
+                TranspositionEntry entry = currentNode.entryRead.getEntry();
+                int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
                         ">\t".repeat(currentNode.ply),
                         currentNode.entryRead.getTableType(),
-                        currentNode.entryRead.getBound(),
-                        currentNode.entryRead.getDepth(),
+                        entry.getTranspositionBound(),
+                        entry.getSearchDepth(),
                         ttValue);
-                if (currentNode.zobristHash != currentNode.entryRead.getHash()) {
+                if (currentNode.zobristHash != entry.getHash()) {
                     debugOut.print(" WRONG TT_READ ENTRY");
                     debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.zobristHash));
                 }
@@ -232,12 +235,13 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             }
 
             if (currentNode.entryWrite != null) {
-                int ttValue = TranspositionEntry.decodeValue(currentNode.entryWrite.getMovesAndValue());
+                TranspositionEntry entry = currentNode.entryWrite.getEntry();
+                int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                 debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
                         ">\t".repeat(currentNode.ply),
                         currentNode.entryWrite.getTableType(),
-                        currentNode.entryWrite.getBound(),
-                        currentNode.entryWrite.getDepth(),
+                        entry.getTranspositionBound(),
+                        entry.getSearchDepth(),
                         ttValue);
 
                 if (currentNode.zobristHash != currentNode.entryWrite.getHashRequested()) {

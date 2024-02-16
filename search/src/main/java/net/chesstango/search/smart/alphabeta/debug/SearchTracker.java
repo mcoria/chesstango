@@ -44,24 +44,20 @@ public class SearchTracker {
         if (entry != null && debugNode != null) {
             assert hashRequested == entry.hash;
             if (sorting) {
+                TranspositionEntry entryCloned = entry.clone();
                 debugNode.sorterReads.add(new DebugNodeTT()
                         .setHashRequested(hashRequested)
                         .setTableType(tableType)
-                        .setHash(entry.hash)
-                        .setDepth(entry.searchDepth)
-                        .setMovesAndValue(entry.movesAndValue)
-                        .setBound(entry.transpositionBound));
+                        .setEntry(entryCloned));
             } else {
                 if (debugNode.entryRead != null) {
                     throw new RuntimeException("Overriding debugNode.entryRead");
                 }
+                TranspositionEntry entryCloned = entry.clone();
                 debugNode.entryRead = new DebugNodeTT()
                         .setHashRequested(hashRequested)
                         .setTableType(tableType)
-                        .setHash(entry.hash)
-                        .setDepth(entry.searchDepth)
-                        .setMovesAndValue(entry.movesAndValue)
-                        .setBound(entry.transpositionBound);
+                        .setEntry(entryCloned);
             }
         }
     }
@@ -74,13 +70,17 @@ public class SearchTracker {
                 // Probablemente a un nodo hijo le falta agregar DebugFilter y el nodo hijo esta sobreescribiendo la entrada
                 throw new RuntimeException("Overriding debugNode.entryWrite");
             }
+
+            TranspositionEntry entryWrite = new TranspositionEntry()
+                    .setHash(hash)
+                    .setSearchDepth(searchDepth)
+                    .setMovesAndValue(movesAndValue)
+                    .setTranspositionBound(transpositionBound);
+
             debugNode.entryWrite = new DebugNodeTT()
                     .setHashRequested(hash)
                     .setTableType(tableType)
-                    .setHash(hash)
-                    .setDepth(searchDepth)
-                    .setMovesAndValue(movesAndValue)
-                    .setBound(transpositionBound);
+                    .setEntry(entryWrite);
         }
     }
 
