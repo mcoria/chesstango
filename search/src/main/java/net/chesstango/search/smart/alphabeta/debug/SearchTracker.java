@@ -42,6 +42,7 @@ public class SearchTracker {
 
     public void trackReadTranspositionEntry(DebugNodeTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
+            assert hashRequested == entry.hash;
             if (sorting) {
                 debugNode.sorterReads.add(new DebugNodeTT()
                         .setHashRequested(hashRequested)

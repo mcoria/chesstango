@@ -68,10 +68,12 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
 
     @Override
     public int compare(Move o1, Move o2) {
-        if (o1.binaryEncoding() == bestMoveEncoded) {
-            return 1;
-        } else if (o2.binaryEncoding() == bestMoveEncoded) {
-            return -1;
+        if (bestMoveEncoded != 0) {
+            if (o1.binaryEncoding() == bestMoveEncoded) {
+                return 1;
+            } else if (o2.binaryEncoding() == bestMoveEncoded) {
+                return -1;
+            }
         }
 
         return next.compare(o1, o2);

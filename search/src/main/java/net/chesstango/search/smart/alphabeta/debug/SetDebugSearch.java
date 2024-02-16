@@ -156,10 +156,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
                 sortedReads
                         .stream()
-                        .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                        .filter(ttOperation -> "HORIZONTE".equals(ttOperation.getMove()))
                         .forEach(ttOperation -> {
                             int ttValue = TranspositionEntry.decodeValue(ttOperation.getMovesAndValue());
-                            debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] NULL",
+                            debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] HORIZONTE",
                                     ">\t".repeat(currentNode.ply),
                                     ttOperation.getTableType(),
                                     ttOperation.getBound(),

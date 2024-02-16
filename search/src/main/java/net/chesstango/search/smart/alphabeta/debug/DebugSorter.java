@@ -12,6 +12,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -76,5 +77,10 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
                             && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
         }
+
+        sorterReads
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("HORIZONTE"));
     }
 }
