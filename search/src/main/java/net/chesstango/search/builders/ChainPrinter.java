@@ -11,9 +11,9 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.debug.DebugEvaluation;
+import net.chesstango.search.smart.alphabeta.debug.TrapReadFromCache;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
+import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -217,8 +217,8 @@ public class ChainPrinter {
             return String.format("%s", objectText(rootMoveSorter));
         } else if (moveSorter instanceof NodeMoveSorter nodeMoveSorter) {
             return String.format("%s -> %s", objectText(nodeMoveSorter), printMoveComparatorText(nodeMoveSorter.getMoveComparator()));
-        } else if (moveSorter instanceof DebugSorter debugSorter) {
-            return String.format("%s -> %s", objectText(debugSorter), printMoveSorterText(debugSorter.getMoveSorterImp()));
+        } else if (moveSorter instanceof TrapMoveSorter trapMoveSorter) {
+            return String.format("%s -> %s", objectText(trapMoveSorter), printMoveSorterText(trapMoveSorter.getMoveSorterImp()));
         }
         throw new RuntimeException(String.format("Unknown sorter %s", objectText(moveSorter)));
     }
@@ -237,8 +237,8 @@ public class ChainPrinter {
     }
 
     private String printGameEvaluatorCacheRead(GameEvaluatorCacheRead gameEvaluatorCacheRead) {
-        if (gameEvaluatorCacheRead instanceof DebugEvaluation debugEvaluation) {
-            return String.format("%s -> %s", objectText(debugEvaluation), printGameEvaluatorCacheRead(debugEvaluation.getGameEvaluatorCacheRead()));
+        if (gameEvaluatorCacheRead instanceof TrapReadFromCache trapReadFromCache) {
+            return String.format("%s -> %s", objectText(trapReadFromCache), printGameEvaluatorCacheRead(trapReadFromCache.getGameEvaluatorCacheRead()));
         } else if (gameEvaluatorCacheRead instanceof GameEvaluatorCache gameEvaluatorCache) {
             return printGameEvaluator(gameEvaluatorCache);
         }

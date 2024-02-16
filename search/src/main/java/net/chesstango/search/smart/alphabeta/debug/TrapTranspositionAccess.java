@@ -9,13 +9,13 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class DebugTT implements TTable, SearchByCycleListener {
+public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
 
     private final TTable tTable;
     private final DebugOperationTT.TableType tableType;
     private SearchTracker searchTracker;
 
-    public DebugTT(DebugOperationTT.TableType tableType, TTable tTable) {
+    public TrapTranspositionAccess(DebugOperationTT.TableType tableType, TTable tTable) {
         this.tableType = tableType;
         this.tTable = tTable;
     }

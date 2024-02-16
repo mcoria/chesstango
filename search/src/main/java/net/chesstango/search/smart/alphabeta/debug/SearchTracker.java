@@ -4,7 +4,6 @@ import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -123,6 +122,11 @@ public class SearchTracker {
         }
     }
 
+    public void trackEvaluation(int evaluation) {
+        if (currentNode != null) {
+            currentNode.standingPat = evaluation;
+        }
+    }
 
     public void save() {
         currentNode = currentNode.parent;
@@ -149,5 +153,4 @@ public class SearchTracker {
     public List<DebugOperationEval> getEvalCacheReads() {
         return currentNode.evalCacheReads;
     }
-
 }
