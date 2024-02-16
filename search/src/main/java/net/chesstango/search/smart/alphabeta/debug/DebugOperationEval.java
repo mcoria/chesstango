@@ -13,4 +13,9 @@ import lombok.experimental.Accessors;
 public class DebugOperationEval {
     private long hashRequested;
     private int evaluation;
+
+    /**
+     * En caso de sorting cual es el movimiento por el cual llegamos a esta entrada
+     */
+    private String move;
 }

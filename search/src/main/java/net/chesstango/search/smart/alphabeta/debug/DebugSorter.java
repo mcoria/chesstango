@@ -61,6 +61,8 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     public void trackComparatorsReads(Iterable<Move> moves) {
         List<DebugOperationTT> sorterReads = searchTracker.getSorterReads();
 
+        List<DebugOperationEval> evalCacheReads = searchTracker.getEvalCacheReads();
+
         final long positionHash = game.getChessPosition().getZobristHash();
 
         for (Move move : moves) {
@@ -76,6 +78,10 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
                             && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+            evalCacheReads.stream()
+                    .filter(debugOperationEval -> zobristHashMove == debugOperationEval.getHashRequested())
+                    .forEach(debugOperationEval -> debugOperationEval.setMove(moveStr));
         }
 
         sorterReads

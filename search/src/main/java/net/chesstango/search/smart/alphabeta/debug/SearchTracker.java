@@ -91,7 +91,7 @@ public class SearchTracker {
     }
 
     public void trackReadFromCache(long hash, Integer evaluation) {
-        debugNode.getEvalCacheReads().add(new DebugOperationEval()
+        debugNode.evalCacheReads.add(new DebugOperationEval()
                 .setHashRequested(hash)
                 .setEvaluation(evaluation)
         );
@@ -120,6 +120,10 @@ public class SearchTracker {
 
     public List<DebugOperationTT> getSorterReads() {
         return debugNode.sorterReads;
+    }
+
+    public List<DebugOperationEval> getEvalCacheReads() {
+        return debugNode.evalCacheReads;
     }
 
 }

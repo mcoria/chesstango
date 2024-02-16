@@ -18,7 +18,7 @@ import java.util.*;
 public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
-    private final boolean showNodeSorterTranspositionAccess;
+    private final boolean showSorterOperations;
     private final boolean withAspirationWindows;
     private final DebugNodeTrap debugNodeTrap;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
@@ -30,12 +30,12 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     private SearchTracker searchTracker;
     private List<String> debugErrorMessages;
 
-    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showNodeSorterTranspositionAccess) {
+    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
-        this.showNodeSorterTranspositionAccess = showNodeSorterTranspositionAccess;
+        this.showSorterOperations = showSorterOperations;
     }
 
     @Override
@@ -122,54 +122,9 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         if (currentNode.sortedMoves != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMoves);
-        }
 
-        if (showNodeSorterTranspositionAccess) {
-            List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
-            List<String> sortedMoves = currentNode.getSortedMoves();
-            if (!sortedReads.isEmpty()) {
-                debugOut.printf("%s Sorter Reads: transpositions=%d \n", ">\t".repeat(currentNode.ply), sortedReads.size());
-
-                sortedMoves.forEach(moveStr -> {
-
-                    Optional<DebugOperationTT> ttOperationOpt = sortedReads
-                            .stream()
-                            .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
-                            .findAny();
-
-                    if (ttOperationOpt.isPresent()) {
-                        DebugOperationTT ttOperation = ttOperationOpt.get();
-                        TranspositionEntry entry = ttOperation.getEntry();
-                        int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-                        debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
-                                ">\t".repeat(currentNode.ply),
-                                ttOperation.getTableType(),
-                                entry.getTranspositionBound(),
-                                hexFormat.formatHex(longToByte(entry.getHash())),
-                                entry.getSearchDepth(),
-                                ttValue,
-                                moveStr);
-
-                        debugOut.print("\n");
-                    }
-
-                });
-
-                sortedReads
-                        .stream()
-                        .filter(ttOperation -> "HORIZONTE".equals(ttOperation.getMove()))
-                        .forEach(ttOperation -> {
-                            TranspositionEntry entry = ttOperation.getEntry();
-                            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-                            debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] HORIZONTE",
-                                    ">\t".repeat(currentNode.ply),
-                                    ttOperation.getTableType(),
-                                    entry.getTranspositionBound(),
-                                    hexFormat.formatHex(longToByte(entry.getHash())),
-                                    entry.getSearchDepth(),
-                                    ttValue);
-                            debugOut.print("\n");
-                        });
+            if (showSorterOperations ) {
+                dumpSorterOperations(currentNode);
             }
         }
 
@@ -191,6 +146,70 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
                 dumpNode(childNode);
             }
         }
+    }
+
+    private void dumpSorterOperations(DebugNode currentNode) {
+        List<String> sortedMoves = currentNode.getSortedMoves();
+        List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
+        List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
+
+        debugOut.printf("%s Sorter Reads: transpositions=%d \n", ">\t".repeat(currentNode.ply), sortedReads.size());
+
+        sortedMoves.forEach(moveStr -> {
+            Optional<DebugOperationTT> ttOperationOpt = sortedReads
+                    .stream()
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                    .findAny();
+
+
+            if (ttOperationOpt.isPresent()) {
+                DebugOperationTT ttOperation = ttOperationOpt.get();
+                TranspositionEntry entry = ttOperation.getEntry();
+                int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+                debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
+                        ">\t".repeat(currentNode.ply),
+                        ttOperation.getTableType(),
+                        entry.getTranspositionBound(),
+                        hexFormat.formatHex(longToByte(entry.getHash())),
+                        entry.getSearchDepth(),
+                        ttValue,
+                        moveStr);
+                debugOut.print("\n");
+            }
+
+
+            Optional<DebugOperationEval> evalOperationOpt = evalCacheReads.stream()
+                    .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
+                    .findAny();
+
+            if (evalOperationOpt.isPresent()) {
+                DebugOperationEval debugOperationEval = evalOperationOpt.get();
+                debugOut.printf("%s CacheRead[ 0x%s value=%d ] %s",
+                        ">\t".repeat(currentNode.ply),
+                        hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
+                        debugOperationEval.getEvaluation(),
+                        moveStr);
+                debugOut.print("\n");
+            }
+
+        });
+
+
+        sortedReads
+                .stream()
+                .filter(ttOperation -> "HORIZONTE".equals(ttOperation.getMove()))
+                .forEach(ttOperation -> {
+                    TranspositionEntry entry = ttOperation.getEntry();
+                    int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+                    debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] HORIZONTE",
+                            ">\t".repeat(currentNode.ply),
+                            ttOperation.getTableType(),
+                            entry.getTranspositionBound(),
+                            hexFormat.formatHex(longToByte(entry.getHash())),
+                            entry.getSearchDepth(),
+                            ttValue);
+                    debugOut.print("\n");
+                });
     }
 
     private void dumpNodeHeader(DebugNode currentNode) {
