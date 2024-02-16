@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -23,7 +23,7 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
 
     @Getter
     @Setter
-    private GameEvaluatorCache gameEvaluatorCache;
+    private GameEvaluatorCacheRead gameEvaluatorCacheRead;
 
     private Game game;
     private Map<Short, Long> moveToZobrist;
@@ -75,7 +75,7 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
 
         final long zobristHashMove = moveToZobrist.computeIfAbsent(moveEncoded, k -> game.getChessPosition().getZobristHash(move));
 
-        return gameEvaluatorCache.readFromCache(zobristHashMove);
+        return gameEvaluatorCacheRead.readFromCache(zobristHashMove);
     }
 
 }

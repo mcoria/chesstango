@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.alphabeta.debug.DebugEvaluation;
 import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -22,6 +23,7 @@ public class MoveSorterBuilder {
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private DebugSorter debugSorter;
+    private DebugEvaluation debugEvaluation;
     private GameEvaluatorCache gameEvaluatorCache;
     private GameEvaluatorComparator gameEvaluatorComparator;
     private boolean withQuietFilter;
@@ -88,13 +90,19 @@ public class MoveSorterBuilder {
             }
         }
 
-        if (gameEvaluatorCache != null) {
-            gameEvaluatorComparator = new GameEvaluatorComparator();
-            gameEvaluatorComparator.setGameEvaluatorCache(gameEvaluatorCache);
-        }
-
         if (withDebugSearchTree) {
             debugSorter = new DebugSorter();
+            debugEvaluation = new DebugEvaluation();
+            debugEvaluation.setGameEvaluatorCacheRead(gameEvaluatorCache);
+        }
+
+        if (gameEvaluatorCache != null) {
+            gameEvaluatorComparator = new GameEvaluatorComparator();
+            if (withDebugSearchTree) {
+                gameEvaluatorComparator.setGameEvaluatorCacheRead(debugEvaluation);
+            } else {
+                gameEvaluatorComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
+            }
         }
     }
 
@@ -121,6 +129,10 @@ public class MoveSorterBuilder {
 
         if (debugSorter != null) {
             smartListenerMediator.add(debugSorter);
+        }
+
+        if (debugEvaluation != null) {
+            smartListenerMediator.add(debugEvaluation);
         }
     }
 

@@ -52,6 +52,8 @@ public class DebugNode {
     List<String> sortedMoves;
     List<DebugOperationTT> sorterReads = new ArrayList<>();
 
+    List<DebugOperationEval> evalCacheReads = new ArrayList<>();
+
     List<DebugNode> childNodes = new LinkedList<>();
 
     public void setZobristHash(long zobristHash) {

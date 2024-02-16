@@ -8,7 +8,7 @@ import net.chesstango.board.Game;
  *
  * @author Mauricio Coria
  */
-public class GameEvaluatorCache implements GameEvaluator {
+public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead {
 
     private static final int ARRAY_SIZE = 1024 * 512;
 
@@ -57,6 +57,7 @@ public class GameEvaluatorCache implements GameEvaluator {
         cacheHitsCounter = 0;
     }
 
+    @Override
     public Integer readFromCache(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 

@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -10,6 +11,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.debug.DebugEvaluation;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
@@ -234,6 +236,16 @@ public class ChainPrinter {
         return objectText(gameEvaluator);
     }
 
+    private String printGameEvaluatorCacheRead(GameEvaluatorCacheRead gameEvaluatorCacheRead) {
+        if (gameEvaluatorCacheRead instanceof DebugEvaluation debugEvaluation) {
+            return String.format("%s -> %s", objectText(debugEvaluation), printGameEvaluatorCacheRead(debugEvaluation.getGameEvaluatorCacheRead()));
+        } else if (gameEvaluatorCacheRead instanceof GameEvaluatorCache gameEvaluatorCache) {
+            return printGameEvaluator(gameEvaluatorCache);
+        }
+
+        throw new RuntimeException(String.format("Unknown GameEvaluatorCacheRead %s", objectText(gameEvaluatorCacheRead)));
+    }
+
 
     private String printMoveComparatorText(MoveComparator moveComparator) {
         if (moveComparator instanceof DefaultMoveComparator defaultMoveComparator) {
@@ -250,8 +262,9 @@ public class ChainPrinter {
                     printMoveComparatorText(transpositionTailMoveComparator.getNext()));
 
         } else if (moveComparator instanceof GameEvaluatorComparator gameEvaluatorComparator) {
-            return String.format("%s -> %s",
+            return String.format("%s [%s] -> %s",
                     objectText(moveComparator),
+                    printGameEvaluatorCacheRead(gameEvaluatorComparator.getGameEvaluatorCacheRead()),
                     printMoveComparatorText(gameEvaluatorComparator.getNext()));
 
         } else if (moveComparator instanceof RecaptureMoveComparator recaptureMoveComparator) {
