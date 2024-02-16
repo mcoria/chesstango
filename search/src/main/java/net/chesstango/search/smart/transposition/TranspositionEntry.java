@@ -1,5 +1,8 @@
 package net.chesstango.search.smart.transposition;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 
 import java.io.Serializable;
@@ -7,12 +10,41 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionEntry implements Serializable {
+@Getter
+@Setter
+@Accessors(chain = true)
+public class TranspositionEntry implements Serializable, Cloneable {
 
     public long hash;
     public int searchDepth;
     public long movesAndValue;
     public TranspositionBound transpositionBound;
+
+
+    public void reset() {
+        hash = 0;
+        searchDepth = 0;
+        movesAndValue = 0;
+        transpositionBound = null;
+    }
+
+    @Override
+    public TranspositionEntry clone(){
+        return new TranspositionEntry()
+                .setHash(hash)
+                .setSearchDepth(searchDepth)
+                .setMovesAndValue(movesAndValue)
+                .setTranspositionBound(transpositionBound);
+    }
+
+    public boolean isStored(long hash) {
+        return this.hash == hash;
+    }
+
+
+
+
+
 
     public static final long INTEGER_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
     public static final long SHORT_MASK = 0b00000000_00000000_00000000_00000000_00000000_00000000_11111111_11111111L;
@@ -46,15 +78,4 @@ public class TranspositionEntry implements Serializable {
         return (short) ((encodedMovesAndValue >> MOVE_SHIFT) & SHORT_MASK);
     }
 
-
-    public void reset() {
-        hash = 0;
-        searchDepth = 0;
-        movesAndValue = 0;
-        transpositionBound = null;
-    }
-
-    public boolean isStored(long hash) {
-        return this.hash == hash;
-    }
 }

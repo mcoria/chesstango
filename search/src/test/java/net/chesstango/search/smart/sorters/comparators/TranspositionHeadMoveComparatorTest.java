@@ -14,9 +14,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,6 +32,7 @@ public class TranspositionHeadMoveComparatorTest {
         maxMap = new MapTTable();
         minMap = new MapTTable();
         headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+        headMoveComparator.setNext(new DefaultMoveComparator());
     }
 
     @Test
@@ -70,9 +69,10 @@ public class TranspositionHeadMoveComparatorTest {
         MoveContainerReader moves = game.getPossibleMoves();
         moves.forEach(movesList::add);
 
-        headMoveComparator.beforeSort();
+        Map<Short, Long> moveToZobrist = new HashMap<>();
+        headMoveComparator.beforeSort(moveToZobrist);
         movesList.sort(headMoveComparator.reversed());
-        headMoveComparator.afterSort();
+        headMoveComparator.afterSort(moveToZobrist);
 
         return movesList;
     }

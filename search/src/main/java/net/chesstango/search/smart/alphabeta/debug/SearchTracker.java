@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,32 +40,29 @@ public class SearchTracker {
     }
 
 
-    public void trackReadTranspositionEntry(String tableName, long hashRequested, TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(DebugOperationTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
+            assert hashRequested == entry.hash;
             if (sorting) {
-                debugNode.sorterReads.add(new DebugNodeTT(hashRequested,
-                        tableName,
-                        entry.hash,
-                        entry.searchDepth,
-                        entry.movesAndValue,
-                        entry.transpositionBound
-                ));
+                TranspositionEntry entryCloned = entry.clone();
+                debugNode.sorterReads.add(new DebugOperationTT()
+                        .setHashRequested(hashRequested)
+                        .setTableType(tableType)
+                        .setEntry(entryCloned));
             } else {
                 if (debugNode.entryRead != null) {
                     throw new RuntimeException("Overriding debugNode.entryRead");
                 }
-                debugNode.entryRead = new DebugNodeTT(hashRequested,
-                        tableName,
-                        entry.hash,
-                        entry.searchDepth,
-                        entry.movesAndValue,
-                        entry.transpositionBound
-                );
+                TranspositionEntry entryCloned = entry.clone();
+                debugNode.entryRead = new DebugOperationTT()
+                        .setHashRequested(hashRequested)
+                        .setTableType(tableType)
+                        .setEntry(entryCloned);
             }
         }
     }
 
-    public void trackWriteTranspositionEntry(String tableName, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    public void trackWriteTranspositionEntry(DebugOperationTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
         if (sorting) {
             throw new RuntimeException("Writing TT while sorting");
         } else {
@@ -72,21 +70,33 @@ public class SearchTracker {
                 // Probablemente a un nodo hijo le falta agregar DebugFilter y el nodo hijo esta sobreescribiendo la entrada
                 throw new RuntimeException("Overriding debugNode.entryWrite");
             }
-            debugNode.entryWrite = new DebugNodeTT(hash,
-                    tableName,
-                    hash,
-                    searchDepth,
-                    movesAndValue,
-                    transpositionBound
-            );
+
+            TranspositionEntry entryWrite = new TranspositionEntry()
+                    .setHash(hash)
+                    .setSearchDepth(searchDepth)
+                    .setMovesAndValue(movesAndValue)
+                    .setTranspositionBound(transpositionBound);
+
+            debugNode.entryWrite = new DebugOperationTT()
+                    .setHashRequested(hash)
+                    .setTableType(tableType)
+                    .setEntry(entryWrite);
         }
     }
 
-    public void trackSortedMoves(String sortedMovesStr) {
+    public void trackSortedMoves(List<String> sortedMovesStr) {
         if (debugNode != null) {
-            debugNode.sortedMovesStr = sortedMovesStr;
+            debugNode.sortedMoves = sortedMovesStr;
         }
     }
+
+    public void trackReadFromCache(long hash, Integer evaluation) {
+        debugNode.evalCacheReads.add(new DebugOperationEval()
+                .setHashRequested(hash)
+                .setEvaluation(evaluation)
+        );
+    }
+
 
     public void save() {
         if (debugNode.parent != null) {
@@ -107,4 +117,13 @@ public class SearchTracker {
         }
         return debugNode;
     }
+
+    public List<DebugOperationTT> getSorterReads() {
+        return debugNode.sorterReads;
+    }
+
+    public List<DebugOperationEval> getEvalCacheReads() {
+        return debugNode.evalCacheReads;
+    }
+
 }

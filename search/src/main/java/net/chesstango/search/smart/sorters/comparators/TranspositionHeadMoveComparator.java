@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -8,6 +10,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -15,12 +18,16 @@ import java.util.function.Function;
  * @author Mauricio Coria
  */
 public class TranspositionHeadMoveComparator implements MoveComparator, SearchByCycleListener {
+
     private final Function<SearchByCycleContext, TTable> fnGetMaxMap;
     private final Function<SearchByCycleContext, TTable> fnGetMinMap;
+
+    @Getter
+    @Setter
+    private MoveComparator next;
     private Game game;
     private TTable maxMap;
     private TTable minMap;
-
     private short bestMoveEncoded;
 
     public TranspositionHeadMoveComparator(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
@@ -36,7 +43,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void beforeSort() {
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long hash = game.getChessPosition().getZobristHash();
@@ -49,21 +56,26 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
         } else {
             bestMoveEncoded = 0;
         }
+
+        next.beforeSort(moveToZobrist);
     }
 
     @Override
-    public void afterSort() {
+    public void afterSort(Map<Short, Long> moveToZobrist) {
+        next.afterSort(moveToZobrist);
     }
 
 
     @Override
     public int compare(Move o1, Move o2) {
-        if (o1.binaryEncoding() == bestMoveEncoded) {
-            return 1;
-        } else if (o2.binaryEncoding() == bestMoveEncoded) {
-            return -1;
+        if (bestMoveEncoded != 0) {
+            if (o1.binaryEncoding() == bestMoveEncoded) {
+                return 1;
+            } else if (o2.binaryEncoding() == bestMoveEncoded) {
+                return -1;
+            }
         }
 
-        return 0;
+        return next.compare(o1, o2);
     }
 }

@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.sorters.comparators;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.Piece;
@@ -8,6 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -15,6 +18,9 @@ import java.util.Objects;
  */
 public class RecaptureMoveComparator implements MoveComparator, SearchByCycleListener {
 
+    @Getter
+    @Setter
+    private MoveComparator next;
     private Game game;
     private Move previousMove;
 
@@ -24,17 +30,21 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort() {
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
         GameStateReader previousState = this.game.getState().getPreviousState();
         previousMove = previousState.getSelectedMove();
+
+        next.beforeSort(moveToZobrist);
     }
 
     @Override
-    public void afterSort() {
+    public void afterSort(Map<Short, Long> moveToZobrist) {
+        next.afterSort(moveToZobrist);
     }
 
     @Override
     public int compare(Move o1, Move o2) {
+        int result = 0;
         if (Objects.nonNull(previousMove) && !previousMove.isQuiet()) {
             Square previousMoveToSquare = previousMove.getTo().getSquare();
             Square o1ToSquare = o1.getTo().getSquare();
@@ -46,7 +56,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
                     Piece o1Piece = o1.getFrom().getPiece();
                     Piece o2Piece = o2.getFrom().getPiece();
                     if (!o1Piece.equals(o2Piece)) {
-                        return getMovePieceValue(o1Piece) < getMovePieceValue(o2Piece) ? 1 : -1;
+                        result = getMovePieceValue(o1Piece) < getMovePieceValue(o2Piece) ? 1 : -1;
                     }
                 }
             } else {
@@ -58,7 +68,8 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
                 }
             }
         }
-        return 0;
+
+        return result == 0 ? next.compare(o1, o2) : result;
     }
 
 

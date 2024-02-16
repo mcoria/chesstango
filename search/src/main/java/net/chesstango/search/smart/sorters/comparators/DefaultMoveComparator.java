@@ -6,6 +6,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 
+import java.util.Map;
+
 /**
  * @author Mauricio Coria
  */
@@ -147,12 +149,12 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort() {
+    public void beforeSort(Map<Short, Long> moveToZobrist) {
 
     }
 
     @Override
-    public void afterSort() {
+    public void afterSort(Map<Short, Long> moveToZobrist) {
 
     }
 }

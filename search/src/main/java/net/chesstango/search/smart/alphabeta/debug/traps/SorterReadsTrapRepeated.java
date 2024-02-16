@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.debug.traps;
 
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTT;
+import net.chesstango.search.smart.alphabeta.debug.DebugOperationTT;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -20,21 +20,21 @@ import java.util.Map;
 public class SorterReadsTrapRepeated implements DebugNodeTrap {
     @Override
     public boolean test(DebugNode debugNode) {
-        List<DebugNodeTT> sorterReads = debugNode.getSorterReads();
+        List<DebugOperationTT> sorterReads = debugNode.getSorterReads();
 
-        Map<Integer, List<DebugNodeTT>> valueToDebugNodeTTMap = new HashMap<>();
+        Map<Integer, List<DebugOperationTT>> valueToDebugNodeTTMap = new HashMap<>();
 
         sorterReads.forEach(debugNodeTT -> {
-            int ttValue = TranspositionEntry.decodeValue(debugNodeTT.movesAndValue());
-            List<DebugNodeTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
+            int ttValue = TranspositionEntry.decodeValue(debugNodeTT.getEntry().getMovesAndValue());
+            List<DebugOperationTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);
         });
 
 
-        for (Map.Entry<Integer, List<DebugNodeTT>> entry : valueToDebugNodeTTMap.entrySet()) {
-            List<DebugNodeTT> entryList = entry.getValue();
+        for (Map.Entry<Integer, List<DebugOperationTT>> entry : valueToDebugNodeTTMap.entrySet()) {
+            List<DebugOperationTT> entryList = entry.getValue();
             if (entryList.size() > 1 &&
-                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.bound()))) {
+                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getEntry().getTranspositionBound()))) {
                 return true;
             }
         }

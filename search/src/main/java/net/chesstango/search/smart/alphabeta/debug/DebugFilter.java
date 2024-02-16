@@ -23,10 +23,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
     @Setter
     @Getter
-    private GameEvaluator gameEvaluator;
-
-    @Setter
-    @Getter
     private AlphaBetaFilter next;
     private int maxPly;
 
@@ -105,8 +101,11 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
 
         debugNode.setDebugSearch(fnString, alpha, beta);
 
+        /**
+         * Obtener SP directamente desde el filtro mediante un wrapper de evaluator
+         */
         if (DebugNode.NodeTopology.QUIESCENCE.equals(topology)) {
-            debugNode.standingPat = gameEvaluator.evaluate();
+            //debugNode.standingPat = gameEvaluator.evaluate();
         }
 
         return debugNode;

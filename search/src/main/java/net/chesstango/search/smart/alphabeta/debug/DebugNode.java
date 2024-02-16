@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -40,19 +41,20 @@ public class DebugNode {
 
     int beta;
 
-    String sortedMovesStr;
-
     int value;
 
     Integer standingPat;
 
+    DebugOperationTT entryRead;
+
+    DebugOperationTT entryWrite;
+
+    List<String> sortedMoves;
+    List<DebugOperationTT> sorterReads = new ArrayList<>();
+
+    List<DebugOperationEval> evalCacheReads = new ArrayList<>();
+
     List<DebugNode> childNodes = new LinkedList<>();
-
-    List<DebugNodeTT> sorterReads = new LinkedList<>();
-
-    DebugNodeTT entryRead;
-
-    DebugNodeTT entryWrite;
 
     public void setZobristHash(long zobristHash) {
         this.zobristHash = zobristHash;

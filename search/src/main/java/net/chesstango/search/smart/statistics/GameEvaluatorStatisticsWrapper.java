@@ -1,5 +1,6 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.statistics;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
@@ -8,10 +9,6 @@ import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.statistics.EvaluationEntry;
-import net.chesstango.search.smart.statistics.EvaluationStatistics;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,22 +16,25 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener {
-    private final GameEvaluator imp;
-    private final GameEvaluatorCache cache;
-    private long evaluationsCounter;
-    private Set<EvaluationEntry> evaluations;
+public class GameEvaluatorStatisticsWrapper implements GameEvaluator, SearchByCycleListener {
+
+    @Setter
+    @Getter
+    @Accessors(chain = true)
+    private GameEvaluator imp;
+
+    @Setter
+    @Getter
+    @Accessors(chain = true)
+    private GameEvaluatorCache gameEvaluatorCache;
 
     @Setter
     @Accessors(chain = true)
     private boolean trackEvaluations;
+    private long evaluationsCounter;
+    private Set<EvaluationEntry> evaluations;
     private Game game;
 
-
-    public EvaluatorStatistics(GameEvaluator gameEvaluator) {
-        this.imp = gameEvaluator;
-        this.cache = gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache ? gameEvaluatorCache : null;
-    }
 
     @Override
     public int evaluate() {
@@ -59,14 +59,14 @@ public class EvaluatorStatistics implements GameEvaluator, SearchByCycleListener
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
         }
-        if (cache != null) {
-            cache.resetCacheHitsCounter();
+        if (gameEvaluatorCache != null) {
+            gameEvaluatorCache.resetCacheHitsCounter();
         }
     }
 
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
-        long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
+        long cacheHitsCounter = gameEvaluatorCache != null ? gameEvaluatorCache.getCacheHitsCounter() : 0;
         searchMoveResult.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
 

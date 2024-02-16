@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
@@ -30,6 +31,7 @@ public class QuiescenceChainBuilder {
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
+    private GameEvaluatorCache gameEvaluatorCache;
 
 
     public QuiescenceChainBuilder() {
@@ -88,8 +90,8 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withComposedMoveSorter() {
-        moveSorterBuilder.withComposedMoveSorter();
+    public QuiescenceChainBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+        moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         return this;
     }
 
@@ -128,7 +130,6 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            debugFilter.setGameEvaluator(gameEvaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
