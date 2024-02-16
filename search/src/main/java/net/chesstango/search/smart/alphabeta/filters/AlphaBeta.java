@@ -50,8 +50,9 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
             if (currentValue > maxValue) {
                 maxValue = currentValue;
                 bestMove = move;
-
                 if (maxValue >= beta) {
+                    search = false;
+                } else if (maxValue == GameEvaluator.WHITE_WON) {
                     search = false;
                 }
             }
@@ -78,6 +79,8 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
                 minValue = currentValue;
                 bestMove = move;
                 if (minValue <= alpha) {
+                    search = false;
+                } else if (minValue == GameEvaluator.BLACK_WON) {
                     search = false;
                 }
             }
