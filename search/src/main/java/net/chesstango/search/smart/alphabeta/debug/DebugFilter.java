@@ -15,7 +15,7 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     private SearchTracker searchTracker;
 
@@ -24,7 +24,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
     @Setter
     @Getter
     private AlphaBetaFilter next;
-    private int maxPly;
 
     private final DebugNode.NodeTopology topology;
 
@@ -36,11 +35,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener, Sear
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
         this.searchTracker = context.getSearchTracker();
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override
