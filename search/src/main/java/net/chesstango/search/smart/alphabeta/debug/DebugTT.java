@@ -12,10 +12,10 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class DebugTT implements TTable, SearchByCycleListener {
 
     private final TTable tTable;
-    private final DebugNodeTT.TableType tableType;
+    private final DebugOperationTT.TableType tableType;
     private SearchTracker searchTracker;
 
-    public DebugTT(DebugNodeTT.TableType tableType, TTable tTable) {
+    public DebugTT(DebugOperationTT.TableType tableType, TTable tTable) {
         this.tableType = tableType;
         this.tTable = tTable;
     }

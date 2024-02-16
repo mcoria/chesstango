@@ -10,22 +10,22 @@ public class SetDebugTranspositionTables extends SetTranspositionTables {
 
     @Override
     protected TTable createQMinTTable() {
-        return new DebugTT(DebugNodeTT.TableType.MIN_MAP_Q, defaultCreateTTable());
+        return new DebugTT(DebugOperationTT.TableType.MIN_MAP_Q, defaultCreateTTable());
     }
 
     @Override
     protected TTable createQMaxTTable() {
-        return new DebugTT(DebugNodeTT.TableType.MAX_MAP_Q, defaultCreateTTable());
+        return new DebugTT(DebugOperationTT.TableType.MAX_MAP_Q, defaultCreateTTable());
     }
 
     @Override
     protected TTable createMinTTable() {
-        return new DebugTT(DebugNodeTT.TableType.MIN_MAP, defaultCreateTTable());
+        return new DebugTT(DebugOperationTT.TableType.MIN_MAP, defaultCreateTTable());
     }
 
     @Override
     protected TTable createMaxTTable() {
-        return new DebugTT(DebugNodeTT.TableType.MAX_MAP, defaultCreateTTable());
+        return new DebugTT(DebugOperationTT.TableType.MAX_MAP, defaultCreateTTable());
     }
 
     public DebugTT getMaxMap() {

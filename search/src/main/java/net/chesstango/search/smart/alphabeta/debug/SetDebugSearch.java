@@ -125,20 +125,20 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
 
         if (showNodeSorterTranspositionAccess) {
-            List<DebugNodeTT> sortedReads = currentNode.getSorterReads();
+            List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
             List<String> sortedMoves = currentNode.getSortedMoves();
             if (!sortedReads.isEmpty()) {
                 debugOut.printf("%s Sorter Reads: transpositions=%d \n", ">\t".repeat(currentNode.ply), sortedReads.size());
 
                 sortedMoves.forEach(moveStr -> {
 
-                    Optional<DebugNodeTT> ttOperationOpt = sortedReads
+                    Optional<DebugOperationTT> ttOperationOpt = sortedReads
                             .stream()
                             .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
                             .findAny();
 
                     if (ttOperationOpt.isPresent()) {
-                        DebugNodeTT ttOperation = ttOperationOpt.get();
+                        DebugOperationTT ttOperation = ttOperationOpt.get();
                         TranspositionEntry entry = ttOperation.getEntry();
                         int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                         debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",

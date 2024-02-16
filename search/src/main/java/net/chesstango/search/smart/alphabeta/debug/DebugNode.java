@@ -45,12 +45,12 @@ public class DebugNode {
 
     Integer standingPat;
 
-    DebugNodeTT entryRead;
+    DebugOperationTT entryRead;
 
-    DebugNodeTT entryWrite;
+    DebugOperationTT entryWrite;
 
     List<String> sortedMoves;
-    List<DebugNodeTT> sorterReads = new ArrayList<>();
+    List<DebugOperationTT> sorterReads = new ArrayList<>();
 
     List<DebugNode> childNodes = new LinkedList<>();
 

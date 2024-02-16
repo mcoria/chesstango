@@ -40,12 +40,12 @@ public class SearchTracker {
     }
 
 
-    public void trackReadTranspositionEntry(DebugNodeTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(DebugOperationTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
         if (entry != null && debugNode != null) {
             assert hashRequested == entry.hash;
             if (sorting) {
                 TranspositionEntry entryCloned = entry.clone();
-                debugNode.sorterReads.add(new DebugNodeTT()
+                debugNode.sorterReads.add(new DebugOperationTT()
                         .setHashRequested(hashRequested)
                         .setTableType(tableType)
                         .setEntry(entryCloned));
@@ -54,7 +54,7 @@ public class SearchTracker {
                     throw new RuntimeException("Overriding debugNode.entryRead");
                 }
                 TranspositionEntry entryCloned = entry.clone();
-                debugNode.entryRead = new DebugNodeTT()
+                debugNode.entryRead = new DebugOperationTT()
                         .setHashRequested(hashRequested)
                         .setTableType(tableType)
                         .setEntry(entryCloned);
@@ -62,7 +62,7 @@ public class SearchTracker {
         }
     }
 
-    public void trackWriteTranspositionEntry(DebugNodeTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    public void trackWriteTranspositionEntry(DebugOperationTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
         if (sorting) {
             throw new RuntimeException("Writing TT while sorting");
         } else {
@@ -77,7 +77,7 @@ public class SearchTracker {
                     .setMovesAndValue(movesAndValue)
                     .setTranspositionBound(transpositionBound);
 
-            debugNode.entryWrite = new DebugNodeTT()
+            debugNode.entryWrite = new DebugOperationTT()
                     .setHashRequested(hash)
                     .setTableType(tableType)
                     .setEntry(entryWrite);
@@ -110,7 +110,7 @@ public class SearchTracker {
         return debugNode;
     }
 
-    public List<DebugNodeTT> getSorterReads() {
+    public List<DebugOperationTT> getSorterReads() {
         return debugNode.sorterReads;
     }
 }

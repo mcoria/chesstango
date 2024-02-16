@@ -59,7 +59,7 @@ public class DebugSorter implements MoveSorter, SearchByCycleListener {
     }
 
     public void trackComparatorsReads(Iterable<Move> moves) {
-        List<DebugNodeTT> sorterReads = searchTracker.getSorterReads();
+        List<DebugOperationTT> sorterReads = searchTracker.getSorterReads();
 
         final long positionHash = game.getChessPosition().getZobristHash();
 
