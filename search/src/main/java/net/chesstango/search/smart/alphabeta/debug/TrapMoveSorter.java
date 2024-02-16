@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class DebugSorter implements MoveSorter, SearchByCycleListener {
+public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter

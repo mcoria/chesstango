@@ -6,6 +6,7 @@ import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.TrapEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.*;
 
 import java.util.LinkedList;
@@ -24,6 +25,7 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
+    private TrapEvaluation trapEvaluation;
     private TriangularPV triangularPV;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
@@ -31,7 +33,6 @@ public class QuiescenceChainBuilder {
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
-    private GameEvaluatorCache gameEvaluatorCache;
 
 
     public QuiescenceChainBuilder() {
@@ -112,7 +113,12 @@ public class QuiescenceChainBuilder {
         setupListenerMediator();
 
         quiescence.setMoveSorter(moveSorterBuilder.build());
-        quiescence.setGameEvaluator(gameEvaluator);
+
+        if (withDebugSearchTree) {
+            quiescence.setGameEvaluator(trapEvaluation);
+        } else {
+            quiescence.setGameEvaluator(gameEvaluator);
+        }
 
         return createChain();
     }
@@ -130,6 +136,8 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
+            trapEvaluation = new TrapEvaluation();
+            trapEvaluation.setGameEvaluator(gameEvaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
@@ -147,8 +155,9 @@ public class QuiescenceChainBuilder {
         if (transpositionTableQ != null) {
             smartListenerMediator.add(transpositionTableQ);
         }
-        if (debugFilter != null) {
+        if (withDebugSearchTree) {
             smartListenerMediator.add(debugFilter);
+            smartListenerMediator.add(trapEvaluation);
         }
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);

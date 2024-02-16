@@ -95,13 +95,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
         debugNode.setDebugSearch(fnString, alpha, beta);
 
-        /**
-         * Obtener SP directamente desde el filtro mediante un wrapper de evaluator
-         */
-        if (DebugNode.NodeTopology.QUIESCENCE.equals(topology)) {
-            //debugNode.standingPat = gameEvaluator.evaluate();
-        }
-
         return debugNode;
     }
 }

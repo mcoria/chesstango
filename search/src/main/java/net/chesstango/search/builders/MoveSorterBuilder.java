@@ -3,8 +3,8 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.debug.DebugEvaluation;
-import net.chesstango.search.smart.alphabeta.debug.DebugSorter;
+import net.chesstango.search.smart.alphabeta.debug.TrapReadFromCache;
+import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
@@ -22,8 +22,8 @@ public class MoveSorterBuilder {
     private RecaptureMoveComparator recaptureMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
-    private DebugSorter debugSorter;
-    private DebugEvaluation debugEvaluation;
+    private TrapMoveSorter trapMoveSorter;
+    private TrapReadFromCache trapReadFromCache;
     private GameEvaluatorCache gameEvaluatorCache;
     private GameEvaluatorComparator gameEvaluatorComparator;
     private boolean withQuietFilter;
@@ -65,9 +65,9 @@ public class MoveSorterBuilder {
         MoveSorter moveSorter = nodeMoveSorter;
         nodeMoveSorter.setMoveComparator(createComparatorChain());
 
-        if (debugSorter != null) {
-            debugSorter.setMoveSorterImp(moveSorter);
-            moveSorter = debugSorter;
+        if (trapMoveSorter != null) {
+            trapMoveSorter.setMoveSorterImp(moveSorter);
+            moveSorter = trapMoveSorter;
         }
 
         return moveSorter;
@@ -91,15 +91,15 @@ public class MoveSorterBuilder {
         }
 
         if (withDebugSearchTree) {
-            debugSorter = new DebugSorter();
-            debugEvaluation = new DebugEvaluation();
-            debugEvaluation.setGameEvaluatorCacheRead(gameEvaluatorCache);
+            trapMoveSorter = new TrapMoveSorter();
+            trapReadFromCache = new TrapReadFromCache();
+            trapReadFromCache.setGameEvaluatorCacheRead(gameEvaluatorCache);
         }
 
         if (gameEvaluatorCache != null) {
             gameEvaluatorComparator = new GameEvaluatorComparator();
             if (withDebugSearchTree) {
-                gameEvaluatorComparator.setGameEvaluatorCacheRead(debugEvaluation);
+                gameEvaluatorComparator.setGameEvaluatorCacheRead(trapReadFromCache);
             } else {
                 gameEvaluatorComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
             }
@@ -127,12 +127,12 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(gameEvaluatorComparator);
         }
 
-        if (debugSorter != null) {
-            smartListenerMediator.add(debugSorter);
+        if (trapMoveSorter != null) {
+            smartListenerMediator.add(trapMoveSorter);
         }
 
-        if (debugEvaluation != null) {
-            smartListenerMediator.add(debugEvaluation);
+        if (trapReadFromCache != null) {
+            smartListenerMediator.add(trapReadFromCache);
         }
     }
 
