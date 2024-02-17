@@ -71,7 +71,7 @@ public class EpdSearch {
                         return epdSearchResult;
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
-                        logger.error(String.format("Error processing: %s", epdEntry.fen));
+                        logger.error(String.format("Error processing: %s", epdEntry.text));
                         throw e;
                     } finally {
                         blockingQueue.put(searchMove);

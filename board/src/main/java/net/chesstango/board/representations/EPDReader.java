@@ -1,5 +1,6 @@
 package net.chesstango.board.representations;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
@@ -65,24 +66,31 @@ public class EPDReader {
     }
 
     public EPDEntry readEdpLine(String line) {
-        EPDEntry EPDEntry = parseLine(line);
-        EPDEntry.game = FENDecoder.loadGame(EPDEntry.fen);
+        EPDEntry epdEntry = parseLine(line);
+        epdEntry.game = FENDecoder.loadGame(epdEntry.fen);
 
-        if(EPDEntry.bestMovesString != null) {
-            String[] bestMoves = EPDEntry.bestMovesString.split(" ");
-            for (int i = 0; i < bestMoves.length; i++) {
-                Move move = decodeMove(bestMoves[i], EPDEntry.game.getPossibleMoves());
-                if (move != null) {
-                    EPDEntry.bestMoves.add(move);
-                } else {
-                    throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
-                }
-            }
+        if (epdEntry.bestMovesString != null) {
+            bestMovesStringToMoves(epdEntry.game, epdEntry.bestMovesString, epdEntry.bestMoves);
         }
-        return EPDEntry;
+        if (epdEntry.avoidMoves != null) {
+            bestMovesStringToMoves(epdEntry.game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
+        }
+        return epdEntry;
     }
 
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
+    private void bestMovesStringToMoves(Game game, String movesString, List<Move> moveList) {
+        String[] bestMoves = movesString.split(" ");
+        for (int i = 0; i < bestMoves.length; i++) {
+            Move move = decodeMove(bestMoves[i], game.getPossibleMoves());
+            if (move != null) {
+                moveList.add(move);
+            } else {
+                throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
+            }
+        }
+    }
+
+    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
     protected EPDEntry parseLine(String line) {
         EPDEntry edpParsed = new EPDEntry();
@@ -91,11 +99,15 @@ public class EPDReader {
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
             edpParsed.fen = matcher.group("fen");
-            if(matcher.group("bestmoves") != null) {
+            if (matcher.group("bestmoves") != null) {
                 edpParsed.bestMovesString = matcher.group("bestmoves");
                 edpParsed.bestMoves = new ArrayList<>();
             }
-            if(matcher.group("id") != null) {
+            if (matcher.group("avoidmoves") != null) {
+                edpParsed.avoidMovesString = matcher.group("avoidmoves");
+                edpParsed.avoidMoves = new ArrayList<>();
+            }
+            if (matcher.group("id") != null) {
                 edpParsed.id = matcher.group("id");
             }
         }
