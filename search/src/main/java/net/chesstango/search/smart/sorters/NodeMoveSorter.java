@@ -36,7 +36,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     }
 
     @Override
-    public Iterable<Move> getOrderedMoves() {
+    public Iterable<Move> getOrderedMoves(int currentPly) {
         MoveContainerReader moves = game.getPossibleMoves();
 
         List<Move> moveList = new ArrayList<>(moves.size());

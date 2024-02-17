@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
@@ -40,7 +39,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
 
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(0);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -86,7 +85,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
+            Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
             Iterator<Move> moveIterator = sortedMoves.iterator();
             while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();

@@ -14,25 +14,4 @@ public interface MoveComparator extends Comparator<Move> {
 
     void afterSort(Map<Short, Long> moveToZobrist);
 
-    /*
-    @Override
-    default MoveComparator reversed() {
-        return new MoveComparator() {
-            @Override
-            public void beforeSort() {
-                MoveComparator.this.beforeSort();
-            }
-
-            @Override
-            public void afterSort() {
-                MoveComparator.this.afterSort();
-            }
-
-            @Override
-            public int compare(Move o1, Move o2) {
-                return MoveComparator.this.compare(o2, o1);
-            }
-        };
-    }
-     */
 }
