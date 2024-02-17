@@ -150,6 +150,22 @@ public class EPDReaderTest {
         assertEquals(Square.e5, entry.bestMoves.get(0).getTo().getSquare());
     }
 
+    //3r2k1/1p3ppp/2pq4/p1n5/P6P/1P6/1PB2QP1/1K2R3 w - - am Rd1; id "position 03";
+
+    @Test
+    public void testReadEDP12(){
+        EPDEntry entry = EPDReader.readEdpLine("3r2k1/1p3ppp/2pq4/p1n5/P6P/1P6/1PB2QP1/1K2R3 w - - am Rd1; id \"position 03\";");
+
+        assertEquals("3r2k1/1p3ppp/2pq4/p1n5/P6P/1P6/1PB2QP1/1K2R3 w - -", entry.fen);
+        assertEquals("Rd1", entry.avoidMovesString);
+        assertEquals("position 03", entry.id);
+        assertNotNull(entry.game);
+        assertEquals(1, entry.avoidMoves.size());
+        assertEquals(Piece.ROOK_WHITE, entry.avoidMoves.get(0).getFrom().getPiece());
+        assertEquals(Square.e1, entry.avoidMoves.get(0).getFrom().getSquare());
+        assertEquals(Square.d1, entry.avoidMoves.get(0).getTo().getSquare());
+    }
+
     @Test
     @Disabled
     public void testReadMateAll(){

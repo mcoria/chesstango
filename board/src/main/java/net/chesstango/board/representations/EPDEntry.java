@@ -16,5 +16,8 @@ public class EPDEntry {
     public String bestMovesString;
     public List<Move> bestMoves;
 
+    public String avoidMovesString;
+    public List<Move> avoidMoves;
+
     public Game game;
 }

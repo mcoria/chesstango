@@ -5,7 +5,6 @@ import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -29,7 +28,7 @@ public class EpdSearchReportModel {
 
         reportModel.searches = edpEntries.size();
 
-        reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::bestMoveFound).count();
+        reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::epdResult).count();
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
@@ -38,7 +37,7 @@ public class EpdSearchReportModel {
         reportModel.failedEntries = new ArrayList<>();
 
         edpEntries.stream()
-                .filter(edpEntry -> !edpEntry.bestMoveFound())
+                .filter(edpEntry -> !edpEntry.epdResult())
                 .forEach(edpEntry ->
                         reportModel.failedEntries.add(
                                 String.format("Fail [%s] - best move found %s",
