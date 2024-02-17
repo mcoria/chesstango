@@ -149,7 +149,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void beforeSort(Map<Short, Long> moveToZobrist) {
+    public void beforeSort(int currentPly, Map<Short, Long> moveToZobrist) {
 
     }
 

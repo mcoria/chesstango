@@ -70,7 +70,7 @@ public class TranspositionHeadMoveComparatorTest {
         moves.forEach(movesList::add);
 
         Map<Short, Long> moveToZobrist = new HashMap<>();
-        headMoveComparator.beforeSort(moveToZobrist);
+        headMoveComparator.beforeSort(0, moveToZobrist);
         movesList.sort(headMoveComparator.reversed());
         headMoveComparator.afterSort(moveToZobrist);
 

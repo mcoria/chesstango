@@ -36,12 +36,12 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort(Map<Short, Long> moveToZobrist) {
+    public void beforeSort(final int currentPly, Map<Short, Long> moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
 
         this.currentTurn = game.getChessPosition().getCurrentTurn();
 
-        next.beforeSort(moveToZobrist);
+        next.beforeSort(currentPly, moveToZobrist);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     }
 
     @Override
-    public Iterable<Move> getOrderedMoves(int currentPly) {
+    public Iterable<Move> getOrderedMoves(final int currentPly) {
         MoveContainerReader moves = game.getPossibleMoves();
 
         List<Move> moveList = new ArrayList<>(moves.size());
@@ -47,7 +47,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
         }
 
         Map<Short, Long> moveToZobrist = new HashMap<>();
-        moveComparator.beforeSort(moveToZobrist);
+        moveComparator.beforeSort(currentPly, moveToZobrist);
         moveList.sort(moveComparator.reversed());
         moveComparator.afterSort(moveToZobrist);
 

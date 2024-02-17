@@ -43,7 +43,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void beforeSort(Map<Short, Long> moveToZobrist) {
+    public void beforeSort(final int currentPly, Map<Short, Long> moveToZobrist) {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long hash = game.getChessPosition().getZobristHash();
@@ -57,7 +57,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
             bestMoveEncoded = 0;
         }
 
-        next.beforeSort(moveToZobrist);
+        next.beforeSort(currentPly, moveToZobrist);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface MoveComparator extends Comparator<Move> {
 
-    void beforeSort(Map<Short, Long> moveToZobrist);
+    void beforeSort(final int currentPly, Map<Short, Long> moveToZobrist);
 
     void afterSort(Map<Short, Long> moveToZobrist);
 

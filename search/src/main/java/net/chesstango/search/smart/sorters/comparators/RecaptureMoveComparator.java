@@ -30,11 +30,11 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort(Map<Short, Long> moveToZobrist) {
+    public void beforeSort(final int currentPly, Map<Short, Long> moveToZobrist) {
         GameStateReader previousState = this.game.getState().getPreviousState();
         previousMove = previousState.getSelectedMove();
 
-        next.beforeSort(moveToZobrist);
+        next.beforeSort(currentPly, moveToZobrist);
     }
 
     @Override
