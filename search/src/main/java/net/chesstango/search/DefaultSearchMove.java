@@ -12,33 +12,12 @@ public class DefaultSearchMove implements SearchMove {
 
     private final SearchMove imp;
 
-
     public DefaultSearchMove() {
         this(new DefaultEvaluator());
     }
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
-        this.imp = new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-                .withQTranspositionTable()
-                //.withTranspositionTableReuse()
-
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStopProcessingCatch()
-
-                //.withStatics()
-
-                .build();
+        this.imp = createDefaultBuilderInstance(gameEvaluator).build();
     }
 
     @Override
@@ -66,7 +45,23 @@ public class DefaultSearchMove implements SearchMove {
         imp.setProgressListener(progressListener);
     }
 
-    public SearchMove getImplementation() {
-        return imp;
+    public static AlphaBetaBuilder createDefaultBuilderInstance(final GameEvaluator gameEvaluator) {
+        return new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluator)
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withTranspositionTable()
+                .withQTranspositionTable()
+
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
+
+                .withAspirationWindows()
+                .withIterativeDeepening()
+
+                .withStopProcessingCatch();
     }
+
 }

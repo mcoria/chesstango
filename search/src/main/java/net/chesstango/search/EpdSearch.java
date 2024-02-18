@@ -5,8 +5,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.move.SANEncoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
-import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.evaluation.DefaultEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -23,11 +23,11 @@ public class EpdSearch {
 
     private static final int SEARCH_THREADS = 4;
 
-    protected static final SANEncoder sanEncoder = new SANEncoder();
+    private static final SANEncoder sanEncoder = new SANEncoder();
 
     @Setter
     @Accessors(chain = true)
-    private SearchMove searchMove;
+    private Supplier<SearchMove> searchMoveSupplier;
 
     @Setter
     @Accessors(chain = true)
@@ -35,7 +35,7 @@ public class EpdSearch {
 
 
     public EpdSearchResult run(EPDEntry epdEntry) {
-        return run(searchMove, epdEntry);
+        return run(searchMoveSupplier.get(), epdEntry);
     }
 
     public List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
@@ -44,38 +44,33 @@ public class EpdSearch {
         BlockingQueue<SearchMove> blockingQueue = new LinkedBlockingDeque<>(SEARCH_THREADS);
 
         for (int i = 0; i < SEARCH_THREADS; i++) {
-            blockingQueue.add(buildSearchMove());
+            blockingQueue.add(searchMoveSupplier.get());
         }
 
         List<Future<EpdSearchResult>> futures = new LinkedList<>();
         for (EPDEntry epdEntry : edpEntries) {
-            Future<EpdSearchResult> future = executorService.submit(new Callable<>() {
-                @Override
-                public EpdSearchResult call() throws Exception {
-                    SearchMove searchMove = null;
-                    try {
-                        searchMove = blockingQueue.take();
-                        EpdSearchResult epdSearchResult = new EpdSearch()
-                                .setSearchMove(searchMove)
-                                .setDepth(depth)
-                                .run(epdEntry);
-                        if (epdSearchResult.epdResult()) {
-                            //logger.info(String.format("Success %s", epdEntry.fen));
-                        } else {
-                            String failedTest = String.format("Fail [%s] - best move found %s",
-                                    epdEntry.text,
-                                    epdSearchResult.bestMoveFoundStr()
-                            );
-                            logger.info(failedTest);
-                        }
-                        return epdSearchResult;
-                    } catch (RuntimeException e) {
-                        e.printStackTrace(System.err);
-                        logger.error(String.format("Error processing: %s", epdEntry.text));
-                        throw e;
-                    } finally {
-                        blockingQueue.put(searchMove);
+            Future<EpdSearchResult> future = executorService.submit(() -> {
+                SearchMove searchMove = null;
+                try {
+                    searchMove = blockingQueue.take();
+                    EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
+                    if (epdSearchResult.epdResult()) {
+                        //logger.info(String.format("Success %s", epdEntry.fen));
+                    } else {
+                        String failedTest = String.format("Fail [%s] - best move found %s",
+                                epdEntry.text,
+                                epdSearchResult.bestMoveFoundStr()
+                        );
+                        logger.info(failedTest);
                     }
+                    return epdSearchResult;
+                } catch (RuntimeException e) {
+                    e.printStackTrace(System.err);
+                    logger.error(String.format("Error processing: %s", epdEntry.text));
+                    throw e;
+                } finally {
+                    assert searchMove != null;
+                    blockingQueue.put(searchMove);
                 }
             });
 
@@ -110,7 +105,6 @@ public class EpdSearch {
 
         epdSearchResults.sort(Comparator.comparing(o -> o.epdEntry().id));
 
-
         return epdSearchResults;
     }
 
@@ -140,29 +134,5 @@ public class EpdSearch {
 
 
         return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, epdSearchResult);
-    }
-
-
-    private static SearchMove buildSearchMove() {
-        return new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorSEandImp02())
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-                .withQTranspositionTable()
-
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
-
-                .withIterativeDeepening()
-                .withAspirationWindows()
-                //.withTriangularPV()
-
-                .withStatistics()
-                //.withTrackEvaluations() // Consume demasiada memoria
-
-                .build();
     }
 }
