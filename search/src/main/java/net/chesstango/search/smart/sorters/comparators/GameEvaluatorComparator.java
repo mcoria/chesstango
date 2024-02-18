@@ -5,12 +5,11 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -26,7 +25,7 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     private GameEvaluatorCacheRead gameEvaluatorCacheRead;
 
     private Game game;
-    private Map<Short, Long> moveToZobrist;
+    private MoveToHashMap moveToZobrist;
     private Color currentTurn;
 
     @Override
@@ -36,16 +35,16 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort(Map<Short, Long> moveToZobrist) {
+    public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
 
         this.currentTurn = game.getChessPosition().getCurrentTurn();
 
-        next.beforeSort(moveToZobrist);
+        next.beforeSort(currentPly, moveToZobrist);
     }
 
     @Override
-    public void afterSort(Map<Short, Long> moveToZobrist) {
+    public void afterSort(MoveToHashMap moveToZobrist) {
         next.afterSort(moveToZobrist);
     }
 
@@ -53,8 +52,8 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final Integer moveEvaluation1 = getTranspositionEntry(o1);
-        final Integer moveEvaluation2 = getTranspositionEntry(o2);
+        final Integer moveEvaluation1 = gameEvaluatorCacheRead.readFromCache(getZobristHashMove(o1));
+        final Integer moveEvaluation2 = gameEvaluatorCacheRead.readFromCache(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
             int evaluation1 = TranspositionEntry.decodeValue(moveEvaluation1);
@@ -69,13 +68,13 @@ public class GameEvaluatorComparator implements MoveComparator, SearchByCycleLis
         return result == 0 ? next.compare(o1, o2) : result;
     }
 
-    private Integer getTranspositionEntry(Move move) {
-
-        final short moveEncoded = move.binaryEncoding();
-
-        final long zobristHashMove = moveToZobrist.computeIfAbsent(moveEncoded, k -> game.getChessPosition().getZobristHash(move));
-
-        return gameEvaluatorCacheRead.readFromCache(zobristHashMove);
+    private long getZobristHashMove(Move move) {
+        long hash = moveToZobrist.read(move);
+        if (hash == 0) {
+            hash = game.getChessPosition().getZobristHash(move);
+            moveToZobrist.write(move, hash);
+        }
+        return hash;
     }
 
 }

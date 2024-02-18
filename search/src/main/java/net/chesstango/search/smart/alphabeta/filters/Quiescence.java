@@ -43,7 +43,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
             return TranspositionEntry.encode(maxValue);
         }
 
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
@@ -77,7 +77,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
             return TranspositionEntry.encode(minValue);
         }
 
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves();
+        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();

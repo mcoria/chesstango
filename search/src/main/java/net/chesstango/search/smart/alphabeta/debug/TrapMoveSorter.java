@@ -28,11 +28,11 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
     private Game game;
 
     @Override
-    public Iterable<Move> getOrderedMoves() {
+    public Iterable<Move> getOrderedMoves(final int currentPly) {
 
         searchTracker.sortingON();
 
-        Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves();
+        Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
 
         searchTracker.trackSortedMoves(convertMoveListToStringList(sortedMoves));
 
