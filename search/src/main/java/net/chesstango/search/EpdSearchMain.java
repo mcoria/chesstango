@@ -65,11 +65,17 @@ public class EpdSearchMain {
         getEpdFiles(directory, filePattern).forEach(suite::execute);
     }
 
-
-    protected final int depth;
+    private final EpdSearch epdSearch;
+    private final int depth;
 
     public EpdSearchMain(int depth) {
         this.depth = depth;
+        this.epdSearch = new EpdSearch()
+                .setSearchMoveSupplier(() -> DefaultSearchMove
+                        .createDefaultBuilderInstance(new DefaultEvaluator())
+                        .withStatistics()
+                        .build())
+                .setDepth(depth);
     }
 
     public void execute(Path suitePath) {
@@ -77,13 +83,7 @@ public class EpdSearchMain {
 
         List<EPDEntry> edpEntries = reader.readEdpFile(suitePath);
 
-        List<EpdSearchResult> epdSearchResults = new EpdSearch()
-                .setDepth(depth)
-                .setSearchMoveSupplier(() -> DefaultSearchMove
-                        .createDefaultBuilderInstance(new DefaultEvaluator())
-                        .withStatistics()
-                        .build())
-                .run(edpEntries);
+        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
 
         report(suitePath, epdSearchResults);
 
