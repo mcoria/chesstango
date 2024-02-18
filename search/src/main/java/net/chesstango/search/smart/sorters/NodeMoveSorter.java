@@ -5,14 +5,13 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.comparators.MoveComparator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -20,6 +19,7 @@ import java.util.function.Predicate;
  */
 public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
     private final Predicate<Move> filter;
+    private final MoveToHashMap moveToZobrist;
 
     private Game game;
 
@@ -33,6 +33,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
 
     public NodeMoveSorter(Predicate<Move> filter) {
         this.filter = filter;
+        this.moveToZobrist = new MoveToHashMap();
     }
 
     @Override
@@ -46,7 +47,8 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
             }
         }
 
-        Map<Short, Long> moveToZobrist = new HashMap<>();
+        moveToZobrist.clear();
+
         moveComparator.beforeSort(currentPly, moveToZobrist);
         moveList.sort(moveComparator.reversed());
         moveComparator.afterSort(moveToZobrist);

@@ -13,10 +13,11 @@ public class ArrayTTable implements TTable {
     public ArrayTTable() {
         this.transpositionArray = new TranspositionEntry[ARRAY_SIZE];
         this.sessionArray = new int[ARRAY_SIZE];
-        this.currentSessionId = 1;
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.transpositionArray[i] = new TranspositionEntry();
+            this.sessionArray[i] = Integer.MIN_VALUE;
         }
+        this.currentSessionId = Integer.MIN_VALUE + 1;
     }
 
     @Override
@@ -57,6 +58,10 @@ public class ArrayTTable implements TTable {
 
     @Override
     public void clear() {
-        currentSessionId++;
+        if (currentSessionId < Integer.MAX_VALUE) {
+            currentSessionId++;
+        } else {
+            currentSessionId = Integer.MIN_VALUE;
+        }
     }
 }

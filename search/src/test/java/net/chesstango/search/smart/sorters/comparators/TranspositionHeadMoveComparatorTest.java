@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.transposition.MapTTable;
@@ -69,7 +70,7 @@ public class TranspositionHeadMoveComparatorTest {
         MoveContainerReader moves = game.getPossibleMoves();
         moves.forEach(movesList::add);
 
-        Map<Short, Long> moveToZobrist = new HashMap<>();
+        MoveToHashMap moveToZobrist = new MoveToHashMap();
         headMoveComparator.beforeSort(0, moveToZobrist);
         movesList.sort(headMoveComparator.reversed());
         headMoveComparator.afterSort(moveToZobrist);

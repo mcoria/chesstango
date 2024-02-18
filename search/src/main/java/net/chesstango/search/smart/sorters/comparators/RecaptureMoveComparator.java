@@ -7,10 +7,10 @@ import net.chesstango.board.GameStateReader;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,7 +30,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void beforeSort(final int currentPly, Map<Short, Long> moveToZobrist) {
+    public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         GameStateReader previousState = this.game.getState().getPreviousState();
         previousMove = previousState.getSelectedMove();
 
@@ -38,7 +38,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void afterSort(Map<Short, Long> moveToZobrist) {
+    public void afterSort(MoveToHashMap moveToZobrist) {
         next.afterSort(moveToZobrist);
     }
 

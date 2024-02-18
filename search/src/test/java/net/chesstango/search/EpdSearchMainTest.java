@@ -7,10 +7,7 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReport;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -22,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class EpdSearchMainTest {
     private static final boolean PRINT_REPORT = false;
-    private EPDReader epdReader;
-    private EpdSearch epdSearch;
+    private static EPDReader epdReader;
+    private static EpdSearch epdSearch;
     private EpdSearchResult epdSearchResult;
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         epdReader = new EPDReader();
         epdSearch = new EpdSearch();
         epdSearch.setSearchMove(buildSearchMove());
@@ -261,7 +258,7 @@ public class EpdSearchMainTest {
     }
 
 
-    private SearchMove buildSearchMove() {
+    private static SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
                 .withGameEvaluatorCache()
@@ -283,7 +280,7 @@ public class EpdSearchMainTest {
                 //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                //.withDebugSearchTree(null, false, false, false)
+                //.withDebugSearchTree(null, false, false, true)
 
                 .build();
     }

@@ -123,6 +123,8 @@ public class EpdSearch {
 
         searchResult.setEpdID(epdEntry.id);
 
+        searchMove.reset();
+
         Move bestMove = searchResult.getBestMove();
 
         String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
