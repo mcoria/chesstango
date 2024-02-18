@@ -2,7 +2,9 @@ package net.chesstango.search;
 
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
-import net.chesstango.search.reports.*;
+import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.search.reports.EpdSearchReport;
+import net.chesstango.search.reports.EpdSearchReportModel;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.evaluation.EvaluationReportModel;
 import net.chesstango.search.reports.nodes.NodesReport;
@@ -77,6 +79,10 @@ public class EpdSearchMain {
 
         List<EpdSearchResult> epdSearchResults = new EpdSearch()
                 .setDepth(depth)
+                .setSearchMoveSupplier(() -> DefaultSearchMove
+                        .createDefaultBuilderInstance(new DefaultEvaluator())
+                        .withStatistics()
+                        .build())
                 .run(edpEntries);
 
         report(suitePath, epdSearchResults);

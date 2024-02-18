@@ -7,7 +7,10 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReport;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class EpdSearchMainTest {
     public static void setup() {
         epdReader = new EPDReader();
         epdSearch = new EpdSearch();
-        epdSearch.setSearchMove(buildSearchMove());
+        epdSearch.setSearchMoveSupplier(EpdSearchMainTest::buildSearchMove);
     }
 
     @AfterEach
