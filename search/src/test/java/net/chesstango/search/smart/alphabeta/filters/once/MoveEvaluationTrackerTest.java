@@ -1,20 +1,26 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Mauricio Coria
@@ -28,13 +34,13 @@ public class MoveEvaluationTrackerTest {
     public void setup() {
         moveEvaluationTracker = new MoveEvaluationTracker();
         moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-
-        moveEvaluationTracker.beforeSearch(new SearchByCycleContext(null));
-        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
     }
 
     @Test
     public void test01() {
+        moveEvaluationTracker.beforeSearch(new SearchByCycleContext(null));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+
         final Move move1 = moveFactory.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.EXACT));
 
@@ -62,6 +68,9 @@ public class MoveEvaluationTrackerTest {
 
     @Test
     public void test02() {
+        moveEvaluationTracker.beforeSearch(new SearchByCycleContext(null));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+
         final Move move1 = moveFactory.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.LOWER_BOUND));
 
@@ -84,6 +93,35 @@ public class MoveEvaluationTrackerTest {
         assertEquals(move3, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
         assertEquals(MoveEvaluationType.UPPER_BOUND, minEvaluation.moveEvaluationType());
+    }
+
+
+    @Test
+    public void test03() {
+        AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
+        when(fn.search(0, -500, 500))
+                .thenReturn(TranspositionEntry.encode(-1000))
+                .thenReturn(TranspositionEntry.encode(1000));
+
+
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        moveEvaluationTracker.beforeSearch(new SearchByCycleContext(game));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+
+        game.executeMove(Square.a2, Square.a3);
+        moveEvaluationTracker.process(0, -500, 500, fn);
+        game.undoMove();
+
+        game.executeMove(Square.b2, Square.b3);
+        moveEvaluationTracker.process(0, -500, 500, fn);
+        game.undoMove();
+
+        MoveEvaluation maxEvaluation = moveEvaluationTracker.getBestMoveEvaluation(true);
+        assertNotNull(maxEvaluation);
+        Move move = maxEvaluation.move();
+        assertEquals(PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_WHITE), move.getFrom());
+        assertEquals(1000, maxEvaluation.evaluation());
+        assertEquals(MoveEvaluationType.LOWER_BOUND, maxEvaluation.moveEvaluationType());
     }
 
 }
