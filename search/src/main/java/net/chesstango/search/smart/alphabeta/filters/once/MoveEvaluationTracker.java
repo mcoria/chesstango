@@ -13,10 +13,10 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.OptionalInt;
+import java.util.stream.Stream;
 
 /**
  * Funciona como una cache de resultados y es un complemento de aspiration windows
@@ -31,20 +31,16 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     private List<MoveEvaluation> currentMoveEvaluations;
 
-    private Map<Short, Long> moveToMoveAndValueMap;
-
     private Game game;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.currentMoveEvaluations = null;
         this.game = context.getGame();
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        currentMoveEvaluations = new LinkedList<>();
-        moveToMoveAndValueMap = new HashMap<>();
+        this.currentMoveEvaluations = new LinkedList<>();
     }
 
     @Override
@@ -57,10 +53,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
         }
-    }
-
-    @Override
-    public void afterSearchByWindows(boolean searchByWindowsFinished) {
     }
 
     @Override
@@ -91,24 +83,63 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         return process(currentPly, alpha, beta, next::minimize);
     }
 
-    private long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    public MoveEvaluation getBestMoveEvaluation(boolean maximize) {
+        Stream<MoveEvaluation> exactEvaluationStream = currentMoveEvaluations.stream();
+
+        OptionalInt bestEvaluation;
+        if (maximize) {
+            bestEvaluation = exactEvaluationStream
+                    .filter(moveEvaluation -> !MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()))
+                    .mapToInt(MoveEvaluation::evaluation)
+                    .max();
+        } else {
+            bestEvaluation = exactEvaluationStream
+                    .filter(moveEvaluation -> !MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()))
+                    .mapToInt(MoveEvaluation::evaluation)
+                    .min();
+        }
+
+        return bestEvaluation.isPresent() ? getBestMoveEvaluation(maximize, bestEvaluation.getAsInt()) : null;
+    }
+
+    protected MoveEvaluation getBestMoveEvaluation(final boolean maximize, final int bestEvaluation) {
+        MoveEvaluation result = null;
+        for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
+            if (evaluatedMove.evaluation() == bestEvaluation) {
+                result = evaluatedMove;
+                // En caso que sea la 1er busqueda con una ventana demasiado chica
+                if (maximize && MoveEvaluationType.LOWER_BOUND.equals(evaluatedMove.moveEvaluationType())) {
+                    break;
+                }
+
+                // En caso que sea la 1er busqueda con una ventana demasiado chica
+                if (!maximize && MoveEvaluationType.UPPER_BOUND.equals(evaluatedMove.moveEvaluationType())) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+
+    protected long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         Move currentMove = game.getState().getPreviousState().getSelectedMove();
 
         for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {
-                return moveToMoveAndValueMap.get(evaluatedMove.move().binaryEncoding());
+                return TranspositionEntry.encode(evaluatedMove.move(), evaluatedMove.evaluation());
             }
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
 
-        trackMove(currentMove, bestMoveAndValue, alpha, beta);
+        trackMoveEvaluation(currentMove, bestMoveAndValue, alpha, beta);
 
         return bestMoveAndValue;
     }
 
 
-    private void trackMove(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
+    protected void trackMoveEvaluation(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
         MoveEvaluationType moveEvaluationType = null;
@@ -121,9 +152,10 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
             moveEvaluationType = MoveEvaluationType.EXACT;
         }
 
-
-        currentMoveEvaluations.add(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
-        moveToMoveAndValueMap.put(currentMove.binaryEncoding(), bestMoveAndValue);
+        trackMoveEvaluation(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
     }
 
+    protected void trackMoveEvaluation(MoveEvaluation moveEvaluation) {
+        currentMoveEvaluations.add(moveEvaluation);
+    }
 }

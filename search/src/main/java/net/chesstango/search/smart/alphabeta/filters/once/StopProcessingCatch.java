@@ -1,10 +1,10 @@
 package net.chesstango.search.smart.alphabeta.filters.once;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -14,15 +14,18 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.util.Objects;
-
 /**
  * @author Mauricio Coria
  */
 public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
+    @Getter
     private AlphaBetaFilter next;
+
+    @Setter
+    @Getter
+    private MoveEvaluationTracker moveEvaluationTracker;
 
     @Setter
     private Game game;
@@ -42,15 +45,15 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::maximize, false);
+        return process(currentPly, alpha, beta, next::maximize, true);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return process(currentPly, alpha, beta, next::minimize, true);
+        return process(currentPly, alpha, beta, next::minimize, false);
     }
 
-    private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean naturalOrderSort) {
+    private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean maximize) {
         final long startHash = game.getChessPosition().getZobristHash();
 
         try {
@@ -59,12 +62,19 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
             undoMoves(startHash);
         }
 
-        /**
-         * Podria retornar algo mejor que el resultado de la busqueda anterior
-         */
-        if (Objects.nonNull(lastBestMoveEvaluation)) {
-            Move bestMove = lastBestMoveEvaluation.move();
-            int bestValue = lastBestMoveEvaluation.evaluation();
+        // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
+        MoveEvaluation bestEvaluationResult = moveEvaluationTracker.getBestMoveEvaluation(maximize);
+
+
+        // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior
+        if (bestEvaluationResult == null && lastBestMoveEvaluation != null) {
+            bestEvaluationResult = lastBestMoveEvaluation;
+        }
+
+
+        if (bestEvaluationResult != null) {
+            Move bestMove = bestEvaluationResult.move();
+            int bestValue = bestEvaluationResult.evaluation();
             return TranspositionEntry.encode(bestMove, bestValue);
         }
 

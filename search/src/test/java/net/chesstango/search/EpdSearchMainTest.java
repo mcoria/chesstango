@@ -279,6 +279,8 @@ public class EpdSearchMainTest {
                 .withIterativeDeepening()
                 .withAspirationWindows()
 
+                //.withStopProcessingCatch()
+
                 //.withStatistics()
                 //.withPrintChain()
                 //.withZobristTracker()
