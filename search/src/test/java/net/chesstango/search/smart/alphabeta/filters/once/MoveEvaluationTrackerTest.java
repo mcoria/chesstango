@@ -96,6 +96,11 @@ public class MoveEvaluationTrackerTest {
     }
 
 
+    /**
+     * Este caso es interesante, representa una busqueda con windows muy cerrado.
+     * Hay SOLO dos movimientos; el primero por debajo de alpha y el segundo por arriba de beta.
+     *
+     */
     @Test
     public void test03() {
         AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
