@@ -21,6 +21,7 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public final class SearchManager {
+    private final int INFINITE_DEPTH = 100;
     private final SearchListener listenerClient;
     private final SearchManagerChain searchManagerChain;
     private final SearchManagerByBook searchManagerByBook;
@@ -43,7 +44,7 @@ public final class SearchManager {
     }
 
     public void searchInfinite(Game game) {
-        searchImp(game, Integer.MAX_VALUE, 0);
+        searchImp(game, INFINITE_DEPTH, 0);
     }
 
     public void searchDepth(Game game, int depth) {
@@ -51,12 +52,12 @@ public final class SearchManager {
     }
 
     public void searchTime(Game game, int timeOut) {
-        searchImp(game, Integer.MAX_VALUE, timeOut);
+        searchImp(game, INFINITE_DEPTH, timeOut);
     }
 
     public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
         final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        searchImp(game, Integer.MAX_VALUE, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo));
+        searchImp(game, INFINITE_DEPTH, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo));
     }
 
     public void reset() {

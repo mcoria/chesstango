@@ -42,8 +42,9 @@ public class EpdSearchMain {
     /**
      * Parametros
      * 1. Depth
-     * 2. Directorio donde se encuentran los archivos de posicion
-     * 3. Filtro de archivos
+     * 2. TimeOut in milliseconds
+     * 3. Directorio donde se encuentran los archivos de posicion
+     * 4. Filtro de archivos
      * <p>
      * Ejemplo:
      * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-[wb][123].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
@@ -54,13 +55,15 @@ public class EpdSearchMain {
 
         int depth = Integer.parseInt(args[0]);
 
-        String directory = args[1];
+        int timeOut = Integer.parseInt(args[1]);
 
-        String filePattern = args[2];
+        String directory = args[2];
 
-        System.out.printf("depth={%d}, directory={%s}; filePattern={%s}\n", depth, directory, filePattern);
+        String filePattern = args[3];
 
-        EpdSearchMain suite = new EpdSearchMain(depth);
+        System.out.printf("depth={%d}; timeOut={%d; }directory={%s}; filePattern={%s}\n", depth, timeOut, directory, filePattern);
+
+        EpdSearchMain suite = new EpdSearchMain(depth, timeOut);
 
         getEpdFiles(directory, filePattern).forEach(suite::execute);
     }
@@ -68,7 +71,7 @@ public class EpdSearchMain {
     private final EpdSearch epdSearch;
     private final int depth;
 
-    public EpdSearchMain(int depth) {
+    public EpdSearchMain(int depth, int timeOut) {
         this.depth = depth;
         this.epdSearch = new EpdSearch()
                 .setSearchMoveSupplier(() -> DefaultSearchMove
@@ -76,6 +79,11 @@ public class EpdSearchMain {
                         .withStatistics()
                         .build())
                 .setDepth(depth);
+
+        if (timeOut > 0) {
+            this.epdSearch.setTimeOut(timeOut);
+        }
+
     }
 
     public void execute(Path suitePath) {
