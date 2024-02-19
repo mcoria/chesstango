@@ -17,6 +17,7 @@ import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -150,7 +151,9 @@ public class ChainPrinter {
                 printChainDebugTree(debugFilter, nestedChain);
             } else if (alphaBetaFilter instanceof LoopEvaluation loopEvaluation) {
                 printChainLoopEvaluation(loopEvaluation, nestedChain);
-            } else {
+            } else if (alphaBetaFilter instanceof StopProcessingCatch stopProcessingCatch) {
+                printChainStopProcessingCatch(stopProcessingCatch, nestedChain);
+            }else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
         } else {
@@ -181,6 +184,12 @@ public class ChainPrinter {
     private void printChainLoopEvaluation(LoopEvaluation loopEvaluation, int nestedChain) {
         printNodeObjectText(loopEvaluation, nestedChain);
         printChainText("", nestedChain);
+    }
+
+    private void printChainStopProcessingCatch(StopProcessingCatch stopProcessingCatch, int nestedChain) {
+        printChainText(String.format("%s", objectText(stopProcessingCatch)), nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(stopProcessingCatch.getNext(), nestedChain);
     }
 
     private void printChainZobristTracker(ZobristTracker zobristTracker, int nestedChain) {

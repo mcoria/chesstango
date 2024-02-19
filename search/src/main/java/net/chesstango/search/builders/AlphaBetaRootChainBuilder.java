@@ -138,8 +138,11 @@ public class AlphaBetaRootChainBuilder {
             triangularPV = new TriangularPV();
         }
 
+        if (stopProcessingCatch != null) {
+            stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
+        }
+
         alphaBeta.setMoveSorter(moveSorter);
-        //moveEvaluationTracker.setStopProcessingCatch(stopProcessingCatch);
     }
 
 

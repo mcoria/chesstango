@@ -6,5 +6,6 @@ package net.chesstango.search.smart;
 public interface SearchByWindowsListener extends SmartListener {
     void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle);
 
-    void afterSearchByWindows(boolean searchByWindowsFinished);
+    default void afterSearchByWindows(boolean searchByWindowsFinished) {
+    }
 }
