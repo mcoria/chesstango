@@ -5,20 +5,25 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.move.SANEncoder;
-import net.chesstango.evaluation.DefaultEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
  */
 public class EpdSearch {
+    private final int INFINITE_DEPTH = 100;
+
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
 
     private static final int SEARCH_THREADS = 4;
@@ -33,26 +38,40 @@ public class EpdSearch {
     @Accessors(chain = true)
     private int depth;
 
+    @Setter
+    @Accessors(chain = true)
+    private Integer timeOut;
+
 
     public EpdSearchResult run(EPDEntry epdEntry) {
-        return run(searchMoveSupplier.get(), epdEntry);
+        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(List.of(epdEntry)).get(0);
     }
 
     public List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
+        AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
+        List<SearchJob> activeJobs = new ArrayList<>(SEARCH_THREADS);
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
 
-        BlockingQueue<SearchMove> blockingQueue = new LinkedBlockingDeque<>(SEARCH_THREADS);
-
+        BlockingQueue<SearchMove> searchMovePool = new LinkedBlockingDeque<>(SEARCH_THREADS);
         for (int i = 0; i < SEARCH_THREADS; i++) {
-            blockingQueue.add(searchMoveSupplier.get());
+            searchMovePool.add(searchMoveSupplier.get());
         }
 
         List<Future<EpdSearchResult>> futures = new LinkedList<>();
         for (EPDEntry epdEntry : edpEntries) {
             Future<EpdSearchResult> future = executorService.submit(() -> {
-                SearchMove searchMove = null;
+                SearchJob searchJob = null;
                 try {
-                    searchMove = blockingQueue.take();
+                    Instant startInstant = Instant.now();
+
+                    SearchMove searchMove = searchMovePool.take();
+
+                    searchJob = new SearchJob(startInstant, searchMove);
+
+                    synchronized (EpdSearch.this) {
+                        activeJobs.add(searchJob);
+                    }
+
                     EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
                     if (epdSearchResult.epdResult()) {
                         //logger.info(String.format("Success %s", epdEntry.fen));
@@ -63,22 +82,43 @@ public class EpdSearch {
                         );
                         logger.info(failedTest);
                     }
+
                     return epdSearchResult;
                 } catch (RuntimeException e) {
                     e.printStackTrace(System.err);
                     logger.error(String.format("Error processing: %s", epdEntry.text));
                     throw e;
                 } finally {
-                    assert searchMove != null;
-                    blockingQueue.put(searchMove);
+                    assert searchJob != null;
+
+                    synchronized (EpdSearch.this) {
+                        activeJobs.remove(searchJob);
+                    }
+
+                    searchMovePool.put(searchJob.searchMove);
+                    pendingJobsCounter.decrementAndGet();
                 }
             });
 
             futures.add(future);
         }
 
-        executorService.shutdown();
         try {
+
+            if (timeOut != null) {
+                while (pendingJobsCounter.get() > 0) {
+                    Thread.sleep(500);
+                    synchronized (this) {
+                        activeJobs.forEach(searchJob -> {
+                            if (searchJob.elapsedMillis() >= timeOut) {
+                                searchJob.searchMove.stopSearching();
+                            }
+                        });
+                    }
+                }
+            }
+
+            executorService.shutdown();
             while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
             }
         } catch (InterruptedException e) {
@@ -121,8 +161,6 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
-
         boolean epdSearchResult;
         if (epdEntry.bestMoves != null && !epdEntry.bestMoves.isEmpty()) {
             epdSearchResult = epdEntry.bestMoves.contains(bestMove);
@@ -132,7 +170,13 @@ public class EpdSearch {
             throw new RuntimeException("Undefined expected EPD result");
         }
 
-
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
         return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, epdSearchResult);
+    }
+
+    private record SearchJob(Instant startInstant, SearchMove searchMove) {
+        public long elapsedMillis() {
+            return Duration.between(startInstant, Instant.now()).toMillis();
+        }
     }
 }

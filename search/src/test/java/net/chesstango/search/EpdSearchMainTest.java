@@ -262,7 +262,7 @@ public class EpdSearchMainTest {
 
 
     private static SearchMove buildSearchMove() {
-        return new AlphaBetaBuilder()
+        AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
                 .withGameEvaluatorCache()
 
@@ -280,13 +280,15 @@ public class EpdSearchMainTest {
                 .withAspirationWindows()
 
                 //.withStopProcessingCatch()
-
                 //.withStatistics()
                 //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withDebugSearchTree(null, false, false, true)
+                ;
 
-                .build();
+        if (PRINT_REPORT) builder.withStatistics();
+
+        return builder.build();
     }
 }
