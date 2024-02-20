@@ -74,9 +74,5 @@ public class ZobristNoCollisionTest {
     }
 
 
-    private Game getDefaultGame() {
-        return getGame(FENDecoder.INITIAL_FEN);
-    }
-
 }
 

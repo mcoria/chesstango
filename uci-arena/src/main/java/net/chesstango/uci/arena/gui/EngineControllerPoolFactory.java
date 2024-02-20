@@ -1,5 +1,6 @@
-package net.chesstango.uci.arena;
+package net.chesstango.uci.arena.gui;
 
+import lombok.Getter;
 import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -16,6 +17,13 @@ import java.util.function.Supplier;
 public class EngineControllerPoolFactory extends BasePooledObjectFactory<EngineController> {
     private final Supplier<EngineController> fnCreateEngineController;
 
+    /**
+     * -- GETTER --
+     *  Devuleve la coleccion de instancias EngineController creadas.
+     *
+     * @return
+     */
+    @Getter
     private final List<EngineController> engineControllerInstances = Collections.synchronizedList(new ArrayList<>());
 
     public EngineControllerPoolFactory(Supplier<EngineController> fnCreateEngineController) {
@@ -49,11 +57,4 @@ public class EngineControllerPoolFactory extends BasePooledObjectFactory<EngineC
         pooledController.getObject().send_CmdIsReady();
     }
 
-    /**
-     * Devuleve la coleccion de instancias EngineController creadas.
-     * @return
-     */
-    public List<EngineController> getEngineControllerInstances() {
-        return engineControllerInstances;
-    }
 }

@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.MatchResult;
-import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
@@ -15,15 +14,18 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import java.util.*;
 
 /**
+ *
+ * Agrega instancias MatchListenerToMBean
+ *
  * @author Mauricio Coria
  */
-public class MatchListenerMbeans implements MatchListener {
+public class MatchListenerToMBeans implements MatchListener {
 
     private Map<Game, MatchListenerToMBean> gameMatchListenerToMBeanMap = Collections.synchronizedMap(new HashMap<>());
 
     private ObjectPool<Arena> arenaPool = new GenericObjectPool<>(new ArenaFactory());
 
-    private List<Arena> arenaList = Collections.synchronizedList( new ArrayList<>() );
+    private List<Arena> arenaList = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
@@ -50,7 +52,7 @@ public class MatchListenerMbeans implements MatchListener {
         Arena arena;
         try {
             arena = arenaPool.borrowObject();
-            if(!arenaList.contains(arena)) {
+            if (!arenaList.contains(arena)) {
                 arenaList.add(arena);
             }
         } catch (Exception e) {
@@ -66,7 +68,6 @@ public class MatchListenerMbeans implements MatchListener {
             throw new RuntimeException(e);
         }
     }
-
 
 
     private static class ArenaFactory extends BasePooledObjectFactory<Arena> {

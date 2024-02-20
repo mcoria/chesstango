@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena.listeners;
 
+import lombok.Getter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
@@ -11,7 +12,6 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
-import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -22,10 +22,15 @@ import java.util.*;
  */
 public class MatchListenerToMBean implements MatchListener {
 
+    @Getter
     private final Arena arena;
 
     private volatile String currentGameId;
 
+    public MatchListenerToMBean() {
+        this(Arena.createAndRegisterMBean());
+    }
+    
     public MatchListenerToMBean(Arena arena) {
         this.arena = arena;
     }
@@ -92,10 +97,6 @@ public class MatchListenerToMBean implements MatchListener {
 
     @Override
     public void notifyEndGame(Game game, MatchResult matchResult) {
-    }
-
-    public Arena getArena() {
-        return arena;
     }
 
     // TODO: obviously some moves are not encoded properly

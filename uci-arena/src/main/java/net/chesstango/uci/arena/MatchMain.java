@@ -1,15 +1,13 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.matchtypes.MatchByTime;
+import net.chesstango.uci.arena.listeners.SavePGNGame;
+import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import org.slf4j.Logger;
@@ -22,15 +20,16 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MatchMain implements MatchListener {
+public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    //private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
 
-    private static final MatchType MATCH_TYPE = new MatchByTime(1000);
+    //private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
-    private static final boolean MATCH_DEBUG = false;
+
+    private static final boolean MATCH_DEBUG = true;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
 
     /**
@@ -45,7 +44,7 @@ public class MatchMain implements MatchListener {
         EngineController engineController1 = EngineControllerFactory
                 //.createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
-                        minMaxPruningBuilder -> minMaxPruningBuilder
+                        builder -> builder
                                 .withGameEvaluatorCache()
 
                                 .withQuiescence()
@@ -109,29 +108,26 @@ public class MatchMain implements MatchListener {
         return fenList;
     }
 
-    private final Arena arenaMBean;
     private final EngineController engineController1;
     private final EngineController engineController2;
 
     public MatchMain(EngineController engineController1, EngineController engineController2) {
-        this.arenaMBean = Arena.createAndRegisterMBean();
         this.engineController1 = engineController1;
         this.engineController2 = engineController2;
     }
 
     private List<MatchResult> play() {
-        MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
-        matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
-        matchBroadcaster.addListener(this);
-
         Match match = new Match(engineController1, engineController2, MATCH_TYPE)
                 .setDebugEnabled(MATCH_DEBUG)
-                .switchChairs(MATCH_SWITCH_CHAIRS)
-                .setMatchListener(matchBroadcaster);
+                .setSwitchChairs(MATCH_SWITCH_CHAIRS)
+                .setMatchListener(new MatchBroadcaster()
+                        .addListener(new MatchListenerToMBean())
+                        .addListener(new SavePGNGame()));
 
         startEngines();
 
         Instant start = Instant.now();
+
         List<MatchResult> matchResult = match.play(getFenList());
 
         logger.info("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
@@ -139,19 +135,6 @@ public class MatchMain implements MatchListener {
         quitEngines();
 
         return matchResult;
-    }
-
-    @Override
-    public void notifyNewGame(Game game, EngineController white, EngineController black) {
-    }
-
-    @Override
-    public void notifyMove(Game game, Move move) {
-    }
-
-    @Override
-    public void notifyEndGame(Game game, MatchResult matchResult) {
-        matchResult.save();
     }
 
     private void startEngines() {

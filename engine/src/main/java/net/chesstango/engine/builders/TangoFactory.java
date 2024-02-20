@@ -9,9 +9,5 @@ import net.chesstango.search.builders.SearchBuilder;
  */
 public interface TangoFactory {
 
-    TangoFactory withGameEvaluatorClass(Class<? extends GameEvaluator> gameEvaluatorClass);
-
-    TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass);
-
     Tango build();
 }

@@ -1,14 +1,15 @@
 package net.chesstango.uci.arena;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
-import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -17,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,19 +26,31 @@ import java.util.UUID;
  */
 public class Match {
     private static final Logger logger = LoggerFactory.getLogger(Match.class);
-    public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
     private final MatchType matchType;
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
     private EngineController white;
     private EngineController black;
-    private String fen;
     private Game game;
-    private boolean debugEnabled;
-    private boolean switchChairs;
-    private MatchListener matchListener;
     private String mathId;
+    private MatchResult matchResult;
+
+    @Setter
+    @Accessors(chain = true)
+    private String fen;
+
+    @Setter
+    @Accessors(chain = true)
+    private boolean debugEnabled;
+
+    @Setter
+    @Accessors(chain = true)
+    private boolean switchChairs;
+
+    @Setter
+    @Accessors(chain = true)
+    private MatchListener matchListener;
 
 
     public Match(EngineController controller1, EngineController controller2, MatchType matchType) {
@@ -48,23 +60,16 @@ public class Match {
         this.switchChairs = true;
     }
 
-    public Match setMatchListener(MatchListener matchListener) {
-        this.matchListener = matchListener;
-        return this;
-    }
-
     public List<MatchResult> play(List<String> fenList) {
         List<MatchResult> result = new ArrayList<>();
 
-        fenList.forEach(fen -> {
-            result.addAll(play(fen));
-        });
+        fenList.forEach(fen -> result.addAll(play(fen)));
 
         return result;
     }
 
     public List<MatchResult> play(String fen) {
-        List<MatchResult> result = new ArrayList<>();
+        List<MatchResult> result = new ArrayList<>(2);
 
         try {
             setFen(fen);
@@ -78,7 +83,7 @@ public class Match {
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
 
-            logger.error("PGN: {}", generatePGN());
+            logger.error("PGN: {}", createPGN());
 
             throw e;
         }
@@ -94,12 +99,6 @@ public class Match {
         startNewGame();
 
         compete();
-
-        MatchResult matchResult = createResult();
-
-        if (matchListener != null) {
-            matchListener.notifyEndGame(game, matchResult);
-        }
 
         return matchResult;
     }
@@ -129,7 +128,7 @@ public class Match {
             Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
 
             if (move == null) {
-                printDebug(System.err);
+                printGameForDebug(System.err);
                 throw new RuntimeException(String.format("No move found %s", moveStr));
             }
 
@@ -143,20 +142,12 @@ public class Match {
                 matchListener.notifyMove(game, move);
             }
         }
-    }
 
-    public Match setDebugEnabled(boolean debugEnabled) {
-        this.debugEnabled = debugEnabled;
-        return this;
-    }
+        matchResult = createResult();
 
-    public Match switchChairs(boolean switchChairs) {
-        this.switchChairs = switchChairs;
-        return this;
-    }
-
-    protected void setFen(String fen) {
-        this.fen = fen;
+        if (matchListener != null) {
+            matchListener.notifyEndGame(game, matchResult);
+        }
     }
 
     protected void setChairs(EngineController white, EngineController black) {
@@ -171,50 +162,39 @@ public class Match {
         this.game = game;
     }
 
-    //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
+
     protected MatchResult createResult() {
-        int matchPoints = 0;
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             logger.info("[{}] DRAW (por fold repetition)", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             logger.info("[{}] DRAW (por fold fiftyMoveRule)", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.STALEMATE.equals(game.getStatus())) {
             logger.info("[{}] DRAW", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
                 logger.info("[{}] BLACK WON {}", mathId, black.getEngineName());
-                matchPoints = -1 * (WINNER_POINTS + material(game, false));
                 winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
                 logger.info("[{}] WHITE WON {}", mathId, white.getEngineName());
-                matchPoints = (WINNER_POINTS + material(game, false));
                 winner = white;
 
             }
         } else {
-            printDebug(System.err);
+            printGameForDebug(System.err);
             throw new RuntimeException("Game is still in progress.");
         }
 
         if (debugEnabled) {
-            printDebug(System.out);
+            printGameForDebug(System.out);
         }
 
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-
-        return new MatchResult(mathId, pgnGame, white, black, winner, matchPoints);
+        return new MatchResult(mathId, createPGN(), white, black, winner);
     }
 
     private void startNewGame() {
@@ -234,68 +214,27 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private void printDebug(PrintStream printStream) {
-        printStream.println(game.toString());
+    private void printGameForDebug(PrintStream printStream) {
+        printStream.println(createPGN());
 
         printStream.println();
 
-        printPGN(printStream);
-
-        printStream.println();
-
-        printMoveExecution();
+        printMoveExecution(printStream);
 
         printStream.println("--------------------------------------------------------------------------------");
     }
 
-
-    private void printPGN(PrintStream printStream) {
-        printStream.println(generatePGN());
-    }
-
-    private String generatePGN() {
-        PGNEncoder encoder = new PGNEncoder();
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-
-        pgnGame.setEvent(String.format("%s", mathId));
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-        pgnGame.setFen(fen);
-
-        return encoder.encode(pgnGame);
-    }
-
-    private void printMoveExecution() {
+    private void printMoveExecution(PrintStream printStream) {
         GameDebugEncoder encoder = new GameDebugEncoder();
 
-        System.out.println(encoder.encode(game));
+        printStream.println(encoder.encode(game));
     }
 
-    protected static int material(Game game, boolean difference) {
-        int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPosition();
-        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-            PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            evaluation += difference ? getPieceValue(piece) : Math.abs(getPieceValue(piece));
-        }
-        return evaluation;
-    }
-
-    protected static int getPieceValue(Piece piece) {
-        return switch (piece) {
-            case PAWN_WHITE -> 1;
-            case PAWN_BLACK -> -1;
-            case KNIGHT_WHITE -> 3;
-            case KNIGHT_BLACK -> -3;
-            case BISHOP_WHITE -> 3;
-            case BISHOP_BLACK -> -3;
-            case ROOK_WHITE -> 5;
-            case ROOK_BLACK -> -5;
-            case QUEEN_WHITE -> 9;
-            case QUEEN_BLACK -> -9;
-            case KING_WHITE -> 10;
-            case KING_BLACK -> -10;
-        };
+    private PGNGame createPGN() {
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
+        pgnGame.setWhite(white.getEngineName());
+        pgnGame.setBlack(black.getEngineName());
+        return pgnGame;
     }
 }

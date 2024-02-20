@@ -1,19 +1,19 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
+import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.arena.gui.EngineControllerImp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Mauricio Coria
@@ -51,7 +51,6 @@ public class MatchTest {
         MatchResult result = match.createResult();
 
         // Deberia ganar el engine smartEngine
-        assertTrue(result.getPoints() > Match.WINNER_POINTS);
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(smartEngine, result.getWinner());
     }
@@ -83,14 +82,6 @@ public class MatchTest {
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
         assertEquals(smartEngine, result.getWinner());
-        assertEquals(Match.WINNER_POINTS +
-                6 * Match.getPieceValue(Piece.PAWN_WHITE) +
-                2 * Math.abs(Match.getPieceValue(Piece.PAWN_BLACK)) +
-                1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
-                1 * Match.getPieceValue(Piece.BISHOP_WHITE) +
-                1 * Match.getPieceValue(Piece.KING_WHITE) +
-                1 * Math.abs(Match.getPieceValue(Piece.KING_BLACK)
-                ), result.getPoints());
     }
 
     @Test
@@ -106,14 +97,6 @@ public class MatchTest {
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
         assertEquals(dummyEngine, result.getWinner());
-        assertEquals(-1 * (Match.WINNER_POINTS +
-                6 * Match.getPieceValue(Piece.PAWN_WHITE) +
-                2 * Math.abs(Match.getPieceValue(Piece.PAWN_BLACK)) +
-                1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
-                1 * Match.getPieceValue(Piece.BISHOP_WHITE) +
-                1 * Match.getPieceValue(Piece.KING_WHITE) +
-                1 * Math.abs(Match.getPieceValue(Piece.KING_BLACK))
-        ), result.getPoints());
     }
 
 
@@ -130,14 +113,6 @@ public class MatchTest {
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
         assertNull(result.getWinner());
-        assertEquals(
-                6 * Match.getPieceValue(Piece.PAWN_WHITE) +
-                        2 * Match.getPieceValue(Piece.PAWN_BLACK) +
-                        1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
-                        1 * Match.getPieceValue(Piece.BISHOP_WHITE) +
-                        1 * Match.getPieceValue(Piece.KING_WHITE) +
-                        1 * Match.getPieceValue(Piece.KING_BLACK)
-                , result.getPoints());
     }
 
     @Test
@@ -153,23 +128,6 @@ public class MatchTest {
         assertEquals(smartEngine, result.getEngineWhite());
         assertEquals(dummyEngine, result.getEngineBlack());
         assertNull(result.getWinner());
-        assertEquals(
-                6 * Match.getPieceValue(Piece.PAWN_BLACK) +
-                        2 * Match.getPieceValue(Piece.PAWN_WHITE) +
-                        1 * Match.getPieceValue(Piece.QUEEN_BLACK) +
-                        1 * Match.getPieceValue(Piece.BISHOP_BLACK) +
-                        1 * Match.getPieceValue(Piece.KING_BLACK) +
-                        1 * Match.getPieceValue(Piece.KING_WHITE)
-                , result.getPoints());
     }
 
-    @Test
-    public void testPieceValues() {
-        assertTrue(Match.getPieceValue(Piece.PAWN_WHITE) - Match.getPieceValue(Piece.PAWN_BLACK) == 2 * Match.getPieceValue(Piece.PAWN_WHITE));
-        assertTrue(Match.getPieceValue(Piece.ROOK_WHITE) - Match.getPieceValue(Piece.ROOK_BLACK) == 2 * Match.getPieceValue(Piece.ROOK_WHITE));
-        assertTrue(Match.getPieceValue(Piece.KNIGHT_WHITE) - Match.getPieceValue(Piece.KNIGHT_BLACK) == 2 * Match.getPieceValue(Piece.KNIGHT_WHITE));
-        assertTrue(Match.getPieceValue(Piece.BISHOP_WHITE) - Match.getPieceValue(Piece.BISHOP_BLACK) == 2 * Match.getPieceValue(Piece.BISHOP_WHITE));
-        assertTrue(Match.getPieceValue(Piece.QUEEN_WHITE) - Match.getPieceValue(Piece.QUEEN_BLACK) == 2 * Match.getPieceValue(Piece.QUEEN_WHITE));
-        assertTrue(Match.getPieceValue(Piece.KING_WHITE) - Match.getPieceValue(Piece.KING_BLACK) == 2 * Match.getPieceValue(Piece.KING_WHITE));
-    }
 }

@@ -1,6 +1,5 @@
 package net.chesstango.uci.arena.gui;
 
-import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
@@ -113,11 +112,13 @@ public class EngineControllerImp implements EngineController {
     }
 
 
+    @Override
     public EngineControllerImp overrideEngineName(String name) {
-        engineName = name;
+        this.engineName = name;
         return this;
     }
 
+    @Override
     public EngineController overrideCmdGo(CmdGo cmdGo) {
         this.cmdGo = cmdGo;
         return this;
