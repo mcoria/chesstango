@@ -8,7 +8,7 @@ import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.listeners.SavePGNGame;
-import net.chesstango.uci.arena.matchtypes.MatchByTime;
+import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import org.slf4j.Logger;
@@ -25,8 +25,9 @@ public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
 
-    //private static final MatchType MATCH_TYPE = new MatchByDepth(2);
-    private static final MatchType MATCH_TYPE = new MatchByTime(200);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+
+    //private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
 
