@@ -47,7 +47,7 @@ public class MatchMain implements MatchListener {
         EngineController engineController1 = EngineControllerFactory
                 //.createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
-                        minMaxPruningBuilder -> minMaxPruningBuilder
+                        builder -> builder
                                 .withGameEvaluatorCache()
 
                                 .withQuiescence()

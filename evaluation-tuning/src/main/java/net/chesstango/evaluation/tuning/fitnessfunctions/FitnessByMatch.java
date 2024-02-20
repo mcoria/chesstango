@@ -5,7 +5,7 @@ import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.tuning.TuningMain;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.uci.arena.EngineControllerPoolFactory;
+import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;

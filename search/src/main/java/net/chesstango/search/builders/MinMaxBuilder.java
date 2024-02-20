@@ -21,11 +21,6 @@ public class MinMaxBuilder implements SearchBuilder {
     }
 
     @Override
-    public MinMaxBuilder withGameEvaluatorCache() {
-        return this;
-    }
-
-    @Override
     public SearchMove build() {
         MinMax minMax = new MinMax();
         minMax.setGameEvaluator(gameEvaluator);

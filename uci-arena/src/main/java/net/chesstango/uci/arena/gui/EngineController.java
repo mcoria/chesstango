@@ -37,4 +37,8 @@ public interface EngineController extends ServiceElement {
     String getEngineName();
 
     String getEngineAuthor();
+
+    EngineControllerImp overrideEngineName(String name);
+
+    EngineController overrideCmdGo(CmdGo cmdGo);
 }

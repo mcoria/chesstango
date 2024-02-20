@@ -19,7 +19,7 @@ public class ProxyConfigLoader {
     public static ProxyConfig loadEngineConfig(String engineName) {
 
         Optional<ProxyConfig> config = loadFromFile().stream().filter(entry -> entry.getName().equalsIgnoreCase(engineName)).findAny();
-        if (!config.isPresent()) {
+        if (config.isEmpty()) {
             throw new RuntimeException("Engine " + engineName + " not found in config file.");
         }
         return config.get();
@@ -30,6 +30,7 @@ public class ProxyConfigLoader {
             InputStream inputStream = ProxyConfig.class.getClassLoader().getResourceAsStream(ENGINES_JSON);
 
             // reading the files with buffered reader
+            assert inputStream != null;
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             ObjectMapper objectMapper = new ObjectMapper();

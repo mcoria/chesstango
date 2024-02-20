@@ -14,17 +14,11 @@ import java.util.function.Consumer;
  */
 public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implements TangoFactory {
 
-    private Class<? extends SearchBuilder> searchBuilderClass;
+    private Class<T> searchBuilderClass;
 
     private Consumer<T> fnSearchBuilderSetup;
 
-    @Override
-    public TangoFactoryWithDefaultEvaluator withGameEvaluatorClass(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        throw new RuntimeException("This builder uses DefaultEvaluator class");
-    }
-
-    @Override
-    public TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass) {
+    public TangoFactory withSearchBuilderClass(Class<T> searchBuilderClass) {
         this.searchBuilderClass = searchBuilderClass;
         return this;
     }

@@ -115,7 +115,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    @Override
     public AlphaBetaBuilder withGameEvaluatorCache() {
         withGameEvaluatorCache = true;
         return this;

@@ -11,19 +11,14 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author Mauricio Coria
  */
-public class TangoFactoryWithDefaultSearch implements TangoFactory {
+public class TangoFactoryWithDefaultSearch<T extends GameEvaluator> implements TangoFactory {
 
-    private Class<? extends GameEvaluator> gameEvaluatorClass;
+    private Class<T> gameEvaluatorClass;
 
-    @Override
-    public TangoFactory withGameEvaluatorClass(Class<? extends GameEvaluator> gameEvaluatorClass) {
+
+    public TangoFactory withGameEvaluatorClass(Class<T> gameEvaluatorClass) {
         this.gameEvaluatorClass = gameEvaluatorClass;
         return this;
-    }
-
-    @Override
-    public TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass) {
-        throw new RuntimeException("This builder uses DefaultSearchMove class");
     }
 
     @Override
