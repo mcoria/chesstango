@@ -1,7 +1,6 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
@@ -24,13 +23,11 @@ import java.util.List;
 public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-
     private static final MatchType MATCH_TYPE = new MatchByDepth(2);
 
     //private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
-
 
     private static final boolean MATCH_DEBUG = true;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
@@ -111,25 +108,21 @@ public class MatchMain {
         return fenList;
     }
 
-    private final Arena arenaMBean;
     private final EngineController engineController1;
     private final EngineController engineController2;
 
     public MatchMain(EngineController engineController1, EngineController engineController2) {
-        this.arenaMBean = Arena.createAndRegisterMBean();
         this.engineController1 = engineController1;
         this.engineController2 = engineController2;
     }
 
     private List<MatchResult> play() {
-        MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
-        matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
-        matchBroadcaster.addListener(new SavePGNGame());
-
         Match match = new Match(engineController1, engineController2, MATCH_TYPE)
                 .setDebugEnabled(MATCH_DEBUG)
                 .setSwitchChairs(MATCH_SWITCH_CHAIRS)
-                .setMatchListener(matchBroadcaster);
+                .setMatchListener(new MatchBroadcaster()
+                        .addListener(new MatchListenerToMBean())
+                        .addListener(new SavePGNGame()));
 
         startEngines();
 

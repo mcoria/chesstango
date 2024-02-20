@@ -93,7 +93,7 @@ public class Tournament {
         }
     }
 
-    private EngineController getControllerFromPool(GenericObjectPool<EngineController> pool) {
+    private static EngineController getControllerFromPool(GenericObjectPool<EngineController> pool) {
         try {
             return pool.borrowObject();
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class Tournament {
         }
     }
 
-    private void invalidateObject(EngineController controller, GenericObjectPool<EngineController> pool) {
+    private static void invalidateObject(EngineController controller, GenericObjectPool<EngineController> pool) {
         if (controller != null && pool != null) {
             try {
                 pool.invalidateObject(controller);

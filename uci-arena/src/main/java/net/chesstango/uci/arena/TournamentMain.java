@@ -7,7 +7,7 @@ import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.CaptureMatchResult;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
-import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
+import net.chesstango.uci.arena.listeners.MatchListenerToMBeans;
 import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
@@ -68,14 +68,12 @@ public class TournamentMain {
     }
 
     public List<MatchResult> play(List<String> fenList) {
-        MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
-        matchBroadcaster.addListener(new MatchListenerMbeans());
-        matchBroadcaster.addListener(new SavePGNGame());
-        matchBroadcaster.addListener(captureMatchResult);
-
-        Tournament tournament = new Tournament(controllerFactories, matchType, matchBroadcaster);
+        Tournament tournament = new Tournament(controllerFactories, matchType, new MatchBroadcaster()
+                .addListener(new MatchListenerToMBeans())
+                .addListener(new SavePGNGame())
+                .addListener(captureMatchResult));
 
         Instant start = Instant.now();
         tournament.play(fenList);

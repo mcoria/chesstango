@@ -69,7 +69,7 @@ public class Match {
     }
 
     public List<MatchResult> play(String fen) {
-        List<MatchResult> result = new ArrayList<>();
+        List<MatchResult> result = new ArrayList<>(2);
 
         try {
             setFen(fen);
