@@ -4,12 +4,12 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.evaluators.*;
+import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
-import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.gui.EngineControllerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -31,15 +30,14 @@ public class TournamentMain implements MatchListener {
 
         List<MatchResult> matchResult = new TournamentMain(controllerFactories).play(getFenList());
 
-        List<List<EngineController>> allControllerFactories = new ArrayList<>();
-        allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerPoolFactory::getEngineControllerInstances).collect(Collectors.toList()));
+        List<List<EngineController>> allControllerFactories = controllerFactories.stream().map(EngineControllerPoolFactory::getEngineControllerInstances).toList();
 
         new SummaryReport()
                 .withMultipleEngineInstances(allControllerFactories, matchResult)
                 .printReport(System.out);
     }
 
-    private static List<String> getFenList(){
+    private static List<String> getFenList() {
         List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         return fenList;
@@ -54,7 +52,7 @@ public class TournamentMain implements MatchListener {
         EngineControllerPoolFactory factory4 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02.class));
         EngineControllerPoolFactory factory5 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSimplifiedEvaluator.class));
 
-        EngineControllerPoolFactory spikeFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createProxyController("Spike", null) );
+        EngineControllerPoolFactory spikeFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createProxyController("Spike", null));
 
         return Arrays.asList(mainFactory, factory1, factory2, factory4, factory3, factory5, spikeFactory);
     }
@@ -62,12 +60,12 @@ public class TournamentMain implements MatchListener {
     private final List<EngineControllerPoolFactory> controllerFactories;
     private final List<MatchResult> matchResult;
 
-    public TournamentMain(List<EngineControllerPoolFactory> controllerFactories){
+    public TournamentMain(List<EngineControllerPoolFactory> controllerFactories) {
         this.controllerFactories = controllerFactories;
-        this.matchResult = Collections.synchronizedList( new ArrayList<>() );
+        this.matchResult = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public List<MatchResult> play(List<String> fenList){
+    public List<MatchResult> play(List<String> fenList) {
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         matchBroadcaster.addListener(new MatchListenerMbeans());
         matchBroadcaster.addListener(this);

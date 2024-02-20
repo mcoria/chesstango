@@ -1,5 +1,7 @@
 package net.chesstango.uci.arena;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
@@ -32,12 +34,24 @@ public class Match {
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
     private EngineController white;
     private EngineController black;
-    private String fen;
     private Game game;
-    private boolean debugEnabled;
-    private boolean switchChairs;
-    private MatchListener matchListener;
     private String mathId;
+
+    @Setter
+    @Accessors(chain = true)
+    private String fen;
+
+    @Setter
+    @Accessors(chain = true)
+    private boolean debugEnabled;
+
+    @Setter
+    @Accessors(chain = true)
+    private boolean switchChairs;
+
+    @Setter
+    @Accessors(chain = true)
+    private MatchListener matchListener;
 
 
     public Match(EngineController controller1, EngineController controller2, MatchType matchType) {
@@ -45,11 +59,6 @@ public class Match {
         this.controller2 = controller2;
         this.matchType = matchType;
         this.switchChairs = true;
-    }
-
-    public Match setMatchListener(MatchListener matchListener) {
-        this.matchListener = matchListener;
-        return this;
     }
 
     public List<MatchResult> play(List<String> fenList) {
@@ -128,7 +137,7 @@ public class Match {
             Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
 
             if (move == null) {
-                printDebug(System.err);
+                printGameForDebug(System.err);
                 throw new RuntimeException(String.format("No move found %s", moveStr));
             }
 
@@ -142,20 +151,6 @@ public class Match {
                 matchListener.notifyMove(game, move);
             }
         }
-    }
-
-    public Match setDebugEnabled(boolean debugEnabled) {
-        this.debugEnabled = debugEnabled;
-        return this;
-    }
-
-    public Match switchChairs(boolean switchChairs) {
-        this.switchChairs = switchChairs;
-        return this;
-    }
-
-    protected void setFen(String fen) {
-        this.fen = fen;
     }
 
     protected void setChairs(EngineController white, EngineController black) {
@@ -200,12 +195,12 @@ public class Match {
 
             }
         } else {
-            printDebug(System.err);
+            printGameForDebug(System.err);
             throw new RuntimeException("Game is still in progress.");
         }
 
         if (debugEnabled) {
-            printDebug(System.out);
+            printGameForDebug(System.out);
         }
 
         return new MatchResult(mathId, createPGN(), white, black, winner, matchPoints);
@@ -228,7 +223,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private void printDebug(PrintStream printStream) {
+    private void printGameForDebug(PrintStream printStream) {
         printStream.println(createPGN());
 
         printStream.println();

@@ -25,7 +25,7 @@ import java.util.List;
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    
+
     //private static final MatchType MATCH_TYPE = new MatchByDepth(2);
     private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
@@ -128,7 +128,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, MATCH_TYPE)
                 .setDebugEnabled(MATCH_DEBUG)
-                .switchChairs(MATCH_SWITCH_CHAIRS)
+                .setSwitchChairs(MATCH_SWITCH_CHAIRS)
                 .setMatchListener(matchBroadcaster);
 
         startEngines();
