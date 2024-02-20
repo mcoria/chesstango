@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.MatchResult;
-import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;

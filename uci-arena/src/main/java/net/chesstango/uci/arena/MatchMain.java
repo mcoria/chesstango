@@ -1,7 +1,5 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -9,6 +7,7 @@ import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
+import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByTime;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.arena.reports.SummaryReport;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MatchMain implements MatchListener {
+public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
 
@@ -124,7 +123,7 @@ public class MatchMain implements MatchListener {
     private List<MatchResult> play() {
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
-        matchBroadcaster.addListener(this);
+        matchBroadcaster.addListener(new SavePGNGame());
 
         Match match = new Match(engineController1, engineController2, MATCH_TYPE)
                 .setDebugEnabled(MATCH_DEBUG)
@@ -134,6 +133,7 @@ public class MatchMain implements MatchListener {
         startEngines();
 
         Instant start = Instant.now();
+
         List<MatchResult> matchResult = match.play(getFenList());
 
         logger.info("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
@@ -141,19 +141,6 @@ public class MatchMain implements MatchListener {
         quitEngines();
 
         return matchResult;
-    }
-
-    @Override
-    public void notifyNewGame(Game game, EngineController white, EngineController black) {
-    }
-
-    @Override
-    public void notifyMove(Game game, Move move) {
-    }
-
-    @Override
-    public void notifyEndGame(Game game, MatchResult matchResult) {
-        matchResult.save();
     }
 
     private void startEngines() {

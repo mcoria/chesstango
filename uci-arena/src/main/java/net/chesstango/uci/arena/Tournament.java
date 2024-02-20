@@ -2,6 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
+import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 

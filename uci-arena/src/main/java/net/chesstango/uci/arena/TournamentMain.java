@@ -7,8 +7,10 @@ import net.chesstango.evaluation.evaluators.*;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
+import net.chesstango.uci.arena.listeners.CaptureMatchResult;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
+import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.reports.SummaryReport;
 
@@ -22,7 +24,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TournamentMain implements MatchListener {
+public class TournamentMain {
 
     private static final MatchByDepth matchType = new MatchByDepth(2);
 
@@ -59,17 +61,18 @@ public class TournamentMain implements MatchListener {
     }
 
     private final List<EngineControllerPoolFactory> controllerFactories;
-    private final List<MatchResult> matchResult;
 
     public TournamentMain(List<EngineControllerPoolFactory> controllerFactories) {
         this.controllerFactories = controllerFactories;
-        this.matchResult = Collections.synchronizedList(new ArrayList<>());
     }
 
     public List<MatchResult> play(List<String> fenList) {
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
+        CaptureMatchResult captureMatchResult = new CaptureMatchResult();
+
         matchBroadcaster.addListener(new MatchListenerMbeans());
-        matchBroadcaster.addListener(this);
+        matchBroadcaster.addListener(new SavePGNGame());
+        matchBroadcaster.addListener(captureMatchResult);
 
         Tournament tournament = new Tournament(controllerFactories, matchType, matchBroadcaster);
 
@@ -77,20 +80,6 @@ public class TournamentMain implements MatchListener {
         tournament.play(fenList);
         System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
-        return matchResult;
-    }
-
-    @Override
-    public void notifyNewGame(Game game, EngineController white, EngineController black) {
-    }
-
-    @Override
-    public void notifyMove(Game game, Move move) {
-    }
-
-    @Override
-    public void notifyEndGame(Game game, MatchResult matchResult) {
-        this.matchResult.add(matchResult);
-        matchResult.save();
+        return captureMatchResult.getMatchResults();
     }
 }

@@ -48,19 +48,6 @@ public class MatchResult {
         discoverEngineController(engineBlack, session -> this.sessionBlack = session);
     }
 
-    public void save() {
-        PGNEncoder encoder = new PGNEncoder();
-        String encodedGame = encoder.encode(pgnGame);
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
-            writer.append(encodedGame);
-            writer.append("\n\n");
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
         controller.accept(new ServiceVisitor() {
 

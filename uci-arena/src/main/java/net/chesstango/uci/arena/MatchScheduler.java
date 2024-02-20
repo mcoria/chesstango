@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
