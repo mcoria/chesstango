@@ -47,7 +47,7 @@ public class EpdSearchMain {
      * 4. Filtro de archivos
      * <p>
      * Ejemplo:
-     * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-[wb][123].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
+     * 4 500 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-[wb][123].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
      *
      * @param args
      */
@@ -61,7 +61,7 @@ public class EpdSearchMain {
 
         String filePattern = args[3];
 
-        System.out.printf("depth={%d}; timeOut={%d; }directory={%s}; filePattern={%s}\n", depth, timeOut, directory, filePattern);
+        System.out.printf("depth={%d}; timeOut={%d}; directory={%s}; filePattern={%s}\n", depth, timeOut, directory, filePattern);
 
         EpdSearchMain suite = new EpdSearchMain(depth, timeOut);
 
