@@ -23,7 +23,7 @@ public class Tournament {
     private final MatchListener matchListener;
 
     public Tournament(List<EngineControllerPoolFactory> opponentsControllerFactories, MatchType matchType, MatchListener matchListener) {
-        this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
+        this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).toList();
         this.matchType = matchType;
         this.matchListener = matchListener;
     }
@@ -44,11 +44,11 @@ public class Tournament {
         }
 
         try {
-            tasks.forEach(task -> executor.submit(task));
+            tasks.forEach(executor::submit);
 
             executor.shutdown();
 
-            while (executor.awaitTermination(1, TimeUnit.SECONDS) == false) ;
+            while (!executor.awaitTermination(1, TimeUnit.SECONDS)) ;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -1,15 +1,13 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.chesstango.uci.arena.gui.EngineController;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +30,9 @@ public class MatchScheduler {
     }
 
     public List<Runnable> createTasks(List<String> fenList) {
-        return fenList.stream().map( fen -> (Runnable) () -> play(fen)).collect(Collectors.toList());
+        return fenList.stream()
+                .map(fen -> (Runnable) () -> play(fen))
+                .toList();
     }
 
 
@@ -45,6 +45,7 @@ public class MatchScheduler {
             controller2 = getControllerFromPool(pool2);
 
             Match match = new Match(controller1, controller2, matchType);
+
             match.setMatchListener(matchListener);
 
             match.play(fen);
@@ -79,5 +80,4 @@ public class MatchScheduler {
             }
         }
     }
-
 }

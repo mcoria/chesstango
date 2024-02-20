@@ -63,9 +63,7 @@ public class Match {
     public List<MatchResult> play(List<String> fenList) {
         List<MatchResult> result = new ArrayList<>();
 
-        fenList.forEach(fen -> {
-            result.addAll(play(fen));
-        });
+        fenList.forEach(fen -> result.addAll(play(fen)));
 
         return result;
     }
