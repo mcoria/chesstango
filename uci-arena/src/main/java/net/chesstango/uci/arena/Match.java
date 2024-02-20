@@ -6,7 +6,6 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
-import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.matchtypes.MatchType;
@@ -78,7 +77,7 @@ public class Match {
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
 
-            logger.error("PGN: {}", generatePGN());
+            logger.error("PGN: {}", createPGN());
 
             throw e;
         }
@@ -209,12 +208,7 @@ public class Match {
             printDebug(System.out);
         }
 
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-
-        return new MatchResult(mathId, pgnGame, white, black, winner, matchPoints);
+        return new MatchResult(mathId, createPGN(), white, black, winner, matchPoints);
     }
 
     private void startNewGame() {
@@ -235,40 +229,27 @@ public class Match {
     }
 
     private void printDebug(PrintStream printStream) {
-        printStream.println(game.toString());
+        printStream.println(createPGN());
 
         printStream.println();
 
-        printPGN(printStream);
-
-        printStream.println();
-
-        printMoveExecution();
+        printMoveExecution(printStream);
 
         printStream.println("--------------------------------------------------------------------------------");
     }
 
-
-    private void printPGN(PrintStream printStream) {
-        printStream.println(generatePGN());
-    }
-
-    private String generatePGN() {
-        PGNEncoder encoder = new PGNEncoder();
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-
-        pgnGame.setEvent(String.format("%s", mathId));
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-        pgnGame.setFen(fen);
-
-        return encoder.encode(pgnGame);
-    }
-
-    private void printMoveExecution() {
+    private void printMoveExecution(PrintStream printStream) {
         GameDebugEncoder encoder = new GameDebugEncoder();
 
-        System.out.println(encoder.encode(game));
+        printStream.println(encoder.encode(game));
+    }
+
+    private PGNGame createPGN() {
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
+        pgnGame.setWhite(white.getEngineName());
+        pgnGame.setBlack(black.getEngineName());
+        return pgnGame;
     }
 
     protected static int material(Game game, boolean difference) {

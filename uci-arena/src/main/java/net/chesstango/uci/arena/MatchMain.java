@@ -25,12 +25,14 @@ import java.util.List;
 public class MatchMain implements MatchListener {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
+    
     //private static final MatchType MATCH_TYPE = new MatchByDepth(2);
-
-    private static final MatchType MATCH_TYPE = new MatchByTime(1000);
+    private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
-    private static final boolean MATCH_DEBUG = false;
+
+
+    private static final boolean MATCH_DEBUG = true;
     private static final boolean MATCH_SWITCH_CHAIRS = true;
 
     /**
