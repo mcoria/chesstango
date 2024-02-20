@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.chesstango</groupId>
@@ -17,7 +18,7 @@
         <module>search</module>
         <module>engine</module>
         <module>uci-protocol</module>
-		<module>uci-engine</module>
+        <module>uci-engine</module>
         <module>li-engine</module>
         <module>uci-arena-ipc</module>
         <module>uci-arena</module>
@@ -31,8 +32,10 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <lombok.version>1.18.26</lombok.version>
-        <logback.version>1.4.1</logback.version>
-        <slf4j.version>2.0.1</slf4j.version>
+
+        <logback.version>1.5.0</logback.version>
+        <slf4j.version>2.0.12</slf4j.version>
+
         <chariot.version>0.0.73</chariot.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.13.5</jackson.version>
@@ -157,6 +160,16 @@
                 <groupId>net.chesstango</groupId>
                 <artifactId>search</artifactId>
                 <version>${project.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
@@ -172,6 +185,12 @@
                 <groupId>net.chesstango</groupId>
                 <artifactId>uci-engine</artifactId>
                 <version>${project.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-nop</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
@@ -215,20 +234,29 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+
+
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
+                <artifactId>slf4j-nop</artifactId>
                 <version>${slf4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- Colisiona con slf4j-simple
+            <!-- logback: Este provider es excluyente con slf4j-nop -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+                <scope>runtime</scope>
+            </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+                <scope>runtime</scope>
             </dependency>
-            -->
+            <!-- logback -->
 
 
             <dependency>

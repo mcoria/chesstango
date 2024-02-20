@@ -1,11 +1,20 @@
 <configuration>
 	<root level="info">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</root>
 
 	<logger level="info" name="net.chesstango.li" />
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>lichess.log</file>
+		<append>true</append>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
 		</encoder>
