@@ -27,7 +27,6 @@ import java.util.UUID;
  */
 public class Match {
     private static final Logger logger = LoggerFactory.getLogger(Match.class);
-    public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
     private final MatchType matchType;
@@ -36,6 +35,7 @@ public class Match {
     private EngineController black;
     private Game game;
     private String mathId;
+    private MatchResult matchResult;
 
     @Setter
     @Accessors(chain = true)
@@ -103,12 +103,6 @@ public class Match {
 
         compete();
 
-        MatchResult matchResult = createResult();
-
-        if (matchListener != null) {
-            matchListener.notifyEndGame(game, matchResult);
-        }
-
         return matchResult;
     }
 
@@ -151,6 +145,12 @@ public class Match {
                 matchListener.notifyMove(game, move);
             }
         }
+
+        matchResult = createResult();
+
+        if (matchListener != null) {
+            matchListener.notifyEndGame(game, matchResult);
+        }
     }
 
     protected void setChairs(EngineController white, EngineController black) {
@@ -165,32 +165,26 @@ public class Match {
         this.game = game;
     }
 
-    //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
+
     protected MatchResult createResult() {
-        int matchPoints = 0;
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             logger.info("[{}] DRAW (por fold repetition)", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             logger.info("[{}] DRAW (por fold fiftyMoveRule)", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.STALEMATE.equals(game.getStatus())) {
             logger.info("[{}] DRAW", mathId);
-            matchPoints = material(game, true);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
                 logger.info("[{}] BLACK WON {}", mathId, black.getEngineName());
-                matchPoints = -1 * (WINNER_POINTS + material(game, false));
                 winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
                 logger.info("[{}] WHITE WON {}", mathId, white.getEngineName());
-                matchPoints = (WINNER_POINTS + material(game, false));
                 winner = white;
 
             }
@@ -203,7 +197,7 @@ public class Match {
             printGameForDebug(System.out);
         }
 
-        return new MatchResult(mathId, createPGN(), white, black, winner, matchPoints);
+        return new MatchResult(mathId, createPGN(), white, black, winner);
     }
 
     private void startNewGame() {
@@ -245,33 +239,5 @@ public class Match {
         pgnGame.setWhite(white.getEngineName());
         pgnGame.setBlack(black.getEngineName());
         return pgnGame;
-    }
-
-    protected static int material(Game game, boolean difference) {
-        int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPosition();
-        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-            PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            evaluation += difference ? getPieceValue(piece) : Math.abs(getPieceValue(piece));
-        }
-        return evaluation;
-    }
-
-    protected static int getPieceValue(Piece piece) {
-        return switch (piece) {
-            case PAWN_WHITE -> 1;
-            case PAWN_BLACK -> -1;
-            case KNIGHT_WHITE -> 3;
-            case KNIGHT_BLACK -> -3;
-            case BISHOP_WHITE -> 3;
-            case BISHOP_BLACK -> -3;
-            case ROOK_WHITE -> 5;
-            case ROOK_BLACK -> -5;
-            case QUEEN_WHITE -> 9;
-            case QUEEN_BLACK -> -9;
-            case KING_WHITE -> 10;
-            case KING_BLACK -> -10;
-        };
     }
 }
