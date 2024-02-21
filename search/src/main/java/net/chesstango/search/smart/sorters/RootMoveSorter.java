@@ -23,6 +23,8 @@ import java.util.stream.Stream;
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     private final NodeMoveSorter nodeMoveSorter;
     private Game game;
+    private boolean maximize;
+    private int numberOfMove;
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
 
@@ -36,6 +38,8 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
         this.nodeMoveSorter.beforeSearch(context);
+        this.maximize = Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
+        this.numberOfMove = game.getPossibleMoves().size();
     }
 
     @Override
@@ -68,11 +72,13 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
         Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream().filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
-        boolean naturalOrder = Color.BLACK.equals(game.getChessPosition().getCurrentTurn());
-
-        moveStream = naturalOrder ? moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation)) : moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed());
+        moveStream = maximize ? moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed()) : moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation));
 
         moveStream.map(MoveEvaluation::move).forEach(moveList::add);
+
+        if (moveList.size() != numberOfMove) {
+            throw new RuntimeException("getSortedMovesByLastMoveEvaluations exception");
+        }
 
         return moveList;
     }

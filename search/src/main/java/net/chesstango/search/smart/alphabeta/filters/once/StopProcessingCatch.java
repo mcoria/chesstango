@@ -14,6 +14,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Optional;
+
 /**
  * @author Mauricio Coria
  */
@@ -62,15 +64,16 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
             undoMoves(startHash);
         }
 
+        MoveEvaluation bestEvaluationResult = lastBestMoveEvaluation;
+
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        MoveEvaluation bestEvaluationResult = moveEvaluationTracker.getBestMoveEvaluation(maximize);
+        Optional<MoveEvaluation> bestEvaluationTracked = moveEvaluationTracker.getBestMoveEvaluation(maximize);
 
 
         // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior
-        if (bestEvaluationResult == null && lastBestMoveEvaluation != null) {
-            bestEvaluationResult = lastBestMoveEvaluation;
+        if (bestEvaluationTracked.isPresent()) {
+            bestEvaluationResult = bestEvaluationTracked.get();
         }
-
 
         if (bestEvaluationResult != null) {
             Move bestMove = bestEvaluationResult.move();

@@ -13,9 +13,10 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.OptionalInt;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -48,7 +49,8 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         if (searchByWindowsCycle > 0) {
             /**
              * Se busca nuevamente dentro de otra ventana, esta no es la lista definitiva.
-             * Dejo los movimientos exactos dado que no es necesario volver a explorarlos.
+             * Dejo resultado exactos dado que no es necesario volver a explorarlos.
+             * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
              */
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
@@ -83,42 +85,12 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
         return process(currentPly, alpha, beta, next::minimize);
     }
 
-    public MoveEvaluation getBestMoveEvaluation(boolean maximize) {
-        Stream<MoveEvaluation> exactEvaluationStream = currentMoveEvaluations.stream();
+    public Optional<MoveEvaluation> getBestMoveEvaluation(boolean maximize) {
+        Stream<MoveEvaluation> exactEvaluationStream = currentMoveEvaluations
+                .stream()
+                .filter(moveEvaluation -> MoveEvaluationType.EXACT.equals(moveEvaluation.moveEvaluationType()));
 
-        OptionalInt bestEvaluation;
-        if (maximize) {
-            bestEvaluation = exactEvaluationStream
-                    .filter(moveEvaluation -> !MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()))
-                    .mapToInt(MoveEvaluation::evaluation)
-                    .max();
-        } else {
-            bestEvaluation = exactEvaluationStream
-                    .filter(moveEvaluation -> !MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()))
-                    .mapToInt(MoveEvaluation::evaluation)
-                    .min();
-        }
-
-        return bestEvaluation.isPresent() ? getBestMoveEvaluation(maximize, bestEvaluation.getAsInt()) : null;
-    }
-
-    protected MoveEvaluation getBestMoveEvaluation(final boolean maximize, final int bestEvaluation) {
-        MoveEvaluation result = null;
-        for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
-            if (evaluatedMove.evaluation() == bestEvaluation) {
-                result = evaluatedMove;
-                // En caso que sea la 1er busqueda con una ventana demasiado chica
-                if (maximize && MoveEvaluationType.LOWER_BOUND.equals(evaluatedMove.moveEvaluationType())) {
-                    break;
-                }
-
-                // En caso que sea la 1er busqueda con una ventana demasiado chica
-                if (!maximize && MoveEvaluationType.UPPER_BOUND.equals(evaluatedMove.moveEvaluationType())) {
-                    break;
-                }
-            }
-        }
-        return result;
+        return maximize ? exactEvaluationStream.max(Comparator.comparing(MoveEvaluation::evaluation)) : exactEvaluationStream.min(Comparator.comparing(MoveEvaluation::evaluation));
     }
 
 

@@ -17,8 +17,9 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,15 +52,17 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move3, 3000, MoveEvaluationType.EXACT));
 
 
-        MoveEvaluation maxEvaluation = moveEvaluationTracker.getBestMoveEvaluation(true);
-        assertNotNull(maxEvaluation);
+        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluationTracker.getBestMoveEvaluation(true);
+        assertTrue(maxEvaluationOpt.isPresent());
+        MoveEvaluation maxEvaluation = maxEvaluationOpt.get();
         assertEquals(move3, maxEvaluation.move());
         assertEquals(3000, maxEvaluation.evaluation());
         assertEquals(MoveEvaluationType.EXACT, maxEvaluation.moveEvaluationType());
 
 
-        MoveEvaluation minEvaluation = moveEvaluationTracker.getBestMoveEvaluation(false);
-        assertNotNull(minEvaluation);
+        Optional<MoveEvaluation> minEvaluationOpt = moveEvaluationTracker.getBestMoveEvaluation(false);
+        assertTrue(minEvaluationOpt.isPresent());
+        MoveEvaluation minEvaluation = minEvaluationOpt.get();
         assertEquals(move1, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
         assertEquals(MoveEvaluationType.EXACT, minEvaluation.moveEvaluationType());
@@ -81,24 +84,27 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move3, 1000, MoveEvaluationType.UPPER_BOUND));
 
 
-        MoveEvaluation maxEvaluation = moveEvaluationTracker.getBestMoveEvaluation(true);
-        assertNotNull(maxEvaluation);
-        assertEquals(move1, maxEvaluation.move());
+        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluationTracker.getBestMoveEvaluation(true);
+        assertTrue(maxEvaluationOpt.isPresent());
+        MoveEvaluation maxEvaluation = maxEvaluationOpt.get();
+        assertEquals(move2, maxEvaluation.move());
         assertEquals(1000, maxEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.LOWER_BOUND, maxEvaluation.moveEvaluationType());
+        assertEquals(MoveEvaluationType.EXACT, maxEvaluation.moveEvaluationType());
 
 
-        MoveEvaluation minEvaluation = moveEvaluationTracker.getBestMoveEvaluation(false);
-        assertNotNull(minEvaluation);
-        assertEquals(move3, minEvaluation.move());
+        Optional<MoveEvaluation> minEvaluationOpt = moveEvaluationTracker.getBestMoveEvaluation(false);
+        assertTrue(minEvaluationOpt.isPresent());
+        MoveEvaluation minEvaluation = minEvaluationOpt.get();
+        assertEquals(move2, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.UPPER_BOUND, minEvaluation.moveEvaluationType());
+        assertEquals(MoveEvaluationType.EXACT, minEvaluation.moveEvaluationType());
     }
 
 
     /**
      * Este caso es interesante, representa una busqueda con windows muy cerrado.
      * Hay SOLO dos movimientos; el primero por debajo de alpha y el segundo por arriba de beta.
+     * Ninguno es valido
      *
      */
     @Test
@@ -121,12 +127,8 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.process(0, -500, 500, fn);
         game.undoMove();
 
-        MoveEvaluation maxEvaluation = moveEvaluationTracker.getBestMoveEvaluation(true);
-        assertNotNull(maxEvaluation);
-        Move move = maxEvaluation.move();
-        assertEquals(PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_WHITE), move.getFrom());
-        assertEquals(1000, maxEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.LOWER_BOUND, maxEvaluation.moveEvaluationType());
+        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluationTracker.getBestMoveEvaluation(true);
+        assertTrue(maxEvaluationOpt.isEmpty());
     }
 
 }
