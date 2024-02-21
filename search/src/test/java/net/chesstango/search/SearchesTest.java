@@ -2,6 +2,8 @@ package net.chesstango.search;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.pgn.PGNDecoder;
+import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.nodes.NodesReport;
@@ -11,6 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 
 /**
@@ -27,7 +33,7 @@ public class SearchesTest {
 
         searchMove = new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
-                //.withGameEvaluatorCache()
+                .withGameEvaluatorCache()
 
                 .withQuiescence()
 
@@ -40,6 +46,8 @@ public class SearchesTest {
                 .withIterativeDeepening()
                 .withAspirationWindows()
                 //.withTriangularPV()
+
+                .withStopProcessingCatch()
 
                 //.withStatistics()
                 //.withZobristTracker()
@@ -148,5 +156,58 @@ public class SearchesTest {
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
         searchResult = searchMove.search(game);
+    }
+
+
+    @Test
+    @Disabled
+    public void testSearch_09() {
+        Game game = FENDecoder.loadGame("rnb2rk1/pp3ppp/4pn2/2q5/1Q2P3/P1P2P2/3B2PP/R3KBNR b KQ - 4 12");
+
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = searchMove.search(game);
+
+        System.out.println(searchResult.getBestMoveEvaluation());
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_10() throws IOException {
+        String lines = "[Event \"Rated Rapid game\"]\n" +
+                "[Site \"https://lichess.org/cjatYH5c\"]\n" +
+                "[Date \"2024.02.20\"]\n" +
+                "[White \"ChessChildren\"]\n" +
+                "[Black \"chesstango_bot\"]\n" +
+                "[Result \"1-0\"]\n" +
+                "[UTCDate \"2024.02.20\"]\n" +
+                "[UTCTime \"21:23:34\"]\n" +
+                "[WhiteElo \"1765\"]\n" +
+                "[BlackElo \"1863\"]\n" +
+                "[WhiteRatingDiff \"+7\"]\n" +
+                "[BlackRatingDiff \"-7\"]\n" +
+                "[WhiteTitle \"BOT\"]\n" +
+                "[BlackTitle \"BOT\"]\n" +
+                "[Variant \"Standard\"]\n" +
+                "[TimeControl \"600+0\"]\n" +
+                "[ECO \"E25\"]\n" +
+                "[Opening \"Nimzo-Indian Defense: Sämisch Variation, Keres Variation\"]\n" +
+                "[Termination \"Time forfeit\"]\n" +
+                "[Annotator \"lichess.org\"]\n" +
+                "\n" +
+                "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 d5 7. cxd5 Nxd5 8. dxc5 { E25 Nimzo-Indian Defense: Sämisch Variation, Keres Variation } Qa5 9. Bd2 Qxc5 10. e4 Nf6 11. Qb3 O-O 12. Qb4 *";
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNDecoder decoder = new PGNDecoder();
+
+        PGNGame pgnGame = decoder.decodeGame(bufferReader);
+
+        Game game = pgnGame.buildGame();
+
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = searchMove.search(game);
+
+        System.out.println(searchResult.getBestMoveEvaluation());
     }
 }

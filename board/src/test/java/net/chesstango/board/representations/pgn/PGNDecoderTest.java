@@ -163,6 +163,50 @@ public class PGNDecoderTest {
         assertEquals("Be2", moves.get(10));
     }
 
+
+    @Test
+    public void decodeGame02() throws IOException {
+        String lines = "[Event \"Rated Rapid game\"]\n" +
+                "[Site \"https://lichess.org/cjatYH5c\"]\n" +
+                "[Date \"2024.02.20\"]\n" +
+                "[White \"ChessChildren\"]\n" +
+                "[Black \"chesstango_bot\"]\n" +
+                "[Result \"1-0\"]\n" +
+                "[UTCDate \"2024.02.20\"]\n" +
+                "[UTCTime \"21:23:34\"]\n" +
+                "[WhiteElo \"1765\"]\n" +
+                "[BlackElo \"1863\"]\n" +
+                "[WhiteRatingDiff \"+7\"]\n" +
+                "[BlackRatingDiff \"-7\"]\n" +
+                "[WhiteTitle \"BOT\"]\n" +
+                "[BlackTitle \"BOT\"]\n" +
+                "[Variant \"Standard\"]\n" +
+                "[TimeControl \"600+0\"]\n" +
+                "[ECO \"E25\"]\n" +
+                "[Opening \"Nimzo-Indian Defense: Sämisch Variation, Keres Variation\"]\n" +
+                "[Termination \"Time forfeit\"]\n" +
+                "[Annotator \"lichess.org\"]\n" +
+                "\n" +
+                "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 d5 7. cxd5 Nxd5 8. dxc5 { E25 Nimzo-Indian Defense: Sämisch Variation, Keres Variation } Qa5 9. Bd2 Qxc5 10. e4 Nf6 11. Qb3 O-O 12. Qb4 Re8 13. Qxc5 Na6 14. Bxa6 bxa6 15. e5 Nd7 16. Qc6 Rb8 17. Be3 Rf8 18. Qd6 { White wins on time. } 1-0";
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame game = decoder.decodeGame(bufferReader);
+
+        assertEquals("Rated Rapid game", game.getEvent());
+        assertEquals("https://lichess.org/cjatYH5c", game.getSite());
+        assertEquals("2024.02.20", game.getDate());
+        assertEquals("ChessChildren", game.getWhite());
+        assertEquals("chesstango_bot", game.getBlack());
+        assertEquals("1-0", game.getResult());
+
+        List<String> moves = game.getMoveList();
+        assertEquals("Qb4", moves.get(22));
+    }
+
+
+
     @Test
     public void readGames() throws IOException {
         InputStream instr = this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn");

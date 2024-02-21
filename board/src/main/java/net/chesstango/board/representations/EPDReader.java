@@ -71,9 +71,10 @@ public class EPDReader {
 
         if (epdEntry.bestMovesString != null) {
             bestMovesStringToMoves(epdEntry.game, epdEntry.bestMovesString, epdEntry.bestMoves);
-        }
-        if (epdEntry.avoidMoves != null) {
+        }else if (epdEntry.avoidMoves != null) {
             bestMovesStringToMoves(epdEntry.game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
+        } else {
+            throw new RuntimeException("No best move nor avoid move detected");
         }
         return epdEntry;
     }
