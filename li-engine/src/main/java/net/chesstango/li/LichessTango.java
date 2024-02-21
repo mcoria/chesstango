@@ -11,6 +11,7 @@ import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -41,6 +42,12 @@ public class LichessTango implements Runnable {
 
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
+
+            @Override
+            public void searchStarted(){
+                MDC.put("gameId", gameId);
+            }
+
             @Override
             public void searchInfo(SearchByDepthResult searchByDepthResult) {
                 String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation()), searchByDepthResult.isPvComplete() ? "" : "*");
@@ -52,6 +59,7 @@ public class LichessTango implements Runnable {
                 String moveUci = simpleMoveEncoder.encode(searchMoveResult.getBestMove());
                 logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchMoveResult.getBestEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
+                MDC.remove("gameId");
             }
         });
     }
@@ -83,6 +91,8 @@ public class LichessTango implements Runnable {
 
     @Override
     public void run() {
+        MDC.put("gameId", gameId);
+
         logger.info("[{}] Ready to play game. Entering game event loop...", gameId);
 
         Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
@@ -101,6 +111,7 @@ public class LichessTango implements Runnable {
         });
 
         logger.info("[{}] Event loop finished", gameId);
+        MDC.remove("gameId");
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
