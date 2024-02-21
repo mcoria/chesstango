@@ -1,4 +1,4 @@
-package net.chesstango.board.perft;
+package net.chesstango.tools;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class PerftMainTestSuiteTest {
+public class PerftTestSuiteMainTest {
 	
-	private PerftMainTestSuite suite;
+	private PerftTestSuiteMain suite;
 	
 	@BeforeEach
 	public void setUp() {
 		//suite = new PerftSuite(new ChessFactoryDebug());
-		suite = new PerftMainTestSuite();
+		suite = new PerftTestSuiteMain();
 	}
 	
 	@Test
