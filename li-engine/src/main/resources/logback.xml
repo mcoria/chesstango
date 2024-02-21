@@ -31,7 +31,7 @@
 		</discriminator>
 		<sift>
 			<appender name="FILE-${gameId}" class="ch.qos.logback.core.FileAppender">
-				<file>${gameId}.log</file>
+				<file>lichess-${gameId}.log</file>
 				<append>true</append>
 				<layout class="ch.qos.logback.classic.PatternLayout">
 					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
