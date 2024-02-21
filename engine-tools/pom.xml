@@ -8,7 +8,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>search</artifactId>
+    <artifactId>engine-tools</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -20,15 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>board</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>evaluation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <artifactId>engine</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -56,11 +48,6 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -68,6 +55,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                    <finalName>chesstango-tools</finalName>
+                </configuration>
             </plugin>
         </plugins>
     </build>
