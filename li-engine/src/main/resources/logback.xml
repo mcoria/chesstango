@@ -6,6 +6,10 @@
 
 	<logger level="info" name="net.chesstango.li" />
 
+	<logger level="info" name="net.chesstango.li.LichessTango">
+		<appender-ref ref="SIFT" />
+	</logger>
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
@@ -14,10 +18,26 @@
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>lichess.log</file>
-		<append>true</append>
+		<append>false</append>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
 		</encoder>
+	</appender>
+
+	<appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>gameId</key>
+			<defaultValue>unknown</defaultValue>
+		</discriminator>
+		<sift>
+			<appender name="FILE-${gameId}" class="ch.qos.logback.core.FileAppender">
+				<file>${gameId}.log</file>
+				<append>true</append>
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-25.25logger{25} - %msg%n</pattern>
+				</layout>
+			</appender>
+		</sift>
 	</appender>
 
 </configuration>
