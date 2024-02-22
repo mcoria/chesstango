@@ -20,9 +20,8 @@ import java.util.Objects;
 public class SummaryComparatorMain {
 
     public static void main(String[] args) {
-        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-02-17-08-15-v0.0.24");
-        summaryComparatorMain.addSession("depth-5-2024-02-18-16-59-main");
-        summaryComparatorMain.addSession("depth-5-2024-02-21-07-16-CHT-6");
+        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-3-2024-02-17-08-11-v0.0.24");
+        summaryComparatorMain.addSession("depth-3-2024-02-22-15-57-v0.0.25");
         //
         //
 
@@ -36,9 +35,9 @@ public class SummaryComparatorMain {
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
 
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
+        //summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd");
+
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
-
-
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd");
 
