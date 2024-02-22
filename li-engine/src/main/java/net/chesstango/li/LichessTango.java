@@ -32,7 +32,6 @@ public class LichessTango implements Runnable {
     private String fenPosition;
     private Color myColor;
     private GameInfo gameInfo;
-
     private Map<String, Object> properties;
 
     public LichessTango(LichessClient client, String gameId, Map<String, Object> properties) {

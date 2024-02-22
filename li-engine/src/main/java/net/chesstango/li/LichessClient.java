@@ -6,7 +6,7 @@ import chariot.model.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -16,17 +16,11 @@ import java.util.stream.Stream;
 public class LichessClient {
 
     private final ClientAuth client;
-    private final List<LichessChallenger> challengerList;
 
     //private final UserAuth profile;
 
     public LichessClient(ClientAuth client) {
         this.client = client;
-        this.challengerList = List.of(
-                new LichessChallenger.BulletChallenger(this),
-                new LichessChallenger.BlitzChallenger(this),
-                new LichessChallenger.RapidChallenger(this));
-
     }
 
 
@@ -62,15 +56,12 @@ public class LichessClient {
         client.bot().abort(gameId);
     }
 
-    public void challengeRandomBot() {
-        Random rand = new Random();
-        LichessChallenger lichessChallenger = challengerList.get(rand.nextInt(challengerList.size()));
-        lichessChallenger.challengeRandomBot();
-    }
-
 
     public int getRating(StatsPerfType type) {
-        Map<StatsPerfType, StatsPerf> rating = client.account().profile().get().ratings();
+        Map<StatsPerfType, StatsPerf> rating = client.account()
+                .profile()
+                .get()
+                .ratings();
         StatsPerf stats = rating.get(type);
         if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
             return statsPerfGame.rating();
@@ -78,8 +69,8 @@ public class LichessClient {
         throw new RuntimeException("Rating not found");
     }
 
-    public void challengeBot(User aBot, Consumer<ChallengesAuthCommon.ChallengeBuilder> builderConsumer) {
-        client.challenges().challenge(aBot.id(), builderConsumer);
+    public void challengeUser(User user, Consumer<ChallengesAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
+        client.challenges().challenge(user.id(), challengeBuilderConsumer);
     }
 
     public Many<User> botsOnline(int i) {
@@ -88,5 +79,10 @@ public class LichessClient {
 
     public boolean isMe(UserInfo theUser) {
         return client.account().profile().get().id().equals(theUser.id());
+    }
+
+    public Optional<User> findUser(String username) {
+        Many<User> users = client.users().byIds(List.of(username));
+        return users.stream().findFirst();
     }
 }
