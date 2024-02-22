@@ -20,8 +20,8 @@ import java.util.Objects;
 public class SummaryComparatorMain {
 
     public static void main(String[] args) {
-        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-3-2024-02-17-08-11-v0.0.24");
-        summaryComparatorMain.addSession("depth-3-2024-02-22-15-57-v0.0.25");
+        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-6-2024-02-17-08-23-v0.0.24");
+        summaryComparatorMain.addSession("depth-6-2024-02-22-16-26-v0.0.25");
         //
         //
 
