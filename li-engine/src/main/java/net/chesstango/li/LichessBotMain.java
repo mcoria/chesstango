@@ -6,11 +6,15 @@ import chariot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.io.UncheckedIOException;
+import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -18,21 +22,21 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class LichessBotMain implements Runnable {
-
-    public static final String POLYGLOT_BOOK = "POLYGLOT_BOOK";
-    private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
+public class LichessBotMain implements Runnable, LichessBotMainMBean {
+    private static final URI lichessApi = URI.create("https://lichess.org");
+    private static final Map<String, Object> properties = new HashMap<>();
+    public static final String POLYGLOT_BOOK = "POLYGLOT_BOOK"; //Key para leer properties
+    private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
     private static String BOT_TOKEN;
     private static Integer MAX_SIMULTANEOUS_GAMES;
     private static boolean CHALLENGE_BOTS;
-    private static Map<String, Object> properties = new HashMap<>();
 
     public static void main(String[] args) {
-        URI lichessApi = URI.create("https://lichess.org");
 
-        getEnvs();
+        readEnvironmentVars();
 
         ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), BOT_TOKEN);
+
         if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
             logger.info("Start playing as a bot");
             new LichessBotMain(new LichessClient(clientAuth)).run();
@@ -41,7 +45,7 @@ public class LichessBotMain implements Runnable {
         }
     }
 
-    private static void getEnvs() {
+    private static void readEnvironmentVars() {
         BOT_TOKEN = System.getenv("BOT_TOKEN");
         if (Objects.isNull(BOT_TOKEN) || BOT_TOKEN.isEmpty()) {
             throw new RuntimeException("BOT_TOKEN is missing");
@@ -51,18 +55,15 @@ public class LichessBotMain implements Runnable {
         if (MAX_SIMULTANEOUS_GAMES <= 0) {
             throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
         }
-        properties.put("MAX_SIMULTANEOUS_GAMES", MAX_SIMULTANEOUS_GAMES);
+
+        String challengeBots = System.getenv("CHALLENGE_BOTS");
+        if (challengeBots != null && !challengeBots.isEmpty()) {
+            CHALLENGE_BOTS = Boolean.parseBoolean(challengeBots);
+        }
 
         String polyglotBookPath = System.getenv(POLYGLOT_BOOK);
         if (Objects.nonNull(polyglotBookPath)) {
             properties.put(POLYGLOT_BOOK, polyglotBookPath);
-        }
-
-        String challengeBots = System.getenv("CHALLENGE_BOTS");
-        if (Objects.isNull(challengeBots) || challengeBots.isEmpty()) {
-            CHALLENGE_BOTS = false;
-        } else {
-            CHALLENGE_BOTS = Boolean.parseBoolean(challengeBots);
         }
     }
 
@@ -72,6 +73,8 @@ public class LichessBotMain implements Runnable {
 
     private final LichessClient client;
 
+    private ScheduledFuture<?> challengeRandomBotFuture;
+
 
     public LichessBotMain(LichessClient client) {
         this.client = client;
@@ -80,6 +83,7 @@ public class LichessBotMain implements Runnable {
 
     @Override
     public void run() {
+        registerMBean();
         do {
             try {
                 Stream<Event> events = client.streamEvents();
@@ -87,7 +91,7 @@ public class LichessBotMain implements Runnable {
                 logger.info("Connection successful, entering main event loop...");
 
                 if (CHALLENGE_BOTS) {
-                    gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                    challengeRandomBotFuture = gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 30, 60, TimeUnit.SECONDS);
                 }
 
                 events.forEach(event -> {
@@ -112,6 +116,14 @@ public class LichessBotMain implements Runnable {
                 }
             }
         } while (true);
+    }
+
+    @Override
+    public synchronized void stopChallengeBot() {
+        logger.info("stopChallengeBot() invoked");
+        if (challengeRandomBotFuture != null && !challengeRandomBotFuture.isCancelled()) {
+            challengeRandomBotFuture.cancel(false);
+        }
     }
 
     private void newChallenge(Event.ChallengeEvent challengeEvent) {
@@ -164,10 +176,14 @@ public class LichessBotMain implements Runnable {
 
     private void challengeRandomBot() {
         try {
-            long timeControlledGames = onlineGameMap.values()
+            // Contar la cantidad de juegos activos
+            long timeControlledGames = onlineGameMap
+                    .values()
                     .stream()
                     .filter(LichessTango::isTimeControlledGame)
                     .count();
+
+            // Si no hay juego activo, buscar contrincante
             if (timeControlledGames == 0) {
                 logger.info("Challenging random bot");
                 client.challengeRandomBot();
@@ -241,6 +257,22 @@ public class LichessBotMain implements Runnable {
         return //timeControl instanceof Unlimited ||                                                   // Unlimited games x el momento no soportados
                 (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));   // Realtime
 
+    }
+
+
+    protected void registerMBean() {
+        try {
+
+            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+
+            ObjectName name = new ObjectName("net.chesstango.li:type=LichessBotMain,name=chesstango_bot");
+
+            mbs.registerMBean(this, name);
+
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
     }
 
 }
