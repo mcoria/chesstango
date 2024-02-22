@@ -1,108 +1,65 @@
 package net.chesstango.li;
 
 import chariot.api.ChallengesAuthCommon;
-import chariot.model.*;
+import chariot.model.Enums;
+import chariot.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Consumer;
 
-/**
- * @author Mauricio Coria
- */
-public abstract class LichessChallenger {
-    public static final int RATING_THRESHOLD = 100;
-    private final Queue<User> botsOnline = new LinkedList<>();
-    private final LichessClient client;
-    protected final List<Consumer<ChallengesAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
-    protected final Random rand = new Random();
+import static net.chesstango.li.LichessChallenger.ChallengeType.*;
 
-    protected abstract StatsPerfType getRatingType();
+public class LichessChallenger {
+    public enum ChallengeType {BULLET, BLITZ, RAPID};
+
+    private static final Logger logger = LoggerFactory.getLogger(LichessChallenger.class);
+    private final List<LichessChallengerBot> challengerBotList;
+    private final LichessClient client;
 
     public LichessChallenger(LichessClient client) {
         this.client = client;
+        this.challengerBotList = List.of(
+                new LichessChallengerBot.BulletChallengerBot(client),
+                new LichessChallengerBot.BlitzChallengerBot(client),
+                new LichessChallengerBot.RapidChallengerBot(client));
     }
+
 
     public void challengeRandomBot() {
-        User aBot = pickRandomBot();
-        if (aBot != null) {
-            client.challengeBot(aBot, this::consumeChallengeBuilder);
-        }
-    }
-
-    private void consumeChallengeBuilder(ChallengesAuthCommon.ChallengeBuilder challengeBuilder) {
-        Consumer<ChallengesAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
-        element.accept(challengeBuilder);
-    }
-
-    private synchronized User pickRandomBot() {
-        if (botsOnline.isEmpty()) {
-            int rating = client.getRating(getRatingType());
-            Many<User> bots = client.botsOnline(50);
-            bots.stream().filter(bot -> {
-                StatsPerf stats = bot.ratings().get(getRatingType());
-                if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-                    return statsPerfGame.rating() >= rating - RATING_THRESHOLD && statsPerfGame.rating() <= rating + RATING_THRESHOLD;
-                }
-                return false;
-            }).forEach(botsOnline::add);
-        }
-        return botsOnline.poll();
+        Random rand = new Random();
+        LichessChallengerBot lichessChallengerBot = challengerBotList.get(rand.nextInt(challengerBotList.size()));
+        lichessChallengerBot.challengeRandomBot();
     }
 
 
-    public static class BulletChallenger extends LichessChallenger {
-        public BulletChallenger(LichessClient client) {
-            super(client);
-            builders.add(challengeBuilder -> challengeBuilder
-                    .clockBullet2m1s()
-                    .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
-                    .rated(true));
-        }
+    public void challengeUser(String username, ChallengeType challengeType) {
+        Consumer<ChallengesAuthCommon.ChallengeBuilder> challengeBuilderConsumer = (builder) -> {
+            switch (challengeType) {
+                case BULLET -> builder.clockBullet2m1s()
+                        .color(Enums.ColorPref.random)
+                        .variant(Enums.VariantName.standard)
+                        .rated(true);
+                case BLITZ -> builder.clockBlitz5m3s()
+                        .color(Enums.ColorPref.random)
+                        .variant(Enums.VariantName.standard)
+                        .rated(true);
+                case RAPID -> builder.clockRapid10m0s()
+                        .color(Enums.ColorPref.random)
+                        .variant(Enums.VariantName.standard)
+                        .rated(true);
+            }
+        };
 
-        @Override
-        protected StatsPerfType getRatingType() {
-            return StatsPerfType.bullet;
-        }
-    }
+        Optional<User> user = client.findUser(username);
 
-    public static class BlitzChallenger extends LichessChallenger {
-        public BlitzChallenger(LichessClient client) {
-            super(client);
-            builders.add(challengeBuilder -> challengeBuilder
-                    .clockBlitz3m2s()
-                    .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
-                    .rated(true));
-            builders.add(challengeBuilder -> challengeBuilder
-                    .clockBlitz5m3s()
-                    .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
-                    .rated(true));
-        }
-
-        @Override
-        protected StatsPerfType getRatingType() {
-            return StatsPerfType.blitz;
+        if (user.isPresent()) {
+            client.challengeUser(user.get(), challengeBuilderConsumer);
+        } else {
+            logger.info("User '{}' not found", username);
         }
     }
-
-
-    public static class RapidChallenger extends LichessChallenger {
-        public RapidChallenger(LichessClient client) {
-            super(client);
-            builders.add(challengeBuilder -> challengeBuilder
-                    .clockRapid10m0s()
-                    .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
-                    .rated(true));
-        }
-
-        @Override
-        protected StatsPerfType getRatingType() {
-            return StatsPerfType.rapid;
-        }
-
-    }
-
 }
