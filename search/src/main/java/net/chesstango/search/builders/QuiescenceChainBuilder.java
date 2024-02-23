@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class QuiescenceChainBuilder {
     private final Quiescence quiescence;
-    private final MoveSorterBuilder moveSorterBuilder;
+    private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
@@ -37,8 +37,7 @@ public class QuiescenceChainBuilder {
 
     public QuiescenceChainBuilder() {
         quiescence = new Quiescence();
-        moveSorterBuilder = new MoveSorterBuilder();
-        moveSorterBuilder.withMoveQuietFilter();
+        moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
     public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {

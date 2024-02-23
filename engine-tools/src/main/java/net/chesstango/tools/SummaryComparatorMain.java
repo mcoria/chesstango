@@ -20,8 +20,9 @@ import java.util.Objects;
 public class SummaryComparatorMain {
 
     public static void main(String[] args) {
-        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-6-2024-02-17-08-23-v0.0.24");
-        summaryComparatorMain.addSession("depth-6-2024-02-22-16-26-v0.0.25");
+        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-02-22-16-09-v0.0.25");
+        summaryComparatorMain.addSession("depth-5-2024-02-22-23-50-CHT-168");
+        summaryComparatorMain.addSession("depth-5-2024-02-23-00-21-CHT-168");
         //
         //
 
@@ -35,11 +36,10 @@ public class SummaryComparatorMain {
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
 
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
-        //summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd");
-
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd");
+        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd");
 
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd");

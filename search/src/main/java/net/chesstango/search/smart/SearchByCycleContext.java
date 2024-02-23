@@ -3,6 +3,7 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
 import net.chesstango.search.smart.transposition.TTable;
 
@@ -35,6 +36,9 @@ public class SearchByCycleContext {
     private List<String> zobristCollisions;
 
     private SearchTracker searchTracker;
+
+    private Move[] killerMovesTableA;
+    private Move[] killerMovesTableB;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

@@ -23,12 +23,14 @@ public class AlphaBetaInteriorChainBuilder {
     private AlphaBetaFlowControl alphaBetaFlowControl;
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
+    private KillerMoveTracker killerMoveTracker;
     private SmartListenerMediator smartListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
+    private boolean withKillerMoveSorter;
 
     public AlphaBetaInteriorChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -85,6 +87,12 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
+    public AlphaBetaInteriorChainBuilder withKillerMoveSorter() {
+        withKillerMoveSorter = true;
+        moveSorterBuilder.withKillerMoveSorter();
+        return this;
+    }
+
 
     public AlphaBetaFilter build() {
         buildObjects();
@@ -113,6 +121,9 @@ public class AlphaBetaInteriorChainBuilder {
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
+        if (withKillerMoveSorter) {
+            killerMoveTracker = new KillerMoveTracker();
+        }
     }
 
     private void setupListenerMediator() {
@@ -132,6 +143,11 @@ public class AlphaBetaInteriorChainBuilder {
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
+        if (killerMoveTracker != null) {
+            smartListenerMediator.add(killerMoveTracker);
+        }
+
+
         smartListenerMediator.add(alphaBeta);
     }
 
@@ -164,6 +180,10 @@ public class AlphaBetaInteriorChainBuilder {
             chain.add(triangularPV);
         }
 
+        if (killerMoveTracker != null) {
+            chain.add(killerMoveTracker);
+        }
+
         chain.add(alphaBetaFlowControl);
 
 
@@ -185,6 +205,8 @@ public class AlphaBetaInteriorChainBuilder {
                 debugFilter.setNext(next);
             } else if (currentFilter instanceof TriangularPV) {
                 triangularPV.setNext(next);
+            } else if (currentFilter instanceof KillerMoveTracker) {
+                killerMoveTracker.setNext(next);
             } else {
                 throw new RuntimeException("filter not found");
             }

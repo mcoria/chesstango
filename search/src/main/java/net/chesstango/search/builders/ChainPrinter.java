@@ -11,9 +11,9 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.debug.TrapReadFromCache;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
+import net.chesstango.search.smart.alphabeta.debug.TrapReadFromCache;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -153,7 +153,9 @@ public class ChainPrinter {
                 printChainLoopEvaluation(loopEvaluation, nestedChain);
             } else if (alphaBetaFilter instanceof StopProcessingCatch stopProcessingCatch) {
                 printChainStopProcessingCatch(stopProcessingCatch, nestedChain);
-            }else {
+            } else if (alphaBetaFilter instanceof KillerMoveTracker killerMoveTracker) {
+                printChainKillerMoveTracker(killerMoveTracker, nestedChain);
+            } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
         } else {
@@ -179,6 +181,12 @@ public class ChainPrinter {
         printChainText(String.format("%s", objectText(debugFilter)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(debugFilter.getNext(), nestedChain);
+    }
+
+    private void printChainKillerMoveTracker(KillerMoveTracker killerMoveTracker, int nestedChain) {
+        printChainText(String.format("%s", objectText(killerMoveTracker)), nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(killerMoveTracker.getNext(), nestedChain);
     }
 
     private void printChainLoopEvaluation(LoopEvaluation loopEvaluation, int nestedChain) {
@@ -280,6 +288,16 @@ public class ChainPrinter {
             return String.format("%s -> %s",
                     objectText(moveComparator),
                     printMoveComparatorText(recaptureMoveComparator.getNext()));
+
+        } else if (moveComparator instanceof KillerMoveComparator killerMoveComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(killerMoveComparator.getNext()));
+
+        } else if (moveComparator instanceof QuietComparator quietComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(quietComparator.getNext()));
 
         }
 

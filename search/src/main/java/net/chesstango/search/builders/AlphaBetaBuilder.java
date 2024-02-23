@@ -55,6 +55,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugSearch setDebugSearch;
+
+    private SetKillerMoveTables setKillerMoveTables;
     private DebugNodeTrap debugNodeTrap;
 
     private boolean withIterativeDeepening;
@@ -72,8 +74,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withDebugSearchTree;
     private boolean showOnlyPV;
     private boolean showNodeTranspositionAccess;
-    private boolean showNodeSorterTranspositionAccess;
+    private boolean showSorterOperations;
     private boolean withAspirationWindows;
+    private boolean withKillerMoveSorter;
 
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
@@ -233,7 +236,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showNodeSorterTranspositionAccess) {
+    public AlphaBetaBuilder withKillerMoveSorter() {
+        alphaBetaInteriorChainBuilder.withKillerMoveSorter();
+        withKillerMoveSorter = true;
+        return this;
+    }
+
+    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
@@ -251,7 +260,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
-        this.showNodeSorterTranspositionAccess = showNodeSorterTranspositionAccess;
+        this.showSorterOperations = showSorterOperations;
         return this;
     }
 
@@ -336,7 +345,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showNodeSorterTranspositionAccess);
+            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+        }
+
+        if (withKillerMoveSorter) {
+            setKillerMoveTables = new SetKillerMoveTables();
         }
 
     }
@@ -384,6 +397,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
             }
         }
+
+        if (setKillerMoveTables != null) {
+            smartListenerMediator.add(setKillerMoveTables);
+        }
+
 
         smartListenerMediator.add(setGameEvaluator);
 
