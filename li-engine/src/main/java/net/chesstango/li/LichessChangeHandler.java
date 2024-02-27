@@ -37,6 +37,7 @@ public class LichessChangeHandler {
             }
         } else {
             logger.info("Not accepting more challenges at this time {}", challengeEvent.id());
+            declineChallenge(challengeEvent);
         }
     }
 
