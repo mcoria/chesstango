@@ -155,16 +155,16 @@ public class MoveSorterBuilder {
             chain.add(transpositionTailMoveComparator);
         }
 
+        if (gameEvaluatorComparator != null) {
+            chain.add(gameEvaluatorComparator);
+        }
+
         chain.add(quietComparator);
 
         chain.add(recaptureMoveComparator);
 
         if (killerMoveComparator != null) {
             chain.add(killerMoveComparator);
-        }
-
-        if (gameEvaluatorComparator != null) {
-            chain.add(gameEvaluatorComparator);
         }
 
         chain.add(defaultMoveComparator);
