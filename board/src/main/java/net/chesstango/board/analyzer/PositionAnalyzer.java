@@ -4,7 +4,7 @@ import net.chesstango.board.GameState;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.board.moves.containers.MoveContainer;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -40,13 +40,11 @@ public class PositionAnalyzer {
         if (existsLegalMove) {
             if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
                 gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
-            } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
-                if (repetitionCounter > 2) {
-                    gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
-                }
-            }
-
-            if (gameStatus == null) {
+            } else if (threefoldRepetitionRule &&
+                    positionReader.getHalfMoveClock() >= 8 &&
+                    repetitionCounter > 2) {
+                gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
+            } else {
                 if (analysis.isKingInCheck()) {
                     gameStatus = GameStatus.CHECK;
                 } else {
@@ -67,12 +65,7 @@ public class PositionAnalyzer {
         gameState.setPositionHash(positionReader.getAllPositions());
         gameState.setRepetitionCounter(repetitionCounter);
 
-        if (gameStatus.isFinalStatus()) {
-            gameState.setLegalMoves(new MoveContainer());
-        } else {
-            gameState.setLegalMoves(legalMoves);
-        }
-
+        gameState.setLegalMoves(gameStatus.isInProgress() ? legalMoves : new MoveList(0));
     }
 
     public AnalyzerResult analyze() {

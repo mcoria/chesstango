@@ -4,46 +4,41 @@ import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainer;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
-import java.util.Collection;
-
 /**
  * @author Mauricio Coria
- *
  */
 public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
-	
-	public CheckLegalMoveGenerator(ChessPositionReader positionReader,
+
+    public CheckLegalMoveGenerator(ChessPositionReader positionReader,
                                    MoveGenerator strategy,
-								   MoveFilter filter) {
-		super(positionReader, strategy, filter);
-	}	
+                                   MoveFilter filter) {
+        super(positionReader, strategy, filter);
+    }
 
-	@Override
-	public MoveContainer getLegalMoves(AnalyzerResult analysis) {
-		MoveContainer moves = new MoveContainer();
-		
-		getBySquareMoves(moves);
-		
-		getEnPassantMoves(moves);
-		
-		return moves;
-	}
+    @Override
+    public MoveList getLegalMoves(AnalyzerResult analysis) {
+        MoveList moveContainer = new MoveList();
 
-	protected MoveContainer getBySquareMoves(MoveContainer moves) {
-		for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext();) {
-			
-			Square origenSquare = iterator.next();
+        addBySquareMoves(moveContainer);
 
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
+        addEnPassantMoves(moveContainer);
 
-			filterMoveCollection(pseudoMoves, moves);
-		}
-		
-		return moves;
-	}
+        return moveContainer;
+    }
+
+    protected void addBySquareMoves(MoveList moveContainer) {
+        for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext(); ) {
+
+            Square origenSquare = iterator.next();
+
+            Iterable<Move> pseudoMoves = getPseudoMoves(origenSquare);
+
+            filterMoveCollection(pseudoMoves, moveContainer);
+        }
+    }
 }

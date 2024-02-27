@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class MoveContainerTest {
 
-    private MoveContainer moveContainerImp;
+    private MoveList moveContainerImp;
 
     private MoveFactory factory;
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveContainerImp = new MoveContainer();
+        moveContainerImp = new MoveList();
         factory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
     }
 
@@ -54,7 +54,7 @@ public class MoveContainerTest {
         MoveList moveList = new MoveList();
         moveList.add(move1);
 
-        moveContainerImp.add(moveList);
+        moveList.forEach(moveContainerImp::add);
 
         Move foundMove1 = null;
         for (Move move : moveContainerImp) {
@@ -73,13 +73,14 @@ public class MoveContainerTest {
         Move move1 = factory.createSimpleMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
-        moveContainerImp.add(moveList1);
+        moveList1.forEach(moveContainerImp::add);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
         Move move2 = factory.createSimpleMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
-        moveContainerImp.add(moveList2);
+        moveList2.forEach(moveContainerImp::add);
+
 
         Move foundMove1 = null;
         Move foundMove2 = null;
@@ -110,13 +111,13 @@ public class MoveContainerTest {
         Move move1 = factory.createSimpleMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
-        moveContainerImp.add(moveList1);
+        moveList1.forEach(moveContainerImp::add);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
         Move move2 = factory.createSimpleMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
-        moveContainerImp.add(moveList2);
+        moveList2.forEach(moveContainerImp::add);
 
         Move foundMove = null;
         Move foundMove1 = null;

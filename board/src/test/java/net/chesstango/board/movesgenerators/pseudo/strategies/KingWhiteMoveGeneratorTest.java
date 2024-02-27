@@ -9,6 +9,7 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
@@ -35,7 +36,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private KingWhiteMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private MoveList moves;
 	
 	private MovePair moveCastling;
 	

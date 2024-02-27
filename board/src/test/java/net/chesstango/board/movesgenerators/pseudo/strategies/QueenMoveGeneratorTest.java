@@ -9,7 +9,9 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
@@ -32,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class QueenMoveGeneratorTest {
 	private QueenMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private MoveContainerReader moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -41,7 +43,7 @@ public class QueenMoveGeneratorTest {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moveGenerator = new QueenMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactoryImp);
-		moves = new ArrayList<Move>();
+		moves = new MoveList();
 	}
 	
 	@Test

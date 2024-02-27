@@ -10,7 +10,9 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
@@ -32,7 +34,7 @@ public class AbstractCardinalMoveGeneratorOesteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private MoveContainerReader moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -54,7 +56,7 @@ public class AbstractCardinalMoveGeneratorOesteTest {
 		};
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
-		moves = new ArrayList<Move>();
+		moves = new MoveList();
 	}
 	
 	@Test

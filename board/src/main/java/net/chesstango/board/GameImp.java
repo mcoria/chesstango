@@ -5,6 +5,7 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -85,12 +86,27 @@ public class GameImp implements Game {
 
     @Override
     public Move getMove(Square from, Square to) {
-        return getState().getLegalMoves().getMove(from, to);
+        for (Move move : getState().getLegalMoves()) {
+            if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
+                if (move instanceof MovePromotion) {
+                    return null;
+                }
+                return move;
+            }
+        }
+        return null;
     }
 
     @Override
     public Move getMove(Square from, Square to, Piece promotionPiece) {
-        return getState().getLegalMoves().getMove(from, to, promotionPiece);
+        for (Move move : getState().getLegalMoves()) {
+            if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion movePromotion)) {
+                if (movePromotion.getPromotion().equals(promotionPiece)) {
+                    return move;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

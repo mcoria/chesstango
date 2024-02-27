@@ -76,32 +76,6 @@ class Node {
             }
 
             @Override
-            public Move getMove(Square from, Square to) {
-                for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
-                        if (move instanceof MovePromotion) {
-                            return null;
-                        }
-                        return move;
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public Move getMove(Square from, Square to, Piece promotionPiece) {
-                for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)) {
-                        MovePromotion movePromotion = (MovePromotion) move;
-                        if (movePromotion.getPromotion().equals(promotionPiece)) {
-                            return move;
-                        }
-                    }
-                }
-                return null;
-            }
-
-            @Override
             public boolean hasQuietMoves() {
                 return false;
             }

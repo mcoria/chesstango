@@ -10,6 +10,7 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
@@ -32,7 +33,7 @@ public class KnightMoveGeneratorTest {
 	
 	private KnightMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private MoveList moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -41,7 +42,7 @@ public class KnightMoveGeneratorTest {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moveGenerator = new KnightMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactoryImp);
-		moves = new ArrayList<Move>();
+		moves = new MoveList();
 	}
 	
 	@Test

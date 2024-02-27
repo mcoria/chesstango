@@ -10,17 +10,18 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.BitBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,7 +34,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private MoveContainerReader moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -55,7 +56,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 		};
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
-		moves = new ArrayList<Move>();
+		moves = new MoveList();
 	}
 	
 	@Test
