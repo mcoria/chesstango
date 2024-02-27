@@ -16,32 +16,43 @@ public class LichessChangeHandler {
     private final LichessClient client;
     private final int maxSimultaneousGames;
     private final Map<String, LichessTango> onlineGameMap;
+    private boolean acceptChallenges;
 
     public LichessChangeHandler(LichessClient client, int maxSimultaneousGames, Map<String, LichessTango> onlineGameMap) {
         this.client = client;
         this.maxSimultaneousGames = maxSimultaneousGames;
         this.onlineGameMap = onlineGameMap;
+        this.acceptChallenges = true;
     }
 
 
     public void newChallenge(Event.ChallengeEvent challengeEvent) {
         logger.info("New challenge received: {}", challengeEvent.id());
 
-        if (isChallengeAcceptable(challengeEvent)) {
-            acceptChallenge(challengeEvent);
+        if (acceptChallenges) {
+            if (isChallengeAcceptable(challengeEvent)) {
+                acceptChallenge(challengeEvent);
+            } else {
+                declineChallenge(challengeEvent);
+            }
         } else {
-            declineChallenge(challengeEvent);
+            logger.info("Not accepting more challenges at this time {}", challengeEvent.id());
         }
+    }
+
+    public void stopAcceptingChallenges() {
+        this.acceptChallenges = false;
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
         logger.info("Accepting challenge {}", challengeEvent.id());
 
         client.challengeAccept(challengeEvent.id());
+
     }
 
     private void declineChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Challenge is not acceptable, declining... {}", challengeEvent.id());
+        logger.info("Declining challenge {}", challengeEvent.id());
         client.challengeDecline(challengeEvent.id());
     }
 
@@ -108,6 +119,5 @@ public class LichessChangeHandler {
                 (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));   // Realtime
 
     }
-
 
 }

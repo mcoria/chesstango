@@ -5,5 +5,9 @@ package net.chesstango.li;
  */
 public interface LichessBotMainMBean {
     void challengeUser(String user, String type);
+
+    /**
+     * Stop accepting/sending challenges
+     */
     void stopChallengingBots();
 }

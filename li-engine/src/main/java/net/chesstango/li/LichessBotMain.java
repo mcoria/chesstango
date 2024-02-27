@@ -151,6 +151,7 @@ public class LichessBotMain implements Runnable, LichessBotMainMBean {
         if (challengeRandomBotFuture != null && !challengeRandomBotFuture.isCancelled()) {
             challengeRandomBotFuture.cancel(false);
         }
+        lichessChangeHandler.stopAcceptingChallenges();
     }
 
 
