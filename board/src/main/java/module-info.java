@@ -21,4 +21,5 @@ module net.chesstango.board {
     exports net.chesstango.board.perft;
     exports net.chesstango.board.analyzer;
     exports net.chesstango.board.representations.move;
+    exports net.chesstango.board.perft.imp;
 }
