@@ -22,9 +22,6 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 
 	@Setter
 	protected BitBoardReader bitBoard;
-
-	@Setter
-	protected MoveFactory moveFactory;
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;

@@ -41,7 +41,7 @@ public abstract class GenericTest {
 
         Move bestMove = searchMove.search(game).getBestMove();
 
-        Move queenCaptureKnight = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.d4, Piece.QUEEN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), Cardinal.SurOeste);
+        Move queenCaptureKnight = moveFactoryWhite.createCaptureQueenMove(PiecePositioned.getPiecePositioned(Square.d4, Piece.QUEEN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), Cardinal.SurOeste);
 
         assertNotEquals(queenCaptureKnight, bestMove);
     }

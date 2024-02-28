@@ -237,11 +237,11 @@ public class ChessPositionTest {
 
 
     private Move createSimpleMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-        return moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
+        return moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
     private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
-        return moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
+        return moveFactoryWhite.createCaptureKnightMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
     }
 
 

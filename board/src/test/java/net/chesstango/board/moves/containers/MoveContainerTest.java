@@ -31,7 +31,7 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move = factory.createSimpleMove(origen, destino);
+        Move move = factory.createSimpleKnightMove(origen, destino);
         moveContainerImp.add(move);
 
         Move foundMove = null;
@@ -49,7 +49,7 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
 
-        Move move1 = factory.createSimpleMove(origen, destino);
+        Move move1 = factory.createSimpleKnightMove(origen, destino);
 
         MoveList moveList = new MoveList();
         moveList.add(move1);
@@ -70,13 +70,13 @@ public class MoveContainerTest {
     public void test3() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino1 = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move1 = factory.createSimpleMove(origen, destino1);
+        Move move1 = factory.createSimpleKnightMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
         moveContainerImp.add(moveList1);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
-        Move move2 = factory.createSimpleMove(origen, destino2);
+        Move move2 = factory.createSimpleKnightMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
         moveContainerImp.add(moveList2);
@@ -102,18 +102,18 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-        Move move = factory.createSimpleMove(origen, destino);
+        Move move = factory.createSimpleKnightMove(origen, destino);
         moveContainerImp.add(move);
 
 
         PiecePositioned destino1 = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move1 = factory.createSimpleMove(origen, destino1);
+        Move move1 = factory.createSimpleKnightMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
         moveContainerImp.add(moveList1);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
-        Move move2 = factory.createSimpleMove(origen, destino2);
+        Move move2 = factory.createSimpleKnightMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
         moveContainerImp.add(moveList2);

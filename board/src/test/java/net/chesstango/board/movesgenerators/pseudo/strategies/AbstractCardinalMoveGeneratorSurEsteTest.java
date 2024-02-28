@@ -43,17 +43,15 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 
 			@Override
 			protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-				return moveFactory.createSimpleMove(origen, destino);
+				return moveFactoryImp.createSimpleKnightMove(origen, destino);
 			}
 
 			@Override
 			protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-				return moveFactory.createCaptureMove(origen, destino);
+				return moveFactoryImp.createCaptureKnightMove(origen, destino);
 			}
 			
 		};
-		
-		moveGenerator.setMoveFactory(moveFactoryImp);
 		
 		moves = new ArrayList<Move>();
 	}	
@@ -137,11 +135,11 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private SquareBoard getTablero(String string) {

@@ -97,7 +97,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g7, Piece.QUEEN_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
 
-        moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
+        moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
         moveExecutor.executeMove(positionState);
 
@@ -123,7 +123,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b7, Piece.QUEEN_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
 
-        moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
+        moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
         moveExecutor.executeMove(positionState);
 

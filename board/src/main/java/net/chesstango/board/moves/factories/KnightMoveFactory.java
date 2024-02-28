@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
  * @author Mauricio Coria
  */
 public interface KnightMoveFactory {
-    Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
+    Move createSimpleKnightMove(PiecePositioned origen, PiecePositioned destino);
 
-    Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
+    Move createCaptureKnightMove(PiecePositioned origen, PiecePositioned destino);
 }

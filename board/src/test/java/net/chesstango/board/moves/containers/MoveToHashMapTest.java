@@ -27,7 +27,7 @@ public class MoveToHashMapTest {
 
     @Test
     public void test01() {
-        Move move = factory.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
+        Move move = factory.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
 
         moveToHashMap.write(move, 1000L);
 

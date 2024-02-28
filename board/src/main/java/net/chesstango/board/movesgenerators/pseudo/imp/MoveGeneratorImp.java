@@ -117,43 +117,63 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
     private void setupMoveGenerators() {
-        setupMoveGenerator(pbmg);
+        setupMoveGenerator(pbmg, Color.WHITE);
 
-        setupMoveGenerator(pnmg);
+        setupMoveGenerator(pnmg, Color.BLACK);
 
-        setupMoveGenerator(tbmg);
+        setupMoveGenerator(tbmg, Color.WHITE);
 
-        setupMoveGenerator(tnmg);
+        setupMoveGenerator(tnmg, Color.BLACK);
 
-        setupMoveGenerator(cbmg);
+        setupMoveGenerator(cbmg, Color.WHITE);
 
-        setupMoveGenerator(cnmg);
+        setupMoveGenerator(cnmg, Color.BLACK);
 
-        setupMoveGenerator(abmg);
+        setupMoveGenerator(abmg, Color.WHITE);
 
-        setupMoveGenerator(anmg);
+        setupMoveGenerator(anmg, Color.BLACK);
 
-        setupMoveGenerator(rebmg);
+        setupMoveGenerator(rebmg, Color.WHITE);
 
-        setupMoveGenerator(renmg);
+        setupMoveGenerator(renmg, Color.BLACK);
 
-        setupMoveGenerator(rbmg);
+        setupMoveGenerator(rbmg, Color.WHITE);
 
-        setupMoveGenerator(rnmg);
+        setupMoveGenerator(rnmg, Color.BLACK);
 
         setupEnPassantMoveGenerator();
     }
 
-    private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
+    private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned, Color color) {
         if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator generator) {
             generator.setSquareBoard(piecePlacement);
             generator.setBitBoard(colorBoard);
+        }
 
-            if (moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)) {
-                generator.setMoveFactory(moveFactoryWhite);
-            } else {
-                generator.setMoveFactory(moveFactoryBlack);
-            }
+        MoveFactory moveFactory = Color.WHITE.equals(color) ? moveFactoryWhite : moveFactoryBlack;
+
+        if (moveGeneratorByPiecePositioned instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
+            abstractPawnMoveGenerator.setMoveFactory(moveFactory);
+        }
+
+        if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
+            abstractKingMoveGenerator.setMoveFactory(moveFactory);
+        }
+
+        if (moveGeneratorByPiecePositioned instanceof RookMoveGenerator rookMoveGenerator) {
+            rookMoveGenerator.setMoveFactory(moveFactory);
+        }
+
+        if (moveGeneratorByPiecePositioned instanceof BishopMoveGenerator bishopMoveGenerator) {
+            bishopMoveGenerator.setMoveFactory(moveFactory);
+        }
+
+        if (moveGeneratorByPiecePositioned instanceof KnightMoveGenerator knightMoveGenerator) {
+            knightMoveGenerator.setMoveFactory(moveFactory);
+        }
+
+        if (moveGeneratorByPiecePositioned instanceof QueenMoveGenerator queenMoveGenerator) {
+            queenMoveGenerator.setMoveFactory(moveFactory);
         }
 
         if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator generator) {
