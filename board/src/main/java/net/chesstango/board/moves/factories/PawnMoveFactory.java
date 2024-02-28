@@ -13,15 +13,15 @@ import net.chesstango.board.moves.MovePromotion;
  */
 public interface PawnMoveFactory {
 
-    Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino);
+    Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to);
 
-    Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare);
+    Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare);
 
-    Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    Move createCaptureEnPassantPawnMove(PiecePositioned origen, PiecePositioned destino, PiecePositioned enPassantPawn, Cardinal cardinal);
+    Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal);
 
-    MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece);
+    MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece);
 
-    MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal);
+    MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal);
 }

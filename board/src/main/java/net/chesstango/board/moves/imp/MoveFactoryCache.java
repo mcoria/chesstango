@@ -29,42 +29,42 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createSimpleOneSquarePawnMove(origen, destino);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createSimpleOneSquarePawnMove(from, to);
         }
         return regularMoves[idx];
     }
 
 
     @Override
-    public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, destino, enPassantSquare);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createSimpleTwoSquaresPawnMove(from, to, enPassantSquare);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createCapturePawnMove(origen, destino, cardinal);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createCapturePawnMove(from, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCaptureEnPassantPawnMove(PiecePositioned origen, PiecePositioned destino, PiecePositioned enPassantPawn, Cardinal cardinal) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createCaptureEnPassantPawnMove(origen, destino, enPassantPawn, cardinal);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createCaptureEnPassantPawnMove(from, to, enPassantPawn, cardinal);
         }
         return regularMoves[idx];
     }
@@ -156,13 +156,13 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return moveFactoryImp.createSimplePromotionPawnMove(origen, destino, piece);
+    public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
+        return moveFactoryImp.createSimplePromotionPawnMove(from, to, piece);
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
-        return moveFactoryImp.createCapturePromotionPawnMove(origen, destino, piece, cardinal);
+    public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
+        return moveFactoryImp.createCapturePromotionPawnMove(from, to, piece, cardinal);
     }
 
     @Override

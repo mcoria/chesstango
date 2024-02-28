@@ -63,21 +63,21 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveImp moveImp = new MoveImp(origen, destino, getPawnDirection());
-        addSimpleMoveExecutors(origen, destino, moveImp);
+    public Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+        MoveImp moveImp = new MoveImp(from, to, getPawnDirection());
+        addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
-        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(origen, destino, getPawnDirection(), enPassantSquare);
+    public Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
+        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(from, to, getPawnDirection(), enPassantSquare);
         return moveImp;
     }
 
     @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, getPawnDirection(), piece);
+    public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
+        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, getPawnDirection(), piece);
         return moveImp;
     }
 
@@ -104,9 +104,9 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(origen, destino, cardinal);
-        addCaptureMoveExecutors(origen, destino, moveImp);
+    public Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveImp moveImp = new MoveImp(from, to, cardinal);
+        addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
@@ -125,14 +125,14 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public Move createCaptureEnPassantPawnMove(PiecePositioned origen, PiecePositioned destino, PiecePositioned enPassantPawn, Cardinal cardinal) {
-        MovePawnCaptureEnPassant moveImp = new MovePawnCaptureEnPassant(origen, destino, cardinal, enPassantPawn);
+    public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
+        MovePawnCaptureEnPassant moveImp = new MovePawnCaptureEnPassant(from, to, cardinal, enPassantPawn);
         return moveImp;
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, piece);
+    public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
+        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, piece);
         return moveImp;
     }
 
