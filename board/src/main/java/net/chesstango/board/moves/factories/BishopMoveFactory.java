@@ -9,7 +9,7 @@ import net.chesstango.board.moves.Move;
  *
  */
 public interface BishopMoveFactory {
-    Move createSimpleBishopnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    Move createCaptureBishopMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 }

@@ -9,7 +9,7 @@ import net.chesstango.board.moves.Move;
  *
  */
 public interface RookMoveFactory {
-    Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal);
 }

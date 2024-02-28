@@ -32,33 +32,33 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      *
      */
     @Override
-    public Move createSimpleKnightMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveImp moveImp = new MoveImp(origen, destino);
-        addSimpleMoveExecutors(origen, destino, moveImp);
+    public Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveImp moveImp = new MoveImp(from, to);
+        addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createSimpleBishopnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return createSimpleMoveImp(origen, destino, cardinal);
+    public Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createSimpleMoveImp(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return createSimpleMoveImp(origen, destino, cardinal);
+    public Move createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createSimpleMoveImp(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(origen, destino);
-        addSimpleMoveExecutors(origen, destino, moveImp);
+    public Move createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveImp moveImp = new MoveImp(from, to);
+        addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveKingImp moveImp = new MoveKingImp(origen, destino);
-        addSimpleMoveExecutors(origen, destino, moveImp);
+    public MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
+        MoveKingImp moveImp = new MoveKingImp(from, to);
+        addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
@@ -87,20 +87,20 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      */
 
     @Override
-    public Move createCaptureKnightMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveImp moveImp = new MoveImp(origen, destino);
-        addCaptureMoveExecutors(origen, destino, moveImp);
+    public Move createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveImp moveImp = new MoveImp(from, to);
+        addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
     
     @Override
-    public Move createCaptureBishopMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return createCaptureMoveImp(origen, destino, cardinal);
+    public Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createCaptureMoveImp(from, to, cardinal);
     }
 
     @Override
-    public Move createCaptureQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return createCaptureMoveImp(origen, destino, cardinal);
+    public Move createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createCaptureMoveImp(from, to, cardinal);
     }
 
     @Override
@@ -111,16 +111,16 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(origen, destino, cardinal);
-        addCaptureMoveExecutors(origen, destino, moveImp);
+    public Move createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
+        MoveImp moveImp = new MoveImp(form, to, cardinal);
+        addCaptureMoveExecutors(form, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveKingImp moveImp = new MoveKingImp(origen, destino);
-        addCaptureMoveExecutors(origen, destino, moveImp);
+    public MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
+        MoveKingImp moveImp = new MoveKingImp(from, to);
+        addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 

@@ -9,9 +9,9 @@ import net.chesstango.board.moves.MoveKing;
  *
  */
 public interface KingMoveFactory {
-    MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
+    MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to);
 
-    MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino);
+    MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to);
 
     MoveCastling createCastlingQueenMove();
 

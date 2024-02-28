@@ -70,11 +70,11 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleKnightMove(PiecePositioned origen, PiecePositioned destino) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createSimpleKnightMove(origen, destino);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createSimpleKnightMove(from, to);
         }
         return regularMoves[idx];
     }
@@ -92,11 +92,11 @@ public class MoveFactoryCache implements MoveFactory {
      */
 
     @Override
-    public Move createCaptureKnightMove(PiecePositioned origen, PiecePositioned destino) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createCaptureKnightMove(origen, destino);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createCaptureKnightMove(from, to);
         }
         return regularMoves[idx];
     }
@@ -114,35 +114,35 @@ public class MoveFactoryCache implements MoveFactory {
      */
 
     @Override
-    public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createSimpleRookMove(origen, destino, cardinal);
+        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createSimpleRookMove(from, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
+    public Move createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
+        int idx = Math.abs(computeKey(form, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createCaptureRookMove(origen, destino, cardinal);
+        if(move == null || move!=null && !(Objects.equals(form, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+            regularMoves[idx] = moveFactoryImp.createCaptureRookMove(form, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
+    public MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
         //return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
-        return moveFactoryImp.createSimpleKingMove(origen, destino);
+        return moveFactoryImp.createSimpleKingMove(from, to);
     }
 
     @Override
-    public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
+    public MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
         //return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createCaptureKingMove(origen, destino));
-        return moveFactoryImp.createCaptureKingMove(origen, destino);
+        return moveFactoryImp.createCaptureKingMove(from, to);
     }
 
     @Override
@@ -166,23 +166,23 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleBishopnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return moveFactoryImp.createSimpleBishopnMove(origen, destino, cardinal);
+    public Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createSimpleBishopnMove(from, to, cardinal);
     }
 
     @Override
-    public Move createCaptureBishopMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return moveFactoryImp.createCaptureBishopMove(origen, destino, cardinal);
+    public Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createCaptureBishopMove(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return moveFactoryImp.createSimpleQueenMove(origen, destino, cardinal);
+    public Move createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createSimpleQueenMove(from, to, cardinal);
     }
 
     @Override
-    public Move createCaptureQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return moveFactoryImp.createCaptureQueenMove(origen, destino, cardinal);
+    public Move createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createCaptureQueenMove(from, to, cardinal);
     }
 
     /*

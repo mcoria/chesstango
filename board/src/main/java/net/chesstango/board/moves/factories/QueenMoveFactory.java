@@ -9,7 +9,7 @@ import net.chesstango.board.moves.Move;
  *
  */
 public interface QueenMoveFactory {
-    Move createSimpleQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    Move createCaptureQueenMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+    Move createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 }
