@@ -20,7 +20,6 @@ public class SearchTracker {
     private Game game;
 
 
-
     public DebugNode newNode(DebugNode.NodeTopology topology, int currentPly) {
 
         DebugNode newNode;
@@ -30,6 +29,11 @@ public class SearchTracker {
         } else {
             newNode = createRegularNode(topology, currentPly);
             currentNode.childNodes.add(newNode);
+        }
+
+        newNode.zobristHash = game.getChessPosition().getZobristHash();
+        if (game.getState().getPreviousState() != null) {
+            newNode.selectedMove = game.getState().getPreviousState().getSelectedMove();
         }
 
         currentNode = newNode;
@@ -44,6 +48,7 @@ public class SearchTracker {
         newNode.topology = DebugNode.NodeTopology.ROOT;
         newNode.ply = 0;
         newNode.parent = null;
+        newNode.fen = game.getChessPosition().toString();
         return newNode;
     }
 
@@ -128,6 +133,7 @@ public class SearchTracker {
     }
 
     public void save() {
+        currentNode.validate();
         currentNode = currentNode.parent;
     }
 

@@ -83,12 +83,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
     private DebugNode createDebugNode(String fnString, int currentPly, int alpha, int beta) {
         DebugNode debugNode = searchTracker.newNode(topology, currentPly);
 
-        debugNode.setZobristHash(game.getChessPosition().getZobristHash());
-
-        if (game.getState().getPreviousState() != null) {
-            debugNode.selectedMove = game.getState().getPreviousState().getSelectedMove();
-        }
-
         debugNode.setDebugSearch(fnString, alpha, beta);
 
         return debugNode;

@@ -6,7 +6,6 @@ import net.chesstango.board.moves.Move;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -26,6 +25,8 @@ public class DebugNode {
     NodeTopology topology;
 
     NodeType type;
+
+    String fen;
 
     int ply;
 
@@ -57,19 +58,16 @@ public class DebugNode {
 
     List<DebugNode> childNodes = new LinkedList<>();
 
-    public void setZobristHash(long zobristHash) {
-        this.zobristHash = zobristHash;
-        if (Objects.nonNull(this.parent) &&
-                this.parent.childNodes.stream()
-                        .filter(otherNode -> otherNode.zobristHash == zobristHash)
-                        .count() > 1) {
-            throw new RuntimeException("Duplicated Node");
-        }
-    }
-
     public void setDebugSearch(String fnString, int alpha, int beta) {
         this.fnString = fnString;
         this.alpha = alpha;
         this.beta = beta;
+    }
+
+
+    public void validate() {
+        if (childNodes.stream().mapToLong(DebugNode::getZobristHash).distinct().count() != this.childNodes.size()) {
+            throw new RuntimeException("Duplicated Node");
+        }
     }
 }

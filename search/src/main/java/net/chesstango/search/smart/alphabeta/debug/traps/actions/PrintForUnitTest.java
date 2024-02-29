@@ -31,6 +31,9 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
 
         Collections.reverse(tree);
 
-        
+        DebugNode root = tree.get(0);
+
+        printStream.printf("Game = %s\n", root.getFen());
+
     }
 }
