@@ -4,7 +4,10 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableTerminal;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,10 +20,13 @@ public class TerminalChainBuilder {
     private GameEvaluator gameEvaluator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
+    private TranspositionTableTerminal transpositionTableTerminal;
     private SmartListenerMediator smartListenerMediator;
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
+
+    private boolean withTranspositionTable;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
@@ -47,6 +53,11 @@ public class TerminalChainBuilder {
         return this;
     }
 
+    public TerminalChainBuilder withTranspositionTable() {
+        this.withTranspositionTable = true;
+        return this;
+    }
+
     /**
      * @return
      */
@@ -67,7 +78,11 @@ public class TerminalChainBuilder {
         }
 
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
+        }
+
+        if (withTranspositionTable) {
+            transpositionTableTerminal = new TranspositionTableTerminal();
         }
     }
 
@@ -77,6 +92,9 @@ public class TerminalChainBuilder {
         }
         if (debugFilter != null) {
             smartListenerMediator.add(debugFilter);
+        }
+        if (transpositionTableTerminal != null) {
+            smartListenerMediator.add(transpositionTableTerminal);
         }
     }
 
@@ -91,6 +109,10 @@ public class TerminalChainBuilder {
             chain.add(zobristTracker);
         }
 
+        if (transpositionTableTerminal != null) {
+            chain.add(transpositionTableTerminal);
+        }
+
         chain.add(alphaBetaEvaluation);
 
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -101,6 +123,8 @@ public class TerminalChainBuilder {
                 zobristTracker.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {
                 debugFilter.setNext(next);
+            } else if (currentFilter instanceof TranspositionTableTerminal) {
+                transpositionTableTerminal.setNext(next);
             } else if (currentFilter instanceof AlphaBetaEvaluation) {
                 //alphaBetaEvaluation.setNext(next);
             } else {

@@ -50,10 +50,8 @@ public class MatchMain {
                                 .withQuiescence()
 
                                 .withTranspositionTable()
-                                .withQTranspositionTable()
 
                                 .withTranspositionMoveSorter()
-                                .withQTranspositionMoveSorter()
 
                                 .withAspirationWindows()
                                 .withIterativeDeepening()

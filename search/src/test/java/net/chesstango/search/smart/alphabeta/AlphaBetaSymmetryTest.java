@@ -91,10 +91,8 @@ public class AlphaBetaSymmetryTest {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
 
                 .withIterativeDeepening()
 

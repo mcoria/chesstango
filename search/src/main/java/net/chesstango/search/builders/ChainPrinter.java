@@ -19,6 +19,10 @@ import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableAbstract;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableQ;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableTerminal;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -155,6 +159,8 @@ public class ChainPrinter {
                 printChainStopProcessingCatch(stopProcessingCatch, nestedChain);
             } else if (alphaBetaFilter instanceof KillerMoveTracker killerMoveTracker) {
                 printChainKillerMoveTracker(killerMoveTracker, nestedChain);
+            } else if (alphaBetaFilter instanceof TranspositionTableTerminal transpositionTableTerminal) {
+                printChainTranspositionTableTerminal(transpositionTableTerminal, nestedChain);
             } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
@@ -187,6 +193,12 @@ public class ChainPrinter {
         printChainText(String.format("%s", objectText(killerMoveTracker)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(killerMoveTracker.getNext(), nestedChain);
+    }
+
+    private void printChainTranspositionTableTerminal(TranspositionTableTerminal transpositionTableTerminal, int nestedChain) {
+        printChainText(String.format("%s", objectText(transpositionTableTerminal)), nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(transpositionTableTerminal.getNext(), nestedChain);
     }
 
     private void printChainLoopEvaluation(LoopEvaluation loopEvaluation, int nestedChain) {

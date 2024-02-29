@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.alphabeta.filters.transposition;
 
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -6,19 +6,19 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTable extends TranspositionTableAbstract {
-
+public class TranspositionTableQ extends TranspositionTableAbstract {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         super.beforeSearch(context);
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
+
 
     @Override
     protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {
-        return searchDepth <= entry.searchDepth;
+        return true;
     }
 
 }

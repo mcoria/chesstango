@@ -279,17 +279,15 @@ public class EpdSearchMainTest {
 
                 //.withTriangularPV()
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
                 .withKillerMoveSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()
 
                 //.withStopProcessingCatch()
-                //.withPrintChain()
+                .withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withDebugSearchTree(null, false, false, true)
