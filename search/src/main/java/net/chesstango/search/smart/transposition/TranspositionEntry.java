@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class TranspositionEntry implements Serializable, Cloneable {
+public class TranspositionEntry implements Serializable, Cloneable, Comparable<TranspositionEntry> {
 
     public long hash;
     public int searchDepth;
@@ -29,7 +29,7 @@ public class TranspositionEntry implements Serializable, Cloneable {
     }
 
     @Override
-    public TranspositionEntry clone(){
+    public TranspositionEntry clone() {
         return new TranspositionEntry()
                 .setHash(hash)
                 .setSearchDepth(searchDepth)
@@ -37,13 +37,33 @@ public class TranspositionEntry implements Serializable, Cloneable {
                 .setTranspositionBound(transpositionBound);
     }
 
+    @Override
+    public int compareTo(TranspositionEntry other) {
+        int moveValue1 = TranspositionEntry.decodeValue(movesAndValue);
+        int moveValue2 = TranspositionEntry.decodeValue(other.movesAndValue);
+
+        int result = Integer.compare(moveValue1, moveValue2);
+
+        if (result == 0) {
+            if (TranspositionBound.LOWER_BOUND.equals(transpositionBound) && !TranspositionBound.LOWER_BOUND.equals(other.transpositionBound)) {
+                result = 1;
+            } else if (TranspositionBound.EXACT.equals(transpositionBound)) {
+                if (TranspositionBound.UPPER_BOUND.equals(other.transpositionBound)) {
+                    result = 1;
+                } else if (TranspositionBound.LOWER_BOUND.equals(other.transpositionBound)) {
+                    result = -1;
+                }
+            } else if (TranspositionBound.UPPER_BOUND.equals(transpositionBound) && !TranspositionBound.UPPER_BOUND.equals(other.transpositionBound)) {
+                result = -1;
+            }
+        }
+
+        return result;
+    }
+
     public boolean isStored(long hash) {
         return this.hash == hash;
     }
-
-
-
-
 
 
     public static final long INTEGER_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;

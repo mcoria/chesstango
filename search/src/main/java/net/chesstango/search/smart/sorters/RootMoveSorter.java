@@ -22,7 +22,6 @@ import java.util.stream.Stream;
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     private final NodeMoveSorter nodeMoveSorter;
-    private Game game;
     private boolean maximize;
     private int numberOfMove;
     private Move lastBestMove;
@@ -36,7 +35,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+        Game game = context.getGame();
         this.nodeMoveSorter.beforeSearch(context);
         this.maximize = Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
@@ -70,9 +69,10 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
         moveList.add(lastBestMove);
 
-        Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream().filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
+        Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream()
+                .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
-        moveStream = maximize ? moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation).reversed()) : moveStream.sorted(Comparator.comparing(MoveEvaluation::evaluation));
+        moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();
 
         moveStream.map(MoveEvaluation::move).forEach(moveList::add);
 

@@ -268,6 +268,14 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.epdResult());
     }
 
+    @Test
+    public void test_40H_3243() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("6k1/p1pp2pp/2p5/8/3P3q/3bP3/PP3rPP/R1K1Q2R b - - bm Rf2-c2+; ce -M3; pv Rf2-c2+ Kc1-d1 Qh4-g4+ Qe1-e2 Qg4xe2+; id \"3243\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.epdResult());
+    }
+
 
     @Test
     public void test_sbd_058() {
