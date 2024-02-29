@@ -43,7 +43,7 @@ public class SorterReadsTrapRepeated implements DebugNodeTrap {
     }
 
     @Override
-    public void debug(DebugNode debugNode, PrintStream debugOut) {
+    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
         debugOut.print("ACA HAY UNA ENTRADA\n");
     }
 }

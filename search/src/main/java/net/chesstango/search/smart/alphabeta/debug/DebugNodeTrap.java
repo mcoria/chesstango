@@ -8,5 +8,5 @@ import java.io.PrintStream;
 public interface DebugNodeTrap {
     boolean test(DebugNode debugNode);
 
-    void debug(DebugNode debugNode, PrintStream debugOut);
+    void debugAction(DebugNode debugNode, PrintStream debugOut);
 }

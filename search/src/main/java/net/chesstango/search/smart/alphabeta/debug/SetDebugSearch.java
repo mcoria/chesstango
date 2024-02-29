@@ -129,7 +129,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
         if (debugNodeTrap != null) {
             if (debugNodeTrap.test(currentNode)) {
-                debugNodeTrap.debug(currentNode, debugOut);
+                debugNodeTrap.debugAction(currentNode, debugOut);
             }
         }
 

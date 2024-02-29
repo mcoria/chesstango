@@ -30,7 +30,7 @@ public class LeafNodeTrap implements DebugNodeTrap, SearchByDepthListener {
     }
 
     @Override
-    public void debug(DebugNode debugNode, PrintStream debugOut) {
+    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
         debugOut.printf("%s %d POSIBLE NODO\n", ">\t".repeat(debugNode.getPly()), debugNode.getPly());
     }
 
