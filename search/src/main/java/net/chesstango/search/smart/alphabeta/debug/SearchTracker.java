@@ -70,14 +70,11 @@ public class SearchTracker {
                             .setTableType(tableType)
                             .setEntry(entryCloned));
                 } else {
-                    if (currentNode.entryRead != null) {
-                        throw new RuntimeException("Overriding debugNode.entryRead");
-                    }
                     TranspositionEntry entryCloned = entry.clone();
-                    currentNode.entryRead = new DebugOperationTT()
+                    currentNode.entryRead.add(new DebugOperationTT()
                             .setHashRequested(hashRequested)
                             .setTableType(tableType)
-                            .setEntry(entryCloned);
+                            .setEntry(entryCloned));
                 }
             }
         }
@@ -88,10 +85,6 @@ public class SearchTracker {
             if (sorting) {
                 throw new RuntimeException("Writing TT while sorting");
             } else {
-                if (currentNode.entryWrite != null) {
-                    // Probablemente a un nodo hijo le falta agregar DebugFilter y el nodo hijo esta sobreescribiendo la entrada
-                    throw new RuntimeException("Overriding debugNode.entryWrite");
-                }
 
                 TranspositionEntry entryWrite = new TranspositionEntry()
                         .setHash(hash)
@@ -99,10 +92,10 @@ public class SearchTracker {
                         .setMovesAndValue(movesAndValue)
                         .setTranspositionBound(transpositionBound);
 
-                currentNode.entryWrite = new DebugOperationTT()
+                currentNode.entryWrite.add(new DebugOperationTT()
                         .setHashRequested(hash)
                         .setTableType(tableType)
-                        .setEntry(entryWrite);
+                        .setEntry(entryWrite));
             }
         }
     }
