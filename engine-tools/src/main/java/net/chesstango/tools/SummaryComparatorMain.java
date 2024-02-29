@@ -21,11 +21,14 @@ public class SummaryComparatorMain {
 
     public static void main(String[] args) {
         SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-02-27-01-39-v0.0.26");
-        summaryComparatorMain.addSession("depth-5-2024-02-28-21-32");
-        summaryComparatorMain.addSession("depth-5-2024-02-28-21-57");
-        //depth-5-2024-02-28-21-57
+        summaryComparatorMain.addSession("depth-5-2024-02-28-21-32-CHT-249");
+        summaryComparatorMain.addSession("depth-5-2024-02-28-21-57-CHT-249");
+        summaryComparatorMain.addSession("depth-5-2024-02-28-23-58-CHT-247");
+        summaryComparatorMain.addSession("depth-5-2024-02-29-00-22-CHT-247");
+        summaryComparatorMain.addSession("depth-5-2024-02-29-00-46-CHT-247");
+        //
 
-        //depth-5-2024-02-26-22-03-168-sinkm-new
+        //
         //
 
         summaryComparatorMain.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");

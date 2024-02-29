@@ -269,6 +269,15 @@ public class EpdSearchMainTest {
     }
 
 
+    @Test
+    public void test_sbd_058() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("r1bqk2r/2ppbppp/p1n2n2/1p2p3/4P3/1B3N2/PPPPQPPP/RNB2RK1 b kq - bm O-O; id \"sbd.058\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.epdResult());
+    }
+
+
     private static SearchMove buildSearchMove() {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
@@ -279,10 +288,8 @@ public class EpdSearchMainTest {
 
                 //.withTriangularPV()
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
                 .withKillerMoveSorter()
 
                 .withAspirationWindows()

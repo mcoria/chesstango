@@ -269,7 +269,6 @@ public class AlphaBetaStatisticsTest {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withTranspositionTable()
-                .withQTranspositionTable()
                 .withStatistics()
                 .build();
 

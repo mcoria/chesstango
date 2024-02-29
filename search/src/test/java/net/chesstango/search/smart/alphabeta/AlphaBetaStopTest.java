@@ -26,16 +26,14 @@ public class AlphaBetaStopTest {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
 
                 .withStopProcessingCatch()
 
-                .withIterativeDeepening()
-
                 .withAspirationWindows()
+
+                .withIterativeDeepening()
 
                 .withStatistics()
 

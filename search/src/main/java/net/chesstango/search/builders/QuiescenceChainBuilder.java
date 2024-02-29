@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.TrapEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableQ;
 
 import java.util.LinkedList;
 import java.util.List;

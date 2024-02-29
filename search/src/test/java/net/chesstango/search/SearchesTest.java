@@ -38,13 +38,11 @@ public class SearchesTest {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
 
-                .withIterativeDeepening()
                 .withAspirationWindows()
+                .withIterativeDeepening()
                 //.withTriangularPV()
 
                 .withStopProcessingCatch()

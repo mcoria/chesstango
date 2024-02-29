@@ -10,6 +10,7 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta;
     exports net.chesstango.search.smart.alphabeta.filters;
     exports net.chesstango.search.smart.alphabeta.filters.once;
+    exports net.chesstango.search.smart.alphabeta.filters.transposition;
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.statistics;

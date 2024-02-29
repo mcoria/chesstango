@@ -62,7 +62,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
-    private boolean withQTranspositionTable;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
@@ -147,6 +146,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
         alphaBetaHorizonChainBuilder.withTranspositionTable();
+        terminalChainBuilder.withTranspositionTable();
+
+
+        quiescenceChainBuilder.withTranspositionTable();
+        checkResolverChainBuilder.withTranspositionTable();
+        quiescenceTerminalChainBuilder.withTranspositionTable();
         return this;
     }
 
@@ -155,23 +160,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
         alphaBetaInteriorChainBuilder.withTranspositionMoveSorter();
-        return this;
-    }
-
-    public AlphaBetaBuilder withQTranspositionTable() {
-        if (!withQuiescence) {
-            throw new RuntimeException("You must enable Quiescence first");
-        }
-        withQTranspositionTable = true;
-        quiescenceChainBuilder.withTranspositionTable();
-        checkResolverChainBuilder.withTranspositionTable();
-        return this;
-    }
-
-    public AlphaBetaBuilder withQTranspositionMoveSorter() {
-        if (!withQTranspositionTable) {
-            throw new RuntimeException("You must enable QTranspositionTable first");
-        }
         quiescenceChainBuilder.withTranspositionMoveSorter();
         return this;
     }
@@ -266,11 +254,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public SearchMove build() {
-        if (!withTranspositionTable && !withQTranspositionTable) {
+        if (!withTranspositionTable) {
             withTriangularPV();
         }
 
-        if (withTriangularPV && (withTranspositionTable || withQTranspositionTable)) {
+        if (withTriangularPV && withTranspositionTable) {
             throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
         }
 

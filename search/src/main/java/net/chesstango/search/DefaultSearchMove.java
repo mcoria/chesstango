@@ -53,10 +53,8 @@ public class DefaultSearchMove implements SearchMove {
                 .withQuiescence()
 
                 .withTranspositionTable()
-                .withQTranspositionTable()
 
                 .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
                 .withKillerMoveSorter()
 
                 .withAspirationWindows()
