@@ -77,9 +77,7 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
             final TranspositionEntry moveEntry2 = currentMap.read(getZobristHashMove(o2));
 
             if (moveEntry1 != null && moveEntry2 != null) {
-                int moveValue1 = TranspositionEntry.decodeValue(moveEntry1.movesAndValue);
-                int moveValue2 = TranspositionEntry.decodeValue(moveEntry2.movesAndValue);
-                result = Color.WHITE.equals(currentTurn) ? Integer.compare(moveValue1, moveValue2) : Integer.compare(moveValue2, moveValue1);
+                result = Color.WHITE.equals(currentTurn) ? moveEntry1.compareTo(moveEntry2) : -moveEntry1.compareTo(moveEntry2);
             } else if (moveEntry1 != null) {
                 return 1;
             } else if (moveEntry2 != null) {

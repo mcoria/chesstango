@@ -14,6 +14,10 @@ public class DefaultMoveComparator implements MoveComparator {
 
     @Override
     public int compare(Move move1, Move move2) {
+        return compareImp(move1, move2);
+    }
+
+    public static int compareImp(Move move1, Move move2) {
         PiecePositioned move1From = move1.getFrom();
         PiecePositioned move1To = move1.getTo();
         Piece move1PiecePromotion = move1 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
@@ -37,7 +41,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
 
-    private int compare(final PiecePositioned move1From, final PiecePositioned move1To, final Piece move1PiecePromotion,
+    private static int compare(final PiecePositioned move1From, final PiecePositioned move1To, final Piece move1PiecePromotion,
                         final PiecePositioned move2From, final PiecePositioned move2To, final Piece move2PiecePromotion) {
 
         int result = 0;
