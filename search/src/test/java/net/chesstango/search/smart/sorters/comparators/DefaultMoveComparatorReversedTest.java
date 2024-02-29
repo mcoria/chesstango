@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.factories.MoveFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,19 +42,19 @@ public class DefaultMoveComparatorReversedTest {
         moveList.add(moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
         moveList.sort(defaultMoveComparator.reversed());
@@ -91,19 +91,19 @@ public class DefaultMoveComparatorReversedTest {
         moveList.add(moveFactoryWhite.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPiecePositioned(Square.f3, Piece.QUEEN_BLACK), Cardinal.NorteEste));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
+        moveList.add(moveFactoryWhite.createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_BLACK)));
 
         moveList.sort(defaultMoveComparator.reversed());
@@ -139,19 +139,19 @@ public class DefaultMoveComparatorReversedTest {
         moveList.add(moveFactoryBlack.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
+        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
 
@@ -188,19 +188,19 @@ public class DefaultMoveComparatorReversedTest {
         moveList.add(moveFactoryBlack.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
                 PiecePositioned.getPiecePositioned(Square.f6, Piece.QUEEN_WHITE), Cardinal.SurEste));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
                 PiecePositioned.getPosition(Square.e5)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
+        moveList.add(moveFactoryBlack.createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
                 PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
 
 

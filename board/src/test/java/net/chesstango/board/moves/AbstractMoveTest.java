@@ -4,6 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.moves.factories.MoveFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ public class AbstractMoveTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
 
-        assertEquals(moveFactory.createSimpleMove(origen, destino), moveFactory.createSimpleMove(origen, destino));
+        assertEquals(moveFactory.createSimpleKnightMove(origen, destino), moveFactory.createSimpleKnightMove(origen, destino));
     }
 
 
@@ -42,10 +43,10 @@ public class AbstractMoveTest {
         PiecePositioned b3 = PiecePositioned.getPiecePositioned(Square.b3, null);
 
 
-        Move move1 = moveFactory.createSimpleMove(a2, a3);
-        Move move2 = moveFactory.createSimpleMove(a2, a4);
-        Move move3 = moveFactory.createSimpleMove(b2, b3);
-        Move move4 = moveFactory.createSimpleMove(b1, a3);
+        Move move1 = moveFactory.createSimpleKnightMove(a2, a3);
+        Move move2 = moveFactory.createSimpleKnightMove(a2, a4);
+        Move move3 = moveFactory.createSimpleKnightMove(b2, b3);
+        Move move4 = moveFactory.createSimpleKnightMove(b1, a3);
 
         assertTrue(move1.compareTo(move2) > 0);
         assertTrue(move1.compareTo(move3) > 0);

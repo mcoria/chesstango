@@ -17,15 +17,17 @@ import java.util.List;
 public class MoveContainer implements MoveContainerReader {
     private int size = 0;
     private final List<MoveList> moveLists;
-    private final List<Move> moveList = new LinkedList<>();
+    private final List<Move> moveList;
     private boolean hasQuietMoves = true;
 
     public MoveContainer(int moveListCount) {
-        moveLists = new ArrayList<>(moveListCount);
+        this.moveLists = new ArrayList<>(moveListCount);
+        this.moveList = new LinkedList<>();
     }
 
     public MoveContainer() {
-        this(0);
+        this.moveLists = new LinkedList<>();
+        this.moveList = new LinkedList<>();
     }
 
     public void add(MoveList moveList) {
@@ -71,7 +73,8 @@ public class MoveContainer implements MoveContainerReader {
     @Override
     public Move getMove(Square from, Square to) {
         for (Move move : this) {
-            if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
+            if (from.equals(move.getFrom().getSquare()) &&
+                    to.equals(move.getTo().getSquare())) {
                 if (move instanceof MovePromotion) {
                     return null;
                 }
@@ -84,8 +87,9 @@ public class MoveContainer implements MoveContainerReader {
     @Override
     public Move getMove(Square from, Square to, Piece promotionPiece) {
         for (Move move : this) {
-            if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)) {
-                MovePromotion movePromotion = (MovePromotion) move;
+            if (from.equals(move.getFrom().getSquare()) &&
+                    to.equals(move.getTo().getSquare()) &&
+                    (move instanceof MovePromotion movePromotion)) {
                 if (movePromotion.getPromotion().equals(promotionPiece)) {
                     return move;
                 }
@@ -101,7 +105,7 @@ public class MoveContainer implements MoveContainerReader {
 
     @Override
     public Iterator<Move> iterator() {
-        return new Iterator<Move>() {
+        return new Iterator<>() {
             private Iterator<Move> currentIterator = moveList.iterator();
 
             private final Iterator<MoveList> currentMoveListIterator = moveLists.iterator();

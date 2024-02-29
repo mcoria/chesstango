@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,7 +97,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g7, Piece.QUEEN_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
 
-        moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
+        moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
         moveExecutor.executeMove(positionState);
 
@@ -122,7 +123,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b7, Piece.QUEEN_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
 
-        moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
+        moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
         moveExecutor.executeMove(positionState);
 

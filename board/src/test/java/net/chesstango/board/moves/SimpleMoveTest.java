@@ -71,7 +71,7 @@ public class SimpleMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);
+        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKnightMove(origen, destino);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SimpleMoveTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(squareBoard.getPosition(Square.e5), squareBoard.getPosition(Square.e7)), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKnightMove(squareBoard.getPosition(Square.e5), squareBoard.getPosition(Square.e7)), moveExecutor);
     }
 
     @Test

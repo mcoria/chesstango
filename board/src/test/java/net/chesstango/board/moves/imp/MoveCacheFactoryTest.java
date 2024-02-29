@@ -4,8 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
-import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryCache;
+import net.chesstango.board.moves.factories.MoveFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
