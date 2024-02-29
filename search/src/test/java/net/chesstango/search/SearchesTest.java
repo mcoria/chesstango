@@ -2,6 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.board.representations.pgn.PGNDecoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.DefaultEvaluator;
@@ -26,6 +27,8 @@ public class SearchesTest {
     private static final boolean PRINT_REPORT = false;
     private SearchMove searchMove;
     private SearchMoveResult searchResult;
+
+    private SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @BeforeEach
     public void setup() {
@@ -220,4 +223,5 @@ public class SearchesTest {
 
         System.out.println(searchResult.getBestMoveEvaluation());
     }
+    
 }
