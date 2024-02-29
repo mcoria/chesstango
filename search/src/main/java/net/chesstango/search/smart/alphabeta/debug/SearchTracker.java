@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
+import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -13,6 +15,10 @@ public class SearchTracker {
     private DebugNode rootNode;
     private DebugNode currentNode;
     private boolean sorting;
+
+    @Setter
+    private Game game;
+
 
 
     public DebugNode newNode(DebugNode.NodeTopology topology, int currentPly) {

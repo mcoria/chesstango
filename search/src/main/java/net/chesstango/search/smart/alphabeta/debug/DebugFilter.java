@@ -3,12 +3,8 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -39,7 +35,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = beforeSearchImp("MAX", currentPly, alpha, beta);
+        DebugNode debugNode = createDebugNode("MAX", currentPly, alpha, beta);
 
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
@@ -63,7 +59,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        DebugNode debugNode = beforeSearchImp("MIN", currentPly, alpha, beta);
+        DebugNode debugNode = createDebugNode("MIN", currentPly, alpha, beta);
 
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
@@ -84,7 +80,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
         return bestMoveAndValue;
     }
 
-    private DebugNode beforeSearchImp(String fnString, int currentPly, int alpha, int beta) {
+    private DebugNode createDebugNode(String fnString, int currentPly, int alpha, int beta) {
         DebugNode debugNode = searchTracker.newNode(topology, currentPly);
 
         debugNode.setZobristHash(game.getChessPosition().getZobristHash());

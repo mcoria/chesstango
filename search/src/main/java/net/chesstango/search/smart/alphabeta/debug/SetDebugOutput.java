@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
@@ -30,7 +30,7 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     private SearchTracker searchTracker;
     private List<String> debugErrorMessages;
 
-    public SetDebugSearch(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public SetDebugOutput(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
         this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
@@ -40,6 +40,8 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
+        searchTracker = context.getSearchTracker();
+
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.txt", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
@@ -49,22 +51,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         }
 
         debugOut.print("Search started\n");
-
-        searchTracker = new SearchTracker();
-
-        context.setSearchTracker(searchTracker);
-
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.beforeSearch(context);
-        }
     }
 
     @Override
     public void afterSearch(SearchMoveResult searchMoveResult) {
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.afterSearch(searchMoveResult);
-        }
-
         debugOut.print("Search completed\n");
 
         try {
@@ -80,16 +70,10 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         debugOut.printf("Search by depth %d started\n", context.getMaxPly());
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
-            debugNodeTrapSearchByDepthListener.beforeSearchByDepth(context);
-        }
     }
 
     @Override
     public void afterSearchByDepth(SearchByDepthResult result) {
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
-            debugNodeTrapSearchByDepthListener.afterSearchByDepth(result);
-        }
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }
@@ -113,7 +97,6 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
         dumpNode(searchTracker.getRootNode());
         debugErrorMessages.forEach(debugOut::println);
         debugOut.flush();
-        searchTracker.reset();
     }
 
     private void dumpNode(DebugNode currentNode) {
@@ -127,10 +110,8 @@ public class SetDebugSearch implements SearchByCycleListener, SearchByDepthListe
             }
         }
 
-        if (debugNodeTrap != null) {
-            if (debugNodeTrap.test(currentNode)) {
-                debugNodeTrap.debugAction(currentNode, debugOut);
-            }
+        if (debugNodeTrap != null && debugNodeTrap.test(currentNode)) {
+            debugNodeTrap.debugAction(currentNode, debugOut);
         }
 
         for (DebugNode childNode : currentNode.childNodes) {
