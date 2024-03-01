@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
 import java.util.function.Predicate;
 

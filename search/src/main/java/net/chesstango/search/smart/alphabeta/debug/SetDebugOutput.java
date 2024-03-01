@@ -4,6 +4,9 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.*;
@@ -102,8 +105,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private void dumpNode(DebugNode currentNode) {
         dumpNodeHeader(currentNode);
 
-        if (currentNode.sortedMoves != null) {
-            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.ply), currentNode.sortedMoves);
+        if (currentNode.getSortedMoves() != null) {
+            debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
 
             if (showSorterOperations) {
                 dumpSorterOperations(currentNode);
@@ -114,9 +117,9 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             debugNodeTrap.debugAction(currentNode, debugOut);
         }
 
-        for (DebugNode childNode : currentNode.childNodes) {
+        for (DebugNode childNode : currentNode.getChildNodes()) {
             if (showOnlyPV) {
-                if (childNode.type.equals(DebugNode.NodeType.PV)) {
+                if (childNode.getType().equals(DebugNode.NodeType.PV)) {
                     dumpNode(childNode);
                 } else {
                     dumpNodeHeader(childNode);
@@ -132,7 +135,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        debugOut.printf("%s Sorter Reads: transpositions=%d cache=%d\n", ">\t".repeat(currentNode.ply), sortedReads.size(), evalCacheReads.size());
+        debugOut.printf("%s Sorter Reads: transpositions=%d cache=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size());
 
         sortedMoves.forEach(moveStr -> {
             Optional<DebugOperationTT> ttOperationOpt = sortedReads
@@ -146,7 +149,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                 TranspositionEntry entry = ttOperation.getEntry();
                 int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
-                        ">\t".repeat(currentNode.ply),
+                        ">\t".repeat(currentNode.getPly()),
                         ttOperation.getTableType(),
                         entry.getTranspositionBound(),
                         hexFormat.formatHex(longToByte(entry.getHash())),
@@ -164,7 +167,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             if (evalOperationOpt.isPresent()) {
                 DebugOperationEval debugOperationEval = evalOperationOpt.get();
                 debugOut.printf("%s CacheRead[ 0x%s value=%d ] %s",
-                        ">\t".repeat(currentNode.ply),
+                        ">\t".repeat(currentNode.getPly()),
                         hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
                         debugOperationEval.getEvaluation(),
                         moveStr);
@@ -181,7 +184,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                     debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] HORIZONTE",
-                            ">\t".repeat(currentNode.ply),
+                            ">\t".repeat(currentNode.getPly()),
                             ttOperation.getTableType(),
                             entry.getTranspositionBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
@@ -192,64 +195,64 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     private void dumpNodeHeader(DebugNode currentNode) {
-        if (currentNode.ply > 0) {
-            String moveStr = simpleMoveEncoder.encode(currentNode.selectedMove);
-            debugOut.printf("%s%s ", ">\t".repeat(currentNode.ply), moveStr);
+        if (currentNode.getPly() > 0) {
+            String moveStr = simpleMoveEncoder.encode(currentNode.getSelectedMove());
+            debugOut.printf("%s%s ", ">\t".repeat(currentNode.getPly()), moveStr);
         }
 
-        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.fnString, currentNode.topology, hexFormat.formatHex(longToByte(currentNode.zobristHash)), currentNode.alpha, currentNode.beta);
+        debugOut.printf("%s %s 0x%s alpha=%d beta=%d", currentNode.getFnString(), currentNode.getTopology(), hexFormat.formatHex(longToByte(currentNode.getZobristHash())), currentNode.getAlpha(), currentNode.getBeta());
 
-        if (currentNode.standingPat != null) {
-            debugOut.printf(" SP=%d", currentNode.standingPat);
+        if (currentNode.getStandingPat() != null) {
+            debugOut.printf(" SP=%d", currentNode.getStandingPat());
         }
 
-        debugOut.printf(" value=%d %s", currentNode.value, currentNode.type);
+        debugOut.printf(" value=%d %s", currentNode.getValue(), currentNode.getType());
 
-        if (Objects.nonNull(currentNode.parent) &&
-                currentNode.parent.childNodes.stream()
-                        .filter(otherNode -> otherNode.zobristHash == currentNode.zobristHash)
+        if (Objects.nonNull(currentNode.getParent()) &&
+                currentNode.getParent().getChildNodes().stream()
+                        .filter(otherNode -> otherNode.getZobristHash() == currentNode.getZobristHash())
                         .count() > 1) {
             debugOut.print(" DUPLICATED CHILD NODE");
-            debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.zobristHash));
+            debugErrorMessages.add(String.format("DUPLICATED CHILD NODE %s", currentNode.getZobristHash()));
         }
 
         debugOut.print("\n");
 
         if (showNodeTranspositionAccess) {
-            currentNode.entryWrite.forEach(readOp -> {
+            currentNode.getEntryWrite().forEach(readOp -> {
                 TranspositionEntry entry = readOp.getEntry();
                 int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                 debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
-                        ">\t".repeat(currentNode.ply),
+                        ">\t".repeat(currentNode.getPly()),
                         readOp.getTableType(),
                         entry.getTranspositionBound(),
                         entry.getSearchDepth(),
                         ttValue);
-                if (currentNode.zobristHash != entry.getHash()) {
+                if (currentNode.getZobristHash() != entry.getHash()) {
                     debugOut.print(" WRONG TT_READ ENTRY");
-                    debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.zobristHash));
+                    debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.getZobristHash()));
                 }
                 debugOut.print("\n");
             });
 
-            currentNode.entryWrite.forEach(writeOp -> {
+            currentNode.getEntryWrite().forEach(writeOp -> {
                 TranspositionEntry entry = writeOp.getEntry();
                 int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
                 debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
-                        ">\t".repeat(currentNode.ply),
+                        ">\t".repeat(currentNode.getPly()),
                         writeOp.getTableType(),
                         entry.getTranspositionBound(),
                         entry.getSearchDepth(),
                         ttValue);
 
-                if (currentNode.zobristHash != writeOp.getHashRequested()) {
+                if (currentNode.getZobristHash() != writeOp.getHashRequested()) {
                     debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
-                    debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.zobristHash));
+                    debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
                 }
 
-                if (currentNode.value != ttValue) {
+                if (currentNode.getValue() != ttValue) {
                     debugOut.print(" WRONG TT_WRITE_VALUE");
-                    debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.zobristHash));
+                    debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.getZobristHash()));
                 }
                 debugOut.print("\n");
             });

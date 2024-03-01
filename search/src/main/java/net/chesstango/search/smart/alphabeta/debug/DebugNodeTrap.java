@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+
 import java.io.PrintStream;
 
 /**

@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
 import java.io.PrintStream;
 import java.util.function.BiConsumer;

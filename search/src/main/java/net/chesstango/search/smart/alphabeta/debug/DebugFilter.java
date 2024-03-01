@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -41,14 +42,14 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        debugNode.value = currentValue;
+        debugNode.setValue(currentValue);
 
         if (currentValue <= alpha) {
-            debugNode.type = DebugNode.NodeType.ALL;
+            debugNode.setType(DebugNode.NodeType.ALL);
         } else if (beta <= currentValue) {
-            debugNode.type = DebugNode.NodeType.CUT;
+            debugNode.setType(DebugNode.NodeType.CUT);
         } else {
-            debugNode.type = DebugNode.NodeType.PV;
+            debugNode.setType(DebugNode.NodeType.PV);
         }
 
         searchTracker.save();
@@ -65,14 +66,14 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
 
-        debugNode.value = currentValue;
+        debugNode.setValue(currentValue);
 
         if (currentValue <= alpha) {
-            debugNode.type = DebugNode.NodeType.CUT;
+            debugNode.setType(DebugNode.NodeType.CUT);
         } else if (beta <= currentValue) {
-            debugNode.type = DebugNode.NodeType.ALL;
+            debugNode.setType(DebugNode.NodeType.ALL);
         } else {
-            debugNode.type = DebugNode.NodeType.PV;
+            debugNode.setType(DebugNode.NodeType.PV);
         }
 
         searchTracker.save();

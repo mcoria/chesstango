@@ -1,12 +1,10 @@
 package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.DebugOperationTT;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

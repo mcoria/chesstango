@@ -1,6 +1,8 @@
-package net.chesstango.search.smart.alphabeta.debug;
+package net.chesstango.search.smart.alphabeta.debug.model;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Getter
+@Setter
+@Accessors(chain = true)
 public class DebugNode {
 
     public enum NodeTopology {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
@@ -22,41 +26,41 @@ public class DebugNode {
      */
     public enum NodeType {PV, CUT, ALL}
 
-    NodeTopology topology;
+    private NodeTopology topology;
 
-    NodeType type;
+    private NodeType type;
 
-    String fen;
+    private String fen;
 
-    int ply;
+    private int ply;
 
-    long zobristHash;
+    private long zobristHash;
 
-    DebugNode parent;
+    private DebugNode parent;
 
-    Move selectedMove;
+    private Move selectedMove;
 
-    String fnString;
+    private String fnString;
 
-    int alpha;
+    private int alpha;
 
-    int beta;
+    private int beta;
 
-    int value;
+    private int value;
 
-    Integer standingPat;
+    private Integer standingPat;
 
-    List<DebugOperationTT> entryRead = new ArrayList<>();
+    private List<DebugOperationTT> entryRead = new ArrayList<>();
 
-    List<DebugOperationTT> entryWrite = new ArrayList<>();
+    private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
-    List<String> sortedMoves;
+    private List<String> sortedMoves;
 
-    List<DebugOperationTT> sorterReads = new ArrayList<>();
+    private List<DebugOperationTT> sorterReads = new ArrayList<>();
 
-    List<DebugOperationEval> evalCacheReads = new ArrayList<>();
+    private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
 
-    List<DebugNode> childNodes = new LinkedList<>();
+    private List<DebugNode> childNodes = new LinkedList<>();
 
     public void setDebugSearch(String fnString, int alpha, int beta) {
         this.fnString = fnString;

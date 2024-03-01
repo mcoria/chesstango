@@ -39,4 +39,6 @@ module net.chesstango.search {
     opens net.chesstango.search.reports.nodes;
     opens net.chesstango.search.reports.pv;
     opens net.chesstango.search.reports.summary;
+    exports net.chesstango.search.smart.alphabeta.debug.model;
+    opens net.chesstango.search.smart.alphabeta.debug.model;
 }

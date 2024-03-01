@@ -7,7 +7,7 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReport;
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.traps.ComposedTrap;
 import net.chesstango.search.smart.alphabeta.debug.traps.actions.PrintForUnitTest;

@@ -2,6 +2,9 @@ package net.chesstango.search.smart.alphabeta.debug;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -29,12 +32,12 @@ public class SearchTracker {
             rootNode = newNode;
         } else {
             newNode = createRegularNode(topology, currentPly);
-            currentNode.childNodes.add(newNode);
+            currentNode.getChildNodes().add(newNode);
         }
 
-        newNode.zobristHash = game.getChessPosition().getZobristHash();
+        newNode.setZobristHash(game.getChessPosition().getZobristHash());
         if (game.getState().getPreviousState() != null) {
-            newNode.selectedMove = game.getState().getPreviousState().getSelectedMove();
+            newNode.setSelectedMove(game.getState().getPreviousState().getSelectedMove());
         }
 
         currentNode = newNode;
@@ -46,18 +49,17 @@ public class SearchTracker {
     protected DebugNode createRootNode() {
         assert currentNode == null;
         DebugNode newNode = new DebugNode();
-        newNode.topology = DebugNode.NodeTopology.ROOT;
-        newNode.ply = 0;
-        newNode.parent = null;
-        newNode.fen = game.getChessPosition().toString();
+        newNode.setTopology(DebugNode.NodeTopology.ROOT);
+        newNode.setPly(0);
+        newNode.setFen(game.getChessPosition().toString());
         return newNode;
     }
 
     protected DebugNode createRegularNode(DebugNode.NodeTopology topology, int currentPly) {
         DebugNode newNode = new DebugNode();
-        newNode.topology = topology;
-        newNode.ply = currentPly;
-        newNode.parent = currentNode;
+        newNode.setTopology(topology);
+        newNode.setPly(currentPly);
+        newNode.setParent(currentNode);
         return newNode;
     }
 
@@ -77,13 +79,13 @@ public class SearchTracker {
                 assert hashRequested == entry.hash;
                 if (sorting) {
                     TranspositionEntry entryCloned = entry.clone();
-                    currentNode.sorterReads.add(new DebugOperationTT()
+                    currentNode.getSorterReads().add(new DebugOperationTT()
                             .setHashRequested(hashRequested)
                             .setTableType(tableType)
                             .setEntry(entryCloned));
                 } else {
                     TranspositionEntry entryCloned = entry.clone();
-                    currentNode.entryRead.add(new DebugOperationTT()
+                    currentNode.getEntryRead().add(new DebugOperationTT()
                             .setHashRequested(hashRequested)
                             .setTableType(tableType)
                             .setEntry(entryCloned));
@@ -104,7 +106,7 @@ public class SearchTracker {
                         .setMovesAndValue(movesAndValue)
                         .setTranspositionBound(transpositionBound);
 
-                currentNode.entryWrite.add(new DebugOperationTT()
+                currentNode.getEntryWrite().add(new DebugOperationTT()
                         .setHashRequested(hash)
                         .setTableType(tableType)
                         .setEntry(entryWrite));
@@ -114,13 +116,13 @@ public class SearchTracker {
 
     public void trackSortedMoves(List<String> sortedMovesStr) {
         if (currentNode != null) {
-            currentNode.sortedMoves = sortedMovesStr;
+            currentNode.setSortedMoves(sortedMovesStr);
         }
     }
 
     public void trackReadFromCache(long hash, Integer evaluation) {
         if (currentNode != null) {
-            Optional<DebugOperationEval> previousReadOpt = currentNode.evalCacheReads.stream()
+            Optional<DebugOperationEval> previousReadOpt = currentNode.getEvalCacheReads().stream()
                     .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
                     .findFirst();
 
@@ -130,7 +132,7 @@ public class SearchTracker {
                     throw new RuntimeException("Lectura repetida pero distinto valor retornado");
                 }
             } else {
-                currentNode.evalCacheReads.add(new DebugOperationEval()
+                currentNode.getEvalCacheReads().add(new DebugOperationEval()
                         .setHashRequested(hash)
                         .setEvaluation(evaluation)
                 );
@@ -140,13 +142,13 @@ public class SearchTracker {
 
     public void trackEvaluation(int evaluation) {
         if (currentNode != null) {
-            currentNode.standingPat = evaluation;
+            currentNode.setStandingPat(evaluation);
         }
     }
 
     public void save() {
         currentNode.validate();
-        currentNode = currentNode.parent;
+        currentNode = currentNode.getParent();
     }
 
     public void reset() {
@@ -164,10 +166,10 @@ public class SearchTracker {
     }
 
     public List<DebugOperationTT> getSorterReads() {
-        return currentNode.sorterReads;
+        return currentNode.getSorterReads();
     }
 
     public List<DebugOperationEval> getEvalCacheReads() {
-        return currentNode.evalCacheReads;
+        return currentNode.getEvalCacheReads();
     }
 }

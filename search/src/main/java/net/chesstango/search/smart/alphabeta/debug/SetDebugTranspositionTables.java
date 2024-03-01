@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.transposition.TTable;
 

@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps;
 
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 
 import java.io.PrintStream;
