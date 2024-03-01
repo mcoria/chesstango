@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 
 /**
  * @author Mauricio Coria
@@ -30,8 +31,15 @@ public class TrapEvaluation implements GameEvaluator, SearchByCycleListener {
     @Override
     public int evaluate() {
         int evaluation = gameEvaluator.evaluate();
-        searchTracker.trackEvaluation(evaluation);
+        trackEvaluation(evaluation);
         return evaluation;
+    }
+
+    public void trackEvaluation(int evaluation) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentNode != null) {
+            currentNode.setStandingPat(evaluation);
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -36,7 +37,7 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
         Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
 
-        searchTracker.trackSortedMoves(currentPly, convertMoveListToStringList(sortedMoves));
+        trackSortedMoves(currentPly, convertMoveListToStringList(sortedMoves));
 
         trackComparatorsReads(sortedMoves);
 
@@ -51,6 +52,13 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
         searchTracker = context.getSearchTracker();
     }
 
+    public void trackSortedMoves(int currentPly, List<String> sortedMovesStr) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentNode != null) {
+            currentNode.setSortedPly(currentPly);
+            currentNode.setSortedMoves(sortedMovesStr);
+        }
+    }
 
     private List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();
@@ -73,12 +81,12 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
             final short moveEncoded = move.binaryEncoding();
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getHashRequested())
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
+                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
-                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getHashRequested())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             evalCacheReads.stream()
@@ -86,9 +94,14 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
                     .forEach(debugOperationEval -> debugOperationEval.setMove(moveStr));
         }
 
+        /**
+         * Estas son lecturas de TT que no tienen un movimiento asociado.
+         * Son las lecturas
+         */
+
         sorterReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("HORIZONTE"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
     }
 }

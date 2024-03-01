@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -17,7 +18,11 @@ import java.util.Optional;
 public class SearchTracker {
 
     private DebugNode rootNode;
+
+    @Getter
     private DebugNode currentNode;
+
+    @Getter
     private boolean sorting;
 
     @Setter
@@ -70,81 +75,6 @@ public class SearchTracker {
 
     public void sortingOFF() {
         sorting = false;
-    }
-
-
-    public void trackReadTranspositionEntry(DebugOperationTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
-        if (currentNode != null) {
-            if (entry != null) {
-                assert hashRequested == entry.hash;
-                TranspositionEntry entryCloned = entry.clone();
-
-                List<DebugOperationTT> readList = sorting ? currentNode.getSorterReads() : currentNode.getEntryRead();
-
-                Optional<DebugOperationTT> previousReadOpt = readList.stream()
-                        .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested && debugOperation.getTableType().equals(tableType))
-                        .findFirst();
-
-                if (previousReadOpt.isEmpty()) {
-                    readList.add(new DebugOperationTT()
-                            .setHashRequested(hashRequested)
-                            .setTableType(tableType)
-                            .setEntry(entryCloned));
-                }
-            }
-        }
-    }
-
-    public void trackWriteTranspositionEntry(DebugOperationTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
-        if (currentNode != null) {
-            if (sorting) {
-                throw new RuntimeException("Writing TT while sorting");
-            } else {
-                TranspositionEntry entryWrite = new TranspositionEntry()
-                        .setHash(hash)
-                        .setSearchDepth(searchDepth)
-                        .setMovesAndValue(movesAndValue)
-                        .setTranspositionBound(transpositionBound);
-
-                currentNode.getEntryWrite().add(new DebugOperationTT()
-                        .setHashRequested(hash)
-                        .setTableType(tableType)
-                        .setEntry(entryWrite));
-            }
-        }
-    }
-
-    public void trackSortedMoves(int currentPly, List<String> sortedMovesStr) {
-        if (currentNode != null) {
-            currentNode.setSortedPly(currentPly);
-            currentNode.setSortedMoves(sortedMovesStr);
-        }
-    }
-
-    public void trackReadFromCache(long hash, Integer evaluation) {
-        if (currentNode != null) {
-            Optional<DebugOperationEval> previousReadOpt = currentNode.getEvalCacheReads().stream()
-                    .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
-                    .findFirst();
-
-            if (previousReadOpt.isPresent()) {
-                DebugOperationEval previousReadOpEval = previousReadOpt.get();
-                if (previousReadOpEval.getEvaluation() != evaluation) {
-                    throw new RuntimeException("Lectura repetida pero distinto valor retornado");
-                }
-            } else {
-                currentNode.getEvalCacheReads().add(new DebugOperationEval()
-                        .setHashRequested(hash)
-                        .setEvaluation(evaluation)
-                );
-            }
-        }
-    }
-
-    public void trackEvaluation(int evaluation) {
-        if (currentNode != null) {
-            currentNode.setStandingPat(evaluation);
-        }
     }
 
     public void save() {
