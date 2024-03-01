@@ -77,15 +77,16 @@ public class SearchTracker {
         if (currentNode != null) {
             if (entry != null) {
                 assert hashRequested == entry.hash;
-                if (sorting) {
-                    TranspositionEntry entryCloned = entry.clone();
-                    currentNode.getSorterReads().add(new DebugOperationTT()
-                            .setHashRequested(hashRequested)
-                            .setTableType(tableType)
-                            .setEntry(entryCloned));
-                } else {
-                    TranspositionEntry entryCloned = entry.clone();
-                    currentNode.getEntryRead().add(new DebugOperationTT()
+                TranspositionEntry entryCloned = entry.clone();
+
+                List<DebugOperationTT> readList = sorting ? currentNode.getSorterReads() : currentNode.getEntryRead();
+
+                Optional<DebugOperationTT> previousReadOpt = readList.stream()
+                        .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested && debugOperation.getTableType().equals(tableType))
+                        .findFirst();
+
+                if (previousReadOpt.isEmpty()) {
+                    readList.add(new DebugOperationTT()
                             .setHashRequested(hashRequested)
                             .setTableType(tableType)
                             .setEntry(entryCloned));
@@ -99,7 +100,6 @@ public class SearchTracker {
             if (sorting) {
                 throw new RuntimeException("Writing TT while sorting");
             } else {
-
                 TranspositionEntry entryWrite = new TranspositionEntry()
                         .setHash(hash)
                         .setSearchDepth(searchDepth)

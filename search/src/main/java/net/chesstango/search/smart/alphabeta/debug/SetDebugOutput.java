@@ -148,7 +148,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                 DebugOperationTT ttOperation = ttOperationOpt.get();
                 TranspositionEntry entry = ttOperation.getEntry();
                 int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-                debugOut.printf("%s ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
+                debugOut.printf("%s  ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
                         ">\t".repeat(currentNode.getPly()),
                         ttOperation.getTableType(),
                         entry.getTranspositionBound(),
@@ -166,7 +166,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
             if (evalOperationOpt.isPresent()) {
                 DebugOperationEval debugOperationEval = evalOperationOpt.get();
-                debugOut.printf("%s CacheRead[ 0x%s value=%d ] %s",
+                debugOut.printf("%s  CacheRead[ 0x%s value=%d ] %s",
                         ">\t".repeat(currentNode.getPly()),
                         hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
                         debugOperationEval.getEvaluation(),
