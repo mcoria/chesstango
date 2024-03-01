@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class NodeSorter01Test extends AbstractNodeSorterTest {
+public class NodeSorter02Test extends AbstractNodeSorterTest {
 
 
     @Test
@@ -36,41 +36,28 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
         List<String> orderedMovesStr = convertMoveListToStringList(orderedMoves);
 
-        assertEquals("[e6h6, e6g4, e6e1, f3d3, e6e2, e6e5, e6d5, e6a2, e6b3, e6f5, e6e4, e6c4, e6e3, e6g6, e6f6, e6d6, e6c6, e6b6, e6a6, e6f7, e6e7, e6d7, e6g8, e6e8, e6c8, f3f1, f3f2, f3h3, f3g3, f3e3, f3f4, f3f5, f3f6, f3f7, h7h5, h7h6, g7g5, g7g6, c7c5, c7c6, h8g8]",
+        assertEquals("[b8f8, a5c7, a5a8, a5a7, a5b6, a5a6, a5h5, a5g5, a5f5, a5e5, a5d5, a5c5, a5b5, a5b4, a5a4, a5c3, a5a3, a5d2, a5a2, a5e1, a5a1, g2h4, g2f4, g2e3, g2e1, b8e8, b8d8, b8c8, b8a8, b8b7, b8b6, b8b5, b8b4, b8b3, b8b2, b8b1, g4g5, h3h4, h3g3]",
                 orderedMovesStr.toString());
     }
 
     @Override
     protected Game createGame() {
         return FENDecoder.loadGame("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1")
-                .executeMove(Square.f6, Square.f3)
-                .executeMove(Square.h3, Square.h4);
-
+                .executeMove(Square.e6, Square.e2);
     }
 
     @Override
     protected int getMaxSearchPly() {
-        return 3;
+        return 2;
     }
 
     protected void loadTranspositionTables() {
-        minMap.write(0xF91593D0EB65C164L, 1, 3147906084927624L, TranspositionBound.UPPER_BOUND); // e6h6
+        maxMap.write(0x337D4750B1C4CD1AL, 1, 4078092922146620L, TranspositionBound.LOWER_BOUND); // b8f8
     }
 
     protected GameEvaluatorCacheReadMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
-        cacheEvaluation.put(0x2F1F32B49441E175L, -180480);
-        cacheEvaluation.put(0x9976C1E4920C1531L, -96725);
-        cacheEvaluation.put(0xA9370C554A4AB059L, -432325);
-        cacheEvaluation.put(0x9FDE36217453B78AL, -105285);
-        cacheEvaluation.put(0xC916C33B2FA45612L, -94345);
-        cacheEvaluation.put(0x594189B86097D249L, -99690);
-        cacheEvaluation.put(0x071B2DBC56B401C6L, -104495);
-        cacheEvaluation.put(0x474641DC0C14FB79L, -107530);
-        cacheEvaluation.put(0x8F51DDCCAB7A56E2L, -96320);
-        cacheEvaluation.put(0x45ACAF1C4E505F0DL, -93450);
-        cacheEvaluation.put(0x1E8AE0EB11C1EF3AL, -109320);
-        cacheEvaluation.put(0x95A2106CBE16BE2FL, -348845);
+        cacheEvaluation.put(0x8814FB171AC56D0BL, -26460); // a5c7
 
         return new GameEvaluatorCacheReadMock().setCache(cacheEvaluation);
     }
