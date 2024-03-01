@@ -162,12 +162,58 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         debugOut.print("\n");
     }
 
+    private void showNodeTranspositionAccess(DebugNode currentNode) {
+        currentNode.getEntryRead().forEach(readOp -> {
+            TranspositionEntry entry = readOp.getEntry();
+            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+            debugOut.printf("%s ReadTT[ %s %s depth=%d move=%s value=%d ]",
+                    ">\t".repeat(currentNode.getPly()),
+                    readOp.getTableType(),
+                    entry.getTranspositionBound(),
+                    entry.getSearchDepth(),
+                    readOp.getMove(),
+                    ttValue);
+            if (currentNode.getZobristHash() != entry.getHash()) {
+                debugOut.print(" WRONG TT_READ ENTRY");
+                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.getZobristHash()));
+            }
+            debugOut.print("\n");
+        });
+
+        currentNode.getEntryWrite().forEach(writeOp -> {
+            TranspositionEntry entry = writeOp.getEntry();
+            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+            debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
+                    ">\t".repeat(currentNode.getPly()),
+                    writeOp.getTableType(),
+                    entry.getTranspositionBound(),
+                    entry.getSearchDepth(),
+                    writeOp.getMove(),
+                    ttValue);
+
+            if (currentNode.getZobristHash() != entry.getHash()) {
+                debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
+                debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
+            }
+
+            if (currentNode.getValue() != ttValue) {
+                debugOut.print(" WRONG TT_WRITE_VALUE");
+                debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.getZobristHash()));
+            }
+            debugOut.print("\n");
+        });
+    }
+
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
         List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        debugOut.printf("%s Sorter: transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
+        final String sorterKmAString = currentNode.getSorterKmA() != null ? simpleMoveEncoder.encode(currentNode.getSorterKmA()) : null;
+        final String sorterKmBString = currentNode.getSorterKmB() != null ? simpleMoveEncoder.encode(currentNode.getSorterKmB()) : null;
+
+
+        debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
 
         sortedMoves.forEach(moveStr -> {
             sortedReads
@@ -219,6 +265,23 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                                 moveStr);
                         debugOut.print("\n");
                     });
+
+            if (Objects.equals(sorterKmAString, moveStr)) {
+                debugOut.printf("%s Sorter KillerMoveA[ %s ] %s",
+                        ">\t".repeat(currentNode.getPly()),
+                        currentNode.getSorterKmA().toString(),
+                        sorterKmAString);
+                debugOut.print("\n");
+            }
+
+            if (Objects.equals(sorterKmBString, moveStr)) {
+                debugOut.printf("%s Sorter KillerMoveB[ %s ] %s",
+                        ">\t".repeat(currentNode.getPly()),
+                        currentNode.getSorterKmB().toString(),
+                        sorterKmBString);
+                debugOut.print("\n");
+            }
+
         });
 
 
@@ -238,48 +301,6 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     debugOut.print("\n");
                 });
 
-    }
-
-    private void showNodeTranspositionAccess(DebugNode currentNode) {
-        currentNode.getEntryRead().forEach(readOp -> {
-            TranspositionEntry entry = readOp.getEntry();
-            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-            debugOut.printf("%s ReadTT[ %s %s depth=%d move=%s value=%d ]",
-                    ">\t".repeat(currentNode.getPly()),
-                    readOp.getTableType(),
-                    entry.getTranspositionBound(),
-                    entry.getSearchDepth(),
-                    readOp.getMove(),
-                    ttValue);
-            if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.getZobristHash()));
-            }
-            debugOut.print("\n");
-        });
-
-        currentNode.getEntryWrite().forEach(writeOp -> {
-            TranspositionEntry entry = writeOp.getEntry();
-            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-            debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
-                    ">\t".repeat(currentNode.getPly()),
-                    writeOp.getTableType(),
-                    entry.getTranspositionBound(),
-                    entry.getSearchDepth(),
-                    writeOp.getMove(),
-                    ttValue);
-
-            if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
-            }
-
-            if (currentNode.getValue() != ttValue) {
-                debugOut.print(" WRONG TT_WRITE_VALUE");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.getZobristHash()));
-            }
-            debugOut.print("\n");
-        });
     }
 
     private byte[] longToByte(long lng) {

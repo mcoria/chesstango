@@ -8,10 +8,6 @@ import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.traps.ComposedTrap;
-import net.chesstango.search.smart.alphabeta.debug.traps.actions.PrintForUnitTest;
-import net.chesstango.search.smart.alphabeta.debug.traps.predicates.NodeByZobrist;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -204,14 +200,14 @@ public class EpdSearchMainTest {
 
     @Test
     public void test_40H_2857() {
-
+        /*
         NodeByZobrist nodeByZobrist = new NodeByZobrist()
-                .setZobristHash(0xF91593D0EB65C164L)
+                .setZobristHash(0x337D4750B1C4CD1AL)
                 .setTopology(DebugNode.NodeTopology.INTERIOR)
-                .setAlpha(-362616)
-                .setBeta(-106251);
+                .setAlpha(-363799)
+                .setBeta(-241604);
         debugNodeTrap = new ComposedTrap(nodeByZobrist, new PrintForUnitTest());
-
+        */
         epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - bm Rf6-f3+; ce -M3; pv Rf6-f3+ Kh3-h4 Qe6-h6+ Qa5-h5 g7-g5+; id \"2857\";");
         epdSearchResult = epdSearch.run(epdEntry);

@@ -29,6 +29,16 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private SearchTracker searchTracker;
     private Game game;
+    private Move[] killerMovesTableA;
+    private Move[] killerMovesTableB;
+
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+        game = context.getGame();
+        searchTracker = context.getSearchTracker();
+        killerMovesTableA = context.getKillerMovesTableA();
+        killerMovesTableB = context.getKillerMovesTableB();
+    }
 
     @Override
     public Iterable<Move> getOrderedMoves(final int currentPly) {
@@ -41,15 +51,28 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
         trackComparatorsReads(sortedMoves);
 
+        trackKillerMoves(currentPly);
+
         searchTracker.sortingOFF();
 
         return sortedMoves;
     }
 
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        game = context.getGame();
-        searchTracker = context.getSearchTracker();
+    /**
+     * Este metodo deberia moverse una vez tengamos el wrapper de killer move tables
+     */
+    private void trackKillerMoves(int currentPly) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentPly > 0) {
+            if (killerMovesTableA != null && killerMovesTableB != null) {
+                if (killerMovesTableA[currentPly - 1] != null) {
+                    currentNode.setSorterKmA(killerMovesTableA[currentPly - 1]);
+                }
+                if (killerMovesTableB[currentPly - 1] != null) {
+                    currentNode.setSorterKmA(killerMovesTableB[currentPly - 1]);
+                }
+            }
+        }
     }
 
     public void trackSortedMoves(int currentPly, List<String> sortedMovesStr) {

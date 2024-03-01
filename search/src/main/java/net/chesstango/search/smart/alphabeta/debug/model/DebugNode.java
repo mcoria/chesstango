@@ -66,7 +66,9 @@ public class DebugNode {
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
 
+    private Move sorterKmA;
 
+    private Move sorterKmB;
 
 
     private List<DebugNode> childNodes = new LinkedList<>();

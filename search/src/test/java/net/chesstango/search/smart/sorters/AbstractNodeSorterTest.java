@@ -1,7 +1,9 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.MoveSorterBuilder;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -18,7 +20,9 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public abstract class AbstractNodeSorterTest {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    protected final MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+    protected final MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+    protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     protected SearchByCycleContext cycleContext;
     protected SearchByDepthContext depthContext;
 
@@ -28,6 +32,8 @@ public abstract class AbstractNodeSorterTest {
     protected TTable minMap;
     protected TTable qMaxMap;
     protected TTable qMinMap;
+    protected Move[] killerMovesTableA;
+    protected Move[] killerMovesTableB;
 
     @BeforeEach
     public void setup() {
@@ -41,11 +47,15 @@ public abstract class AbstractNodeSorterTest {
         minMap = new MapTTable();
         qMaxMap = new MapTTable();
         qMinMap = new MapTTable();
-
         cycleContext.setMaxMap(maxMap);
         cycleContext.setMinMap(minMap);
         cycleContext.setQMaxMap(qMaxMap);
         cycleContext.setQMinMap(qMinMap);
+
+        killerMovesTableA = new Move[30];
+        killerMovesTableB = new Move[30];
+        cycleContext.setKillerMovesTableA(killerMovesTableA);
+        cycleContext.setKillerMovesTableB(killerMovesTableB);
 
         depthContext = new SearchByDepthContext(getMaxSearchPly());
 

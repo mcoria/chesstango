@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -25,7 +26,31 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
         printGame(debugNode, printStream);
         printTTContext(debugNode, printStream);
         printCacheContext(debugNode, printStream);
+        printKmContext(debugNode, printStream);
         printStream.println("=======================");
+    }
+
+    private void printKmContext(DebugNode debugNode, PrintStream printStream) {
+        Move kmA = debugNode.getSorterKmA();
+        Move kmB = debugNode.getSorterKmB();
+
+        if (kmA != null) {
+            printStream.printf("killerMovesTableA[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(kmA));
+        }
+
+        if (kmB != null) {
+            printStream.printf("killerMovesTableB[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(kmB));
+        }
+
+        printStream.println("\n");
+    }
+
+    private String killerMoveFactory(Move move) {
+        if (move instanceof MovePromotion movePromotion) {
+            return String.format("factory[%s]", movePromotion);
+        } else {
+            return String.format("factory[%s]", move);
+        }
     }
 
     private void printTTContext(DebugNode debugNode, PrintStream printStream) {

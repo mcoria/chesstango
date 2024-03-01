@@ -1,6 +1,8 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -20,7 +22,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
 
     @Test
-    public void test01() {
+    public void kmDisabledTest() {
         loadTranspositionTables();
 
         moveSorterBuilder
@@ -32,12 +34,40 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         smartListenerMediator.triggerBeforeSearch(cycleContext);
         smartListenerMediator.triggerBeforeSearchByDepth(depthContext);
 
-        Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
+        Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);
 
         List<String> orderedMovesStr = convertMoveListToStringList(orderedMoves);
 
         assertEquals("[b8f8, a5c7, a5a8, a5a7, a5b6, a5a6, a5h5, a5g5, a5f5, a5e5, a5d5, a5c5, a5b5, a5b4, a5a4, a5c3, a5a3, a5d2, a5a2, a5e1, a5a1, g2h4, g2f4, g2e3, g2e1, b8e8, b8d8, b8c8, b8a8, b8b7, b8b6, b8b5, b8b4, b8b3, b8b2, b8b1, g4g5, h3h4, h3g3]",
                 orderedMovesStr.toString());
+    }
+
+    @Test
+    public void kmEnabledTest() {
+        loadKillerMoveTables();
+        loadTranspositionTables();
+
+        moveSorterBuilder
+                .withTranspositionTable()
+                .withKillerMoveSorter()
+                .withGameEvaluatorCache(loadEvaluationCache());
+
+        MoveSorter moveSorter = moveSorterBuilder.build();
+
+        smartListenerMediator.triggerBeforeSearch(cycleContext);
+        smartListenerMediator.triggerBeforeSearchByDepth(depthContext);
+
+        Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);
+
+        List<String> orderedMovesStr = convertMoveListToStringList(orderedMoves);
+
+        assertEquals("[b8f8, a5c7, g2h4, a5a8, a5a7, a5b6, a5a6, a5h5, a5g5, a5f5, a5e5, a5d5, a5c5, a5b5, a5b4, a5a4, a5c3, a5a3, a5d2, a5a2, a5e1, a5a1, g2f4, g2e3, g2e1, b8e8, b8d8, b8c8, b8a8, b8b7, b8b6, b8b5, b8b4, b8b3, b8b2, b8b1, g4g5, h3h4, h3g3]",
+                orderedMovesStr.toString());
+    }
+
+    private void loadKillerMoveTables() {
+        //g2=KNIGHT_WHITE h4=null - MoveImp]
+        killerMovesTableA[0] = moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.g2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h4));
     }
 
     @Override
