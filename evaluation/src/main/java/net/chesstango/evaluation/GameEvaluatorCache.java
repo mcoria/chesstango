@@ -53,10 +53,6 @@ public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead
         return entry.evaluation;
     }
 
-    public void resetCacheHitsCounter() {
-        cacheHitsCounter = 0;
-    }
-
     @Override
     public Integer readFromCache(long hash) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
@@ -64,6 +60,10 @@ public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead
         GameEvaluatorCacheEntry entry = cache[idx];
 
         return entry.hash == hash ? entry.evaluation : null;
+    }
+
+    public void resetCacheHitsCounter() {
+        cacheHitsCounter = 0;
     }
 
     private static class GameEvaluatorCacheEntry {

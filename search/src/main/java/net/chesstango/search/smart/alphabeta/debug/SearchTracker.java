@@ -6,6 +6,7 @@ import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Mauricio Coria
@@ -119,10 +120,21 @@ public class SearchTracker {
 
     public void trackReadFromCache(long hash, Integer evaluation) {
         if (currentNode != null) {
-            currentNode.evalCacheReads.add(new DebugOperationEval()
-                    .setHashRequested(hash)
-                    .setEvaluation(evaluation)
-            );
+            Optional<DebugOperationEval> previousReadOpt = currentNode.evalCacheReads.stream()
+                    .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
+                    .findFirst();
+
+            if (previousReadOpt.isPresent()) {
+                DebugOperationEval previousReadOpEval = previousReadOpt.get();
+                if (previousReadOpEval.getEvaluation() != evaluation) {
+                    throw new RuntimeException("Lectura repetida pero distinto valor retornado");
+                }
+            } else {
+                currentNode.evalCacheReads.add(new DebugOperationEval()
+                        .setHashRequested(hash)
+                        .setEvaluation(evaluation)
+                );
+            }
         }
     }
 

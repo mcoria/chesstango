@@ -1,10 +1,12 @@
 package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.debug.DebugNode;
 
 import java.io.PrintStream;
 import java.util.Collections;
+import java.util.HexFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -14,9 +16,18 @@ import java.util.function.BiConsumer;
  */
 public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
 
+    private final HexFormat hexFormat = HexFormat.of().withUpperCase();
+
     @Override
     public void accept(DebugNode debugNode, PrintStream printStream) {
+        printStream.println("=======================");
         printGame(debugNode, printStream);
+        printCacheContext(debugNode, printStream);
+        printStream.println("=======================");
+    }
+
+    private void printCacheContext(DebugNode debugNode, PrintStream printStream) {
+        debugNode.getEvalCacheReads().forEach(cacheRead -> printStream.printf("cacheEvaluation.put(0x%sL, %d);\n", hexFormat.formatHex(longToByte(cacheRead.getHashRequested())), cacheRead.getEvaluation()));
     }
 
     private void printGame(DebugNode debugNode, PrintStream printStream) {
@@ -31,9 +42,26 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
 
         Collections.reverse(tree);
 
-        DebugNode root = tree.get(0);
+        printStream.printf("game = FENDecoder.loadGame(\"" + tree.get(0).getFen() + "\")");
+        tree.forEach(node -> {
+            Move move = node.getSelectedMove();
+            if (move != null) {
+                printStream.printf("\n.executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
+            }
+        });
+        printStream.println(";\n");
+    }
 
-        printStream.printf("Game = %s\n", root.getFen());
-
+    private byte[] longToByte(long lng) {
+        return new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
     }
 }
