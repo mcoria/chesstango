@@ -2,37 +2,95 @@ package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluatorCacheRead;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.MoveSorterBuilder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionBound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
  */
 public class NodeSorter01Test {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private Game game;
     private SearchByCycleContext cycleContext;
-
     private GameEvaluatorCacheReadMock gameEvaluatorCacheReadMock;
-    private Map<Long, Integer> cacheEvaluation;
     private SmartListenerMediator smartListenerMediator;
     private SearchByDepthContext depthContext;
+    private TTable maxMap;
+    private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         game = FENDecoder.loadGame("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1")
                 .executeMove(Square.f6, Square.f3)
                 .executeMove(Square.h3, Square.h4);
 
-        cacheEvaluation = new HashMap<>();
+        gameEvaluatorCacheReadMock = new GameEvaluatorCacheReadMock();
+        gameEvaluatorCacheReadMock.setCache(loadEvaluationCache());
+
+        smartListenerMediator = new SmartListenerMediator();
+
+        cycleContext = new SearchByCycleContext(game);
+
+        setupTranspositionTables();
+        cycleContext.setMaxMap(maxMap);
+        cycleContext.setMinMap(minMap);
+        cycleContext.setQMaxMap(qMaxMap);
+        cycleContext.setQMinMap(qMinMap);
+
+        depthContext = new SearchByDepthContext(3);
+    }
+
+    @Test
+    public void test01() {
+        MoveSorterBuilder moveSorterBuilder = new MoveSorterBuilder()
+        .withTranspositionTable()
+        //.withKillerMoveSorter()
+        .withGameEvaluatorCache(gameEvaluatorCacheReadMock)
+        .withSmartListenerMediator(smartListenerMediator);
+
+        MoveSorter moveSorter = moveSorterBuilder.build();
+
+        smartListenerMediator.triggerBeforeSearch(cycleContext);
+        smartListenerMediator.triggerBeforeSearchByDepth(depthContext);
+
+        Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
+
+        List<String> orderedMovesStr = convertMoveListToStringList(orderedMoves);
+
+        assertEquals("[e6h6, e6g4, e6e1, f3d3, e6e2, e6e5, e6d5, e6a2, e6b3, e6f5, e6e4, e6c4, e6e3, e6g6, e6f6, e6d6, e6c6, e6b6, e6a6, e6f7, e6e7, e6d7, e6g8, e6e8, e6c8, f3f1, f3f2, f3h3, f3g3, f3e3, f3f4, f3f5, f3f6, f3f7, h7h5, h7h6, g7g5, g7g6, c7c5, c7c6, h8g8]",
+                orderedMovesStr.toString());
+    }
+
+    private void setupTranspositionTables() {
+        this.maxMap = new MapTTable();
+        this.minMap = new MapTTable();
+        this.qMaxMap = new MapTTable();
+        this.qMinMap = new MapTTable();
+
+        minMap.write(0xF91593D0EB65C164L, 1, 3147906084927624L, TranspositionBound.UPPER_BOUND); // e6h6
+    }
+
+    private Map<Long, Integer> loadEvaluationCache() {
+        Map<Long, Integer> cacheEvaluation = new HashMap<>();
         cacheEvaluation.put(0x2F1F32B49441E175L, -180480);
         cacheEvaluation.put(0x9976C1E4920C1531L, -96725);
         cacheEvaluation.put(0xA9370C554A4AB059L, -432325);
@@ -45,26 +103,15 @@ public class NodeSorter01Test {
         cacheEvaluation.put(0x45ACAF1C4E505F0DL, -93450);
         cacheEvaluation.put(0x1E8AE0EB11C1EF3AL, -109320);
         cacheEvaluation.put(0x95A2106CBE16BE2FL, -348845);
-
-        gameEvaluatorCacheReadMock = new GameEvaluatorCacheReadMock();
-        gameEvaluatorCacheReadMock.setCache(cacheEvaluation);
-
-        smartListenerMediator = new SmartListenerMediator();
-        cycleContext = new SearchByCycleContext(game);
-        depthContext = new SearchByDepthContext(3);
+        return cacheEvaluation;
     }
 
-    @Test
-    public void test01() {
-        MoveSorterBuilder moveSorterBuilder = new MoveSorterBuilder();
-        moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCacheReadMock);
-        moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
 
-        MoveSorter moveSorter = moveSorterBuilder.build();
-
-        smartListenerMediator.triggerBeforeSearch(cycleContext);
-        smartListenerMediator.triggerBeforeSearchByDepth(depthContext);
-
-        moveSorter.getOrderedMoves(3);
+    private List<String> convertMoveListToStringList(Iterable<Move> moves) {
+        List<String> sortedMovesStr = new ArrayList<>();
+        for (Move move : moves) {
+            sortedMovesStr.add(simpleMoveEncoder.encode(move));
+        }
+        return sortedMovesStr;
     }
 }

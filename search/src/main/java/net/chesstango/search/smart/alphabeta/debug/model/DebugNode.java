@@ -54,11 +54,20 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
+
+    /**
+     * Debug operaciones de ordenamiento
+     */
+    private int sortedPly; //Debiera ser igual a ply
+
     private List<String> sortedMoves;
 
     private List<DebugOperationTT> sorterReads = new ArrayList<>();
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
+
+
+
 
     private List<DebugNode> childNodes = new LinkedList<>();
 

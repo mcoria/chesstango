@@ -13,7 +13,10 @@ import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HexFormat;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -135,45 +138,37 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        debugOut.printf("%s Sorter Reads: transpositions=%d cache=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size());
+        debugOut.printf("%s Sorter Reads: transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
 
         sortedMoves.forEach(moveStr -> {
-            Optional<DebugOperationTT> ttOperationOpt = sortedReads
+            sortedReads
                     .stream()
                     .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
-                    .findAny();
+                    .forEach(ttOperation ->
+                    {
+                        TranspositionEntry entry = ttOperation.getEntry();
+                        debugOut.printf("%s  ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
+                                ">\t".repeat(currentNode.getPly()),
+                                ttOperation.getTableType(),
+                                entry.getTranspositionBound(),
+                                hexFormat.formatHex(longToByte(entry.getHash())),
+                                entry.getSearchDepth(),
+                                TranspositionEntry.decodeValue(entry.getMovesAndValue()),
+                                moveStr);
+                        debugOut.print("\n");
+                    });
 
-
-            if (ttOperationOpt.isPresent()) {
-                DebugOperationTT ttOperation = ttOperationOpt.get();
-                TranspositionEntry entry = ttOperation.getEntry();
-                int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-                debugOut.printf("%s  ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
-                        ">\t".repeat(currentNode.getPly()),
-                        ttOperation.getTableType(),
-                        entry.getTranspositionBound(),
-                        hexFormat.formatHex(longToByte(entry.getHash())),
-                        entry.getSearchDepth(),
-                        ttValue,
-                        moveStr);
-                debugOut.print("\n");
-            }
-
-
-            Optional<DebugOperationEval> evalOperationOpt = evalCacheReads.stream()
+            evalCacheReads.stream()
                     .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
-                    .findAny();
-
-            if (evalOperationOpt.isPresent()) {
-                DebugOperationEval debugOperationEval = evalOperationOpt.get();
-                debugOut.printf("%s  CacheRead[ 0x%s value=%d ] %s",
-                        ">\t".repeat(currentNode.getPly()),
-                        hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
-                        debugOperationEval.getEvaluation(),
-                        moveStr);
-                debugOut.print("\n");
-            }
-
+                    .forEach(debugOperationEval ->
+                    {
+                        debugOut.printf("%s  CacheRead[ 0x%s value=%d ] %s",
+                                ">\t".repeat(currentNode.getPly()),
+                                hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
+                                debugOperationEval.getEvaluation(),
+                                moveStr);
+                        debugOut.print("\n");
+                    });
         });
 
 

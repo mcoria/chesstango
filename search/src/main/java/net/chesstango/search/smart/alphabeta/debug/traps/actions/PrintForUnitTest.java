@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps.actions;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.PrintStream;
 import java.util.Collections;
@@ -22,12 +23,43 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
     public void accept(DebugNode debugNode, PrintStream printStream) {
         printStream.println("=======================");
         printGame(debugNode, printStream);
+        printTTContext(debugNode, printStream);
         printCacheContext(debugNode, printStream);
         printStream.println("=======================");
     }
 
+    private void printTTContext(DebugNode debugNode, PrintStream printStream) {
+        debugNode.getSorterReads()
+                .forEach(ttOperation -> {
+                    TranspositionEntry entry = ttOperation.getEntry();
+
+                    String table = switch (ttOperation.getTableType()) {
+                        case MAX_MAP -> "maxMap";
+                        case MIN_MAP -> "minMap";
+                        case MAX_MAP_Q -> "qMaxMap";
+                        case MIN_MAP_Q -> "qMinMap";
+                    };
+
+                    printStream.printf("%s.write(0x%sL, %d, %dL, TranspositionBound.%s); // %s \n",
+                            table,
+                            hexFormat.formatHex(longToByte(ttOperation.getHashRequested())),
+                            entry.getSearchDepth(),
+                            entry.getMovesAndValue(),
+                            entry.getTranspositionBound(),
+                            ttOperation.getMove()
+                    );
+
+                });
+        printStream.println("\n");
+    }
+
     private void printCacheContext(DebugNode debugNode, PrintStream printStream) {
-        debugNode.getEvalCacheReads().forEach(cacheRead -> printStream.printf("cacheEvaluation.put(0x%sL, %d);\n", hexFormat.formatHex(longToByte(cacheRead.getHashRequested())), cacheRead.getEvaluation()));
+        debugNode.getEvalCacheReads()
+                .forEach(cacheRead -> printStream.printf("cacheEvaluation.put(0x%sL, %d); // %s \n",
+                        hexFormat.formatHex(longToByte(cacheRead.getHashRequested())),
+                        cacheRead.getEvaluation(),
+                        cacheRead.getMove()));
+        printStream.println("\n");
     }
 
     private void printGame(DebugNode debugNode, PrintStream printStream) {

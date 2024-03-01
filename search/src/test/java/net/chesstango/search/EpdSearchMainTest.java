@@ -7,8 +7,8 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.reports.pv.PrincipalVariationReport;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.traps.ComposedTrap;
 import net.chesstango.search.smart.alphabeta.debug.traps.actions.PrintForUnitTest;
 import net.chesstango.search.smart.alphabeta.debug.traps.predicates.NodeByZobrist;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class EpdSearchMainTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private static EPDReader epdReader;
     private static EpdSearch epdSearch;
     private static DebugNodeTrap debugNodeTrap;
@@ -321,7 +321,8 @@ public class EpdSearchMainTest {
                 //.withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                .withDebugSearchTree(debugNodeTrap, false, true, true);
+                //.withDebugSearchTree(debugNodeTrap, false, true, true)
+                ;
 
         if (PRINT_REPORT) builder.withStatistics();
 

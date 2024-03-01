@@ -36,7 +36,7 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
         Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
 
-        searchTracker.trackSortedMoves(convertMoveListToStringList(sortedMoves));
+        searchTracker.trackSortedMoves(currentPly, convertMoveListToStringList(sortedMoves));
 
         trackComparatorsReads(sortedMoves);
 

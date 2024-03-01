@@ -114,8 +114,9 @@ public class SearchTracker {
         }
     }
 
-    public void trackSortedMoves(List<String> sortedMovesStr) {
+    public void trackSortedMoves(int currentPly, List<String> sortedMovesStr) {
         if (currentNode != null) {
+            currentNode.setSortedPly(currentPly);
             currentNode.setSortedMoves(sortedMovesStr);
         }
     }
