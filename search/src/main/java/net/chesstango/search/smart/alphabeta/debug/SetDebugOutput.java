@@ -172,6 +172,26 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         sortedMoves.forEach(moveStr -> {
             sortedReads
                     .stream()
+                    .filter(debugNodeTT -> Objects.equals(currentNode.getZobristHash(), debugNodeTT.getEntry().getHash()))
+                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
+                    .forEach(ttOperation ->
+                    {
+                        TranspositionEntry entry = ttOperation.getEntry();
+                        debugOut.printf("%s Sorter ReadTT[ %s %s 0x%s depth=%d move=%s value=%d ]  %s",
+                                ">\t".repeat(currentNode.getPly()),
+                                ttOperation.getTableType(),
+                                entry.getTranspositionBound(),
+                                hexFormat.formatHex(longToByte(entry.getHash())),
+                                entry.getSearchDepth(),
+                                moveStr,
+                                TranspositionEntry.decodeValue(entry.getMovesAndValue()),
+                                moveStr);
+                        debugOut.print("\n");
+                    });
+
+            sortedReads
+                    .stream()
+                    .filter(debugNodeTT -> !Objects.equals(currentNode.getZobristHash(), debugNodeTT.getEntry().getHash()))
                     .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
                     .forEach(ttOperation ->
                     {
@@ -186,6 +206,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                                 moveStr);
                         debugOut.print("\n");
                     });
+
 
             evalCacheReads.stream()
                     .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
