@@ -125,11 +125,11 @@ public class SearchTracker {
         entryReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
 
         entryWrites
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
     }
 }

@@ -81,10 +81,19 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
             final short moveEncoded = move.binaryEncoding();
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash()
-                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
         }
+        /**
+         * Estas son lecturas de TT que no tienen un movimiento asociado.
+         */
+        sorterReads
+                .stream()
+                .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+
 
         // Transposition Tail Access
         for (Move move : moves) {
@@ -101,13 +110,11 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
         }
 
         /**
-         * Estas son lecturas de TT que no tienen un movimiento asociado.
-         * Son las lecturas
+         * INVESTIGAR
          */
-
         sorterReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 }
