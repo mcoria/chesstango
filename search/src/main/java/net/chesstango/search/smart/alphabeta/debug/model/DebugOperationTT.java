@@ -13,9 +13,8 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 @Accessors(chain = true)
 public class DebugOperationTT {
     public enum TableType {MAX_MAP, MIN_MAP, MAX_MAP_Q, MIN_MAP_Q}
-    private TableType tableType;
 
-    private long hashRequested;
+    private TableType tableType;
 
     TranspositionEntry entry;
 

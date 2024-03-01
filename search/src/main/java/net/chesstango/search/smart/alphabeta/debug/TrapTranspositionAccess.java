@@ -28,13 +28,13 @@ public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
     @Override
     public TranspositionEntry read(long hash) {
         TranspositionEntry entry = tTable.read(hash);
-        trackReadTranspositionEntry(tableType, hash, entry);
+        trackReadTranspositionEntry(hash, entry);
         return entry;
     }
 
     @Override
     public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        trackWriteTranspositionEntry(tableType, hash, searchDepth, movesAndValue, bound);
+        trackWriteTranspositionEntry(hash, searchDepth, movesAndValue, bound);
         return tTable.write(hash, searchDepth, movesAndValue, bound);
     }
 
@@ -48,7 +48,7 @@ public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
         this.searchTracker = context.getSearchTracker();
     }
 
-    public void trackReadTranspositionEntry(DebugOperationTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
+    public void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (entry != null) {
@@ -59,12 +59,11 @@ public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
 
                 Optional<DebugOperationTT> previousReadOpt = readList
                         .stream()
-                        .filter(debugOperation -> debugOperation.getHashRequested() == hashRequested && debugOperation.getTableType().equals(tableType))
+                        .filter(debugOperation -> debugOperation.getTableType().equals(tableType) && debugOperation.getEntry().getHash() == hashRequested)
                         .findFirst();
 
                 if (previousReadOpt.isEmpty()) {
                     readList.add(new DebugOperationTT()
-                            .setHashRequested(hashRequested)
                             .setTableType(tableType)
                             .setEntry(entryCloned));
                 }
@@ -72,7 +71,7 @@ public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
         }
     }
 
-    public void trackWriteTranspositionEntry(DebugOperationTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    public void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (searchTracker.isSorting()) {
@@ -85,7 +84,6 @@ public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
                         .setTranspositionBound(transpositionBound);
 
                 currentNode.getEntryWrite().add(new DebugOperationTT()
-                        .setHashRequested(hash)
                         .setTableType(tableType)
                         .setEntry(entryWrite));
             }

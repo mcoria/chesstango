@@ -69,24 +69,30 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
     }
 
     public void trackComparatorsReads(Iterable<Move> moves) {
-        List<DebugOperationTT> sorterReads = searchTracker.getSorterReads();
+        List<DebugOperationTT> sorterReads = searchTracker.getCurrentNode().getSorterReads();
 
-        List<DebugOperationEval> evalCacheReads = searchTracker.getEvalCacheReads();
+        List<DebugOperationEval> evalCacheReads = searchTracker.getCurrentNode().getEvalCacheReads();
 
+
+        // Transposition Head Access
         final long positionHash = game.getChessPosition().getZobristHash();
-
         for (Move move : moves) {
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
             final String moveStr = simpleMoveEncoder.encode(move);
             final short moveEncoded = move.binaryEncoding();
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash()
                             && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+        }
+
+        // Transposition Tail Access
+        for (Move move : moves) {
+            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final String moveStr = simpleMoveEncoder.encode(move);
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getHashRequested())
+                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             evalCacheReads.stream()

@@ -3,19 +3,20 @@ package net.chesstango.search.smart.alphabeta.debug;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
-import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchTracker {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private DebugNode rootNode;
 
@@ -78,6 +79,7 @@ public class SearchTracker {
     }
 
     public void save() {
+        trackTranspositionsAccess();
         currentNode.validate();
         currentNode = currentNode.getParent();
     }
@@ -96,11 +98,38 @@ public class SearchTracker {
         return rootNode;
     }
 
-    public List<DebugOperationTT> getSorterReads() {
-        return currentNode.getSorterReads();
-    }
 
-    public List<DebugOperationEval> getEvalCacheReads() {
-        return currentNode.getEvalCacheReads();
+    private void trackTranspositionsAccess() {
+        List<DebugOperationTT> entryReads = currentNode.getEntryRead();
+        List<DebugOperationTT> entryWrites = currentNode.getEntryWrite();
+
+
+        for (Move move : game.getPossibleMoves()) {
+            final String moveStr = simpleMoveEncoder.encode(move);
+            final short moveEncoded = move.binaryEncoding();
+
+            entryReads.stream()
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+            entryWrites.stream()
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+        }
+
+        /**
+         * Deberian ser escrituras de nodos HORIZON donde QS search arroja el Standing Pat como mejor evaluacion
+         */
+
+        entryReads
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+
+        entryWrites
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
     }
 }

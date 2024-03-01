@@ -223,11 +223,12 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-            debugOut.printf("%s ReadTT[ %s %s depth=%d value=%d ]",
+            debugOut.printf("%s ReadTT[ %s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     readOp.getTableType(),
                     entry.getTranspositionBound(),
                     entry.getSearchDepth(),
+                    readOp.getMove(),
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
@@ -239,14 +240,15 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
-            debugOut.printf("%s WriteTT[ %s %s depth=%d value=%d ]",
+            debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
                     entry.getTranspositionBound(),
                     entry.getSearchDepth(),
+                    writeOp.getMove(),
                     ttValue);
 
-            if (currentNode.getZobristHash() != writeOp.getHashRequested()) {
+            if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
                 debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
             }
