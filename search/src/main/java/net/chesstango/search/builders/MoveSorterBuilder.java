@@ -1,6 +1,5 @@
 package net.chesstango.search.builders;
 
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -23,7 +22,9 @@ public class MoveSorterBuilder {
     private final DefaultMoveComparator defaultMoveComparator;
     private SmartListenerMediator smartListenerMediator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
+    private TranspositionHeadMoveComparator transpositionHeadMoveComparatorQ;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
+    private TranspositionTailMoveComparator transpositionTailMoveComparatorQ;
     private TrapMoveSorter trapMoveSorter;
     private TrapReadFromCache trapReadFromCache;
     private GameEvaluatorCacheRead gameEvaluatorCacheRead;
@@ -86,7 +87,10 @@ public class MoveSorterBuilder {
     private void buildObjects() {
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+            transpositionHeadMoveComparatorQ = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+
             transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+            transpositionTailMoveComparatorQ = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
         }
 
         if (withDebugSearchTree) {
@@ -116,8 +120,16 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(transpositionHeadMoveComparator);
         }
 
+        if (transpositionHeadMoveComparatorQ != null) {
+            smartListenerMediator.add(transpositionHeadMoveComparatorQ);
+        }
+
         if (transpositionTailMoveComparator != null) {
             smartListenerMediator.add(transpositionTailMoveComparator);
+        }
+
+        if (transpositionTailMoveComparatorQ != null) {
+            smartListenerMediator.add(transpositionTailMoveComparatorQ);
         }
 
         if (recaptureMoveComparator != null) {
@@ -154,6 +166,9 @@ public class MoveSorterBuilder {
         if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
+
+            chain.add(transpositionHeadMoveComparatorQ);
+            chain.add(transpositionTailMoveComparatorQ);
         }
 
         if (gameEvaluatorComparator != null) {
@@ -174,10 +189,14 @@ public class MoveSorterBuilder {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
 
-            if (currentComparator instanceof TranspositionHeadMoveComparator) {
+            if (currentComparator instanceof TranspositionHeadMoveComparator && currentComparator == transpositionHeadMoveComparator) {
                 transpositionHeadMoveComparator.setNext(next);
-            } else if (currentComparator instanceof TranspositionTailMoveComparator) {
+            } else if (currentComparator instanceof TranspositionTailMoveComparator && currentComparator == transpositionTailMoveComparator) {
                 transpositionTailMoveComparator.setNext(next);
+            } else if (currentComparator instanceof TranspositionHeadMoveComparator && currentComparator == transpositionHeadMoveComparatorQ) {
+                transpositionHeadMoveComparatorQ.setNext(next);
+            } else if (currentComparator instanceof TranspositionTailMoveComparator && currentComparator == transpositionTailMoveComparatorQ) {
+                transpositionTailMoveComparatorQ.setNext(next);
             } else if (currentComparator instanceof RecaptureMoveComparator) {
                 recaptureMoveComparator.setNext(next);
             } else if (currentComparator instanceof GameEvaluatorComparator) {
