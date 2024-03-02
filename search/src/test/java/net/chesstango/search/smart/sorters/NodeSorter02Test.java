@@ -65,11 +65,6 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
                 orderedMovesStr.toString());
     }
 
-    private void loadKillerMoveTables() {
-        //g2=KNIGHT_WHITE h4=null - MoveImp]
-        killerMovesTableA[0] = moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.g2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h4));
-    }
-
     @Override
     protected Game createGame() {
         return FENDecoder.loadGame("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1")
@@ -92,4 +87,8 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         return new GameEvaluatorCacheReadMock().setCache(cacheEvaluation);
     }
 
+    private void loadKillerMoveTables() {
+        //g2=KNIGHT_WHITE h4=null - MoveImp]
+        killerMovesTableA[0] = moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.g2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h4));
+    }
 }

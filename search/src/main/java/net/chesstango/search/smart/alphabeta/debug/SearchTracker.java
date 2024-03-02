@@ -103,7 +103,6 @@ public class SearchTracker {
         List<DebugOperationTT> entryReads = currentNode.getEntryRead();
         List<DebugOperationTT> entryWrites = currentNode.getEntryWrite();
 
-
         for (Move move : game.getPossibleMoves()) {
             final String moveStr = simpleMoveEncoder.encode(move);
             final short moveEncoded = move.binaryEncoding();
