@@ -1,18 +1,33 @@
 package net.chesstango.search.smart.alphabeta.debug;
 
-import net.chesstango.search.smart.transposition.TranspositionBound;
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchTracker {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private DebugNode rootNode;
+
+    @Getter
     private DebugNode currentNode;
+
+    @Getter
     private boolean sorting;
+
+    @Setter
+    private Game game;
 
 
     public DebugNode newNode(DebugNode.NodeTopology topology, int currentPly) {
@@ -23,7 +38,12 @@ public class SearchTracker {
             rootNode = newNode;
         } else {
             newNode = createRegularNode(topology, currentPly);
-            currentNode.childNodes.add(newNode);
+            currentNode.getChildNodes().add(newNode);
+        }
+
+        newNode.setZobristHash(game.getChessPosition().getZobristHash());
+        if (game.getState().getPreviousState() != null) {
+            newNode.setSelectedMove(game.getState().getPreviousState().getSelectedMove());
         }
 
         currentNode = newNode;
@@ -35,17 +55,17 @@ public class SearchTracker {
     protected DebugNode createRootNode() {
         assert currentNode == null;
         DebugNode newNode = new DebugNode();
-        newNode.topology = DebugNode.NodeTopology.ROOT;
-        newNode.ply = 0;
-        newNode.parent = null;
+        newNode.setTopology(DebugNode.NodeTopology.ROOT);
+        newNode.setPly(0);
+        newNode.setFen(game.getChessPosition().toString());
         return newNode;
     }
 
     protected DebugNode createRegularNode(DebugNode.NodeTopology topology, int currentPly) {
         DebugNode newNode = new DebugNode();
-        newNode.topology = topology;
-        newNode.ply = currentPly;
-        newNode.parent = currentNode;
+        newNode.setTopology(topology);
+        newNode.setPly(currentPly);
+        newNode.setParent(currentNode);
         return newNode;
     }
 
@@ -58,71 +78,10 @@ public class SearchTracker {
         sorting = false;
     }
 
-
-    public void trackReadTranspositionEntry(DebugOperationTT.TableType tableType, long hashRequested, TranspositionEntry entry) {
-        if (currentNode != null) {
-            if (entry != null) {
-                assert hashRequested == entry.hash;
-                if (sorting) {
-                    TranspositionEntry entryCloned = entry.clone();
-                    currentNode.sorterReads.add(new DebugOperationTT()
-                            .setHashRequested(hashRequested)
-                            .setTableType(tableType)
-                            .setEntry(entryCloned));
-                } else {
-                    TranspositionEntry entryCloned = entry.clone();
-                    currentNode.entryRead.add(new DebugOperationTT()
-                            .setHashRequested(hashRequested)
-                            .setTableType(tableType)
-                            .setEntry(entryCloned));
-                }
-            }
-        }
-    }
-
-    public void trackWriteTranspositionEntry(DebugOperationTT.TableType tableType, long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
-        if (currentNode != null) {
-            if (sorting) {
-                throw new RuntimeException("Writing TT while sorting");
-            } else {
-
-                TranspositionEntry entryWrite = new TranspositionEntry()
-                        .setHash(hash)
-                        .setSearchDepth(searchDepth)
-                        .setMovesAndValue(movesAndValue)
-                        .setTranspositionBound(transpositionBound);
-
-                currentNode.entryWrite.add(new DebugOperationTT()
-                        .setHashRequested(hash)
-                        .setTableType(tableType)
-                        .setEntry(entryWrite));
-            }
-        }
-    }
-
-    public void trackSortedMoves(List<String> sortedMovesStr) {
-        if (currentNode != null) {
-            currentNode.sortedMoves = sortedMovesStr;
-        }
-    }
-
-    public void trackReadFromCache(long hash, Integer evaluation) {
-        if (currentNode != null) {
-            currentNode.evalCacheReads.add(new DebugOperationEval()
-                    .setHashRequested(hash)
-                    .setEvaluation(evaluation)
-            );
-        }
-    }
-
-    public void trackEvaluation(int evaluation) {
-        if (currentNode != null) {
-            currentNode.standingPat = evaluation;
-        }
-    }
-
     public void save() {
-        currentNode = currentNode.parent;
+        trackTranspositionsAccess();
+        currentNode.validate();
+        currentNode = currentNode.getParent();
     }
 
     public void reset() {
@@ -139,11 +98,38 @@ public class SearchTracker {
         return rootNode;
     }
 
-    public List<DebugOperationTT> getSorterReads() {
-        return currentNode.sorterReads;
-    }
 
-    public List<DebugOperationEval> getEvalCacheReads() {
-        return currentNode.evalCacheReads;
+    private void trackTranspositionsAccess() {
+        List<DebugOperationTT> entryReads = currentNode.getEntryRead();
+        List<DebugOperationTT> entryWrites = currentNode.getEntryWrite();
+
+
+        for (Move move : game.getPossibleMoves()) {
+            final String moveStr = simpleMoveEncoder.encode(move);
+            final short moveEncoded = move.binaryEncoding();
+
+            entryReads.stream()
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+            entryWrites.stream()
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+        }
+
+        /**
+         * Deberian ser escrituras de nodos HORIZON donde QS search arroja el Standing Pat como mejor evaluacion
+         */
+
+        entryReads
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+
+        entryWrites
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
     }
 }

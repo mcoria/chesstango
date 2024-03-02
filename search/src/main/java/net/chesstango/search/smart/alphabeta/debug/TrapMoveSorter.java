@@ -7,6 +7,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
@@ -26,6 +29,16 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private SearchTracker searchTracker;
     private Game game;
+    private Move[] killerMovesTableA;
+    private Move[] killerMovesTableB;
+
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+        game = context.getGame();
+        searchTracker = context.getSearchTracker();
+        killerMovesTableA = context.getKillerMovesTableA();
+        killerMovesTableB = context.getKillerMovesTableB();
+    }
 
     @Override
     public Iterable<Move> getOrderedMoves(final int currentPly) {
@@ -34,21 +47,41 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
         Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
 
-        searchTracker.trackSortedMoves(convertMoveListToStringList(sortedMoves));
+        trackSortedMoves(currentPly, convertMoveListToStringList(sortedMoves));
 
         trackComparatorsReads(sortedMoves);
+
+        trackKillerMoves(currentPly);
 
         searchTracker.sortingOFF();
 
         return sortedMoves;
     }
 
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        game = context.getGame();
-        searchTracker = context.getSearchTracker();
+    /**
+     * Este metodo deberia moverse una vez tengamos el wrapper de killer move tables
+     */
+    private void trackKillerMoves(int currentPly) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentPly > 0) {
+            if (killerMovesTableA != null && killerMovesTableB != null) {
+                if (killerMovesTableA[currentPly - 1] != null) {
+                    currentNode.setSorterKmA(killerMovesTableA[currentPly - 1]);
+                }
+                if (killerMovesTableB[currentPly - 1] != null) {
+                    currentNode.setSorterKmA(killerMovesTableB[currentPly - 1]);
+                }
+            }
+        }
     }
 
+    public void trackSortedMoves(int currentPly, List<String> sortedMovesStr) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentNode != null) {
+            currentNode.setSortedPly(currentPly);
+            currentNode.setSortedMoves(sortedMovesStr);
+        }
+    }
 
     private List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();
@@ -59,24 +92,39 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
     }
 
     public void trackComparatorsReads(Iterable<Move> moves) {
-        List<DebugOperationTT> sorterReads = searchTracker.getSorterReads();
+        List<DebugOperationTT> sorterReads = searchTracker.getCurrentNode().getSorterReads();
 
-        List<DebugOperationEval> evalCacheReads = searchTracker.getEvalCacheReads();
+        List<DebugOperationEval> evalCacheReads = searchTracker.getCurrentNode().getEvalCacheReads();
 
+
+        // Transposition Head Access
         final long positionHash = game.getChessPosition().getZobristHash();
-
         for (Move move : moves) {
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
             final String moveStr = simpleMoveEncoder.encode(move);
             final short moveEncoded = move.binaryEncoding();
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getHashRequested())
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+        }
+        /**
+         * Estas son lecturas de TT que no tienen un movimiento asociado.
+         */
+        sorterReads
+                .stream()
+                .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+
+
+        // Transposition Tail Access
+        for (Move move : moves) {
+            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final String moveStr = simpleMoveEncoder.encode(move);
 
             sorterReads.stream()
-                    .filter(debugNodeTT -> positionHash == debugNodeTT.getHashRequested()
-                            && moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             evalCacheReads.stream()
@@ -84,9 +132,12 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
                     .forEach(debugOperationEval -> debugOperationEval.setMove(moveStr));
         }
 
+        /**
+         * INVESTIGAR
+         */
         sorterReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("HORIZONTE"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 }

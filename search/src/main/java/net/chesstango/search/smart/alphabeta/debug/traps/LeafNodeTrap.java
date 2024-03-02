@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.debug.traps;
 
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 
 import java.io.PrintStream;
@@ -30,7 +30,7 @@ public class LeafNodeTrap implements DebugNodeTrap, SearchByDepthListener {
     }
 
     @Override
-    public void debug(DebugNode debugNode, PrintStream debugOut) {
+    public void debugAction(DebugNode debugNode, PrintStream debugOut) {
         debugOut.printf("%s %d POSIBLE NODO\n", ">\t".repeat(debugNode.getPly()), debugNode.getPly());
     }
 

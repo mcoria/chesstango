@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.debug;
+package net.chesstango.search.smart.alphabeta.debug.model;
 
 import lombok.Getter;
 import lombok.Setter;

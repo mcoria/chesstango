@@ -10,8 +10,9 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.SetDebugSearch;
+import net.chesstango.search.smart.alphabeta.debug.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
+import net.chesstango.search.smart.alphabeta.debug.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
@@ -54,7 +55,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameStatisticsCollector gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
-    private SetDebugSearch setDebugSearch;
+    private SetDebugOutput setDebugOutput;
+    private SetSearchTracker setSearchTracker;
 
     private SetKillerMoveTables setKillerMoveTables;
     private DebugNodeTrap debugNodeTrap;
@@ -333,7 +335,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setDebugSearch = new SetDebugSearch(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            setSearchTracker = new SetSearchTracker(debugNodeTrap);
+            setDebugOutput = new SetDebugOutput(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
         }
 
         if (withKillerMoveSorter) {
@@ -375,8 +378,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(gameEvaluatorStatisticsWrapper);
         }
 
-        if (setDebugSearch != null) {
-            smartListenerMediator.add(setDebugSearch);
+        if (withDebugSearchTree) {
+            if (setSearchTracker != null) {
+                smartListenerMediator.add(setSearchTracker);
+            }
+
+            if (setDebugOutput != null) {
+                smartListenerMediator.add(setDebugOutput);
+            }
 
             if (setDebugTranspositionTables != null) {
                 smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());

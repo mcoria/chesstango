@@ -1,23 +1,22 @@
-package net.chesstango.search.smart.alphabeta.debug.traps;
+package net.chesstango.search.smart.alphabeta.debug.traps.predicates;
 
-import net.chesstango.search.smart.alphabeta.debug.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.DebugOperationTT;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.transposition.TranspositionBound;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * Captura Nodos con lecturas para ordenar; que coincidan en valor y al menos una de ellas sea EXACT
  *
  * @author Mauricio Coria
  */
-public class SorterReadsTrapRepeated implements DebugNodeTrap {
+public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
     @Override
     public boolean test(DebugNode debugNode) {
         List<DebugOperationTT> sorterReads = debugNode.getSorterReads();
@@ -40,10 +39,5 @@ public class SorterReadsTrapRepeated implements DebugNodeTrap {
         }
 
         return false;
-    }
-
-    @Override
-    public void debug(DebugNode debugNode, PrintStream debugOut) {
-        debugOut.print("ACA HAY UNA ENTRADA\n");
     }
 }
