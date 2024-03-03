@@ -96,6 +96,10 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withRecaptureSorter() {
+        moveSorterBuilder.withRecaptureSorter();
+        return this;
+    }
 
     /**
      * <p>

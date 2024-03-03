@@ -56,6 +56,7 @@ public class DefaultSearchMove implements SearchMove {
 
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()
+                .withRecaptureSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()

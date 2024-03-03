@@ -94,6 +94,11 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
+    public AlphaBetaInteriorChainBuilder withRecaptureSorter() {
+        moveSorterBuilder.withKillerMoveSorter();
+        return this;
+    }
+
 
     public AlphaBetaFilter build() {
         buildObjects();
