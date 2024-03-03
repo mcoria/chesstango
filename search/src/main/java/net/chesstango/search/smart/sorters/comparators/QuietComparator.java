@@ -11,16 +11,22 @@ import net.chesstango.board.moves.containers.MoveToHashMap;
 public class QuietComparator implements MoveComparator {
     @Getter
     @Setter
-    private MoveComparator next;
+    private MoveComparator noQuietNext;
+
+    @Getter
+    @Setter
+    private MoveComparator quietNext;
 
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
-        next.beforeSort(currentPly, moveToZobrist);
+        noQuietNext.beforeSort(currentPly, moveToZobrist);
+        quietNext.beforeSort(currentPly, moveToZobrist);
     }
 
     @Override
     public void afterSort(MoveToHashMap moveToZobrist) {
-        next.afterSort(moveToZobrist);
+        noQuietNext.afterSort(moveToZobrist);
+        quietNext.afterSort(moveToZobrist);
     }
 
     @Override
@@ -29,8 +35,12 @@ public class QuietComparator implements MoveComparator {
             return 1;
         } else if (o1.isQuiet() && !o2.isQuiet()) {
             return -1;
+        } else if (!o1.isQuiet() && !o2.isQuiet()) {
+            return noQuietNext.compare(o1, o2);
+        } else if (o1.isQuiet() && o2.isQuiet()) {
+            return quietNext.compare(o1, o2);
         }
 
-        return next.compare(o1, o2);
+        throw new RuntimeException("Imposible comparation");
     }
 }

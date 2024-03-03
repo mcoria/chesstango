@@ -28,7 +28,8 @@ public class MoveSorterBuilder {
     private TrapMoveSorter trapMoveSorter;
     private TrapReadFromCache trapReadFromCache;
     private GameEvaluatorCacheRead gameEvaluatorCacheRead;
-    private GameEvaluatorComparator gameEvaluatorComparator;
+    private GameEvaluatorComparator gameEvaluatorComparatorNoQuiet;
+    private GameEvaluatorComparator gameEvaluatorComparatorQuiet;
     private KillerMoveComparator killerMoveComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
@@ -100,11 +101,14 @@ public class MoveSorterBuilder {
         }
 
         if (gameEvaluatorCacheRead != null) {
-            gameEvaluatorComparator = new GameEvaluatorComparator();
+            gameEvaluatorComparatorNoQuiet = new GameEvaluatorComparator();
+            gameEvaluatorComparatorQuiet = new GameEvaluatorComparator();
             if (withDebugSearchTree) {
-                gameEvaluatorComparator.setGameEvaluatorCacheRead(trapReadFromCache);
+                gameEvaluatorComparatorNoQuiet.setGameEvaluatorCacheRead(trapReadFromCache);
+                gameEvaluatorComparatorQuiet.setGameEvaluatorCacheRead(trapReadFromCache);
             } else {
-                gameEvaluatorComparator.setGameEvaluatorCacheRead(gameEvaluatorCacheRead);
+                gameEvaluatorComparatorNoQuiet.setGameEvaluatorCacheRead(gameEvaluatorCacheRead);
+                gameEvaluatorComparatorQuiet.setGameEvaluatorCacheRead(gameEvaluatorCacheRead);
             }
         }
 
@@ -136,8 +140,12 @@ public class MoveSorterBuilder {
             smartListenerMediator.add(recaptureMoveComparator);
         }
 
-        if (gameEvaluatorComparator != null) {
-            smartListenerMediator.add(gameEvaluatorComparator);
+        if (gameEvaluatorComparatorNoQuiet != null) {
+            smartListenerMediator.add(gameEvaluatorComparatorNoQuiet);
+        }
+
+        if (gameEvaluatorComparatorQuiet != null) {
+            smartListenerMediator.add(gameEvaluatorComparatorQuiet);
         }
 
         if (trapMoveSorter != null) {
@@ -166,18 +174,53 @@ public class MoveSorterBuilder {
         if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
-
-            chain.add(transpositionHeadMoveComparatorQ);
-            chain.add(transpositionTailMoveComparatorQ);
-        }
-
-        if (gameEvaluatorComparator != null) {
-            chain.add(gameEvaluatorComparator);
         }
 
         chain.add(quietComparator);
 
+        MoveComparator chainTail = buildChainTail();
+
+        quietComparator.setNoQuietNext(buildNoQuietNext(chainTail));
+
+        quietComparator.setQuietNext(buildQuietNext(chainTail));
+
+        return linkChain(chain);
+    }
+
+
+    private MoveComparator buildNoQuietNext(MoveComparator chainTail) {
+        List<MoveComparator> chain = new LinkedList<>();
+
+        if (withTranspositionTable) {
+            chain.add(transpositionHeadMoveComparatorQ);
+            chain.add(transpositionTailMoveComparatorQ);
+        }
+
+        if (gameEvaluatorComparatorNoQuiet != null) {
+            chain.add(gameEvaluatorComparatorNoQuiet);
+        }
+
         chain.add(recaptureMoveComparator);
+
+        chain.add(chainTail);
+
+        return linkChain(chain);
+    }
+
+    private MoveComparator buildQuietNext(MoveComparator chainTail) {
+        List<MoveComparator> chain = new LinkedList<>();
+
+        if (gameEvaluatorComparatorQuiet != null) {
+            chain.add(gameEvaluatorComparatorQuiet);
+        }
+
+        chain.add(chainTail);
+
+        return linkChain(chain);
+    }
+
+    private MoveComparator buildChainTail() {
+        List<MoveComparator> chain = new LinkedList<>();
 
         if (killerMoveComparator != null) {
             chain.add(killerMoveComparator);
@@ -185,6 +228,10 @@ public class MoveSorterBuilder {
 
         chain.add(defaultMoveComparator);
 
+        return linkChain(chain);
+    }
+
+    private MoveComparator linkChain(List<MoveComparator> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
@@ -199,18 +246,17 @@ public class MoveSorterBuilder {
                 transpositionTailMoveComparatorQ.setNext(next);
             } else if (currentComparator instanceof RecaptureMoveComparator) {
                 recaptureMoveComparator.setNext(next);
-            } else if (currentComparator instanceof GameEvaluatorComparator) {
-                gameEvaluatorComparator.setNext(next);
-            } else if (currentComparator instanceof KillerMoveComparator) {
+            } else if (currentComparator instanceof GameEvaluatorComparator && currentComparator == gameEvaluatorComparatorNoQuiet) {
+                gameEvaluatorComparatorNoQuiet.setNext(next);
+            } else if (currentComparator instanceof GameEvaluatorComparator && currentComparator == gameEvaluatorComparatorQuiet) {
+                gameEvaluatorComparatorQuiet.setNext(next);
+            }else if (currentComparator instanceof KillerMoveComparator) {
                 killerMoveComparator.setNext(next);
-            } else if (currentComparator instanceof QuietComparator) {
-                quietComparator.setNext(next);
             } else {
                 throw new RuntimeException("Unknow MoveComparator");
             }
         }
-
-
         return chain.get(0);
     }
+
 }
