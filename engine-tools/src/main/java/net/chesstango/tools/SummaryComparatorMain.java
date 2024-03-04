@@ -20,11 +20,11 @@ import java.util.Objects;
 public class SummaryComparatorMain {
 
     public static void main(String[] args) {
-        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-02-27-01-39-v0.0.26");
+        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-6-2024-02-27-00-53-v0.0.26");
         //summaryComparatorMain.addSession("depth-5-2024-03-02-11-23-CHT-254");
-        summaryComparatorMain.addSession("depth-5-2024-03-02-11-23-CHT-254");
-        summaryComparatorMain.addSession("depth-5-2024-03-03-22-04-CHT-256");
-        summaryComparatorMain.addSession("depth-5-2024-03-04-09-30-CHT-156");
+        summaryComparatorMain.addSession("depth-6-2024-03-02-11-43-CHT-254");
+        summaryComparatorMain.addSession("depth-6-2024-03-03-22-25-CHT-256");
+        summaryComparatorMain.addSession("depth-6-2024-03-04-09-55-CHT-156");
         //depth-5-2024-03-04-09-30-CHT-156
         //
 
