@@ -4,13 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCaptureEnPassant;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public class MovePawnCaptureEnPassant implements Move {
+public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final PiecePositioned capture;
@@ -138,10 +138,9 @@ public class MovePawnCaptureEnPassant implements Move {
     }
 
 
-    private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
-        return Piece.KNIGHT_WHITE.equals(piece) ||
-                Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+
+    @Override
+    public PiecePositioned getCapture() {
+        return capture;
     }
 }

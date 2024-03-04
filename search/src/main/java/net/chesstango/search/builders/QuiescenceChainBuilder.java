@@ -103,6 +103,11 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
+    public QuiescenceChainBuilder withMvvLvaSorter() {
+        moveSorterBuilder.withMvvLva();
+        return this;
+    }
+
     /**
      * <p>
      * <p>

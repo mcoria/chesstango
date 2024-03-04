@@ -99,6 +99,11 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
+    public AlphaBetaInteriorChainBuilder withMvvLvaSorter() {
+        moveSorterBuilder.withMvvLva();
+        return this;
+    }
+
 
     public AlphaBetaFilter build() {
         buildObjects();
