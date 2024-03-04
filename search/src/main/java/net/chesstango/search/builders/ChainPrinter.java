@@ -306,6 +306,16 @@ public class ChainPrinter {
                     objectText(moveComparator),
                     printMoveComparatorText(killerMoveComparator.getNext()));
 
+        } else if (moveComparator instanceof MvvLvaComparator mvvLvaComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(mvvLvaComparator.getNext()));
+
+        } else if (moveComparator instanceof PromotionComparator promotionComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(promotionComparator.getNext()));
+
         } else if (moveComparator instanceof QuietComparator quietComparator) {
             return String.format("%s -> [NoQuiet: %s, Quiet: %s]",
                     objectText(moveComparator),

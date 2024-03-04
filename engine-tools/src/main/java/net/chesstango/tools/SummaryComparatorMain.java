@@ -24,7 +24,8 @@ public class SummaryComparatorMain {
         //summaryComparatorMain.addSession("depth-5-2024-03-02-11-23-CHT-254");
         summaryComparatorMain.addSession("depth-5-2024-03-02-11-23-CHT-254");
         summaryComparatorMain.addSession("depth-5-2024-03-03-22-04-CHT-256");
-        //
+        summaryComparatorMain.addSession("depth-5-2024-03-04-09-30-CHT-156");
+        //depth-5-2024-03-04-09-30-CHT-156
         //
 
         summaryComparatorMain.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");

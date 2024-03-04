@@ -10,9 +10,7 @@ import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.traps.ComposedTrap;
-import net.chesstango.search.smart.alphabeta.debug.traps.actions.DefaultAction;
 import net.chesstango.search.smart.alphabeta.debug.traps.actions.PrintForUnitTest;
-import net.chesstango.search.smart.alphabeta.debug.traps.predicates.HorizonCutStandingPat;
 import net.chesstango.search.smart.alphabeta.debug.traps.predicates.NodeByZobrist;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -317,6 +315,7 @@ public class EpdSearchMainTest {
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
+                .withMvvLvaSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()

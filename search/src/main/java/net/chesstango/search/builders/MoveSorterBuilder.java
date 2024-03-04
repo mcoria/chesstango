@@ -30,11 +30,14 @@ public class MoveSorterBuilder {
     private GameEvaluatorComparator gameEvaluatorComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;
+    private MvvLvaComparator mvvLvaComparator;
+    private PromotionComparator promotionComparator;
 
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withKillerMoveSorter;
     private boolean withRecaptureSorter;
+    private boolean withMvvLva;
 
     public MoveSorterBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter();
@@ -71,6 +74,11 @@ public class MoveSorterBuilder {
 
     public MoveSorterBuilder withRecaptureSorter() {
         this.withRecaptureSorter = true;
+        return this;
+    }
+
+    public MoveSorterBuilder withMvvLva() {
+        this.withMvvLva = true;
         return this;
     }
 
@@ -122,6 +130,12 @@ public class MoveSorterBuilder {
         if (withRecaptureSorter) {
             recaptureMoveComparator = new RecaptureMoveComparator();
         }
+
+        if (withMvvLva) {
+            mvvLvaComparator = new MvvLvaComparator();
+        }
+
+        promotionComparator = new PromotionComparator();
     }
 
     private void setupListenerMediator() {
@@ -199,8 +213,14 @@ public class MoveSorterBuilder {
             chain.add(transpositionTailMoveComparatorQ);
         }
 
+        chain.add(promotionComparator);
+
         if (recaptureMoveComparator != null) {
             chain.add(recaptureMoveComparator);
+        }
+
+        if (mvvLvaComparator != null) {
+            chain.add(mvvLvaComparator);
         }
 
         chain.add(chainTail);
@@ -251,11 +271,14 @@ public class MoveSorterBuilder {
                 gameEvaluatorComparator.setNext(next);
             } else if (currentComparator instanceof KillerMoveComparator) {
                 killerMoveComparator.setNext(next);
+            } else if (currentComparator instanceof MvvLvaComparator) {
+                mvvLvaComparator.setNext(next);
+            } else if (currentComparator instanceof PromotionComparator) {
+                promotionComparator.setNext(next);
             } else {
                 throw new RuntimeException("Unknow MoveComparator");
             }
         }
         return chain.get(0);
     }
-
 }

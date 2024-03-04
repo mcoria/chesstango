@@ -238,6 +238,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withMvvLvaSorter() {
+        alphaBetaInteriorChainBuilder.withMvvLvaSorter();
+        quiescenceChainBuilder.withMvvLvaSorter();
+        return this;
+    }
+
     public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
