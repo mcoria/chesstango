@@ -210,10 +210,6 @@ public class MoveSorterBuilder {
 
     private MoveComparator buildQuietNext(MoveComparator chainTail) {
         List<MoveComparator> chain = new LinkedList<>();
-
-        if (killerMoveComparator != null) {
-            chain.add(killerMoveComparator);
-        }
         
         chain.add(chainTail);
 
@@ -222,6 +218,10 @@ public class MoveSorterBuilder {
 
     private MoveComparator buildChainTail() {
         List<MoveComparator> chain = new LinkedList<>();
+
+        if (killerMoveComparator != null) {
+            chain.add(killerMoveComparator);
+        }
 
         if (gameEvaluatorComparator != null) {
             chain.add(gameEvaluatorComparator);
