@@ -26,11 +26,9 @@ public class MoveSorterQuiescenceBuilder {
     private TrapReadFromCache trapReadFromCache;
     private GameEvaluatorCache gameEvaluatorCache;
     private GameEvaluatorComparator gameEvaluatorComparator;
-    private KillerMoveComparator killerMoveComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withRecaptureSorter;
-    private boolean withKillerMoveSorter;
 
     public MoveSorterQuiescenceBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter(move -> !move.isQuiet());
@@ -58,12 +56,6 @@ public class MoveSorterQuiescenceBuilder {
 
     public MoveSorterQuiescenceBuilder withRecaptureSorter() {
         this.withRecaptureSorter = true;
-        return this;
-    }
-
-
-    public MoveSorterQuiescenceBuilder withKillerMoveSorter() {
-        this.withKillerMoveSorter = true;
         return this;
     }
 
@@ -112,9 +104,6 @@ public class MoveSorterQuiescenceBuilder {
             recaptureMoveComparator = new RecaptureMoveComparator();
         }
 
-        if (withKillerMoveSorter) {
-            killerMoveComparator = new KillerMoveComparator();
-        }
     }
 
     private void setupListenerMediator() {
@@ -144,9 +133,6 @@ public class MoveSorterQuiescenceBuilder {
             smartListenerMediator.add(trapReadFromCache);
         }
 
-        if (killerMoveComparator != null) {
-            smartListenerMediator.add(killerMoveComparator);
-        }
     }
 
 
@@ -161,15 +147,6 @@ public class MoveSorterQuiescenceBuilder {
         if (recaptureMoveComparator != null) {
             chain.add(recaptureMoveComparator);
         }
-
-        /**
-         * Todavia NO CAPTURARMOS Killer Move en Quiescence search
-         */
-        /*
-        if (killerMoveComparator != null) {
-            chain.add(killerMoveComparator);
-        }
-         */
 
         if (gameEvaluatorComparator != null) {
             chain.add(gameEvaluatorComparator);

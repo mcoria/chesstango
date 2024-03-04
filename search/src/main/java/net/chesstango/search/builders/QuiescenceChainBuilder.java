@@ -5,8 +5,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.debug.TrapEvaluation;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableQ;
 
@@ -28,7 +28,9 @@ public class QuiescenceChainBuilder {
     private DebugFilter debugFilter;
     private TrapEvaluation trapEvaluation;
     private TriangularPV triangularPV;
+
     private SmartListenerMediator smartListenerMediator;
+
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;

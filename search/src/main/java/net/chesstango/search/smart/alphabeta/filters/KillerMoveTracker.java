@@ -56,11 +56,9 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
     }
 
     private void trackKillerMove(int currentPly, Move killerMove) {
-        if (killerMove.isQuiet()) {
-            if (!Objects.equals(killerMove, killerMovesTableA[currentPly - 2]) && !Objects.equals(killerMove, killerMovesTableB[currentPly - 2])) {
-                killerMovesTableB[currentPly - 2] = killerMovesTableA[currentPly];
-                killerMovesTableA[currentPly - 2] = killerMove;
-            }
+        if (!Objects.equals(killerMove, killerMovesTableA[currentPly - 2]) && !Objects.equals(killerMove, killerMovesTableB[currentPly - 2])) {
+            killerMovesTableB[currentPly - 2] = killerMovesTableA[currentPly];
+            killerMovesTableA[currentPly - 2] = killerMove;
         }
     }
 }
