@@ -28,6 +28,7 @@ public class MoveSorterQuiescenceBuilder {
     private GameEvaluatorComparator gameEvaluatorComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
+    private boolean withRecaptureSorter;
 
     public MoveSorterQuiescenceBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter(move -> !move.isQuiet());
@@ -53,6 +54,12 @@ public class MoveSorterQuiescenceBuilder {
         return this;
     }
 
+    public MoveSorterQuiescenceBuilder withRecaptureSorter() {
+        this.withRecaptureSorter = true;
+        return this;
+    }
+
+
     public MoveSorter build() {
         buildObjects();
 
@@ -71,8 +78,6 @@ public class MoveSorterQuiescenceBuilder {
     }
 
     private void buildObjects() {
-        recaptureMoveComparator = new RecaptureMoveComparator();
-
         defaultMoveComparator = new DefaultMoveComparator();
 
         if (withTranspositionTable) {
@@ -94,6 +99,11 @@ public class MoveSorterQuiescenceBuilder {
                 gameEvaluatorComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
             }
         }
+
+        if (withRecaptureSorter) {
+            recaptureMoveComparator = new RecaptureMoveComparator();
+        }
+
     }
 
     private void setupListenerMediator() {
@@ -122,6 +132,7 @@ public class MoveSorterQuiescenceBuilder {
         if (trapReadFromCache != null) {
             smartListenerMediator.add(trapReadFromCache);
         }
+
     }
 
 
@@ -133,7 +144,9 @@ public class MoveSorterQuiescenceBuilder {
             chain.add(transpositionTailMoveComparator);
         }
 
-        chain.add(recaptureMoveComparator);
+        if (recaptureMoveComparator != null) {
+            chain.add(recaptureMoveComparator);
+        }
 
         if (gameEvaluatorComparator != null) {
             chain.add(gameEvaluatorComparator);

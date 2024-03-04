@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
-import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
@@ -22,7 +21,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     @Setter
     private MoveComparator next;
     private Game game;
-    private Move previousMove;
+    private Square previousMoveToSquare;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -32,7 +31,12 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         GameStateReader previousState = this.game.getState().getPreviousState();
-        previousMove = previousState.getSelectedMove();
+        Move previousMove = previousState.getSelectedMove();
+        if (previousMove != null && !previousMove.isQuiet()) {
+            previousMoveToSquare = previousMove.getTo().getSquare();
+        } else {
+            previousMoveToSquare = null;
+        }
 
         next.beforeSort(currentPly, moveToZobrist);
     }
@@ -44,23 +48,11 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
 
     @Override
     public int compare(Move o1, Move o2) {
-        int result = 0;
-        if (Objects.nonNull(previousMove) && !previousMove.isQuiet()) {
-            Square previousMoveToSquare = previousMove.getTo().getSquare();
+        if (previousMoveToSquare != null) {
             Square o1ToSquare = o1.getTo().getSquare();
             Square o2ToSquare = o2.getTo().getSquare();
 
-            if (o1ToSquare.equals(o2ToSquare)) {
-                // Ambos mueven al mismo casillero de destino, comparar por pieza
-                if (Objects.equals(previousMoveToSquare, o1ToSquare)) {
-                    Piece o1Piece = o1.getFrom().getPiece();
-                    Piece o2Piece = o2.getFrom().getPiece();
-                    if (!o1Piece.equals(o2Piece)) {
-                        result = getMovePieceValue(o1Piece) < getMovePieceValue(o2Piece) ? 1 : -1;
-                    }
-                }
-            } else {
-                // Mueven hacia casilleros ditintos, la comparacion es sencilla
+            if (!o1ToSquare.equals(o2ToSquare)) {
                 if (Objects.equals(previousMoveToSquare, o1ToSquare)) {
                     return 1;
                 } else if (Objects.equals(previousMoveToSquare, o2ToSquare)) {
@@ -68,21 +60,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
                 }
             }
         }
-
-        return result == 0 ? next.compare(o1, o2) : result;
-    }
-
-
-    private static int getMovePieceValue(Piece piece) {
-        return switch (piece) {
-            case QUEEN_WHITE, QUEEN_BLACK -> 5;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> 4;
-            case BISHOP_WHITE, BISHOP_BLACK -> 3;
-            case ROOK_WHITE, ROOK_BLACK -> 2;
-            case PAWN_WHITE, PAWN_BLACK -> 1;
-            case KING_WHITE, KING_BLACK -> 0;
-            default -> throw new RuntimeException("Invalid promotion piece");
-        };
+        return next.compare(o1, o2);
     }
 
 }

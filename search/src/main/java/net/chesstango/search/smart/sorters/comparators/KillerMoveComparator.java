@@ -20,9 +20,9 @@ public class KillerMoveComparator implements MoveComparator, SearchByCycleListen
 
     private Move[] killerMovesTableA;
     private Move[] killerMovesTableB;
+    private Move killerMoveA;
+    private Move killerMoveB;
 
-
-    private int currentPly;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -32,7 +32,8 @@ public class KillerMoveComparator implements MoveComparator, SearchByCycleListen
 
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
-        this.currentPly = currentPly;
+        this.killerMoveA = killerMovesTableA[currentPly - 1];
+        this.killerMoveB = killerMovesTableB[currentPly - 1];
         this.next.beforeSort(currentPly, moveToZobrist);
     }
 
@@ -43,9 +44,9 @@ public class KillerMoveComparator implements MoveComparator, SearchByCycleListen
 
     @Override
     public int compare(Move o1, Move o2) {
-        boolean o1IsKiller = Objects.equals(o1, killerMovesTableA[currentPly - 1]) || Objects.equals(o1, killerMovesTableB[currentPly - 1]);
+        boolean o1IsKiller = Objects.equals(o1, killerMoveA) || Objects.equals(o1, killerMoveB);
 
-        boolean o2IsKiller = Objects.equals(o2, killerMovesTableA[currentPly - 1]) || Objects.equals(o2, killerMovesTableB[currentPly - 1]);
+        boolean o2IsKiller = Objects.equals(o2, killerMoveA) || Objects.equals(o2, killerMoveB);
 
         if (o1IsKiller && !o2IsKiller) {
             return 1;

@@ -18,7 +18,6 @@ import java.util.List;
 public class MoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private final QuietComparator quietComparator;
-    private final RecaptureMoveComparator recaptureMoveComparator;
     private final DefaultMoveComparator defaultMoveComparator;
     private SmartListenerMediator smartListenerMediator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
@@ -29,10 +28,13 @@ public class MoveSorterBuilder {
     private TrapReadFromCache trapReadFromCache;
     private GameEvaluatorCacheRead gameEvaluatorCacheRead;
     private GameEvaluatorComparator gameEvaluatorComparator;
+    private RecaptureMoveComparator recaptureMoveComparator;
     private KillerMoveComparator killerMoveComparator;
+
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withKillerMoveSorter;
+    private boolean withRecaptureSorter;
 
     public MoveSorterBuilder() {
         this.nodeMoveSorter = new NodeMoveSorter();
@@ -64,6 +66,11 @@ public class MoveSorterBuilder {
 
     public MoveSorterBuilder withKillerMoveSorter() {
         this.withKillerMoveSorter = true;
+        return this;
+    }
+
+    public MoveSorterBuilder withRecaptureSorter() {
+        this.withRecaptureSorter = true;
         return this;
     }
 
@@ -110,6 +117,10 @@ public class MoveSorterBuilder {
 
         if (withKillerMoveSorter) {
             killerMoveComparator = new KillerMoveComparator();
+        }
+
+        if (withRecaptureSorter) {
+            recaptureMoveComparator = new RecaptureMoveComparator();
         }
     }
 
@@ -166,25 +177,62 @@ public class MoveSorterBuilder {
         if (withTranspositionTable) {
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
-
-            chain.add(transpositionHeadMoveComparatorQ);
-            chain.add(transpositionTailMoveComparatorQ);
-        }
-
-        if (gameEvaluatorComparator != null) {
-            chain.add(gameEvaluatorComparator);
         }
 
         chain.add(quietComparator);
 
-        chain.add(recaptureMoveComparator);
+        MoveComparator chainTail = buildChainTail();
+
+        quietComparator.setNoQuietNext(buildNoQuietNext(chainTail));
+
+        quietComparator.setQuietNext(buildQuietNext(chainTail));
+
+        return linkChain(chain);
+    }
+
+
+    private MoveComparator buildNoQuietNext(MoveComparator chainTail) {
+        List<MoveComparator> chain = new LinkedList<>();
+
+        if (withTranspositionTable) {
+            chain.add(transpositionHeadMoveComparatorQ);
+            chain.add(transpositionTailMoveComparatorQ);
+        }
+
+        if (recaptureMoveComparator != null) {
+            chain.add(recaptureMoveComparator);
+        }
+
+        chain.add(chainTail);
+
+        return linkChain(chain);
+    }
+
+    private MoveComparator buildQuietNext(MoveComparator chainTail) {
+        List<MoveComparator> chain = new LinkedList<>();
 
         if (killerMoveComparator != null) {
             chain.add(killerMoveComparator);
         }
 
+        chain.add(chainTail);
+
+        return linkChain(chain);
+    }
+
+    private MoveComparator buildChainTail() {
+        List<MoveComparator> chain = new LinkedList<>();
+
+        if (gameEvaluatorComparator != null) {
+            chain.add(gameEvaluatorComparator);
+        }
+
         chain.add(defaultMoveComparator);
 
+        return linkChain(chain);
+    }
+
+    private MoveComparator linkChain(List<MoveComparator> chain) {
         for (int i = 0; i < chain.size() - 1; i++) {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
@@ -203,14 +251,11 @@ public class MoveSorterBuilder {
                 gameEvaluatorComparator.setNext(next);
             } else if (currentComparator instanceof KillerMoveComparator) {
                 killerMoveComparator.setNext(next);
-            } else if (currentComparator instanceof QuietComparator) {
-                quietComparator.setNext(next);
             } else {
                 throw new RuntimeException("Unknow MoveComparator");
             }
         }
-
-
         return chain.get(0);
     }
+
 }

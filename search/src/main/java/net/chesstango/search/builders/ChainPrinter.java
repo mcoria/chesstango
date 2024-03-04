@@ -307,9 +307,10 @@ public class ChainPrinter {
                     printMoveComparatorText(killerMoveComparator.getNext()));
 
         } else if (moveComparator instanceof QuietComparator quietComparator) {
-            return String.format("%s -> %s",
+            return String.format("%s -> [NoQuiet: %s, Quiet: %s]",
                     objectText(moveComparator),
-                    printMoveComparatorText(quietComparator.getNext()));
+                    printMoveComparatorText(quietComparator.getNoQuietNext()),
+                    printMoveComparatorText(quietComparator.getQuietNext()));
 
         }
 

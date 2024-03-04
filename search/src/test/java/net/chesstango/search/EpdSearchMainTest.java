@@ -316,6 +316,7 @@ public class EpdSearchMainTest {
 
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()
+                .withRecaptureSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()
