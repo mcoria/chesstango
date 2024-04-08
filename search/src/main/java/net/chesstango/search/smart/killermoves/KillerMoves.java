@@ -6,7 +6,9 @@ import net.chesstango.board.moves.Move;
  * @author Mauricio Coria
  */
 public interface KillerMoves {
-    boolean trackKillerMove(int currentPly, Move killerMove);
+    boolean trackKillerMove(Move killerMove, int currentPly);
 
-    boolean o1IsKiller(Move o1, int currentPly);
+    boolean isKiller(Move move, int currentPly);
+
+    void reset();
 }

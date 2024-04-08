@@ -35,7 +35,7 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
 
         if (currentValue < alpha) {
             Move previousMove = game.getState().getPreviousState().getSelectedMove();
-            killerMoves.trackKillerMove(currentPly, previousMove);
+            killerMoves.trackKillerMove(previousMove, currentPly);
         }
 
         return moveAndValue;
@@ -47,7 +47,7 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
         int currentValue = TranspositionEntry.decodeValue(moveAndValue);
         if (beta < currentValue) {
             Move previousMove = game.getState().getPreviousState().getSelectedMove();
-            killerMoves.trackKillerMove(currentPly, previousMove);
+            killerMoves.trackKillerMove(previousMove, currentPly);
         }
         return moveAndValue;
     }

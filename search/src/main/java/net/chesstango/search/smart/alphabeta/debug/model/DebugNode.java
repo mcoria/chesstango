@@ -66,6 +66,8 @@ public class DebugNode {
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
 
+    private Move killerMove;
+
     private Move sorterKmA;
 
     private Move sorterKmB;

@@ -39,9 +39,9 @@ public class KillerMoveComparator implements MoveComparator, SearchByCycleListen
 
     @Override
     public int compare(Move o1, Move o2) {
-        boolean o1IsKiller = killerMoves.o1IsKiller(o1, currentPly);
+        boolean o1IsKiller = killerMoves.isKiller(o1, currentPly);
 
-        boolean o2IsKiller = killerMoves.o1IsKiller(o2, currentPly);
+        boolean o2IsKiller = killerMoves.isKiller(o2, currentPly);
 
         if (o1IsKiller && !o2IsKiller) {
             return 1;

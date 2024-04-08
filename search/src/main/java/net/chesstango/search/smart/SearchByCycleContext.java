@@ -25,6 +25,8 @@ public class SearchByCycleContext {
     private TTable qMaxMap;
     private TTable qMinMap;
 
+    private KillerMoves killerMoves;
+
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
     private int[] visitedNodesCountersQuiescence;
@@ -35,8 +37,6 @@ public class SearchByCycleContext {
     private List<String> zobristCollisions;
 
     private SearchTracker searchTracker;
-
-    private KillerMoves killerMoves;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

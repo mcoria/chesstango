@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -30,13 +29,11 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private SearchTracker searchTracker;
     private Game game;
-    private KillerMoves killerMoves;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         game = context.getGame();
         searchTracker = context.getSearchTracker();
-        killerMoves = context.getKillerMoves();
     }
 
     @Override
@@ -50,7 +47,7 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
 
         trackComparatorsReads(sortedMoves);
 
-        trackKillerMoves(currentPly);
+        //trackKillerMoves(currentPly);
 
         searchTracker.sortingOFF();
 
@@ -123,24 +120,4 @@ public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
                 .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 
-
-    /**
-     * Este metodo deberia moverse una vez tengamos el wrapper de killer move tables
-     */
-    private void trackKillerMoves(int currentPly) {
-        /*
-        DebugNode currentNode = searchTracker.getCurrentNode();
-        if (currentPly > 0) {
-            if (killerMovesTableA != null || killerMovesTableB != null) {
-                if (killerMovesTableA[currentPly - 1] != null) {
-                    currentNode.setSorterKmA(killerMovesTableA[currentPly - 1]);
-                }
-                if (killerMovesTableB[currentPly - 1] != null) {
-                    currentNode.setSorterKmB(killerMovesTableB[currentPly - 1]);
-                }
-            }
-        }
-
-         */
-    }
 }

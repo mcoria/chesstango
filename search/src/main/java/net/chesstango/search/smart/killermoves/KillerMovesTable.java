@@ -11,13 +11,13 @@ public class KillerMovesTable implements KillerMoves {
     private Move[] killerMovesTableA;
     private Move[] killerMovesTableB;
 
-    public KillerMovesTable(){
+    public KillerMovesTable() {
         this.killerMovesTableA = new Move[50];
         this.killerMovesTableB = new Move[50];
     }
 
     @Override
-    public boolean trackKillerMove(int currentPly, Move killerMove) {
+    public boolean trackKillerMove(Move killerMove, int currentPly) {
         if (killerMove.isQuiet()) {
             if (!Objects.equals(killerMove, killerMovesTableA[currentPly - 2]) && !Objects.equals(killerMove, killerMovesTableB[currentPly - 2])) {
                 killerMovesTableB[currentPly - 2] = killerMovesTableA[currentPly];
@@ -29,7 +29,15 @@ public class KillerMovesTable implements KillerMoves {
     }
 
     @Override
-    public boolean o1IsKiller(Move o1, int currentPly) {
-       return Objects.equals(o1, killerMovesTableA[currentPly - 1]) || Objects.equals(o1, killerMovesTableB[currentPly - 1]);
+    public boolean isKiller(Move move, int currentPly) {
+        return Objects.equals(move, killerMovesTableA[currentPly - 1]) || Objects.equals(move, killerMovesTableB[currentPly - 1]);
+    }
+
+    @Override
+    public void reset() {
+        for (int i = 0; i < 50; i++) {
+            killerMovesTableA[i] = null;
+            killerMovesTableB[i] = null;
+        }
     }
 }

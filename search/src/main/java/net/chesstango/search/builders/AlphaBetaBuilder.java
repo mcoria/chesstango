@@ -9,10 +9,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
-import net.chesstango.search.smart.alphabeta.debug.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.debug.SetDebugTranspositionTables;
-import net.chesstango.search.smart.alphabeta.debug.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
@@ -49,6 +46,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private SetTranspositionTables setTranspositionTables;
     private SetDebugTranspositionTables setDebugTranspositionTables;
+    private SetDebugKillerMoveTables setDebugKillerMoveTables;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
@@ -57,7 +55,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
-
     private SetKillerMoveTables setKillerMoveTables;
     private DebugNodeTrap debugNodeTrap;
 
@@ -328,6 +325,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
+
             setTranspositionPV = new SetTranspositionPV();
             setTranspositionPV.setGameEvaluator(gameEvaluator);
         }
@@ -352,7 +350,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withKillerMoveSorter) {
-            setKillerMoveTables = new SetKillerMoveTables();
+            if (withDebugSearchTree) {
+                setDebugKillerMoveTables = new SetDebugKillerMoveTables();
+            } else {
+                setKillerMoveTables = new SetKillerMoveTables();
+            }
         }
 
     }
@@ -360,12 +362,18 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private void setupListenerMediator() {
         smartListenerMediator.add(setSearchContext);
 
-        if (withTranspositionTable) {
-            if (withDebugSearchTree) {
-                smartListenerMediator.add(setDebugTranspositionTables);
-            } else {
-                smartListenerMediator.add(setTranspositionTables);
-            }
+        if (setSearchTracker != null) {
+            smartListenerMediator.add(setSearchTracker);
+        }
+
+        if (setTranspositionTables != null) {
+            smartListenerMediator.add(setTranspositionTables);
+        } else if (setDebugTranspositionTables != null) {
+            smartListenerMediator.add(setDebugTranspositionTables);
+            smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());
+            smartListenerMediator.add(setDebugTranspositionTables.getMinMap());
+            smartListenerMediator.add(setDebugTranspositionTables.getQMaxMap());
+            smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
         }
 
         if (setZobristMemory != null) {
@@ -390,27 +398,16 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(gameEvaluatorStatisticsWrapper);
         }
 
-        if (withDebugSearchTree) {
-            if (setSearchTracker != null) {
-                smartListenerMediator.add(setSearchTracker);
-            }
-
-            if (setDebugOutput != null) {
-                smartListenerMediator.add(setDebugOutput);
-            }
-
-            if (setDebugTranspositionTables != null) {
-                smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());
-                smartListenerMediator.add(setDebugTranspositionTables.getMinMap());
-                smartListenerMediator.add(setDebugTranspositionTables.getQMaxMap());
-                smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
-            }
+        if (setDebugOutput != null) {
+            smartListenerMediator.add(setDebugOutput);
         }
 
         if (setKillerMoveTables != null) {
             smartListenerMediator.add(setKillerMoveTables);
+        } else if (setDebugKillerMoveTables != null) {
+            smartListenerMediator.add(setDebugKillerMoveTables);
+            smartListenerMediator.add(setDebugKillerMoveTables.getTrapKillerMoves());
         }
-
 
         smartListenerMediator.add(setGameEvaluator);
 
