@@ -80,6 +80,6 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
     private void loadKillerMoveTables() {
         //factory[g4=QUEEN_WHITE g3=null - MoveImp]
-        killerMovesTableA[1] = moveFactoryWhite.createSimpleQueenMove(PiecePositioned.getPiecePositioned(Square.g4, Piece.QUEEN_WHITE), PiecePositioned.getPosition(Square.g3), Cardinal.Sur);
+        killerMovesTable.trackKillerMove(3, moveFactoryWhite.createSimpleQueenMove(PiecePositioned.getPiecePositioned(Square.g4, Piece.QUEEN_WHITE), PiecePositioned.getPosition(Square.g3), Cardinal.Sur));
     }
 }

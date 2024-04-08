@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -21,14 +20,12 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
     private AlphaBetaFilter next;
 
     private Game game;
-    private Move[] killerMovesTableA;
-    private Move[] killerMovesTableB;
+    private KillerMoves killerMoves;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-        this.killerMovesTableA = context.getKillerMovesTableA();
-        this.killerMovesTableB = context.getKillerMovesTableB();
+        this.killerMoves = context.getKillerMoves();
     }
 
     @Override
@@ -38,7 +35,7 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
 
         if (currentValue < alpha) {
             Move previousMove = game.getState().getPreviousState().getSelectedMove();
-            trackKillerMove(currentPly, previousMove);
+            killerMoves.trackKillerMove(currentPly, previousMove);
         }
 
         return moveAndValue;
@@ -50,17 +47,8 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
         int currentValue = TranspositionEntry.decodeValue(moveAndValue);
         if (beta < currentValue) {
             Move previousMove = game.getState().getPreviousState().getSelectedMove();
-            trackKillerMove(currentPly, previousMove);
+            killerMoves.trackKillerMove(currentPly, previousMove);
         }
         return moveAndValue;
-    }
-
-    private void trackKillerMove(int currentPly, Move killerMove) {
-        if (killerMove.isQuiet()) {
-            if (!Objects.equals(killerMove, killerMovesTableA[currentPly - 2]) && !Objects.equals(killerMove, killerMovesTableB[currentPly - 2])) {
-                killerMovesTableB[currentPly - 2] = killerMovesTableA[currentPly];
-                killerMovesTableA[currentPly - 2] = killerMove;
-            }
-        }
     }
 }

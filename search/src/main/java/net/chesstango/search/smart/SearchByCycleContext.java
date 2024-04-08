@@ -3,8 +3,8 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.killermoves.KillerMoves;
 import net.chesstango.search.smart.transposition.TTable;
 
 import java.util.List;
@@ -30,15 +30,13 @@ public class SearchByCycleContext {
     private int[] visitedNodesCountersQuiescence;
     private int[] expectedNodesCountersQuiescence;
 
-
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
 
     private SearchTracker searchTracker;
 
-    private Move[] killerMovesTableA;
-    private Move[] killerMovesTableB;
+    private KillerMoves killerMoves;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

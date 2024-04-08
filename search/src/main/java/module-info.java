@@ -21,6 +21,8 @@ module net.chesstango.search {
     exports net.chesstango.search.reports.pv;
     exports net.chesstango.search.reports.evaluation;
     exports net.chesstango.search.reports.summary;
+    exports net.chesstango.search.smart.alphabeta.debug.model;
+    exports net.chesstango.search.smart.killermoves;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
@@ -39,6 +41,6 @@ module net.chesstango.search {
     opens net.chesstango.search.reports.nodes;
     opens net.chesstango.search.reports.pv;
     opens net.chesstango.search.reports.summary;
-    exports net.chesstango.search.smart.alphabeta.debug.model;
     opens net.chesstango.search.smart.alphabeta.debug.model;
+    opens net.chesstango.search.smart.killermoves;
 }
