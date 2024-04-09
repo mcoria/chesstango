@@ -54,6 +54,9 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
+    /**
+     * Cual de los movimientos de este nodo es promovido como KillerMove
+     */
     private Move killerMove;
 
 
@@ -68,9 +71,8 @@ public class DebugNode {
 
     private List<DebugOperationEval> evalCacheReads = new ArrayList<>();
 
-    private Move sorterKmA;
-
-    private Move sorterKmB;
+    // Movimientos que estan presentes en KM table
+    private List<Move> sorterKm = new ArrayList<>();
 
 
     private List<DebugNode> childNodes = new LinkedList<>();

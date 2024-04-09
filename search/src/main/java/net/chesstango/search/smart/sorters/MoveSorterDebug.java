@@ -48,26 +48,9 @@ public class MoveSorterDebug implements MoveSorter, SearchByCycleListener {
         currentNode.setSortedPly(currentPly);
         currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
 
-        trackComparatorKillerMoves(currentPly, currentNode, sortedMoves);
-
         searchTracker.sortingOFF();
 
         return sortedMoves;
-    }
-
-    private void trackComparatorKillerMoves(int currentPly, DebugNode currentNode, Iterable<Move> moves) {
-        if (killerMoves != null && currentPly > 1) {
-            for (Move move : moves) {
-                if (killerMoves.isKiller(move, currentPly)) {
-                    if (currentNode.getSorterKmA() == null) {
-                        currentNode.setSorterKmA(move);
-                    } else if (currentNode.getSorterKmB() == null) {
-                        currentNode.setSorterKmB(move);
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     private List<String> convertMoveListToStringList(Iterable<Move> moves) {

@@ -8,6 +8,8 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 
+import java.util.List;
+
 /**
  * @author Mauricio Coria
  */
@@ -28,7 +30,7 @@ public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
 
     @Override
     public boolean trackKillerMove(Move move, int currentPly) {
-        if(killerMovesImp.trackKillerMove(move, currentPly)){
+        if (killerMovesImp.trackKillerMove(move, currentPly)) {
             DebugNode currentNode = searchTracker.getCurrentNode();
             currentNode.setKillerMove(move);
             return true;
@@ -39,7 +41,16 @@ public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
 
     @Override
     public boolean isKiller(Move move, int currentPly) {
-        return killerMovesImp.isKiller(move, currentPly);
+        if (killerMovesImp.isKiller(move, currentPly)) {
+            DebugNode currentNode = searchTracker.getCurrentNode();
+            List<Move> sorterKms = currentNode.getSorterKm();
+            if (!sorterKms.contains(move)) {
+                sorterKms.add(move);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

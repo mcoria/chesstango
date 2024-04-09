@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
@@ -213,9 +214,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
-        final String sorterKmAString = currentNode.getSorterKmA() != null ? simpleMoveEncoder.encode(currentNode.getSorterKmA()) : null;
-        final String sorterKmBString = currentNode.getSorterKmB() != null ? simpleMoveEncoder.encode(currentNode.getSorterKmB()) : null;
-
+        List<Move> sorterKms = currentNode.getSorterKm();
 
         debugOut.printf("%s Sorter transpositions=%d cache=%d ply=%d\n", ">\t".repeat(currentNode.getPly()), sortedReads.size(), evalCacheReads.size(), currentNode.getSortedPly());
 
@@ -270,22 +269,16 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                         debugOut.print("\n");
                     });
 
-            if (Objects.equals(sorterKmAString, moveStr)) {
-                debugOut.printf("%s Sorter KillerMoveA[ %s ] %s",
-                        ">\t".repeat(currentNode.getPly()),
-                        currentNode.getSorterKmA().toString(),
-                        sorterKmAString);
-                debugOut.print("\n");
-            }
-
-            if (Objects.equals(sorterKmBString, moveStr)) {
-                debugOut.printf("%s Sorter KillerMoveB[ %s ] %s",
-                        ">\t".repeat(currentNode.getPly()),
-                        currentNode.getSorterKmB().toString(),
-                        sorterKmBString);
-                debugOut.print("\n");
-            }
-
+            sorterKms.stream()
+                    .map(simpleMoveEncoder::encode)
+                    .filter(kmStr -> Objects.equals(kmStr, moveStr))
+                    .forEach(kmStr ->
+                    {
+                        debugOut.printf("%s Sorter KillerMove %s",
+                                ">\t".repeat(currentNode.getPly()),
+                                kmStr);
+                        debugOut.print("\n");
+                    });
         });
 
 

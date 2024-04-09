@@ -31,15 +31,10 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
     }
 
     private void printKmContext(DebugNode debugNode, PrintStream printStream) {
-        Move kmA = debugNode.getSorterKmA();
-        Move kmB = debugNode.getSorterKmB();
+        List<Move> sorterKms = debugNode.getSorterKm();
 
-        if (kmA != null) {
-            printStream.printf("killerMovesTableA[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(kmA));
-        }
-
-        if (kmB != null) {
-            printStream.printf("killerMovesTableB[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(kmB));
+        for (Move move : sorterKms) {
+            printStream.printf("killerMovesTable[%d] = %s", debugNode.getSortedPly() - 1, killerMoveFactory(move));
         }
 
         printStream.println("\n");
