@@ -6,14 +6,20 @@ import net.chesstango.search.ProgressListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
 
 /**
  * @author Mauricio Coria
  */
-public class SearchMoveGameWrapper implements SearchMove {
+public class SearchMoveGameWrapper implements SearchMove, SearchByCycleListener {
 
     @Getter
     private final SearchMove imp;
+
+    @Getter
+    private GameStatisticsWrapper gameStatisticsWrapper;
 
     public SearchMoveGameWrapper(SearchMove imp) {
         this.imp = imp;
@@ -21,7 +27,7 @@ public class SearchMoveGameWrapper implements SearchMove {
 
     @Override
     public SearchMoveResult search(Game game) {
-        GameStatisticsWrapper gameStatisticsWrapper = new GameStatisticsWrapper(game);
+        gameStatisticsWrapper = new GameStatisticsWrapper(game);
         return imp.search(gameStatisticsWrapper);
     }
 
@@ -45,5 +51,13 @@ public class SearchMoveGameWrapper implements SearchMove {
         imp.setProgressListener(progressListener);
     }
 
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+    }
+
+    @Override
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        searchMoveResult.setExecutedMoves(gameStatisticsWrapper.getExecutedMoves());
+    }
 
 }

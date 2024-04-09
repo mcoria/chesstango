@@ -4,7 +4,6 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -12,21 +11,21 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
-import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.features.debug.*;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
+import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.game.listeners.GameStatisticsCollector;
-import net.chesstango.search.smart.features.statistics.game.GameStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 
 /**
@@ -61,7 +60,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
-    private GameStatisticsCollector gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -299,7 +297,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveGameWrapper(searchMove);
+            SearchMoveGameWrapper searchMoveGameWrapper = new SearchMoveGameWrapper(searchMove);
+            smartListenerMediator.add(searchMoveGameWrapper);
+
+            searchMove = searchMoveGameWrapper;
         }
 
         if (withPrintChain) {
@@ -323,8 +324,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
                     .setTrackEvaluations(withTrackEvaluations);
 
             gameEvaluator = gameEvaluatorStatisticsWrapper;
-
-            gameStatisticsListener = new GameStatisticsCollector();
         }
 
         if (withTranspositionTable) {
@@ -402,7 +401,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withStatistics) {
             smartListenerMediator.add(setNodeStatistics);
             smartListenerMediator.add(setPVStatistics);
-            smartListenerMediator.add(gameStatisticsListener);
         }
 
         if (gameEvaluatorStatisticsWrapper != null) {
