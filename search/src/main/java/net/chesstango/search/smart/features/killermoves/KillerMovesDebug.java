@@ -44,6 +44,6 @@ public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
 
     @Override
     public void reset() {
-        killerMovesImp.reset();;
+        killerMovesImp.reset();
     }
 }

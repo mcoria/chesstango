@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
+import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
@@ -75,6 +76,10 @@ public class SearchTracker {
     }
 
     public void sortingOFF() {
+        trackComparatorsTranspositionReads();
+
+        trackComparatorsEvalCacheReads();
+
         sorting = false;
     }
 
@@ -130,5 +135,58 @@ public class SearchTracker {
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
                 .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+    }
+
+
+    private void trackComparatorsEvalCacheReads() {
+        List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
+
+        for (Move move : game.getPossibleMoves()) {
+            final String moveStr = simpleMoveEncoder.encode(move);
+            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+
+            evalCacheReads.stream()
+                    .filter(debugOperationEval -> zobristHashMove == debugOperationEval.getHashRequested())
+                    .forEach(debugOperationEval -> debugOperationEval.setMove(moveStr));
+        }
+    }
+
+    public void trackComparatorsTranspositionReads() {
+        List<DebugOperationTT> sorterReads = currentNode.getSorterReads();
+
+        final long positionHash = game.getChessPosition().getZobristHash();
+        for (Move move : game.getPossibleMoves()) {
+            final String moveStr = simpleMoveEncoder.encode(move);
+            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final short moveEncoded = move.binaryEncoding();
+
+            // Transposition Head Access
+            sorterReads.stream()
+                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+
+            // Transposition Tail Access
+            sorterReads.stream()
+                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
+                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
+        }
+
+        /**
+         * Estas son lecturas de TT que no tienen un movimiento asociado.
+         */
+        sorterReads
+                .stream()
+                .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
+
+        /**
+         * INVESTIGAR
+         */
+        sorterReads
+                .stream()
+                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
+                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 }

@@ -48,67 +48,11 @@ public class MoveSorterDebug implements MoveSorter, SearchByCycleListener {
         currentNode.setSortedPly(currentPly);
         currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
 
-        trackComparatorsTranspositionReads(currentNode, sortedMoves);
-
-        trackComparatorsEvalCacheReads(currentNode, sortedMoves);
-
         trackComparatorKillerMoves(currentPly, currentNode, sortedMoves);
 
         searchTracker.sortingOFF();
 
         return sortedMoves;
-    }
-
-    private void trackComparatorsEvalCacheReads(DebugNode currentNode, Iterable<Move> moves) {
-        List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
-
-        for (Move move : moves) {
-            final String moveStr = simpleMoveEncoder.encode(move);
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
-
-            evalCacheReads.stream()
-                    .filter(debugOperationEval -> zobristHashMove == debugOperationEval.getHashRequested())
-                    .forEach(debugOperationEval -> debugOperationEval.setMove(moveStr));
-        }
-    }
-
-    public void trackComparatorsTranspositionReads(DebugNode currentNode, Iterable<Move> moves) {
-        List<DebugOperationTT> sorterReads = currentNode.getSorterReads();
-
-        final long positionHash = game.getChessPosition().getZobristHash();
-        for (Move move : moves) {
-            final String moveStr = simpleMoveEncoder.encode(move);
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
-            final short moveEncoded = move.binaryEncoding();
-
-            // Transposition Head Access
-            sorterReads.stream()
-                    .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
-
-            // Transposition Tail Access
-            sorterReads.stream()
-                    .filter(debugNodeTT -> zobristHashMove == debugNodeTT.getEntry().getHash())
-                    .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
-        }
-
-        /**
-         * Estas son lecturas de TT que no tienen un movimiento asociado.
-         */
-        sorterReads
-                .stream()
-                .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("NO_MOVE"));
-
-        /**
-         * INVESTIGAR
-         */
-        sorterReads
-                .stream()
-                .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove("UNKNOWN"));
     }
 
     private void trackComparatorKillerMoves(int currentPly, DebugNode currentNode, Iterable<Move> moves) {
