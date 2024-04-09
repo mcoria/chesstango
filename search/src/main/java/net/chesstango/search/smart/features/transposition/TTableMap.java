@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class MapTTable implements TTable {
+public class TTableMap implements TTable {
 
     private Map<Long, TranspositionEntry> table = new HashMap<>();
 

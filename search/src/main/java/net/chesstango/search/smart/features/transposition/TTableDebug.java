@@ -1,12 +1,10 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.transposition;
 
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
-import net.chesstango.search.smart.features.transposition.TTable;
-import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +12,13 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class TrapTranspositionAccess implements TTable, SearchByCycleListener {
+public class TTableDebug implements TTable, SearchByCycleListener {
 
     private final TTable tTable;
     private final DebugOperationTT.TableType tableType;
     private SearchTracker searchTracker;
 
-    public TrapTranspositionAccess(DebugOperationTT.TableType tableType, TTable tTable) {
+    public TTableDebug(DebugOperationTT.TableType tableType, TTable tTable) {
         this.tableType = tableType;
         this.tTable = tTable;
     }

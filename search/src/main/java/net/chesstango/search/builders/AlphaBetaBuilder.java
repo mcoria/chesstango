@@ -22,7 +22,7 @@ import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.statistics.listeners.SetPVStatistics;
-import net.chesstango.search.smart.features.transposition.listeners.SetDebugTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.statistics.GameEvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.listeners.GameStatisticsCollector;
@@ -56,7 +56,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
 
     private SetTranspositionTables setTranspositionTables;
-    private SetDebugTranspositionTables setDebugTranspositionTables;
+    private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetKillerMoveDebug setKillerMoveDebug;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
@@ -329,7 +329,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTranspositionTable) {
             if (withDebugSearchTree) {
-                setDebugTranspositionTables = new SetDebugTranspositionTables();
+                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
             } else {
                 setTranspositionTables = new SetTranspositionTables();
             }
@@ -379,12 +379,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setTranspositionTables != null) {
             smartListenerMediator.add(setTranspositionTables);
-        } else if (setDebugTranspositionTables != null) {
-            smartListenerMediator.add(setDebugTranspositionTables);
-            smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getMinMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getQMaxMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
+        } else if (setTranspositionTablesDebug != null) {
+            smartListenerMediator.add(setTranspositionTablesDebug);
+            smartListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getMinMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
         }
 
         if (setZobristMemory != null) {

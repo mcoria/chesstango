@@ -8,7 +8,7 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.features.transposition.MapTTable;
+import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -30,8 +30,8 @@ public class TranspositionHeadMoveComparatorTest {
 
     @BeforeEach
     public void setup() {
-        maxMap = new MapTTable();
-        minMap = new MapTTable();
+        maxMap = new TTableMap();
+        minMap = new TTableMap();
         headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
         headMoveComparator.setNext(new DefaultMoveComparator());
     }

@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.features.transposition.ArrayTTable;
+import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.smart.features.transposition.TTable;
 
 /**
@@ -69,6 +69,6 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     protected TTable defaultCreateTTable() {
-        return new ArrayTTable();
+        return new TTableArray();
     }
 }
