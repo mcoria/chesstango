@@ -18,11 +18,15 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetDebugKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.features.statistics.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetDebugTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.statistics.GameEvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.statistics.GameStatisticsCollector;
-import net.chesstango.search.smart.statistics.GameStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.GameStatisticsCollector;
+import net.chesstango.search.smart.features.statistics.GameStatisticsWrapper;
+import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 
 /**
  * @author Mauricio Corias

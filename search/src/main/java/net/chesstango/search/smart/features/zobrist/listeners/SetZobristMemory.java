@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.zobrist.listeners;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;

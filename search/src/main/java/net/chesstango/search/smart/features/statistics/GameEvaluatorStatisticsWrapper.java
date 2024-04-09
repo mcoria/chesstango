@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics;
+package net.chesstango.search.smart.features.statistics;
 
 import lombok.Getter;
 import lombok.Setter;

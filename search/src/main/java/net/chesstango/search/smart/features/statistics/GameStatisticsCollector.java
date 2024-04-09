@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.statistics;
+package net.chesstango.search.smart.features.statistics;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;

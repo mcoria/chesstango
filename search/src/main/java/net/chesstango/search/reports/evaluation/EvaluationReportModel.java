@@ -3,8 +3,8 @@ package net.chesstango.search.reports.evaluation;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statistics.EvaluationEntry;
-import net.chesstango.search.smart.statistics.EvaluationStatistics;
+import net.chesstango.search.smart.features.statistics.EvaluationEntry;
+import net.chesstango.search.smart.features.statistics.EvaluationStatistics;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.pv.listeners;
 
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
@@ -12,6 +12,8 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,24 +21,29 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
+public class SetTranspositionPV implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private GameEvaluator gameEvaluator;
-
-    private final short[][] trianglePV;
+    private TTable maxMap;
+    private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
     private Game game;
 
+    private int maxPly;
     private List<Move> principalVariation;
     private boolean pvComplete;
 
-    public SetTrianglePV() {
-        trianglePV = new short[40][40];
-    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
+        this.principalVariation = null;
     }
 
     @Override
@@ -47,7 +54,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        context.setTrianglePV(trianglePV);
+        this.maxPly = context.getMaxPly();
     }
 
     @Override
@@ -57,15 +64,14 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         searchByDepthResult.setPvComplete(pvComplete);
     }
 
+
     protected void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        Move move = null;
+        Move move = bestMoveEvaluation.move();
         int pvMoveCounter = 0;
-        short[] pvMoves = trianglePV[0];
         do {
-            move = readMove(pvMoves[pvMoveCounter]);
 
             principalVariation.add(move);
 
@@ -73,7 +79,11 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
             pvMoveCounter++;
 
-        } while (pvMoves[pvMoveCounter] != 0);
+            move = principalVariation.size() < maxPly
+                    ? readMoveFromTT(maxMap, minMap)
+                    : readMoveFromTT(qMaxMap, qMinMap);
+
+        } while (move != null);
 
         int pvEvaluation = gameEvaluator.evaluate();
 
@@ -84,9 +94,6 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
         if (bestMoveEvaluation.evaluation() == pvEvaluation) {
             pvComplete = true;
-        } else {
-            SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestMoveEvaluation.evaluation(), pvEvaluation, simpleMoveEncoder.encodeMoves(principalVariation)));
         }
 
         for (int i = 0; i < pvMoveCounter; i++) {
@@ -94,12 +101,23 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         }
     }
 
-    private Move readMove(short bestMoveEncoded) {
-        for (Move posibleMove : game.getPossibleMoves()) {
-            if (posibleMove.binaryEncoding() == bestMoveEncoded) {
-                return posibleMove;
+    private Move readMoveFromTT(TTable maxMap, TTable minMap) {
+        Move result = null;
+
+        if (maxMap != null && minMap != null) {
+            long hash = game.getChessPosition().getZobristHash();
+            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
+            if (entry != null) {
+                short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+                for (Move posibleMove : game.getPossibleMoves()) {
+                    if (posibleMove.binaryEncoding() == bestMoveEncoded) {
+                        result = posibleMove;
+                        break;
+                    }
+                }
             }
         }
-        throw new RuntimeException("Move not found");
+
+        return result;
     }
 }

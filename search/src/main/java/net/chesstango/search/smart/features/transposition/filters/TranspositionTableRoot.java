@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters.once;
+package net.chesstango.search.smart.features.transposition.filters;
 
 import lombok.Getter;
 import lombok.Setter;

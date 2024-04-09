@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.features.zobrist.filters;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 import java.util.HexFormat;
 import java.util.List;
