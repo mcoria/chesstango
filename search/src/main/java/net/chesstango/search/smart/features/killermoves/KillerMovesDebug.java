@@ -1,17 +1,17 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.killermoves;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.killermoves.KillerMoves;
 
 /**
  * @author Mauricio Coria
  */
-public class TrapKillerMoves implements KillerMoves, SearchByCycleListener {
+public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
 
     @Getter
     @Setter

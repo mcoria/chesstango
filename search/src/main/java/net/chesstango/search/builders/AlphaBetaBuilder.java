@@ -16,7 +16,7 @@ import net.chesstango.search.smart.alphabeta.listeners.*;
 import net.chesstango.search.smart.features.debug.*;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetDebugKillerMoveTables;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
@@ -57,7 +57,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private SetTranspositionTables setTranspositionTables;
     private SetDebugTranspositionTables setDebugTranspositionTables;
-    private SetDebugKillerMoveTables setDebugKillerMoveTables;
+    private SetKillerMoveDebug setKillerMoveDebug;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
@@ -362,7 +362,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withKillerMoveSorter) {
             if (withDebugSearchTree) {
-                setDebugKillerMoveTables = new SetDebugKillerMoveTables();
+                setKillerMoveDebug = new SetKillerMoveDebug();
             } else {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
@@ -415,9 +415,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setKillerMoveTables != null) {
             smartListenerMediator.add(setKillerMoveTables);
-        } else if (setDebugKillerMoveTables != null) {
-            smartListenerMediator.add(setDebugKillerMoveTables);
-            smartListenerMediator.add(setDebugKillerMoveTables.getTrapKillerMoves());
+        } else if (setKillerMoveDebug != null) {
+            smartListenerMediator.add(setKillerMoveDebug);
+            smartListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
         }
 
         smartListenerMediator.add(setGameEvaluator);

@@ -3,26 +3,26 @@ package net.chesstango.search.smart.features.killermoves.listeners;
 import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.features.debug.TrapKillerMoves;
+import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 
 /**
  * @author Mauricio Coria
  */
-public class SetDebugKillerMoveTables implements SearchByCycleListener {
+public class SetKillerMoveDebug implements SearchByCycleListener {
 
     @Getter
-    private TrapKillerMoves trapKillerMoves;
+    private KillerMovesDebug killerMovesDebug;
 
-    public SetDebugKillerMoveTables() {
+    public SetKillerMoveDebug() {
         KillerMovesTable killerMovesTable = new KillerMovesTable();
 
-        trapKillerMoves = new TrapKillerMoves();
-        trapKillerMoves.setKillerMovesImp(killerMovesTable);
+        killerMovesDebug = new KillerMovesDebug();
+        killerMovesDebug.setKillerMovesImp(killerMovesTable);
     }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        context.setKillerMoves(trapKillerMoves);
+        context.setKillerMoves(killerMovesDebug);
     }
 }
