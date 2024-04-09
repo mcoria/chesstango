@@ -43,8 +43,8 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        next.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        next.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

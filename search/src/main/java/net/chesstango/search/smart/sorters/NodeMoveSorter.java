@@ -50,7 +50,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
 
         moveComparator.beforeSort(currentPly, moveToZobrist);
         moveList.sort(moveComparator.reversed());
-        moveComparator.afterSort(moveToZobrist);
+        moveComparator.afterSort(currentPly, moveToZobrist);
 
         return moveList;
     }

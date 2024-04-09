@@ -54,8 +54,8 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        next.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        next.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

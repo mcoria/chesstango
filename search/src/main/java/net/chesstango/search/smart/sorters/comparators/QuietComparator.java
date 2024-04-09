@@ -25,9 +25,9 @@ public class QuietComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        noQuietNext.afterSort(moveToZobrist);
-        quietNext.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        noQuietNext.afterSort(currentPly, moveToZobrist);
+        quietNext.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

@@ -34,8 +34,8 @@ public class KillerMoveComparator implements MoveComparator, SearchByCycleListen
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        this.next.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        this.next.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

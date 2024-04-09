@@ -158,7 +158,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
 
     }
 }

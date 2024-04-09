@@ -10,8 +10,8 @@ import java.util.Comparator;
  */
 public interface MoveComparator extends Comparator<Move> {
 
-    void beforeSort(final int currentPly, MoveToHashMap moveToZobrist);
+    void beforeSort(int currentPly, MoveToHashMap moveToZobrist);
 
-    void afterSort(MoveToHashMap moveToZobrist);
+    void afterSort(int currentPly, MoveToHashMap moveToZobrist);
 
 }

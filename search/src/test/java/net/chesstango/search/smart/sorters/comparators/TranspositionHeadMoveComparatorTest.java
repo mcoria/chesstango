@@ -74,7 +74,7 @@ public class TranspositionHeadMoveComparatorTest {
         MoveToHashMap moveToZobrist = new MoveToHashMap();
         headMoveComparator.beforeSort(0, moveToZobrist);
         movesList.sort(headMoveComparator.reversed());
-        headMoveComparator.afterSort(moveToZobrist);
+        headMoveComparator.afterSort(0, moveToZobrist);
 
         return movesList;
     }
