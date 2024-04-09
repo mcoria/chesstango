@@ -1,13 +1,12 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

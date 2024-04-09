@@ -8,7 +8,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.Iterator;
 

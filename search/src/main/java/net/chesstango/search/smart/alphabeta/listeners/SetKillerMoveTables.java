@@ -1,8 +1,8 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.killermoves.KillerMoves;
-import net.chesstango.search.smart.killermoves.KillerMovesTable;
+import net.chesstango.search.smart.features.killermoves.KillerMoves;
+import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 

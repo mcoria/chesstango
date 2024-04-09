@@ -12,7 +12,7 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria

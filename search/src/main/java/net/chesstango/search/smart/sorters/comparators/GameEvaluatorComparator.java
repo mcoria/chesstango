@@ -9,7 +9,7 @@ import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria

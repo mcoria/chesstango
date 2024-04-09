@@ -3,8 +3,8 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;

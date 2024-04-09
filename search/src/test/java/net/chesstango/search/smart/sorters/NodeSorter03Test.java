@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.smart.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -5,8 +5,8 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.transposition.ArrayTTable;
-import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.ArrayTTable;
+import net.chesstango.search.smart.features.transposition.TTable;
 
 /**
  * @author Mauricio Coria

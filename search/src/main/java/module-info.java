@@ -14,15 +14,15 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.statistics;
-    exports net.chesstango.search.smart.transposition;
-    exports net.chesstango.search.smart.alphabeta.debug;
+    exports net.chesstango.search.smart.features.transposition;
+    exports net.chesstango.search.smart.features.debug;
     exports net.chesstango.search.smart.sorters.comparators;
     exports net.chesstango.search.reports.nodes;
     exports net.chesstango.search.reports.pv;
     exports net.chesstango.search.reports.evaluation;
     exports net.chesstango.search.reports.summary;
-    exports net.chesstango.search.smart.alphabeta.debug.model;
-    exports net.chesstango.search.smart.killermoves;
+    exports net.chesstango.search.smart.features.debug.model;
+    exports net.chesstango.search.smart.features.killermoves;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
@@ -36,11 +36,11 @@ module net.chesstango.search {
     opens net.chesstango.search;
     opens net.chesstango.search.smart;
     opens net.chesstango.search.smart.statistics;
-    opens net.chesstango.search.smart.alphabeta.debug;
+    opens net.chesstango.search.smart.features.debug;
     opens net.chesstango.search.reports.evaluation;
     opens net.chesstango.search.reports.nodes;
     opens net.chesstango.search.reports.pv;
     opens net.chesstango.search.reports.summary;
-    opens net.chesstango.search.smart.alphabeta.debug.model;
-    opens net.chesstango.search.smart.killermoves;
+    opens net.chesstango.search.smart.features.debug.model;
+    opens net.chesstango.search.smart.features.killermoves;
 }

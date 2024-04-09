@@ -2,7 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.smart.IterativeDeepeningTest;
 import net.chesstango.search.smart.MoveSelectorTest;
-import net.chesstango.search.smart.transposition.TranspositionEntryTest;
+import net.chesstango.search.smart.features.transposition.TranspositionEntryTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
