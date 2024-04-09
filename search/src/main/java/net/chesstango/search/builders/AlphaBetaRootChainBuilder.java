@@ -4,7 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.debug.TrapMoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -35,7 +35,7 @@ public class AlphaBetaRootChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private TrapMoveSorter trapMoveSorter;
+    private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
 
     private boolean withStatistics;
@@ -132,10 +132,10 @@ public class AlphaBetaRootChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
 
-            trapMoveSorter = new TrapMoveSorter();
-            trapMoveSorter.setMoveSorterImp(rootMoveSorter);
+            moveSorterDebug = new MoveSorterDebug();
+            moveSorterDebug.setMoveSorterImp(rootMoveSorter);
 
-            moveSorter = trapMoveSorter;
+            moveSorter = moveSorterDebug;
         }
 
         if (withTriangularPV) {
@@ -166,8 +166,8 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(debugFilter);
         }
 
-        if (trapMoveSorter != null) {
-            smartListenerMediator.add(trapMoveSorter);
+        if (moveSorterDebug != null) {
+            smartListenerMediator.add(moveSorterDebug);
         }
 
         if (stopProcessingCatch != null) {

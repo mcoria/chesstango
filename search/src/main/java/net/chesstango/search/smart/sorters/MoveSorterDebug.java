@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.sorters;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +7,11 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class TrapMoveSorter implements MoveSorter, SearchByCycleListener {
+public class MoveSorterDebug implements MoveSorter, SearchByCycleListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter

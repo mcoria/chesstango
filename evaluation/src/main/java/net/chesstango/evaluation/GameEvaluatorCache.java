@@ -21,11 +21,6 @@ public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead
 
     private Game game;
 
-    @Override
-    public void setGame(Game game) {
-        this.game = game;
-        imp.setGame(game);
-    }
 
     public GameEvaluatorCache(GameEvaluator imp) {
         this.imp = imp;
@@ -33,6 +28,12 @@ public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new GameEvaluatorCacheEntry();
         }
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+        imp.setGame(game);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.sorters.comparators;
+package net.chesstango.search.smart.features.killermoves.comparators;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
  * @author Mauricio Coria

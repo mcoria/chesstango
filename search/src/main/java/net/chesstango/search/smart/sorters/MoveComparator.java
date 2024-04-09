@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.sorters.comparators;
+package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;

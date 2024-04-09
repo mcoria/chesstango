@@ -5,6 +5,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -12,14 +14,16 @@ import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.debug.TrapMoveSorter;
-import net.chesstango.search.smart.features.debug.TrapReadFromCache;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.features.evaluator.GameEvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -30,6 +34,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -253,8 +258,8 @@ public class ChainPrinter {
             return String.format("%s", objectText(rootMoveSorter));
         } else if (moveSorter instanceof NodeMoveSorter nodeMoveSorter) {
             return String.format("%s -> %s", objectText(nodeMoveSorter), printMoveComparatorText(nodeMoveSorter.getMoveComparator()));
-        } else if (moveSorter instanceof TrapMoveSorter trapMoveSorter) {
-            return String.format("%s -> %s", objectText(trapMoveSorter), printMoveSorterText(trapMoveSorter.getMoveSorterImp()));
+        } else if (moveSorter instanceof MoveSorterDebug moveSorterDebug) {
+            return String.format("%s -> %s", objectText(moveSorterDebug), printMoveSorterText(moveSorterDebug.getMoveSorterImp()));
         }
         throw new RuntimeException(String.format("Unknown sorter %s", objectText(moveSorter)));
     }
@@ -273,8 +278,8 @@ public class ChainPrinter {
     }
 
     private String printGameEvaluatorCacheRead(GameEvaluatorCacheRead gameEvaluatorCacheRead) {
-        if (gameEvaluatorCacheRead instanceof TrapReadFromCache trapReadFromCache) {
-            return String.format("%s -> %s", objectText(trapReadFromCache), printGameEvaluatorCacheRead(trapReadFromCache.getGameEvaluatorCacheRead()));
+        if (gameEvaluatorCacheRead instanceof GameEvaluatorCacheDebug gameEvaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(gameEvaluatorCacheDebug), printGameEvaluatorCacheRead(gameEvaluatorCacheDebug.getGameEvaluatorCacheRead()));
         } else if (gameEvaluatorCacheRead instanceof GameEvaluatorCache gameEvaluatorCache) {
             return printGameEvaluator(gameEvaluatorCache);
         }
@@ -297,11 +302,11 @@ public class ChainPrinter {
                     objectText(moveComparator),
                     printMoveComparatorText(transpositionTailMoveComparator.getNext()));
 
-        } else if (moveComparator instanceof GameEvaluatorComparator gameEvaluatorComparator) {
+        } else if (moveComparator instanceof GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
             return String.format("%s [%s] -> %s",
                     objectText(moveComparator),
-                    printGameEvaluatorCacheRead(gameEvaluatorComparator.getGameEvaluatorCacheRead()),
-                    printMoveComparatorText(gameEvaluatorComparator.getNext()));
+                    printGameEvaluatorCacheRead(gameEvaluatorCacheComparator.getGameEvaluatorCacheRead()),
+                    printMoveComparatorText(gameEvaluatorCacheComparator.getNext()));
 
         } else if (moveComparator instanceof RecaptureMoveComparator recaptureMoveComparator) {
             return String.format("%s -> %s",

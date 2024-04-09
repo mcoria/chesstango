@@ -36,6 +36,10 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.statistics.game;
     exports net.chesstango.search.smart.features.statistics.node;
     exports net.chesstango.search.smart.features.statistics.evaluation;
+    exports net.chesstango.search.smart.features.transposition.comparators;
+    exports net.chesstango.search.smart.features.killermoves.comparators;
+    exports net.chesstango.search.smart.features.evaluator;
+    exports net.chesstango.search.smart.features.evaluator.comparators;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
@@ -65,4 +69,6 @@ module net.chesstango.search {
     opens net.chesstango.search.smart.features.statistics.node;
     opens net.chesstango.search.smart.features.statistics.evaluation;
     opens net.chesstango.search.smart.features.pv.listeners;
+    opens net.chesstango.search.smart.features.evaluator;
+    opens net.chesstango.search.smart.sorters;
 }

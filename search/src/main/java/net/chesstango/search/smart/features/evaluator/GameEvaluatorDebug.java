@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,13 +6,14 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 
 /**
  * @author Mauricio Coria
  */
 
-public class TrapEvaluation implements GameEvaluator, SearchByCycleListener {
+public class GameEvaluatorDebug implements GameEvaluator, SearchByCycleListener {
 
     @Getter
     @Setter

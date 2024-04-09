@@ -1,10 +1,11 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 
-public class TrapReadFromCache implements GameEvaluatorCacheRead, SearchByCycleListener {
+public class GameEvaluatorCacheDebug implements GameEvaluatorCacheRead, SearchByCycleListener {
 
     @Getter
     @Setter
