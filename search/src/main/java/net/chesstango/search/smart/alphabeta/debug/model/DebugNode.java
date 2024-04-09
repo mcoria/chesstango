@@ -54,6 +54,8 @@ public class DebugNode {
 
     private List<DebugOperationTT> entryWrite = new ArrayList<>();
 
+    private Move killerMove;
+
 
     /**
      * Debug operaciones de ordenamiento

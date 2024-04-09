@@ -1,6 +1,8 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
-import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.killermoves.KillerMoves;
+import net.chesstango.search.smart.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -8,16 +10,21 @@ import net.chesstango.search.smart.SearchByCycleListener;
  * @author Mauricio Coria
  */
 public class SetKillerMoveTables implements SearchByCycleListener {
-    private Move[] killerMovesTableA;
-    private Move[] killerMovesTableB;
+
+    private KillerMoves killerMoves;
+
+    public SetKillerMoveTables(){
+        killerMoves = new KillerMovesTable();
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.killerMovesTableA = new Move[50];
-        this.killerMovesTableB = new Move[50];
+        context.setKillerMoves(new KillerMovesTable());
+    }
 
-        context.setKillerMovesTableA(killerMovesTableA);
-        context.setKillerMovesTableB(killerMovesTableB);
+    @Override
+    public void afterSearch(SearchMoveResult searchMoveResult) {
+        killerMoves.reset();
     }
 }
 

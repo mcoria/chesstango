@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
+import lombok.Setter;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -16,6 +17,8 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     protected final TTable minMap;
     protected final TTable qMaxMap;
     protected final TTable qMinMap;
+
+    @Setter
     protected boolean reuseTranspositionTable;
 
     public SetTranspositionTables() {
@@ -47,10 +50,6 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
         this.minMap.clear();
         this.qMaxMap.clear();
         this.qMinMap.clear();
-    }
-
-    public void setReuseTranspositionTable(boolean reuseTranspositionTable) {
-        this.reuseTranspositionTable = reuseTranspositionTable;
     }
 
     protected TTable createQMinTTable() {

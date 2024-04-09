@@ -206,7 +206,9 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
     private void dumpSorterOperations(DebugNode currentNode) {
         List<String> sortedMoves = currentNode.getSortedMoves();
+
         List<DebugOperationTT> sortedReads = currentNode.getSorterReads();
+
         List<DebugOperationEval> evalCacheReads = currentNode.getEvalCacheReads();
 
         final String sorterKmAString = currentNode.getSorterKmA() != null ? simpleMoveEncoder.encode(currentNode.getSorterKmA()) : null;

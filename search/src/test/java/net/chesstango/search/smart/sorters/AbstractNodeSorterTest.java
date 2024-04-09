@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.MoveSorterBuilder;
+import net.chesstango.search.smart.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -32,8 +33,7 @@ public abstract class AbstractNodeSorterTest {
     protected TTable minMap;
     protected TTable qMaxMap;
     protected TTable qMinMap;
-    protected Move[] killerMovesTableA;
-    protected Move[] killerMovesTableB;
+    protected KillerMovesTable killerMovesTable;
 
     @BeforeEach
     public void setup() {
@@ -52,10 +52,8 @@ public abstract class AbstractNodeSorterTest {
         cycleContext.setQMaxMap(qMaxMap);
         cycleContext.setQMinMap(qMinMap);
 
-        killerMovesTableA = new Move[30];
-        killerMovesTableB = new Move[30];
-        cycleContext.setKillerMovesTableA(killerMovesTableA);
-        cycleContext.setKillerMovesTableB(killerMovesTableB);
+        killerMovesTable = new KillerMovesTable();
+        cycleContext.setKillerMoves(killerMovesTable);
 
         depthContext = new SearchByDepthContext(getMaxSearchPly());
 
@@ -64,6 +62,7 @@ public abstract class AbstractNodeSorterTest {
     }
 
     protected abstract Game createGame();
+
     protected abstract int getMaxSearchPly();
 
     protected List<String> convertMoveListToStringList(Iterable<Move> moves) {
