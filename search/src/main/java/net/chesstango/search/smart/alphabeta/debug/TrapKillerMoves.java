@@ -27,10 +27,10 @@ public class TrapKillerMoves implements KillerMoves, SearchByCycleListener {
     }
 
     @Override
-    public boolean trackKillerMove(Move killerMove, int currentPly) {
-        if(killerMovesImp.trackKillerMove(killerMove, currentPly)){
+    public boolean trackKillerMove(Move move, int currentPly) {
+        if(killerMovesImp.trackKillerMove(move, currentPly)){
             DebugNode currentNode = searchTracker.getCurrentNode();
-            currentNode.setKillerMove(killerMove);
+            currentNode.setKillerMove(move);
             return true;
         } else {
             return false;
@@ -45,25 +45,5 @@ public class TrapKillerMoves implements KillerMoves, SearchByCycleListener {
     @Override
     public void reset() {
         killerMovesImp.reset();;
-    }
-
-    /**
-     * Este metodo deberia moverse una vez tengamos el wrapper de killer move tables
-     */
-    private void trackKillerMoves(int currentPly) {
-        /*
-        DebugNode currentNode = searchTracker.getCurrentNode();
-        if (currentPly > 0) {
-            if (killerMovesTableA != null || killerMovesTableB != null) {
-                if (killerMovesTableA[currentPly - 1] != null) {
-                    currentNode.setSorterKmA(killerMovesTableA[currentPly - 1]);
-                }
-                if (killerMovesTableB[currentPly - 1] != null) {
-                    currentNode.setSorterKmB(killerMovesTableB[currentPly - 1]);
-                }
-            }
-        }
-
-         */
     }
 }
