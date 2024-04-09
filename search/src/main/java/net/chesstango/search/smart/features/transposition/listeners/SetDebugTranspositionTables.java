@@ -1,7 +1,8 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.transposition.listeners;
 
+import net.chesstango.search.smart.features.debug.TrapTranspositionAccess;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.TTable;
 
 /**

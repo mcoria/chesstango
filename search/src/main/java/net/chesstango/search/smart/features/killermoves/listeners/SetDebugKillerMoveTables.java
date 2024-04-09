@@ -1,8 +1,9 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.killermoves.listeners;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.features.debug.TrapKillerMoves;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 
 /**

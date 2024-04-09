@@ -10,7 +10,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta;
     exports net.chesstango.search.smart.alphabeta.filters;
     exports net.chesstango.search.smart.alphabeta.filters.once;
-    exports net.chesstango.search.smart.alphabeta.filters.transposition;
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.statistics;
@@ -43,4 +42,14 @@ module net.chesstango.search {
     opens net.chesstango.search.reports.summary;
     opens net.chesstango.search.smart.features.debug.model;
     opens net.chesstango.search.smart.features.killermoves;
+    exports net.chesstango.search.smart.features.transposition.listeners;
+    opens net.chesstango.search.smart.features.transposition.listeners;
+    exports net.chesstango.search.smart.features.transposition.filters;
+    exports net.chesstango.search.smart.features.killermoves.listeners;
+    opens net.chesstango.search.smart.features.killermoves.listeners;
+    exports net.chesstango.search.smart.features.killermoves.filters;
+    exports net.chesstango.search.smart.features.debug.filters;
+    opens net.chesstango.search.smart.features.debug.filters;
+    exports net.chesstango.search.smart.features.debug.listeners;
+    opens net.chesstango.search.smart.features.debug.listeners;
 }

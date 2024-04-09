@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.transposition.listeners;
 
 import lombok.Setter;
 import net.chesstango.search.SearchMoveResult;

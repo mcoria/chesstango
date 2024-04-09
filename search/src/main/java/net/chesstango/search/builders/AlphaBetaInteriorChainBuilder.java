@@ -3,10 +3,11 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.features.debug.DebugFilter;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTable;
+import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters.transposition;
+package net.chesstango.search.smart.features.transposition.filters;
 
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;

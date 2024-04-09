@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.killermoves.listeners;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;

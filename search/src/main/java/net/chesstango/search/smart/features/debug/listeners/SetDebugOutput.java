@@ -1,9 +1,11 @@
-package net.chesstango.search.smart.features.debug;
+package net.chesstango.search.smart.features.debug.listeners;
 
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
