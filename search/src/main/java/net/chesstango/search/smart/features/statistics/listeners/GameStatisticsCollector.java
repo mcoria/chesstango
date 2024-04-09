@@ -1,10 +1,11 @@
-package net.chesstango.search.smart.features.statistics;
+package net.chesstango.search.smart.features.statistics.listeners;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.features.statistics.GameStatisticsWrapper;
 
 /**
  * @author Mauricio Coria

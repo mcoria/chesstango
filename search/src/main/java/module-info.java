@@ -58,4 +58,5 @@ module net.chesstango.search {
     opens net.chesstango.search.smart.features.killermoves.listeners;
     opens net.chesstango.search.smart.features.debug.filters;
     opens net.chesstango.search.smart.features.debug.listeners;
+    opens net.chesstango.search.smart.features.statistics.listeners;
 }

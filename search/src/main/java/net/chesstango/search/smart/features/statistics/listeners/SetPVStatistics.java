@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.statistics.listeners;
 
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;

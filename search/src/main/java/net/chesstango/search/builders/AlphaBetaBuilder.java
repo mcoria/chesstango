@@ -21,10 +21,11 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
 import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.statistics.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetDebugTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.statistics.GameEvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.GameStatisticsCollector;
+import net.chesstango.search.smart.features.statistics.listeners.GameStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.GameStatisticsWrapper;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 

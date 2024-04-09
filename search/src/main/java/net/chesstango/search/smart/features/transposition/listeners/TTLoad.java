@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.listeners;
+package net.chesstango.search.smart.features.transposition.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.SearchByCycleContext;
