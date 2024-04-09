@@ -1,7 +1,8 @@
-package net.chesstango.search.smart.features.statistics.filters;
+package net.chesstango.search.smart.features.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -9,15 +10,18 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener {
+
     @Setter
     @Getter
     private AlphaBetaFilter next;
-    private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
+    private Game game;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCounters();
+        this.game = context.getGame();
+        this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
 
@@ -34,6 +38,6 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycl
     }
 
     protected void updateCounters(final int currentPly) {
-        visitedNodesCounters[currentPly - 1]++;
+        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
     }
 }

@@ -9,7 +9,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
 import net.chesstango.search.reports.nodes.NodesReport;
-import net.chesstango.search.smart.features.statistics.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

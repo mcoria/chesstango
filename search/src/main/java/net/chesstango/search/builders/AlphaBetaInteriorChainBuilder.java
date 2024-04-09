@@ -8,8 +8,8 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 

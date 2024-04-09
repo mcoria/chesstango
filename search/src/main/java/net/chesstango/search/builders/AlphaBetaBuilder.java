@@ -4,7 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -20,13 +20,13 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveD
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.statistics.listeners.SetPVStatistics;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.features.statistics.GameEvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.listeners.GameStatisticsCollector;
-import net.chesstango.search.smart.features.statistics.GameStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.game.listeners.GameStatisticsCollector;
+import net.chesstango.search.smart.features.statistics.game.GameStatisticsWrapper;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 
 /**
@@ -299,7 +299,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveGameWrapper(searchMove, GameStatisticsWrapper::new);
+            searchMove = new SearchMoveGameWrapper(searchMove);
         }
 
         if (withPrintChain) {

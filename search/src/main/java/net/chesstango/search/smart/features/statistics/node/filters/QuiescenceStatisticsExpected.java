@@ -1,7 +1,9 @@
-package net.chesstango.search.smart.features.statistics.filters;
+package net.chesstango.search.smart.features.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -12,23 +14,26 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
-    private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
+    private Game game;
     private int maxPly;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
+        this.game = context.getGame();
+        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
     }
+
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
@@ -44,6 +49,16 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
 
     protected void updateCounters(final int currentPly) {
         final int qLevel = currentPly - maxPly;
-        visitedNodesCounters[qLevel - 1]++;
+        int expectedMoves = 0;
+        if(game.getStatus().isCheck()){
+            expectedMoves = game.getPossibleMoves().size();
+        } else {
+            for (Move move : game.getPossibleMoves()) {
+                if (!move.isQuiet()) {
+                    expectedMoves++;
+                }
+            }
+        }
+        expectedNodesCounters[qLevel] += expectedMoves;
     }
 }

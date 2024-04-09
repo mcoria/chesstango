@@ -1,9 +1,11 @@
-package net.chesstango.search;
+package net.chesstango.search.smart.features.statistics.game;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-
-import java.util.function.Function;
+import net.chesstango.search.ProgressListener;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 
 /**
  * @author Mauricio Coria
@@ -13,16 +15,14 @@ public class SearchMoveGameWrapper implements SearchMove {
     @Getter
     private final SearchMove imp;
 
-    private final Function<Game, Game> fnGameWrapper;
-
-    public SearchMoveGameWrapper(SearchMove imp, Function<Game, Game> fnGameWrapper) {
+    public SearchMoveGameWrapper(SearchMove imp) {
         this.imp = imp;
-        this.fnGameWrapper = fnGameWrapper;
     }
 
     @Override
     public SearchMoveResult search(Game game) {
-        return imp.search(fnGameWrapper.apply(game));
+        GameStatisticsWrapper gameStatisticsWrapper = new GameStatisticsWrapper(game);
+        return imp.search(gameStatisticsWrapper);
     }
 
     @Override

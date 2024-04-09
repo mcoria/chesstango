@@ -1,9 +1,9 @@
-package net.chesstango.search.smart.features.statistics.listeners;
+package net.chesstango.search.smart.features.statistics.node.listeners;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.features.statistics.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
 /**
  * @author Mauricio Coria

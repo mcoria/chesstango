@@ -3,7 +3,7 @@ package net.chesstango.search.reports.nodes;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.features.statistics.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
 import java.util.LinkedList;
 import java.util.List;

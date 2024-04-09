@@ -12,7 +12,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.filters.once;
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.sorters;
-    exports net.chesstango.search.smart.features.statistics;
     exports net.chesstango.search.smart.features.transposition;
     exports net.chesstango.search.smart.features.debug;
     exports net.chesstango.search.smart.sorters.comparators;
@@ -28,12 +27,16 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.killermoves.filters;
     exports net.chesstango.search.smart.features.debug.filters;
     exports net.chesstango.search.smart.features.debug.listeners;
-    exports net.chesstango.search.smart.features.statistics.filters;
-    exports net.chesstango.search.smart.features.statistics.listeners;
+    exports net.chesstango.search.smart.features.statistics.node.filters;
     exports net.chesstango.search.smart.features.zobrist.filters;
     exports net.chesstango.search.smart.features.zobrist.listeners;
     exports net.chesstango.search.smart.features.pv.filters;
     exports net.chesstango.search.smart.features.pv.listeners;
+    exports net.chesstango.search.smart.features.statistics.node.listeners;
+    exports net.chesstango.search.smart.features.statistics.game.listeners;
+    exports net.chesstango.search.smart.features.statistics.game;
+    exports net.chesstango.search.smart.features.statistics.node;
+    exports net.chesstango.search.smart.features.statistics.evaluation;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
@@ -46,7 +49,6 @@ module net.chesstango.search {
     opens net.chesstango.search.reports;
     opens net.chesstango.search;
     opens net.chesstango.search.smart;
-    opens net.chesstango.search.smart.features.statistics;
     opens net.chesstango.search.smart.features.debug;
     opens net.chesstango.search.reports.evaluation;
     opens net.chesstango.search.reports.nodes;
@@ -58,6 +60,11 @@ module net.chesstango.search {
     opens net.chesstango.search.smart.features.killermoves.listeners;
     opens net.chesstango.search.smart.features.debug.filters;
     opens net.chesstango.search.smart.features.debug.listeners;
-    opens net.chesstango.search.smart.features.statistics.listeners;
     opens net.chesstango.search.smart.features.transposition;
+    opens net.chesstango.search.smart.features.statistics.node.listeners;
+    opens net.chesstango.search.smart.features.statistics.game.listeners;
+    opens net.chesstango.search.smart.features.statistics.game;
+    opens net.chesstango.search.smart.features.statistics.node;
+    opens net.chesstango.search.smart.features.statistics.evaluation;
+    opens net.chesstango.search.smart.features.pv.listeners;
 }
