@@ -19,7 +19,6 @@ import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
-import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
@@ -57,9 +56,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetKillerMoveDebug setKillerMoveDebug;
-    private SetTranspositionPV setTranspositionPV;
+
     private SetNodeStatistics setNodeStatistics;
-    private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -335,9 +333,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (withTranspositionTableReuse) {
                 setTranspositionTables.setReuseTranspositionTable(true);
             }
-
-            setTranspositionPV = new SetTranspositionPV();
-            setTranspositionPV.setGameEvaluator(gameEvaluator);
         }
 
         if (withTriangularPV) {
@@ -347,7 +342,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
-            setPVStatistics = new SetPVStatistics();
         }
 
         if (withZobristTracker) {
@@ -390,17 +384,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(setZobristMemory);
         }
 
-        if (setTranspositionPV != null) {
-            smartListenerMediator.add(setTranspositionPV);
-        }
-
         if (setTrianglePV != null) {
             smartListenerMediator.add(setTrianglePV);
         }
 
         if (withStatistics) {
             smartListenerMediator.add(setNodeStatistics);
-            smartListenerMediator.add(setPVStatistics);
         }
 
         if (gameEvaluatorStatisticsWrapper != null) {
@@ -462,6 +451,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        alphaBetaRootChainBuilder.withGameEvaluator(gameEvaluator);
 
         return alphaBetaRootChainBuilder.build();
     }

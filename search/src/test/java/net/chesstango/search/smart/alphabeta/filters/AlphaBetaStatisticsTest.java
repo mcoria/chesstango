@@ -231,9 +231,9 @@ public class AlphaBetaStatisticsTest {
         /**
          * Los 61 movimientos se descomponen en:
          * 20 movimientos de la busqueda regular AlphaBeta
-         *  1 movimiento  de SetPrincipalVariation
+         *  0 movimientos de TranspositionPV
          */
-        assertEquals(21, executedMoves);
+        assertEquals(20, executedMoves);
 
     }
 
@@ -287,7 +287,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(20, visitedNodesCountersTotal);
         assertEquals(0, visitedQNodesCounters[0]);
         assertEquals(0, visitedQNodesCountersTotal);
-        assertEquals(21, executedMoves); // Ver mas arriba explicacion
+        assertEquals(20, executedMoves); // Ver mas arriba explicacion
     }
 
     @Test
@@ -316,7 +316,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(22, visitedNodesCountersTotal);
-        assertEquals(50, executedMoves); // Ver mas arriba explicacion
+        assertEquals(43, executedMoves); // Ver mas arriba explicacion
     }
 
 
