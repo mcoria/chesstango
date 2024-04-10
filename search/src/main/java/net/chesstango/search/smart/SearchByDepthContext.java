@@ -2,9 +2,12 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.PrincipalVariation;
 
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Mauricio Coria
@@ -19,6 +22,8 @@ public class SearchByDepthContext {
     private MoveEvaluation lastBestMoveEvaluation;
 
     private List<MoveEvaluation> lastMoveEvaluations;
+
+    private List<PrincipalVariation> lastPrincipalVariation;
 
     /**
      * Se utiliza para el calculo de PV

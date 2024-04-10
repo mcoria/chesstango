@@ -19,7 +19,7 @@ public class SearchByDepthResult {
 
     private MoveEvaluation bestMoveEvaluation;
 
-    private List<Move> principalVariation;
+    private List<PrincipalVariation> principalVariation;
 
     /**
      * Si PV es complete entonces llegamos a la mimsma evaluacion ejecutando los movimientos

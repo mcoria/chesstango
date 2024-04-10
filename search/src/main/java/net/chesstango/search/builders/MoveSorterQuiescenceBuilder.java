@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.features.evaluator.GameEvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -28,6 +29,7 @@ public class MoveSorterQuiescenceBuilder {
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
+    private PrincipalVariationComparator principalVariationComparator;
     private MoveSorterDebug moveSorterDebug;
     private GameEvaluatorCacheDebug gameEvaluatorCacheDebug;
     private GameEvaluatorCache gameEvaluatorCache;
@@ -96,6 +98,8 @@ public class MoveSorterQuiescenceBuilder {
         if (withTranspositionTable) {
             transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
             transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+
+            principalVariationComparator = new PrincipalVariationComparator();
         }
 
         if (withDebugSearchTree) {
@@ -136,6 +140,10 @@ public class MoveSorterQuiescenceBuilder {
             smartListenerMediator.add(transpositionTailMoveComparator);
         }
 
+        if (principalVariationComparator != null) {
+            smartListenerMediator.add(principalVariationComparator);
+        }
+
         if (recaptureMoveComparator != null) {
             smartListenerMediator.add(recaptureMoveComparator);
         }
@@ -159,6 +167,7 @@ public class MoveSorterQuiescenceBuilder {
         List<MoveComparator> chain = new LinkedList<>();
 
         if (withTranspositionTable) {
+            chain.add(principalVariationComparator);
             chain.add(transpositionHeadMoveComparator);
             chain.add(transpositionTailMoveComparator);
         }
@@ -195,6 +204,8 @@ public class MoveSorterQuiescenceBuilder {
                 mvvLvaComparator.setNext(next);
             } else if (currentComparator instanceof PromotionComparator) {
                 promotionComparator.setNext(next);
+            } else if (currentComparator instanceof PrincipalVariationComparator) {
+                principalVariationComparator.setNext(next);
             } else {
                 throw new RuntimeException("Unknow MoveComparator");
             }

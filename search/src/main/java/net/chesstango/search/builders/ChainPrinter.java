@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -300,6 +301,11 @@ public class ChainPrinter {
     private String printMoveComparatorText(MoveComparator moveComparator) {
         if (moveComparator instanceof DefaultMoveComparator defaultMoveComparator) {
             return String.format("%s", objectText(defaultMoveComparator));
+
+        } else if (moveComparator instanceof PrincipalVariationComparator principalVariationComparator) {
+            return String.format("%s -> %s",
+                    objectText(moveComparator),
+                    printMoveComparatorText(principalVariationComparator.getNext()));
 
         } else if (moveComparator instanceof TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
             return String.format("%s -> %s",

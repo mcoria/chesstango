@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -27,7 +28,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     private final short[][] trianglePV;
     private Game game;
 
-    private List<Move> principalVariation;
+    private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
     public SetTrianglePV() {
@@ -62,12 +63,14 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         pvComplete = false;
 
         Move move = null;
+        long hash = 0;
         int pvMoveCounter = 0;
         short[] pvMoves = trianglePV[0];
         do {
             move = readMove(pvMoves[pvMoveCounter]);
+            hash = game.getChessPosition().getZobristHash();
 
-            principalVariation.add(move);
+            principalVariation.add(new PrincipalVariation(hash, move));
 
             game.executeMove(move);
 
@@ -86,7 +89,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
             pvComplete = true;
         } else {
             SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d): %s", bestMoveEvaluation.evaluation(), pvEvaluation, simpleMoveEncoder.encodeMoves(principalVariation)));
+            throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d)", bestMoveEvaluation.evaluation(), pvEvaluation, principalVariation.stream().map(PrincipalVariation::move).toList()));
         }
 
         for (int i = 0; i < pvMoveCounter; i++) {

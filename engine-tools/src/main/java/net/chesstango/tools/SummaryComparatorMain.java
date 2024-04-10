@@ -23,8 +23,9 @@ public class SummaryComparatorMain {
         SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-02-27-01-39-v0.0.26");
         summaryComparatorMain.addSession("depth-5-2024-04-08-22-51-CHT-253");
         summaryComparatorMain.addSession("depth-5-2024-04-09-19-29-CHT-257");
-        summaryComparatorMain.addSession("depth-5-2024-04-09-23-44-CHT-229");
-        summaryComparatorMain.addSession("depth-5-2024-04-10-00-36-CHT-229");
+        //summaryComparatorMain.addSession("depth-5-2024-04-10-00-36-CHT-229");
+        summaryComparatorMain.addSession("depth-5-2024-04-10-09-11-CHT-218");
+        summaryComparatorMain.addSession("depth-5-2024-04-10-15-37-CHT-218");
         //
         //
 

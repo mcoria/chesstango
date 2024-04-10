@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -32,8 +33,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Setter
     private GameEvaluator gameEvaluator;
-
-    private List<Move> principalVariation;
+    private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
     private TTable maxMap;
@@ -73,22 +73,25 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         long moveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
 
-        if (currentValue < beta) {
-            calculatePrincipalVariation(moveAndValue);
-        }
-
-        return moveAndValue;
+        return process(alpha, beta, moveAndValue);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
         long moveAndValue = next.minimize(currentPly, alpha, beta);
+
+        return process(alpha, beta, moveAndValue);
+    }
+
+
+    private long process(int alpha, int beta, long moveAndValue) {
         int currentValue = TranspositionEntry.decodeValue(moveAndValue);
-        if (alpha < currentValue) {
+
+        if (alpha < currentValue && currentValue < beta) {
             calculatePrincipalVariation(moveAndValue);
         }
+
         return moveAndValue;
     }
 
@@ -98,22 +101,25 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        Move currentMove = game.getState().getPreviousState().getSelectedMove();
-        principalVariation.add(currentMove);
+        final long lastHash = game.getState().getPreviousState().getZobristHash();
+        final Move lastMove = game.getState().getPreviousState().getSelectedMove();
+        principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
         final int bestValue = TranspositionEntry.decodeValue(moveAndValue);
         final short bestMoveEncoded = TranspositionEntry.decodeBestMove(moveAndValue);
 
 
-        currentMove = getMove(bestMoveEncoded);
+        long currentHash = game.getState().getZobristHash();
+        Move currentMove = getMove(bestMoveEncoded);
         while (currentMove != null) {
 
-            principalVariation.add(currentMove);
+            principalVariation.add(new PrincipalVariation(currentHash, currentMove));
 
             game.executeMove(currentMove);
 
             pvMoveCounter++;
 
+            currentHash = game.getState().getZobristHash();
             currentMove = principalVariation.size() < maxPly
                     ? readMoveFromTT(maxMap, minMap)
                     : readMoveFromTT(qMaxMap, qMinMap);
