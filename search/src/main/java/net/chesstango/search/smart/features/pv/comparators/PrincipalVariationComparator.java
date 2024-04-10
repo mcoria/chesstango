@@ -45,14 +45,18 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     @Override
     public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.afterSort(currentPly, moveToZobrist);
+        /*
         if (pvMove != null && !pvConsumed) {
             throw new RuntimeException("PV move not consumed");
         }
+
+         */
         this.pvMove = null;
     }
 
     @Override
     public int compare(Move o1, Move o2) {
+        /*
         if (pvMove != null) {
             if (pvMove.equals(o1)) {
                 pvConsumed = true;
@@ -62,6 +66,7 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
                 return -1;
             }
         }
+         */
         return next.compare(o1, o2);
     }
 }
