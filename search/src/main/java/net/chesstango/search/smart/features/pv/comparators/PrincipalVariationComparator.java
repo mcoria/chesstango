@@ -2,20 +2,22 @@ package net.chesstango.search.smart.features.pv.comparators;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator, SearchByDepthListener {
+public class PrincipalVariationComparator implements MoveComparator, SearchByCycleListener, SearchByDepthListener {
 
 
     @Getter
@@ -23,8 +25,13 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     private MoveComparator next;
     private List<PrincipalVariation> lastPrincipalVariation;
 
+    private Game game;
     private Move pvMove;
-    private boolean pvConsumed;
+
+    @Override
+    public void beforeSearch(SearchByCycleContext context) {
+        this.game = context.getGame();
+    }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
@@ -34,37 +41,32 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.beforeSort(currentPly, moveToZobrist);
-        if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
-            //this.pvMove = lastPrincipalVariation.poll();
-            //this.pvConsumed = false;
+        if (lastPrincipalVariation != null) {
+            if (lastPrincipalVariation.size() > currentPly) {
+                long hash = game.getChessPosition().getZobristHash();
+                PrincipalVariation principalVariation = lastPrincipalVariation.get(currentPly);
+                if (principalVariation.hash() == hash) {
+                    pvMove = principalVariation.move();
+                }
+            }
         }
     }
 
     @Override
     public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.afterSort(currentPly, moveToZobrist);
-        /*
-        if (pvMove != null && !pvConsumed) {
-            throw new RuntimeException("PV move not consumed");
-        }
-
-         */
         this.pvMove = null;
     }
 
     @Override
     public int compare(Move o1, Move o2) {
-        /*
         if (pvMove != null) {
             if (pvMove.equals(o1)) {
-                pvConsumed = true;
                 return 1;
             } else if (pvMove.equals(o2)) {
-                pvConsumed = true;
                 return -1;
             }
         }
-         */
         return next.compare(o1, o2);
     }
 }

@@ -7,6 +7,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class LichessTango implements Runnable {
 
             @Override
             public void searchInfo(SearchByDepthResult searchByDepthResult) {
-                String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation()), searchByDepthResult.isPvComplete() ? "" : "*");
+                String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchByDepthResult.isPvComplete() ? "" : "*");
                 logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchByDepthResult.getDepth()), String.format("%2d", searchByDepthResult.getDepth()), String.format("%8d", searchByDepthResult.getBestEvaluation()), pvString);
             }
 
