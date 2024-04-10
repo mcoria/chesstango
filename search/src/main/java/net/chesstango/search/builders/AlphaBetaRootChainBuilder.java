@@ -38,7 +38,6 @@ public class AlphaBetaRootChainBuilder {
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
     private TranspositionPV transpositionPV;
-    private SetPVStatistics setPVStatistics;
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
@@ -125,7 +124,6 @@ public class AlphaBetaRootChainBuilder {
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
-            setPVStatistics = new SetPVStatistics();
         }
 
         if (withAspirationWindows) {
@@ -200,10 +198,6 @@ public class AlphaBetaRootChainBuilder {
 
         if (transpositionPV != null) {
             smartListenerMediator.add(transpositionPV);
-        }
-
-        if (setPVStatistics != null) {
-            smartListenerMediator.add(setPVStatistics);
         }
 
         if (triangularPV != null) {

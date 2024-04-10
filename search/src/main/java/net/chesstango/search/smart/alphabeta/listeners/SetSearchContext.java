@@ -18,6 +18,10 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     private SearchByDepthResult lastSearchByDepthResult;
     private Instant startInstant;
     private Instant startDepthInstant;
+
+    /**
+     * Cuantas veces se busca por profundidad
+     */
     private int searchByDepthCounter;
 
     @Override

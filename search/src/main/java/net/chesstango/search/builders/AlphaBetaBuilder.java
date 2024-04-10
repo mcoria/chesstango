@@ -52,12 +52,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluator gameEvaluator;
     private GameEvaluatorCache gameEvaluatorCache;
     private GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
-
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetKillerMoveDebug setKillerMoveDebug;
-
     private SetNodeStatistics setNodeStatistics;
+    private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -282,9 +281,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         buildObjects();
 
-        setupListenerMediator();
+        setupListenerMediatorBeforeChain();
 
         alphaBetaFacade.setAlphaBetaFilter(createChain());
+
+        setupListenerMediatorAfterChain();
 
         SearchMove searchMove;
 
@@ -342,6 +343,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
+            setPVStatistics = new SetPVStatistics();
         }
 
         if (withZobristTracker) {
@@ -363,7 +365,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     }
 
-    private void setupListenerMediator() {
+
+    private void setupListenerMediatorBeforeChain() {
         smartListenerMediator.add(setSearchContext);
 
         if (setSearchTracker != null) {
@@ -388,16 +391,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
             smartListenerMediator.add(setTrianglePV);
         }
 
-        if (withStatistics) {
+        if (setNodeStatistics != null) {
             smartListenerMediator.add(setNodeStatistics);
         }
 
         if (gameEvaluatorStatisticsWrapper != null) {
             smartListenerMediator.add(gameEvaluatorStatisticsWrapper);
-        }
-
-        if (setDebugOutput != null) {
-            smartListenerMediator.add(setDebugOutput);
         }
 
         if (setKillerMoveTables != null) {
@@ -414,6 +413,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
         smartListenerMediator.add(alphaBetaFlowControl);
 
         smartListenerMediator.add(extensionFlowControl);
+    }
+
+    private void setupListenerMediatorAfterChain() {
+        if (setPVStatistics != null) {
+            smartListenerMediator.add(setPVStatistics);
+        }
+        if (setDebugOutput != null) {
+            smartListenerMediator.add(setDebugOutput);
+        }
     }
 
 
