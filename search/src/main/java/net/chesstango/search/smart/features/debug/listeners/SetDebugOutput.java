@@ -63,7 +63,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
+    public void afterSearch(SearchMoveResult result) {
         debugOut.print("Search completed\n");
 
         try {

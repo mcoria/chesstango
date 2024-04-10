@@ -37,7 +37,7 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
+    public void afterSearch(SearchMoveResult result) {
         if (!reuseTranspositionTable) {
             reset();
         }

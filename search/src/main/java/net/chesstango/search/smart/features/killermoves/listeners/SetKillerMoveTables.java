@@ -23,7 +23,7 @@ public class SetKillerMoveTables implements SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
+    public void afterSearch(SearchMoveResult result) {
         killerMoves.reset();
     }
 }

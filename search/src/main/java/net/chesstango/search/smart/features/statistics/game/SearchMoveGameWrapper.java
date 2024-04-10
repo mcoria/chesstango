@@ -56,8 +56,8 @@ public class SearchMoveGameWrapper implements SearchMove, SearchByCycleListener 
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
-        searchMoveResult.setExecutedMoves(gameStatisticsWrapper.getExecutedMoves());
+    public void afterSearch(SearchMoveResult result) {
+        result.setExecutedMoves(gameStatisticsWrapper.getExecutedMoves());
     }
 
 }
