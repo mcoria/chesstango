@@ -5,7 +5,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;

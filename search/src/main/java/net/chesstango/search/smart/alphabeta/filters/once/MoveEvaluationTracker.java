@@ -11,7 +11,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.Comparator;
 import java.util.LinkedList;

@@ -3,9 +3,9 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
-import net.chesstango.search.smart.killermoves.KillerMoves;
-import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.features.debug.SearchTracker;
+import net.chesstango.search.smart.features.killermoves.KillerMoves;
+import net.chesstango.search.smart.features.transposition.TTable;
 
 import java.util.List;
 import java.util.Map;

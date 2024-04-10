@@ -2,14 +2,18 @@ package net.chesstango.search.builders;
 
 
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.filters.once.TranspositionTableRoot;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 
@@ -31,7 +35,7 @@ public class AlphaBetaRootChainBuilder {
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private TrapMoveSorter trapMoveSorter;
+    private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
 
     private boolean withStatistics;
@@ -128,10 +132,10 @@ public class AlphaBetaRootChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
 
-            trapMoveSorter = new TrapMoveSorter();
-            trapMoveSorter.setMoveSorterImp(rootMoveSorter);
+            moveSorterDebug = new MoveSorterDebug();
+            moveSorterDebug.setMoveSorterImp(rootMoveSorter);
 
-            moveSorter = trapMoveSorter;
+            moveSorter = moveSorterDebug;
         }
 
         if (withTriangularPV) {
@@ -162,8 +166,8 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(debugFilter);
         }
 
-        if (trapMoveSorter != null) {
-            smartListenerMediator.add(trapMoveSorter);
+        if (moveSorterDebug != null) {
+            smartListenerMediator.add(moveSorterDebug);
         }
 
         if (stopProcessingCatch != null) {

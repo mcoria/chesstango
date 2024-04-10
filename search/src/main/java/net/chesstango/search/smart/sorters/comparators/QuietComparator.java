@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
  * @author Mauricio Coria
@@ -24,9 +25,9 @@ public class QuietComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        noQuietNext.afterSort(moveToZobrist);
-        quietNext.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        noQuietNext.afterSort(currentPly, moveToZobrist);
+        quietNext.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

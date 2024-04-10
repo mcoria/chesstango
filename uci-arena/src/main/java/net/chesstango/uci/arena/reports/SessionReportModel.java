@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statistics.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
 import java.util.List;
 

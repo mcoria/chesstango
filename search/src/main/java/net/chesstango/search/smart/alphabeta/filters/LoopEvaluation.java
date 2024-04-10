@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria

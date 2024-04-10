@@ -3,8 +3,12 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.debug.TrapMoveSorter;
-import net.chesstango.search.smart.alphabeta.debug.TrapReadFromCache;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.features.evaluator.GameEvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
@@ -24,10 +28,10 @@ public class MoveSorterQuiescenceBuilder {
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
-    private TrapMoveSorter trapMoveSorter;
-    private TrapReadFromCache trapReadFromCache;
+    private MoveSorterDebug moveSorterDebug;
+    private GameEvaluatorCacheDebug gameEvaluatorCacheDebug;
     private GameEvaluatorCache gameEvaluatorCache;
-    private GameEvaluatorComparator gameEvaluatorComparator;
+    private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withRecaptureSorter;
@@ -78,9 +82,9 @@ public class MoveSorterQuiescenceBuilder {
         MoveSorter moveSorter = nodeMoveSorter;
         nodeMoveSorter.setMoveComparator(createComparatorChain());
 
-        if (trapMoveSorter != null) {
-            trapMoveSorter.setMoveSorterImp(moveSorter);
-            moveSorter = trapMoveSorter;
+        if (moveSorterDebug != null) {
+            moveSorterDebug.setMoveSorterImp(moveSorter);
+            moveSorter = moveSorterDebug;
         }
 
         return moveSorter;
@@ -95,17 +99,17 @@ public class MoveSorterQuiescenceBuilder {
         }
 
         if (withDebugSearchTree) {
-            trapMoveSorter = new TrapMoveSorter();
-            trapReadFromCache = new TrapReadFromCache();
-            trapReadFromCache.setGameEvaluatorCacheRead(gameEvaluatorCache);
+            moveSorterDebug = new MoveSorterDebug();
+            gameEvaluatorCacheDebug = new GameEvaluatorCacheDebug();
+            gameEvaluatorCacheDebug.setGameEvaluatorCacheRead(gameEvaluatorCache);
         }
 
         if (gameEvaluatorCache != null) {
-            gameEvaluatorComparator = new GameEvaluatorComparator();
+            gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
             if (withDebugSearchTree) {
-                gameEvaluatorComparator.setGameEvaluatorCacheRead(trapReadFromCache);
+                gameEvaluatorCacheComparator.setGameEvaluatorCacheRead(gameEvaluatorCacheDebug);
             } else {
-                gameEvaluatorComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
+                gameEvaluatorCacheComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
             }
         }
 
@@ -136,16 +140,16 @@ public class MoveSorterQuiescenceBuilder {
             smartListenerMediator.add(recaptureMoveComparator);
         }
 
-        if (gameEvaluatorComparator != null) {
-            smartListenerMediator.add(gameEvaluatorComparator);
+        if (gameEvaluatorCacheComparator != null) {
+            smartListenerMediator.add(gameEvaluatorCacheComparator);
         }
 
-        if (trapMoveSorter != null) {
-            smartListenerMediator.add(trapMoveSorter);
+        if (moveSorterDebug != null) {
+            smartListenerMediator.add(moveSorterDebug);
         }
 
-        if (trapReadFromCache != null) {
-            smartListenerMediator.add(trapReadFromCache);
+        if (gameEvaluatorCacheDebug != null) {
+            smartListenerMediator.add(gameEvaluatorCacheDebug);
         }
 
     }
@@ -169,8 +173,8 @@ public class MoveSorterQuiescenceBuilder {
             chain.add(mvvLvaComparator);
         }
 
-        if (gameEvaluatorComparator != null) {
-            chain.add(gameEvaluatorComparator);
+        if (gameEvaluatorCacheComparator != null) {
+            chain.add(gameEvaluatorCacheComparator);
         }
 
         chain.add(defaultMoveComparator);
@@ -185,8 +189,8 @@ public class MoveSorterQuiescenceBuilder {
                 transpositionTailMoveComparator.setNext(next);
             } else if (currentComparator instanceof RecaptureMoveComparator) {
                 recaptureMoveComparator.setNext(next);
-            } else if (currentComparator instanceof GameEvaluatorComparator) {
-                gameEvaluatorComparator.setNext(next);
+            } else if (currentComparator instanceof GameEvaluatorCacheComparator) {
+                gameEvaluatorCacheComparator.setNext(next);
             } else if (currentComparator instanceof MvvLvaComparator) {
                 mvvLvaComparator.setNext(next);
             } else if (currentComparator instanceof PromotionComparator) {

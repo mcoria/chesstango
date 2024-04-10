@@ -4,11 +4,15 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.TrapEvaluation;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.evaluator.GameEvaluatorDebug;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.transposition.TranspositionTableQ;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +30,7 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private TrapEvaluation trapEvaluation;
+    private GameEvaluatorDebug gameEvaluatorDebug;
     private TriangularPV triangularPV;
 
     private SmartListenerMediator smartListenerMediator;
@@ -126,7 +130,7 @@ public class QuiescenceChainBuilder {
         quiescence.setMoveSorter(moveSorterBuilder.build());
 
         if (withDebugSearchTree) {
-            quiescence.setGameEvaluator(trapEvaluation);
+            quiescence.setGameEvaluator(gameEvaluatorDebug);
         } else {
             quiescence.setGameEvaluator(gameEvaluator);
         }
@@ -147,8 +151,8 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            trapEvaluation = new TrapEvaluation();
-            trapEvaluation.setGameEvaluator(gameEvaluator);
+            gameEvaluatorDebug = new GameEvaluatorDebug();
+            gameEvaluatorDebug.setGameEvaluator(gameEvaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
@@ -168,7 +172,7 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             smartListenerMediator.add(debugFilter);
-            smartListenerMediator.add(trapEvaluation);
+            smartListenerMediator.add(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);

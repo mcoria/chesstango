@@ -13,7 +13,7 @@ import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

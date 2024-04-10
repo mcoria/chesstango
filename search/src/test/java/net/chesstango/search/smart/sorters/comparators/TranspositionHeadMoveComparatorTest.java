@@ -8,10 +8,11 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.transposition.MapTTable;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionBound;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.TTableMap;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +31,8 @@ public class TranspositionHeadMoveComparatorTest {
 
     @BeforeEach
     public void setup() {
-        maxMap = new MapTTable();
-        minMap = new MapTTable();
+        maxMap = new TTableMap();
+        minMap = new TTableMap();
         headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
         headMoveComparator.setNext(new DefaultMoveComparator());
     }
@@ -73,7 +74,7 @@ public class TranspositionHeadMoveComparatorTest {
         MoveToHashMap moveToZobrist = new MoveToHashMap();
         headMoveComparator.beforeSort(0, moveToZobrist);
         movesList.sort(headMoveComparator.reversed());
-        headMoveComparator.afterSort(moveToZobrist);
+        headMoveComparator.afterSort(0, moveToZobrist);
 
         return movesList;
     }

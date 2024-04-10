@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
  * @author Mauricio Coria
@@ -157,7 +158,7 @@ public class DefaultMoveComparator implements MoveComparator {
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
 
     }
 }

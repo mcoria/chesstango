@@ -1,11 +1,11 @@
 package net.chesstango.search.builders;
 
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.debug.DebugFilter;
-import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.LoopEvaluation;
-import net.chesstango.search.smart.alphabeta.filters.ZobristTracker;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -9,6 +9,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.sorters.MoveComparator;
 
 import java.util.Objects;
 
@@ -42,8 +43,8 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     }
 
     @Override
-    public void afterSort(MoveToHashMap moveToZobrist) {
-        next.afterSort(moveToZobrist);
+    public void afterSort(int currentPly, MoveToHashMap moveToZobrist) {
+        next.afterSort(currentPly, moveToZobrist);
     }
 
     @Override

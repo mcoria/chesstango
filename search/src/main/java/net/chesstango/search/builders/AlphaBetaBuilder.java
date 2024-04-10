@@ -4,19 +4,29 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.debug.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
-import net.chesstango.search.smart.alphabeta.listeners.*;
-import net.chesstango.search.smart.statistics.GameEvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.statistics.GameStatisticsCollector;
-import net.chesstango.search.smart.statistics.GameStatisticsWrapper;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
+import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
+import net.chesstango.search.smart.features.pv.listeners.SetTranspositionPV;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
+import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 
 /**
  * @author Mauricio Corias
@@ -45,12 +55,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
 
     private SetTranspositionTables setTranspositionTables;
-    private SetDebugTranspositionTables setDebugTranspositionTables;
-    private SetDebugKillerMoveTables setDebugKillerMoveTables;
+    private SetTranspositionTablesDebug setTranspositionTablesDebug;
+    private SetKillerMoveDebug setKillerMoveDebug;
     private SetTranspositionPV setTranspositionPV;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
-    private GameStatisticsCollector gameStatisticsListener;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -288,7 +297,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            searchMove = new SearchMoveGameWrapper(searchMove, GameStatisticsWrapper::new);
+            SearchMoveGameWrapper searchMoveGameWrapper = new SearchMoveGameWrapper(searchMove);
+            smartListenerMediator.add(searchMoveGameWrapper);
+
+            searchMove = searchMoveGameWrapper;
         }
 
         if (withPrintChain) {
@@ -312,13 +324,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
                     .setTrackEvaluations(withTrackEvaluations);
 
             gameEvaluator = gameEvaluatorStatisticsWrapper;
-
-            gameStatisticsListener = new GameStatisticsCollector();
         }
 
         if (withTranspositionTable) {
             if (withDebugSearchTree) {
-                setDebugTranspositionTables = new SetDebugTranspositionTables();
+                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
             } else {
                 setTranspositionTables = new SetTranspositionTables();
             }
@@ -351,7 +361,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withKillerMoveSorter) {
             if (withDebugSearchTree) {
-                setDebugKillerMoveTables = new SetDebugKillerMoveTables();
+                setKillerMoveDebug = new SetKillerMoveDebug();
             } else {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
@@ -368,12 +378,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setTranspositionTables != null) {
             smartListenerMediator.add(setTranspositionTables);
-        } else if (setDebugTranspositionTables != null) {
-            smartListenerMediator.add(setDebugTranspositionTables);
-            smartListenerMediator.add(setDebugTranspositionTables.getMaxMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getMinMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getQMaxMap());
-            smartListenerMediator.add(setDebugTranspositionTables.getQMinMap());
+        } else if (setTranspositionTablesDebug != null) {
+            smartListenerMediator.add(setTranspositionTablesDebug);
+            smartListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getMinMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
+            smartListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
         }
 
         if (setZobristMemory != null) {
@@ -391,7 +401,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withStatistics) {
             smartListenerMediator.add(setNodeStatistics);
             smartListenerMediator.add(setPVStatistics);
-            smartListenerMediator.add(gameStatisticsListener);
         }
 
         if (gameEvaluatorStatisticsWrapper != null) {
@@ -404,9 +413,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setKillerMoveTables != null) {
             smartListenerMediator.add(setKillerMoveTables);
-        } else if (setDebugKillerMoveTables != null) {
-            smartListenerMediator.add(setDebugKillerMoveTables);
-            smartListenerMediator.add(setDebugKillerMoveTables.getTrapKillerMoves());
+        } else if (setKillerMoveDebug != null) {
+            smartListenerMediator.add(setKillerMoveDebug);
+            smartListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
         }
 
         smartListenerMediator.add(setGameEvaluator);

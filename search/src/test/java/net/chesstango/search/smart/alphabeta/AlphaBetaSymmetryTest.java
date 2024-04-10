@@ -10,7 +10,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.statistics.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
