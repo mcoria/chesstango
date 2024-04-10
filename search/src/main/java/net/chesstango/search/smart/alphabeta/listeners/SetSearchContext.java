@@ -9,6 +9,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.LinkedList;
 
 /**
  * @author Mauricio Coria
@@ -39,6 +40,7 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
         if (lastSearchByDepthResult != null) {
             context.setLastBestMoveEvaluation(lastSearchByDepthResult.getBestMoveEvaluation());
             context.setLastMoveEvaluations(lastSearchByDepthResult.getMoveEvaluations());
+            context.setLastPrincipalVariation(new LinkedList<>(lastSearchByDepthResult.getPrincipalVariation()));
         }
     }
 

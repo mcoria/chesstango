@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class EpdSearchMainTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private static EPDReader epdReader;
     private static EpdSearch epdSearch;
     private static DebugNodeTrap debugNodeTrap;
@@ -115,6 +115,14 @@ public class EpdSearchMainTest {
     public void test_WAC111() {
         epdSearch.setDepth(5);
         EPDEntry epdEntry = epdReader.readEdpLine("6k1/p5p1/5p2/2P2Q2/3pN2p/3PbK1P/7P/6q1 b - - bm Qf1+; id \"WAC.111\";");
+        epdSearchResult = epdSearch.run(epdEntry);
+        assertTrue(epdSearchResult.epdResult());
+    }
+
+    @Test
+    public void test_WAC283() {
+        epdSearch.setDepth(5);
+        EPDEntry epdEntry = epdReader.readEdpLine("3q1rk1/4bp1p/1n2P2Q/3p1p2/6r1/Pp2R2N/1B4PP/7K w - - bm Ng5; id \"WAC.283\";");
         epdSearchResult = epdSearch.run(epdEntry);
         assertTrue(epdSearchResult.epdResult());
     }
@@ -291,7 +299,7 @@ public class EpdSearchMainTest {
         assertTrue(epdSearchResult.epdResult());
     }
 
-    private void trapNodeByZobristAndPrintForUT(){
+    private void trapNodeByZobristAndPrintForUT() {
         NodeByZobrist nodeByZobrist = new NodeByZobrist()
                 .setZobristHash(0x0CE7DD3862149D3EL)
                 .setTopology(DebugNode.NodeTopology.INTERIOR)
@@ -317,15 +325,15 @@ public class EpdSearchMainTest {
                 .withRecaptureSorter()
                 .withMvvLvaSorter()
 
-                .withAspirationWindows()
+                //.withAspirationWindows()
                 .withIterativeDeepening()
 
                 //.withStopProcessingCatch()
-                //.withPrintChain()
+                .withPrintChain()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withDebugSearchTree(debugNodeTrap, false, true, true);
-        ;
+                ;
 
         if (PRINT_REPORT) builder.withStatistics();
 

@@ -19,6 +19,7 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +33,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Setter
     private GameEvaluator gameEvaluator;
-
+    private Queue<Move> lastPrincipalVariation;
     private List<Move> principalVariation;
     private boolean pvComplete;
 
@@ -62,6 +63,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
+        this.lastPrincipalVariation = context.getLastPrincipalVariation();
     }
 
     @Override
@@ -72,23 +74,42 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        long moveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
-
-        if (currentValue < beta) {
-            calculatePrincipalVariation(moveAndValue);
+        if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
+            Move movePV = lastPrincipalVariation.poll();
+            Move currentMove = game.getState().getPreviousState().getSelectedMove();
+            if (!movePV.equals(currentMove)) {
+                throw new RuntimeException("No es PV move ?!?!");
+            }
         }
 
-        return moveAndValue;
+        long moveAndValue = next.maximize(currentPly, alpha, beta);
+
+        return process(alpha, beta, moveAndValue);
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
+        if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
+            Move movePV = lastPrincipalVariation.poll();
+            Move currentMove = game.getState().getPreviousState().getSelectedMove();
+            if (!movePV.equals(currentMove)) {
+                throw new RuntimeException("No es PV move ?!?!");
+            }
+        }
+
         long moveAndValue = next.minimize(currentPly, alpha, beta);
+
+        return process(alpha, beta, moveAndValue);
+    }
+
+
+    private long process(int alpha, int beta, long moveAndValue) {
         int currentValue = TranspositionEntry.decodeValue(moveAndValue);
-        if (alpha < currentValue) {
+
+        if (alpha < currentValue && currentValue < beta) {
             calculatePrincipalVariation(moveAndValue);
         }
+
         return moveAndValue;
     }
 
