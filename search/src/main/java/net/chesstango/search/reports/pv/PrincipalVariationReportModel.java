@@ -2,6 +2,7 @@ package net.chesstango.search.reports.pv;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.LinkedList;
@@ -63,7 +64,7 @@ public class PrincipalVariationReportModel {
         reportModelDetail.id = searchMoveResult.getEpdID();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
-        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation()), searchMoveResult.isPvComplete() ? "" : "truncated");
+        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchMoveResult.isPvComplete() ? "" : "truncated");
         reportModelDetail.pvAccuracyPercentage = (100 * searchMoveResult.getSearchByDepthPvCompleteCounter() / searchMoveResult.getSearchByDepthCounter());
 
         moveDetails.add(reportModelDetail);

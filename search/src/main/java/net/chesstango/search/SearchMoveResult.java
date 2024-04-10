@@ -24,7 +24,7 @@ public class SearchMoveResult {
 
     private final Move ponderMove;
 
-    private List<Move> principalVariation;
+    private List<PrincipalVariation> principalVariation;
 
     private boolean pvComplete;
 

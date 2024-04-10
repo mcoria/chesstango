@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -19,11 +21,7 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     @Getter
     @Setter
     private MoveComparator next;
-
-    /**
-     * El proposito es que comparator consuma los elementos de la lista durante la primer ejecucion
-     */
-    private Queue<Move> lastPrincipalVariation;
+    private List<PrincipalVariation> lastPrincipalVariation;
 
     private Move pvMove;
     private boolean pvConsumed;
@@ -37,8 +35,8 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.beforeSort(currentPly, moveToZobrist);
         if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
-            this.pvMove = lastPrincipalVariation.poll();
-            this.pvConsumed = false;
+            //this.pvMove = lastPrincipalVariation.poll();
+            //this.pvConsumed = false;
         }
     }
 

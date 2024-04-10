@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -19,7 +20,6 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Mauricio Coria
@@ -33,8 +33,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Setter
     private GameEvaluator gameEvaluator;
-    private Queue<Move> lastPrincipalVariation;
-    private List<Move> principalVariation;
+    private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
     private TTable maxMap;
@@ -63,7 +62,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
-        this.lastPrincipalVariation = context.getLastPrincipalVariation();
     }
 
     @Override
@@ -74,14 +72,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
-            Move movePV = lastPrincipalVariation.poll();
-            Move currentMove = game.getState().getPreviousState().getSelectedMove();
-            if (!movePV.equals(currentMove)) {
-                throw new RuntimeException("No es PV move ?!?!");
-            }
-        }
-
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
         return process(alpha, beta, moveAndValue);
@@ -89,14 +79,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        if (lastPrincipalVariation != null && !lastPrincipalVariation.isEmpty()) {
-            Move movePV = lastPrincipalVariation.poll();
-            Move currentMove = game.getState().getPreviousState().getSelectedMove();
-            if (!movePV.equals(currentMove)) {
-                throw new RuntimeException("No es PV move ?!?!");
-            }
-        }
-
         long moveAndValue = next.minimize(currentPly, alpha, beta);
 
         return process(alpha, beta, moveAndValue);
@@ -119,22 +101,25 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        Move currentMove = game.getState().getPreviousState().getSelectedMove();
-        principalVariation.add(currentMove);
+        final long lastHash = game.getState().getPreviousState().getZobristHash();
+        final Move lastMove = game.getState().getPreviousState().getSelectedMove();
+        principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
         final int bestValue = TranspositionEntry.decodeValue(moveAndValue);
         final short bestMoveEncoded = TranspositionEntry.decodeBestMove(moveAndValue);
 
 
-        currentMove = getMove(bestMoveEncoded);
+        long currentHash = game.getState().getZobristHash();
+        Move currentMove = getMove(bestMoveEncoded);
         while (currentMove != null) {
 
-            principalVariation.add(currentMove);
+            principalVariation.add(new PrincipalVariation(currentHash, currentMove));
 
             game.executeMove(currentMove);
 
             pvMoveCounter++;
 
+            currentHash = game.getState().getZobristHash();
             currentMove = principalVariation.size() < maxPly
                     ? readMoveFromTT(maxMap, minMap)
                     : readMoveFromTT(qMaxMap, qMinMap);

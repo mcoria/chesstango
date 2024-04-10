@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.PrincipalVariation;
 
 import java.util.List;
 import java.util.Queue;
@@ -22,10 +23,7 @@ public class SearchByDepthContext {
 
     private List<MoveEvaluation> lastMoveEvaluations;
 
-    /**
-     * El proposito es que comparator consuma los elementos de la lista durante la primer ejecucion
-     */
-    private Queue<Move> lastPrincipalVariation;
+    private List<PrincipalVariation> lastPrincipalVariation;
 
     /**
      * Se utiliza para el calculo de PV
