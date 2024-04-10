@@ -27,9 +27,9 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
-        searchMoveResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
-        searchMoveResult.setSearchByDepthCounter(searchByDepthCounter);
+    public void afterSearch(SearchMoveResult result) {
+        result.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
+        result.setSearchByDepthCounter(searchByDepthCounter);
     }
 
     @Override

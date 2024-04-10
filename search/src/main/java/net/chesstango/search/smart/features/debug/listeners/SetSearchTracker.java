@@ -30,9 +30,9 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
+    public void afterSearch(SearchMoveResult result) {
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.afterSearch(searchMoveResult);
+            debugNodeTrapSearchByCycleListener.afterSearch(result);
         }
     }
 

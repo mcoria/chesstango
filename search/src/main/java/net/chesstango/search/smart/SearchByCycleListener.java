@@ -16,6 +16,6 @@ public interface SearchByCycleListener extends SmartListener {
     /**
      * Invoked once after searching is done
      */
-    default void afterSearch(SearchMoveResult searchMoveResult) {
+    default void afterSearch(SearchMoveResult result) {
     }
 }

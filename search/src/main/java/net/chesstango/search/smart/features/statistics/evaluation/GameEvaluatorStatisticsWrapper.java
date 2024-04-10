@@ -65,9 +65,9 @@ public class GameEvaluatorStatisticsWrapper implements GameEvaluator, SearchByCy
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
+    public void afterSearch(SearchMoveResult result) {
         long cacheHitsCounter = gameEvaluatorCache != null ? gameEvaluatorCache.getCacheHitsCounter() : 0;
-        searchMoveResult.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
+        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }
 
 }

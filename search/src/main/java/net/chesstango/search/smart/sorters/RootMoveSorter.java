@@ -42,8 +42,8 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     }
 
     @Override
-    public void afterSearch(SearchMoveResult searchMoveResult) {
-        this.nodeMoveSorter.afterSearch(searchMoveResult);
+    public void afterSearch(SearchMoveResult result) {
+        this.nodeMoveSorter.afterSearch(result);
     }
 
     @Override
