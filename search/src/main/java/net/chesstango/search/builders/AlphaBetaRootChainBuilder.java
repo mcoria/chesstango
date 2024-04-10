@@ -1,20 +1,25 @@
 package net.chesstango.search.builders;
 
 
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
+import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 
 import java.util.LinkedList;
@@ -32,11 +37,15 @@ public class AlphaBetaRootChainBuilder {
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
+    private TranspositionPV transpositionPV;
+    private SetPVStatistics setPVStatistics;
     private SmartListenerMediator smartListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
+    private AlphaBetaFilter alphaBetaFlowControl;
+    private GameEvaluator gameEvaluator;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -44,8 +53,6 @@ public class AlphaBetaRootChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
-
-    private AlphaBetaFilter alphaBetaFlowControl;
 
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -99,6 +106,11 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
+    public AlphaBetaRootChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+        this.gameEvaluator = gameEvaluator;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -113,6 +125,7 @@ public class AlphaBetaRootChainBuilder {
         if (withStatistics) {
             alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
             alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
+            setPVStatistics = new SetPVStatistics();
         }
 
         if (withAspirationWindows) {
@@ -122,6 +135,9 @@ public class AlphaBetaRootChainBuilder {
 
         if (withTranspositionTable) {
             transpositionTableRoot = new TranspositionTableRoot();
+
+            transpositionPV = new TranspositionPV();
+            transpositionPV.setGameEvaluator(gameEvaluator);
         }
 
         if (withZobristTracker) {
@@ -182,6 +198,14 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(transpositionTableRoot);
         }
 
+        if (transpositionPV != null) {
+            smartListenerMediator.add(transpositionPV);
+        }
+
+        if (setPVStatistics != null) {
+            smartListenerMediator.add(setPVStatistics);
+        }
+
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
@@ -231,6 +255,10 @@ public class AlphaBetaRootChainBuilder {
             chain.add(triangularPV);
         }
 
+        if (transpositionPV != null) {
+            chain.add(transpositionPV);
+        }
+
         chain.add(alphaBetaFlowControl);
 
 
@@ -258,7 +286,9 @@ public class AlphaBetaRootChainBuilder {
                 debugFilter.setNext(next);
             } else if (currentFilter instanceof TriangularPV) {
                 triangularPV.setNext(next);
-            } else {
+            } else if (currentFilter instanceof TranspositionPV) {
+                transpositionPV.setNext(next);
+            }else {
                 throw new RuntimeException("filter not found");
             }
         }

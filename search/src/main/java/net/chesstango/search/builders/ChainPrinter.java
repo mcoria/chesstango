@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -173,7 +174,9 @@ public class ChainPrinter {
                 printChainKillerMoveTracker(killerMoveTracker, nestedChain);
             } else if (alphaBetaFilter instanceof TranspositionTableTerminal transpositionTableTerminal) {
                 printChainTranspositionTableTerminal(transpositionTableTerminal, nestedChain);
-            } else {
+            } else if (alphaBetaFilter instanceof TranspositionPV transpositionPV) {
+                printChainTranspositionPV(transpositionPV, nestedChain);
+            }else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
         } else {
@@ -211,6 +214,12 @@ public class ChainPrinter {
         printChainText(String.format("%s", objectText(transpositionTableTerminal)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(transpositionTableTerminal.getNext(), nestedChain);
+    }
+
+    private void printChainTranspositionPV(TranspositionPV transpositionPV, int nestedChain) {
+        printChainText(String.format("%s", objectText(transpositionPV)), nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(transpositionPV.getNext(), nestedChain);
     }
 
     private void printChainLoopEvaluation(LoopEvaluation loopEvaluation, int nestedChain) {
