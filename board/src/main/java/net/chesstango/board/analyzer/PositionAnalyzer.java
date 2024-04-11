@@ -1,5 +1,6 @@
 package net.chesstango.board.analyzer;
 
+import lombok.Setter;
 import net.chesstango.board.GameState;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
@@ -17,10 +18,15 @@ import net.chesstango.board.position.ChessPositionReader;
  * Me imagino un tablero con X y O para representar los distintos colores.
  */
 public class PositionAnalyzer {
+    @Setter
     private Analyzer pinnedAnalyzer;
+    @Setter
     private Analyzer kingSafePositionsAnalyzer;
+    @Setter
     private GameState gameState;
+    @Setter
     private ChessPositionReader positionReader;
+    @Setter
     private LegalMoveGenerator legalMoveGenerator;
     private boolean threefoldRepetitionRule;
     private boolean fiftyMovesRule;
@@ -92,26 +98,6 @@ public class PositionAnalyzer {
 
     public void fiftyMovesRule(boolean flag) {
         this.fiftyMovesRule = flag;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public void setLegalMoveGenerator(LegalMoveGenerator legalMoveGenerator) {
-        this.legalMoveGenerator = legalMoveGenerator;
-    }
-
-    public void setPositionReader(ChessPositionReader positionReader) {
-        this.positionReader = positionReader;
-    }
-
-    public void setPinnedAnalyzer(Analyzer pinnedAnalyzer) {
-        this.pinnedAnalyzer = pinnedAnalyzer;
-    }
-
-    public void setKingSafePositionsAnalyzer(Analyzer kingSafePositionsAnalyzer) {
-        this.kingSafePositionsAnalyzer = kingSafePositionsAnalyzer;
     }
 
 
