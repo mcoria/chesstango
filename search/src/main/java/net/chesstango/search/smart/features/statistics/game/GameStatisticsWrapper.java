@@ -22,8 +22,8 @@ public class GameStatisticsWrapper implements Game {
     }
 
     @Override
-    public String getInitialFen() {
-        return imp.getInitialFen();
+    public String getInitialFEN() {
+        return imp.getInitialFEN();
     }
 
     @Override

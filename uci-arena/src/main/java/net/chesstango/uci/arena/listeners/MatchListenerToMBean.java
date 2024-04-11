@@ -46,7 +46,7 @@ public class MatchListenerToMBean implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFen(), whiteName, blackName, turn);
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFEN(), whiteName, blackName, turn);
 
         arena.newGame(gameDescriptionInitial);
     }

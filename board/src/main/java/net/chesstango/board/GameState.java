@@ -1,5 +1,7 @@
 package net.chesstango.board;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -12,6 +14,9 @@ import net.chesstango.board.moves.MoveContainerReader;
 public class GameState implements GameStateReader, GameStateWriter {
 
     private GameStateData currentGameState = new GameStateData();
+
+    @Setter
+    @Getter
     private String initialFEN;
 
     @Override
@@ -87,14 +92,6 @@ public class GameState implements GameStateReader, GameStateWriter {
     @Override
     public GameStateReader getPreviousState() {
         return currentGameState.previousGameState;
-    }
-
-    public void setInitialFEN(String initialFEN) {
-        this.initialFEN = initialFEN;
-    }
-
-    public String getInitialFen() {
-        return initialFEN;
     }
 
     public void push() {

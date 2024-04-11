@@ -75,7 +75,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public String getInitialFen() {
+    public String getInitialFEN() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

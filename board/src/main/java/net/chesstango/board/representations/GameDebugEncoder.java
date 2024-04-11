@@ -21,7 +21,7 @@ public class GameDebugEncoder {
     public String encode(Game game) {
         StringBuilder sb = new StringBuilder();
 
-        String initialFEN = game.getInitialFen();
+        String initialFEN = game.getInitialFEN();
         Game theGame = FENDecoder.loadGame(initialFEN);
         sb.append("Game game = getGame(\"" + initialFEN + "\")\n");
 

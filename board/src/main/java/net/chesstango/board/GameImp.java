@@ -32,8 +32,8 @@ public class GameImp implements Game {
     }
 
     @Override
-    public String getInitialFen() {
-        return gameState.getInitialFen();
+    public String getInitialFEN() {
+        return gameState.getInitialFEN();
     }
 
     @Override
@@ -134,7 +134,7 @@ public class GameImp implements Game {
 
     @Override
     public Game mirror() {
-        MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder(new GameBuilder());
+        MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder<>(new GameBuilder());
         getChessPosition().constructChessPositionRepresentation(mirrorBuilder);
         return mirrorBuilder.getChessRepresentation();
     }

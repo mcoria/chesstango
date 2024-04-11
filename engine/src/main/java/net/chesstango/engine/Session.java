@@ -39,7 +39,7 @@ public class Session {
     }
 
     public String getInitialFen() {
-        return game == null ? null : game.getInitialFen();
+        return game == null ? null : game.getInitialFEN();
     }
 
     public void addResult(SearchMoveResult result) {
