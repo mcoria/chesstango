@@ -88,11 +88,15 @@ public class IterativeDeepening implements SearchMove {
     public void stopSearching() {
         keepProcessing = false;
         try {
+            // Espera que al menos se complete un ciclo
+            // Aca se puede dar la interrupcion
             countDownLatch.await();
+
+
+            smartListenerMediator.triggerStopSearching();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            // Si ocurre la interrupcion quiere decir que terminó normalmente y no es necesario triggerStopSearching()
         }
-        smartListenerMediator.triggerStopSearching();
     }
 
     @Override

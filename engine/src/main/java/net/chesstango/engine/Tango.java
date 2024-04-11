@@ -2,7 +2,10 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.*;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +19,10 @@ import java.util.Properties;
 public class Tango {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
-    public static final String ENGINE_NAME = "Tango";
-    public static final String ENGINE_AUTHOR = "Mauricio Coria";
+    public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
+    public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
+    public static final String INFINITE_DEPTH = PROPERTIES.getProperty("infinite_depth");
+
     private final SearchManager searchManager;
 
     @Getter
@@ -57,6 +62,7 @@ public class Tango {
         };
 
         this.searchManager = new SearchManager(searchMove, myListener);
+        this.searchManager.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
     }
 
     public void open() {
