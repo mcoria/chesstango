@@ -43,12 +43,12 @@ public class SearchesTest {
                 .withTranspositionTable()
 
                 .withTranspositionMoveSorter()
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
 
                 .withAspirationWindows()
                 .withIterativeDeepening()
-                //.withTriangularPV()
-
-                .withStopProcessingCatch()
 
                 //.withStatistics()
                 //.withZobristTracker()
@@ -57,6 +57,8 @@ public class SearchesTest {
 
                 //.withPrintChain()
                 //.withDebugSearchTree(null)
+
+                .withStopProcessingCatch()
 
                 .build();
     }
@@ -212,13 +214,25 @@ public class SearchesTest {
         System.out.println(searchResult.getBestMoveEvaluation());
     }
 
-
     @Test
     @Disabled
     public void testSearch_11() {
         Game game = FENDecoder.loadGame("1r2r1k1/pp3p1p/3pb1pB/4b3/P2pQ3/1PqP2P1/2P2RBP/3R2K1 b - - 2 23");
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        searchResult = searchMove.search(game);
+
+        System.out.println(searchResult.getBestMoveEvaluation());
+    }
+
+
+
+    @Test
+    @Disabled
+    public void testSearch_12() {
+        Game game = FENDecoder.loadGame("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49");
+
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = searchMove.search(game);
 
         System.out.println(searchResult.getBestMoveEvaluation());
