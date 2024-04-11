@@ -22,7 +22,7 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class EpdSearch {
-    private final int INFINITE_DEPTH = 100;
+    private final int INFINITE_DEPTH = 25;
 
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
 

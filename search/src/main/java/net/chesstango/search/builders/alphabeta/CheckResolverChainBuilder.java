@@ -1,11 +1,9 @@
-package net.chesstango.search.builders;
+package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.evaluator.GameEvaluatorDebug;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -20,9 +18,9 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceChainBuilder {
-    private final Quiescence quiescence;
-    private final MoveSorterQuiescenceBuilder moveSorterBuilder;
+public class CheckResolverChainBuilder {
+    private final AlphaBeta alphaBeta;
+    private final MoveSorterBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
     private GameEvaluator gameEvaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
@@ -30,11 +28,8 @@ public class QuiescenceChainBuilder {
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private GameEvaluatorDebug gameEvaluatorDebug;
     private TriangularPV triangularPV;
-
     private SmartListenerMediator smartListenerMediator;
-
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -42,38 +37,38 @@ public class QuiescenceChainBuilder {
     private boolean withTriangularPV;
 
 
-    public QuiescenceChainBuilder() {
-        quiescence = new Quiescence();
-        moveSorterBuilder = new MoveSorterQuiescenceBuilder();
+    public CheckResolverChainBuilder() {
+        alphaBeta = new AlphaBeta();
+        moveSorterBuilder = new MoveSorterBuilder();
     }
 
-    public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+    public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
 
-    public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
+    public CheckResolverChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
         this.extensionFlowControl = extensionFlowControl;
         return this;
     }
 
-    public QuiescenceChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
+    public CheckResolverChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
         this.smartListenerMediator = smartListenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
         return this;
     }
 
-    public QuiescenceChainBuilder withStatistics() {
+    public CheckResolverChainBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withTranspositionTable() {
+    public CheckResolverChainBuilder withTranspositionTable() {
         this.withTranspositionTable = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withTranspositionMoveSorter() {
+    public CheckResolverChainBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
@@ -81,59 +76,29 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withZobristTracker() {
+    public CheckResolverChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withTriangularPV() {
+    public CheckResolverChainBuilder withTriangularPV() {
         this.withTriangularPV = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withDebugSearchTree() {
+    public CheckResolverChainBuilder withDebugSearchTree() {
         moveSorterBuilder.withDebugSearchTree();
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public QuiescenceChainBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
-        moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
-        return this;
-    }
 
-    public QuiescenceChainBuilder withRecaptureSorter() {
-        moveSorterBuilder.withRecaptureSorter();
-        return this;
-    }
-
-    public QuiescenceChainBuilder withMvvLvaSorter() {
-        moveSorterBuilder.withMvvLva();
-        return this;
-    }
-
-    /**
-     * <p>
-     * <p>
-     * *  QuiescenceStatics -> ZobristTracker -> TranspositionTableQ -> QuiescenceFlowControl -> Quiescence
-     * *            ^                                                                              |
-     * *            |                                                                              |
-     * *            -------------------------------------------------------------------------------
-     *
-     * @return
-     */
     public AlphaBetaFilter build() {
         buildObjects();
 
         setupListenerMediator();
 
-        quiescence.setMoveSorter(moveSorterBuilder.build());
-
-        if (withDebugSearchTree) {
-            quiescence.setGameEvaluator(gameEvaluatorDebug);
-        } else {
-            quiescence.setGameEvaluator(gameEvaluator);
-        }
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
 
         return createChain();
     }
@@ -150,9 +115,7 @@ public class QuiescenceChainBuilder {
             transpositionTableQ = new TranspositionTableQ();
         }
         if (withDebugSearchTree) {
-            debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            gameEvaluatorDebug = new GameEvaluatorDebug();
-            gameEvaluatorDebug.setGameEvaluator(gameEvaluator);
+            debugFilter = new DebugFilter(DebugNode.NodeTopology.CHECK_EXTENSION);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
@@ -170,14 +133,13 @@ public class QuiescenceChainBuilder {
         if (transpositionTableQ != null) {
             smartListenerMediator.add(transpositionTableQ);
         }
-        if (withDebugSearchTree) {
+        if (debugFilter != null) {
             smartListenerMediator.add(debugFilter);
-            smartListenerMediator.add(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
             smartListenerMediator.add(triangularPV);
         }
-        smartListenerMediator.add(quiescence);
+        smartListenerMediator.add(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {
@@ -199,7 +161,7 @@ public class QuiescenceChainBuilder {
             chain.add(quiescenceStatisticsExpected);
         }
 
-        chain.add(quiescence);
+        chain.add(alphaBeta);
 
         if (quiescenceStatisticsVisited != null) {
             chain.add(quiescenceStatisticsVisited);
@@ -222,8 +184,8 @@ public class QuiescenceChainBuilder {
                 transpositionTableQ.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsExpected) {
                 quiescenceStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof Quiescence) {
-                quiescence.setNext(next);
+            } else if (currentFilter instanceof AlphaBeta) {
+                alphaBeta.setNext(next);
             } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
                 quiescenceStatisticsVisited.setNext(next);
             } else if (currentFilter instanceof DebugFilter) {

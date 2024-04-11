@@ -1,4 +1,4 @@
-package net.chesstango.search.builders;
+package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SmartListenerMediator;

@@ -17,7 +17,7 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
-        this.imp = createDefaultBuilderInstance(gameEvaluator).build();
+        this.imp = AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluator).build();
     }
 
     @Override
@@ -43,26 +43,6 @@ public class DefaultSearchMove implements SearchMove {
     @Override
     public void setProgressListener(ProgressListener progressListener) {
         imp.setProgressListener(progressListener);
-    }
-
-    public static AlphaBetaBuilder createDefaultBuilderInstance(final GameEvaluator gameEvaluator) {
-        return new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
-                .withGameEvaluatorCache()
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-
-                .withTranspositionMoveSorter()
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStopProcessingCatch();
     }
 
 }

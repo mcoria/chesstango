@@ -1,4 +1,4 @@
-package net.chesstango.search.builders;
+package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.GameEvaluator;
@@ -13,7 +13,6 @@ import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;

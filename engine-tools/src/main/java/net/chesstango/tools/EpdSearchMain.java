@@ -3,9 +3,9 @@ package net.chesstango.tools;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.EpdSearch;
 import net.chesstango.search.EpdSearchResult;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.EpdSearchReport;
 import net.chesstango.search.reports.EpdSearchReportModel;
 import net.chesstango.search.reports.evaluation.EvaluationReport;
@@ -77,7 +77,7 @@ public class EpdSearchMain {
     public EpdSearchMain(int depth, int timeOut) {
         this.depth = depth;
         this.epdSearch = new EpdSearch()
-                .setSearchMoveSupplier(() -> DefaultSearchMove
+                .setSearchMoveSupplier(() -> AlphaBetaBuilder
                         .createDefaultBuilderInstance(new DefaultEvaluator())
                         .withStatistics()
                         .build())

@@ -4,6 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -510,6 +511,27 @@ public class AlphaBetaBuilder implements SearchBuilder {
             quiescenceNullChainBuilder.withGameEvaluator(gameEvaluator);
             return quiescenceNullChainBuilder.build();
         }
+    }
+
+
+    public static AlphaBetaBuilder createDefaultBuilderInstance(final GameEvaluator gameEvaluator) {
+        return new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluator)
+                .withGameEvaluatorCache()
+
+                .withQuiescence()
+
+                .withTranspositionTable()
+
+                .withTranspositionMoveSorter()
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
+
+                .withAspirationWindows()
+                .withIterativeDeepening()
+
+                .withStopProcessingCatch();
     }
 
 }

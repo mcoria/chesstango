@@ -40,6 +40,7 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.killermoves.comparators;
     exports net.chesstango.search.smart.features.evaluator;
     exports net.chesstango.search.smart.features.evaluator.comparators;
+    exports net.chesstango.search.builders.alphabeta;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
