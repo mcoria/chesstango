@@ -17,12 +17,12 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
     /**
      * Factory Method
      */
-    protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
+    protected abstract Move createSimpleMove(PiecePositioned from, PiecePositioned to);
 
     /**
      * Factory Method
      */
-    protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
+    protected abstract Move createCaptureMove(PiecePositioned from, PiecePositioned to);
 
     protected abstract Iterator<Square> getSquareIterator(Square fromSquare);
 

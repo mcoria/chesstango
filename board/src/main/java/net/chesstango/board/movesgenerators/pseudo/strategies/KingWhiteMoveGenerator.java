@@ -55,13 +55,13 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	}		
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimpleKingMove(origen, destino);
+	protected Move createSimpleMove(PiecePositioned from, PiecePositioned to) {
+		return this.moveFactory.createSimpleKingMove(from, to);
 	}
 
 	@Override
-	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureKingMove(origen, destino);
+	protected Move createCaptureMove(PiecePositioned from, PiecePositioned to) {
+		return this.moveFactory.createCaptureKingMove(from, to);
 	}
 
 

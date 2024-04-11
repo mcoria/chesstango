@@ -23,14 +23,14 @@ public class RookMoveGenerator extends AbstractCardinalMoveGenerator {
 	}
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-		return moveFactory.createSimpleRookMove(origen, destino, cardinal);
+	protected Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+		return moveFactory.createSimpleRookMove(from, to, cardinal);
 	}
 	
 	
 	@Override
-	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-		return moveFactory.createCaptureRookMove(origen, destino, cardinal);
+	protected Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+		return moveFactory.createCaptureRookMove(from, to, cardinal);
 	}	
 	
 	

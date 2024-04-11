@@ -42,13 +42,13 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.SurEste}){
 
 			@Override
-			protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-				return moveFactoryImp.createSimpleKnightMove(origen, destino);
+			protected Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+				return moveFactoryImp.createSimpleKnightMove(from, to);
 			}
 
 			@Override
-			protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-				return moveFactoryImp.createCaptureKnightMove(origen, destino);
+			protected Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+				return moveFactoryImp.createCaptureKnightMove(from, to);
 			}
 			
 		};

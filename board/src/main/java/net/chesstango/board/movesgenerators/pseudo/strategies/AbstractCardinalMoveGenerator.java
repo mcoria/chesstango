@@ -20,12 +20,12 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	/**
 	 * Factory Method
 	 */
-	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+	protected abstract Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
 	/**
 	 * Factory Method
 	 */	
-	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+	protected abstract Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 	
 	private final Cardinal[] directions;
 
