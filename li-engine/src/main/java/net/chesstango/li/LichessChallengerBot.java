@@ -56,12 +56,12 @@ public abstract class LichessChallengerBot {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBullet2m1s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBullet1m0s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
         }
 
@@ -77,12 +77,12 @@ public abstract class LichessChallengerBot {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBlitz5m3s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBlitz3m2s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
         }
 
@@ -99,12 +99,12 @@ public abstract class LichessChallengerBot {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockRapid10m5s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
             builders.add(challengeBuilder -> challengeBuilder
                     .clockRapid10m0s()
                     .color(Enums.ColorPref.random)
-                    .variant(Enums.VariantName.standard)
+                    .variant(Enums.GameVariant.standard)
                     .rated(true));
         }
 

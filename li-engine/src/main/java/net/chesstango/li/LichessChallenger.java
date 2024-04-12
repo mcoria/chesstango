@@ -41,15 +41,15 @@ public class LichessChallenger {
             switch (challengeType) {
                 case BULLET -> builder.clockBullet2m1s()
                         .color(Enums.ColorPref.random)
-                        .variant(Enums.VariantName.standard)
+                        .variant(Enums.GameVariant.standard)
                         .rated(true);
                 case BLITZ -> builder.clockBlitz5m3s()
                         .color(Enums.ColorPref.random)
-                        .variant(Enums.VariantName.standard)
+                        .variant(Enums.GameVariant.standard)
                         .rated(true);
                 case RAPID -> builder.clockRapid10m0s()
                         .color(Enums.ColorPref.random)
-                        .variant(Enums.VariantName.standard)
+                        .variant(Enums.GameVariant.standard)
                         .rated(true);
             }
         };
