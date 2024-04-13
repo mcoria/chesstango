@@ -61,7 +61,7 @@ public class PrincipalVariationReportModel {
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchMoveResult.getBestMove();
-        reportModelDetail.id = searchMoveResult.getEpdID();
+        reportModelDetail.id = searchMoveResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
         reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchMoveResult.isPvComplete() ? "" : "truncated");

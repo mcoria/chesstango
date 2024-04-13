@@ -73,7 +73,7 @@ public class EpdSearch {
                     }
 
                     EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
-                    if (epdSearchResult.epdResult()) {
+                    if (epdSearchResult.isSearchSuccess()) {
                         //logger.info(String.format("Success %s", epdEntry.fen));
                     } else {
                         String failedTest = String.format("Fail [%s] - best move found %s",
@@ -155,7 +155,7 @@ public class EpdSearch {
 
         SearchMoveResult searchResult = searchMove.search(epdEntry.game);
 
-        searchResult.setEpdID(epdEntry.id);
+        searchResult.setId(epdEntry.id);
 
         searchMove.reset();
 

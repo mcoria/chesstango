@@ -103,7 +103,7 @@ public class FitnessBySearch implements FitnessFunction {
 
         SearchMoveResult searchResult = searchMove.search(game);
 
-        searchResult.setEpdID(epdEntry.id);
+        searchResult.setId(epdEntry.id);
 
         searchMove.reset();
 

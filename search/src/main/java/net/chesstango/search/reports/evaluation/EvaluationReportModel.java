@@ -100,7 +100,7 @@ public class EvaluationReportModel {
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
-        reportModelDetail.id = searchMoveResult.getEpdID();
+        reportModelDetail.id = searchMoveResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
         reportModelDetail.possibleCollisionsCounter = searchMoveResult.getPossibleCollisions().size();
