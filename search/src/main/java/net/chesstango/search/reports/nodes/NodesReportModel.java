@@ -132,7 +132,7 @@ public class NodesReportModel {
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchMoveResult.getBestMove();
-        reportModelDetail.id = searchMoveResult.getEpdID();
+        reportModelDetail.id = searchMoveResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 

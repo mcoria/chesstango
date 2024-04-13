@@ -18,6 +18,8 @@ import java.util.List;
 @Setter
 public class SearchMoveResult {
 
+    private String id;
+
     private final int depth;
 
     private final MoveEvaluation bestMoveEvaluation;
@@ -55,8 +57,6 @@ public class SearchMoveResult {
     private NodeStatistics quiescenceNodeStatistics;
 
     private int executedMoves;
-
-    private String epdID;
 
     private long timeSearching;
 
