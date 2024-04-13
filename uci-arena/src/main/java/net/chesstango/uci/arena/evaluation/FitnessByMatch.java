@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.tuning.fitnessfunctions;
+package net.chesstango.uci.arena.evaluation;
 
 import net.chesstango.board.*;
 import net.chesstango.board.position.ChessPositionReader;
@@ -6,8 +6,9 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.tuning.TuningMain;
 import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.tools.TuningMain;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;

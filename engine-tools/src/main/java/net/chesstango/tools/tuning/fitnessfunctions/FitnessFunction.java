@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.tuning.fitnessfunctions;
+package net.chesstango.tools.tuning.fitnessfunctions;
 
 import net.chesstango.evaluation.GameEvaluator;
 

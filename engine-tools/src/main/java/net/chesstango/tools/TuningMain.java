@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.tuning;
+package net.chesstango.tools;
 
 import io.jenetics.EliteSelector;
 import io.jenetics.Genotype;
@@ -8,11 +8,10 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
-import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessBySearch;
-import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
-import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
-import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider2FactorsGenes;
-import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessBySearch;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
+import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
+import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4FactorsGenes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
