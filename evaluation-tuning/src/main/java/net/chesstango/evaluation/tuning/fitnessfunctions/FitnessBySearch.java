@@ -1,13 +1,12 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -15,10 +14,8 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.OptionalInt;
 
 /**
  * @author Mauricio Coria
@@ -63,7 +60,10 @@ public class FitnessBySearch implements FitnessFunction {
 
     @Override
     public long fitness(GameEvaluator gameEvaluator) {
-        return run(gameEvaluator);
+        SearchMove searchMove = AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluator)
+                .build();
+
+        return run(searchMove);
     }
 
     @Override
@@ -77,13 +77,13 @@ public class FitnessBySearch implements FitnessFunction {
     public void stop() {
     }
 
-    protected long run(GameEvaluator gameEvaluator) {
+    protected long run(SearchMove searchMove) {
         long points = 0;
 
         final int printProgress = edpEntries.size() / 4;
         int processedEntries = 0;
         for (EPDEntry EPDEntry : edpEntries) {
-            points += run(EPDEntry, gameEvaluator);
+            points += run(EPDEntry, searchMove);
             processedEntries++;
             if (processedEntries % printProgress == 0) {
                 logger.info("Processed {} / {}", processedEntries, edpEntries.size());
@@ -93,71 +93,36 @@ public class FitnessBySearch implements FitnessFunction {
         return points;
     }
 
-    protected long run(EPDEntry epdEntry, GameEvaluator gameEvaluator) {
-        SearchMove moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
-                .withQuiescence()
-                .build();
-
+    protected long run(EPDEntry epdEntry, SearchMove searchMove) {
 
         Game game = FENDecoder.loadGame(epdEntry.fen);
 
-        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
 
-        SearchMoveResult searchResult = moveFinder.search(game);
+        SearchMoveResult searchResult = searchMove.search(game);
+
+        searchResult.setEpdID(epdEntry.id);
+
+        searchMove.reset();
 
         return getPoints(epdEntry, searchResult);
     }
 
-    protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchResult) {
-        Color turn = epdEntry.game.getChessPosition().getCurrentTurn();
-        //List<MoveEvaluation> sortedEvaluationList = new LinkedList<>(searchResult.getMoveEvaluations());
-        List<MoveEvaluation> sortedEvaluationList = null; // Corregir
-
-        if (Color.WHITE.equals(turn)) {
-            sortedEvaluationList.sort(Comparator.reverseOrder());
-        } else {
-            sortedEvaluationList.sort(Comparator.naturalOrder());
-        }
+    protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchMoveResult) {
+        List<Move> bestMoveList = searchMoveResult.getSearchByDepthResultList()
+                .stream()
+                .map(SearchByDepthResult::getBestMove)
+                .toList();
 
         long points = 0;
-        int movesCounter = 0;
-        for (Move bestMove : epdEntry.bestMoves) {
-            points += getMovePoints(turn, bestMove, sortedEvaluationList);
-            movesCounter++;
+        for (int i = 0; i < bestMoveList.size(); i++) {
+            Move bestMove = bestMoveList.get(i);
+            if (epdEntry.isMoveSuccess(bestMove)) {
+                points += (long) (i + 1) * (i + 1);
+            }
         }
 
-        return points / movesCounter;
+        return points;
     }
 
-    /**
-     * Los puntos representar la cantidad de movimientos inferiores a bestMove acorde a las evaluaciones
-     * Observar que se buscan inferiores
-     * <p>
-     * Si m1=5; m2=5 y m3=1 y el turno es de blancas (maximixar) entonces los puntos que retorna es m3=1
-     * No consideramos que son IGUALES o menores dado que podemos tener el siguiente escenario
-     * m1=5; m2=5 y m3=5 y el turno es de blancas (maximixar)
-     *
-     * @param turn
-     * @param bestMove
-     * @param moveEvaluations
-     * @return
-     */
-    private long getMovePoints(Color turn, Move bestMove, List<MoveEvaluation> moveEvaluations) {
-        OptionalInt bestMoveEvaluationOptional = moveEvaluations.stream()
-                .filter(moveEvaluation -> bestMove.equals(moveEvaluation.move()))
-                .mapToInt(MoveEvaluation::evaluation)
-                .findAny();
-
-        if (bestMoveEvaluationOptional.isEmpty()) {
-            return 0;
-        }
-
-        final int bestMoveEvaluation = bestMoveEvaluationOptional.getAsInt();
-
-        return moveEvaluations.stream()
-                .mapToInt(MoveEvaluation::evaluation)
-                .filter(value -> Color.WHITE.equals(turn) ? value < bestMoveEvaluation : value > bestMoveEvaluation)
-                .count();
-    }
 }

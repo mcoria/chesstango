@@ -39,7 +39,7 @@
         <chariot.version>0.0.84</chariot.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.13.5</jackson.version>
-        <jenetics.version>7.1.3</jenetics.version>
+        <jenetics.version>7.2.0</jenetics.version>
     </properties>
 
     <build>

@@ -342,10 +342,10 @@ public class FitnessBySearchTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
         );
 
-        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 1);
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 2);
 
         fitnessBySearch.start();
-        long points = fitnessBySearch.run(new EvaluatorSEandImp03(205, 753, 17, 25));
+        long points = fitnessBySearch.fitness(new EvaluatorSEandImp03(205, 753, 17, 25));
         fitnessBySearch.stop();
 
         assertEquals(49017L, points);
@@ -378,7 +378,7 @@ public class FitnessBySearchTest {
         FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 3);
 
         fitnessBySearch.start();
-        long points = fitnessBySearch.run(new EvaluatorSEandImp03(725, 223, 31, 21));
+        long points = fitnessBySearch.fitness(new EvaluatorSEandImp03(725, 223, 31, 21));
         fitnessBySearch.stop();
 
         assertEquals(50780L, points);
@@ -411,7 +411,7 @@ public class FitnessBySearchTest {
         FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 3);
 
         fitnessBySearch.start();
-        long points = fitnessBySearch.run(new EvaluatorSEandImp03(545, 423, 17, 15));
+        long points = fitnessBySearch.fitness(new EvaluatorSEandImp03(545, 423, 17, 15));
         fitnessBySearch.stop();
 
         assertEquals(51635L, points);
@@ -443,7 +443,39 @@ public class FitnessBySearchTest {
         FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 5);
 
         fitnessBySearch.start();
-        long points = fitnessBySearch.run(new EvaluatorSEandImp02());
+        long points = fitnessBySearch.fitness(new EvaluatorSEandImp02());
+        fitnessBySearch.stop();
+
+        assertEquals(51635L, points);
+    }
+
+    @Test
+    @Disabled
+    public void test05() {
+        List<String> files = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+        );
+
+        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 2);
+
+        fitnessBySearch.start();
+        long points = fitnessBySearch.fitness(new EvaluatorSEandImp02());
         fitnessBySearch.stop();
 
         assertEquals(51635L, points);

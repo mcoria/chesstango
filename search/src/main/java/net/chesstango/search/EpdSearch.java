@@ -161,16 +161,10 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        boolean epdSearchResult;
-        if (epdEntry.bestMoves != null && !epdEntry.bestMoves.isEmpty()) {
-            epdSearchResult = epdEntry.bestMoves.contains(bestMove);
-        } else if (epdEntry.avoidMoves != null && !epdEntry.avoidMoves.isEmpty()) {
-            epdSearchResult = !epdEntry.avoidMoves.contains(bestMove);
-        } else {
-            throw new RuntimeException("Undefined expected EPD result");
-        }
+        boolean epdSearchResult = epdEntry.isMoveSuccess(bestMove);
 
         String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+
         return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, epdSearchResult);
     }
 

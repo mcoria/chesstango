@@ -34,4 +34,14 @@ public class EPDEntry {
     public int hashCode() {
         return Objects.hash(text);
     }
+
+    public boolean isMoveSuccess(Move bestMove) {
+        if (bestMoves != null && !bestMoves.isEmpty()) {
+            return bestMoves.contains(bestMove);
+        } else if (avoidMoves != null && !avoidMoves.isEmpty()) {
+            return !avoidMoves.contains(bestMove);
+        } else {
+            throw new RuntimeException("Undefined expected EPD result");
+        }
+    }
 }
