@@ -26,6 +26,8 @@ public class FitnessBySearch implements FitnessFunction {
     private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+            "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
+            "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",

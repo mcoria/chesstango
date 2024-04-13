@@ -455,6 +455,8 @@ public class FitnessBySearchTest {
         List<String> files = List.of(
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
+                "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
@@ -472,7 +474,7 @@ public class FitnessBySearchTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
         );
 
-        FitnessBySearch fitnessBySearch = new FitnessBySearch(files, 2);
+        FitnessBySearch fitnessBySearch = new FitnessBySearch();
 
         fitnessBySearch.start();
         long points = fitnessBySearch.fitness(new EvaluatorSEandImp02());
