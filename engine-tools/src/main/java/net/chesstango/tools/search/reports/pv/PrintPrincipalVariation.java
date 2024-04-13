@@ -1,4 +1,4 @@
-package net.chesstango.search.reports.pv;
+package net.chesstango.tools.search.reports.pv;
 
 import net.chesstango.evaluation.GameEvaluator;
 

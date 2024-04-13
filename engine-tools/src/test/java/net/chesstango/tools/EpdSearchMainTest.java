@@ -1,17 +1,20 @@
-package net.chesstango.search;
+package net.chesstango.tools;
 
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.evaluation.EvaluationReport;
-import net.chesstango.search.reports.nodes.NodesReport;
-import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.traps.ComposedTrap;
 import net.chesstango.search.smart.features.debug.traps.actions.PrintForUnitTest;
 import net.chesstango.search.smart.features.debug.traps.predicates.NodeByZobrist;
+import net.chesstango.tools.search.EpdSearch;
+import net.chesstango.tools.search.EpdSearchResult;
+import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
+import net.chesstango.tools.search.reports.nodes.NodesReport;
+import net.chesstango.tools.search.reports.pv.PrincipalVariationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;

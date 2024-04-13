@@ -1,10 +1,13 @@
-package net.chesstango.search;
+package net.chesstango.tools.search;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.move.SANEncoder;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

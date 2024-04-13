@@ -1,4 +1,4 @@
-package net.chesstango.search.reports.evaluation;
+package net.chesstango.tools.search.reports.evaluation;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;

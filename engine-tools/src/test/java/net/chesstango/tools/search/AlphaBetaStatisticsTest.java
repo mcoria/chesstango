@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.tools.search;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -7,9 +7,9 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.evaluation.EvaluationReport;
-import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
+import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
+import net.chesstango.tools.search.reports.nodes.NodesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**

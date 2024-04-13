@@ -1,4 +1,4 @@
-package net.chesstango.search.reports.nodes;
+package net.chesstango.tools.search.reports.nodes;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;

@@ -1,13 +1,13 @@
-package net.chesstango.search.reports.summary;
+package net.chesstango.tools.search.reports.summary;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.chesstango.search.EpdSearchResult;
+import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.reports.EpdSearchReportModel;
-import net.chesstango.search.reports.evaluation.EvaluationReportModel;
-import net.chesstango.search.reports.nodes.NodesReportModel;
-import net.chesstango.search.reports.pv.PrincipalVariationReportModel;
+import net.chesstango.tools.search.reports.EpdSearchReportModel;
+import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
+import net.chesstango.tools.search.reports.nodes.NodesReportModel;
+import net.chesstango.tools.search.reports.pv.PrincipalVariationReportModel;
 
 import java.util.HashMap;
 import java.util.LinkedList;

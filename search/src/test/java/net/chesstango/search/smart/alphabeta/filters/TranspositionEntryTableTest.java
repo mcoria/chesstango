@@ -7,7 +7,6 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.nodes.NodesReport;
 import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -37,6 +36,7 @@ public class TranspositionEntryTableTest {
 
     @AfterEach
     public void printReport() {
+        /*
         if (PRINT_REPORT) {
             new NodesReport()
                     .setReportTitle("Comparation report")
@@ -45,6 +45,8 @@ public class TranspositionEntryTableTest {
                     .withMoveResults(Arrays.asList(searchResultWithoutTT, searchResultWithTT))
                     .printReport(System.out);
         }
+
+         */
     }
 
     @Test

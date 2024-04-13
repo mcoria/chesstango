@@ -1,6 +1,7 @@
-package net.chesstango.search;
+package net.chesstango.tools.search;
 
 import net.chesstango.board.representations.EPDEntry;
+import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria

@@ -1,4 +1,4 @@
-package net.chesstango.search;
+package net.chesstango.tools;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -6,9 +6,10 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.board.representations.pgn.PGNDecoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.nodes.NodesReport;
-import net.chesstango.search.reports.pv.PrincipalVariationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -65,6 +66,7 @@ public class SearchesTest {
 
     @AfterEach
     public void printReport() {
+        /*
         if (PRINT_REPORT) {
             new NodesReport()
                     .withMoveResults(List.of(searchResult))
@@ -72,17 +74,16 @@ public class SearchesTest {
                     .withNodesVisitedStatistics()
                     .printReport(System.out);
 
-                        /*
             new EvaluationReport()
                     .withMoveResults(List.of(searchResult))
                     //.withExportEvaluations()
                     .withEvaluationsStatistics()
                     .printReport(System.out);
-            */
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }
+         */
     }
 
     @Test

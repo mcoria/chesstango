@@ -1,8 +1,8 @@
-package net.chesstango.search.reports;
+package net.chesstango.tools.search.reports;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.EpdSearchResult;
+import net.chesstango.tools.search.EpdSearchResult;
 
 import java.io.PrintStream;
 import java.util.List;

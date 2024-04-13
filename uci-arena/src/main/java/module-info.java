@@ -11,10 +11,12 @@ module net.chesstango.uci.arena {
     requires net.chesstango.search;
     requires net.chesstango.mbeans;
     requires net.chesstango.engine;
+
     requires org.apache.commons.pool2;
     requires java.management;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires org.slf4j;
     requires static lombok;
+    requires net.chesstango.tools;
 }

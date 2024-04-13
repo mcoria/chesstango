@@ -168,6 +168,11 @@
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
+                <artifactId>engine-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
                 <artifactId>uci-protocol</artifactId>
                 <version>${project.version}</version>
             </dependency>
