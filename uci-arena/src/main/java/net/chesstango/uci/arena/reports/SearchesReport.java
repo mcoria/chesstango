@@ -1,11 +1,12 @@
 package net.chesstango.uci.arena.reports;
 
-import net.chesstango.search.reports.evaluation.EvaluationReport;
-import net.chesstango.search.reports.evaluation.EvaluationReportModel;
-import net.chesstango.search.reports.nodes.NodesReport;
-import net.chesstango.search.reports.nodes.NodesReportModel;
-import net.chesstango.search.reports.pv.PrincipalVariationReport;
-import net.chesstango.search.reports.pv.PrincipalVariationReportModel;
+
+import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
+import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
+import net.chesstango.tools.search.reports.nodes.NodesReport;
+import net.chesstango.tools.search.reports.nodes.NodesReportModel;
+import net.chesstango.tools.search.reports.pv.PrincipalVariationReport;
+import net.chesstango.tools.search.reports.pv.PrincipalVariationReportModel;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 

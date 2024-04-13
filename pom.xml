@@ -22,7 +22,6 @@
         <module>uci-arena-ipc</module>
         <module>uci-arena</module>
         <module>uci-arena-tv</module>
-        <module>evaluation-tuning</module>
         <module>engine-tools</module>
     </modules>
 
@@ -164,6 +163,11 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>engine-tools</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -2,7 +2,6 @@ package net.chesstango.search;
 
 
 import net.chesstango.search.smart.alphabeta.*;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatisticsTest;
 import net.chesstango.search.smart.alphabeta.filters.MoveEvaluationTrackerTest;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionEntryTableTest;
 import org.junit.platform.suite.api.SelectClasses;
@@ -14,7 +13,6 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({
         AlphaBetaSymmetryTest.class,
-        AlphaBetaStatisticsTest.class,
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,

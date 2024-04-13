@@ -1,9 +1,9 @@
 package net.chesstango.tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.chesstango.search.reports.summary.SummaryDiffReport;
-import net.chesstango.search.reports.summary.SummaryDiffReportModel;
-import net.chesstango.search.reports.summary.SummaryModel;
+import net.chesstango.tools.search.reports.summary.SummaryDiffReport;
+import net.chesstango.tools.search.reports.summary.SummaryDiffReportModel;
+import net.chesstango.tools.search.reports.summary.SummaryModel;
 
 import java.io.IOException;
 import java.io.PrintStream;
