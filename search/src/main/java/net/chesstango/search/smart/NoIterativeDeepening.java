@@ -6,6 +6,8 @@ import net.chesstango.search.*;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
@@ -29,6 +31,8 @@ public class NoIterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult search(Game game) {
+        List<SearchByDepthResult> searchByDepthResultList = new ArrayList<>();
+
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
@@ -43,9 +47,13 @@ public class NoIterativeDeepening implements SearchMove {
         searchByDepthResult.setDepth(maxDepth);
         searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
+        searchByDepthResultList.add(searchByDepthResult);
+
         smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
         SearchMoveResult searchResult = new SearchMoveResult(maxDepth, bestMoveEvaluation, null);
+
+        searchResult.setSearchByDepthResultList(searchByDepthResultList);
 
         smartListenerMediator.triggerAfterSearch(searchResult);
 

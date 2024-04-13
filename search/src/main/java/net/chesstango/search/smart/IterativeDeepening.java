@@ -6,6 +6,8 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
@@ -40,6 +42,8 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
+        List<SearchByDepthResult> searchByDepthResultList = new ArrayList<>();
+
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
@@ -58,6 +62,8 @@ public class IterativeDeepening implements SearchMove {
             searchByDepthResult.setDepth(currentSearchDepth);
             searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
+            searchByDepthResultList.add(searchByDepthResult);
+
             smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
             if (progressListener != null) {
@@ -75,6 +81,8 @@ public class IterativeDeepening implements SearchMove {
         );
 
         SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);
+        searchResult.setSearchByDepthResultList(searchByDepthResultList);
+
         smartListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
