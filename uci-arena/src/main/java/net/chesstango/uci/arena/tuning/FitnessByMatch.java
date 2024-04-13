@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.evaluation;
+package net.chesstango.uci.arena.tuning;
 
 import net.chesstango.board.*;
 import net.chesstango.board.position.ChessPositionReader;
