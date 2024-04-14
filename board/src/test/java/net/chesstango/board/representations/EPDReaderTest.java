@@ -2,6 +2,8 @@ package net.chesstango.board.representations;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EpdReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

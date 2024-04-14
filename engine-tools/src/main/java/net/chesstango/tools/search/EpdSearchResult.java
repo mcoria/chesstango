@@ -1,6 +1,7 @@
 package net.chesstango.tools.search;
 
-import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 
 /**
@@ -9,12 +10,23 @@ import net.chesstango.search.SearchMoveResult;
 public record EpdSearchResult(EpdEntry epdEntry,
                               SearchMoveResult searchResult,
                               String bestMoveFoundStr,
-                              boolean isSearchSuccess) {
+                              boolean isSearchSuccess,
+
+                              // Exactitud: valores que coinciden con el valor esperado (%)
+                              int accuracyPct) {
 
     public EpdSearchResult(EpdEntry epdEntry,
                            SearchMoveResult searchResult,
                            String bestMoveFoundStr) {
-        this(epdEntry, searchResult, bestMoveFoundStr, epdEntry.isMoveSuccess(searchResult.getBestMove()));
+        this(epdEntry,
+                searchResult,
+                bestMoveFoundStr,
+                epdEntry.isMoveSuccess(searchResult.getBestMove()),
+                epdEntry.calculateAccuracyPct(searchResult.getSearchByDepthResultList()
+                        .stream()
+                        .map(SearchByDepthResult::getBestMove)
+                        .toList())
+        );
     }
 
     public String getText() {

@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchMove;
