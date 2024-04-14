@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Mauricio Coria
  */
 @Disabled
-public class FitnessBySearchTest {
+public class FitnessByEpdSearchTest {
     private static final int DEPTH = 1;
     private FitnessByEpdSearch fitnessFn;
 
