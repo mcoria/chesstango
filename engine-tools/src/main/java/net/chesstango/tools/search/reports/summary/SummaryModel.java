@@ -34,6 +34,9 @@ public class SummaryModel {
     @JsonProperty("successRate")
     int successRate;
 
+    @JsonProperty("accuracyAvgPercentageTotal")
+    private int accuracyPct;
+
     @JsonProperty("executedMovesTotal")
     long executedMovesTotal;
 
@@ -74,6 +77,12 @@ public class SummaryModel {
         @JsonProperty("move")
         public String move;
 
+        @JsonProperty("success")
+        public boolean success;
+
+        @JsonProperty("accuracyPercentage")
+        public int accuracyPercentage;
+
         @JsonProperty("pv")
         public String pv;
 
@@ -99,6 +108,7 @@ public class SummaryModel {
         model.searches = epdSearchReportModel.searches;
         model.success = epdSearchReportModel.success;
         model.successRate = epdSearchReportModel.successRate;
+        model.accuracyPct = epdSearchReportModel.accuracyPct ;
 
         model.maxSearchRLevel = nodesReportModel.maxSearchRLevel;
         model.maxSearchQLevel = nodesReportModel.maxSearchQLevel;
@@ -122,6 +132,8 @@ public class SummaryModel {
 
             searchSummaryModeDetail.id = epdSearchResult.epdEntry().id;
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundStr();
+            searchSummaryModeDetail.success =  epdSearchResult.isSearchSuccess();
+            searchSummaryModeDetail.accuracyPercentage = epdSearchResult.accuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;
             searchSummaryModeDetail.evaluation = searchMoveResult.getBestEvaluation();

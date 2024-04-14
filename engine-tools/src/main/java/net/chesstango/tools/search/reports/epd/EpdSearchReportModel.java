@@ -14,8 +14,8 @@ public class EpdSearchReportModel {
 
     public int searches;
     public int success;
-    public int accuracyPct;
     public int successRate;
+    public int accuracyPct;
     public List<String> failedEntries;
 
     public long duration;
