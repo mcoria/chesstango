@@ -3,7 +3,7 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;

@@ -1,4 +1,4 @@
-package net.chesstango.tools.search.reports;
+package net.chesstango.tools.search.reports.epd;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -31,7 +31,7 @@ public class EpdSearchReport {
     private void print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
+        out.printf("EpdSearchReport: %s\n\n", reportModel.reportTitle);
 
         if (reportModel.failedEntries.isEmpty()) {
             out.println("\tall tests executed successfully !!!!");
@@ -43,6 +43,7 @@ public class EpdSearchReport {
 
         out.printf("Searches        : %d\n", reportModel.searches);
         out.printf("Success rate    : %d%%\n", reportModel.successRate);
+        out.printf("Depth Accuracy  : %d%%\n", reportModel.depthAccuracyPct);
         out.printf("Time taken      : %dms\n", reportModel.duration);
     }
 

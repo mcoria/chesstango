@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SANEncoder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +24,7 @@ public class SANEncoderTest {
 
         Move move = game.getMove(Square.e2, Square.e3);
 
-        String encodedMove = encoder.encode(move, game.getPossibleMoves());
+        String encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
 
         assertEquals("e3", encodedMove);
     }
@@ -38,15 +37,15 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.e4, Square.f5);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("exf5", encodedMove);
 
         move = game.getMove(Square.c4, Square.d5);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("cxd5", encodedMove);
 
         move = game.getMove(Square.e4, Square.d5);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("exd5", encodedMove);
     }
 
@@ -58,11 +57,11 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.d5, Square.e6);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("dxe6", encodedMove);
 
         move = game.getMove(Square.f5, Square.e6);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("fxe6", encodedMove);
     }
 
@@ -75,11 +74,11 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.c7, Square.c8, Piece.ROOK_WHITE);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("c8=R", encodedMove);
 
         move = game.getMove(Square.c7, Square.d8, Piece.QUEEN_WHITE);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("cxd8=Q", encodedMove);
     }
 
@@ -91,11 +90,11 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.e1, Square.c1);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("O-O-O", encodedMove);
 
         move = game.getMove(Square.e1, Square.g1);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("O-O", encodedMove);
     }
 
@@ -107,7 +106,7 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.b1, Square.c3);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("Nbc3", encodedMove);
     }
 
@@ -119,7 +118,7 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.g6, Square.h4);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("Nh4", encodedMove);
     }
 
@@ -132,11 +131,11 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.f3, Square.h4);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("N3h4", encodedMove);
 
         move = game.getMove(Square.f5, Square.h4);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("N5h4", encodedMove);
     }
 
@@ -148,7 +147,7 @@ public class SANEncoderTest {
         String encodedMove = null;
 
         move = game.getMove(Square.c4, Square.e6);
-        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        encodedMove = encoder.encodeAlgebraicNotation(move, game.getPossibleMoves());
         assertEquals("Be6", encodedMove);
 
     }

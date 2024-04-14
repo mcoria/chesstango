@@ -1,13 +1,13 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.EpdEntry;
-import net.chesstango.board.representations.EpdReader;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EpdReader;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.tools.search.reports.EpdSearchReport;
-import net.chesstango.tools.search.reports.EpdSearchReportModel;
+import net.chesstango.tools.search.reports.epd.EpdSearchReport;
+import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
 import net.chesstango.tools.search.reports.nodes.NodesReport;

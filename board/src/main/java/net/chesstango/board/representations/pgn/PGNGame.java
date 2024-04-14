@@ -153,7 +153,7 @@ public class PGNGame {
                 moveStrTmp = "";
             }
             if (gameState.getSelectedMove() != null) {
-                moveStrTmp = sanEncoder.encode(gameState.getSelectedMove(), gameState.getLegalMoves());
+                moveStrTmp = sanEncoder.encodeAlgebraicNotation(gameState.getSelectedMove(), gameState.getLegalMoves());
             }
         }
         pgnGame.setMoveList(moveList);

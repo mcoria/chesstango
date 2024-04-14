@@ -1,4 +1,4 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.epd;
 
 import net.chesstango.board.moves.Move;
 
@@ -40,5 +40,13 @@ public class EpdEntry {
         } else {
             throw new RuntimeException("Undefined expected EPD result");
         }
+    }
+
+    public int calculateAccuracyPct(List<Move> moveList) {
+        if (!moveList.isEmpty()) {
+            long successMovesCounter = moveList.stream().filter(this::isMoveSuccess).count();
+            return (int) (successMovesCounter * 100 / moveList.size());
+        }
+        return 0;
     }
 }

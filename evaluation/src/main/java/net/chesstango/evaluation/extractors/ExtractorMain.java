@@ -2,8 +2,8 @@ package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.representations.EpdEntry;
-import net.chesstango.board.representations.EpdReader;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EpdReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameFeatures;
 

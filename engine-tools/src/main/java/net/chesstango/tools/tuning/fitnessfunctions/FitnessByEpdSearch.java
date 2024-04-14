@@ -2,8 +2,8 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EpdEntry;
-import net.chesstango.board.representations.EpdReader;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EpdReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;

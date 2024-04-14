@@ -33,6 +33,7 @@ public class SummaryDiffReport {
     private static final String evaluatedGamesFmt = "| %11d (%3d%%) ";
     private static final String executedMovesFmt = "| %11d (%3d%%) ";
     private static final String evaluationCoincidencesFmt = "| %17d%% ";
+    private static final String accuracyFmt = "| %17d%% ";
     private static final String cutoffFmt = "| %17d%% ";
     private static final String pvAccuracyFmt = "| %17d%% ";
 
@@ -78,9 +79,24 @@ public class SummaryDiffReport {
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(evaluationCoincidencesFmt, searchSummaryDiffs.get(i).evaluationCoincidencePercentage()));
         out.printf("|\n");
 
+        out.printf("| Dpt Accuracy ");
+        out.printf(accuracyFmt, baseLineSearchSummary.depthAccuracyPct);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(accuracyFmt, searchSummaryList.get(i).depthAccuracyPct));
+        out.printf("|\n");
+
         out.printf("| Exec Moves   ");
         out.printf(executedMovesFmt, baseLineSearchSummary.executedMovesTotal, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(executedMovesFmt, searchSummaryList.get(i).executedMovesTotal, searchSummaryDiffs.get(i).executedMovesPercentage()));
+        out.printf("|\n");
+
+        out.printf("| Evaluations  ");
+        out.printf(evaluatedGamesFmt, baseLineSearchSummary.evaluationCounterTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(evaluatedGamesFmt, searchSummaryList.get(i).evaluationCounterTotal, searchSummaryDiffs.get(i).evaluatedGamesPercentage()));
+        out.printf("|\n");
+
+        out.printf("|  Collisions  ");
+        out.printf(cutoffFmt, baseLineSearchSummary.evaluationCollisionPercentageTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(cutoffFmt, searchSummaryList.get(i).evaluationCollisionPercentageTotal));
         out.printf("|\n");
 
         // RLevel
@@ -114,16 +130,6 @@ public class SummaryDiffReport {
         out.printf("| Cutoff       ");
         out.printf(cutoffFmt, baseLineSearchSummary.cutoffPercentageTotal);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(cutoffFmt, searchSummaryList.get(i).cutoffPercentageTotal));
-        out.printf("|\n");
-
-        out.printf("| Evaluations  ");
-        out.printf(evaluatedGamesFmt, baseLineSearchSummary.evaluationCounterTotal, 100);
-        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(evaluatedGamesFmt, searchSummaryList.get(i).evaluationCounterTotal, searchSummaryDiffs.get(i).evaluatedGamesPercentage()));
-        out.printf("|\n");
-
-        out.printf("|  Collisions  ");
-        out.printf(cutoffFmt, baseLineSearchSummary.evaluationCollisionPercentageTotal, 100);
-        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(cutoffFmt, searchSummaryList.get(i).evaluationCollisionPercentageTotal));
         out.printf("|\n");
 
 

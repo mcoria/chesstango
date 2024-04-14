@@ -1,4 +1,4 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.epd;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;

@@ -1,7 +1,7 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.EpdEntry;
-import net.chesstango.board.representations.EpdReader;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EpdReader;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.AlphaBetaBuilder;

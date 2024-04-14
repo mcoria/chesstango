@@ -2,9 +2,11 @@ package net.chesstango.tools.search.reports.summary;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.chesstango.tools.search.EpdSearchResult;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.tools.search.reports.EpdSearchReportModel;
+import net.chesstango.tools.search.EpdSearchResult;
+import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
 import net.chesstango.tools.search.reports.nodes.NodesReportModel;
 import net.chesstango.tools.search.reports.pv.PrincipalVariationReportModel;
@@ -33,6 +35,9 @@ public class SummaryModel {
 
     @JsonProperty("successRate")
     int successRate;
+
+    @JsonProperty("depthAccuracyAvgPercentageTotal")
+    int depthAccuracyPct;
 
     @JsonProperty("executedMovesTotal")
     long executedMovesTotal;
@@ -74,6 +79,15 @@ public class SummaryModel {
         @JsonProperty("move")
         public String move;
 
+        @JsonProperty("success")
+        public boolean success;
+
+        @JsonProperty("depthMoves")
+        public String depthMoves;
+
+        @JsonProperty("depthAccuracyPercentage")
+        public int depthAccuracyPercentage;
+
         @JsonProperty("pv")
         public String pv;
 
@@ -97,8 +111,10 @@ public class SummaryModel {
         model.sessionid = sessionId;
         model.duration = epdSearchReportModel.duration;
         model.searches = epdSearchReportModel.searches;
+
         model.success = epdSearchReportModel.success;
         model.successRate = epdSearchReportModel.successRate;
+        model.depthAccuracyPct = epdSearchReportModel.depthAccuracyPct;
 
         model.maxSearchRLevel = nodesReportModel.maxSearchRLevel;
         model.maxSearchQLevel = nodesReportModel.maxSearchQLevel;
@@ -115,13 +131,18 @@ public class SummaryModel {
         Map<String, PrincipalVariationReportModel.PrincipalVariationReportModelDetail> pvMap = new HashMap<>();
         principalVariationReportModel.moveDetails.forEach(pvMoveDetail -> pvMap.put(pvMoveDetail.id, pvMoveDetail));
 
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
         epdSearchResults.stream().map(epdSearchResult -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
             SearchMoveResult searchMoveResult = epdSearchResult.searchResult();
             PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epdEntry().id);
 
             searchSummaryModeDetail.id = epdSearchResult.epdEntry().id;
-            searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundStr();
+            searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundAlgNot();
+            searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
+            searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResultList().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
+            searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;
             searchSummaryModeDetail.evaluation = searchMoveResult.getBestEvaluation();

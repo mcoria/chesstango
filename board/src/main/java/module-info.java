@@ -25,6 +25,7 @@ module net.chesstango.board {
     exports net.chesstango.board.representations.move;
     exports net.chesstango.board.perft.imp;
     exports net.chesstango.board.moves.factories;
+    exports net.chesstango.board.representations.epd;
 
     requires static lombok;
 }

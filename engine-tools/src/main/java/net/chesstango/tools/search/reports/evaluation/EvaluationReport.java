@@ -48,7 +48,7 @@ public class EvaluationReport {
     private void printSummary() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
+        out.printf("EvaluationReport: %s\n\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);

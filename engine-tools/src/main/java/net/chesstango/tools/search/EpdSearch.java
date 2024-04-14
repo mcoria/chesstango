@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchMove;
@@ -83,7 +83,7 @@ public class EpdSearch {
                     } else {
                         String failedTest = String.format("Fail [%s] - best move found %s",
                                 epdEntry.text,
-                                epdSearchResult.bestMoveFoundStr()
+                                epdSearchResult.bestMoveFoundAlgNot()
                         );
                         logger.info(failedTest);
                     }
@@ -168,7 +168,7 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, game.getPossibleMoves());
+        String bestMoveFoundStr = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
 
         return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr);
     }
