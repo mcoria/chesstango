@@ -1,6 +1,5 @@
 package net.chesstango.board.representations;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 
 import java.util.List;
@@ -19,8 +18,6 @@ public class EpdEntry {
 
     public String avoidMovesString;
     public List<Move> avoidMoves;
-
-    public Game game;
 
     @Override
     public boolean equals(Object object) {

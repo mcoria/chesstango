@@ -67,12 +67,12 @@ public class EpdReader {
 
     public EpdEntry readEdpLine(String line) {
         EpdEntry epdEntry = parseLine(line);
-        epdEntry.game = FENDecoder.loadGame(epdEntry.fen);
+        Game game = FENDecoder.loadGame(epdEntry.fen);
 
         if (epdEntry.bestMovesString != null) {
-            bestMovesStringToMoves(epdEntry.game, epdEntry.bestMovesString, epdEntry.bestMoves);
+            bestMovesStringToMoves(game, epdEntry.bestMovesString, epdEntry.bestMoves);
         }else if (epdEntry.avoidMoves != null) {
-            bestMovesStringToMoves(epdEntry.game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
+            bestMovesStringToMoves(game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
         } else {
             throw new RuntimeException("No best move nor avoid move detected");
         }

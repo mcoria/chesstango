@@ -1,8 +1,10 @@
 package net.chesstango.evaluation.extractors;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.EpdEntry;
 import net.chesstango.board.representations.EpdReader;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.io.BufferedWriter;
@@ -44,9 +46,11 @@ public class ExtractorMain {
         for (EpdEntry EPDEntry : EpdEntryList) {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
-                extractor.extractFeatures(EPDEntry.game, features);
+                Game game = FENDecoder.loadGame(EPDEntry.fen);
+                extractor.extractFeatures(game, features);
             }
-            featuresList.add(convertToLine(EPDEntry.game.getChessPosition().toString(), features, gameResultString));
+            Game game = FENDecoder.loadGame(EPDEntry.fen);
+            featuresList.add(convertToLine(game.getChessPosition().toString(), features, gameResultString));
         }
     }
 

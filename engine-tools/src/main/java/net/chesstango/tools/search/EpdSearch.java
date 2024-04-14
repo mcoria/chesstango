@@ -2,8 +2,10 @@ package net.chesstango.tools.search;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
@@ -156,7 +158,9 @@ public class EpdSearch {
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
 
-        SearchMoveResult searchResult = searchMove.search(epdEntry.game);
+        Game game = FENDecoder.loadGame(epdEntry.fen);
+
+        SearchMoveResult searchResult = searchMove.search(game);
 
         searchResult.setId(epdEntry.id);
 
@@ -164,7 +168,7 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, game.getPossibleMoves());
 
         return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr);
     }
