@@ -103,7 +103,7 @@ public class IterativeDeepening implements SearchMove {
 
             smartListenerMediator.triggerStopSearching();
         } catch (InterruptedException e) {
-            // Si ocurre la interrupcion quiere decir que terminó normalmente y no es necesario triggerStopSearching()
+            // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
         }
     }
 
