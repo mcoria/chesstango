@@ -24,6 +24,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -52,8 +53,8 @@ public class FitnessByMatch implements FitnessFunction {
 
 
     @Override
-    public long fitness(GameEvaluator gameEvaluator) {
-        EngineController engineTango = createTango(gameEvaluator);
+    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+        EngineController engineTango = createTango(gameEvaluatorSupplier.get());
 
         List<MatchResult> matchResult = fitnessEval(engineTango);
 

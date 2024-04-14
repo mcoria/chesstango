@@ -10,6 +10,13 @@ public record EpdSearchResult(EPDEntry epdEntry,
                               SearchMoveResult searchResult,
                               String bestMoveFoundStr,
                               boolean isSearchSuccess) {
+
+    public EpdSearchResult(EPDEntry epdEntry,
+                           SearchMoveResult searchResult,
+                           String bestMoveFoundStr) {
+        this(epdEntry, searchResult, bestMoveFoundStr, epdEntry.isMoveSuccess(searchResult.getBestMove()));
+    }
+
     public String getText() {
         return epdEntry.text;
     }

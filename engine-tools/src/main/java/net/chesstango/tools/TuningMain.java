@@ -97,9 +97,7 @@ public class TuningMain {
 
         if (points == null) {
 
-            GameEvaluator evaluator = geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype);
-
-            points = fitnessFn.fitness(evaluator);
+            points = fitnessFn.fitness(() -> geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype));
 
             fitnessMemory.put(keyGenes, points);
         }

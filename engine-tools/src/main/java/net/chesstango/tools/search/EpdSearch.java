@@ -164,11 +164,9 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        boolean epdSearchResult = epdEntry.isMoveSuccess(bestMove);
-
         String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
 
-        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, epdSearchResult);
+        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr);
     }
 
     private record SearchJob(Instant startInstant, SearchMove searchMove) {

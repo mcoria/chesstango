@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -16,7 +17,7 @@ public class FitnessByLeastSquare implements FitnessFunction {
     private List<FeaturesValues> featuresValuesList;
 
     @Override
-    public long fitness(GameEvaluator gameEvaluator) {
+    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
         /*
         Chromosome<IntegerGene> chromosome = genotype.chromosome();
 

@@ -1,21 +1,20 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.tools.search.EpdSearch;
+import net.chesstango.tools.search.EpdSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -61,54 +60,38 @@ public class FitnessBySearch implements FitnessFunction {
     }
 
     @Override
-    public long fitness(GameEvaluator gameEvaluator) {
-        SearchMove searchMove = AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluator)
-                .build();
+    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+        EpdSearch epdSearch = new EpdSearch();
 
-        return run(searchMove);
+        epdSearch.setDepth(depth);
+        epdSearch.setSearchMoveSupplier(() -> AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluatorSupplier.get()).build());
+
+
+        return run(epdSearch);
     }
 
     @Override
     public void start() {
         EPDReader reader = new EPDReader();
 
-        epdFiles.stream().map(reader::readEdpFile).forEach(edpEntries::addAll);
+        epdFiles.stream()
+                .map(reader::readEdpFile)
+                .forEach(edpEntries::addAll);
     }
 
     @Override
     public void stop() {
     }
 
-    protected long run(SearchMove searchMove) {
-        long points = 0;
+    protected long run(EpdSearch epdSearch) {
 
-        final int printProgress = edpEntries.size() / 4;
-        int processedEntries = 0;
-        for (EPDEntry EPDEntry : edpEntries) {
-            points += run(EPDEntry, searchMove);
-            processedEntries++;
-            if (processedEntries % printProgress == 0) {
-                logger.info("Processed {} / {}", processedEntries, edpEntries.size());
-            }
-        }
+        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
 
-        return points;
+        return epdSearchResults.stream()
+                .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epdEntry(), epdSearchResult.searchResult()))
+                .sum();
     }
 
-    protected long run(EPDEntry epdEntry, SearchMove searchMove) {
-
-        Game game = FENDecoder.loadGame(epdEntry.fen);
-
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-
-        SearchMoveResult searchResult = searchMove.search(game);
-
-        searchResult.setId(epdEntry.id);
-
-        searchMove.reset();
-
-        return getPoints(epdEntry, searchResult);
-    }
 
     protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchMoveResult) {
         List<Move> bestMoveList = searchMoveResult.getSearchByDepthResultList()
