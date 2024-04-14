@@ -306,7 +306,6 @@ public class FitnessByEpdSearchTest {
     private EpdEntry createEpdEntry(Game game, List<Move> actualBestMove) {
         EpdEntry epdEntry = new EpdEntry();
         epdEntry.fen = game.getInitialFEN();
-        epdEntry.game = game;
         epdEntry.bestMoves = actualBestMove;
         return epdEntry;
     }

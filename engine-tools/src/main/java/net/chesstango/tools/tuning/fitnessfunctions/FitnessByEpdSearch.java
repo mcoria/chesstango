@@ -22,10 +22,9 @@ import java.util.function.Supplier;
  */
 public class FitnessByEpdSearch implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
-    private static final int MAX_DEPTH = 7;
+    private static final int MAX_DEPTH = 5;
     private static final List<String> EPD_FILES = List.of(
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd"
-            /*
+            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
             "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
             "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
@@ -44,8 +43,6 @@ public class FitnessByEpdSearch implements FitnessFunction {
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
-
-             */
     );
 
     private final List<String> epdFiles;

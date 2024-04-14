@@ -97,6 +97,8 @@ public class TuningMain {
 
         if (points == null) {
 
+            logger.info("Searching con {} ", geneticProvider.genotypeToString(genotype));
+
             points = fitnessFn.fitness(() -> geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype));
 
             fitnessMemory.put(keyGenes, points);
