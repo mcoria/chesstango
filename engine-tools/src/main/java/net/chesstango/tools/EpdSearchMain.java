@@ -2,6 +2,7 @@ package net.chesstango.tools;
 
 import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.epd.EpdReader;
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
@@ -147,6 +148,8 @@ public class EpdSearchMain {
     }
 
     private void printReports(PrintStream output, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel, PrincipalVariationReportModel principalVariationReportModel) {
+        output.printf("Version: %s\n", Tango.ENGINE_VERSION);
+
         new EpdSearchReport()
                 .setReportModel(epdSearchReportModel)
                 .printReport(output);
@@ -172,7 +175,7 @@ public class EpdSearchMain {
     private Path createSessionDirectory(Path suitePath) {
         Path parentDirectory = suitePath.getParent();
 
-        Path sessionDirectory = parentDirectory.resolve(String.format("depth-%d-%s", depth, SEARCH_SESSION_ID));
+        Path sessionDirectory = parentDirectory.resolve(String.format("depth-%d-%s-%s", depth, SEARCH_SESSION_ID, Tango.ENGINE_VERSION));
 
         try {
             Files.createDirectory(sessionDirectory);
