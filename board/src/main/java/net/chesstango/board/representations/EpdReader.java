@@ -21,20 +21,20 @@ import java.util.regex.Pattern;
  *
  * @author Mauricio Coria
  */
-public class EPDReader {
+public class EpdReader {
 
-    public List<EPDEntry> readEdpFile(String filename) {
+    public List<EpdEntry> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
 
     }
 
-    public List<EPDEntry> readEdpFile(Path filePath) {
+    public List<EpdEntry> readEdpFile(Path filePath) {
         if (!Files.exists(filePath)) {
             System.err.printf("file not found: %s\n", filePath.getFileName());
             throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
         }
 
-        List<EPDEntry> edpEntries = new ArrayList<>();
+        List<EpdEntry> edpEntries = new ArrayList<>();
         try {
             System.out.println("Reading suite " + filePath);
 
@@ -51,7 +51,7 @@ public class EPDReader {
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
                     try {
-                        EPDEntry entry = readEdpLine(line);
+                        EpdEntry entry = readEdpLine(line);
                         edpEntries.add(entry);
                     } catch (RuntimeException e) {
                         System.err.printf("Error decoding: %s\n", line);
@@ -65,14 +65,14 @@ public class EPDReader {
         return edpEntries;
     }
 
-    public EPDEntry readEdpLine(String line) {
-        EPDEntry epdEntry = parseLine(line);
-        epdEntry.game = FENDecoder.loadGame(epdEntry.fen);
+    public EpdEntry readEdpLine(String line) {
+        EpdEntry epdEntry = parseLine(line);
+        Game game = FENDecoder.loadGame(epdEntry.fen);
 
         if (epdEntry.bestMovesString != null) {
-            bestMovesStringToMoves(epdEntry.game, epdEntry.bestMovesString, epdEntry.bestMoves);
+            bestMovesStringToMoves(game, epdEntry.bestMovesString, epdEntry.bestMoves);
         }else if (epdEntry.avoidMoves != null) {
-            bestMovesStringToMoves(epdEntry.game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
+            bestMovesStringToMoves(game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
         } else {
             throw new RuntimeException("No best move nor avoid move detected");
         }
@@ -93,8 +93,8 @@ public class EPDReader {
 
     private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
-    protected EPDEntry parseLine(String line) {
-        EPDEntry edpParsed = new EPDEntry();
+    protected EpdEntry parseLine(String line) {
+        EpdEntry edpParsed = new EpdEntry();
         edpParsed.text = line;
 
         Matcher matcher = edpLinePattern.matcher(line);

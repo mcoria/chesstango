@@ -1,28 +1,28 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.board.Game;
+
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EPDEntry;
-import net.chesstango.board.representations.EPDReader;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.EpdReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.tools.search.EpdSearch;
+import net.chesstango.tools.search.EpdSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
  */
-public class FitnessBySearch implements FitnessFunction {
-    private static final Logger logger = LoggerFactory.getLogger(FitnessBySearch.class);
-    private static final int MAX_DEPTH = 3;
+public class FitnessByEpdSearch implements FitnessFunction {
+    private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
+    private static final int MAX_DEPTH = 5;
     private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
@@ -47,70 +47,49 @@ public class FitnessBySearch implements FitnessFunction {
 
     private final List<String> epdFiles;
     private final int depth;
-    private final List<EPDEntry> edpEntries;
+    private final List<EpdEntry> edpEntries;
 
 
-    public FitnessBySearch() {
+    public FitnessByEpdSearch() {
         this(EPD_FILES, MAX_DEPTH);
     }
 
-    public FitnessBySearch(List<String> epdFiles, int depth) {
+    public FitnessByEpdSearch(List<String> epdFiles, int depth) {
         this.epdFiles = epdFiles;
         this.edpEntries = new LinkedList<>();
         this.depth = depth;
     }
 
     @Override
-    public long fitness(GameEvaluator gameEvaluator) {
-        SearchMove searchMove = AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluator)
-                .build();
+    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+        EpdSearch epdSearch = new EpdSearch();
 
-        return run(searchMove);
+        epdSearch.setDepth(depth);
+        epdSearch.setSearchMoveSupplier(() -> AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluatorSupplier.get()).build());
+
+        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
+
+        return epdSearchResults.stream()
+                .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epdEntry(), epdSearchResult.searchResult()))
+                .sum();
     }
 
     @Override
     public void start() {
-        EPDReader reader = new EPDReader();
+        EpdReader reader = new EpdReader();
 
-        epdFiles.stream().map(reader::readEdpFile).forEach(edpEntries::addAll);
+        epdFiles.stream()
+                .map(reader::readEdpFile)
+                .forEach(edpEntries::addAll);
+
     }
 
     @Override
     public void stop() {
     }
 
-    protected long run(SearchMove searchMove) {
-        long points = 0;
 
-        final int printProgress = edpEntries.size() / 4;
-        int processedEntries = 0;
-        for (EPDEntry EPDEntry : edpEntries) {
-            points += run(EPDEntry, searchMove);
-            processedEntries++;
-            if (processedEntries % printProgress == 0) {
-                logger.info("Processed {} / {}", processedEntries, edpEntries.size());
-            }
-        }
-
-        return points;
-    }
-
-    protected long run(EPDEntry epdEntry, SearchMove searchMove) {
-
-        Game game = FENDecoder.loadGame(epdEntry.fen);
-
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-
-        SearchMoveResult searchResult = searchMove.search(game);
-
-        searchResult.setId(epdEntry.id);
-
-        searchMove.reset();
-
-        return getPoints(epdEntry, searchResult);
-    }
-
-    protected long getPoints(EPDEntry epdEntry, SearchMoveResult searchMoveResult) {
+    protected long getPoints(EpdEntry epdEntry, SearchMoveResult searchMoveResult) {
         List<Move> bestMoveList = searchMoveResult.getSearchByDepthResultList()
                 .stream()
                 .map(SearchByDepthResult::getBestMove)

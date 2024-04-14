@@ -8,7 +8,7 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessBySearch;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4FactorsGenes;
@@ -33,7 +33,7 @@ public class TuningMain {
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         //FitnessFunction fitnessFunction = new FitnessByMatch(geneticProvider::createGameEvaluator);
-        FitnessFunction fitnessFunction = new FitnessBySearch();
+        FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
         TuningMain main = new TuningMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
@@ -97,9 +97,9 @@ public class TuningMain {
 
         if (points == null) {
 
-            GameEvaluator evaluator = geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype);
+            logger.info("Searching con {} ", geneticProvider.genotypeToString(genotype));
 
-            points = fitnessFn.fitness(evaluator);
+            points = fitnessFn.fitness(() -> geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype));
 
             fitnessMemory.put(keyGenes, points);
         }

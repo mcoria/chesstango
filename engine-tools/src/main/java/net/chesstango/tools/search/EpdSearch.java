@@ -2,8 +2,10 @@ package net.chesstango.tools.search;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EPDEntry;
+import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
@@ -46,11 +48,11 @@ public class EpdSearch {
     private Integer timeOut;
 
 
-    public EpdSearchResult run(EPDEntry epdEntry) {
+    public EpdSearchResult run(EpdEntry epdEntry) {
         return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(List.of(epdEntry)).get(0);
     }
 
-    public List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
+    public List<EpdSearchResult> run(List<EpdEntry> edpEntries) {
         AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
         List<SearchJob> activeJobs = new ArrayList<>(SEARCH_THREADS);
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
@@ -61,7 +63,7 @@ public class EpdSearch {
         }
 
         List<Future<EpdSearchResult>> futures = new LinkedList<>();
-        for (EPDEntry epdEntry : edpEntries) {
+        for (EpdEntry epdEntry : edpEntries) {
             Future<EpdSearchResult> future = executorService.submit(() -> {
                 SearchJob searchJob = null;
                 try {
@@ -152,11 +154,13 @@ public class EpdSearch {
     }
 
 
-    private EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
+    private EpdSearchResult run(SearchMove searchMove, EpdEntry epdEntry) {
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
 
-        SearchMoveResult searchResult = searchMove.search(epdEntry.game);
+        Game game = FENDecoder.loadGame(epdEntry.fen);
+
+        SearchMoveResult searchResult = searchMove.search(game);
 
         searchResult.setId(epdEntry.id);
 
@@ -164,11 +168,9 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        boolean epdSearchResult = epdEntry.isMoveSuccess(bestMove);
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, game.getPossibleMoves());
 
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
-
-        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr, epdSearchResult);
+        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr);
     }
 
     private record SearchJob(Instant startInstant, SearchMove searchMove) {

@@ -99,7 +99,12 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         try {
-            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class, Integer.class, Integer.class).newInstance(decodedGenotype.getFactor1(), decodedGenotype.getFactor2(), decodedGenotype.getFactor3(), decodedGenotype.getFactor4());
+            return gameEvaluatorClass
+                    .getDeclaredConstructor(Integer.class, Integer.class, Integer.class, Integer.class)
+                    .newInstance(decodedGenotype.getFactor1(),
+                                decodedGenotype.getFactor2(),
+                                decodedGenotype.getFactor3(),
+                                decodedGenotype.getFactor4());
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

@@ -6,6 +6,7 @@ module net.chesstango.tools {
     exports net.chesstango.tools;
 
 
+    requires net.chesstango.engine;
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
     requires net.chesstango.search;
@@ -14,6 +15,8 @@ module net.chesstango.tools {
     requires org.slf4j;
     requires static lombok;
     requires io.jenetics.base;
-    requires net.chesstango.engine;
+
+
+    opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
 
 }
