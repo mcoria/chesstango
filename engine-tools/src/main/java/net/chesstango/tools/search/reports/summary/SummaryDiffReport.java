@@ -33,6 +33,7 @@ public class SummaryDiffReport {
     private static final String evaluatedGamesFmt = "| %11d (%3d%%) ";
     private static final String executedMovesFmt = "| %11d (%3d%%) ";
     private static final String evaluationCoincidencesFmt = "| %17d%% ";
+    private static final String accuracyFmt = "| %17d%% ";
     private static final String cutoffFmt = "| %17d%% ";
     private static final String pvAccuracyFmt = "| %17d%% ";
 
@@ -76,6 +77,11 @@ public class SummaryDiffReport {
         out.printf("| Coincidences ");
         out.printf(evaluationCoincidencesFmt, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(evaluationCoincidencesFmt, searchSummaryDiffs.get(i).evaluationCoincidencePercentage()));
+        out.printf("|\n");
+
+        out.printf("| Accuracy     ");
+        out.printf(accuracyFmt, baseLineSearchSummary.accuracyPct);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(accuracyFmt, searchSummaryList.get(i).accuracyPct));
         out.printf("|\n");
 
         out.printf("| Exec Moves   ");

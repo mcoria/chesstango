@@ -35,7 +35,7 @@ public class SummaryModel {
     int successRate;
 
     @JsonProperty("accuracyAvgPercentageTotal")
-    private int accuracyPct;
+    int accuracyPct;
 
     @JsonProperty("executedMovesTotal")
     long executedMovesTotal;
@@ -106,6 +106,7 @@ public class SummaryModel {
         model.sessionid = sessionId;
         model.duration = epdSearchReportModel.duration;
         model.searches = epdSearchReportModel.searches;
+
         model.success = epdSearchReportModel.success;
         model.successRate = epdSearchReportModel.successRate;
         model.accuracyPct = epdSearchReportModel.accuracyPct ;
