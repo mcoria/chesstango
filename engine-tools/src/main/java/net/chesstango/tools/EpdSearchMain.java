@@ -1,7 +1,7 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.EPDEntry;
-import net.chesstango.board.representations.EPDReader;
+import net.chesstango.board.representations.EpdEntry;
+import net.chesstango.board.representations.EpdReader;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
@@ -90,9 +90,9 @@ public class EpdSearchMain {
     }
 
     public void execute(Path suitePath) {
-        EPDReader reader = new EPDReader();
+        EpdReader reader = new EpdReader();
 
-        List<EPDEntry> edpEntries = reader.readEdpFile(suitePath);
+        List<EpdEntry> edpEntries = reader.readEdpFile(suitePath);
 
         List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
 

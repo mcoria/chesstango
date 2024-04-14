@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class EPDEntry {
+public class EpdEntry {
     public String id;
     public String text;
 
@@ -26,7 +26,7 @@ public class EPDEntry {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        EPDEntry epdEntry = (EPDEntry) object;
+        EpdEntry epdEntry = (EpdEntry) object;
         return Objects.equals(text, epdEntry.text);
     }
 

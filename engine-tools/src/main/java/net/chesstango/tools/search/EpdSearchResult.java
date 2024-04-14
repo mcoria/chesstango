@@ -1,17 +1,17 @@
 package net.chesstango.tools.search;
 
-import net.chesstango.board.representations.EPDEntry;
+import net.chesstango.board.representations.EpdEntry;
 import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
-public record EpdSearchResult(EPDEntry epdEntry,
+public record EpdSearchResult(EpdEntry epdEntry,
                               SearchMoveResult searchResult,
                               String bestMoveFoundStr,
                               boolean isSearchSuccess) {
 
-    public EpdSearchResult(EPDEntry epdEntry,
+    public EpdSearchResult(EpdEntry epdEntry,
                            SearchMoveResult searchResult,
                            String bestMoveFoundStr) {
         this(epdEntry, searchResult, bestMoveFoundStr, epdEntry.isMoveSuccess(searchResult.getBestMove()));
