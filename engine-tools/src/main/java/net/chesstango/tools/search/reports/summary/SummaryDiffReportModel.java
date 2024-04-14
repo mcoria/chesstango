@@ -15,12 +15,13 @@ public class SummaryDiffReportModel {
 
     public record SearchSummaryDiff(int durationPercentage,
                                     boolean sameSearches,
+                                    int evaluationCoincidencePercentage,
                                     int visitedRNodesPercentage,
                                     int visitedQNodesPercentage,
                                     int visitedNodesPercentage,
                                     int evaluatedGamesPercentage,
-                                    int executedMovesPercentage,
-                                    int evaluationCoincidencePercentage) {
+                                    int executedMovesPercentage
+    ) {
     }
 
     public static SummaryDiffReportModel createModel(String suiteName, SummaryModel baseLineSearchSummary, List<SummaryModel> searchSummaryList) {
@@ -64,7 +65,7 @@ public class SummaryDiffReportModel {
 
         int evaluationCoincidencePercentage = (evaluationCoincidences * 100) / baseLineSearches;
 
-        return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage, evaluatedGamesPercentage, executedMovesPercentage, evaluationCoincidencePercentage);
+        return new SearchSummaryDiff(durationPercentage, sameSearches, evaluationCoincidencePercentage, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage, evaluatedGamesPercentage, executedMovesPercentage);
     }
 }
 

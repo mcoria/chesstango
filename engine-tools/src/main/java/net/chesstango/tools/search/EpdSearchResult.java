@@ -9,11 +9,13 @@ import net.chesstango.search.SearchMoveResult;
  */
 public record EpdSearchResult(EpdEntry epdEntry,
                               SearchMoveResult searchResult,
-                              String bestMoveFoundStr,
+
+                              // Mejor movimiento encontrado en notacion algebraica
+                              String bestMoveFoundAlgNot,
                               boolean isSearchSuccess,
 
-                              // Exactitud: valores que coinciden con el valor esperado (%)
-                              int accuracyPct) {
+                              // Exactitud: de la lista de movimientos en profundidad, que movimientos sin exitosos
+                              int depthAccuracyPct) {
 
     public EpdSearchResult(EpdEntry epdEntry,
                            SearchMoveResult searchResult,

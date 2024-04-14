@@ -18,9 +18,8 @@ import net.chesstango.board.moves.MovePromotion;
  */
 public class SANEncoder {
 
-    public String encode(Move move, Iterable<Move> possibleMoves) {
-        if(move instanceof MoveCastling){
-            MoveCastling moveCastling = (MoveCastling) move;
+    public String encodeAlgebraicNotation(Move move, Iterable<Move> possibleMoves) {
+        if(move instanceof MoveCastling moveCastling){
             return encodeMoveCastling(moveCastling);
         } else if(move.getFrom().getPiece().isPawn()){
             return encodePawnMove(move, possibleMoves);
@@ -51,7 +50,7 @@ public class SANEncoder {
         StringBuilder sb = new StringBuilder();
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
-        boolean capture = Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ? false : true;
+        boolean capture = !Cardinal.Sur.equals(move.getMoveDirection()) && !Cardinal.Norte.equals(move.getMoveDirection());
 
         if(capture) {
             sb.append(from.getSquare().getFileChar());
@@ -63,9 +62,8 @@ public class SANEncoder {
 
         sb.append(to.getSquare());
 
-        if(move instanceof MovePromotion){
-            MovePromotion movePromotion = (MovePromotion) move;
-            sb.append("=" + getPieceCode(movePromotion.getPromotion()));
+        if(move instanceof MovePromotion movePromotion){
+            sb.append("=").append(getPieceCode(movePromotion.getPromotion()));
         }
 
         return sb.toString();

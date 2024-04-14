@@ -80,8 +80,8 @@ public class SummaryDiffReport {
         out.printf("|\n");
 
         out.printf("| Accuracy     ");
-        out.printf(accuracyFmt, baseLineSearchSummary.accuracyPct);
-        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(accuracyFmt, searchSummaryList.get(i).accuracyPct));
+        out.printf(accuracyFmt, baseLineSearchSummary.depthAccuracyPct);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(accuracyFmt, searchSummaryList.get(i).depthAccuracyPct));
         out.printf("|\n");
 
         out.printf("| Exec Moves   ");

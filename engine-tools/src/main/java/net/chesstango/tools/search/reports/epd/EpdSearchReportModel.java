@@ -15,7 +15,7 @@ public class EpdSearchReportModel {
     public int searches;
     public int success;
     public int successRate;
-    public int accuracyPct;
+    public int depthAccuracyPct;
     public List<String> failedEntries;
 
     public long duration;
@@ -31,7 +31,7 @@ public class EpdSearchReportModel {
 
         reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::isSearchSuccess).count();
 
-        reportModel.accuracyPct = (int) edpEntries.stream().mapToInt(EpdSearchResult::accuracyPct).average().orElse(0);
+        reportModel.depthAccuracyPct = (int) edpEntries.stream().mapToInt(EpdSearchResult::depthAccuracyPct).average().orElse(0);
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
@@ -45,7 +45,7 @@ public class EpdSearchReportModel {
                         reportModel.failedEntries.add(
                                 String.format("Fail [%s] - best move found %s",
                                         edpEntry.getText(),
-                                        edpEntry.bestMoveFoundStr()
+                                        edpEntry.bestMoveFoundAlgNot()
                                 )
                         ));
 

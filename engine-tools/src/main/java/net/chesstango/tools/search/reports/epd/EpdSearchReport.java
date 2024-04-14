@@ -43,7 +43,7 @@ public class EpdSearchReport {
 
         out.printf("Searches        : %d\n", reportModel.searches);
         out.printf("Success rate    : %d%%\n", reportModel.successRate);
-        out.printf("Accuracy        : %d%%\n", reportModel.accuracyPct);
+        out.printf("Depth Accuracy  : %d%%\n", reportModel.depthAccuracyPct);
         out.printf("Time taken      : %dms\n", reportModel.duration);
     }
 
