@@ -4,7 +4,7 @@ package net.chesstango.tools.search.reports.summary;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.tools.search.reports.EpdSearchReportModel;
+import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
 import net.chesstango.tools.search.reports.nodes.NodesReportModel;
 import net.chesstango.tools.search.reports.pv.PrincipalVariationReportModel;

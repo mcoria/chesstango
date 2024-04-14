@@ -1,4 +1,4 @@
-package net.chesstango.tools.search.reports;
+package net.chesstango.tools.search.reports.epd;
 
 import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.search.SearchMoveResult;
@@ -14,6 +14,7 @@ public class EpdSearchReportModel {
 
     public int searches;
     public int success;
+    public int accuracyPct;
     public int successRate;
     public List<String> failedEntries;
 
@@ -29,6 +30,8 @@ public class EpdSearchReportModel {
         reportModel.searches = edpEntries.size();
 
         reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::isSearchSuccess).count();
+
+        reportModel.accuracyPct = (int) edpEntries.stream().mapToInt(EpdSearchResult::accuracyPct).average().orElse(0);
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
