@@ -8,3 +8,4 @@ matches.pgn
 search/DebugSearchTree*.txt
 lichess.log
 *.log
+engine-tools/scripts/venv/
