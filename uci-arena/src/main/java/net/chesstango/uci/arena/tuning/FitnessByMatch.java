@@ -7,7 +7,7 @@ import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.tools.TuningMain;
+import net.chesstango.tools.JeneticsTuningMain;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
@@ -109,7 +109,7 @@ public class FitnessByMatch implements FitnessFunction {
 
 
     private static List<String> getFenList() {
-        return new Transcoding().pgnFileToFenPositions(TuningMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
+        return new Transcoding().pgnFileToFenPositions(JeneticsTuningMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
     }
 
 

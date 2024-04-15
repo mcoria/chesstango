@@ -15,6 +15,7 @@ module net.chesstango.tools {
     requires org.slf4j;
     requires static lombok;
     requires io.jenetics.base;
+    requires py4j;
 
 
     opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;

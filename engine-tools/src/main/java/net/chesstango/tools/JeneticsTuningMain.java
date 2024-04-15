@@ -22,8 +22,8 @@ import java.util.concurrent.Executors;
 /**
  * @author Mauricio Coria
  */
-public class TuningMain {
-    private static final Logger logger = LoggerFactory.getLogger(TuningMain.class);
+public class JeneticsTuningMain {
+    private static final Logger logger = LoggerFactory.getLogger(JeneticsTuningMain.class);
     private static final int POPULATION_SIZE = 10;
     private static final int GENERATION_LIMIT = 100;
 
@@ -36,7 +36,7 @@ public class TuningMain {
         FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
-        TuningMain main = new TuningMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
+        JeneticsTuningMain main = new JeneticsTuningMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
 
         main.findGenotype();
     }
@@ -46,7 +46,7 @@ public class TuningMain {
     private final FitnessFunction fitnessFn;
     private final Map<String, Long> fitnessMemory;
 
-    public TuningMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
+    public JeneticsTuningMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
         this.gameEvaluatorClass = gameEvaluatorClass;
         this.geneticProvider = geneticProvider;
         this.fitnessFn = fitnessFn;
