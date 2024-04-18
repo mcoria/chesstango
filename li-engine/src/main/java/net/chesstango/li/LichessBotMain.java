@@ -197,7 +197,7 @@ public class LichessBotMain implements Runnable, LichessBotMainMBean {
                 lichessChallenger.challengeRandomBot();
             }
         } catch (RuntimeException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
     }
 
