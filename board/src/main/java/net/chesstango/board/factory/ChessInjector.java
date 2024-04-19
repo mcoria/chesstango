@@ -76,13 +76,13 @@ public class ChessInjector {
         if (chessPosition == null) {
             ChessPositionImp chessPositionImp = chessFactory.createChessPosition();
 
-            chessPositionImp.setPiecePlacement(getPiecePlacement());
+            chessPositionImp.setSquareBoard(getPiecePlacement());
 
             chessPositionImp.setBoardState(getPositionState());
 
-            chessPositionImp.setKingCacheBoard(getKingCacheBoard());
+            chessPositionImp.setKingSquare(getKingCacheBoard());
 
-            chessPositionImp.setColorBoard(getBitBoard());
+            chessPositionImp.setBitBoard(getBitBoard());
 
             chessPositionImp.setMoveCache(getMoveCacheBoard());
 

@@ -1,5 +1,6 @@
 package net.chesstango.board.position.imp;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -20,11 +21,16 @@ import java.util.Iterator;
 public class ChessPositionImp implements ChessPosition {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
+    @Setter
     protected SquareBoard squareBoard = null;
+    @Setter
     protected BitBoard bitBoard = null;
+    @Setter
     protected KingSquare kingSquare = null;
+    @Setter
     protected MoveCacheBoard moveCache = null;
     protected PositionState positionState = null;
+    @Setter
     protected ZobristHash zobristHash = null;
 
     @Override
@@ -286,28 +292,8 @@ public class ChessPositionImp implements ChessPosition {
         return fenEncoder.getChessRepresentation();
     }
 
-    public void setPiecePlacement(SquareBoard squareBoard) {
-        this.squareBoard = squareBoard;
-    }
-
-    public void setColorBoard(BitBoard bitBoard) {
-        this.bitBoard = bitBoard;
-    }
-
-    public void setKingCacheBoard(KingSquare kingSquare) {
-        this.kingSquare = kingSquare;
-    }
-
-    public void setMoveCache(MoveCacheBoard moveCache) {
-        this.moveCache = moveCache;
-    }
-
     public void setBoardState(PositionState positionState) {
         this.positionState = positionState;
-    }
-
-    public void setZobristHash(ZobristHash zobristHash) {
-        this.zobristHash = zobristHash;
     }
 
 }
