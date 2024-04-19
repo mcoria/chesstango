@@ -36,7 +36,6 @@ public class CaptureMoveTest {
 
     private Move moveExecutor;
     private SquareBoard squareBoard;
-
     private PositionStateDebug positionState;
     private BitBoardDebug colorBoard;
     private MoveCacheBoardDebug moveCacheBoard;
@@ -179,22 +178,6 @@ public class CaptureMoveTest {
 
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e5));
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
-    }
-
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMove(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMove(moveExecutor);
     }
 
 

@@ -197,22 +197,6 @@ public class CastlingWhiteQueenTest {
     }
 
     @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMoveKing(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMoveKing(moveExecutor);
-    }
-
-    @Test
     public void testCacheBoard() {
         // execute
         moveExecutor.executeMove(moveCacheBoard);

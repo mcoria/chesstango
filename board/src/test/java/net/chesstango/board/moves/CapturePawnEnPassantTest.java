@@ -200,22 +200,6 @@ public class CapturePawnEnPassantTest {
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.b5));
     }
 
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMove(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMove(moveExecutor);
-    }
-
 
     @Test
     public void testFilter() {

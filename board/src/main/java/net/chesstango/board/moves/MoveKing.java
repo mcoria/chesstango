@@ -1,7 +1,7 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.ChessPositionWriter;
+import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.KingSquareWriter;
 
 /**
@@ -10,12 +10,32 @@ import net.chesstango.board.position.KingSquareWriter;
  */
 public interface MoveKing extends Move {
 
-	default void executeMove(ChessPositionWriter chessPosition){
-		chessPosition.executeMoveKing(this);
+	default void executeMove(ChessPosition chessPosition){
+		executeMove(chessPosition.getSquareBoard());
+
+		executeMove(chessPosition.getBitBoard());
+
+		executeMove(chessPosition.getPositionState());
+
+		executeMove(chessPosition.getMoveCache());
+
+		executeMove(chessPosition.getZobrist(), chessPosition);
+
+		executeMove(chessPosition.getKingSquare());
 	}
 
-	default void undoMove(ChessPositionWriter chessPosition){
-		chessPosition.undoMoveKing(this);
+	default void undoMove(ChessPosition chessPosition){
+		undoMove(chessPosition.getSquareBoard());
+
+		undoMove(chessPosition.getBitBoard());
+
+		undoMove(chessPosition.getPositionState());
+
+		undoMove(chessPosition.getMoveCache());
+
+		undoMove(chessPosition.getZobrist());
+
+		undoMove(chessPosition.getKingSquare());
 	}
 
 	default boolean filter(MoveFilter filter){

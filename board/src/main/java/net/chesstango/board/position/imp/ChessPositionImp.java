@@ -8,7 +8,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -46,52 +45,12 @@ public class ChessPositionImp implements ChessPosition {
         move.executeMove(this);
     }
 
-    @Override
-    public void executeMove(Move move) {
-        move.executeMove(this.squareBoard);
-
-        move.executeMove(this.bitBoard);
-
-        move.executeMove(this.positionState);
-
-        move.executeMove(this.moveCache);
-
-        move.executeMove(this.zobristHash, this);
-    }
-
-    @Override
-    public void executeMoveKing(MoveKing move) {
-        executeMove(move);
-
-        move.executeMove(this.kingSquare);
-
-    }
 
     @Override
     public void acceptForUndo(Move move) {
         move.undoMove(this);
     }
 
-    @Override
-    public void undoMove(Move move) {
-        move.undoMove(this.squareBoard);
-
-        move.undoMove(this.bitBoard);
-
-        move.undoMove(this.positionState);
-
-        move.undoMove(this.moveCache);
-
-        move.undoMove(this.zobristHash);
-
-    }
-
-    @Override
-    public void undoMoveKing(MoveKing move) {
-        undoMove(move);
-
-        move.undoMove(this.kingSquare);
-    }
 
     @Override
     public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
@@ -282,6 +241,36 @@ public class ChessPositionImp implements ChessPosition {
     @Override
     public PiecePositioned getElement(int idx) {
         return squareBoard.getElement(idx);
+    }
+
+    @Override
+    public SquareBoard getSquareBoard() {
+        return squareBoard;
+    }
+
+    @Override
+    public BitBoard getBitBoard() {
+        return bitBoard;
+    }
+
+    @Override
+    public KingSquare getKingSquare() {
+        return kingSquare;
+    }
+
+    @Override
+    public MoveCacheBoard getMoveCache() {
+        return moveCache;
+    }
+
+    @Override
+    public PositionState getPositionState() {
+        return positionState;
+    }
+
+    @Override
+    public ZobristHash getZobrist() {
+        return zobristHash;
     }
 
     @Override

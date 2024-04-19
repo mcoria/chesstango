@@ -42,7 +42,6 @@ public class CaptureKingMoveTest {
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
-    @Mock
     private ChessPosition chessPosition;
 
     @Mock
@@ -74,6 +73,15 @@ public class CaptureKingMoveTest {
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
+
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setKingSquare(kingCacheBoard);
+        chessPositionImp.setMoveCache(moveCacheBoard);
+        chessPositionImp.setPositionState(positionState);
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setSquareBoard(squareBoard);
+        chessPosition = chessPositionImp;
+
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
     }
@@ -188,22 +196,6 @@ public class CaptureKingMoveTest {
 
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
-    }
-
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMoveKing(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMoveKing(moveExecutor);
     }
 
 

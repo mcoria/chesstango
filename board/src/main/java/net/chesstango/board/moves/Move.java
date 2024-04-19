@@ -19,12 +19,28 @@ public interface Move extends Comparable<Move> {
 
     PiecePositioned getTo();
 
-    default void executeMove(ChessPositionWriter chessPosition) {
-        chessPosition.executeMove(this);
+    default void executeMove(ChessPosition chessPosition) {
+        executeMove(chessPosition.getSquareBoard());
+
+        executeMove(chessPosition.getBitBoard());
+
+        executeMove(chessPosition.getPositionState());
+
+        executeMove(chessPosition.getMoveCache());
+
+        executeMove(chessPosition.getZobrist(), chessPosition);
     }
 
-    default void undoMove(ChessPositionWriter chessPosition) {
-        chessPosition.undoMove(this);
+    default void undoMove(ChessPosition chessPosition) {
+        undoMove(chessPosition.getSquareBoard());
+
+        undoMove(chessPosition.getBitBoard());
+
+        undoMove(chessPosition.getPositionState());
+
+        undoMove(chessPosition.getMoveCache());
+
+        undoMove(chessPosition.getZobrist());
     }
 
     default boolean filter(MoveFilter filter) {

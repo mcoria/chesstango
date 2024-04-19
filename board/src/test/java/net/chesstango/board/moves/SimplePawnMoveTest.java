@@ -177,23 +177,6 @@ public class SimplePawnMoveTest {
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
     }
 
-
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMove(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMove(moveExecutor);
-    }
-
     @Test
     public void testFilter() {
         // execute

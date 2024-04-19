@@ -197,22 +197,6 @@ public class SimpleKingMoveTest {
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
     }
 
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMoveKing(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMoveKing(moveExecutor);
-    }
-
 
     @Test
     public void testFilter() {
