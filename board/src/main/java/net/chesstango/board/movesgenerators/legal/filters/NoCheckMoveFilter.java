@@ -75,7 +75,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
-		move.executeMove(this.kingCacheBoard);
+		move.doMove(this.kingCacheBoard);
 		move.doMove(this.dummySquareBoard);
 		move.doMove(this.bitBoard);
 

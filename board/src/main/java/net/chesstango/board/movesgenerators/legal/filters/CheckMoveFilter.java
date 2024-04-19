@@ -55,7 +55,7 @@ public class CheckMoveFilter implements MoveFilter {
 	
 	@Override
 	public boolean filterMoveKing(MoveKing move) {
-		move.executeMove(this.kingCacheBoard);
+		move.doMove(this.kingCacheBoard);
 
 		boolean result = filterMove(move);
 

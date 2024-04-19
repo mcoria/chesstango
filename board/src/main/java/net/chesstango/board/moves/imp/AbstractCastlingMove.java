@@ -108,7 +108,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(KingSquareWriter kingSquareWriter) {
+    public void doMove(KingSquareWriter kingSquareWriter) {
         kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
     }
 

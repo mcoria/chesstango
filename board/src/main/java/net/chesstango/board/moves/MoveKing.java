@@ -24,7 +24,7 @@ public interface MoveKing extends Move {
 
         doMove(moveCache);
 
-        executeMove(kingSquare);
+        doMove(kingSquare);
 
         doMove(hash, chessPosition);
     }
@@ -51,7 +51,7 @@ public interface MoveKing extends Move {
         undoMove(hash);
     }
 
-    void executeMove(KingSquareWriter kingSquareWriter);
+    void doMove(KingSquareWriter kingSquareWriter);
 
     void undoMove(KingSquareWriter kingSquareWriter);
 }

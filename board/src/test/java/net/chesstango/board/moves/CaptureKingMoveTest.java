@@ -159,7 +159,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testKingCacheBoard() {
-        moveExecutor.executeMove(kingCacheBoard);
+        moveExecutor.doMove(kingCacheBoard);
 
         assertEquals(Square.e2, kingCacheBoard.getKingSquareWhite());
 
@@ -212,7 +212,7 @@ public class CaptureKingMoveTest {
     public void testIntegrated() {
         // execute
         moveExecutor.doMove(squareBoard);
-        moveExecutor.executeMove(kingCacheBoard);
+        moveExecutor.doMove(kingCacheBoard);
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(colorBoard);
         moveExecutor.doMove(moveCacheBoard);

@@ -187,7 +187,7 @@ public class CastlingBlackQueenTest {
 
     @Test
     public void testKingCacheBoard() {
-        moveExecutor.executeMove(kingCacheBoard);
+        moveExecutor.doMove(kingCacheBoard);
 
         assertEquals(Square.c8, kingCacheBoard.getKingSquareBlack());
 
@@ -235,7 +235,7 @@ public class CastlingBlackQueenTest {
         moveExecutor.doMove(squareBoard);
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(colorBoard);
-        moveExecutor.executeMove(kingCacheBoard);
+        moveExecutor.doMove(kingCacheBoard);
         moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
