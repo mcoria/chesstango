@@ -49,6 +49,7 @@ public interface MoveKing extends Move {
 		undoMove(hash);
 	}
 
+	@Override
 	default boolean filter(MoveFilter filter){
 		return filter.filterMoveKing(this);
 	}

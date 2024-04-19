@@ -10,6 +10,7 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 
 public interface MoveCastling extends MoveKing {
 
+	@Override
 	default boolean filter(MoveFilter filter){
 		return filter.filterMoveCastling(this);
 	}
