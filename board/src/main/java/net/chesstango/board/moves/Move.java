@@ -19,13 +19,13 @@ public interface Move extends Comparable<Move> {
 
     PiecePositioned getTo();
 
-    default void executeMove(SquareBoardWriter squareBoard,
-                             BitBoardWriter bitBoard,
-                             PositionStateWriter positionState,
-                             MoveCacheBoardWriter moveCache,
-                             KingSquareWriter kingSquare,
-                             ZobristHashWriter hash,
-                             ChessPositionReader chessPositionReader) {
+    default void executeMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
         executeMove(squareBoard);
 
         executeMove(bitBoard);
@@ -34,16 +34,16 @@ public interface Move extends Comparable<Move> {
 
         executeMove(moveCache);
 
-        executeMove(hash, chessPositionReader);
+        executeMove(hash, chessPosition);
     }
 
-    default void undoMove(SquareBoardWriter squareBoard,
-                          BitBoardWriter bitBoard,
-                          PositionStateWriter positionState,
-                          MoveCacheBoardWriter moveCache,
-                          KingSquareWriter kingSquare,
-                          ZobristHashWriter hash,
-                          ChessPositionReader chessPositionReader) {
+    default void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
         undoMove(squareBoard);
 
         undoMove(bitBoard);

@@ -42,17 +42,17 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public void doMove(Move move) {
-        move.executeMove(squareBoard, bitBoard, positionState, moveCache, kingSquare, zobristHash, this);
+        move.executeMove(this);
     }
 
 
     @Override
     public void undoMove(Move move) {
-        move.undoMove(squareBoard, bitBoard, positionState, moveCache, kingSquare, zobristHash, this);
+        move.undoMove(this);
     }
 
 
-    @Override
+    @Override    
     public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
         builder.withTurn(positionState.getCurrentTurn())
                 .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
@@ -241,6 +241,36 @@ public class ChessPositionImp implements ChessPosition {
     @Override
     public PiecePositioned getElement(int idx) {
         return squareBoard.getElement(idx);
+    }
+
+    @Override
+    public SquareBoard getSquareBoard() {
+        return squareBoard;
+    }
+
+    @Override
+    public BitBoard getBitBoard() {
+        return bitBoard;
+    }
+
+    @Override
+    public KingSquare getKingSquare() {
+        return kingSquare;
+    }
+
+    @Override
+    public MoveCacheBoard getMoveCache() {
+        return moveCache;
+    }
+
+    @Override
+    public PositionState getPositionState() {
+        return positionState;
+    }
+
+    @Override
+    public ZobristHash getZobrist() {
+        return zobristHash;
     }
 
     @Override

@@ -225,11 +225,11 @@ public class ChessPositionTest {
 
             long zobristHash = chessPosition.getZobristHash(move);
 
-            chessPosition.doMove(move);
+            move.executeMove(chessPosition);
 
             assertEquals(zobristHash, chessPosition.getZobristHash());
 
-            chessPosition.undoMove(move);
+            move.undoMove(chessPosition);
         }
 
         assertEquals(initialZobristHash, chessPosition.getZobristHash());

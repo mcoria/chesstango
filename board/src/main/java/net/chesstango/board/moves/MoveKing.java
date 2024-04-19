@@ -10,12 +10,14 @@ import net.chesstango.board.position.*;
 public interface MoveKing extends Move {
 
 	@Override
-	default void executeMove(SquareBoardWriter squareBoard,
-							 BitBoardWriter bitBoard,
-							 PositionStateWriter positionState,
-							 MoveCacheBoardWriter moveCache,
-							 KingSquareWriter kingSquare, ZobristHashWriter hash,
-							 ChessPositionReader chessPositionReader) {
+	default void executeMove(ChessPosition chessPosition) {
+		SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+		BitBoardWriter bitBoard = chessPosition.getBitBoard();
+		PositionStateWriter positionState = chessPosition.getPositionState();
+		MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+		KingSquare kingSquare = chessPosition.getKingSquare();
+		ZobristHashWriter hash = chessPosition.getZobrist();
+
 		executeMove(squareBoard);
 
 		executeMove(bitBoard);
@@ -26,16 +28,18 @@ public interface MoveKing extends Move {
 
 		executeMove(kingSquare);
 
-		executeMove(hash, chessPositionReader);
+		executeMove(hash, chessPosition);
 	}
 
 	@Override
-	default void undoMove(SquareBoardWriter squareBoard,
-						  BitBoardWriter bitBoard,
-						  PositionStateWriter positionState,
-						  MoveCacheBoardWriter moveCache,
-						  KingSquareWriter kingSquare, ZobristHashWriter hash,
-						  ChessPositionReader chessPositionReader) {
+	default void undoMove(ChessPosition chessPosition) {
+		SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+		BitBoardWriter bitBoard = chessPosition.getBitBoard();
+		PositionStateWriter positionState = chessPosition.getPositionState();
+		MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+		KingSquare kingSquare = chessPosition.getKingSquare();
+		ZobristHashWriter hash = chessPosition.getZobrist();
+
 		undoMove(squareBoard);
 
 		undoMove(bitBoard);

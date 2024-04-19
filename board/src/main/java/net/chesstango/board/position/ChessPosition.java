@@ -7,8 +7,20 @@ import net.chesstango.board.moves.Move;
  */
 public interface ChessPosition extends ChessPositionReader {
     void init();
-
-    void doMove(Move move);
+    
+	void doMove(Move move);
 
     void undoMove(Move move);
+
+    SquareBoard getSquareBoard();
+
+    BitBoard getBitBoard();
+
+    KingSquare getKingSquare();
+
+    MoveCacheBoard getMoveCache();
+
+    PositionState getPositionState();
+
+    ZobristHash getZobrist();
 }
