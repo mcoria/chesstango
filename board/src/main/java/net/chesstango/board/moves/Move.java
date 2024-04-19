@@ -19,22 +19,22 @@ public interface Move extends Comparable<Move> {
 
     PiecePositioned getTo();
 
-    default void executeMove(ChessPosition chessPosition) {
+    default void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
         MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
         ZobristHashWriter hash = chessPosition.getZobrist();
 
-        executeMove(squareBoard);
+        doMove(squareBoard);
 
-        executeMove(bitBoard);
+        doMove(bitBoard);
 
-        executeMove(positionState);
+        doMove(positionState);
 
-        executeMove(moveCache);
+        doMove(moveCache);
 
-        executeMove(hash, chessPosition);
+        doMove(hash, chessPosition);
     }
 
     default void undoMove(ChessPosition chessPosition) {
@@ -57,23 +57,23 @@ public interface Move extends Comparable<Move> {
 
     boolean isLegalMove(MoveFilter filter);
 
-    void executeMove(SquareBoardWriter squareBoard);
+    void doMove(SquareBoardWriter squareBoard);
 
     void undoMove(SquareBoardWriter squareBoard);
 
-    void executeMove(PositionStateWriter positionState);
+    void doMove(PositionStateWriter positionState);
 
     void undoMove(PositionStateWriter positionStateWriter);
 
-    void executeMove(BitBoardWriter bitBoard);
+    void doMove(BitBoardWriter bitBoard);
 
     void undoMove(BitBoardWriter bitBoard);
 
-    void executeMove(MoveCacheBoardWriter moveCache);
+    void doMove(MoveCacheBoardWriter moveCache);
 
     void undoMove(MoveCacheBoardWriter moveCache);
 
-    void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader);
+    void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader);
 
     void undoMove(ZobristHashWriter hash);
 

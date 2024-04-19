@@ -56,8 +56,8 @@ public class NoCheckMoveFilter implements MoveFilter {
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
-		move.executeMove(this.dummySquareBoard);
-		move.executeMove(this.bitBoard);
+		move.doMove(this.dummySquareBoard);
+		move.doMove(this.bitBoard);
 
 		if(! cardinalSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
@@ -76,8 +76,8 @@ public class NoCheckMoveFilter implements MoveFilter {
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.kingCacheBoard);
-		move.executeMove(this.dummySquareBoard);
-		move.executeMove(this.bitBoard);
+		move.doMove(this.dummySquareBoard);
+		move.doMove(this.bitBoard);
 
 		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;

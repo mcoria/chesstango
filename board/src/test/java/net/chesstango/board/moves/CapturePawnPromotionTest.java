@@ -93,8 +93,8 @@ public class CapturePawnPromotionTest {
         chessPositionImp.setZobristHash(zobristHash);
         chessPositionImp.setPositionState(positionState);
 
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
         assertEquals(PolyglotEncoder.getKey("5Q2/8/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -107,8 +107,8 @@ public class CapturePawnPromotionTest {
 
         long initialHash = zobristHash.getZobristHash();
 
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
@@ -119,7 +119,7 @@ public class CapturePawnPromotionTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(squareBoard);
+        moveExecutor.doMove(squareBoard);
 
         // asserts execute
         assertEquals(Piece.QUEEN_WHITE, squareBoard.getPiece(Square.f8));
@@ -136,7 +136,7 @@ public class CapturePawnPromotionTest {
     @Test
     public void testMoveState() {
         // execute
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         // asserts execute
         assertNull(positionState.getEnPassantSquare());
@@ -156,7 +156,7 @@ public class CapturePawnPromotionTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.executeMove(colorBoard);
+        moveExecutor.doMove(colorBoard);
 
         // asserts execute
         assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
@@ -172,7 +172,7 @@ public class CapturePawnPromotionTest {
 
     @Test
     public void testMoveCacheBoard() {
-        moveExecutor.executeMove(moveCacheBoard);
+        moveExecutor.doMove(moveCacheBoard);
 
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.f8));
@@ -196,9 +196,9 @@ public class CapturePawnPromotionTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(squareBoard);
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(colorBoard);
+        moveExecutor.doMove(squareBoard);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(colorBoard);
 
         // asserts execute
         assertEquals(Piece.QUEEN_WHITE, squareBoard.getPiece(Square.f8));

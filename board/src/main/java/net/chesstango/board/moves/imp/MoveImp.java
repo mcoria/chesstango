@@ -63,7 +63,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         fnDoSquareBoard.apply(from, to, squareBoard);
     }
 
@@ -73,7 +73,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         fnDoPositionState.apply(from, to, positionState);
     }
 
@@ -83,7 +83,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoard) {
+    public void doMove(BitBoardWriter bitBoard) {
         fnDoColorBoard.apply(from, to, bitBoard);
     }
 
@@ -93,7 +93,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.push();
     }
@@ -105,7 +105,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         fnDoZobrist.apply(from, to, hash, chessPositionReader);
     }
 

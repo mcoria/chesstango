@@ -40,7 +40,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(from, to);
         squareBoard.setEmptyPosition(capture);
     }
@@ -53,7 +53,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         positionState.pushState();
 
         positionState.setEnPassantSquare(null);
@@ -74,7 +74,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoardWriter) {
+    public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
 
         bitBoardWriter.removePosition(capture);
@@ -88,7 +88,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
         moveCache.push();
     }
@@ -100,7 +100,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);

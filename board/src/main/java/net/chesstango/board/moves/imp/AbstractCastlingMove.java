@@ -41,7 +41,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(kingFrom, kingTo);
         squareBoard.move(rookFrom, rookTo);
     }
@@ -62,7 +62,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoardWriter) {
+    public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(kingFrom.getPiece(), kingFrom.getSquare(), kingTo.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookFrom.getSquare(), rookTo.getSquare());
     }
@@ -74,7 +74,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
         moveCache.push();
     }
@@ -86,7 +86,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(kingFrom);

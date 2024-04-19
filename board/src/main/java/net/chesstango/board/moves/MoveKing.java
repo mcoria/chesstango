@@ -8,7 +8,7 @@ import net.chesstango.board.position.*;
 public interface MoveKing extends Move {
 
     @Override
-    default void executeMove(ChessPosition chessPosition) {
+    default void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -16,17 +16,17 @@ public interface MoveKing extends Move {
         KingSquare kingSquare = chessPosition.getKingSquare();
         ZobristHashWriter hash = chessPosition.getZobrist();
 
-        executeMove(squareBoard);
+        doMove(squareBoard);
 
-        executeMove(bitBoard);
+        doMove(bitBoard);
 
-        executeMove(positionState);
+        doMove(positionState);
 
-        executeMove(moveCache);
+        doMove(moveCache);
 
         executeMove(kingSquare);
 
-        executeMove(hash, chessPosition);
+        doMove(hash, chessPosition);
     }
 
     @Override
