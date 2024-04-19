@@ -8,9 +8,9 @@ import net.chesstango.board.moves.Move;
 public interface ChessPosition extends ChessPositionReader {
     void init();
 
-    void acceptForDo(Move move);
+    void doMove(Move move);
 
-    void acceptForUndo(Move move);
+    void undoMove(Move move);
 
     SquareBoard getSquareBoard();
 

@@ -9,8 +9,6 @@ import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 
-import java.util.Map;
-
 /**
  * @author Mauricio Coria
  */
@@ -62,7 +60,7 @@ public class GameImp implements Game {
 
         gameState.push();
 
-        chessPosition.acceptForDo(move);
+        chessPosition.doMove(move);
 
         // NO LLAMAR a updateGameState
         // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
@@ -78,7 +76,7 @@ public class GameImp implements Game {
 
         Move lastMove = gameState.getSelectedMove();
 
-        chessPosition.acceptForUndo(lastMove);
+        chessPosition.undoMove(lastMove);
 
         return this;
     }

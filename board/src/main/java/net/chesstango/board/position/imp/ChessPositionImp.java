@@ -41,13 +41,13 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public void acceptForDo(Move move) {
+    public void doMove(Move move) {
         move.executeMove(this);
     }
 
 
     @Override
-    public void acceptForUndo(Move move) {
+    public void undoMove(Move move) {
         move.undoMove(this);
     }
 

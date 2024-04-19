@@ -20,8 +20,8 @@ public class ChessPositionDebug extends ChessPositionImp {
 
 
     @Override
-    public void acceptForDo(Move move) {
-        super.acceptForDo(move);
+    public void doMove(Move move) {
+        super.doMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
         ((KingSquareDebug) kingSquare).validar(this.squareBoard);
@@ -30,8 +30,8 @@ public class ChessPositionDebug extends ChessPositionImp {
     }
 
     @Override
-    public void acceptForUndo(Move move) {
-        super.acceptForUndo(move);
+    public void undoMove(Move move) {
+        super.undoMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
         ((KingSquareDebug) kingSquare).validar(this.squareBoard);
