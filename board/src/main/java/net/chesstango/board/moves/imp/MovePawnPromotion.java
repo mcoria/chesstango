@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -41,6 +42,10 @@ class MovePawnPromotion implements MovePromotion {
         return to;
     }
 
+    @Override
+    public boolean isLegalMove(MoveFilter filter) {
+        return filter.filterMove(this);
+    }
 
     @Override
     public void executeMove(SquareBoardWriter squareBoard) {

@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -32,6 +33,11 @@ class MovePawnTwoSquares implements Move {
     @Override
     public PiecePositioned getTo() {
         return to;
+    }
+
+    @Override
+    public boolean isLegalMove(MoveFilter filter) {
+        return filter.filterMove(this);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package net.chesstango.board.movesgenerators.legal.strategies;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
@@ -73,7 +71,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	}
 
 	protected void filter(Move move, MoveContainer collectionToAdd) {
-		if(move.filter(filter)){
+		if(move.isLegalMove(filter)){
 			collectionToAdd.add(move);
 		}
 	}

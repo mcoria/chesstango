@@ -201,7 +201,7 @@ public class SimpleKingMoveTest {
     @Test
     public void testFilter() {
         // execute
-        moveExecutor.filter(filter);
+        moveExecutor.isLegalMove(filter);
 
         // asserts execute
         verify(filter).filterMoveKing(moveExecutor);

@@ -53,11 +53,6 @@ public interface MoveKing extends Move {
 		undoMove(hash);
 	}
 
-	@Override
-	default boolean filter(MoveFilter filter){
-		return filter.filterMoveKing(this);
-	}
-
 	default void executeMove(KingSquareWriter kingSquareWriter) {
 		kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
 	}

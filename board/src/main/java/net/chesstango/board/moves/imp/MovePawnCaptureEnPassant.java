@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -31,6 +32,11 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     @Override
     public PiecePositioned getTo() {
         return to;
+    }
+
+    @Override
+    public boolean isLegalMove(MoveFilter filter) {
+        return filter.filterMove(this);
     }
 
     @Override

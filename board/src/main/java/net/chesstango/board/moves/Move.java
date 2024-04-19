@@ -55,9 +55,7 @@ public interface Move extends Comparable<Move> {
         undoMove(hash);
     }
 
-    default boolean filter(MoveFilter filter) {
-        return filter.filterMove(this);
-    }
+    boolean isLegalMove(MoveFilter filter);
 
     void executeMove(SquareBoardWriter squareBoard);
 

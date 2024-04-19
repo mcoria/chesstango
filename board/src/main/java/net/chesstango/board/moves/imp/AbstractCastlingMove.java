@@ -3,11 +3,11 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 abstract class AbstractCastlingMove implements MoveCastling {
 
@@ -33,6 +33,11 @@ abstract class AbstractCastlingMove implements MoveCastling {
     @Override
     public PiecePositioned getTo() {
         return kingTo;
+    }
+
+    @Override
+    public boolean isLegalMove(MoveFilter filter) {
+        return filter.filterMoveCastling(this);
     }
 
     @Override

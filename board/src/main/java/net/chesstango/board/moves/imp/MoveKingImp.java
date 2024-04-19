@@ -3,6 +3,7 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 
 /**
  * @author Mauricio Coria
@@ -15,6 +16,11 @@ class MoveKingImp extends MoveImp implements MoveKing {
 
     public MoveKingImp(PiecePositioned from, PiecePositioned to) {
         super(from, to);
+    }
+
+    @Override
+    public boolean isLegalMove(MoveFilter filter) {
+        return filter.filterMoveKing(this);
     }
 
     @Override
