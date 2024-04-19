@@ -94,7 +94,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);

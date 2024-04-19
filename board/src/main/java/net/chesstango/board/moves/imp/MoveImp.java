@@ -99,8 +99,8 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
-        fnDoZobrist.apply(from, to, hash, oldPositionState, newPositionState);
+    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+        fnDoZobrist.apply(from, to, hash, chessPositionReader);
     }
 
     @Override

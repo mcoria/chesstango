@@ -88,7 +88,7 @@ class MovePawnTwoSquares implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -97,11 +97,11 @@ class MovePawnTwoSquares implements Move {
 
         hash.clearEnPassantSquare();
 
-        if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) {
+        if(enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
             Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
-            if (leftSquare != null && from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
-                    rightSquare != null && from.getPiece().getOpposite().equals(board.getPiece(rightSquare))) {
+            if (leftSquare != null && from.getPiece().getOpposite().equals(chessPositionReader.getPiece(leftSquare)) ||
+                    rightSquare != null && from.getPiece().getOpposite().equals(chessPositionReader.getPiece(rightSquare))) {
                 hash.xorEnPassantSquare(enPassantSquare);
             }
         }

@@ -49,7 +49,7 @@ public class ChessPositionImp implements ChessPosition {
 
         move.executeMove(this.moveCache);
 
-        move.executeMove(this.zobristHash, positionState.getPreviousPositionState(), this.positionState, this.squareBoard);
+        move.executeMove(this.zobristHash, this);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ChessPositionImp implements ChessPosition {
 
         move.executeMove(this.positionState);
 
-        move.executeMove(this.zobristHash, this.positionState.getPreviousPositionState(), this.positionState, this.squareBoard);
+        move.executeMove(this.zobristHash, this);
 
         long zobristHash = this.zobristHash.getZobristHash();
 

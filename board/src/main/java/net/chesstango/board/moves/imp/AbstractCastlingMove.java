@@ -81,7 +81,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(kingFrom);
@@ -90,7 +90,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
 
-        xorCastling(hash, oldPositionState, newPositionState);
+        xorCastling(hash, chessPositionReader.getPreviousPositionState(), chessPositionReader);
 
         hash.clearEnPassantSquare();
 

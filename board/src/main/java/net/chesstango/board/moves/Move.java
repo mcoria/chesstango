@@ -47,7 +47,7 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(MoveCacheBoardWriter moveCache);
 
-    void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
+    void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader);
 
     void undoMove(ZobristHashWriter hash);
 

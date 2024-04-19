@@ -125,7 +125,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void executeMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -136,20 +136,22 @@ class MovePawnPromotion implements MovePromotion {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
 
-        if(oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()){
+        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
+
+        if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();
         }
 
-        if(oldPositionState.isCastlingWhiteQueenAllowed() != newPositionState.isCastlingWhiteQueenAllowed()){
+        if(oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()){
             hash.xorCastleWhiteQueen();
         }
 
 
-        if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
+        if(oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()){
             hash.xorCastleBlackKing();
         }
 
-        if(oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()){
+        if(oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()){
             hash.xorCastleBlackQueen();
         }
 

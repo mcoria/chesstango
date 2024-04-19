@@ -13,7 +13,7 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
@@ -89,20 +89,30 @@ public class SimpleTwoSquaresPawnMoveTest {
 
     @Test
     public void testZobristHash() {
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPiecePlacement(squareBoard);
+
         moveExecutor.executeMove(squareBoard);
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, squareBoard);
+        moveExecutor.executeMove(zobristHash, chessPositionImp);
 
         assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPiecePlacement(squareBoard);
+
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.executeMove(squareBoard);
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, squareBoard);
+        moveExecutor.executeMove(zobristHash, chessPositionImp);
 
         moveExecutor.undoMove(squareBoard);
         moveExecutor.undoMove(positionState);
