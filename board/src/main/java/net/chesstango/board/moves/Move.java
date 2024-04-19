@@ -19,28 +19,40 @@ public interface Move extends Comparable<Move> {
 
     PiecePositioned getTo();
 
-    default void executeMove(ChessPosition chessPosition) {
-        executeMove(chessPosition.getSquareBoard());
+    default void executeMove(SquareBoardWriter squareBoard,
+                             BitBoardWriter bitBoard,
+                             PositionStateWriter positionState,
+                             MoveCacheBoardWriter moveCache,
+                             ZobristHashWriter hash,
+                             KingSquareWriter kingSquareWriter,
+                             ChessPositionReader chessPositionReader) {
+        executeMove(squareBoard);
 
-        executeMove(chessPosition.getBitBoard());
+        executeMove(bitBoard);
 
-        executeMove(chessPosition.getPositionState());
+        executeMove(positionState);
 
-        executeMove(chessPosition.getMoveCache());
+        executeMove(moveCache);
 
-        executeMove(chessPosition.getZobrist(), chessPosition);
+        executeMove(hash, chessPositionReader);
     }
 
-    default void undoMove(ChessPosition chessPosition) {
-        undoMove(chessPosition.getSquareBoard());
+    default void undoMove(SquareBoardWriter squareBoard,
+                          BitBoardWriter bitBoard,
+                          PositionStateWriter positionState,
+                          MoveCacheBoardWriter moveCache,
+                          ZobristHashWriter hash,
+                          KingSquareWriter kingSquareWriter,
+                          ChessPositionReader chessPositionReader) {
+        undoMove(squareBoard);
 
-        undoMove(chessPosition.getBitBoard());
+        undoMove(bitBoard);
 
-        undoMove(chessPosition.getPositionState());
+        undoMove(positionState);
 
-        undoMove(chessPosition.getMoveCache());
+        undoMove(moveCache);
 
-        undoMove(chessPosition.getZobrist());
+        undoMove(hash);
     }
 
     default boolean filter(MoveFilter filter) {

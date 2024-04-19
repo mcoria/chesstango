@@ -1,8 +1,7 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.KingSquareWriter;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
@@ -10,32 +9,46 @@ import net.chesstango.board.position.KingSquareWriter;
  */
 public interface MoveKing extends Move {
 
-	default void executeMove(ChessPosition chessPosition){
-		executeMove(chessPosition.getSquareBoard());
+	@Override
+	default void executeMove(SquareBoardWriter squareBoard,
+							 BitBoardWriter bitBoard,
+							 PositionStateWriter positionState,
+							 MoveCacheBoardWriter moveCache,
+							 ZobristHashWriter hash,
+							 KingSquareWriter kingSquareWriter,
+							 ChessPositionReader chessPositionReader) {
+		executeMove(squareBoard);
 
-		executeMove(chessPosition.getBitBoard());
+		executeMove(bitBoard);
 
-		executeMove(chessPosition.getPositionState());
+		executeMove(positionState);
 
-		executeMove(chessPosition.getMoveCache());
+		executeMove(moveCache);
 
-		executeMove(chessPosition.getZobrist(), chessPosition);
+		executeMove(kingSquareWriter);
 
-		executeMove(chessPosition.getKingSquare());
+		executeMove(hash, chessPositionReader);
 	}
 
-	default void undoMove(ChessPosition chessPosition){
-		undoMove(chessPosition.getSquareBoard());
+	@Override
+	default void undoMove(SquareBoardWriter squareBoard,
+						  BitBoardWriter bitBoard,
+						  PositionStateWriter positionState,
+						  MoveCacheBoardWriter moveCache,
+						  ZobristHashWriter hash,
+						  KingSquareWriter kingSquareWriter,
+						  ChessPositionReader chessPositionReader) {
+		undoMove(squareBoard);
 
-		undoMove(chessPosition.getBitBoard());
+		undoMove(bitBoard);
 
-		undoMove(chessPosition.getPositionState());
+		undoMove(positionState);
 
-		undoMove(chessPosition.getMoveCache());
+		undoMove(moveCache);
 
-		undoMove(chessPosition.getZobrist());
+		undoMove(kingSquareWriter);
 
-		undoMove(chessPosition.getKingSquare());
+		undoMove(hash);
 	}
 
 	default boolean filter(MoveFilter filter){
