@@ -91,7 +91,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     public void testZobristHash() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
         chessPositionImp.setSquareBoard(squareBoard);
 
         moveExecutor.executeMove(squareBoard);
@@ -105,7 +105,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     public void testZobristHashUndo() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
         chessPositionImp.setSquareBoard(squareBoard);
 
         long initialHash = zobristHash.getZobristHash();

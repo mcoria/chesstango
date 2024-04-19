@@ -78,7 +78,7 @@ public class ChessInjector {
 
             chessPositionImp.setSquareBoard(getPiecePlacement());
 
-            chessPositionImp.setBoardState(getPositionState());
+            chessPositionImp.setPositionState(getPositionState());
 
             chessPositionImp.setKingSquare(getKingCacheBoard());
 

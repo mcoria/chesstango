@@ -97,7 +97,7 @@ public class CastlingBlackKingTest {
     public void testZobristHash() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         moveExecutor.executeMove(positionState);
 
@@ -110,7 +110,7 @@ public class CastlingBlackKingTest {
     public void testZobristHashUndo() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         long initialHash = zobristHash.getZobristHash();
 

@@ -91,7 +91,7 @@ public class CapturePawnPromotionTest {
     public void testZobristHash() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(zobristHash, chessPositionImp);
@@ -103,7 +103,7 @@ public class CapturePawnPromotionTest {
     public void testZobristHashUndo() {
         ChessPositionImp chessPositionImp = new ChessPositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setBoardState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         long initialHash = zobristHash.getZobristHash();
 

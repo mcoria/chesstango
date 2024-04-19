@@ -29,6 +29,7 @@ public class ChessPositionImp implements ChessPosition {
     protected KingSquare kingSquare = null;
     @Setter
     protected MoveCacheBoard moveCache = null;
+    @Setter
     protected PositionState positionState = null;
     @Setter
     protected ZobristHash zobristHash = null;
@@ -290,10 +291,6 @@ public class ChessPositionImp implements ChessPosition {
         constructChessPositionRepresentation(fenEncoder);
 
         return fenEncoder.getChessRepresentation();
-    }
-
-    public void setBoardState(PositionState positionState) {
-        this.positionState = positionState;
     }
 
 }
