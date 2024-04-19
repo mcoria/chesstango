@@ -90,9 +90,8 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testZobristHash() {
         moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
+        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, squareBoard);
 
         assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -102,12 +101,10 @@ public class SimpleTwoSquaresPawnMoveTest {
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
+        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, squareBoard);
 
         moveExecutor.undoMove(squareBoard);
-        oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
 

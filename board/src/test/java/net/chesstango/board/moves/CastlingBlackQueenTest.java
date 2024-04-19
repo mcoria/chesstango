@@ -94,9 +94,8 @@ public class CastlingBlackQueenTest {
 
     @Test
     public void testZobristHash() {
-        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
+        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, null);
 
         assertEquals(PolyglotEncoder.getKey("2kr4/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -105,11 +104,9 @@ public class CastlingBlackQueenTest {
     public void testZobristHashUndo() {
         long initialHash = zobristHash.getZobristHash();
 
-        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
+        moveExecutor.executeMove(zobristHash, positionState.getPreviousPositionState(), positionState, null);
 
-        oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
 
