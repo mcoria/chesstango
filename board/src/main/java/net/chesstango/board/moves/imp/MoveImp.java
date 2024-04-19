@@ -58,11 +58,6 @@ class MoveImp implements Move {
     }
 
     @Override
-    public boolean isLegalMove(MoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
-
-    @Override
     public void doMove(SquareBoardWriter squareBoard) {
         fnDoSquareBoard.apply(from, to, squareBoard);
     }

@@ -20,7 +20,9 @@ public interface Move extends Comparable<Move> {
      * @param filter
      * @return
      */
-    boolean isLegalMove(MoveFilter filter);
+    default boolean isLegalMove(MoveFilter filter){
+        return filter.isLegalMove(this);
+    }
 
     default void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();

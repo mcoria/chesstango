@@ -36,11 +36,6 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public boolean isLegalMove(MoveFilter filter) {
-        return filter.isLegalMoveCastling(this);
-    }
-
-    @Override
     public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(kingFrom, kingTo);
         squareBoard.move(rookFrom, rookTo);

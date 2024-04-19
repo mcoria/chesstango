@@ -43,11 +43,6 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public boolean isLegalMove(MoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
-
-    @Override
     public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.setEmptyPosition(from);
         squareBoard.setPiece(to.getSquare(), this.promotion);

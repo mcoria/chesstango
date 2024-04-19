@@ -12,4 +12,16 @@ public interface MoveCastling extends MoveKing {
 
 	PiecePositioned getRookFrom();
 	PiecePositioned getRookTo();
+
+	/**
+	 * This method checks if this move is legal or not.
+	 *
+	 * @param filter
+	 * @return
+	 */
+	@Override
+	default boolean isLegalMove(MoveFilter filter){
+		return filter.isLegalMoveCastling(this);
+	}
+
 }

@@ -35,11 +35,6 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public boolean isLegalMove(MoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
-
-    @Override
     public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(from, to);
         squareBoard.setEmptyPosition(capture);
