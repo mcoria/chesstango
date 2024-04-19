@@ -49,7 +49,7 @@ public interface Move extends Comparable<Move> {
 
     void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
 
-    void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
+    void undoMove(ZobristHashWriter hash);
 
     /**
      * "move" is a bit field with the following meaning (bit 0 is the least significant bit)

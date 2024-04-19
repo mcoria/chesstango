@@ -6,5 +6,5 @@ package net.chesstango.board.position;
  */
 public interface PositionState extends PositionStateReader, PositionStateWriter {
 
-    PositionStateReader getCurrentState();
+    PositionStateReader takePositionStateSnapshot();
 }

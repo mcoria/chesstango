@@ -90,7 +90,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testZobristHash() {
         moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.getCurrentState();
+        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
 
@@ -102,14 +102,14 @@ public class SimpleTwoSquaresPawnMoveTest {
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.getCurrentState();
+        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
 
         moveExecutor.undoMove(squareBoard);
-        oldPositionState = positionState.getCurrentState();
+        oldPositionState = positionState.takePositionStateSnapshot();
         moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(zobristHash, oldPositionState, positionState, squareBoard);
+        moveExecutor.undoMove(zobristHash);
 
         assertEquals(initialHash, zobristHash.getZobristHash());
     }

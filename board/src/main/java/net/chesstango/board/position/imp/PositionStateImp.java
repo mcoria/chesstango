@@ -118,7 +118,7 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
-    public PositionStateReader getCurrentState() {
+    public PositionStateReader takePositionStateSnapshot() {
         return currentPositionState;
     }
 

@@ -41,7 +41,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public void executeMove(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
+        PositionStateReader positionStateSnapshot = positionState.takePositionStateSnapshot();
 
         move.executeMove(this.squareBoard);
 
@@ -51,7 +51,7 @@ public class ChessPositionImp implements ChessPosition {
 
         move.executeMove(this.moveCache);
 
-        move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
+        move.executeMove(this.zobristHash, positionStateSnapshot, this.positionState, this.squareBoard);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public void undoMove(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
+        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
 
         move.undoMove(this.squareBoard);
 
@@ -79,7 +79,7 @@ public class ChessPositionImp implements ChessPosition {
 
         move.undoMove(this.moveCache);
 
-        move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
+        move.undoMove(this.zobristHash);
 
     }
 
@@ -108,7 +108,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public long getZobristHash(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
+        PositionStateReader oldPositionState = positionState.takePositionStateSnapshot();
 
         move.executeMove(this.squareBoard);
 
@@ -118,7 +118,7 @@ public class ChessPositionImp implements ChessPosition {
 
         long zobristHash = this.zobristHash.getZobristHash();
 
-        move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
+        move.undoMove(this.zobristHash);
 
         move.undoMove(this.positionState);
 
