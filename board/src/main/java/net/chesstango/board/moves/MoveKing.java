@@ -1,64 +1,57 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface MoveKing extends Move {
 
-	@Override
-	default void executeMove(ChessPosition chessPosition) {
-		SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-		BitBoardWriter bitBoard = chessPosition.getBitBoard();
-		PositionStateWriter positionState = chessPosition.getPositionState();
-		MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-		KingSquare kingSquare = chessPosition.getKingSquare();
-		ZobristHashWriter hash = chessPosition.getZobrist();
+    @Override
+    default void executeMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
 
-		executeMove(squareBoard);
+        executeMove(squareBoard);
 
-		executeMove(bitBoard);
+        executeMove(bitBoard);
 
-		executeMove(positionState);
+        executeMove(positionState);
 
-		executeMove(moveCache);
+        executeMove(moveCache);
 
-		executeMove(kingSquare);
+        executeMove(kingSquare);
 
-		executeMove(hash, chessPosition);
-	}
+        executeMove(hash, chessPosition);
+    }
 
-	@Override
-	default void undoMove(ChessPosition chessPosition) {
-		SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-		BitBoardWriter bitBoard = chessPosition.getBitBoard();
-		PositionStateWriter positionState = chessPosition.getPositionState();
-		MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-		KingSquare kingSquare = chessPosition.getKingSquare();
-		ZobristHashWriter hash = chessPosition.getZobrist();
+    @Override
+    default void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
 
-		undoMove(squareBoard);
+        undoMove(squareBoard);
 
-		undoMove(bitBoard);
+        undoMove(bitBoard);
 
-		undoMove(positionState);
+        undoMove(positionState);
 
-		undoMove(moveCache);
+        undoMove(moveCache);
 
-		undoMove(kingSquare);
+        undoMove(kingSquare);
 
-		undoMove(hash);
-	}
+        undoMove(hash);
+    }
 
-	default void executeMove(KingSquareWriter kingSquareWriter) {
-		kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
-	}
+    void executeMove(KingSquareWriter kingSquareWriter);
 
-	default void undoMove(KingSquareWriter kingSquareWriter) {
-		kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
-	}
-
+    void undoMove(KingSquareWriter kingSquareWriter);
 }
