@@ -34,7 +34,7 @@ public class CheckMoveFilter implements MoveFilter {
 	}
 	
 	@Override
-	public boolean filterMove(Move move) {
+	public boolean isLegalMove(Move move) {
 		boolean result = false;
 		
 		final Color turnoActual = positionState.getCurrentTurn();
@@ -54,10 +54,10 @@ public class CheckMoveFilter implements MoveFilter {
 	}	
 	
 	@Override
-	public boolean filterMoveKing(MoveKing move) {
+	public boolean isLegalMoveKing(MoveKing move) {
 		move.doMove(this.kingCacheBoard);
 
-		boolean result = filterMove(move);
+		boolean result = isLegalMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 		
@@ -65,7 +65,7 @@ public class CheckMoveFilter implements MoveFilter {
 	}
 
 	@Override
-	public boolean filterMoveCastling(MoveCastling moveCastling) {
+	public boolean isLegalMoveCastling(MoveCastling moveCastling) {
 		return false;
 	}		
 

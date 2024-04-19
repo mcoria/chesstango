@@ -59,7 +59,7 @@ class MoveImp implements Move {
 
     @Override
     public boolean isLegalMove(MoveFilter filter) {
-        return filter.filterMove(this);
+        return filter.isLegalMove(this);
     }
 
     @Override

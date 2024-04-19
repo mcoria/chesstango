@@ -23,7 +23,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 	}
 
 	@Override
-	public boolean filterMove(Move move) {
+	public boolean isLegalMove(Move move) {
 		try {
 			boolean reportError = false;
 
@@ -33,7 +33,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 
 			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 	
-			boolean result = super.filterMove(move);
+			boolean result = super.isLegalMove(move);
 			
 			if (!super.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fu� modificado");
@@ -68,13 +68,13 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 	}
 	
 	@Override
-	public boolean filterMoveKing(MoveKing move) {
+	public boolean isLegalMoveKing(MoveKing move) {
 		try {
 			boolean reportError = false;	
 			
 			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
-			boolean result = super.filterMoveKing(move);
+			boolean result = super.isLegalMoveKing(move);
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
 				System.out.println("El cache de king fu� modificado");

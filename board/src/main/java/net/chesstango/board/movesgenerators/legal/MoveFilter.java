@@ -12,12 +12,12 @@ import net.chesstango.board.moves.MoveKing;
 public interface MoveFilter {
 
 	
-	boolean filterMove(Move move);
+	boolean isLegalMove(Move move);
 	
 	
-	boolean filterMoveKing(MoveKing move) ;
+	boolean isLegalMoveKing(MoveKing move) ;
 
 
-	boolean filterMoveCastling(MoveCastling moveCastling);
+	boolean isLegalMoveCastling(MoveCastling moveCastling);
 
 }

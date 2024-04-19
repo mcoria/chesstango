@@ -6,11 +6,6 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
-//TODO: Y si en vez de PosicionPieza utilizamos Square para To?
-//      La mayoria de los movimientos posibles es a bysquare vacios
-//      Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
-//TODO: y se implementamos un cache de movimientos? Implementar flyweight  pattern
-
 /**
  * @author Mauricio Coria
  */
@@ -18,6 +13,14 @@ public interface Move extends Comparable<Move> {
     PiecePositioned getFrom();
 
     PiecePositioned getTo();
+
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
+    boolean isLegalMove(MoveFilter filter);
 
     default void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
@@ -54,8 +57,6 @@ public interface Move extends Comparable<Move> {
 
         undoMove(hash);
     }
-
-    boolean isLegalMove(MoveFilter filter);
 
     void doMove(SquareBoardWriter squareBoard);
 
@@ -106,6 +107,8 @@ public interface Move extends Comparable<Move> {
 
     Cardinal getMoveDirection();
 
+    boolean isQuiet();
+
     @Override
     default int compareTo(Move theOther) {
         //Comparamos from
@@ -141,6 +144,4 @@ public interface Move extends Comparable<Move> {
 
         return 0;
     }
-
-    boolean isQuiet();
 }

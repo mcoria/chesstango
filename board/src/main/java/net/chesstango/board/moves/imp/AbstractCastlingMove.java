@@ -37,7 +37,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
 
     @Override
     public boolean isLegalMove(MoveFilter filter) {
-        return filter.filterMoveCastling(this);
+        return filter.isLegalMoveCastling(this);
     }
 
     @Override

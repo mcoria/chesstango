@@ -21,7 +21,7 @@ class MoveKingImp extends MoveImp implements MoveKing {
 
     @Override
     public boolean isLegalMove(MoveFilter filter) {
-        return filter.filterMoveKing(this);
+        return filter.isLegalMoveKing(this);
     }
 
     @Override

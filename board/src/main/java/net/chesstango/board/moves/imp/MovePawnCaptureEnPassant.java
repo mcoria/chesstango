@@ -36,7 +36,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
 
     @Override
     public boolean isLegalMove(MoveFilter filter) {
-        return filter.filterMove(this);
+        return filter.isLegalMove(this);
     }
 
     @Override

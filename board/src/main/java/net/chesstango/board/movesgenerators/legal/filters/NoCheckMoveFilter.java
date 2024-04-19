@@ -46,7 +46,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	 *  Este metodo sirve para filtrar movimientos que no son de rey.
 	 *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
 	 */
-	public boolean filterMove(Move move) {
+	public boolean isLegalMove(Move move) {
 		if( ! (move instanceof MovePawnCaptureEnPassant)){
 			throw new RuntimeException("Solo deberiamos filtrar MovePawnCaptureEnPassant");
 		}
@@ -70,7 +70,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	}
 	
 	@Override
-	public boolean filterMoveKing(MoveKing move) {
+	public boolean isLegalMoveKing(MoveKing move) {
 		boolean result = false;
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
@@ -93,7 +93,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	//TODO: este metodo esta consumiendo el 20% del procesamiento,
 	// 		deberia crear CAPTURER especifico para validar castling
 	@Override
-	public boolean filterMoveCastling(MoveCastling moveCastling) {
+	public boolean isLegalMoveCastling(MoveCastling moveCastling) {
 		Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
 		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					    // El king no esta en jaque... lo asumimos
 		return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 		// El king no puede ser capturado en casillero intermedio

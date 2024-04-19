@@ -191,7 +191,7 @@ public class SimpleMoveTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).filterMove(moveExecutor);
+        verify(filter).isLegalMove(moveExecutor);
     }
 
     @Test
