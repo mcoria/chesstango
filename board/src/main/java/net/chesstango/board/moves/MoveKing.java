@@ -14,8 +14,7 @@ public interface MoveKing extends Move {
 							 BitBoardWriter bitBoard,
 							 PositionStateWriter positionState,
 							 MoveCacheBoardWriter moveCache,
-							 ZobristHashWriter hash,
-							 KingSquareWriter kingSquareWriter,
+							 KingSquareWriter kingSquare, ZobristHashWriter hash,
 							 ChessPositionReader chessPositionReader) {
 		executeMove(squareBoard);
 
@@ -25,7 +24,7 @@ public interface MoveKing extends Move {
 
 		executeMove(moveCache);
 
-		executeMove(kingSquareWriter);
+		executeMove(kingSquare);
 
 		executeMove(hash, chessPositionReader);
 	}
@@ -35,8 +34,7 @@ public interface MoveKing extends Move {
 						  BitBoardWriter bitBoard,
 						  PositionStateWriter positionState,
 						  MoveCacheBoardWriter moveCache,
-						  ZobristHashWriter hash,
-						  KingSquareWriter kingSquareWriter,
+						  KingSquareWriter kingSquare, ZobristHashWriter hash,
 						  ChessPositionReader chessPositionReader) {
 		undoMove(squareBoard);
 
@@ -46,7 +44,7 @@ public interface MoveKing extends Move {
 
 		undoMove(moveCache);
 
-		undoMove(kingSquareWriter);
+		undoMove(kingSquare);
 
 		undoMove(hash);
 	}

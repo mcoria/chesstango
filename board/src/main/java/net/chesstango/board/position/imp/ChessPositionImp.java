@@ -42,13 +42,13 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public void doMove(Move move) {
-        move.executeMove(squareBoard, bitBoard, positionState, moveCache, zobristHash, kingSquare, this);
+        move.executeMove(squareBoard, bitBoard, positionState, moveCache, kingSquare, zobristHash, this);
     }
 
 
     @Override
     public void undoMove(Move move) {
-        move.undoMove(squareBoard, bitBoard, positionState, moveCache, zobristHash, kingSquare, this);
+        move.undoMove(squareBoard, bitBoard, positionState, moveCache, kingSquare, zobristHash, this);
     }
 
 

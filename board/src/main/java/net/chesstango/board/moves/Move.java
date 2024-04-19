@@ -23,8 +23,8 @@ public interface Move extends Comparable<Move> {
                              BitBoardWriter bitBoard,
                              PositionStateWriter positionState,
                              MoveCacheBoardWriter moveCache,
+                             KingSquareWriter kingSquare,
                              ZobristHashWriter hash,
-                             KingSquareWriter kingSquareWriter,
                              ChessPositionReader chessPositionReader) {
         executeMove(squareBoard);
 
@@ -41,8 +41,8 @@ public interface Move extends Comparable<Move> {
                           BitBoardWriter bitBoard,
                           PositionStateWriter positionState,
                           MoveCacheBoardWriter moveCache,
+                          KingSquareWriter kingSquare,
                           ZobristHashWriter hash,
-                          KingSquareWriter kingSquareWriter,
                           ChessPositionReader chessPositionReader) {
         undoMove(squareBoard);
 
