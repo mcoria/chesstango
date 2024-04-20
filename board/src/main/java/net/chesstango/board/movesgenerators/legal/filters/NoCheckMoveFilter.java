@@ -70,7 +70,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	}
 	
 	@Override
-	public boolean isLegalMoveKing(MoveKing move) {
+	public boolean isLegalMove(MoveKing move) {
 		boolean result = false;
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
@@ -93,7 +93,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	//TODO: este metodo esta consumiendo el 20% del procesamiento,
 	// 		deberia crear CAPTURER especifico para validar castling
 	@Override
-	public boolean isLegalMoveCastling(MoveCastling moveCastling) {
+	public boolean isLegalMove(MoveCastling moveCastling) {
 		Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
 		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					    // El king no esta en jaque... lo asumimos
 		return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 		// El king no puede ser capturado en casillero intermedio

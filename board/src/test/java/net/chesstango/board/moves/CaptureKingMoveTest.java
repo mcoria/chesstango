@@ -205,7 +205,7 @@ public class CaptureKingMoveTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).isLegalMoveKing(moveExecutor);
+        verify(filter).isLegalMove(moveExecutor);
     }
 
     @Test

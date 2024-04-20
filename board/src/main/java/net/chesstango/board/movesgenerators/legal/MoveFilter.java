@@ -15,9 +15,9 @@ public interface MoveFilter {
 	boolean isLegalMove(Move move);
 	
 	
-	boolean isLegalMoveKing(MoveKing move) ;
+	boolean isLegalMove(MoveKing move) ;
 
 
-	boolean isLegalMoveCastling(MoveCastling moveCastling);
+	boolean isLegalMove(MoveCastling moveCastling);
 
 }

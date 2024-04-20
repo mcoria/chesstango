@@ -21,7 +21,7 @@ public interface MoveCastling extends MoveKing {
 	 */
 	@Override
 	default boolean isLegalMove(MoveFilter filter){
-		return filter.isLegalMoveCastling(this);
+		return filter.isLegalMove(this);
 	}
 
 }
