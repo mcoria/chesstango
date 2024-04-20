@@ -25,9 +25,9 @@ public class MoveList extends ArrayList<Move> {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (Move move : this) {
-            buffer.append(move.toString() + "\n");
+            buffer.append(move).append("\n");
         }
         return buffer.toString();
     }
