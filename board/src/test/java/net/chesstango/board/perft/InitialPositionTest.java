@@ -2,8 +2,6 @@ package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

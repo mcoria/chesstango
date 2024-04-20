@@ -7,7 +7,7 @@ import net.chesstango.board.GameStatus;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.ChessPositionReader;
 

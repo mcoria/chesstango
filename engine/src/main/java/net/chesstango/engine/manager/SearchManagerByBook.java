@@ -3,7 +3,7 @@ package net.chesstango.engine.manager;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.engine.polyglot.MappedPolyglotBook;
 import net.chesstango.engine.polyglot.PolyglotEntry;
 import net.chesstango.search.*;

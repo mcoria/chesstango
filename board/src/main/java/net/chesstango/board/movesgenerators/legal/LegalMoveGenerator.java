@@ -1,7 +1,7 @@
 package net.chesstango.board.movesgenerators.legal;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 
 // Doble  Jaque 										-> Mover el King. 								 El castling no esta permitido.
 // Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no esta permitido.

@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.move;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 
 /**
  * @author Mauricio Coria
