@@ -6,7 +6,7 @@ import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**

@@ -1,7 +1,7 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 
 /**
  * @author Mauricio Coria

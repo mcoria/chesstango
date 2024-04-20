@@ -2,12 +2,12 @@ package net.chesstango.board.debug.builder;
 
 import net.chesstango.board.debug.chess.*;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
-import net.chesstango.board.movesgenerators.legal.legalmovefilters.CheckLegalMoveFilter;
-import net.chesstango.board.movesgenerators.legal.legalmovefilters.NoCheckLegalMoveFilter;
-import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
-import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.legalmovefilters.CheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.legalmovefilters.NoCheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.strategies.CheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.strategies.NoCheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
