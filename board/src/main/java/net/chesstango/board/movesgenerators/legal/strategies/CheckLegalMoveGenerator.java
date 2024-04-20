@@ -5,7 +5,7 @@ import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -19,7 +19,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
 	public CheckLegalMoveGenerator(ChessPositionReader positionReader,
                                    MoveGenerator strategy,
-								   MoveFilter filter) {
+								   LegalMoveFilter filter) {
 		super(positionReader, strategy, filter);
 	}	
 

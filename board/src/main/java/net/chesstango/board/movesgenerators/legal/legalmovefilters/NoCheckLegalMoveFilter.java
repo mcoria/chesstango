@@ -1,11 +1,11 @@
-package net.chesstango.board.movesgenerators.legal.filters;
+package net.chesstango.board.movesgenerators.legal.legalmovefilters;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.imp.MovePawnCaptureEnPassant;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.position.SquareBoard;
@@ -19,7 +19,7 @@ import net.chesstango.board.position.imp.KingSquareImp;
  * @author Mauricio Coria
  *
  */
-public class NoCheckMoveFilter implements MoveFilter {
+public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 	
 	protected final SquareBoard dummySquareBoard;
 	protected final KingSquareImp kingCacheBoard;
@@ -29,7 +29,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	protected final CardinalSquareCaptured cardinalSquareCapturer;
 	
-	public NoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+	public NoCheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
 		this.dummySquareBoard = dummySquareBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.bitBoard = bitBoard;

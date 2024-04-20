@@ -1,7 +1,7 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 
 /**
  * @author Mauricio Coria
@@ -20,7 +20,7 @@ public interface MoveCastling extends MoveKing {
 	 * @return
 	 */
 	@Override
-	default boolean isLegalMove(MoveFilter filter){
+	default boolean isLegalMove(LegalMoveFilter filter){
 		return filter.isLegalMove(this);
 	}
 

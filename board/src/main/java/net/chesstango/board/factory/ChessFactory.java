@@ -5,9 +5,9 @@ import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
-import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
+import net.chesstango.board.movesgenerators.legal.legalmovefilters.CheckLegalMoveFilter;
+import net.chesstango.board.movesgenerators.legal.legalmovefilters.NoCheckLegalMoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
@@ -17,8 +17,6 @@ import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
-
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -35,12 +33,12 @@ public class ChessFactory {
 	}
 	
 	public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
-															MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+															MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,
-			MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+			MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
@@ -56,14 +54,14 @@ public class ChessFactory {
 		return new MoveCacheBoardImp();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
-												 PositionState positionState) {
-		return new CheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+                                                      PositionState positionState) {
+		return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
-													 PositionState positionState) {
-		return new NoCheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+                                                          PositionState positionState) {
+		return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}	
 
 	public SquareBoard createPiecePlacement() {

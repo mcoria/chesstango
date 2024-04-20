@@ -9,7 +9,7 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
@@ -46,7 +46,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     private ChessPosition chessPosition;
 
     @Mock
-    private MoveFilter filter;
+    private LegalMoveFilter filter;
 
 
     @BeforeEach

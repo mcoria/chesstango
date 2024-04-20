@@ -9,7 +9,7 @@ import net.chesstango.board.moves.MoveKing;
  * @author Mauricio Coria
  *
  */
-public interface MoveFilter {
+public interface LegalMoveFilter {
 
 	
 	boolean isLegalMove(Move move);

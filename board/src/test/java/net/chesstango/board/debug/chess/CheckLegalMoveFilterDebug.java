@@ -2,7 +2,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
+import net.chesstango.board.movesgenerators.legal.legalmovefilters.CheckLegalMoveFilter;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.SquareBoardImp;
@@ -15,10 +15,10 @@ import net.chesstango.board.position.imp.PositionStateImp;
  * @author Mauricio Coria
  *
  */
-public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
+public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 	
-	public NoCheckMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
-								  PositionState positionState) {
+	public CheckLegalMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+									 PositionState positionState) {
 		super(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 

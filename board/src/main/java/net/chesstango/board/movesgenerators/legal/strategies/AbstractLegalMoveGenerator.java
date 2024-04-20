@@ -7,7 +7,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
@@ -23,11 +23,11 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	protected final ChessPositionReader positionReader;
 	protected final MoveGenerator pseudoMovesGenerator;
 	
-	protected final MoveFilter filter;
+	protected final LegalMoveFilter filter;
 	
 	public AbstractLegalMoveGenerator(ChessPositionReader positionReader,
 									  MoveGenerator strategy,
-									  MoveFilter filter) {
+									  LegalMoveFilter filter) {
 		this.positionReader = positionReader;
 		this.pseudoMovesGenerator = strategy;
 		this.filter = filter;

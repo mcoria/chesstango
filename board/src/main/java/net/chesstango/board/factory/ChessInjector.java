@@ -9,7 +9,7 @@ import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
@@ -55,9 +55,9 @@ public class ChessInjector {
 
     private LegalMoveGeneratorImp legalMoveGenerator = null;
 
-    private MoveFilter checkMoveFilter;
+    private LegalMoveFilter checkLegalMoveFilter;
 
-    private MoveFilter noCheckMoveFilter;
+    private LegalMoveFilter noCheckLegalMoveFilter;
 
     private GameState gameState = null;
 
@@ -225,19 +225,19 @@ public class ChessInjector {
         return moveGeneratorImp;
     }
 
-    private MoveFilter getCheckMoveFilter() {
-        if (checkMoveFilter == null) {
-            checkMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
+    private LegalMoveFilter getCheckMoveFilter() {
+        if (checkLegalMoveFilter == null) {
+            checkLegalMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
-        return checkMoveFilter;
+        return checkLegalMoveFilter;
     }
 
 
-    private MoveFilter getNoCheckMoveFilter() {
-        if (noCheckMoveFilter == null) {
-            noCheckMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
+    private LegalMoveFilter getNoCheckMoveFilter() {
+        if (noCheckLegalMoveFilter == null) {
+            noCheckLegalMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
-        return noCheckMoveFilter;
+        return noCheckLegalMoveFilter;
     }
 
 }

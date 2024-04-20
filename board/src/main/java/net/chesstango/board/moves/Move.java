@@ -3,7 +3,7 @@ package net.chesstango.board.moves;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -20,7 +20,7 @@ public interface Move extends Comparable<Move> {
      * @param filter
      * @return
      */
-    default boolean isLegalMove(MoveFilter filter){
+    default boolean isLegalMove(LegalMoveFilter filter){
         return filter.isLegalMove(this);
     }
 
