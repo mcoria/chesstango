@@ -36,7 +36,7 @@ public abstract class AbstractPerftTest {
 		//return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 
-	protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
+	protected boolean contieneMove(MoveContainerReader<Move> movimientos, Square from, Square to) {
 		for (Move move : movimientos) {
 			if(from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())){
 				return true;

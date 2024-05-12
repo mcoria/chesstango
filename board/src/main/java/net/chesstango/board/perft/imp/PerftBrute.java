@@ -64,7 +64,7 @@ public class PerftBrute implements Perft {
     private long visitChild(Game game, int level) {
         long totalNodes = 0;
 
-        MoveContainerReader movimientosPosible = game.getPossibleMoves();
+        MoveContainerReader<Move> movimientosPosible = game.getPossibleMoves();
 
         if (level < this.maxLevel) {
 

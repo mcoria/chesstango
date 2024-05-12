@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MoveContainer implements MoveContainerReader {
+public class MoveContainer implements MoveContainerReader<Move> {
     private int size = 0;
     private final List<MoveList> moveLists;
     private final List<Move> moveList;
