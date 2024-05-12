@@ -20,12 +20,11 @@ import java.util.Objects;
 public class SummaryComparatorMain {
 
     public static void main(String[] args) {
-        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-2-2024-04-14-09-13");
-        //summaryComparatorMain.addSession("depth-2-2024-04-14-00-30");
+        SummaryComparatorMain summaryComparatorMain = new SummaryComparatorMain("depth-5-2024-04-10-23-20-v0.0.27");
+        summaryComparatorMain.addSession("depth-5-2024-05-12-07-17-v0.0.28-SNAPSHOT");
         //
         //
 
-        /*
         summaryComparatorMain.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
 
@@ -35,11 +34,10 @@ public class SummaryComparatorMain {
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w3.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
 
-         */
 
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
 
-        /*
+
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd");
@@ -60,8 +58,6 @@ public class SummaryComparatorMain {
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd");
         summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd");
-
-         */
     }
 
     private final String baseLineSessionID;
