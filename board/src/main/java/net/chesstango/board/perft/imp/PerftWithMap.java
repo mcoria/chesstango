@@ -74,7 +74,7 @@ public class PerftWithMap<T> implements Perft  {
 	private long visitChild(Game game, int level) {
 		long totalNodes = 0;
 
-		MoveContainerReader<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
 

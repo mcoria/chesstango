@@ -217,7 +217,7 @@ public class ChessPositionTest {
     public void testGetZobristHashMove() {
         setupWithDefaultBoard();
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader moves = gameState.getLegalMoves();
 
         long initialZobristHash = chessPosition.getZobristHash();
 

@@ -102,7 +102,7 @@ public class GameImp implements Game {
     }
 
     @Override
-    public MoveContainerReader<Move> getPossibleMoves() {
+    public MoveContainerReader getPossibleMoves() {
         return getState().getLegalMoves();
     }
 

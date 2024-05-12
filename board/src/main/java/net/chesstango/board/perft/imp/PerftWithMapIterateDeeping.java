@@ -78,7 +78,7 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 	protected long visitChild(Game game, int level, Long[] nodeCounts) {
 		long totalNodes = 0;
 
-		MoveContainerReader<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
 			for (Move move : movimientosPosible) {
