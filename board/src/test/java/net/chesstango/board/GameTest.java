@@ -4,7 +4,7 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;

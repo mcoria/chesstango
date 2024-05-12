@@ -1,7 +1,6 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
@@ -35,7 +34,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(from, to);
         squareBoard.setEmptyPosition(capture);
     }
@@ -48,7 +47,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         positionState.pushState();
 
         positionState.setEnPassantSquare(null);
@@ -69,7 +68,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoardWriter) {
+    public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
 
         bitBoardWriter.removePosition(capture);
@@ -83,7 +82,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
         moveCache.push();
     }
@@ -95,7 +94,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -110,7 +109,7 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void undoMove(ZobristHashWriter hash) {
         hash.popState();
     }
 

@@ -47,7 +47,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createSimpleKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -73,7 +73,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -100,7 +100,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createSimpleRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -127,7 +127,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());

@@ -4,7 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.BitBoard;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -35,8 +34,8 @@ public class ChessPositionImpTest {
         BitBoard bitBoard = new BitBoardImp();
         bitBoard.init(squareBoardImp);
 
-        chessPosition.setPiecePlacement(squareBoardImp);
-        chessPosition.setColorBoard(bitBoard);
+        chessPosition.setSquareBoard(squareBoardImp);
+        chessPosition.setBitBoard(bitBoard);
 
         List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
 

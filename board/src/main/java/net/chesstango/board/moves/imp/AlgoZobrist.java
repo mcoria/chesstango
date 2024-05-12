@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ZobristHashWriter;
 
@@ -9,7 +10,7 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 class AlgoZobrist {
 
-    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -20,19 +21,21 @@ class AlgoZobrist {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
-        if(oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()){
+        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
+
+        if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();
         }
 
-        if(oldPositionState.isCastlingWhiteQueenAllowed() != newPositionState.isCastlingWhiteQueenAllowed()){
+        if(oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()){
             hash.xorCastleWhiteQueen();
         }
 
-        if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
+        if(oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()){
             hash.xorCastleBlackKing();
         }
 
-        if(oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()){
+        if(oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()){
             hash.xorCastleBlackQueen();
         }
 

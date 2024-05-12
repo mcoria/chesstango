@@ -24,7 +24,7 @@ class MoveCastlingWhiteQueen extends AbstractCastlingMove{
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         positionState.pushState();
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);

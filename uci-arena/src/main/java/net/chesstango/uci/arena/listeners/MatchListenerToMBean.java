@@ -6,7 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;

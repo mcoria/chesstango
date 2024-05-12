@@ -41,9 +41,8 @@ class MovePawnPromotion implements MovePromotion {
         return to;
     }
 
-
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.setEmptyPosition(from);
         squareBoard.setPiece(to.getSquare(), this.promotion);
     }
@@ -55,7 +54,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -92,7 +91,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoardWriter) {
+    public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(from);
         // Captura
         if(to.getPiece() != null) {
@@ -113,7 +112,7 @@ class MovePawnPromotion implements MovePromotion {
 
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.push();
     }
@@ -125,7 +124,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -136,20 +135,22 @@ class MovePawnPromotion implements MovePromotion {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
 
-        if(oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()){
+        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
+
+        if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();
         }
 
-        if(oldPositionState.isCastlingWhiteQueenAllowed() != newPositionState.isCastlingWhiteQueenAllowed()){
+        if(oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()){
             hash.xorCastleWhiteQueen();
         }
 
 
-        if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
+        if(oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()){
             hash.xorCastleBlackKing();
         }
 
-        if(oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()){
+        if(oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()){
             hash.xorCastleBlackQueen();
         }
 
@@ -159,7 +160,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void undoMove(ZobristHashWriter hash) {
         hash.popState();
     }
 

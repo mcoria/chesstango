@@ -2,7 +2,7 @@ package net.chesstango.board;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 
 
 /**

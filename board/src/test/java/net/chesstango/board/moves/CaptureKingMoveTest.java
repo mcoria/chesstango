@@ -10,11 +10,11 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
@@ -34,22 +34,18 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CaptureKingMoveTest {
-
     private MoveKing moveExecutor;
     private SquareBoard squareBoard;
-
     private PositionStateDebug positionState;
     private BitBoardDebug colorBoard;
     private KingSquareDebug kingCacheBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
-
-    @Mock
     private ChessPosition chessPosition;
 
     @Mock
-    private MoveFilter filter;
+    private LegalMoveFilter filter;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -78,6 +74,15 @@ public class CaptureKingMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setKingSquare(kingCacheBoard);
+        chessPositionImp.setMoveCache(moveCacheBoard);
+        chessPositionImp.setPositionState(positionState);
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setSquareBoard(squareBoard);
+        chessPosition = chessPositionImp;
+
+
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
     }
 
@@ -93,24 +98,29 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testZobristHash() {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setPositionState(positionState);
+
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
         assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/4K3/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setPositionState(positionState);
+
         long initialHash = zobristHash.getZobristHash();
 
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
-        oldPositionState = positionState.getCurrentState();
         moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(zobristHash, oldPositionState, positionState, null);
+        moveExecutor.undoMove(zobristHash);
 
         assertEquals(initialHash, zobristHash.getZobristHash());
     }
@@ -118,7 +128,7 @@ public class CaptureKingMoveTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(squareBoard);
+        moveExecutor.doMove(squareBoard);
 
         // asserts execute
         assertEquals(Piece.KING_WHITE, squareBoard.getPiece(Square.e2));
@@ -134,7 +144,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testBoardState() {
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
         assertEquals(0, positionState.getHalfMoveClock());
         assertEquals(5, positionState.getFullMoveClock());
 
@@ -149,7 +159,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testKingCacheBoard() {
-        moveExecutor.executeMove(kingCacheBoard);
+        moveExecutor.doMove(kingCacheBoard);
 
         assertEquals(Square.e2, kingCacheBoard.getKingSquareWhite());
 
@@ -161,7 +171,7 @@ public class CaptureKingMoveTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.executeMove(colorBoard);
+        moveExecutor.doMove(colorBoard);
 
         // asserts execute
         assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
@@ -177,7 +187,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testMoveCacheBoard() {
-        moveExecutor.executeMove(moveCacheBoard);
+        moveExecutor.doMove(moveCacheBoard);
 
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
@@ -188,40 +198,24 @@ public class CaptureKingMoveTest {
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
     }
 
-    @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMoveKing(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMoveKing(moveExecutor);
-    }
-
 
     @Test
     public void testFilter() {
         // execute
-        moveExecutor.filter(filter);
+        moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).filterMoveKing(moveExecutor);
+        verify(filter).isLegalMove(moveExecutor);
     }
 
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(squareBoard);
-        moveExecutor.executeMove(kingCacheBoard);
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(colorBoard);
-        moveExecutor.executeMove(moveCacheBoard);
+        moveExecutor.doMove(squareBoard);
+        moveExecutor.doMove(kingCacheBoard);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
         assertEquals(Piece.KING_WHITE, squareBoard.getPiece(Square.e2));

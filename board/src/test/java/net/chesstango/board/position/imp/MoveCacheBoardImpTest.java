@@ -10,7 +10,7 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;

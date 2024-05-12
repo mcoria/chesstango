@@ -1,33 +1,69 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.ChessPositionWriter;
-import net.chesstango.board.position.KingSquareWriter;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface MoveKing extends Move {
 
-	default void executeMove(ChessPositionWriter chessPosition){
-		chessPosition.executeMoveKing(this);
-	}
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
+    @Override
+    default boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
+    }
 
-	default void undoMove(ChessPositionWriter chessPosition){
-		chessPosition.undoMoveKing(this);
-	}
+    @Override
+    default void doMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
 
-	default boolean filter(MoveFilter filter){
-		return filter.filterMoveKing(this);
-	}
+        doMove(squareBoard);
 
-	default void executeMove(KingSquareWriter kingSquareWriter) {
-		kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
-	}
+        doMove(bitBoard);
 
-	default void undoMove(KingSquareWriter kingSquareWriter) {
-		kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
-	}
+        doMove(positionState);
 
+        doMove(moveCache);
+
+        doMove(kingSquare);
+
+        doMove(hash, chessPosition);
+    }
+
+    @Override
+    default void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        undoMove(squareBoard);
+
+        undoMove(bitBoard);
+
+        undoMove(positionState);
+
+        undoMove(moveCache);
+
+        undoMove(kingSquare);
+
+        undoMove(hash);
+    }
+
+    void doMove(KingSquareWriter kingSquareWriter);
+
+    void undoMove(KingSquareWriter kingSquareWriter);
 }

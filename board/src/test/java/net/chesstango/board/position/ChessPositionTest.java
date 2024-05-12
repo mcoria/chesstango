@@ -10,7 +10,7 @@ import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -225,11 +225,11 @@ public class ChessPositionTest {
 
             long zobristHash = chessPosition.getZobristHash(move);
 
-            chessPosition.acceptForDo(move);
+            move.doMove(chessPosition);
 
             assertEquals(zobristHash, chessPosition.getZobristHash());
 
-            chessPosition.acceptForUndo(move);
+            move.undoMove(chessPosition);
         }
 
         assertEquals(initialZobristHash, chessPosition.getZobristHash());

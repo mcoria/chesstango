@@ -3,8 +3,8 @@ package net.chesstango.board.analyzer;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**

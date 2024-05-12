@@ -47,7 +47,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -73,7 +73,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -99,7 +99,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -125,7 +125,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -151,7 +151,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurEste);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -177,7 +177,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurOeste);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -205,7 +205,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -233,7 +233,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());

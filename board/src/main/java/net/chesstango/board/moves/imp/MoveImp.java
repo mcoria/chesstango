@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.imp;
 
+import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -13,13 +14,23 @@ class MoveImp implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
+
+    @Setter
     private MoveExecutor<PositionStateWriter> fnDoPositionState;
+
+    @Setter
     private MoveExecutor<SquareBoardWriter> fnDoSquareBoard;
+
+    @Setter
     private MoveExecutor<SquareBoardWriter> fnUndoSquareBoard;
 
+    @Setter
     private MoveExecutor<BitBoardWriter> fnDoColorBoard;
+
+    @Setter
     private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
 
+    @Setter
     private ZobristExecutor fnDoZobrist;
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
@@ -46,7 +57,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter squareBoard) {
+    public void doMove(SquareBoardWriter squareBoard) {
         fnDoSquareBoard.apply(from, to, squareBoard);
     }
 
@@ -56,7 +67,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(PositionStateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         fnDoPositionState.apply(from, to, positionState);
     }
 
@@ -66,7 +77,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(BitBoardWriter bitBoard) {
+    public void doMove(BitBoardWriter bitBoard) {
         fnDoColorBoard.apply(from, to, bitBoard);
     }
 
@@ -76,7 +87,7 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(MoveCacheBoardWriter moveCache) {
+    public void doMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.push();
     }
@@ -88,12 +99,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
-        fnDoZobrist.apply(from, to, hash, oldPositionState, newPositionState);
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+        fnDoZobrist.apply(from, to, hash, chessPositionReader);
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
+    public void undoMove(ZobristHashWriter hash) {
         hash.popState();
     }
 
@@ -118,30 +129,6 @@ class MoveImp implements Move {
     @Override
     public String toString() {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
-    }
-
-    public void setFnDoPositionState(MoveExecutor<PositionStateWriter> fnDoPositionState) {
-        this.fnDoPositionState = fnDoPositionState;
-    }
-
-    public void setFnDoSquareBoard(MoveExecutor<SquareBoardWriter> fnDoSquareBoard) {
-        this.fnDoSquareBoard = fnDoSquareBoard;
-    }
-
-    public void setFnUndoSquareBoard(MoveExecutor<SquareBoardWriter> fnUndoSquareBoard) {
-        this.fnUndoSquareBoard = fnUndoSquareBoard;
-    }
-
-    public void setFnDoColorBoard(MoveExecutor<BitBoardWriter> fnDoColorBoard) {
-        this.fnDoColorBoard = fnDoColorBoard;
-    }
-
-    public void setFnUndoColorBoard(MoveExecutor<BitBoardWriter> fnUndoColorBoard) {
-        this.fnUndoColorBoard = fnUndoColorBoard;
-    }
-
-    public void setFnDoZobrist(ZobristExecutor fnDoZobrist) {
-        this.fnDoZobrist = fnDoZobrist;
     }
 
     private Cardinal calculateMoveDirection() {

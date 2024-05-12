@@ -3,6 +3,7 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.position.KingSquareWriter;
 
 /**
  * @author Mauricio Coria
@@ -25,4 +26,13 @@ class MoveKingImp extends MoveImp implements MoveKing {
         return false;
     }
 
+    @Override
+    public void doMove(KingSquareWriter kingSquareWriter) {
+        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquareWriter) {
+        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
+    }
 }

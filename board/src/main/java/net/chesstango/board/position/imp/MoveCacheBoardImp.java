@@ -1,7 +1,7 @@
 package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
 
 import java.util.*;
