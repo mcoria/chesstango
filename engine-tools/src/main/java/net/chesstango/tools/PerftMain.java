@@ -1,12 +1,13 @@
 package net.chesstango.tools;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.perft.Perft;
-import net.chesstango.board.perft.PerftResult;
-import net.chesstango.board.perft.imp.PerftBrute;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.tools.perft.Perft;
+import net.chesstango.tools.perft.PerftResult;
+import net.chesstango.tools.perft.imp.PerftBrute;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,10 +15,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
+
 /**
  * @author Mauricio Coria
  */
-public class PerftTestSuiteMain {
+public class PerftMain {
 
     private static List<String> fenTested = new ArrayList<>();
 
@@ -28,35 +30,35 @@ public class PerftTestSuiteMain {
         try (PrintStream out = new PrintStream(
                 new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
 
-            execute("main/ferdy_perft_double_checks.epd", out);
-            execute("main/ferdy_perft_enpassant_1.epd", out);
+            execute("/main/ferdy_perft_double_checks.epd", out);
+            execute("/main/ferdy_perft_enpassant_1.epd", out);
 
-            execute("main/ferdy_perft_single_check_1.epd", out);
-            execute("main/ferdy_perft_single_check_2.epd", out);
-            execute("main/ferdy_perft_single_check_3.epd", out);
-            execute("main/ferdy_perft_single_check_4.epd", out);
-            execute("main/ferdy_perft_single_check_5.epd", out);
-            execute("main/ferdy_perft_single_check_6.epd", out);
-            execute("main/ferdy_perft_single_check_7.epd", out);
-            execute("main/ferdy_perft_single_check_8.epd", out);
-            execute("main/ferdy_perft_single_check_9.epd", out);
-            execute("main/ferdy_perft_single_check_10.epd", out);
-            execute("main/ferdy_perft_single_check_11.epd", out);
-            execute("main/ferdy_perft_single_check_12.epd", out);
-            execute("main/ferdy_perft_single_check_13.epd", out);
-            execute("main/ferdy_perft_single_check_14.epd", out);
-            execute("main/ferdy_perft_single_check_15.epd", out);
-            execute("main/ferdy_perft_single_check_16.epd", out);
-            execute("main/ferdy_perft_single_check_17.epd", out);
-            execute("main/ferdy_perft_single_check_18.epd", out);
-            execute("main/ferdy_perft_single_check_19.epd", out);
+            execute("/main/ferdy_perft_single_check_1.epd", out);
+            execute("/main/ferdy_perft_single_check_2.epd", out);
+            execute("/main/ferdy_perft_single_check_3.epd", out);
+            execute("/main/ferdy_perft_single_check_4.epd", out);
+            execute("/main/ferdy_perft_single_check_5.epd", out);
+            execute("/main/ferdy_perft_single_check_6.epd", out);
+            execute("/main/ferdy_perft_single_check_7.epd", out);
+            execute("/main/ferdy_perft_single_check_8.epd", out);
+            execute("/main/ferdy_perft_single_check_9.epd", out);
+            execute("/main/ferdy_perft_single_check_10.epd", out);
+            execute("/main/ferdy_perft_single_check_11.epd", out);
+            execute("/main/ferdy_perft_single_check_12.epd", out);
+            execute("/main/ferdy_perft_single_check_13.epd", out);
+            execute("/main/ferdy_perft_single_check_14.epd", out);
+            execute("/main/ferdy_perft_single_check_15.epd", out);
+            execute("/main/ferdy_perft_single_check_16.epd", out);
+            execute("/main/ferdy_perft_single_check_17.epd", out);
+            execute("/main/ferdy_perft_single_check_18.epd", out);
+            execute("/main/ferdy_perft_single_check_19.epd", out);
 
-            execute("main/perft_suite0.epd", out);
-            execute("main/perft_suite1.epd", out);
-            execute("main/perft_suite2.epd", out);
-            execute("main/perft_suite3.epd", out);
+            execute("/main/perft_suite0.epd", out);
+            execute("/main/perft_suite1.epd", out);
+            execute("/main/perft_suite2.epd", out);
+            execute("/main/perft_suite3.epd", out);
 
-            execute("main/perft-marcel.epd", out);
+            execute("/main/perft-marcel.epd", out);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -71,7 +73,7 @@ public class PerftTestSuiteMain {
             List<String> failedSuites = new ArrayList<String>();
             List<String> duplicatedSuites = new ArrayList<String>();
 
-            InputStream instr = PerftTestSuiteMain.class.getClassLoader().getResourceAsStream(filename);
+            InputStream instr = PerftMain.class.getResourceAsStream(filename);
 
             // reading the files with buffered reader
             InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -80,19 +82,19 @@ public class PerftTestSuiteMain {
 
             ExecutorService executorService = Executors.newFixedThreadPool(6);
 
-            List<Future<PerftTestSuiteMain>> futures = new ArrayList<>();
+            List<Future<PerftMain>> futures = new ArrayList<>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.trim();
-                if (!line.startsWith("#") && line.length() > 0) {
-                    PerftTestSuiteMain suite = new PerftTestSuiteMain();
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    PerftMain suite = new PerftMain();
                     suite.parseTests(line);
                     String currentFen = suite.getFen();
                     if (!fenTested.contains(currentFen)) {
                         fenTested.add(currentFen);
-                        futures.add(executorService.submit(new Callable<PerftTestSuiteMain>() {
+                        futures.add(executorService.submit(new Callable<PerftMain>() {
                             @Override
-                            public PerftTestSuiteMain call() throws Exception {
+                            public PerftMain call() throws Exception {
                                 suite.run();
                                 return suite;
                             }
@@ -108,7 +110,7 @@ public class PerftTestSuiteMain {
                 while (!executorService.awaitTermination(1, TimeUnit.MINUTES)) {
                     int totalTasks = futures.size();
                     int completed = 0;
-                    for (Future<PerftTestSuiteMain> future : futures) {
+                    for (Future<PerftMain> future : futures) {
                         if (future.isDone()) {
                             completed++;
                         }
@@ -122,10 +124,10 @@ public class PerftTestSuiteMain {
 
             int testExcecuted = 0;
             int testPending = 0;
-            for (Future<PerftTestSuiteMain> future : futures) {
+            for (Future<PerftMain> future : futures) {
                 if (future.isDone()) {
                     testExcecuted++;
-                    PerftTestSuiteMain suite = future.get();
+                    PerftMain suite = future.get();
                     if (suite.isResult() == false) {
                         failedSuites.add(suite.getFen());
                     }
@@ -192,7 +194,9 @@ public class PerftTestSuiteMain {
         }
     }
 
+    @Getter
     private String fen;
+    @Getter
     private boolean result = false;
     protected long[] expectedPerftResults;
     private int startLevel;
@@ -262,14 +266,6 @@ public class PerftTestSuiteMain {
         return builder.getChessRepresentation();
     }
 
-
-    public String getFen() {
-        return fen;
-    }
-
-    public boolean isResult() {
-        return result;
-    }
 
     protected Perft createPerft() {
         //return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);

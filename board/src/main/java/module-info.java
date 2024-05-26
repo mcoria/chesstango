@@ -8,8 +8,6 @@ module net.chesstango.board {
     exports net.chesstango.board.representations.epd;
     exports net.chesstango.board.representations.ascii;
     exports net.chesstango.board.position;
-    exports net.chesstango.board.perft;
-    exports net.chesstango.board.perft.imp;
     exports net.chesstango.board.moves;
     exports net.chesstango.board.moves.generators.pseudo;
     exports net.chesstango.board.moves.generators.legal;
