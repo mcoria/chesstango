@@ -12,6 +12,7 @@ module net.chesstango.board {
     exports net.chesstango.board.perft.imp;
     exports net.chesstango.board.moves;
     exports net.chesstango.board.moves.generators.pseudo;
+    exports net.chesstango.board.moves.generators.legal;
     exports net.chesstango.board.moves.factories;
     exports net.chesstango.board.moves.containers;
     exports net.chesstango.board.iterators;
