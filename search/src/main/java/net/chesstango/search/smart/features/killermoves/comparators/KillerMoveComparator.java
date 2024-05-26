@@ -3,7 +3,7 @@ package net.chesstango.search.smart.features.killermoves.comparators;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.board.moves.MoveToHashMap;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
