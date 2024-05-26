@@ -27,19 +27,16 @@ public class MoveGeneratorResult {
 		this.affectedByPositions = from.getSquare().getBitPosition();
 	}
 
-	public MoveGeneratorResult addPseudoMove(Move move) {
+	public void addPseudoMove(Move move) {
 		pseudoMoves.add(move);
-		return this;
 	}
 
-	public MoveGeneratorResult addAffectedByPositions(Square key) {
+	public void addAffectedByPositions(Square key) {
 		affectedByPositions |= key.getBitPosition();
-		return this;
 	}
 
-	public MoveGeneratorResult addCapturedPositions(Square key) {
+	public void addCapturedPositions(Square key) {
 		capturedPositions |= key.getBitPosition();
-		return this;
 	}
 
 	@Override

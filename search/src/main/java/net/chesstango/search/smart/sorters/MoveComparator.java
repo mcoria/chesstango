@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.board.moves.MoveToHashMap;
 
 import java.util.Comparator;
 
