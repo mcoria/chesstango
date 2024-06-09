@@ -894,10 +894,8 @@ public class GameTest {
         Move move = game.getMove(Square.a4, Square.b3);
 
         assertNotNull(move);
-        assertEquals(Cardinal.NorteEste, move.getMoveDirection());
+        assertEquals(Cardinal.SurEste, move.getMoveDirection());
     }
-
-    //rnbqkbnr/1ppppppp/8/8/pP6/N7/P1PPPPPP/1RBQKBNR b Kkq b3 0 3
 
     protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
         for (Move move : movimientos) {

@@ -8,12 +8,12 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-abstract class AbstractCastlingMove extends MoveKingImp implements MoveCastling {
+abstract class MoveCastlingImp extends MoveKingImp implements MoveCastling {
 
     protected final PiecePositioned rookFrom;
     protected final PiecePositioned rookTo;
 
-    public AbstractCastlingMove(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
+    public MoveCastlingImp(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
         super(kingFrom, kingTo);
 
         this.rookFrom = rookFrom;
