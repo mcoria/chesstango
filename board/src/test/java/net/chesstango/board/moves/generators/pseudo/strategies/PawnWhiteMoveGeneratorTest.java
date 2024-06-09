@@ -214,10 +214,10 @@ public class PawnWhiteMoveGeneratorTest {
 
         moves = generatorResult.getPseudoMoves();
 
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.ROOK_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.KNIGHT_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.BISHOP_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.QUEEN_WHITE, Cardinal.NorteEste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.ROOK_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.KNIGHT_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.BISHOP_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.QUEEN_WHITE, Cardinal.NorteOeste)));
 
         assertEquals(4, moves.size());
     }
