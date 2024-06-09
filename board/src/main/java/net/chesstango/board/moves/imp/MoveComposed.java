@@ -4,43 +4,67 @@ import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move {
-    protected final PiecePositioned from;
-    protected final PiecePositioned to;
-    protected final Cardinal direction;
+public class MoveComposed extends MoveImp {
 
-    public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
-        this.from = from;
-        this.to = to;
-        this.direction = direction;
-        assert (direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
+    @Setter
+    private MoveExecutor<PositionStateWriter> fnDoPositionState;
+
+    @Setter
+    private MoveExecutor<SquareBoardWriter> fnDoSquareBoard;
+
+    @Setter
+    private MoveExecutor<SquareBoardWriter> fnUndoSquareBoard;
+
+    @Setter
+    private MoveExecutor<BitBoardWriter> fnDoColorBoard;
+
+    @Setter
+    private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
+
+    @Setter
+    private ZobristExecutor fnDoZobrist;
+
+    public MoveComposed(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        super(from, to, direction);
     }
 
-    public MoveImp(PiecePositioned from, PiecePositioned to) {
-        this.from = from;
-        this.to = to;
-        this.direction = calculateMoveDirection();
+    public MoveComposed(PiecePositioned from, PiecePositioned to) {
+        super(from, to);
     }
 
     @Override
-    public PiecePositioned getFrom() {
-        return from;
+    public void doMove(SquareBoardWriter squareBoard) {
+        fnDoSquareBoard.apply(from, to, squareBoard);
     }
 
     @Override
-    public PiecePositioned getTo() {
-        return to;
+    public void undoMove(SquareBoardWriter squareBoard) {
+        fnUndoSquareBoard.apply(from, to, squareBoard);
+    }
+
+    @Override
+    public void doMove(PositionStateWriter positionState) {
+        fnDoPositionState.apply(from, to, positionState);
     }
 
     @Override
     public void undoMove(PositionStateWriter positionStateWriter) {
         positionStateWriter.popState();
+    }
+
+    @Override
+    public void doMove(BitBoardWriter bitBoard) {
+        fnDoColorBoard.apply(from, to, bitBoard);
+    }
+
+    @Override
+    public void undoMove(BitBoardWriter bitBoard) {
+        fnUndoColorBoard.apply(from, to, bitBoard);
     }
 
     @Override
@@ -53,6 +77,11 @@ public abstract class MoveImp implements Move {
     public void undoMove(MoveCacheBoardWriter moveCache) {
         moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.pop();
+    }
+
+    @Override
+    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+        fnDoZobrist.apply(from, to, hash, chessPositionReader);
     }
 
     @Override
@@ -72,7 +101,7 @@ public abstract class MoveImp implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MoveImp theOther) {
+        if (obj instanceof MoveComposed theOther) {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
