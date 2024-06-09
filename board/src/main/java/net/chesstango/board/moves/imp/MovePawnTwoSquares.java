@@ -1,37 +1,20 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-class MovePawnTwoSquares implements Move {
-    protected final PiecePositioned from;
-    protected final PiecePositioned to;
+class MovePawnTwoSquares extends MoveImp {
     protected final Square enPassantSquare;
-    protected final Cardinal direction;
 
     public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
-        this.from = from;
-        this.to = to;
+        super(from, to, direction);
         this.enPassantSquare = enPassantSquare;
-        this.direction = direction;
-    }
-
-    @Override
-    public PiecePositioned getFrom() {
-        return from;
-    }
-
-    @Override
-    public PiecePositioned getTo() {
-        return to;
     }
 
     @Override
@@ -53,16 +36,11 @@ class MovePawnTwoSquares implements Move {
 
         positionState.resetHalfMoveClock();
 
-        if(Color.BLACK.equals(from.getPiece().getColor())){
+        if (Color.BLACK.equals(from.getPiece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
         positionState.rollTurn();
-    }
-
-    @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
     }
 
     @Override
@@ -97,7 +75,7 @@ class MovePawnTwoSquares implements Move {
 
         hash.clearEnPassantSquare();
 
-        if(enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
+        if (enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
             Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
             if (leftSquare != null && from.getPiece().getOpposite().equals(chessPositionReader.getPiece(leftSquare)) ||
@@ -110,37 +88,10 @@ class MovePawnTwoSquares implements Move {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
-    public Cardinal getMoveDirection() {
-        return direction;
-    }
-
-    @Override
-    public boolean isQuiet() {
-        return true;
-    }
-
-    @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePawnTwoSquares theOther){
-            return from.equals(theOther.from) &&  to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
+        if (obj instanceof MovePawnTwoSquares theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s %s - %s", from, to, getClass().getSimpleName());
-    }
-
-    private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
-        return Piece.KNIGHT_WHITE.equals(piece) ||
-                Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
     }
 }
