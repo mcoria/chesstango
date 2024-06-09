@@ -44,7 +44,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 	protected void getEnPassantMoves(MoveContainer moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
-		filterMoveCollection(pseudoMoves, moves);
+		filterMovePair(pseudoMoves, moves);
 	}
 
 	protected void filterMovePair(MovePair movePairToFilter, MoveContainer collectionToAdd) {

@@ -113,7 +113,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
     protected void getCastlingMoves(MoveContainer moves) {
         final MovePair pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-        filterMoveCollection(pseudoMoves, moves);
+        filterMovePair(pseudoMoves, moves);
     }
 
     public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
