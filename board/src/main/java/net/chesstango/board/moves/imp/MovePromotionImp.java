@@ -9,26 +9,13 @@ import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
- *
  */
-class MovePawnPromotion implements MovePromotion {
-    protected final PiecePositioned from;
-    protected final PiecePositioned to;
+class MovePromotionImp extends MoveImp implements MovePromotion {
     protected final Piece promotion;
-    protected final Cardinal direction;
 
-    public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
-        this.from = from;
-        this.to = to;
-        this.direction = direction;
+    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
+        super(from, to, direction);
         this.promotion = promotion;
-    }
-
-    public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Piece promotion) {
-        this.from = from;
-        this.to = to;
-        this.promotion = promotion;
-        this.direction =  calculateMoveDirection();
     }
 
     @Override
@@ -60,7 +47,7 @@ class MovePawnPromotion implements MovePromotion {
         positionState.setEnPassantSquare(null);
 
         // Captura
-        if(to != null) {
+        if (to != null) {
             if (MoveCastlingWhiteKing.ROOK_FROM.equals(to)) {
                 positionState.setCastlingWhiteKingAllowed(false);
             }
@@ -78,7 +65,7 @@ class MovePawnPromotion implements MovePromotion {
             }
         }
 
-        if(Color.BLACK.equals(from.getPiece().getColor())){
+        if (Color.BLACK.equals(from.getPiece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
@@ -94,7 +81,7 @@ class MovePawnPromotion implements MovePromotion {
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(from);
         // Captura
-        if(to.getPiece() != null) {
+        if (to.getPiece() != null) {
             bitBoardWriter.removePosition(to);
         }
         bitBoardWriter.addPosition(promotion, to.getSquare());
@@ -104,7 +91,7 @@ class MovePawnPromotion implements MovePromotion {
     public void undoMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(promotion, to.getSquare());
         // Captura
-        if(to.getPiece() != null) {
+        if (to.getPiece() != null) {
             bitBoardWriter.addPosition(to);
         }
         bitBoardWriter.addPosition(from);
@@ -129,7 +116,7 @@ class MovePawnPromotion implements MovePromotion {
 
         hash.xorPosition(from);
 
-        if(to.getPiece() != null) {
+        if (to.getPiece() != null) {
             hash.xorPosition(to);
         }
 
@@ -137,20 +124,20 @@ class MovePawnPromotion implements MovePromotion {
 
         PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
 
-        if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
+        if (oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()) {
             hash.xorCastleWhiteKing();
         }
 
-        if(oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()){
+        if (oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()) {
             hash.xorCastleWhiteQueen();
         }
 
 
-        if(oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()){
+        if (oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()) {
             hash.xorCastleBlackKing();
         }
 
-        if(oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()){
+        if (oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()) {
             hash.xorCastleBlackQueen();
         }
 
@@ -181,15 +168,15 @@ class MovePawnPromotion implements MovePromotion {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePawnPromotion theOther){
-            return from.equals(theOther.from) &&  to.equals(theOther.to) && promotion.equals(theOther.promotion);
+        if (obj instanceof MovePromotionImp theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to) && promotion.equals(theOther.promotion);
         }
         return false;
     }
 
     @Override
     public short binaryEncoding() {
-        short fromToEncoded =  MovePromotion.super.binaryEncoding();
+        short fromToEncoded = MovePromotion.super.binaryEncoding();
         short pieceEncoded = switch (promotion) {
             case KNIGHT_BLACK, KNIGHT_WHITE -> 1;
             case BISHOP_BLACK, BISHOP_WHITE -> 2;

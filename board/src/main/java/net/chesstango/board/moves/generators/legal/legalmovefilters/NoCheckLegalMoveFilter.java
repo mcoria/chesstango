@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.moves.imp.MovePawnCaptureEnPassant;
+import net.chesstango.board.moves.imp.MoveCaptureEnPassantImp;
 import net.chesstango.board.moves.generators.legal.squarecapturers.CardinalSquareCaptured;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -47,7 +47,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 	 *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
 	 */
 	public boolean isLegalMove(Move move) {
-		if( ! (move instanceof MovePawnCaptureEnPassant)){
+		if( ! (move instanceof MoveCaptureEnPassantImp)){
 			throw new RuntimeException("Solo deberiamos filtrar MovePawnCaptureEnPassant");
 		}
 

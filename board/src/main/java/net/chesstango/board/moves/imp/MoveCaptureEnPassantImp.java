@@ -9,11 +9,11 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MovePawnCaptureEnPassant extends MoveImp implements MoveCaptureEnPassant {
+public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPassant {
     protected final PiecePositioned capture;
 
 
-    public MovePawnCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+    public MoveCaptureEnPassantImp(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
         super(from, to, direction);
         this.capture = capture;
     }
@@ -110,7 +110,7 @@ public class MovePawnCaptureEnPassant extends MoveImp implements MoveCaptureEnPa
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MovePawnCaptureEnPassant theOther) {
+        if (obj instanceof MoveCaptureEnPassantImp theOther) {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;

@@ -70,14 +70,12 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     @Override
     public Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
-        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(from, to, getPawnDirection(), enPassantSquare);
-        return moveImp;
+        return new MovePawnTwoSquares(from, to, getPawnDirection(), enPassantSquare);
     }
 
     @Override
     public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, getPawnDirection(), piece);
-        return moveImp;
+        return new MovePromotionImp(from, to, getPawnDirection(), piece);
     }
 
     /*******************************************************************************
@@ -91,7 +89,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
         addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
-    
+
     @Override
     public Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return createCaptureMoveImp(from, to, cardinal);
@@ -125,12 +123,12 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     @Override
     public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
-        return new MovePawnCaptureEnPassant(from, to, cardinal, enPassantPawn);
+        return new MoveCaptureEnPassantImp(from, to, cardinal, enPassantPawn);
     }
 
     @Override
     public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
-        return new MovePawnPromotion(from, to, piece);
+        return new MovePromotionImp(from, to, cardinal, piece);
     }
 
     /*******************************************************************************
