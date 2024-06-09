@@ -56,7 +56,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     @Override
     public net.chesstango.board.moves.MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
-        MoveKing moveImp = new MoveKing(from, to);
+        MoveKingImp moveImp = new MoveKingImp(from, to);
         addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
@@ -118,7 +118,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     @Override
     public net.chesstango.board.moves.MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
-        MoveKing moveImp = new MoveKing(from, to);
+        MoveKingImp moveImp = new MoveKingImp(from, to);
         addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }

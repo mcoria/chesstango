@@ -7,19 +7,19 @@ import net.chesstango.board.position.KingSquareWriter;
 /**
  * @author Mauricio Coria
  */
-class MoveKing extends MoveComposed implements net.chesstango.board.moves.MoveKing {
+class MoveKingImp extends MoveComposed implements net.chesstango.board.moves.MoveKing {
 
-    public MoveKing(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+    public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(from, to, direction);
     }
 
-    public MoveKing(PiecePositioned from, PiecePositioned to) {
+    public MoveKingImp(PiecePositioned from, PiecePositioned to) {
         super(from, to);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MoveKing theOther) {
+        if (obj instanceof MoveKingImp theOther) {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;

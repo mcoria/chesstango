@@ -1,11 +1,12 @@
 package net.chesstango.board.moves.imp;
 
-import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.*;
+import net.chesstango.board.position.MoveCacheBoardWriter;
+import net.chesstango.board.position.PositionStateWriter;
+import net.chesstango.board.position.ZobristHashWriter;
 
 /**
  * @author Mauricio Coria
@@ -16,6 +17,9 @@ public abstract class MoveImp implements Move {
     protected final Cardinal direction;
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
+            throw new RuntimeException(String.format("Direccion %s however %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
+        }
         this.from = from;
         this.to = to;
         this.direction = direction;
