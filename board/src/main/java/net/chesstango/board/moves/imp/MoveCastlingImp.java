@@ -8,7 +8,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-abstract class MoveCastlingImp extends MoveKingImp implements MoveCastling {
+public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastling {
 
     protected final PiecePositioned rookFrom;
     protected final PiecePositioned rookTo;

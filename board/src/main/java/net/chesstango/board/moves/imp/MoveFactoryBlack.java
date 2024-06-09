@@ -8,20 +8,20 @@ import net.chesstango.board.moves.MoveCastling;
  */
 public class MoveFactoryBlack extends MoveFactoryAbstract {
 
-    private static final MoveCastling castlingKingMove = new MoveCastlingBlackKing();
-    private static final MoveCastling castlingQueenMove = new MoveCastlingBlackQueen();
+    private static final MoveCastlingImp castlingKingMove = new MoveCastlingBlackKing();
+    private static final MoveCastlingImp castlingQueenMove = new MoveCastlingBlackQueen();
 
     public MoveFactoryBlack() {
         super(new AlgoPositionStateBlack());
     }
 
     @Override
-    public MoveCastling createCastlingQueenMove() {
+    public MoveCastlingImp createCastlingQueenMove() {
         return castlingQueenMove;
     }
 
     @Override
-    public MoveCastling createCastlingKingMove() {
+    public MoveCastlingImp createCastlingKingMove() {
         return castlingKingMove;
     }
 

@@ -2,14 +2,14 @@ package net.chesstango.board.moves.factories;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
  *
  */
 public interface BishopMoveFactory {
-    Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+    MoveImp createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+    MoveImp createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 }
