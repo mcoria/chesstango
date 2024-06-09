@@ -4,12 +4,13 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.MoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public interface Move {
+public interface Move extends MoveFilter {
     PiecePositioned getFrom();
 
     PiecePositioned getTo();
@@ -20,6 +21,7 @@ public interface Move {
      * @param filter
      * @return
      */
+    @Override
     default boolean isLegalMove(LegalMoveFilter filter){
         return filter.isLegalMove(this);
     }
