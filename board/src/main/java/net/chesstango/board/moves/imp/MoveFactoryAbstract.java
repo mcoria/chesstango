@@ -125,14 +125,12 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     @Override
     public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
-        MovePawnCaptureEnPassant moveImp = new MovePawnCaptureEnPassant(from, to, cardinal, enPassantPawn);
-        return moveImp;
+        return new MovePawnCaptureEnPassant(from, to, cardinal, enPassantPawn);
     }
 
     @Override
     public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, piece);
-        return moveImp;
+        return new MovePawnPromotion(from, to, piece);
     }
 
     /*******************************************************************************

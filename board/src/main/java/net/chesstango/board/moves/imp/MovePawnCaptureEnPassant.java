@@ -9,28 +9,13 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
-    protected final PiecePositioned from;
-    protected final PiecePositioned to;
+public class MovePawnCaptureEnPassant extends MoveImp implements MoveCaptureEnPassant {
     protected final PiecePositioned capture;
-    protected final Cardinal direction;
 
 
     public MovePawnCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
-        this.from = from;
-        this.to = to;
+        super(from, to, direction);
         this.capture = capture;
-        this.direction = direction;
-    }
-
-    @Override
-    public PiecePositioned getFrom() {
-        return from;
-    }
-
-    @Override
-    public PiecePositioned getTo() {
-        return to;
     }
 
     @Override

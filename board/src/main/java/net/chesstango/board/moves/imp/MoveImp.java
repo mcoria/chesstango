@@ -18,7 +18,7 @@ public abstract class MoveImp implements Move {
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
-            throw new RuntimeException(String.format("Direccion %s however %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
+            throw new RuntimeException(String.format("Direccion %s however %s %s %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()), from, to));
         }
         this.from = from;
         this.to = to;
