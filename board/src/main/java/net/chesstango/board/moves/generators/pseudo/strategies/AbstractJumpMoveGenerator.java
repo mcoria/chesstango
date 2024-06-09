@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 
 import java.util.Iterator;
 
@@ -17,12 +18,12 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
     /**
      * Factory Method
      */
-    protected abstract Move createSimpleMove(PiecePositioned from, PiecePositioned to);
+    protected abstract MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to);
 
     /**
      * Factory Method
      */
-    protected abstract Move createCaptureMove(PiecePositioned from, PiecePositioned to);
+    protected abstract MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to);
 
     protected abstract Iterator<Square> getSquareIterator(Square fromSquare);
 

@@ -7,6 +7,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 
 import java.util.Iterator;
 
@@ -20,12 +21,12 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	/**
 	 * Factory Method
 	 */
-	protected abstract Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+	protected abstract MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
 	/**
 	 * Factory Method
-	 */	
-	protected abstract Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+	 */
+	protected abstract MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 	
 	private final Cardinal[] directions;
 

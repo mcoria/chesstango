@@ -9,6 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
@@ -135,15 +136,15 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
         }
     }
 
-    private Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal direction) {
+    protected MoveImp createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal direction) {
         return this.moveFactory.createCapturePawnMove(origen, destino, direction);
     }
 
-    protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+    protected MoveImp createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
         return this.moveFactory.createSimpleOneSquarePawnMove(origen, destino);
     }
 
-    protected Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
+    protected MoveImp createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
         return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero);
     }
 }
