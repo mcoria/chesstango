@@ -167,8 +167,8 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public MoveImp createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return moveFactoryImp.createSimpleBishopnMove(from, to, cardinal);
+    public MoveImp createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createSimpleBishopMove(from, to, cardinal);
     }
 
     @Override

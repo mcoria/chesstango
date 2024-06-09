@@ -25,7 +25,7 @@ public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
 
 	@Override
 	protected Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-		return moveFactory.createSimpleBishopnMove(from, to, cardinal);
+		return moveFactory.createSimpleBishopMove(from, to, cardinal);
 	}
 
 

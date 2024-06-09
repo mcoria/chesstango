@@ -38,7 +38,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MoveImp createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return createSimpleMoveImp(from, to, cardinal);
     }
 
