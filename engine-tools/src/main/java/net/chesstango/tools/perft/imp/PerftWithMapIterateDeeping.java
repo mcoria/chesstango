@@ -1,11 +1,11 @@
-package net.chesstango.board.perft.imp;
+package net.chesstango.tools.perft.imp;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.perft.Perft;
-import net.chesstango.board.perft.PerftResult;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.tools.perft.Perft;
+import net.chesstango.tools.perft.PerftResult;
 
 import java.util.*;
 import java.util.function.Function;
@@ -14,7 +14,7 @@ import java.util.function.Function;
  * @author Mauricio Coria
  *
  */
-public class PerftWithMapIterateDeeping<T> implements Perft  {
+public class PerftWithMapIterateDeeping<T> implements Perft {
 	private final Function<Game, T> fnGetGameId;
 	protected int maxLevel;
 	protected int depth;

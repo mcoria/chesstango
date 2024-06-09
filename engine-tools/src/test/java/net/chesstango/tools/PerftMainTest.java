@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class PerftTestSuiteMainTest {
+public class PerftMainTest {
 	
-	private PerftTestSuiteMain suite;
+	private PerftMain suite;
 	
 	@BeforeEach
 	public void setUp() {
 		//suite = new PerftSuite(new ChessFactoryDebug());
-		suite = new PerftTestSuiteMain();
+		suite = new PerftMain();
 	}
 	
 	@Test

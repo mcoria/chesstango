@@ -1,8 +1,8 @@
-package net.chesstango.board.perft.imp;
+package net.chesstango.tools.perft.imp;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.perft.PerftResult;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.tools.perft.PerftResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

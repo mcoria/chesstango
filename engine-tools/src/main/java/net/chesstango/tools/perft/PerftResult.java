@@ -1,4 +1,4 @@
-package net.chesstango.board.perft;
+package net.chesstango.tools.perft;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;

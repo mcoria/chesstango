@@ -1,15 +1,15 @@
 /**
  * 
  */
-package net.chesstango.board.perft;
+package net.chesstango.tools.perft;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.perft.imp.PerftBrute;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.tools.perft.imp.PerftBrute;
 
 import java.util.Map;
 
