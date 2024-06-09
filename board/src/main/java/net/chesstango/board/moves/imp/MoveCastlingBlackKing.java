@@ -10,7 +10,7 @@ import net.chesstango.board.position.ZobristHashWriter;
 /**
  * @author Mauricio Coria
  */
-class MoveCastlingBlackKing extends AbstractCastlingMove{
+class MoveCastlingBlackKing extends AbstractCastlingMove {
 
     protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
     protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.g8, null);
@@ -41,7 +41,7 @@ class MoveCastlingBlackKing extends AbstractCastlingMove{
 
     @Override
     protected void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        if(oldPositionState.isCastlingBlackQueenAllowed() == true){
+        if (oldPositionState.isCastlingBlackQueenAllowed() == true) {
             hash.xorCastleBlackQueen();
         }
 

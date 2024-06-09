@@ -8,43 +8,29 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-abstract class AbstractCastlingMove implements MoveCastling {
-
-    protected final PiecePositioned kingFrom;   // King
-    protected final PiecePositioned kingTo;     // King
+abstract class AbstractCastlingMove extends MoveKingImp implements MoveCastling {
 
     protected final PiecePositioned rookFrom;
     protected final PiecePositioned rookTo;
 
     public AbstractCastlingMove(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
-        this.kingFrom = kingFrom;
-        this.kingTo = kingTo;
+        super(kingFrom, kingTo);
 
         this.rookFrom = rookFrom;
         this.rookTo = rookTo;
     }
 
     @Override
-    public PiecePositioned getFrom() {
-        return kingFrom;
-    }
-
-    @Override
-    public PiecePositioned getTo() {
-        return kingTo;
-    }
-
-    @Override
     public void doMove(SquareBoardWriter squareBoard) {
-        squareBoard.move(kingFrom, kingTo);
+        squareBoard.move(from, to);
         squareBoard.move(rookFrom, rookTo);
     }
 
 
     @Override
     public void undoMove(SquareBoardWriter squareBoard) {
-        squareBoard.setPosition(kingFrom);
-        squareBoard.setPosition(kingTo);
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
 
         squareBoard.setPosition(rookFrom);
         squareBoard.setPosition(rookTo);
@@ -57,25 +43,25 @@ abstract class AbstractCastlingMove implements MoveCastling {
 
     @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(kingFrom.getPiece(), kingFrom.getSquare(), kingTo.getSquare());
+        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookFrom.getSquare(), rookTo.getSquare());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(kingFrom.getPiece(), kingTo.getSquare(), kingFrom.getSquare());
+        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookTo.getSquare(), rookFrom.getSquare());
     }
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
         moveCache.pop();
     }
 
@@ -83,8 +69,8 @@ abstract class AbstractCastlingMove implements MoveCastling {
     public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
-        hash.xorPosition(kingFrom);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(kingTo.getSquare(), kingFrom.getPiece()));
+        hash.xorPosition(from);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
