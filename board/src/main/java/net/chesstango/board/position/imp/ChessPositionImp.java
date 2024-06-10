@@ -47,7 +47,7 @@ public class ChessPositionImp implements ChessPosition {
     }
 
 
-    @Override    
+    @Override
     public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
         builder.withTurn(positionState.getCurrentTurn())
                 .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
@@ -65,21 +65,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public long getZobristHash(Move move) {
-        move.doMove(this.squareBoard);
-
-        move.doMove(this.positionState);
-
-        move.doMove(this.zobristHash, this);
-
-        long zobristHash = this.zobristHash.getZobristHash();
-
-        move.undoMove(this.zobristHash);
-
-        move.undoMove(this.positionState);
-
-        move.undoMove(this.squareBoard);
-
-        return zobristHash;
+        return move.getZobristHash(this);
     }
 
     @Override

@@ -116,12 +116,6 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
         return false;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s %s - %s", from, to, getClass().getSimpleName());
-    }
-
-
 
     @Override
     public PiecePositioned getCapture() {

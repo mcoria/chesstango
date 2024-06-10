@@ -4,6 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveExecutor;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.MoveFilter;
 import net.chesstango.board.position.*;
@@ -11,7 +12,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move, MoveFilter {
+public abstract class MoveImp implements Move, MoveExecutor, MoveFilter {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
@@ -51,7 +52,7 @@ public abstract class MoveImp implements Move, MoveFilter {
      * @return
      */
     @Override
-    public boolean isLegalMove(LegalMoveFilter filter){
+    public boolean isLegalMove(LegalMoveFilter filter) {
         return filter.isLegalMove(this);
     }
 
@@ -123,6 +124,29 @@ public abstract class MoveImp implements Move, MoveFilter {
     @Override
     public boolean isQuiet() {
         return to.getPiece() == null;
+    }
+
+    @Override
+    public long getZobristHash(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        ZobristHash hash = chessPosition.getZobrist();
+
+        doMove(squareBoard);
+
+        doMove(positionState);
+
+        doMove(hash, chessPosition);
+
+        long zobristHash = hash.getZobristHash();
+
+        undoMove(hash);
+
+        undoMove(positionState);
+
+        undoMove(squareBoard);
+
+        return zobristHash;
     }
 
     @Override

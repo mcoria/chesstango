@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LoseCastlingBlackAfterWhiteMovesTest {
     private MoveFactory moveFactoryImp;
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
 
     private PositionState positionState;
 

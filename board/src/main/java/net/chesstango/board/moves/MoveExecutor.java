@@ -6,9 +6,6 @@ import net.chesstango.board.position.*;
  * @author Mauricio Coria
  */
 public interface MoveExecutor {
-    void doMove(ChessPosition chessPosition);
-
-    void undoMove(ChessPosition chessPosition);
 
     void doMove(SquareBoardWriter squareBoard);
 
