@@ -1,6 +1,8 @@
-package net.chesstango.board.moves;
+package net.chesstango.board.moves.containers;
 
 import net.chesstango.board.Piece;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 
 /**
  * @author Mauricio Coria

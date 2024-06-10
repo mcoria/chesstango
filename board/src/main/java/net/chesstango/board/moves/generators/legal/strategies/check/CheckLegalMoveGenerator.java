@@ -1,16 +1,14 @@
-package net.chesstango.board.moves.generators.legal.strategies;
+package net.chesstango.board.moves.generators.legal.strategies.check;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.strategies.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.Collection;
 
 /**
  * @author Mauricio Coria
@@ -35,7 +33,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	protected MoveContainer getBySquareMoves(MoveContainer moves) {
+	protected void getBySquareMoves(MoveContainer moves) {
 		for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
@@ -44,7 +42,5 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 			filterMoveCollection(pseudoMoves, moves);
 		}
-		
-		return moves;
 	}
 }

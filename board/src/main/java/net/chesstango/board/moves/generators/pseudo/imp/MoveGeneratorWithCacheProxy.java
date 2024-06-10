@@ -46,7 +46,6 @@ public class MoveGeneratorWithCacheProxy implements MoveGenerator {
 	}
 
 
-	// TODO: Investigar por que no pueden entrar en cache estos movimientos
 	@Override
 	public MovePair generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();

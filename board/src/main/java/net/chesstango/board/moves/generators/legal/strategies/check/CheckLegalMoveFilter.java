@@ -1,7 +1,6 @@
-package net.chesstango.board.moves.generators.legal.legalmovefilters;
+package net.chesstango.board.moves.generators.legal.strategies.check;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.imp.MoveCastlingImp;

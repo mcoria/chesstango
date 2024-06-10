@@ -1,16 +1,14 @@
-/**
- * 
- */
-package net.chesstango.board.moves.generators.legal.imp;
+package net.chesstango.board.moves.generators.legal;
 
+import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
+@Setter
 public class LegalMoveGeneratorImp implements LegalMoveGenerator {
 
 	private LegalMoveGenerator checkLegalMoveGenerator;
@@ -24,13 +22,5 @@ public class LegalMoveGeneratorImp implements LegalMoveGenerator {
 		}
 		return noCheckLegalMoveGenerator.getLegalMoves(analysis);
 	}
-	
-	public void setCheckLegalMoveGenerator(LegalMoveGenerator defaultMoveCalculator) {
-		this.checkLegalMoveGenerator = defaultMoveCalculator;
-	}
-
-	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {
-		this.noCheckLegalMoveGenerator = noCheckLegalMoveGenerator;
-	}	
 
 }
