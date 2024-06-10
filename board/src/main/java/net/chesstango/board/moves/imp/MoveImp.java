@@ -4,7 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveExecutor;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.MoveFilter;
 import net.chesstango.board.position.*;
@@ -12,7 +11,14 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move, MoveExecutor, SquareBoardCommand, MoveCacheBoardCommand, BitBoardCommand, PositionStateCommand, MoveFilter {
+public abstract class MoveImp implements Move,
+        SquareBoardCommand,
+        MoveCacheBoardCommand,
+        BitBoardCommand,
+        PositionStateCommand,
+        ZobristHashCommand,
+        MoveFilter {
+
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
