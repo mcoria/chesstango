@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
+import net.chesstango.board.moves.imp.MoveImp;
 
 
 /**
@@ -27,7 +28,7 @@ public class MoveGeneratorResult {
 		this.affectedByPositions = from.getSquare().getBitPosition();
 	}
 
-	public void addPseudoMove(Move move) {
+	public void addPseudoMove(MoveImp move) {
 		pseudoMoves.add(move);
 	}
 

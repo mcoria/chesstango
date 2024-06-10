@@ -58,10 +58,10 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 			result.addCapturedPositions(to);
 			Color colorDestino = bitBoard.getColor(to);
 			if (colorDestino == null) {
-				Move move = createSimpleMove(from, squareBoard.getPosition(to), cardinal);
+				MoveImp move = createSimpleMove(from, squareBoard.getPosition(to), cardinal);
 				result.addPseudoMove(move);
 			} else if (color.oppositeColor().equals(colorDestino)) {
-				Move move = createCaptureMove(from, squareBoard.getPosition(to), cardinal);
+				MoveImp move = createCaptureMove(from, squareBoard.getPosition(to), cardinal);
 				result.addPseudoMove(move);
 				break;
 			} else { // if(color.equals(pieza.getColor())){

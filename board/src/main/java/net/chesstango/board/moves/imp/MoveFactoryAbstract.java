@@ -4,8 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.factories.MoveFactory;
 
 /**
@@ -74,7 +72,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
+    public MovePromotionImp createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
         return new MovePromotionImp(from, to, getPawnDirection(), piece);
     }
 
@@ -127,7 +125,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
+    public MovePromotionImp createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
         return new MovePromotionImp(from, to, cardinal, piece);
     }
 

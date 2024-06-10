@@ -12,6 +12,7 @@ import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;
@@ -85,7 +86,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
         for (AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal> pinnedPositionCardinal : pinnedPositionCardinals) {
             PiecePositioned from = pinnedPositionCardinal.getKey();
             MoveList pseudoMoves = getPseudoMoves(from);
-            for (Move pseudoMove : pseudoMoves) {
+            for (MoveImp pseudoMove : pseudoMoves) {
                 if (NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(), pseudoMove.getMoveDirection())) {
                     moves.add(pseudoMove);
                 }
@@ -98,9 +99,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     protected MoveContainer getLegalMovesKing(long safeKingPositions, MoveContainer moves) {
         Square kingSquare = getCurrentKingSquare();
 
-        Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
+        MoveList pseudoMovesKing = getPseudoMoves(kingSquare);
 
-        for (Move pseudoMove : pseudoMovesKing) {
+        for (MoveImp pseudoMove : pseudoMovesKing) {
             Square toSquare = pseudoMove.getTo().getSquare();
             if ((toSquare.getBitPosition() & safeKingPositions) != 0) {
                 moves.add(pseudoMove);

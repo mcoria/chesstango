@@ -4,6 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.moves.imp.MoveImp;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.List;
 public class MoveContainer implements MoveContainerReader {
     private int size = 0;
     private final List<MoveList> moveLists;
-    private final List<Move> moveList;
+    private final List<MoveImp> moveList;
     private boolean hasQuietMoves = true;
 
     public MoveContainer(int moveListCount) {
@@ -37,7 +38,7 @@ public class MoveContainer implements MoveContainerReader {
         moveLists.add(moveList);
     }
 
-    public void add(Move move) {
+    public void add(MoveImp move) {
         if (!move.isQuiet()) {
             hasQuietMoves = false;
         }
@@ -105,7 +106,7 @@ public class MoveContainer implements MoveContainerReader {
     @Override
     public Iterator<Move> iterator() {
         return new Iterator<>() {
-            private Iterator<Move> currentIterator = moveList.iterator();
+            private Iterator<MoveImp> currentIterator = moveList.iterator();
 
             private final Iterator<MoveList> currentMoveListIterator = moveLists.iterator();
 

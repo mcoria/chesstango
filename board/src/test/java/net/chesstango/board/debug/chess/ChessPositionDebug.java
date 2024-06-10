@@ -2,6 +2,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -84,9 +85,9 @@ public class ChessPositionDebug extends ChessPositionImp {
     private void compararMoveGeneratorResult(MoveGeneratorResult expectedMoveGeneratorResults,
                                              MoveGeneratorResult cacheMoveGeneratorResult) {
 
-        Collection<Move> expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
+        MoveList expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
 
-        Collection<Move> cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
+        MoveList cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
 
         if (expectedPseudoMoves.size() != cachePseudoMoves.size()) {
             throw new RuntimeException("Hay inconsistencia en el cache de movimientos pseudo");

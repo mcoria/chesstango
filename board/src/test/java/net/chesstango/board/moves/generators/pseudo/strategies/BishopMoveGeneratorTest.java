@@ -9,6 +9,7 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
@@ -59,8 +60,8 @@ public class BishopMoveGeneratorTest {
 
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
-		
-		Collection<Move> moves = generatorResult.getPseudoMoves();
+
+		MoveList moves = generatorResult.getPseudoMoves();
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -133,8 +134,8 @@ public class BishopMoveGeneratorTest {
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
-		
-		Collection<Move> moves = generatorResult.getPseudoMoves();
+
+		MoveList moves = generatorResult.getPseudoMoves();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

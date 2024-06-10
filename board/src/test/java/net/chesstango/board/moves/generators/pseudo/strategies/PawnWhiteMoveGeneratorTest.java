@@ -10,6 +10,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PawnWhiteMoveGeneratorTest {
     private PawnWhiteMoveGenerator moveGenerator;
 
-    private Collection<Move> moves;
+    private Collection<MoveImp> moves;
 
 
     private MoveFactory moveFactoryImp;
@@ -37,7 +38,7 @@ public class PawnWhiteMoveGeneratorTest {
     @BeforeEach
     public void setUp() throws Exception {
         moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-        moves = new ArrayList<Move>();
+        moves = new ArrayList<>();
 
         moveGenerator = new PawnWhiteMoveGenerator();
         moveGenerator.setMoveFactory(moveFactoryImp);

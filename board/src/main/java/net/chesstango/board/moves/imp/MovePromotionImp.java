@@ -10,7 +10,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-class MovePromotionImp extends MoveImp implements MovePromotion {
+public class MovePromotionImp extends MoveImp implements MovePromotion {
     protected final Piece promotion;
 
     public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {

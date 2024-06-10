@@ -57,7 +57,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             result.addAffectedByPositions(saltoSimpleCasillero);
             // Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
             if (destino.getPiece() == null) {
-                Move moveSaltoSimple = this.createSimplePawnMove(from, destino);
+                MoveImp moveSaltoSimple = this.createSimplePawnMove(from, destino);
 
                 // En caso de promocion
                 toRank = saltoSimpleCasillero.getRank();
@@ -71,7 +71,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
                         result.addAffectedByPositions(saltoDobleCasillero);
                         // Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
                         if (destino.getPiece() == null) {
-                            Move moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
+                            MoveImp moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
                             result.addPseudoMove(moveSaltoDoble);
                         }
                     }
@@ -86,7 +86,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             Piece piece = destino.getPiece();
             // El casillero es ocupado por una pieza contraria?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                Move moveCaptura = this.createCapturePawnMove(from, destino, getLeftDirection());
+                MoveImp moveCaptura = this.createCapturePawnMove(from, destino, getLeftDirection());
                 // En caso de promocion
                 toRank = saltoSimpleCasillero.getRank();
                 if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -105,7 +105,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             Piece piece = destino.getPiece();
             // El casillero es ocupado por una pieza contraria?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                Move moveCaptura = this.createCapturePawnMove(from, destino, getRightDirection());
+                MoveImp moveCaptura = this.createCapturePawnMove(from, destino, getRightDirection());
 
                 toRank = saltoSimpleCasillero.getRank();
                 if (toRank == 0 || toRank == 7) { // Es una promocion

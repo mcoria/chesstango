@@ -34,7 +34,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private Collection<MoveImp> moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -55,7 +55,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 			
 		};
 		
-		moves = new ArrayList<Move>();
+		moves = new ArrayList<>();
 	}
 	
 	@Test
