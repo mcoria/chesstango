@@ -1,8 +1,8 @@
 package net.chesstango.board.debug.chess;
 
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.legalmovefilters.CheckLegalMoveFilter;
+import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveKingImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.SquareBoardImp;
@@ -23,7 +23,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 	}
 
 	@Override
-	public boolean isLegalMove(Move move) {
+	public boolean isLegalMove(MoveImp move) {
 		try {
 			boolean reportError = false;
 
@@ -68,7 +68,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 	}
 	
 	@Override
-	public boolean isLegalMove(MoveKing move) {
+	public boolean isLegalMove(MoveKingImp move) {
 		try {
 			boolean reportError = false;	
 			

@@ -4,6 +4,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.MoveFilter;
 import net.chesstango.board.position.MoveCacheBoardWriter;
 import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.ZobristHashWriter;
@@ -11,15 +13,17 @@ import net.chesstango.board.position.ZobristHashWriter;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move {
+public abstract class MoveImp implements Move, MoveFilter {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        /*
         if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
             throw new RuntimeException(String.format("Direccion %s however %s %s %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()), from, to));
         }
+         */
         this.from = from;
         this.to = to;
         this.direction = direction;
@@ -40,6 +44,17 @@ public abstract class MoveImp implements Move {
     @Override
     public PiecePositioned getTo() {
         return to;
+    }
+
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter){
+        return filter.isLegalMove(this);
     }
 
     @Override

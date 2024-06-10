@@ -10,21 +10,10 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public interface Move extends MoveFilter {
+public interface Move {
     PiecePositioned getFrom();
 
     PiecePositioned getTo();
-
-    /**
-     * This method checks if this move is legal or not.
-     *
-     * @param filter
-     * @return
-     */
-    @Override
-    default boolean isLegalMove(LegalMoveFilter filter){
-        return filter.isLegalMove(this);
-    }
 
     default void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();

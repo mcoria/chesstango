@@ -2,12 +2,14 @@ package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.KingSquareWriter;
 
 /**
  * @author Mauricio Coria
  */
-public class MoveKingImp extends MoveComposed implements net.chesstango.board.moves.MoveKing {
+public class MoveKingImp extends MoveComposed implements MoveKing {
 
     public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(from, to, direction);
@@ -15,6 +17,17 @@ public class MoveKingImp extends MoveComposed implements net.chesstango.board.mo
 
     public MoveKingImp(PiecePositioned from, PiecePositioned to) {
         super(from, to);
+    }
+
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
 
     @Override

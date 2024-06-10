@@ -11,6 +11,7 @@ import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -38,7 +39,7 @@ public class CapturePawnEnPassantTest {
 
     private PositionStateDebug positionState;
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
 
     private BitBoardDebug colorBoard;
 

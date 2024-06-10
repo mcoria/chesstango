@@ -11,6 +11,7 @@ import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class SimplePawnMoveTest {
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
     private SquareBoard squareBoard;
 
     private PositionStateDebug positionState;

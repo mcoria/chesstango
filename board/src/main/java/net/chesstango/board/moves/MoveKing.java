@@ -1,23 +1,11 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
 public interface MoveKing extends Move {
-
-    /**
-     * This method checks if this move is legal or not.
-     *
-     * @param filter
-     * @return
-     */
-    @Override
-    default boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
 
     @Override
     default void doMove(ChessPosition chessPosition) {
