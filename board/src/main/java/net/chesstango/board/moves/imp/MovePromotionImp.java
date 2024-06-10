@@ -99,18 +99,6 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
 
     @Override
-    public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
-        moveCache.push();
-    }
-
-    @Override
-    public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
-        moveCache.pop();
-    }
-
-    @Override
     public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
@@ -147,11 +135,6 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
     public Cardinal getMoveDirection() {
         return direction;
     }
@@ -185,12 +168,5 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
             default -> throw new RuntimeException("Invalid promotion");
         };
         return (short) (pieceEncoded << 12 | fromToEncoded);
-    }
-
-    private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
-        return Piece.KNIGHT_WHITE.equals(piece) ||
-                Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
     }
 }

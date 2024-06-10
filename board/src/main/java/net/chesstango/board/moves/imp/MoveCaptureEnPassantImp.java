@@ -48,11 +48,6 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
 
@@ -91,11 +86,6 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
         hash.clearEnPassantSquare();
 
         hash.xorTurn();
-    }
-
-    @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
     }
 
     @Override

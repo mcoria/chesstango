@@ -41,7 +41,7 @@ class MoveCastlingBlackKing extends MoveCastlingImp {
 
     @Override
     protected void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        if (oldPositionState.isCastlingBlackQueenAllowed() == true) {
+        if (oldPositionState.isCastlingBlackQueenAllowed()) {
             hash.xorCastleBlackQueen();
         }
 

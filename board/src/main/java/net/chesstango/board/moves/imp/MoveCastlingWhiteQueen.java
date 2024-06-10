@@ -40,7 +40,7 @@ class MoveCastlingWhiteQueen extends MoveCastlingImp {
 
     @Override
     protected void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        if(oldPositionState.isCastlingWhiteKingAllowed() == true){
+        if(oldPositionState.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();
         }
 

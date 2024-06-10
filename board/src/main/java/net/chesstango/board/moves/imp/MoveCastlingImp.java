@@ -49,11 +49,6 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookFrom.getSquare(), rookTo.getSquare());
@@ -92,21 +87,6 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         hash.clearEnPassantSquare();
 
         hash.xorTurn();
-    }
-
-    @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
-    public void doMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
-    }
-
-    @Override
-    public void undoMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
     }
 
     @Override
