@@ -1,29 +1,18 @@
 package net.chesstango.board.moves.containers;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
  */
+@Getter
+@Setter
 public class MovePair {
-    private Move first;
-    private Move second;
-
-    public Move getFirst() {
-        return first;
-    }
-
-    public void setFirst(Move first) {
-        this.first = first;
-    }
-
-    public Move getSecond() {
-        return second;
-    }
-
-    public void setSecond(Move second) {
-        this.second = second;
-    }
+    private MoveImp first;
+    private MoveImp second;
 
     public int size() {
         int result = 0;
