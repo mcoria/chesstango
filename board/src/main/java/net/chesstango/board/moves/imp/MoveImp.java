@@ -6,9 +6,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.MoveFilter;
-import net.chesstango.board.position.MoveCacheBoardWriter;
-import net.chesstango.board.position.PositionStateWriter;
-import net.chesstango.board.position.ZobristHashWriter;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
@@ -55,6 +53,44 @@ public abstract class MoveImp implements Move, MoveFilter {
     @Override
     public boolean isLegalMove(LegalMoveFilter filter){
         return filter.isLegalMove(this);
+    }
+
+    @Override
+    public void doMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        doMove(squareBoard);
+
+        doMove(bitBoard);
+
+        doMove(positionState);
+
+        doMove(moveCache);
+
+        doMove(hash, chessPosition);
+    }
+
+    @Override
+    public void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        undoMove(squareBoard);
+
+        undoMove(bitBoard);
+
+        undoMove(positionState);
+
+        undoMove(moveCache);
+
+        undoMove(hash);
     }
 
     @Override

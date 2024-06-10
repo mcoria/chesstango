@@ -12,19 +12,19 @@ import net.chesstango.board.position.*;
 public class MoveComposed extends MoveImp {
 
     @Setter
-    private MoveExecutor<PositionStateWriter> fnDoPositionState;
+    private MoveLayerExecutor<PositionStateWriter> fnDoPositionState;
 
     @Setter
-    private MoveExecutor<SquareBoardWriter> fnDoSquareBoard;
+    private MoveLayerExecutor<SquareBoardWriter> fnDoSquareBoard;
 
     @Setter
-    private MoveExecutor<SquareBoardWriter> fnUndoSquareBoard;
+    private MoveLayerExecutor<SquareBoardWriter> fnUndoSquareBoard;
 
     @Setter
-    private MoveExecutor<BitBoardWriter> fnDoColorBoard;
+    private MoveLayerExecutor<BitBoardWriter> fnDoColorBoard;
 
     @Setter
-    private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
+    private MoveLayerExecutor<BitBoardWriter> fnUndoColorBoard;
 
     @Setter
     private ZobristExecutor fnDoZobrist;
