@@ -15,10 +15,6 @@ public interface MoveExecutor {
 
     void undoMove(PositionStateWriter positionStateWriter);
 
-    void doMove(BitBoardWriter bitBoard);
-
-    void undoMove(BitBoardWriter bitBoard);
-
     void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader);
 
     void undoMove(ZobristHashWriter hash);
