@@ -4,6 +4,6 @@ package net.chesstango.board.moves.generators.legal;
  * @author Mauricio Coria
  *
  */
-public interface MoveFilter {
+public interface LegalMoveFilterSelector {
     boolean isLegalMove(LegalMoveFilter filter);
 }

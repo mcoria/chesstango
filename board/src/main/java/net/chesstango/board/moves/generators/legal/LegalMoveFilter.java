@@ -8,13 +8,9 @@ import net.chesstango.board.moves.imp.MoveKingImp;
  * @author Mauricio Coria
  */
 public interface LegalMoveFilter {
-
     boolean isLegalMove(MoveImp move);
-
 
     boolean isLegalMove(MoveKingImp move);
 
-
     boolean isLegalMove(MoveCastlingImp moveCastling);
-
 }

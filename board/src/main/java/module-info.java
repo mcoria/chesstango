@@ -19,6 +19,7 @@ module net.chesstango.board {
     exports net.chesstango.board.factory;
     exports net.chesstango.board.builders;
     exports net.chesstango.board.analyzer;
+    exports net.chesstango.board.moves.imp;
 
     requires static lombok;
 }

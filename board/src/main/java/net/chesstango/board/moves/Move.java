@@ -5,7 +5,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionCommand;
-import net.chesstango.board.position.imp.ChessPositionImp;
 
 /**
  * @author Mauricio Coria
