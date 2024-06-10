@@ -12,7 +12,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move, MoveExecutor, MoveFilter {
+public abstract class MoveImp implements Move, MoveExecutor, MoveCacheBoardCommand, MoveFilter {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
