@@ -11,6 +11,7 @@ import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import net.chesstango.board.moves.imp.MoveImp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
 
     private MoveFactory moveFactoryImp;
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
 
     private PositionState positionState;
 

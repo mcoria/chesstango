@@ -3,12 +3,13 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.position.KingSquareWriter;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-class MoveKingImp extends MoveImp implements MoveKing {
+public class MoveKingImp extends MoveComposed implements MoveKing, KingSquareCommand {
 
     public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(from, to, direction);
@@ -18,13 +19,61 @@ class MoveKingImp extends MoveImp implements MoveKing {
         super(from, to);
     }
 
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MoveKingImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
-        }
-        return false;
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
+
+    @Override
+    public void doMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        doMove(squareBoard);
+
+        doMove(bitBoard);
+
+        doMove(positionState);
+
+        doMove(moveCache);
+
+        doMove(kingSquare);
+
+        doMove(hash, chessPosition);
+    }
+
+    @Override
+    public void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        undoMove(squareBoard);
+
+        undoMove(bitBoard);
+
+        undoMove(positionState);
+
+        undoMove(moveCache);
+
+        undoMove(kingSquare);
+
+        undoMove(hash);
+    }
+
 
     @Override
     public void doMove(KingSquareWriter kingSquareWriter) {
@@ -34,5 +83,13 @@ class MoveKingImp extends MoveImp implements MoveKing {
     @Override
     public void undoMove(KingSquareWriter kingSquareWriter) {
         kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MoveKingImp theOther) {
+            return from.equals(theOther.from) && to.equals(theOther.to);
+        }
+        return false;
     }
 }

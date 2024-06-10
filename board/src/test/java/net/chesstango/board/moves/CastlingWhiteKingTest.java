@@ -10,6 +10,7 @@ import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveCastlingImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -37,7 +38,7 @@ public class CastlingWhiteKingTest {
 
     private PositionStateDebug positionState;
 
-    private MoveCastling moveExecutor;
+    private MoveCastlingImp moveExecutor;
 
     private KingSquareDebug kingCacheBoard;
 

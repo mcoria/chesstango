@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 
 import java.util.Iterator;
 
@@ -17,12 +18,12 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
     /**
      * Factory Method
      */
-    protected abstract Move createSimpleMove(PiecePositioned from, PiecePositioned to);
+    protected abstract MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to);
 
     /**
      * Factory Method
      */
-    protected abstract Move createCaptureMove(PiecePositioned from, PiecePositioned to);
+    protected abstract MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to);
 
     protected abstract Iterator<Square> getSquareIterator(Square fromSquare);
 
@@ -43,10 +44,10 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
             result.addCapturedPositions(to);
             Color colorDestino = bitBoard.getColor(to);
             if (colorDestino == null) {
-                Move move = createSimpleMove(from, squareBoard.getPosition(to));
+                MoveImp move = createSimpleMove(from, squareBoard.getPosition(to));
                 result.addPseudoMove(move);
             } else if (color.oppositeColor().equals(colorDestino)) {
-                Move move = createCaptureMove(from, squareBoard.getPosition(to));
+                MoveImp move = createCaptureMove(from, squareBoard.getPosition(to));
                 result.addPseudoMove(move);
             }
             // else if(color.equals(pieza.getColor())){

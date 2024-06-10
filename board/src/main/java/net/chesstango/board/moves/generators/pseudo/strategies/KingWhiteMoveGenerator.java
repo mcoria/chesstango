@@ -3,8 +3,8 @@ package net.chesstango.board.moves.generators.pseudo.strategies;
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.imp.MoveImp;
 
 
 /**
@@ -55,12 +55,12 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	}		
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned from, PiecePositioned to) {
+	protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to) {
 		return this.moveFactory.createSimpleKingMove(from, to);
 	}
 
 	@Override
-	protected Move createCaptureMove(PiecePositioned from, PiecePositioned to) {
+	protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to) {
 		return this.moveFactory.createCaptureKingMove(from, to);
 	}
 

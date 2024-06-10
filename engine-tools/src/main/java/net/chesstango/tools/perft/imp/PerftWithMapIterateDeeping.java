@@ -12,135 +12,140 @@ import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class PerftWithMapIterateDeeping<T> implements Perft {
-	private final Function<Game, T> fnGetGameId;
-	protected int maxLevel;
-	protected int depth;
+    private final Function<Game, T> fnGetGameId;
+    protected int maxLevel;
+    protected int depth;
 
-	protected Map<T, Long[]> transpositionTable;
+    protected Map<T, Long[]> transpositionTable;
 
-	public PerftWithMapIterateDeeping(Function<Game, T> fnGetGameId) {
-		this.fnGetGameId = fnGetGameId;
-		this.transpositionTable = new HashMap<>();
-	}
+    public PerftWithMapIterateDeeping(Function<Game, T> fnGetGameId) {
+        this.fnGetGameId = fnGetGameId;
+        this.transpositionTable = new HashMap<>();
+    }
 
-	public PerftResult start(Game board, int depth) {
-		this.depth = depth;
+    public PerftResult start(Game game, int depth) {
+        this.depth = depth;
 
-		PerftResult result = null;
-		for (int i = 1; i <= depth; i++) {
-			result = visitLevel1(board, i);
-		}
-		return result;
+        PerftResult result = null;
+        for (int i = 1; i <= depth; i++) {
+            try {
+                result = visitLevel1(game, i);
+            } catch (RuntimeException e) {
+                System.err.printf("Error with game board: %s\n", game);
+                throw e;
+            }
+        }
+        return result;
 
-		//return visitLevel1(board, depth);
-	}
-	
-	protected PerftResult visitLevel1(Game game, int maxLevel) {
-		PerftResult perftResult = new PerftResult();
-		this.maxLevel = maxLevel;
-		long totalNodes = 0;
+        //return visitLevel1(board, depth);
+    }
 
-		T id = fnGetGameId.apply(game);
-		Long nodeCounts[] = transpositionTable.computeIfAbsent(id, k -> new Long[depth]);
+    protected PerftResult visitLevel1(Game game, int maxLevel) {
+        PerftResult perftResult = new PerftResult();
+        this.maxLevel = maxLevel;
+        long totalNodes = 0;
 
-		Iterable<Move> movimientosPosible = game.getPossibleMoves();
-		for (Move move : movimientosPosible) {
-			long nodeCount = 0;
+        T id = fnGetGameId.apply(game);
+        Long nodeCounts[] = transpositionTable.computeIfAbsent(id, k -> new Long[depth]);
 
-			if (maxLevel > 1) {
-				game.executeMove(move);
+        Iterable<Move> movimientosPosible = game.getPossibleMoves();
+        for (Move move : movimientosPosible) {
+            long nodeCount = 0;
 
-				T childId = fnGetGameId.apply(game);
-				Long childNodeCounts[] = transpositionTable.computeIfAbsent(childId, k -> new Long[depth]);
+            if (maxLevel > 1) {
+                game.executeMove(move);
 
-				nodeCount = visitChild(game, 2, childNodeCounts);
+                T childId = fnGetGameId.apply(game);
+                Long childNodeCounts[] = transpositionTable.computeIfAbsent(childId, k -> new Long[depth]);
 
-				game.undoMove();
-			} else {
-				nodeCount = 1;
-			}
+                nodeCount = visitChild(game, 2, childNodeCounts);
 
-			perftResult.add(move, nodeCount);
+                game.undoMove();
+            } else {
+                nodeCount = 1;
+            }
 
-			totalNodes += nodeCount;
+            perftResult.add(move, nodeCount);
 
-		}
-		perftResult.setTotalNodes(totalNodes);
+            totalNodes += nodeCount;
 
-		nodeCounts[maxLevel - 1] = totalNodes;
+        }
+        perftResult.setTotalNodes(totalNodes);
 
-		return perftResult;
-	}
+        nodeCounts[maxLevel - 1] = totalNodes;
 
-	protected long visitChild(Game game, int level, Long[] nodeCounts) {
-		long totalNodes = 0;
+        return perftResult;
+    }
 
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
+    protected long visitChild(Game game, int level, Long[] nodeCounts) {
+        long totalNodes = 0;
 
-		if (level < this.maxLevel) {
-			for (Move move : movimientosPosible) {
+        MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
-				game.executeMove(move);
+        if (level < this.maxLevel) {
+            for (Move move : movimientosPosible) {
 
-				T idChild = fnGetGameId.apply(game);
+                game.executeMove(move);
 
-				Long childNodeCounts[] = transpositionTable.computeIfAbsent(idChild, k -> new Long[depth]);
+                T idChild = fnGetGameId.apply(game);
 
-				if (childNodeCounts[maxLevel - level - 1] == null) {
-					visitChild(game, level + 1, childNodeCounts);
-				}
+                Long childNodeCounts[] = transpositionTable.computeIfAbsent(idChild, k -> new Long[depth]);
 
-				totalNodes += childNodeCounts[maxLevel - level - 1];
+                if (childNodeCounts[maxLevel - level - 1] == null) {
+                    visitChild(game, level + 1, childNodeCounts);
+                }
 
-				game.undoMove();
-			}
-		} else {
-			totalNodes = movimientosPosible.size();
-		}
+                totalNodes += childNodeCounts[maxLevel - level - 1];
 
-		nodeCounts[maxLevel - level] = totalNodes;
+                game.undoMove();
+            }
+        } else {
+            totalNodes = movimientosPosible.size();
+        }
 
-		return totalNodes;
-	}
+        nodeCounts[maxLevel - level] = totalNodes;
+
+        return totalNodes;
+    }
 
 
-	public void printResult(PerftResult result) {
-		System.out.println("Total Moves: " + result.getMovesCount());
-		System.out.println("Total Nodes: " + result.getTotalNodes());
-		
-		Map<Move, Long> childs = result.getChilds();
-		
-		if(childs != null){
-			List<Move> moves = new ArrayList<Move>(childs.keySet());
-			Collections.reverse(moves);
-			
-			for (Move move : moves) {
-	            System.out.println("Move = " + move.toString() + 
-                        ", Total = " + childs.get(move)); 				
-			}
-		}
+    public void printResult(PerftResult result) {
+        System.out.println("Total Moves: " + result.getMovesCount());
+        System.out.println("Total Nodes: " + result.getTotalNodes());
+
+        Map<Move, Long> childs = result.getChilds();
+
+        if (childs != null) {
+            List<Move> moves = new ArrayList<Move>(childs.keySet());
+            Collections.reverse(moves);
+
+            for (Move move : moves) {
+                System.out.println("Move = " + move.toString() +
+                        ", Total = " + childs.get(move));
+            }
+        }
 
 		/*
 		for (int i = 0; i < repeatedNodes.length; i++) {
 			System.out.println("Level " + i + " nodes=" + nodeListMap.get(i).size() + " repeated=" + repeatedNodes[i]);
 		}*/
-		
-		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
-		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
-	}
+
+        //System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
+        //System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
+    }
 
 
-	private static final FENEncoder coder = new FENEncoder();
-	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
-	public static String getStringGameId(Game game) {
-		game.getChessPosition().constructChessPositionRepresentation(coder);
-		return coder.getFENWithoutClocks();
-	}
+    private static final FENEncoder coder = new FENEncoder();
 
-	public static Long getZobristGameId(Game game) {
-		return game.getChessPosition().getZobristHash();
-	}
+    //TODO: este metodo se esta morfando una parte significativa de la ejecucion
+    public static String getStringGameId(Game game) {
+        game.getChessPosition().constructChessPositionRepresentation(coder);
+        return coder.getFENWithoutClocks();
+    }
+
+    public static Long getZobristGameId(Game game) {
+        return game.getChessPosition().getZobristHash();
+    }
 }

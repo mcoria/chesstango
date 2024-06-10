@@ -2,7 +2,6 @@ package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ZobristHashWriter;
 
 /**

@@ -17,20 +17,15 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class ChessPositionImp implements ChessPosition {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-    @Setter
     protected SquareBoard squareBoard = null;
-    @Setter
     protected BitBoard bitBoard = null;
-    @Setter
     protected KingSquare kingSquare = null;
-    @Setter
     protected MoveCacheBoard moveCache = null;
-    @Setter
     protected PositionState positionState = null;
-    @Setter
     protected ZobristHash zobristHash = null;
 
     @Override
@@ -52,7 +47,7 @@ public class ChessPositionImp implements ChessPosition {
     }
 
 
-    @Override    
+    @Override
     public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
         builder.withTurn(positionState.getCurrentTurn())
                 .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
@@ -70,21 +65,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public long getZobristHash(Move move) {
-        move.doMove(this.squareBoard);
-
-        move.doMove(this.positionState);
-
-        move.doMove(this.zobristHash, this);
-
-        long zobristHash = this.zobristHash.getZobristHash();
-
-        move.undoMove(this.zobristHash);
-
-        move.undoMove(this.positionState);
-
-        move.undoMove(this.squareBoard);
-
-        return zobristHash;
+        return move.getZobristHash(this);
     }
 
     @Override

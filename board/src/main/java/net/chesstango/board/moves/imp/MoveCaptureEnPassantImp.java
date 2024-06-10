@@ -9,28 +9,13 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
-    protected final PiecePositioned from;
-    protected final PiecePositioned to;
+public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPassant {
     protected final PiecePositioned capture;
-    protected final Cardinal direction;
 
 
-    public MovePawnCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
-        this.from = from;
-        this.to = to;
+    public MoveCaptureEnPassantImp(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+        super(from, to, direction);
         this.capture = capture;
-        this.direction = direction;
-    }
-
-    @Override
-    public PiecePositioned getFrom() {
-        return from;
-    }
-
-    @Override
-    public PiecePositioned getTo() {
-        return to;
     }
 
     @Override
@@ -60,11 +45,6 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
         }
 
         positionState.rollTurn();
-    }
-
-    @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
     }
 
     @Override
@@ -109,11 +89,6 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
     public Cardinal getMoveDirection() {
         return direction;
     }
@@ -125,17 +100,11 @@ public class MovePawnCaptureEnPassant implements MoveCaptureEnPassant {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MovePawnCaptureEnPassant theOther) {
+        if (obj instanceof MoveCaptureEnPassantImp theOther) {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
     }
-
-    @Override
-    public String toString() {
-        return String.format("%s %s - %s", from, to, getClass().getSimpleName());
-    }
-
 
 
     @Override

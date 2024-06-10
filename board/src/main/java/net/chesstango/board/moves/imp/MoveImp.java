@@ -1,39 +1,34 @@
 package net.chesstango.board.moves.imp;
 
-import lombok.Setter;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilterSelector;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-class MoveImp implements Move {
+public abstract class MoveImp implements Move,
+        SquareBoardCommand,
+        MoveCacheBoardCommand,
+        BitBoardCommand,
+        PositionStateCommand,
+        ZobristHashCommand,
+        LegalMoveFilterSelector {
+
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
 
-    @Setter
-    private MoveExecutor<PositionStateWriter> fnDoPositionState;
-
-    @Setter
-    private MoveExecutor<SquareBoardWriter> fnDoSquareBoard;
-
-    @Setter
-    private MoveExecutor<SquareBoardWriter> fnUndoSquareBoard;
-
-    @Setter
-    private MoveExecutor<BitBoardWriter> fnDoColorBoard;
-
-    @Setter
-    private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
-
-    @Setter
-    private ZobristExecutor fnDoZobrist;
-
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        /*
+        if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
+            throw new RuntimeException(String.format("Direccion %s however %s %s %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()), from, to));
+        }
+         */
         this.from = from;
         this.to = to;
         this.direction = direction;
@@ -56,34 +51,58 @@ class MoveImp implements Move {
         return to;
     }
 
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
     @Override
-    public void doMove(SquareBoardWriter squareBoard) {
-        fnDoSquareBoard.apply(from, to, squareBoard);
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
 
     @Override
-    public void undoMove(SquareBoardWriter squareBoard) {
-        fnUndoSquareBoard.apply(from, to, squareBoard);
+    public void doMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        doMove(squareBoard);
+
+        doMove(bitBoard);
+
+        doMove(positionState);
+
+        doMove(moveCache);
+
+        doMove(hash, chessPosition);
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
-        fnDoPositionState.apply(from, to, positionState);
+    public void undoMove(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        BitBoardWriter bitBoard = chessPosition.getBitBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
+        ZobristHashWriter hash = chessPosition.getZobrist();
+
+        undoMove(squareBoard);
+
+        undoMove(bitBoard);
+
+        undoMove(positionState);
+
+        undoMove(moveCache);
+
+        undoMove(hash);
     }
 
     @Override
     public void undoMove(PositionStateWriter positionStateWriter) {
         positionStateWriter.popState();
-    }
-
-    @Override
-    public void doMove(BitBoardWriter bitBoard) {
-        fnDoColorBoard.apply(from, to, bitBoard);
-    }
-
-    @Override
-    public void undoMove(BitBoardWriter bitBoard) {
-        fnUndoColorBoard.apply(from, to, bitBoard);
     }
 
     @Override
@@ -99,11 +118,6 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-        fnDoZobrist.apply(from, to, hash, chessPositionReader);
-    }
-
-    @Override
     public void undoMove(ZobristHashWriter hash) {
         hash.popState();
     }
@@ -116,6 +130,29 @@ class MoveImp implements Move {
     @Override
     public boolean isQuiet() {
         return to.getPiece() == null;
+    }
+
+    @Override
+    public long getZobristHash(ChessPosition chessPosition) {
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
+        PositionStateWriter positionState = chessPosition.getPositionState();
+        ZobristHash hash = chessPosition.getZobrist();
+
+        doMove(squareBoard);
+
+        doMove(positionState);
+
+        doMove(hash, chessPosition);
+
+        long zobristHash = hash.getZobristHash();
+
+        undoMove(hash);
+
+        undoMove(positionState);
+
+        undoMove(squareBoard);
+
+        return zobristHash;
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.*;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ public class MoveFactoryCache implements MoveFactory {
 
     private final static int CACHE_SIZE = 1 << 16;
 
-    private final Move[] regularMoves = new Move[CACHE_SIZE];
+    private final MoveImp[] regularMoves = new MoveImp[CACHE_SIZE];
 
     //private final Map<Integer, MoveKing> movesKings = new HashMap<>();
 
@@ -29,10 +29,10 @@ public class MoveFactoryCache implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+    public MoveImp createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createSimpleOneSquarePawnMove(from, to);
         }
         return regularMoves[idx];
@@ -40,40 +40,40 @@ public class MoveFactoryCache implements MoveFactory {
 
 
     @Override
-    public Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
+    public MoveImp createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createSimpleTwoSquaresPawnMove(from, to, enPassantSquare);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createCapturePawnMove(from, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
+    public MoveImp createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createCaptureEnPassantPawnMove(from, to, enPassantPawn, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+    public MoveImp createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createSimpleKnightMove(from, to);
         }
         return regularMoves[idx];
@@ -92,10 +92,10 @@ public class MoveFactoryCache implements MoveFactory {
      */
 
     @Override
-    public Move createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+    public MoveImp createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createCaptureKnightMove(from, to);
         }
         return regularMoves[idx];
@@ -114,74 +114,74 @@ public class MoveFactoryCache implements MoveFactory {
      */
 
     @Override
-    public Move createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createSimpleRookMove(from, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public Move createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(form, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(form, move.getFrom()) && Objects.equals(to, move.getTo())) ){
+        if(move == null || !(Objects.equals(form, move.getFrom()) && Objects.equals(to, move.getTo()))){
             regularMoves[idx] = moveFactoryImp.createCaptureRookMove(form, to, cardinal);
         }
         return regularMoves[idx];
     }
 
     @Override
-    public MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
+    public MoveKingImp createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
         //return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
         return moveFactoryImp.createSimpleKingMove(from, to);
     }
 
     @Override
-    public MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
+    public MoveKingImp createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
         //return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createCaptureKingMove(origen, destino));
         return moveFactoryImp.createCaptureKingMove(from, to);
     }
 
     @Override
-    public MoveCastling createCastlingQueenMove() {
+    public MoveCastlingImp createCastlingQueenMove() {
         return moveFactoryImp.createCastlingQueenMove();
     }
 
     @Override
-    public MoveCastling createCastlingKingMove() {
+    public MoveCastlingImp createCastlingKingMove() {
         return moveFactoryImp.createCastlingKingMove();
     }
 
     @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
+    public MovePromotionImp createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
         return moveFactoryImp.createSimplePromotionPawnMove(from, to, piece);
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
+    public MovePromotionImp createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
         return moveFactoryImp.createCapturePromotionPawnMove(from, to, piece, cardinal);
     }
 
     @Override
-    public Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return moveFactoryImp.createSimpleBishopnMove(from, to, cardinal);
+    public MoveImp createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return moveFactoryImp.createSimpleBishopMove(from, to, cardinal);
     }
 
     @Override
-    public Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactoryImp.createCaptureBishopMove(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactoryImp.createSimpleQueenMove(from, to, cardinal);
     }
 
     @Override
-    public Move createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactoryImp.createCaptureQueenMove(from, to, cardinal);
     }
 

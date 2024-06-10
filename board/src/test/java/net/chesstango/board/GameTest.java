@@ -3,6 +3,7 @@ package net.chesstango.board;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
@@ -874,6 +875,26 @@ public class GameTest {
         MoveContainerReader legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
+    }
+
+    @Test
+    public void testCapturePanwPassante01() {
+        Game game = getGame("rnbqkbnr/2pppppp/p7/Pp6/8/8/1PPPPPPP/RNBQKBNR w KQkq b6 0 3");
+
+        Move move = game.getMove(Square.a5, Square.b6);
+
+        assertNotNull(move);
+        assertEquals(Cardinal.NorteEste, move.getMoveDirection());
+    }
+
+    @Test
+    public void testCapturePanwPassante02() {
+        Game game = getGame("rnbqkbnr/1ppppppp/8/8/pP6/N7/P1PPPPPP/1RBQKBNR b Kkq b3 0 3");
+
+        Move move = game.getMove(Square.a4, Square.b3);
+
+        assertNotNull(move);
+        assertEquals(Cardinal.SurEste, move.getMoveDirection());
     }
 
     protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {

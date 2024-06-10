@@ -4,8 +4,8 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.QueenMoveFactory;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
@@ -22,13 +22,13 @@ public class QueenMoveGenerator extends AbstractCardinalMoveGenerator {
     }
 
     @Override
-    protected Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactory.createSimpleQueenMove(from, to, cardinal);
     }
 
 
     @Override
-    protected Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactory.createCaptureQueenMove(from, to, cardinal);
     }
 

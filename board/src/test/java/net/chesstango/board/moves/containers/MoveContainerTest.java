@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.imp.MoveImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move = factory.createSimpleKnightMove(origen, destino);
+        MoveImp move = factory.createSimpleKnightMove(origen, destino);
         moveContainerImp.add(move);
 
         Move foundMove = null;
@@ -49,7 +50,7 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
 
-        Move move1 = factory.createSimpleKnightMove(origen, destino);
+        MoveImp move1 = factory.createSimpleKnightMove(origen, destino);
 
         MoveList moveList = new MoveList();
         moveList.add(move1);
@@ -70,13 +71,13 @@ public class MoveContainerTest {
     public void test3() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino1 = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move1 = factory.createSimpleKnightMove(origen, destino1);
+        MoveImp move1 = factory.createSimpleKnightMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
         moveContainerImp.add(moveList1);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
-        Move move2 = factory.createSimpleKnightMove(origen, destino2);
+        MoveImp move2 = factory.createSimpleKnightMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
         moveContainerImp.add(moveList2);
@@ -102,18 +103,18 @@ public class MoveContainerTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-        Move move = factory.createSimpleKnightMove(origen, destino);
+        MoveImp move = factory.createSimpleKnightMove(origen, destino);
         moveContainerImp.add(move);
 
 
         PiecePositioned destino1 = PiecePositioned.getPiecePositioned(Square.e7, null);
-        Move move1 = factory.createSimpleKnightMove(origen, destino1);
+        MoveImp move1 = factory.createSimpleKnightMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
         moveContainerImp.add(moveList1);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
-        Move move2 = factory.createSimpleKnightMove(origen, destino2);
+        MoveImp move2 = factory.createSimpleKnightMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
         moveContainerImp.add(moveList2);

@@ -10,6 +10,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PawnWhiteMoveGeneratorTest {
     private PawnWhiteMoveGenerator moveGenerator;
 
-    private Collection<Move> moves;
+    private Collection<MoveImp> moves;
 
 
     private MoveFactory moveFactoryImp;
@@ -37,7 +38,7 @@ public class PawnWhiteMoveGeneratorTest {
     @BeforeEach
     public void setUp() throws Exception {
         moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-        moves = new ArrayList<Move>();
+        moves = new ArrayList<>();
 
         moveGenerator = new PawnWhiteMoveGenerator();
         moveGenerator.setMoveFactory(moveFactoryImp);
@@ -214,10 +215,10 @@ public class PawnWhiteMoveGeneratorTest {
 
         moves = generatorResult.getPseudoMoves();
 
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.ROOK_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.KNIGHT_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.BISHOP_WHITE, Cardinal.NorteEste)));
-        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.QUEEN_WHITE, Cardinal.NorteEste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.ROOK_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.KNIGHT_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.BISHOP_WHITE, Cardinal.NorteOeste)));
+        assertTrue(moves.contains(createCapturePawnPromocion(origen, Square.c8, Piece.ROOK_BLACK, Piece.QUEEN_WHITE, Cardinal.NorteOeste)));
 
         assertEquals(4, moves.size());
     }

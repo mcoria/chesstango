@@ -3,79 +3,72 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-abstract class AbstractCastlingMove implements MoveCastling {
-
-    protected final PiecePositioned kingFrom;   // King
-    protected final PiecePositioned kingTo;     // King
+public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastling {
 
     protected final PiecePositioned rookFrom;
     protected final PiecePositioned rookTo;
 
-    public AbstractCastlingMove(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
-        this.kingFrom = kingFrom;
-        this.kingTo = kingTo;
+    public MoveCastlingImp(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
+        super(kingFrom, kingTo);
 
         this.rookFrom = rookFrom;
         this.rookTo = rookTo;
     }
 
+    /**
+     * This method checks if this move is legal or not.
+     *
+     * @param filter
+     * @return
+     */
     @Override
-    public PiecePositioned getFrom() {
-        return kingFrom;
-    }
-
-    @Override
-    public PiecePositioned getTo() {
-        return kingTo;
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
 
     @Override
     public void doMove(SquareBoardWriter squareBoard) {
-        squareBoard.move(kingFrom, kingTo);
+        squareBoard.move(from, to);
         squareBoard.move(rookFrom, rookTo);
     }
 
 
     @Override
     public void undoMove(SquareBoardWriter squareBoard) {
-        squareBoard.setPosition(kingFrom);
-        squareBoard.setPosition(kingTo);
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
 
         squareBoard.setPosition(rookFrom);
         squareBoard.setPosition(rookTo);
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(kingFrom.getPiece(), kingFrom.getSquare(), kingTo.getSquare());
+        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookFrom.getSquare(), rookTo.getSquare());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(kingFrom.getPiece(), kingTo.getSquare(), kingFrom.getSquare());
+        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
         bitBoardWriter.swapPositions(rookFrom.getPiece(), rookTo.getSquare(), rookFrom.getSquare());
     }
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
         moveCache.pop();
     }
 
@@ -83,8 +76,8 @@ abstract class AbstractCastlingMove implements MoveCastling {
     public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();
 
-        hash.xorPosition(kingFrom);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(kingTo.getSquare(), kingFrom.getPiece()));
+        hash.xorPosition(from);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
@@ -94,21 +87,6 @@ abstract class AbstractCastlingMove implements MoveCastling {
         hash.clearEnPassantSquare();
 
         hash.xorTurn();
-    }
-
-    @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
-    public void doMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
-    }
-
-    @Override
-    public void undoMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
     }
 
     @Override

@@ -9,8 +9,10 @@ module net.chesstango.board {
     exports net.chesstango.board.representations.ascii;
     exports net.chesstango.board.position;
     exports net.chesstango.board.moves;
+    exports net.chesstango.board.moves.imp;
     exports net.chesstango.board.moves.generators.pseudo;
     exports net.chesstango.board.moves.generators.legal;
+    exports net.chesstango.board.moves.generators.legal.strategies;
     exports net.chesstango.board.moves.factories;
     exports net.chesstango.board.moves.containers;
     exports net.chesstango.board.iterators;

@@ -12,6 +12,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.imp.BitBoardImp;
@@ -33,7 +34,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private Collection<MoveImp> moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -43,18 +44,18 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.Este}){
 
 			@Override
-			protected Move createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+			protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 				return moveFactoryImp.createSimpleKnightMove(from, to);
 			}
 
 			@Override
-			protected Move createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+			protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 				return moveFactoryImp.createCaptureKnightMove(from, to);
 			}
 			
 		};
 		
-		moves = new ArrayList<Move>();
+		moves = new ArrayList<>();
 	}
 	
 	@Test

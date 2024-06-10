@@ -4,9 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.factories.MoveFactory;
 
 /**
@@ -32,53 +29,51 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      *
      */
     @Override
-    public Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
-        MoveImp moveImp = new MoveImp(from, to);
+    public MoveImp createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed moveImp = new MoveComposed(from, to);
         addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createSimpleBishopnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return createSimpleMoveImp(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    public MoveImp createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return createSimpleMoveImp(from, to, cardinal);
     }
 
     @Override
-    public Move createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(from, to);
+    public MoveImp createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed moveImp = new MoveComposed(from, to);
         addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public MoveKing createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
+    public MoveKingImp createSimpleKingMove(PiecePositioned from, PiecePositioned to) {
         MoveKingImp moveImp = new MoveKingImp(from, to);
         addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
-        MoveImp moveImp = new MoveImp(from, to, getPawnDirection());
+    public MoveImp createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed moveImp = new MoveComposed(from, to, getPawnDirection());
         addSimpleMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
-        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(from, to, getPawnDirection(), enPassantSquare);
-        return moveImp;
+    public MoveImp createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
+        return new MovePawnTwoSquares(from, to, getPawnDirection(), enPassantSquare);
     }
 
     @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, getPawnDirection(), piece);
-        return moveImp;
+    public MovePromotionImp createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece) {
+        return new MovePromotionImp(from, to, getPawnDirection(), piece);
     }
 
     /*******************************************************************************
@@ -87,53 +82,51 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      */
 
     @Override
-    public Move createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
-        MoveImp moveImp = new MoveImp(from, to);
-        addCaptureMoveExecutors(from, to, moveImp);
-        return moveImp;
-    }
-    
-    @Override
-    public Move createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createCaptureMoveImp(from, to, cardinal);
-    }
-
-    @Override
-    public Move createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createCaptureMoveImp(from, to, cardinal);
-    }
-
-    @Override
-    public Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(from, to, cardinal);
+    public MoveImp createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed moveImp = new MoveComposed(from, to);
         addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(form, to, cardinal);
+    public MoveImp createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createCaptureMoveImp(from, to, cardinal);
+    }
+
+    @Override
+    public MoveImp createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createCaptureMoveImp(from, to, cardinal);
+    }
+
+    @Override
+    public MoveImp createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed moveImp = new MoveComposed(from, to, cardinal);
+        addCaptureMoveExecutors(from, to, moveImp);
+        return moveImp;
+    }
+
+    @Override
+    public MoveImp createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed moveImp = new MoveComposed(form, to, cardinal);
         addCaptureMoveExecutors(form, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public MoveKing createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
+    public MoveKingImp createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
         MoveKingImp moveImp = new MoveKingImp(from, to);
         addCaptureMoveExecutors(from, to, moveImp);
         return moveImp;
     }
 
     @Override
-    public Move createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
-        MovePawnCaptureEnPassant moveImp = new MovePawnCaptureEnPassant(from, to, cardinal, enPassantPawn);
-        return moveImp;
+    public MoveImp createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
+        return new MoveCaptureEnPassantImp(from, to, cardinal, enPassantPawn);
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(from, to, piece);
-        return moveImp;
+    public MovePromotionImp createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal) {
+        return new MovePromotionImp(from, to, cardinal, piece);
     }
 
     /*******************************************************************************
@@ -143,20 +136,20 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      *
      */
 
-    public Move createSimpleMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(origen, destino, cardinal);
+    public MoveImp createSimpleMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        MoveComposed moveImp = new MoveComposed(origen, destino, cardinal);
         addSimpleMoveExecutors(origen, destino, moveImp);
         return moveImp;
     }
 
-    protected Move createCaptureMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        MoveImp moveImp = new MoveImp(origen, destino, cardinal);
+    protected MoveImp createCaptureMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        MoveComposed moveImp = new MoveComposed(origen, destino, cardinal);
         addCaptureMoveExecutors(origen, destino, moveImp);
         return moveImp;
     }
 
 
-    protected void addSimpleMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
+    protected void addSimpleMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveComposed moveImp) {
         if (origen.getPiece().isPawn()) {
             moveImp.setFnDoPositionState(algoPositionState::doSimplePawnMove);
         } else if (origen.getPiece().isKing()) {
@@ -174,7 +167,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
         moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
 
-    protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
+    protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveComposed moveImp) {
         if (origen.getPiece().isKing()) {
             moveImp.setFnDoPositionState(algoPositionState::doCaptureKingPositionState);
         } else {

@@ -9,6 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
@@ -56,7 +57,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             result.addAffectedByPositions(saltoSimpleCasillero);
             // Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
             if (destino.getPiece() == null) {
-                Move moveSaltoSimple = this.createSimplePawnMove(from, destino);
+                MoveImp moveSaltoSimple = this.createSimplePawnMove(from, destino);
 
                 // En caso de promocion
                 toRank = saltoSimpleCasillero.getRank();
@@ -70,7 +71,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
                         result.addAffectedByPositions(saltoDobleCasillero);
                         // Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
                         if (destino.getPiece() == null) {
-                            Move moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
+                            MoveImp moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
                             result.addPseudoMove(moveSaltoDoble);
                         }
                     }
@@ -85,7 +86,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             Piece piece = destino.getPiece();
             // El casillero es ocupado por una pieza contraria?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                Move moveCaptura = this.createCapturePawnMove(from, destino, getLeftDirection());
+                MoveImp moveCaptura = this.createCapturePawnMove(from, destino, getLeftDirection());
                 // En caso de promocion
                 toRank = saltoSimpleCasillero.getRank();
                 if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -104,7 +105,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             Piece piece = destino.getPiece();
             // El casillero es ocupado por una pieza contraria?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                Move moveCaptura = this.createCapturePawnMove(from, destino, getRightDirection());
+                MoveImp moveCaptura = this.createCapturePawnMove(from, destino, getRightDirection());
 
                 toRank = saltoSimpleCasillero.getRank();
                 if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -135,15 +136,15 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
         }
     }
 
-    private Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal direction) {
+    protected MoveImp createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal direction) {
         return this.moveFactory.createCapturePawnMove(origen, destino, direction);
     }
 
-    protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+    protected MoveImp createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
         return this.moveFactory.createSimpleOneSquarePawnMove(origen, destino);
     }
 
-    protected Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
+    protected MoveImp createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
         return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero);
     }
 }

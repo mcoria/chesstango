@@ -1,11 +1,11 @@
-package net.chesstango.board.moves.generators.legal.legalmovefilters;
+package net.chesstango.board.moves.generators.legal.strategies.check;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.imp.MoveCastlingImp;
+import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveKingImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.BitBoard;
@@ -34,7 +34,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
 	}
 	
 	@Override
-	public boolean isLegalMove(Move move) {
+	public boolean isLegalMove(MoveImp move) {
 		boolean result = false;
 		
 		final Color turnoActual = positionState.getCurrentTurn();
@@ -54,10 +54,10 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
 	}	
 	
 	@Override
-	public boolean isLegalMove(MoveKing move) {
+	public boolean isLegalMove(MoveKingImp move) {
 		move.doMove(this.kingCacheBoard);
 
-        boolean result = isLegalMove((Move) move);
+        boolean result = isLegalMove((MoveImp) move);
 
 		move.undoMove(this.kingCacheBoard);
 		
@@ -65,7 +65,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
 	}
 
 	@Override
-	public boolean isLegalMove(MoveCastling moveCastling) {
+	public boolean isLegalMove(MoveCastlingImp moveCastling) {
 		return false;
 	}		
 
