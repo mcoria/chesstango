@@ -1,8 +1,6 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 
 /**
@@ -10,20 +8,20 @@ import net.chesstango.board.moves.MoveCastling;
  */
 public class MoveFactoryWhite extends MoveFactoryAbstract {
 
-    private static final MoveCastling castlingKingMove = new MoveCastlingWhiteKing();
-    private static final MoveCastling castlingQueenMove = new MoveCastlingWhiteQueen();
+    private static final MoveCastlingImp castlingKingMove = new MoveCastlingWhiteKing();
+    private static final MoveCastlingImp castlingQueenMove = new MoveCastlingWhiteQueen();
 
     public MoveFactoryWhite() {
         super(new AlgoPositionStateWhite());
     }
 
     @Override
-    public MoveCastling createCastlingQueenMove() {
+    public MoveCastlingImp createCastlingQueenMove() {
         return castlingQueenMove;
     }
 
     @Override
-    public MoveCastling createCastlingKingMove() {
+    public MoveCastlingImp createCastlingKingMove() {
         return castlingKingMove;
     }
 

@@ -1,5 +1,6 @@
 package net.chesstango.board.position.imp;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -7,7 +8,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -17,6 +17,7 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class ChessPositionImp implements ChessPosition {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
@@ -35,60 +36,16 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public void acceptForDo(Move move) {
-        move.executeMove(this);
+    public void doMove(Move move) {
+        move.doMove(this);
     }
 
-    @Override
-    public void executeMove(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-
-        move.executeMove(this.squareBoard);
-
-        move.executeMove(this.bitBoard);
-
-        move.executeMove(this.positionState);
-
-        move.executeMove(this.moveCache);
-
-        move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
-    }
-
-    @Override
-    public void executeMoveKing(MoveKing move) {
-        executeMove(move);
-
-        move.executeMove(this.kingSquare);
-
-    }
-
-    @Override
-    public void acceptForUndo(Move move) {
-        move.undoMove(this);
-    }
 
     @Override
     public void undoMove(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-
-        move.undoMove(this.squareBoard);
-
-        move.undoMove(this.bitBoard);
-
-        move.undoMove(this.positionState);
-
-        move.undoMove(this.moveCache);
-
-        move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
-
+        move.undoMove(this);
     }
 
-    @Override
-    public void undoMoveKing(MoveKing move) {
-        undoMove(move);
-
-        move.undoMove(this.kingSquare);
-    }
 
     @Override
     public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
@@ -108,23 +65,7 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public long getZobristHash(Move move) {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-
-        move.executeMove(this.squareBoard);
-
-        move.executeMove(this.positionState);
-
-        move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
-
-        long zobristHash = this.zobristHash.getZobristHash();
-
-        move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
-
-        move.undoMove(this.positionState);
-
-        move.undoMove(this.squareBoard);
-
-        return zobristHash;
+        return move.getZobristHash(this);
     }
 
     @Override
@@ -165,6 +106,11 @@ public class ChessPositionImp implements ChessPosition {
     @Override
     public int getFullMoveClock() {
         return this.positionState.getFullMoveClock();
+    }
+
+    @Override
+    public PositionStateReader getPreviousPositionState() {
+        return this.positionState.getPreviousPositionState();
     }
 
     @Override
@@ -279,36 +225,42 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
+    public SquareBoard getSquareBoard() {
+        return squareBoard;
+    }
+
+    @Override
+    public BitBoard getBitBoard() {
+        return bitBoard;
+    }
+
+    @Override
+    public KingSquare getKingSquare() {
+        return kingSquare;
+    }
+
+    @Override
+    public MoveCacheBoard getMoveCache() {
+        return moveCache;
+    }
+
+    @Override
+    public PositionState getPositionState() {
+        return positionState;
+    }
+
+    @Override
+    public ZobristHash getZobrist() {
+        return zobristHash;
+    }
+
+    @Override
     public String toString() {
         FENEncoder fenEncoder = new FENEncoder();
 
         constructChessPositionRepresentation(fenEncoder);
 
         return fenEncoder.getChessRepresentation();
-    }
-
-    public void setPiecePlacement(SquareBoard squareBoard) {
-        this.squareBoard = squareBoard;
-    }
-
-    public void setColorBoard(BitBoard bitBoard) {
-        this.bitBoard = bitBoard;
-    }
-
-    public void setKingCacheBoard(KingSquare kingSquare) {
-        this.kingSquare = kingSquare;
-    }
-
-    public void setMoveCache(MoveCacheBoard moveCache) {
-        this.moveCache = moveCache;
-    }
-
-    public void setBoardState(PositionState positionState) {
-        this.positionState = positionState;
-    }
-
-    public void setZobristHash(ZobristHash zobristHash) {
-        this.zobristHash = zobristHash;
     }
 
 }

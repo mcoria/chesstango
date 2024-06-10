@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LoseCastlingWhiteAfterBlackMovesTest {
     private MoveFactory moveFactoryImp;
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
 
     private PositionState positionState;
 
@@ -47,7 +48,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -73,7 +74,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -99,7 +100,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -125,7 +126,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -151,7 +152,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurEste);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());
@@ -177,7 +178,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurOeste);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -205,7 +206,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
@@ -233,7 +234,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());

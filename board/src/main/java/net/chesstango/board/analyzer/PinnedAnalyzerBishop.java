@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.strategies.BishopMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**

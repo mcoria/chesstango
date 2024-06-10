@@ -10,7 +10,7 @@ import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -162,13 +162,13 @@ public class ChessPositionTest {
         MoveContainerReader moves = gameState.getLegalMoves();
 
         assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.ROOK_BLACK)));
+                Piece.ROOK_BLACK, Cardinal.SurOeste)));
         assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.KNIGHT_BLACK)));
+                Piece.KNIGHT_BLACK, Cardinal.SurOeste)));
         assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.BISHOP_BLACK)));
+                Piece.BISHOP_BLACK, Cardinal.SurOeste)));
         assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.QUEEN_BLACK)));
+                Piece.QUEEN_BLACK, Cardinal.SurOeste)));
 
         assertEquals(46, moves.size());
     }
@@ -225,11 +225,11 @@ public class ChessPositionTest {
 
             long zobristHash = chessPosition.getZobristHash(move);
 
-            chessPosition.acceptForDo(move);
+            move.doMove(chessPosition);
 
             assertEquals(zobristHash, chessPosition.getZobristHash());
 
-            chessPosition.acceptForUndo(move);
+            move.undoMove(chessPosition);
         }
 
         assertEquals(initialZobristHash, chessPosition.getZobristHash());
@@ -254,9 +254,9 @@ public class ChessPositionTest {
     }
 
     private Move createCapturePawnPromocionBlack(Square origenSquare, Piece origenPieza, Square destinoSquare,
-                                                 Piece destinoPieza, Piece promocion) {
+                                                 Piece destinoPieza, Piece promocion, Cardinal cardinal) {
         return moveFactoryBlack.createCapturePromotionPawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
-                PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, Cardinal.NorteEste);
+                PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, cardinal);
     }
 
     private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {

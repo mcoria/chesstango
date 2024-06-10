@@ -2,12 +2,12 @@ package net.chesstango.board.debug.builder;
 
 import net.chesstango.board.debug.chess.*;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
-import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
-import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
-import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
@@ -24,12 +24,12 @@ public class ChessFactoryDebug extends ChessFactory {
 	}	
 	
 	@Override
-	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new DefaultLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
-	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new NoCheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
@@ -50,14 +50,14 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
-		return new CheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
+		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 
 	@Override
-	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
-                                                     PositionState positionState) {
-		return new NoCheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+                                                          PositionState positionState) {
+		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}		
 	
 	@Override

@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.representations.move.SANDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;

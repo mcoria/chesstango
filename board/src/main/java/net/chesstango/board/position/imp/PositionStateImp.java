@@ -106,6 +106,11 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
+    public PositionStateReader getPreviousPositionState() {
+        return currentPositionState.getPreviousPositionState();
+    }
+
+    @Override
     public void setFullMoveClock(int fullMoveClock) {
         this.currentPositionState.fullMoveClock = fullMoveClock;
     }
@@ -117,10 +122,6 @@ public class PositionStateImp implements PositionState {
         }
     }
 
-    @Override
-    public PositionStateReader getCurrentState() {
-        return currentPositionState;
-    }
 
     @Override
     public void pushState() {
@@ -221,6 +222,11 @@ public class PositionStateImp implements PositionState {
         @Override
         public int getFullMoveClock() {
             return fullMoveClock;
+        }
+
+        @Override
+        public PositionStateReader getPreviousPositionState() {
+            return previousPositionState;
         }
     }
 }

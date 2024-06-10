@@ -9,13 +9,14 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.position.imp.ChessPositionImp;
+import net.chesstango.board.position.imp.SquareBoardImp;
 import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class SimpleTwoSquaresPawnMoveTest {
 
-    private Move moveExecutor;
+    private MoveImp moveExecutor;
     private SquareBoard squareBoard;
 
     private PositionStateDebug positionState;
@@ -46,7 +47,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     private ChessPosition chessPosition;
 
     @Mock
-    private MoveFilter filter;
+    private LegalMoveFilter filter;
 
 
     @BeforeEach
@@ -69,7 +70,9 @@ public class SimpleTwoSquaresPawnMoveTest {
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
-        moveCacheBoard.setPseudoMoves(Square.f4, new MoveGeneratorResult(peonNegro).addAffectedByPositions(Square.e3));
+        MoveGeneratorResult mgr = new MoveGeneratorResult(peonNegro);
+        mgr.addAffectedByPositions(Square.e3);
+        moveCacheBoard.setPseudoMoves(Square.f4, mgr);
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
@@ -89,27 +92,34 @@ public class SimpleTwoSquaresPawnMoveTest {
 
     @Test
     public void testZobristHash() {
-        moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setPositionState(positionState);
+        chessPositionImp.setSquareBoard(squareBoard);
+
+        moveExecutor.doMove(squareBoard);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
         assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
+        ChessPositionImp chessPositionImp = new ChessPositionImp();
+        chessPositionImp.setZobristHash(zobristHash);
+        chessPositionImp.setPositionState(positionState);
+        chessPositionImp.setSquareBoard(squareBoard);
+
         long initialHash = zobristHash.getZobristHash();
 
-        moveExecutor.executeMove(squareBoard);
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, squareBoard);
+        moveExecutor.doMove(squareBoard);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(zobristHash, chessPositionImp);
 
         moveExecutor.undoMove(squareBoard);
-        oldPositionState = positionState.getCurrentState();
         moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(zobristHash, oldPositionState, positionState, squareBoard);
+        moveExecutor.undoMove(zobristHash);
 
         assertEquals(initialHash, zobristHash.getZobristHash());
     }
@@ -117,7 +127,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(squareBoard);
+        moveExecutor.doMove(squareBoard);
 
         // asserts execute
         assertEquals(Piece.PAWN_WHITE, squareBoard.getPiece(Square.e4));
@@ -134,7 +144,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testMoveState() {
         // execute
-        moveExecutor.executeMove(positionState);
+        moveExecutor.doMove(positionState);
 
         // asserts execute
         assertEquals(Square.e3, positionState.getEnPassantSquare());
@@ -155,7 +165,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.executeMove(colorBoard);
+        moveExecutor.doMove(colorBoard);
 
         // asserts execute
         assertTrue(colorBoard.isEmpty(Square.e2));
@@ -171,7 +181,7 @@ public class SimpleTwoSquaresPawnMoveTest {
 
     @Test
     public void testMoveCacheBoard() {
-        moveExecutor.executeMove(moveCacheBoard);
+        moveExecutor.doMove(moveCacheBoard);
 
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
@@ -183,37 +193,21 @@ public class SimpleTwoSquaresPawnMoveTest {
     }
 
     @Test
-    public void testBoard() {
-        // execute
-        moveExecutor.executeMove(chessPosition);
-
-        // asserts execute
-        verify(chessPosition).executeMove(moveExecutor);
-
-        // undos
-        moveExecutor.undoMove(chessPosition);
-
-
-        // asserts undos
-        verify(chessPosition).undoMove(moveExecutor);
-    }
-
-    @Test
     public void testFilter() {
         // execute
-        moveExecutor.filter(filter);
+        moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).filterMove(moveExecutor);
+        verify(filter).isLegalMove(moveExecutor);
     }
 
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(squareBoard);
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(colorBoard);
-        moveExecutor.executeMove(moveCacheBoard);
+        moveExecutor.doMove(squareBoard);
+        moveExecutor.doMove(positionState);
+        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
         colorBoard.validar(squareBoard);
