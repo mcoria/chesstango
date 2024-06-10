@@ -8,7 +8,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.LegalMoveGeneratorImp;
+import net.chesstango.board.moves.generators.legal.strategies.LegalMoveGeneratorImp;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveGenerator;
