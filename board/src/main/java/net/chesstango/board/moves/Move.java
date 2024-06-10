@@ -3,7 +3,6 @@ package net.chesstango.board.moves;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria

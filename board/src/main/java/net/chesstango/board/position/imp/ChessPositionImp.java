@@ -17,20 +17,15 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class ChessPositionImp implements ChessPosition {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-    @Setter
     protected SquareBoard squareBoard = null;
-    @Setter
     protected BitBoard bitBoard = null;
-    @Setter
     protected KingSquare kingSquare = null;
-    @Setter
     protected MoveCacheBoard moveCache = null;
-    @Setter
     protected PositionState positionState = null;
-    @Setter
     protected ZobristHash zobristHash = null;
 
     @Override
