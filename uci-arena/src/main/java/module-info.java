@@ -17,6 +17,6 @@ module net.chesstango.uci.arena {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires org.slf4j;
+
     requires static lombok;
-    requires net.chesstango.tools;
 }

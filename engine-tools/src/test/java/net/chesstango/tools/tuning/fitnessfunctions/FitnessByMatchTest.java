@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.tuning;
+package net.chesstango.tools.tuning.fitnessfunctions;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;

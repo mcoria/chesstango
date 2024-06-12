@@ -1,7 +1,10 @@
-package net.chesstango.uci.arena;
+package net.chesstango.tools;
 
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.tools.search.reports.arena.SummaryReport;
+import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
@@ -9,7 +12,6 @@ import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
-import net.chesstango.uci.arena.reports.SummaryReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

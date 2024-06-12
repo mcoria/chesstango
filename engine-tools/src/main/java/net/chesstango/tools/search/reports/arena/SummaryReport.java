@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.reports;
+package net.chesstango.tools.search.reports.arena;
 
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;

@@ -28,10 +28,6 @@
             <artifactId>uci-arena-ipc</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>engine-tools</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
