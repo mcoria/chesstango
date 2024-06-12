@@ -878,6 +878,14 @@ public class GameTest {
     }
 
     @Test
+    public void testLegalMove() {
+        Game game = getGame("r1bq1rk1/ppp2ppp/3p1n2/3Np3/1bPnP3/5NP1/PP1P1PBP/R1BQ1RK1 b - - 2 8");
+
+        MoveContainerReader legalMoves = game.getPossibleMoves();
+        assertTrue(contieneMove(legalMoves, Square.d4, Square.f3));
+    }
+
+    @Test
     public void testCapturePanwPassante01() {
         Game game = getGame("rnbqkbnr/2pppppp/p7/Pp6/8/8/1PPPPPPP/RNBQKBNR w KQkq b6 0 3");
 

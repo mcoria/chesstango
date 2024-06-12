@@ -6,10 +6,10 @@ import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.move.SANDecoder;
-import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.move.SANDecoder;
+import net.chesstango.board.representations.move.SANEncoder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -120,7 +120,7 @@ public class PGNGame {
             } else {
                 FENEncoder encoder = new FENEncoder();
                 game.getChessPosition().constructChessPositionRepresentation(encoder);
-                throw new RuntimeException(moveStr + " is not in the list of legal moves for " + encoder.getChessRepresentation());
+                throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", event, moveStr, encoder.getChessRepresentation()));
             }
         });
 
