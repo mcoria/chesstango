@@ -1,5 +1,7 @@
 package net.chesstango.board.representations.pgn;
 
+import net.chesstango.board.representations.move.SANDecoder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,18 +14,8 @@ import java.util.regex.Pattern;
  */
 public class PGNDecoder {
 
-    private Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
+    private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
-    /**
-     * <SAN move descriptor piece moves>   ::= <Piece symbol>[<from file>|<from rank>|<from square>]['x']<to square>
-     * <SAN move descriptor pawn captures> ::= 			      <from file>[<from rank>]               'x' <to square>[<promoted to>]
-     * <SAN move descriptor pawn push>     ::= 														     <to square>[<promoted to>]
-     */
-    private Pattern movePattern = Pattern.compile("[RNBQK]([a-h]|[1-8]|[a-h][1-8])?x?[a-h][1-8]|" +
-                                                        "[a-h][1-8]?x[a-h][1-8][RNBQ]?|" +
-                                                        "[a-h][1-8][RNBQ]?|" +
-                                                        "O-O-O|O-O"
-    );
 
     public List<PGNGame> decodeGames(BufferedReader bufferReader) throws IOException {
         List<PGNGame> result = new ArrayList<>();
@@ -36,7 +28,7 @@ public class PGNDecoder {
 
     public PGNGame decodeGame(BufferedReader bufferReader) throws IOException {
         PGNGame pgnGame = decodeHeader(bufferReader);
-        if(pgnGame == null){
+        if (pgnGame == null) {
             return null;
         }
         pgnGame.setMoveList(decodeMovesList(bufferReader));
@@ -104,7 +96,7 @@ public class PGNDecoder {
 
     protected List<String> decodeMovesList(String moveListStr) {
         List<String> result = new ArrayList<>();
-        final Matcher matcher = movePattern.matcher(moveListStr);
+        final Matcher matcher = SANDecoder.movePattern.matcher(moveListStr);
         while (matcher.find()) {
             String moveStr = matcher.group(0);
             result.add(moveStr);
