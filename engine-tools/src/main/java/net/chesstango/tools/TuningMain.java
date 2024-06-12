@@ -9,6 +9,7 @@ import io.jenetics.engine.EvolutionResult;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4FactorsGenes;
@@ -32,8 +33,8 @@ public class TuningMain {
         GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
-        //FitnessFunction fitnessFunction = new FitnessByMatch(geneticProvider::createGameEvaluator);
-        FitnessFunction fitnessFunction = new FitnessByEpdSearch();
+        FitnessFunction fitnessFunction = new FitnessByMatch();
+        //FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
         TuningMain main = new TuningMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);

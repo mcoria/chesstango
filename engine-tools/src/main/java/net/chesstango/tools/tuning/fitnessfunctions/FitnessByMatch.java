@@ -14,6 +14,8 @@ import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.gui.ProxyConfigLoader;
+import net.chesstango.uci.arena.listeners.MatchBroadcaster;
+import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.engine.UciTango;
@@ -50,7 +52,6 @@ public class FitnessByMatch implements FitnessFunction {
         pool.close();
     }
 
-
     @Override
     public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
         EngineController engineTango = createTango(gameEvaluatorSupplier.get());
@@ -62,7 +63,8 @@ public class FitnessByMatch implements FitnessFunction {
         long pointsAsWhite = matchResult.stream()
                 .filter(result -> result.getEngineWhite() == engineTango)
                 .map(MatchResult::getPgnGame)
-                .mapToInt(FitnessByMatch::getPoints).sum();
+                .mapToInt(FitnessByMatch::getPoints)
+                .sum();
 
         long pointsAsBlack = matchResult.stream()
                 .filter(result -> result.getEngineBlack() == engineTango)
@@ -91,6 +93,8 @@ public class FitnessByMatch implements FitnessFunction {
             EngineController engineProxy = pool.borrowObject();
 
             Match match = new Match(engineProxy, engineTango, matchType);
+            match.setMatchListener(new MatchBroadcaster()
+                    .addListener(new SavePGNGame()));
 
             matchResult = match.play(fenList);
 
