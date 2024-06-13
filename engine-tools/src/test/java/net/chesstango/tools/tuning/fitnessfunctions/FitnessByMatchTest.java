@@ -1,21 +1,32 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.pgn.PGNGame;
+import net.chesstango.uci.arena.MatchResult;
+import net.chesstango.uci.arena.gui.EngineController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * @author Mauricio Coria
  */
+@ExtendWith(MockitoExtension.class)
 public class FitnessByMatchTest {
 
     private FitnessByMatch fitnessFn;
+
+    @Mock
+    private EngineController engineTango;
+
+    @Mock
+    private EngineController opponent;
+
 
     @BeforeEach
     public void setup() {
@@ -24,88 +35,50 @@ public class FitnessByMatchTest {
 
 
     @Test
-    public void testCreateResult01() {
-
-        Game game = FENDecoder.loadGame("8/P7/5Q1k/3p3p/3P2P1/1P1BP3/5P2/3K4 b - - 5 48");
-
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-
-        int points = FitnessByMatch.getPoints(pgnGame);
-
-        assertEquals(FitnessByMatch.WINNER_POINTS +
-                6 * FitnessByMatch.getPieceValue(Piece.PAWN_WHITE) +
-                2 * Math.abs(FitnessByMatch.getPieceValue(Piece.PAWN_BLACK)) +
-                1 * FitnessByMatch.getPieceValue(Piece.QUEEN_WHITE) +
-                1 * FitnessByMatch.getPieceValue(Piece.BISHOP_WHITE) +
-                1 * FitnessByMatch.getPieceValue(Piece.KING_WHITE) +
-                1 * Math.abs(FitnessByMatch.getPieceValue(Piece.KING_BLACK)
-                ), points);
+    public void testCalculatePoints01() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, engineTango, opponent, engineTango));
+        assertEquals(1L, fitnessFn.calculatePoints(engineTango, results));
     }
 
     @Test
-    public void testCreateResult02() {
-        Game game = FENDecoder.loadGame("3k4/5p2/1p1bp3/3p2p1/3P3P/5q1K/p7/8 w - - 0 48");
+    public void testCalculatePoints02() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, engineTango, opponent, null));
+        assertEquals(0L, fitnessFn.calculatePoints(engineTango, results));
+    }
 
-        PGNGame pgnGame = PGNGame.createFromGame(game);
+    @Test
+    public void testCalculatePoints03() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, opponent, engineTango, engineTango));
+        assertEquals(1L, fitnessFn.calculatePoints(engineTango, results));
+    }
 
-        int points = FitnessByMatch.getPoints(pgnGame);
+    @Test
+    public void testCalculatePoints04() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, opponent, engineTango, null));
+        assertEquals(0L, fitnessFn.calculatePoints(engineTango, results));
+    }
 
-
-        assertEquals(-1 * (FitnessByMatch.WINNER_POINTS +
-                6 * FitnessByMatch.getPieceValue(Piece.PAWN_WHITE) +
-                2 * Math.abs(FitnessByMatch.getPieceValue(Piece.PAWN_BLACK)) +
-                1 * FitnessByMatch.getPieceValue(Piece.QUEEN_WHITE) +
-                1 * FitnessByMatch.getPieceValue(Piece.BISHOP_WHITE) +
-                1 * FitnessByMatch.getPieceValue(Piece.KING_WHITE) +
-                1 * Math.abs(FitnessByMatch.getPieceValue(Piece.KING_BLACK))
-        ), points);
+    @Test
+    public void testCalculatePoints05() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, engineTango, opponent, engineTango),
+                                            new MatchResult("2", null, engineTango, opponent, null),
+                                            new MatchResult("3", null, opponent, engineTango, engineTango),
+                                            new MatchResult("4", null, opponent, engineTango, null));
+        assertEquals(2L, fitnessFn.calculatePoints(engineTango, results));
     }
 
 
     @Test
-    public void testCreateResultDraw01() {
-        Game game = FENDecoder.loadGame("6Q1/P7/7k/3p3p/3P3P/1P1BP3/5P2/3K4 b - - 5 48");
-
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-
-        int points = FitnessByMatch.getPoints(pgnGame);
-
-        assertEquals(
-                6 * FitnessByMatch.getPieceValue(Piece.PAWN_WHITE) +
-                        2 * FitnessByMatch.getPieceValue(Piece.PAWN_BLACK) +
-                        1 * FitnessByMatch.getPieceValue(Piece.QUEEN_WHITE) +
-                        1 * FitnessByMatch.getPieceValue(Piece.BISHOP_WHITE) +
-                        1 * FitnessByMatch.getPieceValue(Piece.KING_WHITE) +
-                        1 * FitnessByMatch.getPieceValue(Piece.KING_BLACK)
-                , points);
+    public void testCalculatePoints06() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, engineTango, opponent, opponent));
+        assertEquals(-1L, fitnessFn.calculatePoints(engineTango, results));
     }
 
     @Test
-    public void testCreateResultDraw02() {
-        Game game = FENDecoder.loadGame("3k4/5p2/1p1bp3/3p3p/3P3P/7K/p7/6q1 w - - 5 48");
-
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-
-        int points = FitnessByMatch.getPoints(pgnGame);
-
-        assertEquals(
-                6 * FitnessByMatch.getPieceValue(Piece.PAWN_BLACK) +
-                        2 * FitnessByMatch.getPieceValue(Piece.PAWN_WHITE) +
-                        1 * FitnessByMatch.getPieceValue(Piece.QUEEN_BLACK) +
-                        1 * FitnessByMatch.getPieceValue(Piece.BISHOP_BLACK) +
-                        1 * FitnessByMatch.getPieceValue(Piece.KING_BLACK) +
-                        1 * FitnessByMatch.getPieceValue(Piece.KING_WHITE)
-                , points);
+    public void testCalculatePoints07() {
+        List<MatchResult> results = List.of(new MatchResult("1", null, opponent, engineTango, opponent));
+        assertEquals(-1L, fitnessFn.calculatePoints(engineTango, results));
     }
 
-    @Test
-    public void testPieceValues() {
-        assertTrue(FitnessByMatch.getPieceValue(Piece.PAWN_WHITE) - FitnessByMatch.getPieceValue(Piece.PAWN_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.PAWN_WHITE));
-        assertTrue(FitnessByMatch.getPieceValue(Piece.ROOK_WHITE) - FitnessByMatch.getPieceValue(Piece.ROOK_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.ROOK_WHITE));
-        assertTrue(FitnessByMatch.getPieceValue(Piece.KNIGHT_WHITE) - FitnessByMatch.getPieceValue(Piece.KNIGHT_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.KNIGHT_WHITE));
-        assertTrue(FitnessByMatch.getPieceValue(Piece.BISHOP_WHITE) - FitnessByMatch.getPieceValue(Piece.BISHOP_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.BISHOP_WHITE));
-        assertTrue(FitnessByMatch.getPieceValue(Piece.QUEEN_WHITE) - FitnessByMatch.getPieceValue(Piece.QUEEN_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.QUEEN_WHITE));
-        assertTrue(FitnessByMatch.getPieceValue(Piece.KING_WHITE) - FitnessByMatch.getPieceValue(Piece.KING_BLACK) == 2 * FitnessByMatch.getPieceValue(Piece.KING_WHITE));
-    }
 
 }
