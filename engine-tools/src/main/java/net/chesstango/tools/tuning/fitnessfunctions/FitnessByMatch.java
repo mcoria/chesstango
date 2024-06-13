@@ -27,7 +27,6 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class FitnessByMatch implements FitnessFunction {
-    public static final int WINNER_POINTS = 1000;
     private static final MatchType matchType = new MatchByDepth(1);
 
     private final List<String> fenList;

@@ -1,7 +1,7 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.board.representations.Transcoding;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
@@ -25,7 +25,7 @@ import java.util.List;
 public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(1);
 
     //private static final MatchType MATCH_TYPE = new MatchByTime(200);
 
@@ -44,7 +44,8 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                //.createTangoControllerWithDefaultSearch(EvaluatorSEandImp02.class);
+                .createTangoControllerWithDefaultSearch(EvaluatorSEandImp03.class);
+                /*
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
                                 .withGameEvaluatorCache()
@@ -61,7 +62,7 @@ public class MatchMain {
                                 .withStopProcessingCatch()
 
                                 .withStatistics()
-                );
+                );*/
 
 
         EngineController engineController2 = EngineControllerFactory
@@ -99,10 +100,11 @@ public class MatchMain {
     }
 
     private static List<String> getFenList() {
-        List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
+        //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         //List<String> fenList = List.of("6k1/8/5Q2/1K6/8/8/8/8 b - - 50 148");
         return fenList;
