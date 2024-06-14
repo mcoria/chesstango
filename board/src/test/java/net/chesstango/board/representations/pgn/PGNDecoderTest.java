@@ -205,6 +205,37 @@ public class PGNDecoderTest {
         assertEquals("Qb4", moves.get(22));
     }
 
+    @Test
+    public void decodeGame03() throws IOException {
+        String lines = "[Event \"b3644c68-3c6a-40ab-870a-3b965dd38c6c\"]\n" +
+                "[Site \"LAPTOP-PTVVKHNB\"]\n" +
+                "[Date \"2024.06.12\"]\n" +
+                "[Round \"?\"]\n" +
+                "[White \"Tango v0.0.28-SNAPSHOT\"]\n" +
+                "[Black \"Spike 1.4\"]\n" +
+                "[FEN \"r1bqkb1r/pp1p1ppp/2n1pn2/8/2PN4/2N5/PP2PPPP/R1BQKB1R w KQkq - 0 6\"]\n" +
+                "[Result \"0-1\"]\n" +
+                "\n" +
+                "1. e4 e5 2. Nf5 b6 3. Bd3 g6 4. Ne3 Nb4 5. O-O Bb7\n" +
+                "6. Ncd5 Nfxd5 7. cxd5 Rc8 8. Re1 Nxd3 9. Qxd3 Bb4 10. Bd2 Bc5\n" +
+                "11. Bc3 Qg5 12. Rad1 O-O 13. d6 Qf4 14. g3 Qf3 15. Bxe5 Bxe4\n" +
+                "16. Qb3 Qh1# 0-1\n";
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame game = decoder.decodeGame(bufferReader);
+
+        assertEquals("b3644c68-3c6a-40ab-870a-3b965dd38c6c", game.getEvent());
+        assertEquals("LAPTOP-PTVVKHNB", game.getSite());
+        assertEquals("2024.06.12", game.getDate());
+        assertEquals("Tango v0.0.28-SNAPSHOT", game.getWhite());
+        assertEquals("Spike 1.4", game.getBlack());
+        assertEquals("0-1", game.getResult());
+
+        List<String> moves = game.getMoveList();
+        assertEquals("Qh1#", moves.get(31));
+    }
 
 
     @Test

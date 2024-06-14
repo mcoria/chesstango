@@ -1,6 +1,6 @@
-package net.chesstango.uci.arena.reports.sessionreport_ui;
+package net.chesstango.tools.search.reports.arena.sessionreport_ui;
 
-import net.chesstango.uci.arena.reports.SessionReportModel;
+import net.chesstango.tools.search.reports.arena.SessionReportModel;
 
 import java.io.PrintStream;
 import java.util.List;

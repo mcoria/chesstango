@@ -232,7 +232,7 @@ public class Match {
 
     private PGNGame createPGN() {
         PGNGame pgnGame = PGNGame.createFromGame(game);
-        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
+        pgnGame.setEvent(mathId);
         pgnGame.setWhite(white.getEngineName());
         pgnGame.setBlack(black.getEngineName());
         return pgnGame;

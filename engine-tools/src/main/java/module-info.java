@@ -1,22 +1,25 @@
 module net.chesstango.tools {
+    exports net.chesstango.tools;
+    exports net.chesstango.tools.tuning.fitnessfunctions;
+    exports net.chesstango.tools.tuning.geneticproviders;
+    exports net.chesstango.tools.tuning.factories;
+    exports net.chesstango.tools.search.reports.pv;
     exports net.chesstango.tools.search.reports.nodes;
     exports net.chesstango.tools.search.reports.evaluation;
-    exports net.chesstango.tools.search.reports.pv;
-    exports net.chesstango.tools.tuning.fitnessfunctions;
-    exports net.chesstango.tools;
 
-
+    requires net.chesstango.board;
     requires net.chesstango.engine;
     requires net.chesstango.evaluation;
-    requires net.chesstango.board;
     requires net.chesstango.search;
+    requires net.chesstango.uci.arena;
+    requires net.chesstango.uci.engine;
 
     requires com.fasterxml.jackson.databind;
     requires org.slf4j;
-    requires static lombok;
     requires io.jenetics.base;
-    requires py4j;
+    requires org.apache.commons.pool2;
 
+    requires static lombok;
 
     opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
 

@@ -120,6 +120,100 @@ public class PGNGameTest {
     }
 
     @Test
+    public void testBuildGame04() throws IOException {
+        String lines = "[Event \"Tango v0.0.28-SNAPSHOT vs Spike 1.4 - Match\"]\n" +
+                "[Site \"LAPTOP-PTVVKHNB\"]\n" +
+                "[Date \"2024.06.12\"]\n" +
+                "[Round \"?\"]\n" +
+                "[White \"Tango v0.0.28-SNAPSHOT\"]\n" +
+                "[Black \"Spike 1.4\"]\n" +
+                "[FEN \"r1bq1rk1/pppp1ppp/2n2n2/4p3/1bP5/2N2NP1/PP1PPPBP/R1BQK2R w KQ - 3 6\"]\n" +
+                "[Result \"0-1\"]\n" +
+                "\n" +
+                "1. d4 d6 2. O-O e4 3. Ng5 Bxc3 4. bxc3 Bf5 5. Bf4 h6\n" +
+                "6. Nh3 Be6 7. Qb3 b6 8. e3 a6 9. Rfe1 Re8 10. Rad1 Bg4\n" +
+                "11. Rd2 Be6 12. d5 Na5 13. Qb4 c5 14. Qa4 Bd7 15. Qc2 Nxc4\n" +
+                "16. Rdd1 Bg4 17. Rc1 b5 18. Ra1 Re7 19. Rac1 Qa5 20. Qb3 Nxd5\n" +
+                "21. Bxd6 Nxd6 22. Qxd5 Rd8 23. Nf4 g5 24. h3 gxf4 25. hxg4 f3\n" +
+                "26. Bh3 Red7 27. Qxc5 Qxa2 28. Rcd1 Nc4 29. Rxd7 Rxd7 30. g5 Rd2\n" +
+                "31. Bf5 Rxf2 32. Bxe4 Rf1+ 33. Rxf1 Qg2# 0-1\n";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+
+        Game game = pgnGame.buildGame();
+
+        assertEquals(GameStatus.MATE, game.getStatus());
+    }
+
+    @Test
+    public void testBuildGame05() throws IOException {
+        String lines = "[Event \"d72e3dd3-3eaf-43e6-8fce-83fe5dc79d2b\"]\n" +
+                "[Site \"LAPTOP-PTVVKHNB\"]\n" +
+                "[Date \"2024.06.12\"]\n" +
+                "[Round \"?\"]\n" +
+                "[White \"Tango v0.0.28-SNAPSHOT\"]\n" +
+                "[Black \"Spike 1.4\"]\n" +
+                "[FEN \"r1bqkb1r/pp1p1ppp/2n1pn2/8/2PN4/2N5/PP2PPPP/R1BQKB1R w KQkq - 0 6\"]\n" +
+                "[Result \"0-1\"]\n" +
+                "\n" +
+                "1. e4 e5 2. Nf5 b6 3. Bd3 g6 4. Ne3 Nb4 5. O-O Bb7\n" +
+                "6. Ncd5 Nfxd5 7. cxd5 Rc8 8. Bc4 Qh4 9. Qf3 Bc5 10. Bb3 Nd3\n" +
+                "11. Rd1 Ba6 12. Rb1 O-O 13. Bd2 Nf4 14. Bc3 Be2 15. Qg3 Qxg3\n" +
+                "16. hxg3 Bxd1 17. Rxd1 Ne2+ 18. Kh2 Nxc3 19. bxc3 Bxe3 20. fxe3 Rxc3\n" +
+                "21. Re1 Rfc8 22. Kg1 b5 23. d6 Rc1 24. Rxc1 Rxc1+ 25. Kh2 Kf8\n" +
+                "26. g4 Rc4 27. Bxc4 bxc4 28. Kg1 c3 29. g5 Ke8 30. a3 Kd8\n" +
+                "31. a4 c2 32. a5 c1=Q+ 33. Kf2 Qd2+ 34. Kg1 Qxe3+ 35. Kh2 Qxe4\n" +
+                "36. Kg1 Qe1+ 37. Kh2 Qxa5 38. Kg1 Qe1+ 39. Kh2 a5 40. g4 a4\n" +
+                "41. Kg2 a3 42. Kh2 a2 43. Kg2 Qe2+ 44. Kh3 a1=Q 45. Kh4 Qh2# 0-1\n";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+
+        Game game = pgnGame.buildGame();
+
+        assertEquals(GameStatus.MATE, game.getStatus());
+    }
+
+    @Test
+    public void testBuildGame06() throws IOException {
+        String lines = "[Event \"03e76304-8992-4db3-b638-d52d3f08c5f8\"]\n" +
+                "[Site \"LAPTOP-PTVVKHNB\"]\n" +
+                "[Date \"2024.06.12\"]\n" +
+                "[Round \"?\"]\n" +
+                "[White \"Tango v0.0.28-SNAPSHOT\"]\n" +
+                "[Black \"Spike 1.4\"]\n" +
+                "[FEN \"r1bq1rk1/pppp1ppp/2n2n2/4p3/1bP5/2N2NP1/PP1PPPBP/R1BQK2R w KQ - 3 6\"]\n" +
+                "[Result \"0-1\"]\n" +
+                "\n" +
+                "1. e4 d6 2. O-O Nd4 3. Nd5 Nxf3+ 4. Qxf3 Nxd5 5. cxd5 Bd7\n" +
+                "6. d3 f6 7. Be3 Bb5 8. d4 Bxf1 9. Rxf1 exd4 10. Bxd4 Bc5\n" +
+                "11. Bxc5 dxc5 12. Re1 Re8 13. g4 Qd6 14. Qf5 g6 15. Qf3 Rad8\n" +
+                "16. Qe3 f5 17. e5 Qb6 18. gxf5 Qxb2 19. f6 c4 20. f7+ Kxf7\n" +
+                "21. e6+ Kg7 22. Be4 Qxa2 23. Qc5 Rc8 24. Qd4+ Kh6 25. Qf6 Qd2\n" +
+                "26. Re3 Qd1+ 27. Kg2 Qg4+ 28. Kh1 b5 29. Re1 Rf8 30. Qd4 a5\n" +
+                "31. e7 Rf4 32. Qe3 Re8 33. d6 cxd6 34. Rg1 Qh4 35. Rxg6+ hxg6\n" +
+                "36. Kg1 Rxe7 37. f3 Qg5+ 38. Kh1 Rfxe4 39. Qxg5+ Kxg5 40. fxe4 c3\n" +
+                "41. h4+ Kxh4 42. Kg1 Rxe4 43. Kh2 c2 44. Kg1 c1=Q+ 45. Kh2 Re2# 0-1\n";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+
+        Game game = pgnGame.buildGame();
+
+        assertEquals(GameStatus.MATE, game.getStatus());
+    }
+
+    @Test
     public void testCreateFromGame01() throws IOException {
         Game game = FENDecoder.loadGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
         game.executeMove(Square.a7, Square.a6);

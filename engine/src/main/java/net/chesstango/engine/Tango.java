@@ -84,9 +84,8 @@ public class Tango {
 
     public void setPosition(String fen, List<String> moves) {
         if (currentSession == null ||
-                currentSession != null &&
-                        currentSession.getGame() != null &&
-                        !Objects.equals(fen, currentSession.getInitialFen())) {
+                currentSession.getGame() != null &&
+                !Objects.equals(fen, currentSession.getInitialFen())) {
             newGame();
         }
         currentSession.setPosition(fen, moves);

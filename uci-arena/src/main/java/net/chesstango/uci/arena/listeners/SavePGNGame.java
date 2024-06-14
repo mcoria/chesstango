@@ -29,7 +29,7 @@ public class SavePGNGame implements MatchListener {
     }
 
 
-    protected void save(PGNGame pgnGame) {
+    protected static synchronized void save(PGNGame pgnGame) {
         PGNEncoder encoder = new PGNEncoder();
         String encodedGame = encoder.encode(pgnGame);
         try {

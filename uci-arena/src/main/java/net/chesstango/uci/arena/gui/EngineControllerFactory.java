@@ -1,13 +1,14 @@
 package net.chesstango.uci.arena.gui;
 
-import net.chesstango.engine.builders.TangoFactoryWithDefaultEvaluator;
-import net.chesstango.engine.builders.TangoFactoryWithDefaultSearch;
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.builders.SearchBuilder;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchMove;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.proxy.UciProxy;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -21,20 +22,20 @@ public class EngineControllerFactory {
         return new EngineControllerImp(proxy);
     }
 
-    public static <T extends GameEvaluator> EngineController createTangoControllerWithDefaultSearch(Class<T> gameEvaluatorClass) {
-        TangoFactoryWithDefaultSearch<T> tangoFactory = new TangoFactoryWithDefaultSearch<>();
-        tangoFactory.withGameEvaluatorClass(gameEvaluatorClass);
+    public static EngineController createTangoController(Supplier<SearchMove> searchMoveSupplier) {
+        SearchMove search = searchMoveSupplier.get();
 
-        return new EngineControllerImp(new UciTango(tangoFactory.build()))
-                .overrideEngineName(gameEvaluatorClass.getSimpleName().toString());
+        return new EngineControllerImp(new UciTango(new Tango(searchMoveSupplier.get())))
+                .overrideEngineName(search.getClass().getSimpleName());
     }
 
-    public static <T extends SearchBuilder> EngineController createTangoControllerWithDefaultEvaluator(Class<T> searchBuilderClass, Consumer<T> fnSearchBuilderSetup) {
-        TangoFactoryWithDefaultEvaluator<T> tangoFactory = new TangoFactoryWithDefaultEvaluator<>();
-        tangoFactory.withSearchBuilderClass(searchBuilderClass);
-        tangoFactory.withSearchBuilderCustomizer(fnSearchBuilderSetup);
+    public static EngineController createTangoControllerWithDefaultSearch(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+        GameEvaluator gameEvaluator = gameEvaluatorSupplier.get();
 
-        return new EngineControllerImp(new UciTango(tangoFactory.build()));
+        SearchMove search = new DefaultSearchMove(gameEvaluator);
+
+        return new EngineControllerImp(new UciTango(new Tango(search)))
+                .overrideEngineName(gameEvaluator.getClass().getSimpleName());
     }
 
 }

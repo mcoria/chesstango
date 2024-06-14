@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.reports;
+package net.chesstango.tools.search.reports.arena;
 
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;

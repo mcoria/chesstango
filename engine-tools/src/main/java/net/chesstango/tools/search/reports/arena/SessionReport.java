@@ -1,12 +1,12 @@
-package net.chesstango.uci.arena.reports;
+package net.chesstango.tools.search.reports.arena;
 
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCollisionStatistics;
-import net.chesstango.uci.arena.reports.sessionreport_ui.PrintCutoffStatics;
-import net.chesstango.uci.arena.reports.sessionreport_ui.PrintNodesVisitedStatistics;
+import net.chesstango.tools.search.reports.arena.sessionreport_ui.PrintCollisionStatistics;
+import net.chesstango.tools.search.reports.arena.sessionreport_ui.PrintCutoffStatics;
+import net.chesstango.tools.search.reports.arena.sessionreport_ui.PrintNodesVisitedStatistics;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
