@@ -454,7 +454,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch();
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(EvaluatorSEandImp02::new);
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp02(700, 964, 209, 46));
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);

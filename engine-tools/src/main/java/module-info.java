@@ -20,6 +20,7 @@ module net.chesstango.tools {
     requires org.apache.commons.pool2;
 
     requires static lombok;
+    requires py4j;
 
     opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
 

@@ -1,18 +1,16 @@
 from bayes_opt import BayesianOptimization
+from py4j.java_gateway import JavaGateway
 
 
-def black_box_function(x, y):
-    """Function with unknown internals we wish to maximize.
+gateway = JavaGateway() 
 
-    This is just serving as an example, for all intents and
-    purposes think of the internals of this function, i.e.: the process
-    which generates its output values, as unknown.
-    """
-    return -x ** 2 - (y - 1) ** 2 + 1
+fitnessFn = gateway.entry_point
 
+def black_box_function(scalar1, scalar2, scalar3):
+    return fitnessFn.fitness(scalar1, scalar2, scalar3)
 
 # Bounded region of parameter space
-pbounds = {'x': (2, 4), 'y': (-3, 3)}
+pbounds = {'scalar1': (0, 1000), 'scalar2': (0, 1000), 'scalar3': (0, 1000)}
 
 
 optimizer = BayesianOptimization(
@@ -23,8 +21,8 @@ optimizer = BayesianOptimization(
 )
 
 optimizer.maximize(
-    init_points=3,
-    n_iter=20,
+    init_points=5,
+    n_iter=30,
 )
 
 

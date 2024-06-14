@@ -6,7 +6,6 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
-import io.jenetics.engine.EvolutionStart;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
@@ -24,8 +23,8 @@ import java.util.concurrent.Executors;
 /**
  * @author Mauricio Coria
  */
-public class JeneticsTuningMain {
-    private static final Logger logger = LoggerFactory.getLogger(JeneticsTuningMain.class);
+public class EvalTuningJeneticsMain {
+    private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
     private static final int POPULATION_SIZE = 5;
     private static final int GENERATION_LIMIT = 10;
 
@@ -38,7 +37,7 @@ public class JeneticsTuningMain {
         //FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
-        JeneticsTuningMain main = new JeneticsTuningMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
+        EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
 
         main.findGenotype();
     }
@@ -48,7 +47,7 @@ public class JeneticsTuningMain {
     private final FitnessFunction fitnessFn;
     private final Map<String, Long> fitnessMemory;
 
-    public JeneticsTuningMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
+    public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
         this.gameEvaluatorClass = gameEvaluatorClass;
         this.geneticProvider = geneticProvider;
         this.fitnessFn = fitnessFn;
@@ -66,11 +65,11 @@ public class JeneticsTuningMain {
                 .executor(executor)
                 .build();
 
-        EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+        //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
-                .stream(start)
-                //.stream()
+                //.stream(start)
+                .stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 

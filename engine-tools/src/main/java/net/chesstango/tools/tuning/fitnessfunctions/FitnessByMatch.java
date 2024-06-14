@@ -4,7 +4,6 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.tools.JeneticsTuningMain;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -82,6 +81,7 @@ public class FitnessByMatch implements FitnessFunction {
             pool.returnObject(engineProxy);
 
         } catch (Exception e) {
+            e.printStackTrace(System.err);
             throw new RuntimeException(e);
         }
         return matchResult;
@@ -89,7 +89,7 @@ public class FitnessByMatch implements FitnessFunction {
 
 
     private static List<String> getFenList() {
-        return new Transcoding().pgnFileToFenPositions(JeneticsTuningMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
+        return new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
     }
 
 

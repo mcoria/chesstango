@@ -44,7 +44,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(() -> new EvaluatorSEandImp03(307, 177, 6, 510) );
+                .createTangoControllerWithDefaultSearch(() -> new EvaluatorSEandImp03(443, 287, 85, 185) );
                 /*
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
