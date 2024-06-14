@@ -2,6 +2,7 @@ module net.chesstango.tools {
     exports net.chesstango.tools;
     exports net.chesstango.tools.tuning.fitnessfunctions;
     exports net.chesstango.tools.tuning.geneticproviders;
+    exports net.chesstango.tools.tuning.factories;
     exports net.chesstango.tools.search.reports.pv;
     exports net.chesstango.tools.search.reports.nodes;
     exports net.chesstango.tools.search.reports.evaluation;

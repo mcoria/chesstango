@@ -6,13 +6,14 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
+import io.jenetics.engine.EvolutionStart;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
+import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
-import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4FactorsGenes;
+import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4Factors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,12 +26,12 @@ import java.util.concurrent.Executors;
  */
 public class TuningMain {
     private static final Logger logger = LoggerFactory.getLogger(TuningMain.class);
-    private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int POPULATION_SIZE = 5;
+    private static final int GENERATION_LIMIT = 10;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
-        GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
+        GeneticProvider geneticProvider = new GeneticProvider4Factors();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         FitnessFunction fitnessFunction = new FitnessByMatch();
@@ -65,16 +66,16 @@ public class TuningMain {
                 .executor(executor)
                 .build();
 
-        //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+        EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
-                //.stream(start)
-                .stream()
+                .stream(start)
+                //.stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
-        System.out.println("Y su genotipo = " + geneticProvider.genotypeToString(result.genotype()));
+        System.out.println("Y su genotipo = " + geneticProvider.createGameEvaluatorFactors(result.genotype()));
 
 
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
@@ -92,20 +93,22 @@ public class TuningMain {
     }
 
     private long fitness(Genotype<IntegerGene> genotype) {
-        String keyGenes = geneticProvider.getKeyGenesString(genotype);
+        GameEvaluatorFactory gameEvaluatorFactory = geneticProvider.createGameEvaluatorFactors(genotype);
+
+        String keyGenes = gameEvaluatorFactory.getKeyGenesString();
 
         Long points = fitnessMemory.get(keyGenes);
 
         if (points == null) {
 
-            logger.info("Searching con {} ", geneticProvider.genotypeToString(genotype));
+            logger.info("Searching con {} ", gameEvaluatorFactory);
 
-            points = fitnessFn.fitness(() -> geneticProvider.createGameEvaluator(gameEvaluatorClass, genotype));
+            points = fitnessFn.fitness(() -> gameEvaluatorFactory.createGameEvaluator(gameEvaluatorClass));
 
             fitnessMemory.put(keyGenes, points);
         }
 
-        logger.info("Evaluacion con {} ; puntos = [{}]", geneticProvider.genotypeToString(genotype), points);
+        logger.info("Evaluacion con {} ; puntos = [{}]", gameEvaluatorFactory, points);
 
         return points;
     }
