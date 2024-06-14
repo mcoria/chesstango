@@ -44,7 +44,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(() -> new EvaluatorSEandImp03(443, 287, 85, 185) );
+                .createTangoControllerWithDefaultSearch(() -> new EvaluatorSEandImp03(558, 358, 16, 68) );
                 /*
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -103,10 +103,10 @@ public class MatchMain {
         //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        //List<String> fenList = List.of("6k1/8/5Q2/1K6/8/8/8/8 b - - 50 148");
+        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         return fenList;
     }
 
