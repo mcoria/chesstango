@@ -45,6 +45,11 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>net.sf.py4j</groupId>
+            <artifactId>py4j</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>

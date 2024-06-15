@@ -42,13 +42,19 @@ While I've certainly taken performance considerations into account, the predomin
   - Universal Chess Interface (UCI)
   - [Lichess API](https://lichess.org/api)
 - Arena for tournaments between ChessTango vs other UCI-compliant engines
+- GraalVM for native image (.exe) packaging  
 
 # Usage
 
 ## Chess GUI with UCI support
 1. Download ChessTango binary distribution
-2. Install a chess GUI with UCI support. For instance [Arena Chess GUI](http://www.playwitharena.de/)
-3. Load ChessTango into the GUI
+2. Download [Arena Chess GUI](http://www.playwitharena.de/)
+3. From the Arena GUI MenuBar, Select Engines > Install New Engine
+4. Select .exe file type and navigate to location of the saved binary file.
+5. Select the binary file and choose UCI protocol.
+6. Go to the MenuBar, Select Engines > Manage... > Details and Select ChessTango Chess Engine
+7. Under General, Click on the Type drop-down list > select UCI. Apply changes.
+8. You can play now !!!
 
 
 ## Lichess BOT

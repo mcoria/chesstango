@@ -8,5 +8,5 @@ import net.chesstango.evaluation.GameEvaluator;
 public interface GameEvaluatorFactory {
     GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass);
 
-    String getKeyGenesString();
+    String getKey();
 }

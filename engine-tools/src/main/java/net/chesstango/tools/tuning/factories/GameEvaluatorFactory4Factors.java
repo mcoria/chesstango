@@ -40,7 +40,7 @@ public class GameEvaluatorFactory4Factors implements GameEvaluatorFactory {
     }
 
     @Override
-    public String getKeyGenesString() {
+    public String getKey() {
         return toString();
     }
 
