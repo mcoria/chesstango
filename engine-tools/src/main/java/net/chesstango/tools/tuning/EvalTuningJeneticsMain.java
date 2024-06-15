@@ -1,4 +1,4 @@
-package net.chesstango.tools;
+package net.chesstango.tools.tuning;
 
 import io.jenetics.EliteSelector;
 import io.jenetics.Genotype;
@@ -8,7 +8,6 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
-import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
@@ -23,10 +22,10 @@ import java.util.concurrent.Executors;
 /**
  * @author Mauricio Coria
  */
-public class EvalTuningJeneticsMain {
+public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
     private static final int POPULATION_SIZE = 5;
-    private static final int GENERATION_LIMIT = 10;
+    private static final int GENERATION_LIMIT = 5;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
@@ -39,22 +38,18 @@ public class EvalTuningJeneticsMain {
 
         EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
 
-        main.findGenotype();
+        main.doWork();
     }
 
-    private final Class<? extends GameEvaluator> gameEvaluatorClass;
     private final GeneticProvider geneticProvider;
-    private final FitnessFunction fitnessFn;
-    private final Map<String, Long> fitnessMemory;
 
     public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
-        this.gameEvaluatorClass = gameEvaluatorClass;
+        super(fitnessFn, gameEvaluatorClass);
         this.geneticProvider = geneticProvider;
-        this.fitnessFn = fitnessFn;
-        this.fitnessMemory = Collections.synchronizedMap(new HashMap<>());
     }
 
-    private void findGenotype() {
+    @Override
+    public void doWork() {
         ExecutorService executor = Executors.newFixedThreadPool(5);
         fitnessFn.start();
 
@@ -76,40 +71,15 @@ public class EvalTuningJeneticsMain {
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
         System.out.println("Y su genotipo = " + geneticProvider.createGameEvaluatorFactors(result.genotype()));
 
-
-        Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
-        List<Map.Entry<String, Long>> entryList = entrySet.stream()
-                .sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)))
-                .toList();
-
-        entryList.stream().limit(20).forEach(entry -> {
-            System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
-        });
+        dumpMemory();
 
 
         fitnessFn.stop();
         executor.shutdown();
     }
 
+
     private long fitness(Genotype<IntegerGene> genotype) {
-        GameEvaluatorFactory gameEvaluatorFactory = geneticProvider.createGameEvaluatorFactors(genotype);
-
-        String keyGenes = gameEvaluatorFactory.getKeyGenesString();
-
-        Long points = fitnessMemory.get(keyGenes);
-
-        if (points == null) {
-
-            logger.info("Searching con {} ", gameEvaluatorFactory);
-
-            points = fitnessFn.fitness(() -> gameEvaluatorFactory.createGameEvaluator(gameEvaluatorClass));
-
-            fitnessMemory.put(keyGenes, points);
-        }
-
-        logger.info("Evaluacion con {} ; puntos = [{}]", gameEvaluatorFactory, points);
-
-        return points;
+        return fitness(geneticProvider.createGameEvaluatorFactors(genotype));
     }
-
 }

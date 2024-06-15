@@ -4,10 +4,10 @@ from py4j.java_gateway import JavaGateway
 
 gateway = JavaGateway() 
 
-fitnessFn = gateway.entry_point
+javaObj = gateway.entry_point
 
 def black_box_function(scalar1, scalar2, scalar3):
-    return fitnessFn.fitness(scalar1, scalar2, scalar3)
+    return javaObj.fitness(scalar1, scalar2, scalar3)
 
 # Bounded region of parameter space
 pbounds = {'scalar1': (0, 1000), 'scalar2': (0, 1000), 'scalar3': (0, 1000)}
@@ -21,16 +21,13 @@ optimizer = BayesianOptimization(
 )
 
 optimizer.maximize(
-    init_points=5,
-    n_iter=30,
+    init_points=2,
+    n_iter=3,
 )
 
+javaObj.endWork()
 
 print(optimizer.max)
 
-"""
-for i, res in enumerate(optimizer.res):
-    print("Iteration {}: \n\t{}".format(i, res))
-"""
 
 

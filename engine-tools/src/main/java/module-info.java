@@ -3,6 +3,7 @@ module net.chesstango.tools {
     exports net.chesstango.tools.tuning.fitnessfunctions;
     exports net.chesstango.tools.tuning.geneticproviders;
     exports net.chesstango.tools.tuning.factories;
+    exports net.chesstango.tools.tuning;
     exports net.chesstango.tools.search.reports.pv;
     exports net.chesstango.tools.search.reports.nodes;
     exports net.chesstango.tools.search.reports.evaluation;
@@ -18,10 +19,9 @@ module net.chesstango.tools {
     requires org.slf4j;
     requires io.jenetics.base;
     requires org.apache.commons.pool2;
-
-    requires static lombok;
     requires py4j;
 
-    opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
+    requires static lombok;
 
+    opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
 }

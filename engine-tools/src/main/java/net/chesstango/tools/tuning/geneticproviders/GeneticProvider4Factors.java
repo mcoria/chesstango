@@ -49,6 +49,13 @@ public class GeneticProvider4Factors implements GeneticProvider {
         return new GameEvaluatorFactory4Factors(array[0], array[1], array[2]);
     }
 
+    /**
+     * Este es el proceso inverso para cargar una poblacion inicial dado los factores
+     * @param factor1
+     * @param factor2
+     * @param factor3
+     * @return
+     */
     private Phenotype<IntegerGene, Long> createPhenotype(int factor1, int factor2, int factor3) {
         var scalar1 = factor1;
         var scalar2 = (factor2 * CONSTRAINT_MAX_VALUE) / (CONSTRAINT_MAX_VALUE - factor1);
