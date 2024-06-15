@@ -4,7 +4,6 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
@@ -72,11 +71,12 @@ public class FitnessByMatch implements FitnessFunction {
 
             EngineController engineProxy = pool.borrowObject();
 
+            /*
             Match match = new Match(engineProxy, engineTango, matchType);
             match.setMatchListener(new MatchBroadcaster()
                     .addListener(new SavePGNGame()));
-
-            matchResult = match.play(fenList);
+            */
+            //matchResult = match.play(fenList);
 
             pool.returnObject(engineProxy);
 
