@@ -73,9 +73,9 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         qMaxMap.write(0x0CE7DD3862149D3EL, 0, 4294899481L, TranspositionBound.UPPER_BOUND); // NO_MOVE
     }
 
-    protected GameEvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheReadMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
-        return new GameEvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

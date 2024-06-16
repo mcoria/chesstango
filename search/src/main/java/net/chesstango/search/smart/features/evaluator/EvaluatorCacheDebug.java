@@ -2,7 +2,7 @@ package net.chesstango.search.smart.features.evaluator;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.evaluation.GameEvaluatorCacheRead;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 
-public class GameEvaluatorCacheDebug implements GameEvaluatorCacheRead, SearchByCycleListener {
+public class EvaluatorCacheDebug implements EvaluatorCacheRead, SearchByCycleListener {
 
     @Getter
     @Setter
@@ -23,7 +23,7 @@ public class GameEvaluatorCacheDebug implements GameEvaluatorCacheRead, SearchBy
 
     @Getter
     @Setter
-    private GameEvaluatorCacheRead gameEvaluatorCacheRead;
+    private EvaluatorCacheRead evaluatorCacheRead;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -32,7 +32,7 @@ public class GameEvaluatorCacheDebug implements GameEvaluatorCacheRead, SearchBy
 
     @Override
     public Integer readFromCache(long hash) {
-        Integer evaluation = gameEvaluatorCacheRead.readFromCache(hash);
+        Integer evaluation = evaluatorCacheRead.readFromCache(hash);
         if (evaluation != null) {
             trackReadFromCache(hash, evaluation);
         }

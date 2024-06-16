@@ -57,7 +57,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         minMap.write(0xF91593D0EB65C164L, 1, 3147906084927624L, TranspositionBound.UPPER_BOUND); // e6h6
     }
 
-    protected GameEvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheReadMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
 
         // Movimientos NO QUIET van primero
@@ -77,7 +77,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
         cacheEvaluation.put(0x45ACAF1C4E505F0DL, -93450);  //e6=QUEEN_BLACK e3=null - MoveImp
 
 
-        return new GameEvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
     }
 
 }

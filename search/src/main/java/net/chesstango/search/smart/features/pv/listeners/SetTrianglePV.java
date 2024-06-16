@@ -4,7 +4,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
@@ -23,7 +23,7 @@ import java.util.List;
 public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
 
     private final short[][] trianglePV;
     private Game game;
@@ -78,7 +78,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
         } while (pvMoves[pvMoveCounter] != 0);
 
-        int pvEvaluation = gameEvaluator.evaluate();
+        int pvEvaluation = evaluator.evaluate();
 
         // En caso que se llegó a loop
         if (game.getState().getRepetitionCounter() > 1) {

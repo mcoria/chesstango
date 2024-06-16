@@ -6,7 +6,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.GameMockEvaluator;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class MinMaxTest {
 
-    private GameMockEvaluator evaluator;
+    private MockEvaluator evaluator;
 
     private MinMax minMax;
 
     @BeforeEach
     public void setup() {
         minMax = new MinMax();
-        evaluator = new GameMockEvaluator();
+        evaluator = new MockEvaluator();
         minMax.setGameEvaluator(evaluator);
     }
 

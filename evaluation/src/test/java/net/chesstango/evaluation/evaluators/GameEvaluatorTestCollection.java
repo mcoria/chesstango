@@ -3,7 +3,7 @@ package net.chesstango.evaluation.evaluators;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Supplier;
@@ -33,19 +33,19 @@ public abstract class GameEvaluatorTestCollection {
     protected abstract AbstractEvaluator getEvaluator(Game game);
 
 
-    protected void testGenericFeature(GameEvaluator gameEvaluator, Supplier<Integer> evaluationFunction, String fen) {
+    protected void testGenericFeature(Evaluator evaluator, Supplier<Integer> evaluationFunction, String fen) {
         // El puntaje de cada termino es 0 en la posicion inicial
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        gameEvaluator.setGame(game);
+        evaluator.setGame(game);
         final int eval = evaluationFunction.get();
         assertEquals(0, eval);
 
         game = FENDecoder.loadGame(fen);
-        gameEvaluator.setGame(game);
+        evaluator.setGame(game);
         final int eval1 = evaluationFunction.get();
 
         Game mirrorGame = game.mirror();
-        gameEvaluator.setGame(mirrorGame);
+        evaluator.setGame(mirrorGame);
         final int eval2 = evaluationFunction.get();
 
         // El puntaje de cada termino es simetrico con respecto a la posicion
@@ -90,9 +90,9 @@ public abstract class GameEvaluatorTestCollection {
         // White's interest is to maximize
         // Black's interest is to minimize
 
-        assertEquals(GameEvaluator.BLACK_LOST, mateEval);
+        assertEquals(Evaluator.BLACK_LOST, mateEval);
 
-        assertEquals(GameEvaluator.WHITE_WON, mateEval);
+        assertEquals(Evaluator.WHITE_WON, mateEval);
 
         assertTrue(mateEval > checkEval);
 
@@ -113,9 +113,9 @@ public abstract class GameEvaluatorTestCollection {
         // White's interest is to maximize
         // Black's interest is to minimize
 
-        assertEquals(GameEvaluator.BLACK_WON, mateEval);
+        assertEquals(Evaluator.BLACK_WON, mateEval);
 
-        assertEquals(GameEvaluator.WHITE_LOST, mateEval);
+        assertEquals(Evaluator.WHITE_LOST, mateEval);
 
         assertTrue(mateEval < checkEval);
 
@@ -153,10 +153,10 @@ public abstract class GameEvaluatorTestCollection {
 
         int eval = getEvaluator(game).evaluate();
 
-        assertTrue(eval != GameEvaluator.WHITE_WON, "White has not won yet");
-        assertTrue(eval != GameEvaluator.WHITE_LOST, "White has not lost yet");
-        assertTrue(eval != GameEvaluator.BLACK_WON, "Black has not won yet");
-        assertTrue(eval != GameEvaluator.BLACK_LOST, "Black has not lost yet");
+        assertTrue(eval != Evaluator.WHITE_WON, "White has not won yet");
+        assertTrue(eval != Evaluator.WHITE_LOST, "White has not lost yet");
+        assertTrue(eval != Evaluator.BLACK_WON, "Black has not won yet");
+        assertTrue(eval != Evaluator.BLACK_LOST, "Black has not lost yet");
         assertTrue(eval > 0, "White has a better position than Black");
     }
 
@@ -191,20 +191,20 @@ public abstract class GameEvaluatorTestCollection {
 
     @Test
     public void testInfinities() {
-        assertEquals(GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE, "+infinite is equals to  (-1) * -infinite ");
-        assertEquals(GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE, "-infinite is equals to  (-1) * +infinite ");
+        assertEquals(Evaluator.INFINITE_POSITIVE, (-1) * Evaluator.INFINITE_NEGATIVE, "+infinite is equals to  (-1) * -infinite ");
+        assertEquals(Evaluator.INFINITE_NEGATIVE, (-1) * Evaluator.INFINITE_POSITIVE, "-infinite is equals to  (-1) * +infinite ");
 
-        assertEquals(GameEvaluator.BLACK_LOST, GameEvaluator.WHITE_WON);
-        assertEquals(GameEvaluator.BLACK_WON, GameEvaluator.WHITE_LOST);
+        assertEquals(Evaluator.BLACK_LOST, Evaluator.WHITE_WON);
+        assertEquals(Evaluator.BLACK_WON, Evaluator.WHITE_LOST);
 
-        assertEquals(GameEvaluator.WHITE_WON, GameEvaluator.BLACK_LOST);
-        assertEquals(GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_WON);
+        assertEquals(Evaluator.WHITE_WON, Evaluator.BLACK_LOST);
+        assertEquals(Evaluator.WHITE_LOST, Evaluator.BLACK_WON);
 
-        assertEquals(GameEvaluator.WHITE_WON, (-1) * GameEvaluator.WHITE_LOST);
-        assertEquals(GameEvaluator.BLACK_WON, (-1) * GameEvaluator.BLACK_LOST);
+        assertEquals(Evaluator.WHITE_WON, (-1) * Evaluator.WHITE_LOST);
+        assertEquals(Evaluator.BLACK_WON, (-1) * Evaluator.BLACK_LOST);
 
-        assertEquals(GameEvaluator.WHITE_LOST, (-1) * GameEvaluator.WHITE_WON);
-        assertEquals(GameEvaluator.BLACK_LOST, (-1) * GameEvaluator.BLACK_WON);
+        assertEquals(Evaluator.WHITE_LOST, (-1) * Evaluator.WHITE_WON);
+        assertEquals(Evaluator.BLACK_LOST, (-1) * Evaluator.BLACK_WON);
     }
 
     @Test

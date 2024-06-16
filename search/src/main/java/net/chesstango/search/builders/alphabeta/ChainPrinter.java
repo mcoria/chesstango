@@ -1,9 +1,9 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
-import net.chesstango.evaluation.GameEvaluatorCacheRead;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
@@ -17,7 +17,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.features.evaluator.GameEvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -41,7 +41,7 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
-import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -241,7 +241,7 @@ public class ChainPrinter {
     }
 
     private void printChainQuiescence(Quiescence quiescence, int nestedChain) {
-        printChainText(String.format("%s [%s, %s]", objectText(quiescence), printGameEvaluator(quiescence.getGameEvaluator()), printMoveSorterText(quiescence.getMoveSorter())), nestedChain);
+        printChainText(String.format("%s [%s, %s]", objectText(quiescence), printGameEvaluator(quiescence.getEvaluator()), printMoveSorterText(quiescence.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(quiescence.getNext(), nestedChain);
     }
@@ -253,7 +253,7 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBetaTerminal(AlphaBetaEvaluation alphaBetaEvaluation, int nestedChain) {
-        printChainText(String.format("%s [%s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getGameEvaluator())), nestedChain);
+        printChainText(String.format("%s [%s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getEvaluator())), nestedChain);
         printChainText("", nestedChain);
     }
 
@@ -275,26 +275,26 @@ public class ChainPrinter {
     }
 
 
-    private String printGameEvaluator(GameEvaluator gameEvaluator) {
-        if (gameEvaluator instanceof GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper) {
+    private String printGameEvaluator(Evaluator evaluator) {
+        if (evaluator instanceof EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper) {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsWrapper), printGameEvaluator(gameEvaluatorStatisticsWrapper.getImp()));
-        } else if (gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
+        } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
             return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
-        } else if (gameEvaluator instanceof DefaultEvaluator defaultEvaluator) {
+        } else if (evaluator instanceof DefaultEvaluator defaultEvaluator) {
             return String.format("%s -> %s", objectText(defaultEvaluator), printGameEvaluator(defaultEvaluator.getImp()));
         }
 
-        return objectText(gameEvaluator);
+        return objectText(evaluator);
     }
 
-    private String printGameEvaluatorCacheRead(GameEvaluatorCacheRead gameEvaluatorCacheRead) {
-        if (gameEvaluatorCacheRead instanceof GameEvaluatorCacheDebug gameEvaluatorCacheDebug) {
-            return String.format("%s -> %s", objectText(gameEvaluatorCacheDebug), printGameEvaluatorCacheRead(gameEvaluatorCacheDebug.getGameEvaluatorCacheRead()));
-        } else if (gameEvaluatorCacheRead instanceof GameEvaluatorCache gameEvaluatorCache) {
+    private String printGameEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
+        if (evaluatorCacheRead instanceof EvaluatorCacheDebug gameEvaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(gameEvaluatorCacheDebug), printGameEvaluatorCacheRead(gameEvaluatorCacheDebug.getEvaluatorCacheRead()));
+        } else if (evaluatorCacheRead instanceof EvaluatorCache gameEvaluatorCache) {
             return printGameEvaluator(gameEvaluatorCache);
         }
 
-        throw new RuntimeException(String.format("Unknown GameEvaluatorCacheRead %s", objectText(gameEvaluatorCacheRead)));
+        throw new RuntimeException(String.format("Unknown GameEvaluatorCacheRead %s", objectText(evaluatorCacheRead)));
     }
 
 
@@ -320,7 +320,7 @@ public class ChainPrinter {
         } else if (moveComparator instanceof GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
             return String.format("%s [%s] -> %s",
                     objectText(moveComparator),
-                    printGameEvaluatorCacheRead(gameEvaluatorCacheComparator.getGameEvaluatorCacheRead()),
+                    printGameEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead()),
                     printMoveComparatorText(gameEvaluatorCacheComparator.getNext()));
 
         } else if (moveComparator instanceof RecaptureMoveComparator recaptureMoveComparator) {

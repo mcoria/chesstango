@@ -1,23 +1,27 @@
 package net.chesstango.tools.tuning.factories;
 
 import lombok.Getter;
-import net.chesstango.evaluation.GameEvaluator;
-
-import java.lang.reflect.InvocationTargetException;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Mauricio Coria
  */
 @Getter
-public class GameEvaluatorFactory4Factors implements GameEvaluatorFactory {
+public class EvaluatorSEandImp03Factory implements GameEvaluatorFactory {
     public static final int CONSTRAINT_MAX_VALUE = 1000;
+
+    private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
 
     private final int factor1;
     private final int factor2;
     private final int factor3;
     private final int factor4;
 
-    public GameEvaluatorFactory4Factors(int scalar1, int scalar2, int scalar3) {
+    public EvaluatorSEandImp03Factory(int scalar1, int scalar2, int scalar3) {
         if (scalar1 > CONSTRAINT_MAX_VALUE || scalar2 > CONSTRAINT_MAX_VALUE || scalar3 > CONSTRAINT_MAX_VALUE) {
             throw new RuntimeException(String.format("Invalid input scalars %d %d %d", scalar1, scalar2, scalar3));
         }
@@ -28,20 +32,18 @@ public class GameEvaluatorFactory4Factors implements GameEvaluatorFactory {
     }
 
     @Override
-    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        try {
-            return gameEvaluatorClass
-                    .getDeclaredConstructor(Integer.class, Integer.class, Integer.class, Integer.class)
-                    .newInstance(factor1, factor2, factor3, factor4);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+    public Evaluator createGameEvaluator() {
+        return new EvaluatorSEandImp03(factor1, factor2, factor3, factor4);
     }
 
     @Override
     public String getKey() {
         return toString();
+    }
+
+    @Override
+    public void dump(long points) {
+
     }
 
     @Override

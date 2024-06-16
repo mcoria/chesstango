@@ -21,8 +21,8 @@ optimizer = BayesianOptimization(
 )
 
 optimizer.maximize(
-    init_points=2,
-    n_iter=3,
+    init_points=3,
+    n_iter=20,
 )
 
 javaObj.endWork()

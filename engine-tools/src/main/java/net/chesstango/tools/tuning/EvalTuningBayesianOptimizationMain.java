@@ -1,8 +1,6 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
-import net.chesstango.tools.tuning.factories.GameEvaluatorFactory4Factors;
+import net.chesstango.tools.tuning.factories.EvaluatorSEandImp03Factory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;
@@ -21,7 +19,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
 
         FitnessFunction fitnessFn = new FitnessByMatch();
 
-        EvalTuningBayesianOptimizationMain app = new EvalTuningBayesianOptimizationMain(fitnessFn, EvaluatorSEandImp03.class);
+        EvalTuningBayesianOptimizationMain app = new EvalTuningBayesianOptimizationMain(fitnessFn);
 
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(app, Thread.currentThread()));
 
@@ -29,8 +27,8 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
     }
 
 
-    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn, Class<? extends GameEvaluator> gameEvaluatorClass) {
-        super(fitnessFn, gameEvaluatorClass);
+    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn) {
+        super(fitnessFn);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
         int scalar1 = scalar1Dbl.intValue();
         int scalar2 = scalar2Dbl.intValue();
         int scalar3 = scalar3Dbl.intValue();
-        return fitness(new GameEvaluatorFactory4Factors(scalar1, scalar2, scalar3));
+        return fitness(new EvaluatorSEandImp03Factory(scalar1, scalar2, scalar3));
     }
 
 

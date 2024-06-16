@@ -1,12 +1,11 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
+import net.chesstango.board.representations.Transcoding;
+import net.chesstango.evaluation.evaluators.EvaluatorImp02;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Tournament;
-import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.CaptureMatchResult;
@@ -33,35 +32,32 @@ public class TournamentMain {
         List<MatchResult> matchResult = new TournamentMain(controllerFactories)
                 .play(getFenList());
 
-        List<List<EngineController>> allControllerFactories = controllerFactories.stream()
-                .map(EngineControllerPoolFactory::getEngineControllerInstances)
-                .toList();
-
         new SummaryReport()
-                .withMultipleEngineInstances(allControllerFactories, matchResult)
+                .withMatchResults(matchResult)
                 .printReport(System.out);
     }
 
     private static List<String> getFenList() {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         return fenList;
     }
 
 
     private static List<EngineControllerPoolFactory> createControllerFactories() {
         EngineControllerPoolFactory mainFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSEandImp03::new));
+        EngineControllerPoolFactory evaluatorImp02Factory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02::new));
         /*
         EngineControllerPoolFactory factory1 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterial.class));
         EngineControllerPoolFactory factory2 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndMoves.class));
         EngineControllerPoolFactory factory3 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp01.class));
-        EngineControllerPoolFactory factory4 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02.class));
+
         EngineControllerPoolFactory factory5 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSimplifiedEvaluator.class));
          */
         EngineControllerPoolFactory spikeFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createProxyController("Spike", null));
 
-        return Arrays.asList(mainFactory, spikeFactory);
+        return Arrays.asList(mainFactory, evaluatorImp02Factory, spikeFactory);
     }
 
     private final List<EngineControllerPoolFactory> controllerFactories;
@@ -73,10 +69,11 @@ public class TournamentMain {
     public List<MatchResult> play(List<String> fenList) {
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
-        Tournament tournament = new Tournament(controllerFactories, matchType, new MatchBroadcaster()
-                .addListener(new MatchListenerToMBeans())
-                .addListener(new SavePGNGame())
-                .addListener(captureMatchResult));
+        Tournament tournament = new Tournament(controllerFactories, matchType)
+                .setMatchListener(new MatchBroadcaster()
+                        .addListener(new MatchListenerToMBeans())
+                        .addListener(new SavePGNGame())
+                        .addListener(captureMatchResult));
 
         Instant start = Instant.now();
         tournament.play(fenList);

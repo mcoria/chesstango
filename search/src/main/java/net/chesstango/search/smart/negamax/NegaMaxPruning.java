@@ -3,7 +3,7 @@ package net.chesstango.search.smart.negamax;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.*;
@@ -36,7 +36,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        int bestValue = GameEvaluator.INFINITE_NEGATIVE;
+        int bestValue = Evaluator.INFINITE_NEGATIVE;
         boolean search = true;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(0);
@@ -46,7 +46,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
 
             game.executeMove(move);
 
-            int currentValue = -negaMax(game, maxPly - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
+            int currentValue = -negaMax(game, maxPly - 1, Evaluator.INFINITE_NEGATIVE, -bestValue);
 
             if (currentValue > bestValue) {
                 bestValue = currentValue;
@@ -54,7 +54,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
                 bestMoves.add(move);
 
                 // Stop searching if we have found checkmate
-                if (bestValue == GameEvaluator.WHITE_WON) {
+                if (bestValue == Evaluator.WHITE_WON) {
                     search = false;
                 }
 
@@ -83,7 +83,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
             return negaQuiescence.quiescenceMax(game, alpha, beta);
         } else {
             boolean search = true;
-            int maxValue = GameEvaluator.INFINITE_NEGATIVE;
+            int maxValue = Evaluator.INFINITE_NEGATIVE;
 
             Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
             Iterator<Move> moveIterator = sortedMoves.iterator();

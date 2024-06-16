@@ -80,11 +80,11 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         maxMap.write(0x337D4750B1C4CD1AL, 1, 4078092922146620L, TranspositionBound.LOWER_BOUND); // b8f8
     }
 
-    protected GameEvaluatorCacheReadMock loadEvaluationCache() {
+    protected EvaluatorCacheReadMock loadEvaluationCache() {
         Map<Long, Integer> cacheEvaluation = new HashMap<>();
         cacheEvaluation.put(0x8814FB171AC56D0BL, -26460); // a5c7
 
-        return new GameEvaluatorCacheReadMock().setCache(cacheEvaluation);
+        return new EvaluatorCacheReadMock().setCache(cacheEvaluation);
     }
 
     private void loadKillerMoveTables() {

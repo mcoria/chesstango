@@ -3,7 +3,7 @@ package net.chesstango.search.smart.features.evaluator;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -13,7 +13,7 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
  * @author Mauricio Coria
  */
 
-public class GameEvaluatorDebug implements GameEvaluator, SearchByCycleListener {
+public class EvaluatorDebug implements Evaluator, SearchByCycleListener {
 
     @Getter
     @Setter
@@ -21,7 +21,7 @@ public class GameEvaluatorDebug implements GameEvaluator, SearchByCycleListener 
 
     @Getter
     @Setter
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -31,7 +31,7 @@ public class GameEvaluatorDebug implements GameEvaluator, SearchByCycleListener 
 
     @Override
     public int evaluate() {
-        int evaluation = gameEvaluator.evaluate();
+        int evaluation = evaluator.evaluate();
         trackEvaluation(evaluation);
         return evaluation;
     }

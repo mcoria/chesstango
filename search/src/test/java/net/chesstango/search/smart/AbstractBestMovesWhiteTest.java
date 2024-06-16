@@ -6,7 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -55,7 +55,7 @@ public abstract class AbstractBestMovesWhiteTest {
         assertEquals(Square.c2, smartMove.getFrom().getSquare());
         assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
 
@@ -73,7 +73,7 @@ public abstract class AbstractBestMovesWhiteTest {
         assertEquals(Square.c2, smartMove.getFrom().getSquare());
         assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -92,7 +92,7 @@ public abstract class AbstractBestMovesWhiteTest {
         Square to = smartMove.getTo().getSquare();
         assertTrue(Square.a8.equals(to) || Square.a7.equals(to) || Square.b6.equals(to) || Square.b5.equals(to) || Square.b4.equals(to));
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     @Test //Max Walter vs. Emanuel Lasker
@@ -109,7 +109,7 @@ public abstract class AbstractBestMovesWhiteTest {
         assertEquals(Square.e3, smartMove.getFrom().getSquare());
         assertEquals(Square.g3, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
 }

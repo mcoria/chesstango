@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class LeafChainBuilder {
     private final AlphaBetaEvaluation leaf;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
     private SmartListenerMediator smartListenerMediator;
@@ -27,8 +27,8 @@ public class LeafChainBuilder {
         leaf = new AlphaBetaEvaluation();
     }
 
-    public LeafChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public LeafChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -60,7 +60,7 @@ public class LeafChainBuilder {
     }
 
     private void buildObjects() {
-        leaf.setGameEvaluator(gameEvaluator);
+        leaf.setEvaluator(evaluator);
 
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();

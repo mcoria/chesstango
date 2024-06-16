@@ -1,6 +1,6 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +17,7 @@ public class FitnessByLeastSquare implements FitnessFunction {
     private List<FeaturesValues> featuresValuesList;
 
     @Override
-    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+    public long fitness(Supplier<Evaluator> gameEvaluatorSupplier) {
         /*
         Chromosome<IntegerGene> chromosome = genotype.chromosome();
 
@@ -68,9 +68,9 @@ public class FitnessByLeastSquare implements FitnessFunction {
             }
 
             if (GameResult.WHITE_WINS.equals(expectedResult)) {
-                return GameEvaluator.WHITE_WON - evaluation;
+                return Evaluator.WHITE_WON - evaluation;
             } else if (GameResult.BLACK_WINS.equals(expectedResult)) {
-                return GameEvaluator.BLACK_WON - evaluation;
+                return Evaluator.BLACK_WON - evaluation;
             }
 
             return evaluation;

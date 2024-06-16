@@ -3,10 +3,9 @@ package net.chesstango.search.smart.minmax;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
-    private GameEvaluator evaluator;
+    private Evaluator evaluator;
 
     @Override
     public MoveEvaluation search() {
@@ -30,7 +29,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
 
-        int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
+        int betterEvaluation = minOrMax ? Evaluator.INFINITE_POSITIVE : Evaluator.INFINITE_NEGATIVE;
 
         expectedNodesCounters[0] += game.getPossibleMoves().size();
         for (Move move : game.getPossibleMoves()) {
@@ -66,7 +65,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
         visitedNodesCounter[maxPly - currentPly - 1]++;
         expectedNodesCounters[maxPly - currentPly] += game.getPossibleMoves().size();
 
-        int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
+        int betterEvaluation = minOrMax ? Evaluator.INFINITE_POSITIVE : Evaluator.INFINITE_NEGATIVE;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             betterEvaluation = evaluator.evaluate();
         } else {
@@ -103,7 +102,7 @@ public class MinMax implements SmartAlgorithm, SearchByCycleListener, SearchByDe
         this.maxPly = context.getMaxPly();
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
+    public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
     }
 }

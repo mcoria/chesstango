@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -21,13 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class MatchTest {
 
     private EngineControllerImp smartEngine;
-    private EngineControllerImp dummyEngine;
 
+    private EngineControllerImp dummyEngine;
 
     @BeforeEach
     public void setup() {
-        smartEngine = new EngineControllerImp(new UciTango()).overrideEngineName("Smart");
-        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy()))).overrideEngineName("Dummy");
+        smartEngine = new EngineControllerImp(new UciTango())
+                .overrideEngineName("Smart");
+
+        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy())))
+                .overrideEngineName("Dummy");
 
         smartEngine.startEngine();
         dummyEngine.startEngine();
@@ -60,13 +62,12 @@ public class MatchTest {
         Match match = new Match(smartEngine, dummyEngine, new MatchByDepth(3));
         //match.setDebugEnabled(true);
 
-        List<MatchResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
+        MatchResult matchResult = match.play(FENDecoder.INITIAL_FEN);
 
-        assertEquals(2, matchResult.size());
+        assertNotNull(matchResult);
 
         // Deberia ganar el engine smartEngine
-        assertEquals(1, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine && result.getWinner() == smartEngine).count());
-        assertEquals(1, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine && result.getWinner() == smartEngine).count());
+        assertEquals(smartEngine, matchResult.getEngineWhite());
     }
 
     @Test

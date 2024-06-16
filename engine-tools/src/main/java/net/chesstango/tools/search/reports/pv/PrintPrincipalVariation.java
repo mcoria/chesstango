@@ -1,6 +1,6 @@
 package net.chesstango.tools.search.reports.pv;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 import java.io.PrintStream;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class PrintPrincipalVariation {
             out.printf("%6s: %s", moveDetail.move, moveDetail.principalVariation);
 
             out.printf("; eval=%d", moveDetail.evaluation);
-            if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
+            if (moveDetail.evaluation == Evaluator.WHITE_WON || moveDetail.evaluation == Evaluator.BLACK_WON) {
                 out.print(" MATE");
             }
 

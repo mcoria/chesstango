@@ -4,12 +4,12 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class AbstractEvaluator implements GameEvaluator {
+public abstract class AbstractEvaluator implements Evaluator {
 
     protected Game game;
 

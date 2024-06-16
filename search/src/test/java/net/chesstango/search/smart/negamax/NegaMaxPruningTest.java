@@ -6,7 +6,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.GameMockEvaluator;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class NegaMaxPruningTest {
 
-    private GameMockEvaluator evaluator;
+    private MockEvaluator evaluator;
 
     private NegaMaxPruning negaMaxPruning;
 
@@ -34,7 +34,7 @@ public class NegaMaxPruningTest {
 
     @BeforeEach
     public void setup() {
-        evaluator = new GameMockEvaluator();
+        evaluator = new MockEvaluator();
 
         NodeMoveSorter moveSorter = new NodeMoveSorter();
         moveSorter.setMoveComparator(new DefaultMoveComparator());

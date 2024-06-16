@@ -1,6 +1,5 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;
@@ -14,14 +13,12 @@ import java.util.*;
 public abstract class EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningAbstract.class);
 
-    protected final Class<? extends GameEvaluator> gameEvaluatorClass;
     protected final FitnessFunction fitnessFn;
     protected final Map<String, Long> fitnessMemory;
 
-    protected EvalTuningAbstract(FitnessFunction fitnessFn, Class<? extends GameEvaluator> gameEvaluatorClass) {
+    protected EvalTuningAbstract(FitnessFunction fitnessFn) {
         this.fitnessFn = fitnessFn;
         this.fitnessMemory = Collections.synchronizedMap(new HashMap<>());
-        this.gameEvaluatorClass = gameEvaluatorClass;
     }
 
     public abstract void doWork();
@@ -29,18 +26,22 @@ public abstract class EvalTuningAbstract {
     protected long fitness(GameEvaluatorFactory gameEvaluatorFactory) {
         String keyGenes = gameEvaluatorFactory.getKey();
 
+        logger.info("Searching {} ", keyGenes);
+
         Long points = fitnessMemory.get(keyGenes);
 
         if (points == null) {
 
-            logger.info("Searching con {} ", gameEvaluatorFactory);
+            points = fitnessFn.fitness(gameEvaluatorFactory::createGameEvaluator);
 
-            points = fitnessFn.fitness(() -> gameEvaluatorFactory.createGameEvaluator(gameEvaluatorClass));
+            gameEvaluatorFactory.dump(points);
 
             fitnessMemory.put(keyGenes, points);
+        } else {
+            logger.info("Fitness {} in memory", keyGenes);
         }
 
-        logger.info("Evaluacion con {} ; puntos = [{}]", gameEvaluatorFactory, points);
+        logger.info("Fitness {} ; points = [{}]", keyGenes, points);
 
         return points;
     }

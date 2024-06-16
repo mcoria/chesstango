@@ -2,7 +2,9 @@ package net.chesstango.uci.arena;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.board.*;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -24,12 +26,13 @@ import java.util.UUID;
 /**
  * @author Mauricio Coria
  */
-public class Match {
+class Match {
     private static final Logger logger = LoggerFactory.getLogger(Match.class);
     private final EngineController controller1;
     private final EngineController controller2;
     private final MatchType matchType;
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
+
     private EngineController white;
     private EngineController black;
     private Game game;
@@ -46,10 +49,6 @@ public class Match {
 
     @Setter
     @Accessors(chain = true)
-    private boolean switchChairs;
-
-    @Setter
-    @Accessors(chain = true)
     private MatchListener matchListener;
 
 
@@ -57,28 +56,13 @@ public class Match {
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.matchType = matchType;
-        this.switchChairs = true;
     }
 
-    public List<MatchResult> play(List<String> fenList) {
-        List<MatchResult> result = new ArrayList<>();
-
-        fenList.forEach(fen -> result.addAll(play(fen)));
-
-        return result;
-    }
-
-    public List<MatchResult> play(String fen) {
-        List<MatchResult> result = new ArrayList<>(2);
-
+    public MatchResult play(String fen) {
         try {
             setFen(fen);
 
-            result.add(play(controller1, controller2));
-
-            if (switchChairs) {
-                result.add(play(controller2, controller1));
-            }
+            return play(controller1, controller2);
 
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
@@ -87,8 +71,6 @@ public class Match {
 
             throw e;
         }
-
-        return result;
     }
 
     protected MatchResult play(EngineController white, EngineController black) {

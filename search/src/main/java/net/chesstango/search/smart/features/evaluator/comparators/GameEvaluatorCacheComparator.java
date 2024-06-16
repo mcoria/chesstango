@@ -6,7 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.evaluation.GameEvaluatorCacheRead;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -23,7 +23,7 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
 
     @Getter
     @Setter
-    private GameEvaluatorCacheRead gameEvaluatorCacheRead;
+    private EvaluatorCacheRead evaluatorCacheRead;
 
     private Game game;
     private MoveToHashMap moveToZobrist;
@@ -53,8 +53,8 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final Integer moveEvaluation1 = gameEvaluatorCacheRead.readFromCache(getZobristHashMove(o1));
-        final Integer moveEvaluation2 = gameEvaluatorCacheRead.readFromCache(getZobristHashMove(o2));
+        final Integer moveEvaluation1 = evaluatorCacheRead.readFromCache(getZobristHashMove(o1));
+        final Integer moveEvaluation2 = evaluatorCacheRead.readFromCache(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
             int evaluation1 = TranspositionEntry.decodeValue(moveEvaluation1);

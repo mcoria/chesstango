@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.f3, smartMove.getFrom().getSquare());
         assertEquals(Square.f7, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -49,7 +49,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.f6, smartMove.getFrom().getSquare());
         assertEquals(Square.f2, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -65,7 +65,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.h6, smartMove.getFrom().getSquare());
         assertEquals(Square.h8, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
 
@@ -82,7 +82,7 @@ public abstract class MateIn1Test {
         assertEquals(Square.d8, smartMove.getFrom().getSquare());
         assertEquals(Square.h4, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
 }

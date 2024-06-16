@@ -15,16 +15,8 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class EngineControllerPoolFactory extends BasePooledObjectFactory<EngineController> {
-    private final Supplier<EngineController> fnCreateEngineController;
 
-    /**
-     * -- GETTER --
-     *  Devuleve la coleccion de instancias EngineController creadas.
-     *
-     * @return
-     */
-    @Getter
-    private final List<EngineController> engineControllerInstances = Collections.synchronizedList(new ArrayList<>());
+    private final Supplier<EngineController> fnCreateEngineController;
 
     public EngineControllerPoolFactory(Supplier<EngineController> fnCreateEngineController) {
         this.fnCreateEngineController = fnCreateEngineController;
@@ -37,14 +29,12 @@ public class EngineControllerPoolFactory extends BasePooledObjectFactory<EngineC
 
         controller.startEngine();
 
-        engineControllerInstances.add(controller);
-
         return controller;
     }
 
     @Override
     public PooledObject<EngineController> wrap(EngineController engineController) {
-        return new DefaultPooledObject<EngineController>(engineController);
+        return new DefaultPooledObject<>(engineController);
     }
 
     @Override

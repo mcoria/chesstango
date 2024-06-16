@@ -6,7 +6,7 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
-import net.chesstango.tools.tuning.factories.GameEvaluatorFactory4Factors;
+import net.chesstango.tools.tuning.factories.EvaluatorSEandImp03Factory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class GeneticProvider4Factors implements GeneticProvider {
+public class GPEvaluatorSEandImp03 implements GeneticProvider {
 
     private static final int CONSTRAINT_MAX_VALUE = 1000;
 
@@ -46,7 +46,7 @@ public class GeneticProvider4Factors implements GeneticProvider {
 
         int[] array = integerChromo.toArray();
 
-        return new GameEvaluatorFactory4Factors(array[0], array[1], array[2]);
+        return new EvaluatorSEandImp03Factory(array[0], array[1], array[2]);
     }
 
     /**

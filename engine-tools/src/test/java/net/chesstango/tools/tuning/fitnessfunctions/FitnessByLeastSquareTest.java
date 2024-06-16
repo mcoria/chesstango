@@ -1,6 +1,6 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class FitnessByLeastSquareTest {
 
         int error = featuresValues.error(new int[]{4, 5, 6});
 
-        Assertions.assertEquals( GameEvaluator.WHITE_WON - (1 * 4 + 2 * 5 + 3 * 6), error);
+        Assertions.assertEquals( Evaluator.WHITE_WON - (1 * 4 + 2 * 5 + 3 * 6), error);
     }
 
     @Test
@@ -43,6 +43,6 @@ public class FitnessByLeastSquareTest {
 
         int error = featuresValues.error(new int[]{4, 5, 6});
 
-        Assertions.assertEquals( GameEvaluator.BLACK_WON - (1 * 4 + 2 * 5 + 3 * 6), error);
+        Assertions.assertEquals( Evaluator.BLACK_WON - (1 * 4 + 2 * 5 + 3 * 6), error);
     }
 }

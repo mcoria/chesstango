@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena.gui;
 
 import net.chesstango.engine.Tango;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.engine.UciTango;
@@ -29,13 +29,13 @@ public class EngineControllerFactory {
                 .overrideEngineName(search.getClass().getSimpleName());
     }
 
-    public static EngineController createTangoControllerWithDefaultSearch(Supplier<GameEvaluator> gameEvaluatorSupplier) {
-        GameEvaluator gameEvaluator = gameEvaluatorSupplier.get();
+    public static EngineController createTangoControllerWithDefaultSearch(Supplier<Evaluator> gameEvaluatorSupplier) {
+        Evaluator evaluator = gameEvaluatorSupplier.get();
 
-        SearchMove search = new DefaultSearchMove(gameEvaluator);
+        SearchMove search = new DefaultSearchMove(evaluator);
 
         return new EngineControllerImp(new UciTango(new Tango(search)))
-                .overrideEngineName(gameEvaluator.getClass().getSimpleName());
+                .overrideEngineName(evaluator.getClass().getSimpleName());
     }
 
 }

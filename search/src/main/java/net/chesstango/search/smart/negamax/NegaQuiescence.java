@@ -3,7 +3,7 @@ package net.chesstango.search.smart.negamax;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class NegaQuiescence {
     private MoveSorter moveSorter;
 
-    private GameEvaluator evaluator;
+    private Evaluator evaluator;
 
     public int quiescenceMax(final Game game, final int alpha, final int beta) {
         boolean search = true;
@@ -48,7 +48,7 @@ public class NegaQuiescence {
         return maxValue;
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
+    public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
 
