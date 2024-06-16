@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static net.chesstango.evaluation.evaluators.EvaluatorImp04.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
@@ -50,8 +49,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
         assertEquals(50, PAWN_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(50, PAWN_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(PAWN_WHITE_VALUES.length == 64);
-        assertTrue(PAWN_BLACK_VALUES.length == 64);
+        assertEquals(64, PAWN_WHITE_VALUES.length);
+        assertEquals(64, PAWN_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             assertEquals(PAWN_WHITE_VALUES[square.toIdx()], -PAWN_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -78,8 +77,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
         assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(KNIGHT_WHITE_VALUES.length == 64);
-        assertTrue(KNIGHT_BLACK_VALUES.length == 64);
+        assertEquals(64, KNIGHT_WHITE_VALUES.length);
+        assertEquals(64, KNIGHT_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, KNIGHT_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), KNIGHT_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -108,8 +107,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
         assertEquals(0, BISHOP_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(-10, BISHOP_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(BISHOP_WHITE_VALUES.length == 64);
-        assertTrue(BISHOP_BLACK_VALUES.length == 64);
+        assertEquals(64, BISHOP_WHITE_VALUES.length);
+        assertEquals(64, BISHOP_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, BISHOPS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), BISHOPS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -137,8 +136,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
         assertEquals(10, ROOK_WHITE_VALUES[Square.g7.toIdx()]);
         assertEquals(5, ROOK_WHITE_VALUES[Square.h7.toIdx()]);
 
-        assertTrue(ROOK_WHITE_VALUES.length == 64);
-        assertTrue(ROOK_BLACK_VALUES.length == 64);
+        assertEquals(64, ROOK_WHITE_VALUES.length);
+        assertEquals(64, ROOK_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -168,8 +167,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
         assertEquals(-10, QUEEN_WHITE_VALUES[Square.h7.toIdx()]);
 
 
-        assertTrue(QUEEN_WHITE_VALUES.length == 64);
-        assertTrue(QUEEN_BLACK_VALUES.length == 64);
+        assertEquals(64, QUEEN_WHITE_VALUES.length);
+        assertEquals(64, QUEEN_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, QUEENS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), QUEENS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
@@ -209,8 +208,8 @@ public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
          */
 
 
-        assertTrue(KING_WHITE_VALUES.length == 64);
-        assertTrue(KING_BLACK_VALUES.length == 64);
+        assertEquals(64, KING_WHITE_VALUES.length);
+        assertEquals(64, KING_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);

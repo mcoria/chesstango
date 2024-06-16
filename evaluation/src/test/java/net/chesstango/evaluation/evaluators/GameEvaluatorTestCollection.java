@@ -49,7 +49,7 @@ public abstract class GameEvaluatorTestCollection {
         final int eval2 = evaluationFunction.get();
 
         // El puntaje de cada termino es simetrico con respecto a la posicion
-        assertTrue(eval1 == -eval2);
+        assertEquals(eval1, -eval2);
     }
 
     @Test
@@ -68,7 +68,7 @@ public abstract class GameEvaluatorTestCollection {
         assertTrue(evalBlack < 0);
 
         // El puntaje de cada termino es simetrico con respecto a la posicion
-        assertTrue(evalWhite == -evalBlack);
+        assertEquals(evalWhite, -evalBlack);
     }
 
     @Test
@@ -172,12 +172,12 @@ public abstract class GameEvaluatorTestCollection {
     @Test
     public void testSymmetryOfPieceValues() {
         AbstractEvaluator evaluator = getEvaluator(null);
-        assertTrue(evaluator.getPieceValue(Piece.PAWN_WHITE) == -evaluator.getPieceValue(Piece.PAWN_BLACK));
-        assertTrue(evaluator.getPieceValue(Piece.ROOK_WHITE) == -evaluator.getPieceValue(Piece.ROOK_BLACK));
-        assertTrue(evaluator.getPieceValue(Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(Piece.KNIGHT_BLACK));
-        assertTrue(evaluator.getPieceValue(Piece.BISHOP_WHITE) == -evaluator.getPieceValue(Piece.BISHOP_BLACK));
-        assertTrue(evaluator.getPieceValue(Piece.QUEEN_WHITE) == -evaluator.getPieceValue(Piece.QUEEN_BLACK));
-        assertTrue(evaluator.getPieceValue(Piece.KING_WHITE) == -evaluator.getPieceValue(Piece.KING_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.PAWN_WHITE), -evaluator.getPieceValue(Piece.PAWN_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.ROOK_WHITE), -evaluator.getPieceValue(Piece.ROOK_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.KNIGHT_WHITE), -evaluator.getPieceValue(Piece.KNIGHT_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.BISHOP_WHITE), -evaluator.getPieceValue(Piece.BISHOP_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.QUEEN_WHITE), -evaluator.getPieceValue(Piece.QUEEN_BLACK));
+        assertEquals(evaluator.getPieceValue(Piece.KING_WHITE), -evaluator.getPieceValue(Piece.KING_BLACK));
     }
 
 
@@ -186,7 +186,7 @@ public abstract class GameEvaluatorTestCollection {
         Game game = FENDecoder.loadGame("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7");
         Game gameMirror = game.mirror();
 
-        assertTrue(getEvaluator(game).evaluate() == (-1) * getEvaluator(gameMirror).evaluate());
+        assertEquals(getEvaluator(game).evaluate(), (-1) * getEvaluator(gameMirror).evaluate());
     }
 
     @Test
