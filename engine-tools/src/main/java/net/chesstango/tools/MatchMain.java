@@ -1,7 +1,8 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -25,7 +26,7 @@ import java.util.List;
 public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(4);
     //private static final MatchType MATCH_TYPE = new MatchByTime(200);
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
 
@@ -43,7 +44,7 @@ public class MatchMain {
     public static void main(String[] args) {
         EngineControllerPoolFactory tangoControllerFactory = new EngineControllerPoolFactory(() ->
                 EngineControllerFactory
-                        .createTangoControllerWithDefaultSearch(() -> new EvaluatorSEandImp03(261, 165, 199, 375))
+                        .createTangoControllerWithDefaultSearch(EvaluatorSEandImp02::new)
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -58,10 +59,28 @@ public class MatchMain {
                         );*/
         );
 
-
+        /*
         EngineControllerPoolFactory opponentControllerFactory = new EngineControllerPoolFactory(() ->
                 EngineControllerFactory
                         .createProxyController("Spike", null));
+         */
+
+        EngineControllerPoolFactory opponentControllerFactory = new EngineControllerPoolFactory(() ->
+                EngineControllerFactory
+                        .createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndPST::new)
+                        /*
+                        .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
+                        builder -> builder
+                                .withGameEvaluatorCache()
+                                .withQuiescence()
+                                .withTranspositionTable()
+                                .withTranspositionMoveSorter()
+                                .withAspirationWindows()
+                                .withIterativeDeepening()
+                                .withStopProcessingCatch()
+                                .withStatistics()
+                        );*/
+        );
 
 
         List<MatchResult> matchResult = new MatchMain(tangoControllerFactory, opponentControllerFactory)

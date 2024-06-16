@@ -38,7 +38,7 @@
         <chariot.version>0.0.86</chariot.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.13.5</jackson.version>
-        <jenetics.version>7.2.0</jenetics.version>
+        <jenetics.version>8.0.0</jenetics.version>
         <py4j.version>0.10.9.7</py4j.version>
     </properties>
 

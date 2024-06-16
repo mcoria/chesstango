@@ -6,10 +6,9 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
-import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorSEandImp03;
+import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorSEandImp02;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
-        GeneticProvider geneticProvider = new GPEvaluatorSEandImp03();
+        GeneticProvider geneticProvider = new GPEvaluatorSEandImp02();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         FitnessFunction fitnessFunction = new FitnessByMatch();

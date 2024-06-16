@@ -2,7 +2,7 @@ package net.chesstango.tools.tuning.factories;
 
 import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author Mauricio Coria
  */
 @Getter
-public class EvaluatorSEandImp03Factory implements GameEvaluatorFactory {
+public class EvaluatorSEandImp02Factory implements GameEvaluatorFactory {
     public static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
@@ -21,7 +21,7 @@ public class EvaluatorSEandImp03Factory implements GameEvaluatorFactory {
     private final int factor3;
     private final int factor4;
 
-    public EvaluatorSEandImp03Factory(int scalar1, int scalar2, int scalar3) {
+    public EvaluatorSEandImp02Factory(int scalar1, int scalar2, int scalar3) {
         if (scalar1 > CONSTRAINT_MAX_VALUE || scalar2 > CONSTRAINT_MAX_VALUE || scalar3 > CONSTRAINT_MAX_VALUE) {
             throw new RuntimeException(String.format("Invalid input scalars %d %d %d", scalar1, scalar2, scalar3));
         }
@@ -33,7 +33,7 @@ public class EvaluatorSEandImp03Factory implements GameEvaluatorFactory {
 
     @Override
     public Evaluator createGameEvaluator() {
-        return new EvaluatorSEandImp03(factor1, factor2, factor3, factor4);
+        return new EvaluatorSEandImp02(factor1, factor2, factor3, factor4);
     }
 
     @Override

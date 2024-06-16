@@ -46,7 +46,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     private final int position;
 
     private final int expansion;
-    private final int ataque;
+    private final int attack;
 
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
@@ -55,11 +55,11 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer ataque) {
+    public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer attack) {
         this.material = material;
         this.position = position;
         this.expansion = expansion;
-        this.ataque = ataque;
+        this.attack = attack;
     }
 
 
@@ -142,7 +142,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
         }
 
         // From white point of view
-        return expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack;
+        return expansion * evaluationByMoveToEmptySquare + attack * evaluationByAttack;
     }
 
     @Override
