@@ -9,4 +9,6 @@ public interface GameEvaluatorFactory {
     Evaluator createGameEvaluator();
 
     String getKey();
+
+    void dump(long points);
 }

@@ -1,6 +1,6 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.tools.tuning.factories.GameEvaluatorFactory4Factors;
+import net.chesstango.tools.tuning.factories.EvaluatorSEandImp03Factory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;
@@ -61,7 +61,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
         int scalar1 = scalar1Dbl.intValue();
         int scalar2 = scalar2Dbl.intValue();
         int scalar3 = scalar3Dbl.intValue();
-        return fitness(new GameEvaluatorFactory4Factors(scalar1, scalar2, scalar3));
+        return fitness(new EvaluatorSEandImp03Factory(scalar1, scalar2, scalar3));
     }
 
 

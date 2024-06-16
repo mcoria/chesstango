@@ -26,7 +26,7 @@ public abstract class EvalTuningAbstract {
     protected long fitness(GameEvaluatorFactory gameEvaluatorFactory) {
         String keyGenes = gameEvaluatorFactory.getKey();
 
-        logger.info("Searching {} ", gameEvaluatorFactory);
+        logger.info("Searching {} ", keyGenes);
 
         Long points = fitnessMemory.get(keyGenes);
 
@@ -34,12 +34,14 @@ public abstract class EvalTuningAbstract {
 
             points = fitnessFn.fitness(gameEvaluatorFactory::createGameEvaluator);
 
+            gameEvaluatorFactory.dump(points);
+
             fitnessMemory.put(keyGenes, points);
         } else {
-            logger.info("Fitness {} in memory", gameEvaluatorFactory);
+            logger.info("Fitness {} in memory", keyGenes);
         }
 
-        logger.info("Fitness {} ; points = [{}]", gameEvaluatorFactory, points);
+        logger.info("Fitness {} ; points = [{}]", keyGenes, points);
 
         return points;
     }
