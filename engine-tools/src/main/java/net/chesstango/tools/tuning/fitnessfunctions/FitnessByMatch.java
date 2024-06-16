@@ -23,9 +23,9 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class FitnessByMatch implements FitnessFunction {
-    private static final MatchType MATCH_TYPE = new MatchByDepth(5);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
 
-    private static final String ENGINE_NAME = "TANGO_FT";
+    private static final String ENGINE_NAME = "TANGO";
 
     private final List<String> fenList;
 

@@ -2,8 +2,7 @@ package net.chesstango.tools.tuning.factories;
 
 import lombok.Getter;
 import net.chesstango.evaluation.GameEvaluator;
-
-import java.lang.reflect.InvocationTargetException;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 
 /**
  * @author Mauricio Coria
@@ -28,15 +27,8 @@ public class GameEvaluatorFactory4Factors implements GameEvaluatorFactory {
     }
 
     @Override
-    public GameEvaluator createGameEvaluator(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        try {
-            return gameEvaluatorClass
-                    .getDeclaredConstructor(Integer.class, Integer.class, Integer.class, Integer.class)
-                    .newInstance(factor1, factor2, factor3, factor4);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+    public GameEvaluator createGameEvaluator() {
+        return new EvaluatorSEandImp03(factor1, factor2, factor3, factor4);
     }
 
     @Override

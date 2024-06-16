@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
     private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int GENERATION_LIMIT = 3;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
@@ -36,15 +36,15 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         //FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
-        EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider, EvaluatorSEandImp03.class);
+        EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider);
 
         main.doWork();
     }
 
     private final GeneticProvider geneticProvider;
 
-    public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider, Class<? extends GameEvaluator> gameEvaluatorClass) {
-        super(fitnessFn, gameEvaluatorClass);
+    public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider) {
+        super(fitnessFn);
         this.geneticProvider = geneticProvider;
     }
 
@@ -52,7 +52,8 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     public void doWork() {
         fitnessFn.start();
 
-        Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
+        Engine<IntegerGene, Long> engine = Engine
+                .builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .selector(new EliteSelector<>(POPULATION_SIZE / 5))
                 //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
@@ -70,7 +71,6 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         System.out.println("Y su genotipo = " + geneticProvider.createGameEvaluatorFactors(result.genotype()));
 
         dumpMemory();
-
 
         fitnessFn.stop();
     }

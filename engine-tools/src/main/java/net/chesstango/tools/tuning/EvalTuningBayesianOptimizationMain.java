@@ -21,7 +21,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
 
         FitnessFunction fitnessFn = new FitnessByMatch();
 
-        EvalTuningBayesianOptimizationMain app = new EvalTuningBayesianOptimizationMain(fitnessFn, EvaluatorSEandImp03.class);
+        EvalTuningBayesianOptimizationMain app = new EvalTuningBayesianOptimizationMain(fitnessFn);
 
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(app, Thread.currentThread()));
 
@@ -29,8 +29,8 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
     }
 
 
-    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn, Class<? extends GameEvaluator> gameEvaluatorClass) {
-        super(fitnessFn, gameEvaluatorClass);
+    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn) {
+        super(fitnessFn);
     }
 
     @Override

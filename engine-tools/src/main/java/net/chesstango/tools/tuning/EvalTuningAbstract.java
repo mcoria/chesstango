@@ -14,14 +14,12 @@ import java.util.*;
 public abstract class EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningAbstract.class);
 
-    protected final Class<? extends GameEvaluator> gameEvaluatorClass;
     protected final FitnessFunction fitnessFn;
     protected final Map<String, Long> fitnessMemory;
 
-    protected EvalTuningAbstract(FitnessFunction fitnessFn, Class<? extends GameEvaluator> gameEvaluatorClass) {
+    protected EvalTuningAbstract(FitnessFunction fitnessFn) {
         this.fitnessFn = fitnessFn;
         this.fitnessMemory = Collections.synchronizedMap(new HashMap<>());
-        this.gameEvaluatorClass = gameEvaluatorClass;
     }
 
     public abstract void doWork();
@@ -35,7 +33,7 @@ public abstract class EvalTuningAbstract {
 
         if (points == null) {
 
-            points = fitnessFn.fitness(() -> gameEvaluatorFactory.createGameEvaluator(gameEvaluatorClass));
+            points = fitnessFn.fitness(gameEvaluatorFactory::createGameEvaluator);
 
             fitnessMemory.put(keyGenes, points);
         } else {

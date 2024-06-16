@@ -33,7 +33,7 @@ public class FitnessByMatchTest {
     public void setup() {
         fitnessFn = new FitnessByMatch();
 
-        when(engineTango.getEngineName()).thenReturn("TANGO_FT");
+        when(engineTango.getEngineName()).thenReturn("TANGO");
 
         when(opponent.getEngineName()).thenReturn("OPPONENT");
     }
