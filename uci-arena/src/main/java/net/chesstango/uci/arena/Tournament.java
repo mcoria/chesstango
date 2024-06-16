@@ -37,31 +37,20 @@ public class Tournament {
     }
 
     public List<MatchResult> play(List<String> fenList) {
-        ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
+
         List<MatchResult> matchResults = new LinkedList<>();
 
-        try {
+        EngineControllerPoolFactory mainPool = controllerFactories.getFirst();
 
+        for (EngineControllerPoolFactory opponentPoolFactory : controllerFactories) {
 
-            EngineControllerPoolFactory mainPool = controllerFactories.getFirst();
+            if (mainPool != opponentPoolFactory) {
+                MatchMultiple matchMultiple = new MatchMultiple(mainPool, opponentPoolFactory, matchType)
+                        .setSwitchChairs(true)
+                        .setMatchListener(matchListener);
 
-            for (EngineControllerPoolFactory opponentPoolFactory : controllerFactories) {
-
-                if (mainPool != opponentPoolFactory) {
-                    MatchMultiple matchMultiple = new MatchMultiple(mainPool, opponentPoolFactory, matchType)
-                            .setSwitchChairs(true)
-                            .setMatchListener(matchListener);
-
-                    matchResults.addAll(matchMultiple.play(fenList));
-                }
+                matchResults.addAll(matchMultiple.play(fenList));
             }
-
-            executor.shutdown();
-
-            while (!executor.awaitTermination(1, TimeUnit.SECONDS)) ;
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
 
         return matchResults;

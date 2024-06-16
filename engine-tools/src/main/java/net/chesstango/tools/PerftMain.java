@@ -80,7 +80,9 @@ public class PerftMain {
 
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-            ExecutorService executorService = Executors.newFixedThreadPool(6);
+            int availableCores = Runtime.getRuntime().availableProcessors();
+
+            ExecutorService executorService = Executors.newFixedThreadPool(availableCores);
 
             List<Future<PerftMain>> futures = new ArrayList<>();
             String line;
@@ -92,12 +94,9 @@ public class PerftMain {
                     String currentFen = suite.getFen();
                     if (!fenTested.contains(currentFen)) {
                         fenTested.add(currentFen);
-                        futures.add(executorService.submit(new Callable<PerftMain>() {
-                            @Override
-                            public PerftMain call() throws Exception {
-                                suite.run();
-                                return suite;
-                            }
+                        futures.add(executorService.submit(() -> {
+                            suite.run();
+                            return suite;
                         }));
                     } else {
                         duplicatedSuites.add(currentFen);
@@ -128,7 +127,7 @@ public class PerftMain {
                 if (future.isDone()) {
                     testExcecuted++;
                     PerftMain suite = future.get();
-                    if (suite.isResult() == false) {
+                    if (!suite.isResult()) {
                         failedSuites.add(suite.getFen());
                     }
                 } else {

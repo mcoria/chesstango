@@ -15,10 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -26,122 +23,102 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class EpdSearch {
-    private final int INFINITE_DEPTH = 25;
-
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
-
-    private static final int SEARCH_THREADS = 4;
 
     private static final SANEncoder sanEncoder = new SANEncoder();
 
-    @Setter
     @Accessors(chain = true)
     private Supplier<SearchMove> searchMoveSupplier;
 
-    @Setter
     @Accessors(chain = true)
     private int depth;
 
-    @Setter
     @Accessors(chain = true)
     private Integer timeOut;
 
 
     public EpdSearchResult run(EpdEntry epdEntry) {
-        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(List.of(epdEntry)).get(0);
+        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(List.of(epdEntry)).getFirst();
     }
 
     public List<EpdSearchResult> run(List<EpdEntry> edpEntries) {
-        AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
-        List<SearchJob> activeJobs = new ArrayList<>(SEARCH_THREADS);
-        ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
+        final int availableCores = Runtime.getRuntime().availableProcessors();
 
-        BlockingQueue<SearchMove> searchMovePool = new LinkedBlockingDeque<>(SEARCH_THREADS);
-        for (int i = 0; i < SEARCH_THREADS; i++) {
+        AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
+
+        List<SearchJob> activeJobs = Collections.synchronizedList(new LinkedList<>());
+
+        List<EpdSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
+
+        BlockingQueue<SearchMove> searchMovePool = new LinkedBlockingDeque<>(availableCores);
+        for (int i = 0; i < availableCores; i++) {
             searchMovePool.add(searchMoveSupplier.get());
         }
 
-        List<Future<EpdSearchResult>> futures = new LinkedList<>();
-        for (EpdEntry epdEntry : edpEntries) {
-            Future<EpdSearchResult> future = executorService.submit(() -> {
-                SearchJob searchJob = null;
-                try {
-                    Instant startInstant = Instant.now();
+        try (ExecutorService executorService = Executors.newFixedThreadPool(availableCores)) {
 
-                    SearchMove searchMove = searchMovePool.take();
+            for (EpdEntry epdEntry : edpEntries) {
+                executorService.submit(() -> {
+                    SearchJob searchJob = null;
+                    try {
+                        Instant startInstant = Instant.now();
 
-                    searchJob = new SearchJob(startInstant, searchMove);
+                        SearchMove searchMove = searchMovePool.take();
 
-                    synchronized (EpdSearch.this) {
+                        searchJob = new SearchJob(startInstant, searchMove);
+
                         activeJobs.add(searchJob);
-                    }
 
-                    EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
-                    if (epdSearchResult.isSearchSuccess()) {
-                        //logger.info(String.format("Success %s", epdEntry.fen));
-                    } else {
-                        String failedTest = String.format("Fail [%s] - best move found %s",
-                                epdEntry.text,
-                                epdSearchResult.bestMoveFoundAlgNot()
-                        );
-                        logger.info(failedTest);
-                    }
+                        EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
 
-                    return epdSearchResult;
-                } catch (RuntimeException e) {
-                    e.printStackTrace(System.err);
-                    logger.error(String.format("Error processing: %s", epdEntry.text));
-                    throw e;
-                } finally {
-                    assert searchJob != null;
+                        if (epdSearchResult.isSearchSuccess()) {
+                            epdSearchResults.add(epdSearchResult);
+                        } else {
+                            String failedTest = String.format("Fail [%s] - best move found %s",
+                                    epdEntry.text,
+                                    epdSearchResult.bestMoveFoundAlgNot()
+                            );
+                            logger.info(failedTest);
+                        }
 
-                    synchronized (EpdSearch.this) {
+                        return epdSearchResult;
+                    } catch (RuntimeException e) {
+                        e.printStackTrace(System.err);
+                        logger.error(String.format("Error processing: %s", epdEntry.text));
+                        throw e;
+                    } finally {
+                        assert searchJob != null;
+
                         activeJobs.remove(searchJob);
+
+                        searchMovePool.put(searchJob.searchMove);
+
+                        pendingJobsCounter.decrementAndGet();
                     }
-
-                    searchMovePool.put(searchJob.searchMove);
-                    pendingJobsCounter.decrementAndGet();
-                }
-            });
-
-            futures.add(future);
-        }
-
-        try {
-
-            if (timeOut != null) {
-                while (pendingJobsCounter.get() > 0) {
-                    Thread.sleep(500);
-                    synchronized (this) {
-                        activeJobs.forEach(searchJob -> {
-                            if (searchJob.elapsedMillis() >= timeOut) {
-                                searchJob.searchMove.stopSearching();
-                            }
-                        });
-                    }
-                }
+                });
             }
 
-            executorService.shutdown();
-            while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-            }
-        } catch (InterruptedException e) {
-            logger.error("Stopping executorService....");
-            executorService.shutdownNow();
-        }
-
-        List<EpdSearchResult> epdSearchResults = new LinkedList<>();
-        futures.forEach(future -> {
             try {
-                EpdSearchResult epdSearchResult = future.get();
-                epdSearchResults.add(epdSearchResult);
-            } catch (ExecutionException e) {
-                logger.error("Future exception");
+                if (timeOut != null) {
+                    while (pendingJobsCounter.get() > 0) {
+                        Thread.sleep(500);
+                        synchronized (this) {
+                            activeJobs.forEach(searchJob -> {
+                                if (searchJob.elapsedMillis() >= timeOut) {
+                                    searchJob.searchMove.stopSearching();
+                                }
+                            });
+                        }
+                    }
+                }
+
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                logger.error("Stopping executorService....");
+                executorService.shutdownNow();
             }
-        });
+        }
 
 
         if (epdSearchResults.isEmpty()) {

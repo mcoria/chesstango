@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -54,9 +53,9 @@ public class MatchMultiple {
     }
 
     public List<MatchResult> play(List<String> fenList) {
-        ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
+        int availableCores = Runtime.getRuntime().availableProcessors();
 
-        try {
+        try (ExecutorService executor = Executors.newFixedThreadPool(availableCores)) {
 
             createPlayTasks(fenList, pool1, pool2)
                     .forEach(executor::submit);
@@ -65,12 +64,6 @@ public class MatchMultiple {
                 createPlayTasks(fenList, pool2, pool1)
                         .forEach(executor::submit);
             }
-
-            executor.shutdown();
-
-            while (!executor.awaitTermination(1, TimeUnit.SECONDS)) ;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
 
         pool1.close();
@@ -80,8 +73,8 @@ public class MatchMultiple {
     }
 
     private List<Runnable> createPlayTasks(List<String> fenList,
-                                          GenericObjectPool<EngineController> thePool1,
-                                          GenericObjectPool<EngineController> thePool2) {
+                                           GenericObjectPool<EngineController> thePool1,
+                                           GenericObjectPool<EngineController> thePool2) {
         return fenList.stream()
                 .map(fen -> (Runnable) () -> play(fen, thePool1, thePool2))
                 .toList();
