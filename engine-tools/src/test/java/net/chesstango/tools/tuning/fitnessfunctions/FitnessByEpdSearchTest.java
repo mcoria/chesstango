@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
+import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
@@ -442,7 +442,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch(files, 5);
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(EvaluatorSEandImp02::new);
+        long points = fitnessByEpdSearch.fitness(EvaluatorImp04::new);
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);
@@ -454,7 +454,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch();
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp02(700, 964, 209, 46));
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorImp04(700, 964, 209, 46));
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);
