@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -43,7 +43,7 @@ public class AlphaBetaRootChainBuilder {
     private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -104,8 +104,8 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public AlphaBetaRootChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -134,7 +134,7 @@ public class AlphaBetaRootChainBuilder {
             transpositionTableRoot = new TranspositionTableRoot();
 
             transpositionPV = new TranspositionPV();
-            transpositionPV.setGameEvaluator(gameEvaluator);
+            transpositionPV.setEvaluator(evaluator);
         }
 
         if (withZobristTracker) {

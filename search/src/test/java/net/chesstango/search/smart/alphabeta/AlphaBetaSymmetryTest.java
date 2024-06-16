@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -38,7 +38,7 @@ public class AlphaBetaSymmetryTest {
         assertEquals(Square.h6, smartMove.getFrom().getSquare());
         assertEquals(Square.g7, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
 
 
         /**
@@ -56,7 +56,7 @@ public class AlphaBetaSymmetryTest {
         assertEquals(Square.h6.getMirrorSquare(), smartMoveMirror.getFrom().getSquare());
         assertEquals(Square.g7.getMirrorSquare(), smartMoveMirror.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
 
         /**
          * Testing mirror

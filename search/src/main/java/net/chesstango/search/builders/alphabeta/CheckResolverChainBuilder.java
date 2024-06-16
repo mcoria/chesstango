@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -22,7 +22,7 @@ public class CheckResolverChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -42,8 +42,8 @@ public class CheckResolverChainBuilder {
         moveSorterBuilder = new MoveSorterBuilder();
     }
 
-    public CheckResolverChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public CheckResolverChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 

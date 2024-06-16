@@ -6,7 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -56,7 +56,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.c7, smartMove.getFrom().getSquare());
         assertEquals(Square.b8, smartMove.getTo().getSquare(), "There is no other option for black King");
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
 
@@ -74,7 +74,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.c7, smartMove.getFrom().getSquare());
         assertEquals(Square.b8, smartMove.getTo().getSquare(), "There is no other option for black King");
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
 
@@ -94,7 +94,7 @@ public abstract class AbstractBestMovesBlackTest {
         Square to = smartMove.getTo().getSquare();
         assertTrue(Square.a1.equals(to) || Square.a2.equals(to) || Square.b3.equals(to) || Square.b4.equals(to) || Square.b5.equals(to));
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
     @Test //Max Walter vs. Emanuel Lasker
@@ -111,7 +111,7 @@ public abstract class AbstractBestMovesBlackTest {
         assertEquals(Square.e6, smartMove.getFrom().getSquare());
         assertEquals(Square.g6, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
 }

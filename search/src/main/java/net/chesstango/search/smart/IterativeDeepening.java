@@ -3,7 +3,7 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
 
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class IterativeDeepening implements SearchMove {
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
                 searchPredicate.test(searchByDepthResult) &&
-                GameEvaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                GameEvaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
+                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
         SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);

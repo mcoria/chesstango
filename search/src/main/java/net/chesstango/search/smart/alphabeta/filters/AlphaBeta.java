@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -37,7 +37,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         Move bestMove = null;
-        int maxValue = GameEvaluator.INFINITE_NEGATIVE;
+        int maxValue = Evaluator.INFINITE_NEGATIVE;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -52,7 +52,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
                 bestMove = move;
                 if (maxValue >= beta) {
                     search = false;
-                } else if (maxValue == GameEvaluator.WHITE_WON) {
+                } else if (maxValue == Evaluator.WHITE_WON) {
                     search = false;
                 }
             }
@@ -65,7 +65,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
     public long minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         Move bestMove = null;
-        int minValue = GameEvaluator.INFINITE_POSITIVE;
+        int minValue = Evaluator.INFINITE_POSITIVE;
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -80,7 +80,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
                 bestMove = move;
                 if (minValue <= alpha) {
                     search = false;
-                } else if (minValue == GameEvaluator.BLACK_WON) {
+                } else if (minValue == Evaluator.BLACK_WON) {
                     search = false;
                 }
             }

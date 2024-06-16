@@ -1,11 +1,11 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.features.evaluator.GameEvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
@@ -31,8 +31,8 @@ public class MoveSorterQuiescenceBuilder {
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
     private MoveSorterDebug moveSorterDebug;
-    private GameEvaluatorCacheDebug gameEvaluatorCacheDebug;
-    private GameEvaluatorCache gameEvaluatorCache;
+    private EvaluatorCacheDebug gameEvaluatorCacheDebug;
+    private EvaluatorCache gameEvaluatorCache;
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
@@ -48,7 +48,7 @@ public class MoveSorterQuiescenceBuilder {
         return this;
     }
 
-    public MoveSorterQuiescenceBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+    public MoveSorterQuiescenceBuilder withGameEvaluatorCache(EvaluatorCache gameEvaluatorCache) {
         this.gameEvaluatorCache = gameEvaluatorCache;
         return this;
     }
@@ -104,16 +104,16 @@ public class MoveSorterQuiescenceBuilder {
 
         if (withDebugSearchTree) {
             moveSorterDebug = new MoveSorterDebug();
-            gameEvaluatorCacheDebug = new GameEvaluatorCacheDebug();
-            gameEvaluatorCacheDebug.setGameEvaluatorCacheRead(gameEvaluatorCache);
+            gameEvaluatorCacheDebug = new EvaluatorCacheDebug();
+            gameEvaluatorCacheDebug.setEvaluatorCacheRead(gameEvaluatorCache);
         }
 
         if (gameEvaluatorCache != null) {
             gameEvaluatorCacheComparator = new GameEvaluatorCacheComparator();
             if (withDebugSearchTree) {
-                gameEvaluatorCacheComparator.setGameEvaluatorCacheRead(gameEvaluatorCacheDebug);
+                gameEvaluatorCacheComparator.setEvaluatorCacheRead(gameEvaluatorCacheDebug);
             } else {
-                gameEvaluatorCacheComparator.setGameEvaluatorCacheRead(gameEvaluatorCache);
+                gameEvaluatorCacheComparator.setEvaluatorCacheRead(gameEvaluatorCache);
             }
         }
 

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -16,17 +16,17 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorStatisticsWrapper implements GameEvaluator, SearchByCycleListener {
+public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListener {
 
     @Setter
     @Getter
     @Accessors(chain = true)
-    private GameEvaluator imp;
+    private Evaluator imp;
 
     @Setter
     @Getter
     @Accessors(chain = true)
-    private GameEvaluatorCache gameEvaluatorCache;
+    private EvaluatorCache gameEvaluatorCache;
 
     @Setter
     @Accessors(chain = true)

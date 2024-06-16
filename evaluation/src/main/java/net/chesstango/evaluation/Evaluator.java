@@ -9,7 +9,7 @@ import net.chesstango.board.Game;
  * De cualquier forma durante la busqueda encontrariamos que el rey puede ser capturado
  * dado que la ulltima busqueda Quiescence explara todos los movimientos de captura posible.
  */
-public interface GameEvaluator {
+public interface Evaluator {
     int INFINITE_POSITIVE = Integer.MAX_VALUE;
     int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
 

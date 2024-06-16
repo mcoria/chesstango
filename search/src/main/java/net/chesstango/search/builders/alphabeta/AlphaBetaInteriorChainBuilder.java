@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -88,7 +88,7 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+    public AlphaBetaInteriorChainBuilder withGameEvaluatorCache(EvaluatorCache gameEvaluatorCache) {
         moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         return this;
     }

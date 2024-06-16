@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class AlphaBetaHorizonChainBuilder {
     private SmartListenerMediator smartListenerMediator;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
@@ -44,8 +44,8 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
-    public AlphaBetaHorizonChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public AlphaBetaHorizonChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 

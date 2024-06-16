@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TerminalChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TranspositionTableTerminal transpositionTableTerminal;
@@ -32,8 +32,8 @@ public class TerminalChainBuilder {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
-    public TerminalChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public TerminalChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -70,7 +70,7 @@ public class TerminalChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaEvaluation.setGameEvaluator(gameEvaluator);
+        alphaBetaEvaluation.setEvaluator(evaluator);
 
 
         if (withZobristTracker) {

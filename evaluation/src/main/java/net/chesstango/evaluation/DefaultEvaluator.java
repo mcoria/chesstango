@@ -7,10 +7,10 @@ import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 /**
  * @author Mauricio Coria
  */
-public class DefaultEvaluator implements GameEvaluator {
+public class DefaultEvaluator implements Evaluator {
 
     @Getter
-    private GameEvaluator imp = new EvaluatorSEandImp02();
+    private Evaluator imp = new EvaluatorSEandImp02();
 
 
     @Override

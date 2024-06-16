@@ -6,7 +6,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.GameMockEvaluator;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Mauricio Coria
  */
 public class NegaMaxTest {
-    private GameMockEvaluator evaluator;
+    private MockEvaluator evaluator;
     private NegaMax negaMax;
 
     @BeforeEach
     public void setup() {
         negaMax = new NegaMax();
-        evaluator = new GameMockEvaluator();
+        evaluator = new MockEvaluator();
         negaMax.setGameEvaluator(evaluator);
     }
 

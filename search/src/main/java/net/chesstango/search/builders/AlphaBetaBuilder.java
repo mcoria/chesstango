@@ -1,8 +1,8 @@
 package net.chesstango.search.builders;
 
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -21,7 +21,7 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveD
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.evaluation.GameEvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
@@ -50,9 +50,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final SmartListenerMediator smartListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
-    private GameEvaluator gameEvaluator;
-    private GameEvaluatorCache gameEvaluatorCache;
-    private GameEvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
+    private Evaluator evaluator;
+    private EvaluatorCache gameEvaluatorCache;
+    private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetKillerMoveDebug setKillerMoveDebug;
@@ -118,8 +118,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     @Override
-    public AlphaBetaBuilder withGameEvaluator(GameEvaluator evaluator) {
-        gameEvaluator = evaluator;
+    public AlphaBetaBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -312,18 +312,18 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new GameEvaluatorCache(gameEvaluator);
+            gameEvaluatorCache = new EvaluatorCache(evaluator);
 
-            gameEvaluator = gameEvaluatorCache;
+            evaluator = gameEvaluatorCache;
         }
 
         if (withStatistics) {
-            gameEvaluatorStatisticsWrapper = new GameEvaluatorStatisticsWrapper()
-                    .setImp(gameEvaluator)
+            gameEvaluatorStatisticsWrapper = new EvaluatorStatisticsWrapper()
+                    .setImp(evaluator)
                     .setGameEvaluatorCache(gameEvaluatorCache)
                     .setTrackEvaluations(withTrackEvaluations);
 
-            gameEvaluator = gameEvaluatorStatisticsWrapper;
+            evaluator = gameEvaluatorStatisticsWrapper;
         }
 
         if (withTranspositionTable) {
@@ -339,7 +339,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTriangularPV) {
             setTrianglePV = new SetTrianglePV();
-            setTrianglePV.setGameEvaluator(gameEvaluator);
+            setTrianglePV.setEvaluator(evaluator);
         }
 
         if (withStatistics) {
@@ -427,20 +427,20 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     private AlphaBetaFilter createChain() {
-        setGameEvaluator.setGameEvaluator(gameEvaluator);
+        setGameEvaluator.setEvaluator(evaluator);
 
         terminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
-        terminalChainBuilder.withGameEvaluator(gameEvaluator);
+        terminalChainBuilder.withGameEvaluator(evaluator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();
 
-        leafChainBuilder.withGameEvaluator(gameEvaluator);
+        leafChainBuilder.withGameEvaluator(evaluator);
         leafChainBuilder.withSmartListenerMediator(smartListenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
 
 
         AlphaBetaFilter extensionChain = createExtensionChain();
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(smartListenerMediator);
-        alphaBetaHorizonChainBuilder.withGameEvaluator(gameEvaluator);
+        alphaBetaHorizonChainBuilder.withGameEvaluator(evaluator);
         alphaBetaHorizonChainBuilder.withExtension(extensionChain);
         AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
 
@@ -460,7 +460,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(smartListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaRootChainBuilder.withGameEvaluator(gameEvaluator);
+        alphaBetaRootChainBuilder.withGameEvaluator(evaluator);
 
         return alphaBetaRootChainBuilder.build();
     }
@@ -473,22 +473,22 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withQuiescence) {
             quiescenceChainBuilder.withSmartListenerMediator(smartListenerMediator);
-            quiescenceChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceChainBuilder.withGameEvaluator(evaluator);
             quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
             quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
             quiescenceChain = quiescenceChainBuilder.build();
 
-            quiescenceLeafChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceLeafChainBuilder.withGameEvaluator(evaluator);
             quiescenceLeafChainBuilder.withSmartListenerMediator(smartListenerMediator);
             quiescenceLeaf = quiescenceLeafChainBuilder.build();
 
             quiescenceTerminalChainBuilder.withSmartListenerMediator(smartListenerMediator);
-            quiescenceTerminalChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceTerminalChainBuilder.withGameEvaluator(evaluator);
             AlphaBetaFilter quiescenceTerminalChain = quiescenceTerminalChainBuilder.build();
 
             if (withExtensionCheckResolver) {
                 checkResolverChainBuilder.withSmartListenerMediator(smartListenerMediator);
-                checkResolverChainBuilder.withGameEvaluator(gameEvaluator);
+                checkResolverChainBuilder.withGameEvaluator(evaluator);
                 checkResolverChainBuilder.withExtensionFlowControl(extensionFlowControl);
                 checkResolverChain = checkResolverChainBuilder.build();
 
@@ -508,15 +508,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
             return extensionFlowControl;
         } else {
             quiescenceNullChainBuilder.withSmartListenerMediator(smartListenerMediator);
-            quiescenceNullChainBuilder.withGameEvaluator(gameEvaluator);
+            quiescenceNullChainBuilder.withGameEvaluator(evaluator);
             return quiescenceNullChainBuilder.build();
         }
     }
 
 
-    public static AlphaBetaBuilder createDefaultBuilderInstance(final GameEvaluator gameEvaluator) {
+    public static AlphaBetaBuilder createDefaultBuilderInstance(final Evaluator evaluator) {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(gameEvaluator)
+                .withGameEvaluator(evaluator)
                 .withGameEvaluatorCache()
 
                 .withQuiescence()

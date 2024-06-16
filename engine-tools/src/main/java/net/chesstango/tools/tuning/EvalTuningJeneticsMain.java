@@ -6,18 +6,12 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider4Factors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author Mauricio Coria

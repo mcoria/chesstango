@@ -3,10 +3,9 @@ package net.chesstango.search.smart.negamax;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
 public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
 
     private static final int DEFAULT_MAX_PLIES = 4;
-    private GameEvaluator evaluator;
+    private Evaluator evaluator;
     private Game game;
     private int maxPly;
 
@@ -28,7 +27,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
-        int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
+        int betterEvaluation = Evaluator.INFINITE_NEGATIVE;
 
         for (Move move : game.getPossibleMoves()) {
             game.executeMove(move);
@@ -56,7 +55,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
 
 
     protected int negaMax(Game game, final int currentPly) {
-        int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
+        int betterEvaluation = Evaluator.INFINITE_NEGATIVE;
 
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             betterEvaluation = evaluator.evaluate();
@@ -86,7 +85,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
         this.maxPly = context.getMaxPly();
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
+    public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
 }

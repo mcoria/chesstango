@@ -1,7 +1,7 @@
 package net.chesstango.tools.tuning.factories;
 
 import lombok.Getter;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 
 /**
@@ -27,7 +27,7 @@ public class GameEvaluatorFactory4Factors implements GameEvaluatorFactory {
     }
 
     @Override
-    public GameEvaluator createGameEvaluator() {
+    public Evaluator createGameEvaluator() {
         return new EvaluatorSEandImp03(factor1, factor2, factor3, factor4);
     }
 

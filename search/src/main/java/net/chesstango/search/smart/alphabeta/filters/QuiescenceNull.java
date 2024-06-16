@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -10,7 +10,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
  */
 public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
 
-    private GameEvaluator evaluator;
+    private Evaluator evaluator;
 
     private Game game;
 
@@ -29,7 +29,7 @@ public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
         return evaluator.evaluate();
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
+    public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
     }
 

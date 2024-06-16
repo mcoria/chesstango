@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
@@ -32,7 +32,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     private AlphaBetaFilter next;
 
     @Setter
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
@@ -126,7 +126,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
         }
 
-        int pvEvaluation = gameEvaluator.evaluate();
+        int pvEvaluation = evaluator.evaluate();
 
         // En caso que se llegó a loop
         if (game.getState().getRepetitionCounter() > 1) {

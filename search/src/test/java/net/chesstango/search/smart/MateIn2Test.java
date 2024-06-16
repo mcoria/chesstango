@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.d3, smartMove.getFrom().getSquare());
         assertEquals(Square.c4, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -49,7 +49,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.b1, smartMove.getFrom().getSquare());
         assertEquals(Square.f5, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     @Test
@@ -64,7 +64,7 @@ public abstract class MateIn2Test {
         assertEquals(Square.d5, smartMove.getFrom().getSquare());
         assertEquals(Square.f6, smartMove.getTo().getSquare());
 
-        assertEquals(GameEvaluator.WHITE_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
 
     //Robert Thacker vs. Bobby Fischer
@@ -83,7 +83,7 @@ public abstract class MateIn2Test {
         assertTrue(smartMove instanceof MovePromotion);
         assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion) smartMove).getPromotion());
 
-        assertEquals(GameEvaluator.BLACK_WON, searchResult.getBestEvaluation());
+        assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
 
 }

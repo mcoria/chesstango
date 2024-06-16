@@ -2,19 +2,19 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxEvaluatorWrapper implements GameEvaluator {
+public class NegaMaxEvaluatorWrapper implements Evaluator {
 
-    private final GameEvaluator imp;
+    private final Evaluator imp;
 
     private Game game;
 
-    public NegaMaxEvaluatorWrapper(GameEvaluator gameEvaluator) {
-        imp = gameEvaluator;
+    public NegaMaxEvaluatorWrapper(Evaluator evaluator) {
+        imp = evaluator;
     }
 
 

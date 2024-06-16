@@ -4,12 +4,12 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 /**
  * @author Mauricio Coria
  */
-public class PeSTO implements GameEvaluator {
+public class PeSTO implements Evaluator {
     private static final int PAWN = 0;
     private static final int KNIGHT = 1;
     private static final int BISHOP = 2;

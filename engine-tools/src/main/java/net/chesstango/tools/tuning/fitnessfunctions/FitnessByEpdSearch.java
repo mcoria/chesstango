@@ -4,7 +4,7 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.epd.EpdReader;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -61,7 +61,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
     }
 
     @Override
-    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+    public long fitness(Supplier<Evaluator> gameEvaluatorSupplier) {
         EpdSearch epdSearch = new EpdSearch();
 
         epdSearch.setDepth(depth);

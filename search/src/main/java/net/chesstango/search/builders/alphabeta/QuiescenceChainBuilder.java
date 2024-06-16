@@ -1,11 +1,11 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.evaluator.GameEvaluatorDebug;
+import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -24,13 +24,13 @@ public class QuiescenceChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
-    private GameEvaluatorDebug gameEvaluatorDebug;
+    private EvaluatorDebug gameEvaluatorDebug;
     private TriangularPV triangularPV;
 
     private SmartListenerMediator smartListenerMediator;
@@ -47,8 +47,8 @@ public class QuiescenceChainBuilder {
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
-    public QuiescenceChainBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+    public QuiescenceChainBuilder withGameEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -97,7 +97,7 @@ public class QuiescenceChainBuilder {
         return this;
     }
 
-    public QuiescenceChainBuilder withGameEvaluatorCache(GameEvaluatorCache gameEvaluatorCache) {
+    public QuiescenceChainBuilder withGameEvaluatorCache(EvaluatorCache gameEvaluatorCache) {
         moveSorterBuilder.withGameEvaluatorCache(gameEvaluatorCache);
         return this;
     }
@@ -130,9 +130,9 @@ public class QuiescenceChainBuilder {
         quiescence.setMoveSorter(moveSorterBuilder.build());
 
         if (withDebugSearchTree) {
-            quiescence.setGameEvaluator(gameEvaluatorDebug);
+            quiescence.setEvaluator(gameEvaluatorDebug);
         } else {
-            quiescence.setGameEvaluator(gameEvaluator);
+            quiescence.setEvaluator(evaluator);
         }
 
         return createChain();
@@ -151,8 +151,8 @@ public class QuiescenceChainBuilder {
         }
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
-            gameEvaluatorDebug = new GameEvaluatorDebug();
-            gameEvaluatorDebug.setGameEvaluator(gameEvaluator);
+            gameEvaluatorDebug = new EvaluatorDebug();
+            gameEvaluatorDebug.setEvaluator(evaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();

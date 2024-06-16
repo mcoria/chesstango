@@ -1,7 +1,5 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory4Factors;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;

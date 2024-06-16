@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -26,7 +26,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
     @Getter
-    private GameEvaluator gameEvaluator;
+    private Evaluator evaluator;
     private Game game;
 
     @Override
@@ -38,7 +38,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         Move bestMove = null;
-        int maxValue = gameEvaluator.evaluate();
+        int maxValue = evaluator.evaluate();
         if (maxValue >= beta) {
             return TranspositionEntry.encode(maxValue);
         }
@@ -57,7 +57,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                     bestMove = move;
                     if (maxValue >= beta) {
                         search = false;
-                    } else if (maxValue == GameEvaluator.WHITE_WON) {
+                    } else if (maxValue == Evaluator.WHITE_WON) {
                         search = false;
                     }
                 }
@@ -72,7 +72,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     public long minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
         Move bestMove = null;
-        int minValue = gameEvaluator.evaluate();
+        int minValue = evaluator.evaluate();
         if (minValue <= alpha) {
             return TranspositionEntry.encode(minValue);
         }
@@ -91,7 +91,7 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
                     bestMove = move;
                     if (minValue <= alpha) {
                         search = false;
-                    } else if (minValue == GameEvaluator.BLACK_WON) {
+                    } else if (minValue == Evaluator.BLACK_WON) {
                         search = false;
                     }
                 }

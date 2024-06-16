@@ -1,6 +1,6 @@
 package net.chesstango.search.builders;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchMove;
 
 /**
@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMove;
  */
 public interface SearchBuilder {
 
-    <T extends SearchBuilder> T withGameEvaluator(GameEvaluator gameEvaluator);
+    <T extends SearchBuilder> T withGameEvaluator(Evaluator evaluator);
 
     SearchMove build();
 

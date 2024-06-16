@@ -2,7 +2,7 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.function.Function;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorByCondition implements GameEvaluator {
+public class EvaluatorByCondition implements Evaluator {
     private int defaultValue;
     private List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
 

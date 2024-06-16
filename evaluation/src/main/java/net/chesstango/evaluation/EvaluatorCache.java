@@ -8,12 +8,12 @@ import net.chesstango.board.Game;
  *
  * @author Mauricio Coria
  */
-public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead {
+public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private static final int ARRAY_SIZE = 1024 * 512;
 
     @Getter
-    private final GameEvaluator imp;
+    private final Evaluator imp;
     private final GameEvaluatorCacheEntry[] cache;
 
     @Getter
@@ -22,7 +22,7 @@ public class GameEvaluatorCache implements GameEvaluator, GameEvaluatorCacheRead
     private Game game;
 
 
-    public GameEvaluatorCache(GameEvaluator imp) {
+    public EvaluatorCache(Evaluator imp) {
         this.imp = imp;
         this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {

@@ -6,7 +6,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.GameMockEvaluator;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AlphaBetaTest {
 
 
-    private GameMockEvaluator evaluator;
+    private MockEvaluator evaluator;
 
     private AlphaBetaFacade alphaBetaFacade;
 
@@ -40,7 +40,7 @@ public class AlphaBetaTest {
         NodeMoveSorter moveSorter = new NodeMoveSorter();
         moveSorter.setMoveComparator(new DefaultMoveComparator());
 
-        evaluator = new GameMockEvaluator();
+        evaluator = new MockEvaluator();
 
         AlphaBeta alphaBeta = new AlphaBeta();
         AlphaBetaEvaluation terminal = new AlphaBetaEvaluation();
@@ -58,9 +58,9 @@ public class AlphaBetaTest {
         alphaBetaFlowControl.setInteriorNode(alphaBeta);
 
         quiescence.setGameEvaluator(evaluator);
-        terminal.setGameEvaluator(evaluator);
+        terminal.setEvaluator(evaluator);
 
-        setGameEvaluator.setGameEvaluator(evaluator);
+        setGameEvaluator.setEvaluator(evaluator);
 
         this.smartListenerMediator = new SmartListenerMediator();
 

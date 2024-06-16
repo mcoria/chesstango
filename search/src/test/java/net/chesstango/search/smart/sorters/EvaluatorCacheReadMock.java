@@ -3,7 +3,7 @@ package net.chesstango.search.smart.sorters;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.evaluation.GameEvaluatorCacheRead;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class GameEvaluatorCacheReadMock implements GameEvaluatorCacheRead {
+public class EvaluatorCacheReadMock implements EvaluatorCacheRead {
 
     private Map<Long, Integer> cache;
 

@@ -2,12 +2,12 @@ package net.chesstango.search.gamegraph;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 
 /**
  * @author Mauricio Coria
  */
-public class GameMockEvaluator implements GameEvaluator {
+public class MockEvaluator implements Evaluator {
 
     @Getter
     private int nodesEvaluated = 0;

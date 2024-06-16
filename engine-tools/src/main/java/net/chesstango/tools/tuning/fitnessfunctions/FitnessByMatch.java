@@ -2,7 +2,7 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.engine.Tango;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -39,7 +39,7 @@ public class FitnessByMatch implements FitnessFunction {
     }
 
     @Override
-    public long fitness(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+    public long fitness(Supplier<Evaluator> gameEvaluatorSupplier) {
         EngineControllerPoolFactory engineControllerPoolFactory = new EngineControllerPoolFactory(() ->
                 new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(gameEvaluatorSupplier.get()))))
                         .overrideEngineName(ENGINE_NAME)
@@ -54,7 +54,7 @@ public class FitnessByMatch implements FitnessFunction {
         return calculatePoints(matchResult);
     }
 
-    protected EngineControllerPoolFactory createTango(Supplier<GameEvaluator> gameEvaluatorSupplier) {
+    protected EngineControllerPoolFactory createTango(Supplier<Evaluator> gameEvaluatorSupplier) {
         return new EngineControllerPoolFactory(() -> new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(gameEvaluatorSupplier.get())))));
     }
 

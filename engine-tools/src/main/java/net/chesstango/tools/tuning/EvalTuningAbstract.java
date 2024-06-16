@@ -1,6 +1,5 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package net.chesstango.tools.search.reports.evaluation;
 
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;
 
 import java.io.BufferedWriter;
@@ -25,7 +25,7 @@ public class ExportEvaluations {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s ; Points = %d ", moveDetail.move, moveDetail.evaluation));
-                if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
+                if (moveDetail.evaluation == Evaluator.WHITE_WON || moveDetail.evaluation == Evaluator.BLACK_WON) {
                     writer.append(String.format(" MATE"));
                 }
                 writer.append(String.format("\n"));
