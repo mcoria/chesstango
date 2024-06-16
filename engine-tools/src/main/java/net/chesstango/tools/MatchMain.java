@@ -2,7 +2,7 @@ package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
+import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -44,7 +44,7 @@ public class MatchMain {
     public static void main(String[] args) {
         EngineControllerPoolFactory tangoControllerFactory = new EngineControllerPoolFactory(() ->
                 EngineControllerFactory
-                        .createTangoControllerWithDefaultSearch(EvaluatorSEandImp02::new)
+                        .createTangoControllerWithDefaultSearch(EvaluatorImp04::new)
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder

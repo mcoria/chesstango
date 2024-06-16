@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
+import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -109,7 +109,7 @@ public class TranspositionEntryTableTest {
 
     private SearchMove createSearchWithoutTT() {
         EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
-                .setImp(new EvaluatorSEandImp02());
+                .setImp(new EvaluatorImp04());
 
         return new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
@@ -118,7 +118,7 @@ public class TranspositionEntryTableTest {
 
     private SearchMove createSearchWithTT() {
         EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
-                .setImp(new EvaluatorSEandImp02());
+                .setImp(new EvaluatorImp04());
 
         return new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)

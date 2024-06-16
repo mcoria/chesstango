@@ -6,20 +6,20 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.evaluation.evaluators.EvaluatorSEandImp02.*;
+import static net.chesstango.evaluation.evaluators.EvaluatorImp04.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
+public class EvaluatorImp04Test extends GameEvaluatorTestCollection {
 
-    private EvaluatorSEandImp02 evaluator;
+    private EvaluatorImp04 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new EvaluatorSEandImp02();
+        evaluator = new EvaluatorImp04();
     }
 
     @Override

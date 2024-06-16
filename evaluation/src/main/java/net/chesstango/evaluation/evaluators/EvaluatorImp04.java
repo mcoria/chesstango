@@ -35,7 +35,7 @@ import java.util.Iterator;
  * |                 GameEvaluatorImp02|       4 |       6 |       11 |       13 |       35 |       31 |       21.5 |       21.5 |  43.0 /100 |   43.0 |
  * ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class EvaluatorSEandImp02 extends AbstractEvaluator {
+public class EvaluatorImp04 extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 756;
     private static final int FACTOR_POSITION_DEFAULT = 204;
@@ -51,11 +51,11 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
-    public EvaluatorSEandImp02() {
+    public EvaluatorImp04() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATTACK_DEFAULT);
     }
 
-    public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer attack) {
+    public EvaluatorImp04(Integer material, Integer position, Integer expansion, Integer attack) {
         this.material = material;
         this.position = position;
         this.expansion = expansion;
