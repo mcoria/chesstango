@@ -40,7 +40,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 756;
     private static final int FACTOR_POSITION_DEFAULT = 204;
     private static final int FACTOR_EXPANSION_DEFAULT = 27;
-    private static final int FACTOR_ATAQUE_DEFAULT = 13;
+    private static final int FACTOR_ATTACK_DEFAULT = 13;
 
     private final int material;
     private final int position;
@@ -52,7 +52,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
     private MoveGenerator pseudoMovesGenerator;
 
     public EvaluatorSEandImp02() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATTACK_DEFAULT);
     }
 
     public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer attack) {
