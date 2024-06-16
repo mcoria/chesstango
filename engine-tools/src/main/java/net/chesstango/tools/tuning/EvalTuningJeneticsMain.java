@@ -24,8 +24,8 @@ import java.util.concurrent.Executors;
  */
 public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
-    private static final int POPULATION_SIZE = 5;
-    private static final int GENERATION_LIMIT = 5;
+    private static final int POPULATION_SIZE = 10;
+    private static final int GENERATION_LIMIT = 100;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
@@ -50,14 +50,12 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
     @Override
     public void doWork() {
-        ExecutorService executor = Executors.newFixedThreadPool(5);
         fitnessFn.start();
 
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .selector(new EliteSelector<>(POPULATION_SIZE / 5))
                 //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
-                .executor(executor)
                 .build();
 
         //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
@@ -75,7 +73,6 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
 
         fitnessFn.stop();
-        executor.shutdown();
     }
 
 
