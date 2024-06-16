@@ -55,10 +55,6 @@ public class FitnessByMatch implements FitnessFunction {
         return calculatePoints(matchResult);
     }
 
-    protected EngineControllerPoolFactory createTango(Supplier<Evaluator> gameEvaluatorSupplier) {
-        return new EngineControllerPoolFactory(() -> new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(gameEvaluatorSupplier.get())))));
-    }
-
 
     private List<MatchResult> fitnessEval(EngineControllerPoolFactory engineControllerPoolFactory,
                                           EngineControllerPoolFactory opponentControllerPoolFactory) {

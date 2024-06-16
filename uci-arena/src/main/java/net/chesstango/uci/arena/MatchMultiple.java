@@ -20,8 +20,6 @@ import java.util.concurrent.Executors;
  * @author Mauricio Coria
  */
 public class MatchMultiple {
-    private static final int THREADS_NUMBER = 5;
-
     private static final Logger logger = LoggerFactory.getLogger(MatchMultiple.class);
 
     private final GenericObjectPool<EngineController> pool1;

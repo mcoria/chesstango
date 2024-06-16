@@ -28,13 +28,11 @@ import java.util.UUID;
  */
 class Match {
     private static final Logger logger = LoggerFactory.getLogger(Match.class);
-    private final EngineController controller1;
-    private final EngineController controller2;
+    private final EngineController white;
+    private final EngineController black;
     private final MatchType matchType;
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
 
-    private EngineController white;
-    private EngineController black;
     private Game game;
     private String mathId;
     private MatchResult matchResult;
@@ -52,9 +50,9 @@ class Match {
     private MatchListener matchListener;
 
 
-    public Match(EngineController controller1, EngineController controller2, MatchType matchType) {
-        this.controller1 = controller1;
-        this.controller2 = controller2;
+    public Match(EngineController white, EngineController black, MatchType matchType) {
+        this.white = white;
+        this.black = black;
         this.matchType = matchType;
     }
 
@@ -62,7 +60,7 @@ class Match {
         try {
             setFen(fen);
 
-            return play(controller1, controller2);
+            return play(white, black);
 
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
@@ -75,8 +73,6 @@ class Match {
 
     protected MatchResult play(EngineController white, EngineController black) {
         mathId = UUID.randomUUID().toString();
-
-        setChairs(white, black);
 
         startNewGame();
 
@@ -132,14 +128,6 @@ class Match {
         }
     }
 
-    protected void setChairs(EngineController white, EngineController black) {
-        if (white != this.controller1 && white != this.controller2 || black != this.controller1 && black != this.controller2) {
-            throw new RuntimeException("Invalid opponents");
-        }
-        this.white = white;
-        this.black = black;
-    }
-
     protected void setGame(Game game) {
         this.game = game;
     }
@@ -180,8 +168,8 @@ class Match {
     }
 
     private void startNewGame() {
-        controller1.startNewGame();
-        controller2.startNewGame();
+        white.startNewGame();
+        black.startNewGame();
     }
 
     private String retrieveBestMoveFromController(EngineController currentTurn, List<String> moves) {
