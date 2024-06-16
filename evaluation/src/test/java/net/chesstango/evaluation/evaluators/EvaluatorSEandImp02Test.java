@@ -6,7 +6,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.evaluation.evaluators.EvaluatorSimplifiedEvaluator.*;
+import static net.chesstango.evaluation.evaluators.EvaluatorSEandImp02.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

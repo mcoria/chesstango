@@ -69,6 +69,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
             case CHECK, NO_CHECK ->
                     material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
+            default -> throw new RuntimeException(String.format("Unknown game status %s", game.getStatus()));
         };
     }
 
@@ -79,20 +80,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
-            int[] positionValues = switch (piece) {
-                case PAWN_WHITE -> PAWN_WHITE_VALUES;
-                case PAWN_BLACK -> PAWN_BLACK_VALUES;
-                case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
-                case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
-                case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
-                case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
-                case ROOK_WHITE -> ROOK_WHITE_VALUES;
-                case ROOK_BLACK -> ROOK_BLACK_VALUES;
-                case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
-                case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
-                case KING_WHITE -> KING_WHITE_VALUES;
-                case KING_BLACK -> KING_BLACK_VALUES;
-            };
+            int[] positionValues = getPositionValues(piece);
             evaluation += positionValues[square.toIdx()];
         }
         return evaluation;
@@ -119,20 +107,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
                 if (toPosition.getPiece() == null) {
                     Square toSquare = toPosition.getSquare();
-                    int[] positionValues = switch (piece) {
-                        case PAWN_WHITE -> PAWN_WHITE_VALUES;
-                        case PAWN_BLACK -> PAWN_BLACK_VALUES;
-                        case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
-                        case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
-                        case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
-                        case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
-                        case ROOK_WHITE -> ROOK_WHITE_VALUES;
-                        case ROOK_BLACK -> ROOK_BLACK_VALUES;
-                        case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
-                        case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
-                        case KING_WHITE -> KING_WHITE_VALUES;
-                        case KING_BLACK -> KING_BLACK_VALUES;
-                    };
+                    int[] positionValues = getPositionValues(piece);
                     evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
                 } else {
                     evaluationByAttack -= getPieceValue(toPosition.getPiece());
@@ -160,6 +135,23 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             case QUEEN_BLACK -> -900;
             case KING_WHITE -> 20000;
             case KING_BLACK -> -20000;
+        };
+    }
+
+    protected int[] getPositionValues(Piece piece) {
+        return switch (piece) {
+            case PAWN_WHITE -> PAWN_WHITE_VALUES;
+            case PAWN_BLACK -> PAWN_BLACK_VALUES;
+            case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
+            case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
+            case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
+            case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
+            case ROOK_WHITE -> ROOK_WHITE_VALUES;
+            case ROOK_BLACK -> ROOK_BLACK_VALUES;
+            case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
+            case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
+            case KING_WHITE -> KING_WHITE_VALUES;
+            case KING_BLACK -> KING_BLACK_VALUES;
         };
     }
 
