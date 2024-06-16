@@ -27,15 +27,11 @@ public class FitnessByMatch implements FitnessFunction {
 
     private static final String ENGINE_NAME = "TANGO";
 
-    private final List<String> fenList;
-
-
-    public FitnessByMatch() {
-        this.fenList = getFenList();
-    }
+    private List<String> fenList;
 
     @Override
     public void start() {
+        this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
     }
 
     @Override
@@ -98,12 +94,6 @@ public class FitnessByMatch implements FitnessFunction {
                 .count();
 
         return pointsWhiteWin - pointsWhiteLost + pointsBlackWin - pointsBlackLost;
-    }
-
-    private static List<String> getFenList() {
-        //return new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        //return new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
-        return new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
     }
 
 }
