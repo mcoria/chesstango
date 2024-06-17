@@ -1,42 +1,63 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
+ *
+ * Positions: Balsa_v500.pgn
+ * Depth: 2
+ * Time elapsed: 71552 ms
+ *  ___________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+ * |                     EvaluatorImp05|      47 |      48 |      430 |      423 |       23 |       29 |       58.5 |       62.5 | 121.0 /1000 |   12.1 |
+ * |                          Spike 1.4|     423 |     430 |       48 |       47 |       29 |       23 |      437.5 |      441.5 | 879.0 /1000 |   87.9 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Positions: Balsa_v500.pgn
+ * Depth: 2
+ * Time elapsed: 71552 ms
+ *  ___________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+ * |                     EvaluatorImp05|     303 |     293 |      145 |      164 |       52 |       43 |      329.0 |      314.5 | 643.5 /1000 |   64.4 |
+ * |                     EvaluatorImp04|     164 |     145 |      293 |      303 |       43 |       52 |      185.5 |      171.0 | 356.5 /1000 |   35.7 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Positions: Balsa_v500.pgn
+ * Depth: 3
+ * Time elapsed: 464543 ms
+ *   ___________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+ * |                     EvaluatorImp05|     403 |     415 |       61 |       55 |       36 |       30 |      421.0 |      430.0 | 851.0 /1000 |   85.1 |
+ * |                     EvaluatorImp04|      55 |      61 |      415 |      403 |       30 |       36 |       70.0 |       79.0 | 149.0 /1000 |   14.9 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class EvaluatorImp05 extends AbstractEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 756;
-    private static final int FACTOR_POSITION_DEFAULT = 204;
-    private static final int FACTOR_EXPANSION_DEFAULT = 27;
-    private static final int FACTOR_ATTACK_DEFAULT = 13;
+    private static final int WEIGH_MATERIAL_DEFAULT = 902;
+    private static final int WEIGH_MG_DEFAULT = 45;
+    private static final int WEIGH_EG_DEFAULT = 43;
 
-    private final int material;
-    private final int position;
+    private final int wgMaterial;
 
-    private final int expansion;
-    private final int attack;
+    private final int wgMidGame;
+
+    private final int wgEndGame;
 
     private ChessPositionReader positionReader;
-    private MoveGenerator pseudoMovesGenerator;
 
     public EvaluatorImp05() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATTACK_DEFAULT);
+        this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT});
     }
 
-    public EvaluatorImp05(Integer material, Integer position, Integer expansion, Integer attack) {
-        this.material = material;
-        this.position = position;
-        this.expansion = expansion;
-        this.attack = attack;
+    public EvaluatorImp05(int[] weighs) {
+        this.wgMaterial = weighs[0];
+        this.wgMidGame = weighs[1];
+        this.wgEndGame = weighs[2];
     }
 
 
@@ -44,58 +65,32 @@ public class EvaluatorImp05 extends AbstractEvaluator {
     public int evaluate() {
         return switch (game.getStatus()) {
             case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
-            case CHECK, NO_CHECK ->
-                    material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
+            case CHECK, NO_CHECK -> wgMaterial * evaluateByMaterial() + evaluateByPosition();
             default -> throw new RuntimeException(String.format("Unknown game status %s", game.getStatus()));
         };
     }
 
     protected int evaluateByPosition() {
         int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPosition();
+
+        final int numberOfPieces = Long.bitCount(positionReader.getAllPositions());
+
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
-            int[] positionValues = getPositionValues(piece);
-            evaluation += Color.WHITE.equals(piece.getColor()) ? positionValues[square.toIdx()] : -positionValues[square.getMirrorSquare().toIdx()];
+
+            int[] mgPositionValues = getMgPositionValues(piece);
+            int mgValue = Color.WHITE.equals(piece.getColor()) ? mgPositionValues[square.toIdx()] : -mgPositionValues[square.getMirrorSquare().toIdx()];
+
+            int[] egPositionValues = getEgPositionValues(piece);
+            int egValue = Color.WHITE.equals(piece.getColor()) ? egPositionValues[square.toIdx()] : -egPositionValues[square.getMirrorSquare().toIdx()];
+
+            evaluation += wgMidGame * (numberOfPieces - 2) * mgValue + wgEndGame * (32 - numberOfPieces) * egValue;
         }
         return evaluation;
     }
 
-    protected int evaluateByMoveAndByAttack() {
-        int evaluationByMoveToEmptySquare = 0;
-
-        int evaluationByAttack = 0;
-
-        Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
-
-        while (iteratorAllPieces.hasNext()) {
-            PiecePositioned piecePositioned = iteratorAllPieces.next();
-
-            MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
-
-            MoveList pseudoMoves = generationResult.getPseudoMoves();
-
-            for (Move move : pseudoMoves) {
-                PiecePositioned fromPosition = move.getFrom();
-                PiecePositioned toPosition = move.getTo();
-                Piece piece = fromPosition.getPiece();
-
-                if (toPosition.getPiece() == null) {
-                    Square toSquare = toPosition.getSquare();
-                    int[] positionValues = getPositionValues(piece);
-                    evaluationByMoveToEmptySquare += Color.WHITE.equals(piece.getColor()) ? positionValues[toSquare.toIdx()] : -positionValues[toSquare.getMirrorSquare().toIdx()];
-                } else {
-                    evaluationByAttack -= getPieceValue(toPosition.getPiece());
-                }
-
-            }
-        }
-
-        // From white point of view
-        return expansion * evaluationByMoveToEmptySquare + attack * evaluationByAttack;
-    }
 
     @Override
     public int getPieceValue(Piece piece) {
@@ -115,84 +110,163 @@ public class EvaluatorImp05 extends AbstractEvaluator {
         };
     }
 
-    protected int[] getPositionValues(Piece piece) {
+    protected int[] getMgPositionValues(Piece piece) {
         return switch (piece) {
-            case PAWN_WHITE, PAWN_BLACK -> PAWN_WHITE_VALUES;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> KNIGHT_WHITE_VALUES;
-            case BISHOP_WHITE, BISHOP_BLACK -> BISHOP_WHITE_VALUES;
-            case ROOK_WHITE, ROOK_BLACK -> ROOK_WHITE_VALUES;
-            case QUEEN_WHITE, QUEEN_BLACK -> QUEEN_WHITE_VALUES;
-            case KING_WHITE, KING_BLACK -> KING_WHITE_VALUES;
+            case PAWN_WHITE, PAWN_BLACK -> MG_PAWN_TBL;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> MG_KNIGHT_TBL;
+            case BISHOP_WHITE, BISHOP_BLACK -> MG_BISHOP_TBL;
+            case ROOK_WHITE, ROOK_BLACK -> MG_ROOK_TBL;
+            case QUEEN_WHITE, QUEEN_BLACK -> MG_QUEEN_TBL;
+            case KING_WHITE, KING_BLACK -> MG_KING_TBL;
         };
     }
 
-    protected static final int[] PAWN_WHITE_VALUES = {
+    protected int[] getEgPositionValues(Piece piece) {
+        return switch (piece) {
+            case PAWN_WHITE, PAWN_BLACK -> EG_PAWN_TBL;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> EG_KNIGHT_TBL;
+            case BISHOP_WHITE, BISHOP_BLACK -> EG_BISHOP_TBL;
+            case ROOK_WHITE, ROOK_BLACK -> EG_ROOK_TBL;
+            case QUEEN_WHITE, QUEEN_BLACK -> EG_QUEEN_TBL;
+            case KING_WHITE, KING_BLACK -> EG_KING_TBL;
+        };
+    }
+
+    protected static final int[] MG_PAWN_TBL = new int[]{
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
-            5, 10, 10, -20, -20, 10, 10, 5,         // Rank 2
-            5, -5, -10, 0, 0, -10, -5, 5,           // Rank 3
-            0, 0, 0, 20, 20, 0, 0, 0,               // Rank 4
-            5, 5, 10, 25, 25, 10, 5, 5,             // Rank 5
-            10, 10, 20, 30, 30, 20, 10, 10,         // Rank 6
-            50, 50, 50, 50, 50, 50, 50, 50,         // Rank 7
-            0, 0, 0, 0, 0, 0, 0, 0                  // Rank 8
+            -35, -1, -20, -23, -15, 24, 38, -22,    // Rank 2
+            -26, -4, -4, -10, 3, 3, 33, -12,        // Rank 3
+            -27, -2, -5, 12, 17, 6, 10, -25,        // Rank 4
+            -14, 13, 6, 21, 23, 12, 17, -23,        // Rank 5
+            -6, 7, 26, 31, 65, 56, 25, -20,         // Rank 6
+            98, 134, 61, 95, 68, 126, 34, -11,      // Rank 7
+            0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 8
+    };
+
+    protected static final int[] EG_PAWN_TBL = new int[]{
+            0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
+            13, 8, 8, 10, 13, 0, 2, -7,             // Rank 2
+            4, 7, -6, 1, 0, -5, -1, -8,             // Rank 3
+            13, 9, -3, -7, -7, -8, 3, -1,           // Rank 4
+            32, 24, 13, 5, -2, 4, 17, 17,           // Rank 5
+            94, 100, 85, 67, 56, 53, 82, 84,        // Rank 6
+            178, 173, 158, 134, 147, 132, 165, 187, // Rank 7
+            0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 8
     };
 
 
-    protected static final int[] KNIGHT_WHITE_VALUES = {
-            -50, -40, -30, -30, -30, -30, -40, -50, // Rank 1
-            -40, -20, 0, 5, 5, 0, -20, -40,         // Rank 2
-            -30, 5, 10, 15, 15, 10, 5, -30,         // Rank 3
-            -30, 0, 15, 20, 20, 15, 0, -30,         // Rank 4
-            -30, 5, 15, 20, 20, 15, 5, -30,         // Rank 5
-            -30, 0, 10, 15, 15, 10, 0, -30,         // Rank 6
-            -40, -20, 0, 0, 0, 0, -20, -40,         // Rank 7
-            -50, -40, -30, -30, -30, -30, -40, -50  // Rank 8
+    protected static final int[] MG_KNIGHT_TBL = {
+            -105, -21, -58, -33, -17, -28, -19, -23,   // Rank 1
+            -29, -53, -12, -3, -1, 18, -14, -19,    // Rank 2
+            -23, -9, 12, 10, 19, 17, 25, -16,    // Rank 3
+            -13, 4, 16, 13, 28, 19, 21, -8,    // Rank 4
+            -9, 17, 19, 53, 37, 69, 18, 22,     // Rank 5
+            -47, 60, 37, 65, 84, 129, 73, 44,    // Rank 6
+            -73, -41, 72, 36, 23, 62, 7, -17,    // Rank 7
+            -167, -89, -34, -49, 61, -97, -15, -107,   // Rank 8
     };
 
-    protected static final int[] BISHOP_WHITE_VALUES = {
-            -20, -10, -10, -10, -10, -10, -10, -20,     // Rank 1
-            -10, 5, 0, 0, 0, 0, 5, -10,                 // Rank 2
-            -10, 10, 10, 10, 10, 10, 10, -10,           // Rank 3
-            -10, 0, 10, 10, 10, 10, 0, -10,             // Rank 4
-            -10, 5, 5, 10, 10, 5, 5, -10,               // Rank 5
-            -10, 0, 5, 10, 10, 5, 0, -10,               // Rank 6
-            -10, 0, 0, 0, 0, 0, 0, -10,                 // Rank 7
-            -20, -10, -10, -10, -10, -10, -10, -20      // Rank 8
-    };
-
-    protected static final int[] ROOK_WHITE_VALUES = {
-            0, 0, 0, 5, 5, 0, 0, 0,              // Rank 1
-            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 2
-            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 3
-            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 4
-            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 5
-            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 6
-            5, 10, 10, 10, 10, 10, 10, 5,         // Rank 7
-            0, 0, 0, 0, 0, 0, 0, 0                // Rank 8
+    protected static final int[] EG_KNIGHT_TBL = {
+            -29, -51, -23, -15, -22, -18, -50, -64, // Rank 1
+            -42, -20, -10, -5, -2, -20, -23, -44, // Rank 2
+            -23, -3, -1, 15, 10, -3, -20, -22, // Rank 3
+            -18, -6, 16, 25, 16, 17, 4, -18, // Rank 4
+            -17, 3, 22, 22, 22, 11, 8, -18, // Rank 5
+            -24, -20, 10, 9, -1, -9, -19, -41, // Rank 6
+            -25, -8, -25, -2, -9, -25, -24, -52, // Rank 7
+            -58, -38, -13, -28, -31, -27, -63, -99, // Rank 8
     };
 
 
-    protected static final int[] QUEEN_WHITE_VALUES = {
-            -20, -10, -10, -5, -5, -10, -10, -20,   // Rank 1
-            -10, 0, 5, 0, 0, 0, 0, -10,             // Rank 2
-            -10, 5, 5, 5, 5, 5, 0, -10,             // Rank 3
-            0, 0, 5, 5, 5, 5, 0, -5,                // Rank 4
-            -5, 0, 5, 5, 5, 5, 0, -5,               // Rank 5
-            -10, 0, 5, 5, 5, 5, 0, -10,             // Rank 6
-            -10, 0, 0, 0, 0, 0, 0, -10,             // Rank 7
-            -20, -10, -10, -5, -5, -10, -10, -20    // Rank 8
+    protected static final int[] MG_BISHOP_TBL = {
+            -33, -3, -14, -21, -13, -12, -39, -21, // Rank 1
+            4, 15, 16, 0, 7, 21, 33, 1,   // Rank 2
+            0, 15, 15, 15, 14, 27, 18, 10,   // Rank 3
+            -6, 13, 13, 26, 34, 12, 10, 4,  // Rank 4
+            -4, 5, 19, 50, 37, 37, 7, -2,  // Rank 5
+            -16, 37, 43, 40, 35, 50, 37, -2, // Rank 6
+            -26, 16, -18, -13, 30, 59, 18, -47, // Rank 7
+            -29, 4, -82, -37, -25, -42, 7, -8, // Rank 8
+    };
+
+    protected static final int[] EG_BISHOP_TBL = {
+            -23, -9, -23, -5, -9, -16, -5, -17,  // Rank 1
+            -14, -18, -7, -1, 4, -9, -15, -27,  // Rank 2
+            -12, -3, 8, 10, 13, 3, -7, -15,  // Rank 3
+            -6, 3, 13, 19, 7, 10, -3, -9,   // Rank 4
+            -3, 9, 12, 9, 14, 10, 3, 2,   // Rank 5
+            2, -8, 0, -1, -2, 6, 0, 4,    // Rank 6
+            -8, -4, 7, -12, -3, -13, -4, -14,   // Rank 7
+            -14, -21, -11, -8, -7, -9, -17, -24,  // Rank 8
     };
 
 
-    protected static final int[] KING_WHITE_VALUES = {
-            20, 30, 10, 0, 0, 10, 30, 20,                // Rank 1
-            20, 20, 0, 0, 0, 0, 20, 20,                  // Rank 2
-            -10, -20, -20, -20, -20, -20, -20, -10,      // Rank 3
-            -20, -30, -30, -40, -40, -30, -30, -20,      // Rank 4
-            -30, -40, -40, -50, -50, -40, -40, -30,      // Rank 5
-            -30, -40, -40, -50, -50, -40, -40, -30,      // Rank 6
-            -30, -40, -40, -50, -50, -40, -40, -30,      // Rank 7
-            -30, -40, -40, -50, -50, -40, -40, -30       // Rank 8
+    protected static final int[] MG_ROOK_TBL = {
+            -19, -13, 1, 17, 16, 7, -37, -26,   // Rank 1
+            -44, -16, -20, -9, -1, 11, -6, -71,   // Rank 2
+            -45, -25, -16, -17, 3, 0, -5, -33,   // Rank 3
+            -36, -26, -12, -1, 9, -7, 6, -23,   // Rank 4
+            -24, -11, 7, 26, 24, 35, -8, -20,   // Rank 5
+            -5, 19, 26, 36, 17, 45, 61, 16,    // Rank 6
+            27, 32, 58, 62, 80, 67, 26, 44,    // Rank 7
+            32, 42, 32, 51, 63, 9, 31, 43,    // Rank 8
+    };
+
+    protected static final int[] EG_ROOK_TBL = {
+            -9, 2, 3, -1, -5, -13, 4, -20,  // Rank 1
+            -6, -6, 0, 2, -9, -9, -11, -3,  // Rank 2
+            -4, 0, -5, -1, -7, -12, -8, -16,  // Rank 3
+            3, 5, 8, 4, -5, -6, -8, -11,   // Rank 4
+            4, 3, 13, 1, 2, 1, -1, 2,   // Rank 5
+            7, 7, 7, 5, 4, -3, -5, -3,   // Rank 6
+            11, 13, 13, 11, -3, 3, 8, 3,  // Rank 7
+            13, 10, 18, 15, 12, 12, 8, 5,  // Rank 8
+    };
+
+
+    protected static final int[] MG_QUEEN_TBL = {
+            -1, -18, -9, 10, -15, -25, -31, -50,      // Rank 1
+            -35, -8, 11, 2, 8, 15, -3, 1,     // Rank 2
+            -14, 2, -11, -2, -5, 2, 14, 5,     // Rank 3
+            -9, -26, -9, -10, -2, -4, 3, -3,      // Rank 4
+            -27, -27, -16, -16, -1, 17, -2, 1,     // Rank 5
+            -13, -17, 7, 8, 29, 56, 47, 57,     // Rank 6
+            -24, -39, -5, 1, -16, 57, 28, 54,     // Rank 7
+            -28, 0, 29, 12, 59, 44, 43, 45,     // Rank 8
+    };
+
+    protected static final int[] EG_QUEEN_TBL = {
+            -33, -28, -22, -43, -5, -32, -20, -41,     // Rank 1
+            -22, -23, -30, -16, -16, -23, -36, -32,     // Rank 2
+            -16, -27, 15, 6, 9, 17, 10, 5,     // Rank 3
+            -18, 28, 19, 47, 31, 34, 39, 23,     // Rank 4
+            3, 22, 24, 45, 57, 40, 57, 36,     // Rank 5
+            -20, 6, 9, 49, 47, 35, 19, 9,     // Rank 6
+            -17, 20, 32, 41, 58, 25, 30, 0,     // Rank 7
+            -9, 22, 22, 27, 27, 19, 10, 20,      // Rank 8
+    };
+
+
+    protected static final int[] MG_KING_TBL = {
+            -15, 36, 12, -54, 8, -28, 24, 14,     // Rank 1
+            1, 7, -8, -64, -43, -16, 9, 8,     // Rank 2
+            -14, -14, -22, -46, -44, -30, -15, -27,     // Rank 3
+            -49, -1, -27, -39, -46, -44, -33, -51,     // Rank 4
+            -17, -20, -12, -27, -30, -25, -14, -36,     // Rank 5
+            -9, 24, 2, -16, -20, 6, 22, -22,      // Rank 6
+            29, -1, -20, -7, -8, -4, -38, -29,      // Rank 7
+            -65, 23, 16, -15, -56, -34, 2, 13,     // Rank 8
+    };
+
+    protected static final int[] EG_KING_TBL = {
+            -53, -34, -21, -11, -28, -14, -24, -43,     // Rank 1
+            -27, -11, 4, 13, 14, 4, -5, -17,     // Rank 2
+            -19, -3, 11, 21, 23, 16, 7, -9,     // Rank 3
+            -18, -4, 21, 24, 27, 23, 9, -11,     // Rank 4
+            -8, 22, 24, 27, 26, 33, 26, 3,      // Rank 5
+            10, 17, 23, 15, 20, 45, 44, 13,      // Rank 6
+            -12, 17, 14, 17, 17, 38, 23, 11,     // Rank 7
+            -74, -35, -18, -18, -11, 15, 4, -17,     // Rank 8
     };
 
 
@@ -211,7 +285,6 @@ public class EvaluatorImp05 extends AbstractEvaluator {
 
             @Override
             public void visit(MoveGenerator moveGenerator) {
-                pseudoMovesGenerator = moveGenerator;
             }
 
         });

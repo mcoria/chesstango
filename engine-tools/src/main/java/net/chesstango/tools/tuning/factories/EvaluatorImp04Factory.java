@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class EvaluatorImp04Factory implements GameEvaluatorFactory {
     public static final int CONSTRAINT_MAX_VALUE = 1000;
 
-    private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
+    private static final Logger logger = LoggerFactory.getLogger(EvaluatorImp04Factory.class);
 
     private final int factor1;
     private final int factor2;
