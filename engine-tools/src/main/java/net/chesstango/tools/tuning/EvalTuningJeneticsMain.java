@@ -1,14 +1,10 @@
 package net.chesstango.tools.tuning;
 
-import io.jenetics.EliteSelector;
-import io.jenetics.Genotype;
-import io.jenetics.IntegerGene;
-import io.jenetics.Phenotype;
+import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
-import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp04;
 import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp05;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import org.slf4j.Logger;
@@ -54,7 +50,9 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         Engine<IntegerGene, Long> engine = Engine
                 .builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .executor(executor)
-                .selector(new EliteSelector<>(POPULATION_SIZE / 5))
+                .offspringFraction(0.8)
+                .survivorsSelector(new EliteSelector<>())
+                .offspringSelector(new TournamentSelector<>())
                 //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .build();
