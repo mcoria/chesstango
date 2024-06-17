@@ -3,10 +3,9 @@ package net.chesstango.uci.arena;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.uci.arena.gui.EngineController;
-import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
-import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.ObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +21,9 @@ import java.util.concurrent.Executors;
 public class MatchMultiple {
     private static final Logger logger = LoggerFactory.getLogger(MatchMultiple.class);
 
-    private final GenericObjectPool<EngineController> pool1;
+    private final ObjectPool<EngineController> controllerPool1;
 
-    private final GenericObjectPool<EngineController> pool2;
+    private final ObjectPool<EngineController> controllerPool2;
 
     private final MatchType matchType;
 
@@ -43,9 +42,9 @@ public class MatchMultiple {
     private MatchListener matchListener;
 
 
-    public MatchMultiple(EngineControllerPoolFactory controllerFactory1, EngineControllerPoolFactory controllerFactory2, MatchType matchType) {
-        this.pool1 = new GenericObjectPool<>(controllerFactory1);
-        this.pool2 = new GenericObjectPool<>(controllerFactory2);
+    public MatchMultiple(ObjectPool<EngineController> controllerPool1, ObjectPool<EngineController> controllerPool2, MatchType matchType) {
+        this.controllerPool1 = controllerPool1;
+        this.controllerPool2 = controllerPool2;
         this.matchType = matchType;
         this.switchChairs = true;
     }
@@ -55,32 +54,29 @@ public class MatchMultiple {
 
         try (ExecutorService executor = Executors.newFixedThreadPool(availableCores)) {
 
-            createPlayTasks(fenList, pool1, pool2)
+            createPlayTasks(fenList, controllerPool1, controllerPool2)
                     .forEach(executor::submit);
 
             if (switchChairs) {
-                createPlayTasks(fenList, pool2, pool1)
+                createPlayTasks(fenList, controllerPool2, controllerPool1)
                         .forEach(executor::submit);
             }
         }
-
-        pool1.close();
-        pool2.close();
 
         return result;
     }
 
     private List<Runnable> createPlayTasks(List<String> fenList,
-                                           GenericObjectPool<EngineController> thePool1,
-                                           GenericObjectPool<EngineController> thePool2) {
+                                           ObjectPool<EngineController> thePool1,
+                                           ObjectPool<EngineController> thePool2) {
         return fenList.stream()
                 .map(fen -> (Runnable) () -> play(fen, thePool1, thePool2))
                 .toList();
     }
 
     private void play(String fen,
-                      GenericObjectPool<EngineController> thePool1,
-                      GenericObjectPool<EngineController> thePool2) {
+                      ObjectPool<EngineController> thePool1,
+                      ObjectPool<EngineController> thePool2) {
 
         EngineController controller1 = null;
         EngineController controller2 = null;
@@ -100,7 +96,7 @@ public class MatchMultiple {
             thePool1.returnObject(controller1);
             thePool2.returnObject(controller2);
 
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             logger.error("Error playing", e);
 
             invalidateObject(controller1, thePool1);
@@ -108,7 +104,7 @@ public class MatchMultiple {
         }
     }
 
-    private static EngineController getControllerFromPool(GenericObjectPool<EngineController> pool) {
+    private static EngineController getControllerFromPool(ObjectPool<EngineController> pool) {
         try {
             return pool.borrowObject();
         } catch (Exception e) {
@@ -117,7 +113,7 @@ public class MatchMultiple {
         }
     }
 
-    private static void invalidateObject(EngineController controller, GenericObjectPool<EngineController> pool) {
+    private static void invalidateObject(EngineController controller, ObjectPool<EngineController> pool) {
         if (controller != null && pool != null) {
             try {
                 pool.invalidateObject(controller);

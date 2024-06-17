@@ -8,6 +8,8 @@ import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.engine.UciTango;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,27 +24,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MatchMultipleTest {
 
-    private EngineControllerPoolFactory smartEngineControllerFactory1;
+    private ObjectPool<EngineController> smartEnginePool;
 
-    private EngineControllerPoolFactory dummyEngineControllerFactory1;
+    private ObjectPool<EngineController> dummyEnginePool;
 
 
     @BeforeEach
     public void setup() {
-        smartEngineControllerFactory1 = new EngineControllerPoolFactory(() ->
+        smartEnginePool = new GenericObjectPool<>(new EngineControllerPoolFactory(() ->
                 new EngineControllerImp(new UciTango())
                         .overrideEngineName("Smart")
-        );
+        ));
 
-        dummyEngineControllerFactory1 = new EngineControllerPoolFactory(() ->
+        dummyEnginePool = new GenericObjectPool<>(new EngineControllerPoolFactory(() ->
                 new EngineControllerImp(new UciTango(new Tango(new Dummy())))
                         .overrideEngineName("Dummy")
-        );
+        ));
     }
 
     @Test
     public void testPlay() {
-        MatchMultiple matchMultiple = new MatchMultiple(smartEngineControllerFactory1, dummyEngineControllerFactory1, new MatchByDepth(3));
+        MatchMultiple matchMultiple = new MatchMultiple(smartEnginePool, dummyEnginePool, new MatchByDepth(3));
         //matchMultiple.setDebugEnabled(true);
 
         List<MatchResult> matchResult = matchMultiple.play(List.of(FENDecoder.INITIAL_FEN));
