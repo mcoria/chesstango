@@ -1,13 +1,13 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.evaluators.EvaluatorImp02;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
+import net.chesstango.evaluation.evaluators.EvaluatorImp02;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Tournament;
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
-import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.CaptureMatchResult;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBeans;
@@ -18,6 +18,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -27,9 +28,21 @@ public class TournamentMain {
     private static final MatchByDepth matchType = new MatchByDepth(2);
 
     public static void main(String[] args) {
-        List<EngineControllerPoolFactory> controllerFactories = createControllerFactories();
+        Supplier<EngineController> main = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndPST::new);
+        Supplier<EngineController> evaluatorImp02 = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02::new);
+        /*
+        EngineControllerPoolFactory factory1 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterial.class));
+        EngineControllerPoolFactory factory2 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndMoves.class));
+        EngineControllerPoolFactory factory3 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp01.class));
 
-        List<MatchResult> matchResult = new TournamentMain(controllerFactories)
+        EngineControllerPoolFactory factory5 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSimplifiedEvaluator.class));
+         */
+        Supplier<EngineController> spike = () -> EngineControllerFactory.createProxyController("Spike", null);
+
+
+        List<Supplier<EngineController>> engineSupplierList = Arrays.asList(main, evaluatorImp02, spike);
+
+        List<MatchResult> matchResult = new TournamentMain(engineSupplierList)
                 .play(getFenList());
 
         new SummaryReport()
@@ -44,32 +57,16 @@ public class TournamentMain {
         return fenList;
     }
 
+    private final List<Supplier<EngineController>> engineSupplierList;
 
-    private static List<EngineControllerPoolFactory> createControllerFactories() {
-        EngineControllerPoolFactory mainFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndPST::new));
-        EngineControllerPoolFactory evaluatorImp02Factory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02::new));
-        /*
-        EngineControllerPoolFactory factory1 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterial.class));
-        EngineControllerPoolFactory factory2 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndMoves.class));
-        EngineControllerPoolFactory factory3 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp01.class));
-
-        EngineControllerPoolFactory factory5 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSimplifiedEvaluator.class));
-         */
-        EngineControllerPoolFactory spikeFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createProxyController("Spike", null));
-
-        return Arrays.asList(mainFactory, evaluatorImp02Factory, spikeFactory);
-    }
-
-    private final List<EngineControllerPoolFactory> controllerFactories;
-
-    public TournamentMain(List<EngineControllerPoolFactory> controllerFactories) {
-        this.controllerFactories = controllerFactories;
+    public TournamentMain(List<Supplier<EngineController>> engineSupplierList) {
+        this.engineSupplierList = engineSupplierList;
     }
 
     public List<MatchResult> play(List<String> fenList) {
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
-        Tournament tournament = new Tournament(controllerFactories, matchType)
+        Tournament tournament = new Tournament(engineSupplierList, matchType)
                 .setMatchListener(new MatchBroadcaster()
                         .addListener(new MatchListenerToMBeans())
                         .addListener(new SavePGNGame())

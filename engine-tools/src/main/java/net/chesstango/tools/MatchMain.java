@@ -6,6 +6,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorImp05;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
@@ -13,12 +14,15 @@ import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -42,9 +46,8 @@ public class MatchMain {
      * -Dcom.sun.management.jmxremote.ssl=false
      */
     public static void main(String[] args) {
-        EngineControllerPoolFactory tangoControllerFactory = new EngineControllerPoolFactory(() ->
-                EngineControllerFactory
-                        .createTangoControllerWithDefaultSearch(EvaluatorImp05::new)
+        Supplier<EngineController> tangoSupplier = () ->
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -57,7 +60,7 @@ public class MatchMain {
                                 .withStopProcessingCatch()
                                 .withStatistics()
                         );*/
-        );
+        ;
 
         /*
         EngineControllerPoolFactory opponentControllerFactory = new EngineControllerPoolFactory(() ->
@@ -66,14 +69,10 @@ public class MatchMain {
         */
 
 
-        EngineControllerPoolFactory opponentControllerFactory = new EngineControllerPoolFactory(() ->
-                EngineControllerFactory
-                        .createTangoControllerWithDefaultSearch(EvaluatorImp04::new)
-        );
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp04::new);
 
 
-
-        List<MatchResult> matchResult = new MatchMain(tangoControllerFactory, opponentControllerFactory)
+        List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)
                 .play();
 
 
@@ -111,32 +110,37 @@ public class MatchMain {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         return fenList;
     }
 
-    private final EngineControllerPoolFactory controllerFactory1;
-    private final EngineControllerPoolFactory controllerFactory2;
+    private final Supplier<EngineController> mainEngineSupplier;
+    private final Supplier<EngineController> oppponentEngineSupplier;
 
-    public MatchMain(EngineControllerPoolFactory controllerFactory1, EngineControllerPoolFactory controllerFactory2) {
-        this.controllerFactory1 = controllerFactory1;
-        this.controllerFactory2 = controllerFactory2;
+    public MatchMain(Supplier<EngineController> mainEngineSupplier, Supplier<EngineController> oppponentEngineSupplier) {
+        this.mainEngineSupplier = mainEngineSupplier;
+        this.oppponentEngineSupplier = oppponentEngineSupplier;
     }
 
     private List<MatchResult> play() {
-        MatchMultiple match = new MatchMultiple(controllerFactory1, controllerFactory2, MATCH_TYPE)
-                .setDebugEnabled(MATCH_DEBUG)
-                .setSwitchChairs(MATCH_SWITCH_CHAIRS)
-                .setMatchListener(new MatchBroadcaster()
-                        .addListener(new MatchListenerToMBean())
-                        .addListener(new SavePGNGame()));
 
-        Instant start = Instant.now();
+        try (ObjectPool<EngineController> mainPool = new GenericObjectPool<>(new EngineControllerPoolFactory(mainEngineSupplier));
+             ObjectPool<EngineController> opponentPool = new GenericObjectPool<>(new EngineControllerPoolFactory(oppponentEngineSupplier))) {
 
-        List<MatchResult> matchResult = match.play(getFenList());
+            MatchMultiple match = new MatchMultiple(mainPool, opponentPool, MATCH_TYPE)
+                    .setDebugEnabled(MATCH_DEBUG)
+                    .setSwitchChairs(MATCH_SWITCH_CHAIRS)
+                    .setMatchListener(new MatchBroadcaster()
+                            .addListener(new MatchListenerToMBean())
+                            .addListener(new SavePGNGame()));
 
-        logger.info("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
+            Instant start = Instant.now();
 
-        return matchResult;
+            List<MatchResult> matchResult = match.play(getFenList());
+
+            logger.info("Time taken: {} ms", Duration.between(start, Instant.now()).toMillis());
+
+            return matchResult;
+        }
     }
 }

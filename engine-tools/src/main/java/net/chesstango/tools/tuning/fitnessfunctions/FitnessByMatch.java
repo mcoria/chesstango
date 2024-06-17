@@ -6,6 +6,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
@@ -15,6 +16,8 @@ import net.chesstango.uci.arena.listeners.SavePGNGame;
 import net.chesstango.uci.arena.matchtypes.MatchByDepth;
 import net.chesstango.uci.arena.matchtypes.MatchType;
 import net.chesstango.uci.engine.UciTango;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -27,50 +30,46 @@ public class FitnessByMatch implements FitnessFunction {
 
     private static final String ENGINE_NAME = "TANGO";
 
+    private ObjectPool<EngineController> opponentPool;
+
     private List<String> fenList;
+
 
     @Override
     public void start() {
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
+
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        this.opponentPool = new GenericObjectPool<>(new EngineControllerPoolFactory(opponentSupplier));
     }
 
     @Override
     public void stop() {
+        opponentPool.close();
     }
 
     @Override
-    public long fitness(Supplier<Evaluator> gameEvaluatorSupplier) {
-        EngineControllerPoolFactory engineControllerPoolFactory = new EngineControllerPoolFactory(() ->
-                new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(gameEvaluatorSupplier.get()))))
-                        .overrideEngineName(ENGINE_NAME)
-        );
+    public long fitness(Supplier<Evaluator> tangoEvaluatorSupplier) {
+        Supplier<EngineController> tangoEngineSupplier = () ->
+                new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(tangoEvaluatorSupplier.get()))))
+                        .overrideEngineName(ENGINE_NAME);
 
-        EngineControllerPoolFactory opponentControllerPoolFactory = new EngineControllerPoolFactory(() ->
-                EngineControllerFactory.createProxyController("Spike", null)
-        );
-
-        List<MatchResult> matchResult = fitnessEval(engineControllerPoolFactory, opponentControllerPoolFactory);
+        List<MatchResult> matchResult = fitnessEval(tangoEngineSupplier);
 
         return calculatePoints(matchResult);
     }
 
 
-    private List<MatchResult> fitnessEval(EngineControllerPoolFactory engineControllerPoolFactory,
-                                          EngineControllerPoolFactory opponentControllerPoolFactory) {
-        try {
-            return new MatchMultiple(engineControllerPoolFactory, opponentControllerPoolFactory, MATCH_TYPE)
+    private List<MatchResult> fitnessEval(Supplier<EngineController> tangoEngineSupplier) {
+        try (ObjectPool<EngineController> tangoPool = new GenericObjectPool<>(new EngineControllerPoolFactory(tangoEngineSupplier))) {
+            return new MatchMultiple(tangoPool, opponentPool, MATCH_TYPE)
                     .setSwitchChairs(true)
                     .setMatchListener(new MatchBroadcaster()
-                            .addListener(new MatchListenerToMBean())
                             .addListener(new SavePGNGame()))
                     .play(fenList);
-
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            throw new RuntimeException(e);
         }
     }
 
