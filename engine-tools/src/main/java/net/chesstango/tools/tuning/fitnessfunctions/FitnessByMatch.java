@@ -26,7 +26,7 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class FitnessByMatch implements FitnessFunction {
-    private static final MatchType MATCH_TYPE = new MatchByDepth(3);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
 
     private static final String ENGINE_NAME = "TANGO";
 
@@ -39,10 +39,10 @@ public class FitnessByMatch implements FitnessFunction {
     public void start() {
         Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
-        //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         this.opponentPool = new GenericObjectPool<>(new EngineControllerPoolFactory(opponentSupplier));
     }
 
