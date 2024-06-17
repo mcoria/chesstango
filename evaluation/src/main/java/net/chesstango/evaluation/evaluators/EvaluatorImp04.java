@@ -11,8 +11,8 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- * <p>
- * <p>
+ *
+ *
  * Positions: Balsa_v500.pgn
  * Depth: 1
  * Time elapsed: 980000 ms
@@ -24,42 +24,42 @@ import java.util.Iterator;
  * |   GameEvaluatorSimplifiedEvaluator|      42 |      55 |     1023 |     1093 |     1659 |     1576 |      871.5 |      843.0 |  1714.5 /   5448 |   31.5 |
  * |                          Spike 1.4|    1451 |    1408 |       48 |       70 |     1225 |     1246 |     2063.5 |     2031.0 |  4094.5 /   5448 |   75.2 |
  * --------------------------------------------------------------------------------------------------------------------------------------------------------
- * <p>
- * <p>
- * Positions: Balsa_Top50.pgn
+ *
+ *
+ * Positions: Balsa_v500.pgn
  * Depth: 2
- * Time taken: 141815 ms
- * ___________________________________________________________________________________________________________________________________________________
+ * Time elapsed: 88170 ms
+ *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |            GameEvaluatorSEandImp02|      13 |      11 |        6 |        4 |       31 |       35 |       28.5 |       28.5 |  57.0 /100 |   57.0 |
- * |                 GameEvaluatorImp02|       4 |       6 |       11 |       13 |       35 |       31 |       21.5 |       21.5 |  43.0 /100 |   43.0 |
- * ---------------------------------------------------------------------------------------------------------------------------------------------------
+ * |                     EvaluatorImp04|      36 |      25 |      423 |      454 |       41 |       21 |       56.5 |       35.5 |  92.0 /1000 |    9.2 |
+ * |                          Spike 1.4|     454 |     423 |       25 |       36 |       21 |       41 |      464.5 |      443.5 | 908.0 /1000 |   90.8 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class EvaluatorSEandImp02 extends AbstractEvaluator {
+public class EvaluatorImp04 extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 756;
     private static final int FACTOR_POSITION_DEFAULT = 204;
     private static final int FACTOR_EXPANSION_DEFAULT = 27;
-    private static final int FACTOR_ATAQUE_DEFAULT = 13;
+    private static final int FACTOR_ATTACK_DEFAULT = 13;
 
     private final int material;
     private final int position;
 
     private final int expansion;
-    private final int ataque;
+    private final int attack;
 
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
-    public EvaluatorSEandImp02() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
+    public EvaluatorImp04() {
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATTACK_DEFAULT);
     }
 
-    public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer ataque) {
+    public EvaluatorImp04(Integer material, Integer position, Integer expansion, Integer attack) {
         this.material = material;
         this.position = position;
         this.expansion = expansion;
-        this.ataque = ataque;
+        this.attack = attack;
     }
 
 
@@ -69,6 +69,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
             case CHECK, NO_CHECK ->
                     material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
+            default -> throw new RuntimeException(String.format("Unknown game status %s", game.getStatus()));
         };
     }
 
@@ -79,20 +80,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
-            int[] positionValues = switch (piece) {
-                case PAWN_WHITE -> PAWN_WHITE_VALUES;
-                case PAWN_BLACK -> PAWN_BLACK_VALUES;
-                case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
-                case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
-                case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
-                case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
-                case ROOK_WHITE -> ROOK_WHITE_VALUES;
-                case ROOK_BLACK -> ROOK_BLACK_VALUES;
-                case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
-                case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
-                case KING_WHITE -> KING_WHITE_VALUES;
-                case KING_BLACK -> KING_BLACK_VALUES;
-            };
+            int[] positionValues = getPositionValues(piece);
             evaluation += positionValues[square.toIdx()];
         }
         return evaluation;
@@ -119,20 +107,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
                 if (toPosition.getPiece() == null) {
                     Square toSquare = toPosition.getSquare();
-                    int[] positionValues = switch (piece) {
-                        case PAWN_WHITE -> PAWN_WHITE_VALUES;
-                        case PAWN_BLACK -> PAWN_BLACK_VALUES;
-                        case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
-                        case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
-                        case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
-                        case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
-                        case ROOK_WHITE -> ROOK_WHITE_VALUES;
-                        case ROOK_BLACK -> ROOK_BLACK_VALUES;
-                        case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
-                        case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
-                        case KING_WHITE -> KING_WHITE_VALUES;
-                        case KING_BLACK -> KING_BLACK_VALUES;
-                    };
+                    int[] positionValues = getPositionValues(piece);
                     evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
                 } else {
                     evaluationByAttack -= getPieceValue(toPosition.getPiece());
@@ -142,7 +117,7 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
         }
 
         // From white point of view
-        return expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack;
+        return expansion * evaluationByMoveToEmptySquare + attack * evaluationByAttack;
     }
 
     @Override
@@ -160,6 +135,23 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
             case QUEEN_BLACK -> -900;
             case KING_WHITE -> 20000;
             case KING_BLACK -> -20000;
+        };
+    }
+
+    protected int[] getPositionValues(Piece piece) {
+        return switch (piece) {
+            case PAWN_WHITE -> PAWN_WHITE_VALUES;
+            case PAWN_BLACK -> PAWN_BLACK_VALUES;
+            case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
+            case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
+            case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
+            case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
+            case ROOK_WHITE -> ROOK_WHITE_VALUES;
+            case ROOK_BLACK -> ROOK_BLACK_VALUES;
+            case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
+            case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
+            case KING_WHITE -> KING_WHITE_VALUES;
+            case KING_BLACK -> KING_BLACK_VALUES;
         };
     }
 

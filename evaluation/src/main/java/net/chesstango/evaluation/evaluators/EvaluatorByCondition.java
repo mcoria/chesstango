@@ -12,8 +12,9 @@ import java.util.function.Function;
  * @author Mauricio Coria
  */
 public class EvaluatorByCondition implements Evaluator {
+    private final List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
+
     private int defaultValue;
-    private List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
 
     private Game game;
 

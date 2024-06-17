@@ -5,8 +5,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EpdEntry;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
+import net.chesstango.evaluation.evaluators.EvaluatorImp04;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchMoveResult;
@@ -344,7 +344,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch(files, 2);
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp03(205, 753, 17, 25));
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorByMaterialAndPST(205, 753));
         fitnessByEpdSearch.stop();
 
         assertEquals(49017L, points);
@@ -377,7 +377,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch(files, 3);
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp03(725, 223, 31, 21));
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorByMaterialAndPST(725, 223));
         fitnessByEpdSearch.stop();
 
         assertEquals(50780L, points);
@@ -410,7 +410,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch(files, 3);
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp03(545, 423, 17, 15));
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorByMaterialAndPST(545, 423));
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);
@@ -442,7 +442,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch(files, 5);
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(EvaluatorSEandImp02::new);
+        long points = fitnessByEpdSearch.fitness(EvaluatorImp04::new);
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);
@@ -454,7 +454,7 @@ public class FitnessByEpdSearchTest {
         FitnessByEpdSearch fitnessByEpdSearch = new FitnessByEpdSearch();
 
         fitnessByEpdSearch.start();
-        long points = fitnessByEpdSearch.fitness(()->new EvaluatorSEandImp02(700, 964, 209, 46));
+        long points = fitnessByEpdSearch.fitness(()->new EvaluatorImp04(700, 964, 209, 46));
         fitnessByEpdSearch.stop();
 
         assertEquals(51635L, points);

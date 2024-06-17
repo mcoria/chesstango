@@ -1,10 +1,7 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;
@@ -12,32 +9,23 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorSEandImp03 extends AbstractEvaluator {
+public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 545;
     private static final int FACTOR_POSITION_DEFAULT = 423;
 
-    private static final int FACTOR_EXPANSION_DEFAULT = 17;
-    private static final int FACTOR_ATAQUE_DEFAULT = 15;
-
     private final int material;
     private final int position;
 
-    private final int expansion;
-    private final int ataque;
-
     private ChessPositionReader positionReader;
-    private MoveGenerator pseudoMovesGenerator;
 
-    public EvaluatorSEandImp03() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
+    public EvaluatorByMaterialAndPST() {
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT);
     }
 
-    public EvaluatorSEandImp03(Integer material, Integer position, Integer expansion, Integer ataque) {
+    public EvaluatorByMaterialAndPST(Integer material, Integer position) {
         this.material = material;
         this.position = position;
-        this.expansion = expansion;
-        this.ataque = ataque;
     }
 
 
@@ -51,7 +39,6 @@ public class EvaluatorSEandImp03 extends AbstractEvaluator {
 
     protected int evaluateByPosition() {
         int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
@@ -60,46 +47,6 @@ public class EvaluatorSEandImp03 extends AbstractEvaluator {
             evaluation += positionValues[square.toIdx()];
         }
         return evaluation;
-    }
-
-
-    protected int evaluateByMoveAndByAttack() {
-        int evaluationByMoveDelta = 0;
-
-        int evaluationByAttack = 0;
-
-        Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
-
-        while (iteratorAllPieces.hasNext()) {
-            PiecePositioned piecePositioned = iteratorAllPieces.next();
-
-            MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
-
-            MoveList pseudoMoves = generationResult.getPseudoMoves();
-
-            for (Move move : pseudoMoves) {
-                PiecePositioned fromPosition = move.getFrom();
-                PiecePositioned toPosition = move.getTo();
-
-                Square fromSquare = fromPosition.getSquare();
-                Square toSquare = toPosition.getSquare();
-
-                int[] fromPiecePositionValues = getPositionValues(fromPosition.getPiece());
-
-                // El delta
-                evaluationByMoveDelta += (fromPiecePositionValues[toSquare.toIdx()] - fromPiecePositionValues[fromSquare.toIdx()]);
-
-                if (toPosition.getPiece() != null) {
-                    evaluationByAttack -= getPieceValue(toPosition.getPiece());
-
-                    int[] attackedPiecePositionValues = getPositionValues(toPosition.getPiece());
-                    evaluationByAttack -= attackedPiecePositionValues[toSquare.toIdx()];
-                }
-            }
-        }
-
-        // From white point of view
-        return expansion * evaluationByMoveDelta + ataque * evaluationByAttack;
     }
 
     @Override
@@ -286,7 +233,6 @@ public class EvaluatorSEandImp03 extends AbstractEvaluator {
 
             @Override
             public void visit(MoveGenerator moveGenerator) {
-                pseudoMovesGenerator = moveGenerator;
             }
 
         });

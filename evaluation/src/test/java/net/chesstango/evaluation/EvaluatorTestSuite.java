@@ -16,8 +16,6 @@ import org.junit.platform.suite.api.Suite;
         EvaluatorImp01Test.class,
         EvaluatorImp02Test.class,
         EvaluatorImp03Test.class,
-        EvaluatorSEandImp02Test.class,
-        EvaluatorSimplifiedEvaluatorTest.class,
         GameEvaluatorTestCollection.class,
 })
 public class EvaluatorTestSuite {

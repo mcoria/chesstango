@@ -2,7 +2,7 @@ package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.evaluators.EvaluatorImp02;
-import net.chesstango.evaluation.evaluators.EvaluatorSEandImp03;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.Tournament;
@@ -46,7 +46,7 @@ public class TournamentMain {
 
 
     private static List<EngineControllerPoolFactory> createControllerFactories() {
-        EngineControllerPoolFactory mainFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorSEandImp03::new));
+        EngineControllerPoolFactory mainFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialAndPST::new));
         EngineControllerPoolFactory evaluatorImp02Factory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp02::new));
         /*
         EngineControllerPoolFactory factory1 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterial.class));
