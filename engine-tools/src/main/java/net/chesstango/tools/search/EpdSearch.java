@@ -15,8 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
@@ -47,7 +53,6 @@ public class EpdSearch {
         final int availableCores = Runtime.getRuntime().availableProcessors();
 
         AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
-
         List<SearchJob> activeJobs = Collections.synchronizedList(new LinkedList<>());
 
         List<EpdSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
@@ -73,9 +78,9 @@ public class EpdSearch {
 
                         EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
 
-                        if (epdSearchResult.isSearchSuccess()) {
-                            epdSearchResults.add(epdSearchResult);
-                        } else {
+                        epdSearchResults.add(epdSearchResult);
+
+                        if (!epdSearchResult.isSearchSuccess()) {
                             String failedTest = String.format("Fail [%s] - best move found %s",
                                     epdEntry.text,
                                     epdSearchResult.bestMoveFoundAlgNot()
@@ -83,17 +88,20 @@ public class EpdSearch {
                             logger.info(failedTest);
                         }
 
-                        return epdSearchResult;
+                        searchMovePool.put(searchJob.searchMove);
+
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
                         logger.error(String.format("Error processing: %s", epdEntry.text));
                         throw e;
+                    } catch (InterruptedException e) {
+                        logger.error(String.format("Thread interrupted while processing: %s", epdEntry.text));
+                        e.printStackTrace(System.err);
+                        throw new RuntimeException(e);
                     } finally {
                         assert searchJob != null;
 
                         activeJobs.remove(searchJob);
-
-                        searchMovePool.put(searchJob.searchMove);
 
                         pendingJobsCounter.decrementAndGet();
                     }
@@ -113,7 +121,6 @@ public class EpdSearch {
                         }
                     }
                 }
-
             } catch (InterruptedException e) {
                 logger.error("Stopping executorService....");
                 executorService.shutdownNow();
@@ -123,6 +130,10 @@ public class EpdSearch {
 
         if (epdSearchResults.isEmpty()) {
             throw new RuntimeException("No edp entry was processed");
+        }
+
+        if (pendingJobsCounter.get() > 0) {
+            throw new RuntimeException(String.format("Todavia siguen pendiente %d busquedas", pendingJobsCounter.get()));
         }
 
         epdSearchResults.sort(Comparator.comparing(o -> o.epdEntry().id));
