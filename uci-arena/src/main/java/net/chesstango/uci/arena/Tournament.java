@@ -9,6 +9,7 @@ import net.chesstango.uci.arena.matchtypes.MatchType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +39,7 @@ public class Tournament {
 
     public List<MatchResult> play(List<String> fenList) {
 
-        List<MatchResult> matchResults = new LinkedList<>();
+        List<MatchResult> matchResults = Collections.synchronizedList(new LinkedList<>());
 
         EngineControllerPoolFactory mainPool = controllerFactories.getFirst();
 
