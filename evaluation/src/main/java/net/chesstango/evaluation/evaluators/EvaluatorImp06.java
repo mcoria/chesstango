@@ -19,12 +19,12 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     private static final int WEIGH_BISHOP_PAIR = 0;
     private static final int WEIGH_ROOK_PAIR = 0;
 
-    private final int wgMaterial;
-    private final int wgMidGame;
-    private final int wgEndGame;
-    private final int wgKnightPair;
-    private final int wgBishopPair;
-    private final int wgRookPair;
+    private int wgMaterial;
+    private int wgMidGame;
+    private int wgEndGame;
+    private int wgKnightPair;
+    private int wgBishopPair;
+    private int wgRookPair;
 
     private ChessPositionReader positionReader;
 
@@ -33,6 +33,10 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     }
 
     public EvaluatorImp06(int[] weighs) {
+        setWeighs(weighs);
+    }
+
+    protected void setWeighs(int[] weighs) {
         this.wgMaterial = weighs[0];
         this.wgMidGame = weighs[1];
         this.wgEndGame = weighs[2];

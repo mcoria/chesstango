@@ -6,11 +6,11 @@ gateway = JavaGateway()
 
 javaObj = gateway.entry_point
 
-def black_box_function(scalar1, scalar2, scalar3):
-    return javaObj.fitness(scalar1, scalar2, scalar3)
+def black_box_function(scalar1, scalar2, scalar3, scalar4, scalar5, scalar6):
+    return javaObj.fitness(scalar1, scalar2, scalar3, scalar4, scalar5, scalar6)
 
 # Bounded region of parameter space
-pbounds = {'scalar1': (0, 1000), 'scalar2': (0, 1000), 'scalar3': (0, 1000)}
+pbounds = {'scalar1': (0, 1000), 'scalar2': (0, 1000), 'scalar3': (0, 1000), 'scalar4': (0, 1000), 'scalar5': (0, 1000), 'scalar6': (0, 1000)}
 
 
 optimizer = BayesianOptimization(
@@ -21,8 +21,8 @@ optimizer = BayesianOptimization(
 )
 
 optimizer.maximize(
-    init_points=3,
-    n_iter=20,
+    init_points=5,
+    n_iter=100,
 )
 
 javaObj.endWork()

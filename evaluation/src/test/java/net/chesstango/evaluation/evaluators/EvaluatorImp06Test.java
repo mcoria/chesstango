@@ -100,4 +100,27 @@ public class EvaluatorImp06Test extends GameEvaluatorTestCollection {
         assertEquals(174890, evaluator.evaluate());
     }
 
+
+    @Test
+    public void testKnightPair() {
+        evaluator.setWeighs(new int[]{0, 0, 0, 10, 0, 0});
+
+        Game game = FENDecoder.loadGame("k7/8/8/4N3/8/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/4N3/4N3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(10, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/8/4n3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+
+        game = FENDecoder.loadGame("k7/8/8/4n3/4n3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(-10, evaluator.evaluateByPairs());
+    }
+
 }
