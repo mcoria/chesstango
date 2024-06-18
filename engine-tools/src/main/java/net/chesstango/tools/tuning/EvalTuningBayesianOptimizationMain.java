@@ -1,6 +1,6 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.tools.tuning.factories.EvaluatorImp05Factory;
+import net.chesstango.tools.tuning.factories.EvaluatorImp06Factory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;
@@ -57,11 +57,14 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
         }
     }
 
-    public long fitness(Double scalar1Dbl, Double scalar2Dbl, Double scalar3Dbl) {
+    public long fitness(Double scalar1Dbl, Double scalar2Dbl, Double scalar3Dbl, Double scalar4Dbl, Double scalar5Dbl, Double scalar6Dbl) {
         int scalar1 = scalar1Dbl.intValue();
         int scalar2 = scalar2Dbl.intValue();
         int scalar3 = scalar3Dbl.intValue();
-        return fitness(new EvaluatorImp05Factory(new int[]{scalar1, scalar2, scalar3}));
+        int scalar4 = scalar4Dbl.intValue();
+        int scalar5 = scalar5Dbl.intValue();
+        int scalar6 = scalar6Dbl.intValue();
+        return fitness(new EvaluatorImp06Factory(new int[]{scalar1, scalar2, scalar3, scalar4, scalar5, scalar6}));
     }
 
 

@@ -5,7 +5,7 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
-import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp05;
+import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp06;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ import java.util.concurrent.Executor;
  */
 public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
-    private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int POPULATION_SIZE = 20;
+    private static final int GENERATION_LIMIT = 500;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
-        GeneticProvider geneticProvider = new GPEvaluatorImp05();
+        GeneticProvider geneticProvider = new GPEvaluatorImp06();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         FitnessFunction fitnessFunction = new FitnessByMatch();
