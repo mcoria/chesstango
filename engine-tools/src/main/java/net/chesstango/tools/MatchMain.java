@@ -1,8 +1,7 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.evaluators.EvaluatorImp04;
-import net.chesstango.evaluation.evaluators.EvaluatorImp05;
+import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -30,7 +29,7 @@ import java.util.function.Supplier;
 public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(3);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
     //private static final MatchType MATCH_TYPE = new MatchByTime(200);
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
 
@@ -47,7 +46,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{828, 141, 4, 864, 19, 658}));
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -62,14 +61,10 @@ public class MatchMain {
                         );*/
         ;
 
-        /*
-        EngineControllerPoolFactory opponentControllerFactory = new EngineControllerPoolFactory(() ->
-                EngineControllerFactory
-                        .createProxyController("Spike", null));
-        */
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
 
-        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp04::new);
+        //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp04::new);
 
 
         List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)
@@ -108,9 +103,9 @@ public class MatchMain {
         //List<String> fenList =  List.of("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         return fenList;
     }
 
