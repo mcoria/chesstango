@@ -123,4 +123,47 @@ public class EvaluatorImp06Test extends GameEvaluatorTestCollection {
         assertEquals(-10, evaluator.evaluateByPairs());
     }
 
+    @Test
+    public void testBishopPair() {
+        evaluator.setWeighs(new int[]{0, 0, 0, 0, 15, 0});
+
+        Game game = FENDecoder.loadGame("k7/8/8/8/4B3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/4B3/4B3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(15, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/8/4b3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+
+        game = FENDecoder.loadGame("k7/8/8/4b3/4b3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(-15, evaluator.evaluateByPairs());
+    }
+
+    @Test
+    public void testRookPair() {
+        evaluator.setWeighs(new int[]{0, 0, 0, 0, 0, 20});
+
+        Game game = FENDecoder.loadGame("k7/8/8/8/4R3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/4R3/4R3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(20, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/8/4r3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(0, evaluator.evaluateByPairs());
+
+        game = FENDecoder.loadGame("k7/8/8/4r3/4r3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(-20, evaluator.evaluateByPairs());
+    }
+
 }

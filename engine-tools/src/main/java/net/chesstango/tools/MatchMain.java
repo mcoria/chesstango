@@ -47,7 +47,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{929, 22, 54, 851, 176, 809}));
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{990, 24, 41, 353, 543, 512}));
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -62,10 +62,10 @@ public class MatchMain {
                         );*/
         ;
 
-        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
+        //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
 
-        //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
 
 
         List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)

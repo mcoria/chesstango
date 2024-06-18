@@ -50,7 +50,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     public int evaluate() {
         return switch (game.getStatus()) {
             case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
-            case CHECK, NO_CHECK -> wgMaterial * evaluateByMaterial() + evaluateByPST() + evaluateByPairs();
+            case CHECK, NO_CHECK -> wgMaterial * evaluateByMaterial() + evaluateByPST() + evaluateByPairsTapered();
             default -> throw new RuntimeException(String.format("Unknown game status %s", game.getStatus()));
         };
     }
@@ -73,9 +73,14 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         };
     }
 
+    protected int evaluateByPairsTapered() {
+        final int numberOfPieces = Long.bitCount(positionReader.getAllPositions());
+        return wgEndGame * (32 - numberOfPieces) * evaluateByPairs();
+    }
+
     protected int evaluateByPairs() {
-        long whitePositions = positionReader.getPositions(Color.WHITE);
-        long blackPositions = positionReader.getPositions(Color.BLACK);
+        final long whitePositions = positionReader.getPositions(Color.WHITE);
+        final long blackPositions = positionReader.getPositions(Color.BLACK);
         return wgKnightPair * evaluateByKnightPair(whitePositions, blackPositions) +
                 wgBishopPair * evaluateByBishopPair(whitePositions, blackPositions) +
                 wgRookPair * evaluateByRookPair(whitePositions, blackPositions);
