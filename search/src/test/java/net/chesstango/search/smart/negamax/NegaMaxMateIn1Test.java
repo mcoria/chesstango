@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -15,7 +15,7 @@ public class NegaMaxMateIn1Test extends MateIn1Test {
     @BeforeEach
     public void setup() {
         NegaMax negaMax = new NegaMax();
-        negaMax.setGameEvaluator(new EvaluatorByMaterial());
+        negaMax.setGameEvaluator(new EvaluatorByMaterialPieces());
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.add(negaMax);

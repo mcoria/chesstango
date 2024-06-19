@@ -7,31 +7,16 @@ import net.chesstango.board.position.ChessPositionReader;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
-    private static final int FACTOR_MATERIAL_DEFAULT = 600;
-    private static final int FACTOR_MOVE_DEFAULT = 400;
-    private final int material;
-    private final int legalmoves;
+public class EvaluatorByMaterialPieces extends AbstractEvaluator {
 
-    public EvaluatorByMaterialAndMoves() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_MOVE_DEFAULT);
-    }
-
-    public EvaluatorByMaterialAndMoves(int material, int legalmoves) {
-        this.material = material;
-        this.legalmoves = legalmoves;
-    }
 
     @Override
     public int evaluate() {
-        int evaluation = 0;
         if (game.getStatus().isFinalStatus()) {
             return evaluateFinalStatus();
         } else {
-            evaluation += material * evaluateByMaterial();
-            evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
+            return evaluateByMaterial();
         }
-        return evaluation;
     }
 
 
@@ -76,4 +61,5 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
 
         return evaluation;
     }
+
 }

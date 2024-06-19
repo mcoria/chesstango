@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -182,7 +181,56 @@ public class UciProxyIntegrationTest {
             Thread.sleep(200);
 
             lines = readLastLine(input, line -> line.startsWith("bestmove"));
-            assertTrue(lines.size() > 0);
+            assertFalse(lines.isEmpty());
+        }
+
+        // quit command
+        engine.accept(new CmdQuit());
+        Thread.sleep(200);
+
+        engine.close();
+    }
+
+
+    @Test // Spike crashes
+    @Disabled
+    public void test_SpikeCrash01() throws IOException, InterruptedException {
+        List<String> lines = null;
+        PipedOutputStream posOutput = new PipedOutputStream();
+        PipedInputStream pisOutput = new PipedInputStream(posOutput);
+        BufferedReader input = new BufferedReader(new InputStreamReader(pisOutput));
+
+        engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(new PrintStream(posOutput, true)))));
+        engine.open();
+
+        // uci command
+        engine.accept(new CmdUci());
+        Thread.sleep(200);
+        lines = readLastLine(input, "uciok"::equals);
+
+        // isready command
+        engine.accept(new CmdIsReady());
+        Thread.sleep(200);
+        assertEquals("readyok", input.readLine());
+
+        // ucinewgame command
+        engine.accept(new CmdUciNewGame());
+        Thread.sleep(200);
+
+        String movesStr = "c4d3 f8b4 e1g1 b4c3 b2c3 e8g8 c1a3 d8c7 a3f8 c7h2 g1h2 f6g4 h2g3 d7f6 f8d6 c8b7 d6c5 a8d8 c5a7 b5b4 a7b6 b4c3 b6d8 h7h6 d1b3 c3c2 b3b7 c2c1n a1c1 f6d5 g3g4 f7f5 g4h5 d5f4 e3f4 c6c5 h5g6 g8f8";
+        List<String> moveList = Arrays.asList(movesStr.split(" "));
+
+        for (int i = 0; i < 20; i++) {
+            // startpos command
+            engine.accept(new CmdPosition("r1bqkb1r/p2n1ppp/2p1pn2/1p6/2BP4/2N1PN2/PP3PPP/R1BQK2R w KQkq b6 0 8", moveList.subList(0, i * 2)));
+            Thread.sleep(200);
+
+            // go command
+            engine.accept(new CmdGoDepth().setDepth(2));
+            Thread.sleep(200);
+
+            lines = readLastLine(input, line -> line.startsWith("bestmove"));
+            assertFalse(lines.isEmpty());
         }
 
         // quit command

@@ -135,7 +135,7 @@ public class EngineControllerImp implements EngineController {
                     waitingCounter++;
                 }
                 if (response == null) {
-                    logger.error("Engine has not provided any response after sending: {}", request);
+                    logger.error("Engine {} has not provided any response after sending: {}", engineName, request);
                     throw new RuntimeException("Perhaps engine has closed its output");
                 }
             } catch (InterruptedException e) {

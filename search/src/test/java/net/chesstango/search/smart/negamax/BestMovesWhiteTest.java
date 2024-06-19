@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.smart.AbstractBestMovesWhiteTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -21,7 +21,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         NodeMoveSorter moveSorter = new NodeMoveSorter();
         moveSorter.setMoveComparator(new DefaultMoveComparator());
 
-        Evaluator evaluator = new EvaluatorByMaterial();
+        Evaluator evaluator = new EvaluatorByMaterialPieces();
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
         negaQuiescence.setGameEvaluator(evaluator);

@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class RepetitionTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(new EvaluatorByMaterialPieces())
 
                 .withTranspositionTable()
 

@@ -1,8 +1,8 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.evaluators.EvaluatorImp06;
-import net.chesstango.evaluation.evaluators.EvaluatorImp05;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
+import net.chesstango.evaluation.evaluators.*;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -47,7 +47,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{990, 24, 41, 353, 543, 512}));
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialPieces::new);
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -65,7 +65,7 @@ public class MatchMain {
         //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
 
-        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialCount::new);
 
 
         List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)

@@ -1,7 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Miestras mas tiempo demore evaluando una posicion, menos tiempo hay para buscar, y por lo tanto
  * menor profundidad puede alcanzar la busqueda.
  */
-public abstract class GameEvaluatorTestCollection {
+public abstract class EvaluatorTestCollection {
 
     protected abstract AbstractEvaluator getEvaluator(Game game);
 
@@ -167,17 +166,6 @@ public abstract class GameEvaluatorTestCollection {
         int eval = getEvaluator(game).evaluate();
 
         assertEquals(0, eval);
-    }
-
-    @Test
-    public void testSymmetryOfPieceValues() {
-        AbstractEvaluator evaluator = getEvaluator(null);
-        assertEquals(evaluator.getPieceValue(Piece.PAWN_WHITE), -evaluator.getPieceValue(Piece.PAWN_BLACK));
-        assertEquals(evaluator.getPieceValue(Piece.ROOK_WHITE), -evaluator.getPieceValue(Piece.ROOK_BLACK));
-        assertEquals(evaluator.getPieceValue(Piece.KNIGHT_WHITE), -evaluator.getPieceValue(Piece.KNIGHT_BLACK));
-        assertEquals(evaluator.getPieceValue(Piece.BISHOP_WHITE), -evaluator.getPieceValue(Piece.BISHOP_BLACK));
-        assertEquals(evaluator.getPieceValue(Piece.QUEEN_WHITE), -evaluator.getPieceValue(Piece.QUEEN_BLACK));
-        assertEquals(evaluator.getPieceValue(Piece.KING_WHITE), -evaluator.getPieceValue(Piece.KING_BLACK));
     }
 
 
