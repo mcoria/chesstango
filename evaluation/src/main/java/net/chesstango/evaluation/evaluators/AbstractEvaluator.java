@@ -2,8 +2,6 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.Evaluator;
 
 /**
@@ -21,12 +19,10 @@ public abstract class AbstractEvaluator implements Evaluator {
         };
     }
 
-    abstract int evaluateByMaterial();
-
-    abstract int getPieceValue(Piece piece);
-
     @Override
     public void setGame(Game game) {
         this.game = game;
     }
+
+    protected abstract int evaluateByMaterial();
 }

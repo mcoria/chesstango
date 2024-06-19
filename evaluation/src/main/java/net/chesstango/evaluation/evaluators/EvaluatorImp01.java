@@ -71,8 +71,8 @@ public class EvaluatorImp01 extends AbstractEvaluator {
         return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? +evaluation : -evaluation;
     }
 
-    @Override
-    public int getPieceValue(Piece piece) {
+
+    protected int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;
@@ -89,6 +89,7 @@ public class EvaluatorImp01 extends AbstractEvaluator {
         };
     }
 
+    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

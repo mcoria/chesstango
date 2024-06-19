@@ -50,7 +50,6 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
         return evaluation;
     }
 
-    @Override
     public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 100;
@@ -239,6 +238,7 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
         });
     }
 
+    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

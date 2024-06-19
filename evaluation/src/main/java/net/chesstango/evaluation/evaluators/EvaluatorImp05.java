@@ -92,7 +92,7 @@ public class EvaluatorImp05 extends AbstractEvaluator {
     }
 
 
-    @Override
+
     public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 100;
@@ -290,6 +290,7 @@ public class EvaluatorImp05 extends AbstractEvaluator {
         });
     }
 
+    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
