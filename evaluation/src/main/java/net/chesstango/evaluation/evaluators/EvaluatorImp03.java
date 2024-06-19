@@ -45,7 +45,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
         switch (game.getStatus()) {
             case MATE:
             case STALEMATE:
-                evaluation = evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus();
                 break;
             case CHECK:
                 // If white is on check then evaluation starts at -1
@@ -67,7 +67,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
         return evaluation;
     }
 
-    @Override
+
     public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
@@ -83,6 +83,31 @@ public class EvaluatorImp03 extends AbstractEvaluator {
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
         };
+    }
+
+    @Override
+    protected int evaluateByMaterial() {
+        int evaluation = 0;
+
+        ChessPositionReader positionReader = game.getChessPosition();
+
+        long whitePositions = positionReader.getPositions(Color.WHITE);
+
+        long blackPositions = positionReader.getPositions(Color.BLACK);
+
+        evaluation += Long.bitCount(whitePositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_WHITE);
+
+        evaluation += Long.bitCount(blackPositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_BLACK);
+
+        return evaluation;
     }
 
 }

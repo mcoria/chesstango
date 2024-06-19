@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.MateIn1Test;
@@ -14,7 +14,7 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
     @BeforeEach
     public void setup() {
         this.searchMove = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(new EvaluatorByMaterialPieces())
                 .build();
 
         this.searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
