@@ -2,6 +2,7 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
+import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
@@ -9,17 +10,11 @@ import net.chesstango.board.Piece;
 public class EvaluatorByMaterialCount extends AbstractEvaluator {
     @Override
     public int evaluate() {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
-            case STALEMATE:
-                evaluation = evaluateFinalStatus(game);
-                break;
-            case CHECK:
-            case NO_CHECK:
-                evaluation = evaluateByMaterial();
+        if (game.getStatus().isFinalStatus()) {
+            return evaluateFinalStatus();
+        } else {
+                return evaluateByMaterial();
         }
-        return evaluation;
     }
 
     @Override
@@ -40,7 +35,6 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
         };
     }
 
-    @Override
     protected int evaluateByMaterial() {
         long whitePositions = game.getChessPosition().getPositions(Color.WHITE);
         long blackPositions = game.getChessPosition().getPositions(Color.BLACK);

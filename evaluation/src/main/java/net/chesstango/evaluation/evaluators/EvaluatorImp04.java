@@ -11,8 +11,8 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
- *
+ * <p>
+ * <p>
  * Positions: Balsa_v500.pgn
  * Depth: 1
  * Time elapsed: 980000 ms
@@ -24,16 +24,16 @@ import java.util.Iterator;
  * |   GameEvaluatorSimplifiedEvaluator|      42 |      55 |     1023 |     1093 |     1659 |     1576 |      871.5 |      843.0 |  1714.5 /   5448 |   31.5 |
  * |                          Spike 1.4|    1451 |    1408 |       48 |       70 |     1225 |     1246 |     2063.5 |     2031.0 |  4094.5 /   5448 |   75.2 |
  * --------------------------------------------------------------------------------------------------------------------------------------------------------
- *
- *
+ * <p>
+ * <p>
  * Positions: Balsa_v500.pgn
  * Depth: 2
  * Time elapsed: 88170 ms
- *  ___________________________________________________________________________________________________________________________________________________
+ * ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
  * |                     EvaluatorImp04|      36 |      25 |      423 |      454 |       41 |       21 |       56.5 |       35.5 |  92.0 /1000 |    9.2 |
  * |                          Spike 1.4|     454 |     423 |       25 |       36 |       21 |       41 |      464.5 |      443.5 | 908.0 /1000 |   90.8 |
- *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+ * ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class EvaluatorImp04 extends AbstractEvaluator {
 
@@ -65,12 +65,11 @@ public class EvaluatorImp04 extends AbstractEvaluator {
 
     @Override
     public int evaluate() {
-        return switch (game.getStatus()) {
-            case MATE, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> evaluateFinalStatus(game);
-            case CHECK, NO_CHECK ->
-                    material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
-            default -> throw new RuntimeException(String.format("Unknown game status %s", game.getStatus()));
-        };
+        if (game.getStatus().isFinalStatus()) {
+            return evaluateFinalStatus();
+        } else {
+            return material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
+        }
     }
 
     protected int evaluateByPosition() {
@@ -308,6 +307,30 @@ public class EvaluatorImp04 extends AbstractEvaluator {
             }
 
         });
+    }
+
+    protected int evaluateByMaterial() {
+        int evaluation = 0;
+
+        ChessPositionReader positionReader = game.getChessPosition();
+
+        long whitePositions = positionReader.getPositions(Color.WHITE);
+
+        long blackPositions = positionReader.getPositions(Color.BLACK);
+
+        evaluation += Long.bitCount(whitePositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_WHITE);
+
+        evaluation += Long.bitCount(blackPositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_BLACK);
+
+        return evaluation;
     }
 
 }
