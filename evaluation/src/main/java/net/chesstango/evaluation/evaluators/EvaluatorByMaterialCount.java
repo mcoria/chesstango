@@ -1,7 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
 
 /**
  * @author Mauricio Coria
@@ -12,7 +11,7 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
         if (game.getStatus().isFinalStatus()) {
             return evaluateFinalStatus();
         } else {
-                return evaluateByMaterial();
+            return evaluateByMaterial();
         }
     }
 

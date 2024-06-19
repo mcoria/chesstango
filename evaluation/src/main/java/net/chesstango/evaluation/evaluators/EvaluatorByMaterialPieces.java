@@ -7,22 +7,16 @@ import net.chesstango.board.position.ChessPositionReader;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorByMaterial extends AbstractEvaluator {
+public class EvaluatorByMaterialPieces extends AbstractEvaluator {
 
 
     @Override
     public int evaluate() {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
-            case STALEMATE:
-                evaluation = evaluateFinalStatus();
-                break;
-            case CHECK:
-            case NO_CHECK:
-                evaluation = evaluateByMaterial();
+        if (game.getStatus().isFinalStatus()) {
+            return evaluateFinalStatus();
+        } else {
+            return evaluateByMaterial();
         }
-        return evaluation;
     }
 
 

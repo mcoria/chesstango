@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -23,7 +23,7 @@ public class MoveEvaluationTrackerTest {
     @BeforeEach
     public void setup() {
         this.searchMove = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
+                .withGameEvaluator(new EvaluatorByMaterialPieces())
                 .build();
     }
 

@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -22,7 +22,7 @@ public class NegaMaxPruningGenericTest extends GenericTest {
         moveSorter.setMoveComparator(new DefaultMoveComparator());
 
         NegaQuiescence negaQuiescence = new NegaQuiescence();
-        negaQuiescence.setGameEvaluator(new EvaluatorByMaterial());
+        negaQuiescence.setGameEvaluator(new EvaluatorByMaterialPieces());
         negaQuiescence.setMoveSorter(moveSorter);
 
         NegaMaxPruning negaMaxPruning = new NegaMaxPruning(negaQuiescence);
