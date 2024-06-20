@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 public class MatchMain {
     private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
 
-    private static final MatchType MATCH_TYPE = new MatchByDepth(2);
+    private static final MatchType MATCH_TYPE = new MatchByDepth(3);
     //private static final MatchType MATCH_TYPE = new MatchByTime(200);
     //private static final MatchType MATCH_TYPE = new MatchByClock(1000 * 60 * 3, 1000);
 
@@ -47,7 +47,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialPieces::new);
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialImbalance::new);
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -65,7 +65,7 @@ public class MatchMain {
         //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
 
-        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialCount::new);
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
 
 
         List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)
@@ -107,6 +107,7 @@ public class MatchMain {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
         return fenList;
     }
 
