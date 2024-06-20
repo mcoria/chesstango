@@ -81,11 +81,11 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
     public void testEvaluateByPosition() {
         Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
         evaluator.setGame(game);
-        assertEquals(-218262, evaluator.evaluateByPosition());
+        assertEquals(-218262, evaluator.evaluateByPST());
 
         Game gameMirror = game.mirror();
         evaluator.setGame(gameMirror);
-        assertEquals(218262, evaluator.evaluateByPosition());
+        assertEquals(218262, evaluator.evaluateByPST());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
         Game gameMirror = game.mirror();
         evaluator.setGame(gameMirror);
-        assertEquals(0, evaluator.evaluateByPosition());
+        assertEquals(0, evaluator.evaluateByPST());
     }
 
 

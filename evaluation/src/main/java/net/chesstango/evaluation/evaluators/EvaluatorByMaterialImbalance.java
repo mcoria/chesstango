@@ -30,6 +30,7 @@ public class EvaluatorByMaterialImbalance extends AbstractEvaluator {
 
 
     private static final long BISHOP_PARES = 0xAA55AA55AA55AA55L;
+
     private static final long BISHOP_IMPARES = 0x55AA55AA55AA55AAL;
 
     @Override
@@ -90,13 +91,16 @@ public class EvaluatorByMaterialImbalance extends AbstractEvaluator {
         return switch (piece) {
             case PAWN_WHITE -> 100;
             case PAWN_BLACK -> -100;
-            case KNIGHT_WHITE, BISHOP_WHITE -> 350;
-            case KNIGHT_BLACK, BISHOP_BLACK -> -350;
-            case ROOK_WHITE -> 525;
-            case ROOK_BLACK -> -525;
+            case KNIGHT_WHITE -> 320;
+            case KNIGHT_BLACK -> -320;
+            case BISHOP_WHITE -> 330;
+            case BISHOP_BLACK -> -330;
+            case ROOK_WHITE -> 500;
+            case ROOK_BLACK -> -500;
             case QUEEN_WHITE -> 900;
             case QUEEN_BLACK -> -900;
-            case KING_WHITE, KING_BLACK -> 0;
+            case KING_WHITE -> 20000;
+            case KING_BLACK -> -20000;
         };
     }
 

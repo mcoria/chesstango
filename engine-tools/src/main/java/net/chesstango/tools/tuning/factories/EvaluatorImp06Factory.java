@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Mauricio Coria
+ *
+ *
  */
 @Getter
 public class EvaluatorImp06Factory implements GameEvaluatorFactory {
@@ -37,7 +39,7 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
 
     @Override
     public String toString() {
-        return String.format("[factor1=[%d] factor2=[%d] factor3=[%d] factor4=[%d] factor5=[%d] factor6=[%d]]", weighs[0], weighs[1], weighs[2], weighs[3], weighs[4], weighs[5]);
+        return String.format("[factor1=[%d] factor2=[%d] factor3=[%d]]", weighs[0], weighs[1], weighs[2]);
     }
 
 }
