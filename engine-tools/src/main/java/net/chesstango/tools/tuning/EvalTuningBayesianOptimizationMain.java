@@ -61,7 +61,8 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
         int scalar1 = scalar1Dbl.intValue();
         int scalar2 = scalar2Dbl.intValue();
         int scalar3 = scalar3Dbl.intValue();
-        return fitness(new EvaluatorImp06Factory(new int[]{scalar1, scalar2, scalar3}));
+        //return fitness(new EvaluatorImp0Factory(new int[]{scalar1, scalar2, scalar3}));
+        return 0;
     }
 
 

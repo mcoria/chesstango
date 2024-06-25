@@ -47,7 +47,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{495, 12, 44}));
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp06::new);
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder

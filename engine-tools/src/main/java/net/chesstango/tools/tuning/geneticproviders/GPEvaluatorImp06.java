@@ -45,7 +45,8 @@ public class GPEvaluatorImp06 implements GeneticProvider {
 
         int[] array = integerChromo.toArray();
 
-        return new EvaluatorImp06Factory(array);
+        //return new EvaluatorImp06Factory(array);
+        return null;
     }
 
     /**

@@ -8,42 +8,85 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
- *  ___________________________________________________________________________________________________________________________________________________
+ * <p>
+ * ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
  * |                     EvaluatorImp06|      50 |      42 |      433 |      439 |       17 |       18 |       58.5 |       51.0 | 109.5 /999 |   11.0 |
  * |                          Spike 1.4|     439 |     433 |       42 |       50 |       18 |       17 |      448.0 |      441.5 | 889.5 /999 |   89.0 |
- *  ---------------------------------------------------------------------------------------------------------------------------------------------------
- *
+ * ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class EvaluatorImp06 extends AbstractEvaluator {
 
-    private static final int WEIGH_MATERIAL_DEFAULT = 902;
-    private static final int WEIGH_MG_DEFAULT = 45;
-    private static final int WEIGH_EG_DEFAULT = 43;
-
-    private int wgMaterial;
-    private int wgMidGame;
-    private int wgEndGame;
-
     private static final long BISHOP_PARES = 0xAA55AA55AA55AA55L;
-
     private static final long BISHOP_IMPARES = 0x55AA55AA55AA55AAL;
+
+    private final int wgMaterial;
+    private final int wgMidGame;
+    private final int wgEndGame;
+
+    private final int[] mgPawnTbl;
+    private final int[] mgKnightTbl;
+    private final int[] mgBishopTbl;
+    private final int[] mgRookTbl;
+    private final int[] mgQueenTbl;
+    private final int[] mgKingTbl;
+
+    private final int[] egPawnTbl;
+    private final int[] egKnightTbl;
+    private final int[] egBishopTbl;
+    private final int[] egRookTbl;
+    private final int[] egQueenTbl;
+    private final int[] egKingTbl;
 
     private ChessPositionReader positionReader;
 
     public EvaluatorImp06() {
-        this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT});
+        this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT},
+                MG_PAWN_TBL, MG_KNIGHT_TBL, MG_BISHOP_TBL, MG_ROOK_TBL, MG_QUEEN_TBL, MG_KING_TBL,
+                EG_PAWN_TBL, EG_KNIGHT_TBL, EG_BISHOP_TBL, EG_ROOK_TBL, EG_QUEEN_TBL, EG_KING_TBL);
     }
 
-    public EvaluatorImp06(int[] weighs) {
-        setWeighs(weighs);
-    }
+    public EvaluatorImp06(int[] weighs,
+                          int[] mgPawnTbl, int[] mgKnightTbl, int[] mgBishopTbl, int[] mgRookTbl, int[] mgQueenTbl, int[] mgKingTbl,
+                          int[] egPawnTbl, int[] egKnightTbl, int[] egBishopTbl, int[] egRookTbl, int[] egQueenTbl, int[] egKingTbl) {
 
-    protected void setWeighs(int[] weighs) {
         this.wgMaterial = weighs[0];
         this.wgMidGame = weighs[1];
         this.wgEndGame = weighs[2];
+
+        this.mgPawnTbl = mgPawnTbl;
+        this.mgKnightTbl = mgKnightTbl;
+        this.mgBishopTbl = mgBishopTbl;
+        this.mgRookTbl = mgRookTbl;
+        this.mgQueenTbl = mgQueenTbl;
+        this.mgKingTbl = mgKingTbl;
+
+        this.egPawnTbl = egPawnTbl;
+        this.egKnightTbl = egKnightTbl;
+        this.egBishopTbl = egBishopTbl;
+        this.egRookTbl = egRookTbl;
+        this.egQueenTbl = egQueenTbl;
+        this.egKingTbl = egKingTbl;
+    }
+
+    @Override
+    public void setGame(Game game) {
+        super.setGame(game);
+        game.accept(new GameVisitor() {
+            @Override
+            public void visit(ChessPositionReader chessPositionReader) {
+                positionReader = chessPositionReader;
+            }
+
+            @Override
+            public void visit(GameStateReader gameState) {
+            }
+
+            @Override
+            public void visit(MoveGenerator moveGenerator) {
+            }
+
+        });
     }
 
 
@@ -109,23 +152,6 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         return evaluation;
     }
 
-    protected int getPieceValue(Piece piece) {
-        return switch (piece) {
-            case PAWN_WHITE -> 100;
-            case PAWN_BLACK -> -100;
-            case KNIGHT_WHITE -> 320;
-            case KNIGHT_BLACK -> -320;
-            case BISHOP_WHITE -> 330;
-            case BISHOP_BLACK -> -330;
-            case ROOK_WHITE -> 500;
-            case ROOK_BLACK -> -500;
-            case QUEEN_WHITE -> 900;
-            case QUEEN_BLACK -> -900;
-            case KING_WHITE -> 20000;
-            case KING_BLACK -> -20000;
-        };
-    }
-
     protected int evaluateByPST() {
         int evaluation = 0;
 
@@ -149,27 +175,60 @@ public class EvaluatorImp06 extends AbstractEvaluator {
 
     protected int[] getMgPositionValues(Piece piece) {
         return switch (piece) {
-            case PAWN_WHITE, PAWN_BLACK -> MG_PAWN_TBL;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> MG_KNIGHT_TBL;
-            case BISHOP_WHITE, BISHOP_BLACK -> MG_BISHOP_TBL;
-            case ROOK_WHITE, ROOK_BLACK -> MG_ROOK_TBL;
-            case QUEEN_WHITE, QUEEN_BLACK -> MG_QUEEN_TBL;
-            case KING_WHITE, KING_BLACK -> MG_KING_TBL;
+            case PAWN_WHITE, PAWN_BLACK -> mgPawnTbl;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> mgKnightTbl;
+            case BISHOP_WHITE, BISHOP_BLACK -> mgBishopTbl;
+            case ROOK_WHITE, ROOK_BLACK -> mgRookTbl;
+            case QUEEN_WHITE, QUEEN_BLACK -> mgQueenTbl;
+            case KING_WHITE, KING_BLACK -> mgKingTbl;
         };
     }
 
     protected int[] getEgPositionValues(Piece piece) {
         return switch (piece) {
-            case PAWN_WHITE, PAWN_BLACK -> EG_PAWN_TBL;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> EG_KNIGHT_TBL;
-            case BISHOP_WHITE, BISHOP_BLACK -> EG_BISHOP_TBL;
-            case ROOK_WHITE, ROOK_BLACK -> EG_ROOK_TBL;
-            case QUEEN_WHITE, QUEEN_BLACK -> EG_QUEEN_TBL;
-            case KING_WHITE, KING_BLACK -> EG_KING_TBL;
+            case PAWN_WHITE, PAWN_BLACK -> egPawnTbl;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> egKnightTbl;
+            case BISHOP_WHITE, BISHOP_BLACK -> egBishopTbl;
+            case ROOK_WHITE, ROOK_BLACK -> egRookTbl;
+            case QUEEN_WHITE, QUEEN_BLACK -> egQueenTbl;
+            case KING_WHITE, KING_BLACK -> egKingTbl;
         };
     }
 
-    protected static final int[] MG_PAWN_TBL = new int[]{
+    protected int getPieceValue(Piece piece) {
+        return switch (piece) {
+            case PAWN_WHITE -> PIECES_DEFAULT[0];
+            case PAWN_BLACK -> -PIECES_DEFAULT[0];
+            case KNIGHT_WHITE -> PIECES_DEFAULT[1];
+            case KNIGHT_BLACK -> -PIECES_DEFAULT[1];
+            case BISHOP_WHITE -> PIECES_DEFAULT[2];
+            case BISHOP_BLACK -> -PIECES_DEFAULT[2];
+            case ROOK_WHITE -> PIECES_DEFAULT[3];
+            case ROOK_BLACK -> -PIECES_DEFAULT[3];
+            case QUEEN_WHITE -> PIECES_DEFAULT[4];
+            case QUEEN_BLACK -> -PIECES_DEFAULT[4];
+            case KING_WHITE, KING_BLACK -> 0;
+        };
+    }
+
+
+    /**
+     * Values
+     */
+
+    private static final int WEIGH_MATERIAL_DEFAULT = 902;
+    private static final int WEIGH_MG_DEFAULT = 45;
+    private static final int WEIGH_EG_DEFAULT = 43;
+
+    private static final int[] PIECES_DEFAULT = new int[]{
+            100, // PAWN
+            320, // KNIGHT
+            330, // BISHOP
+            500, // ROOK
+            900, // QUEEN
+    };
+
+    private static final int[] MG_PAWN_TBL = new int[]{
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
             -35, -1, -20, -23, -15, 24, 38, -22,    // Rank 2
             -26, -4, -4, -10, 3, 3, 33, -12,        // Rank 3
@@ -180,7 +239,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 8
     };
 
-    protected static final int[] EG_PAWN_TBL = new int[]{
+    private static final int[] EG_PAWN_TBL = new int[]{
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
             13, 8, 8, 10, 13, 0, 2, -7,             // Rank 2
             4, 7, -6, 1, 0, -5, -1, -8,             // Rank 3
@@ -192,7 +251,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     };
 
 
-    protected static final int[] MG_KNIGHT_TBL = {
+    private static final int[] MG_KNIGHT_TBL = {
             -105, -21, -58, -33, -17, -28, -19, -23,   // Rank 1
             -29, -53, -12, -3, -1, 18, -14, -19,    // Rank 2
             -23, -9, 12, 10, 19, 17, 25, -16,    // Rank 3
@@ -203,7 +262,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -167, -89, -34, -49, 61, -97, -15, -107,   // Rank 8
     };
 
-    protected static final int[] EG_KNIGHT_TBL = {
+    private static final int[] EG_KNIGHT_TBL = {
             -29, -51, -23, -15, -22, -18, -50, -64, // Rank 1
             -42, -20, -10, -5, -2, -20, -23, -44, // Rank 2
             -23, -3, -1, 15, 10, -3, -20, -22, // Rank 3
@@ -215,7 +274,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     };
 
 
-    protected static final int[] MG_BISHOP_TBL = {
+    private static final int[] MG_BISHOP_TBL = {
             -33, -3, -14, -21, -13, -12, -39, -21, // Rank 1
             4, 15, 16, 0, 7, 21, 33, 1,   // Rank 2
             0, 15, 15, 15, 14, 27, 18, 10,   // Rank 3
@@ -226,7 +285,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -29, 4, -82, -37, -25, -42, 7, -8, // Rank 8
     };
 
-    protected static final int[] EG_BISHOP_TBL = {
+    private static final int[] EG_BISHOP_TBL = {
             -23, -9, -23, -5, -9, -16, -5, -17,  // Rank 1
             -14, -18, -7, -1, 4, -9, -15, -27,  // Rank 2
             -12, -3, 8, 10, 13, 3, -7, -15,  // Rank 3
@@ -238,7 +297,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     };
 
 
-    protected static final int[] MG_ROOK_TBL = {
+    private static final int[] MG_ROOK_TBL = {
             -19, -13, 1, 17, 16, 7, -37, -26,   // Rank 1
             -44, -16, -20, -9, -1, 11, -6, -71,   // Rank 2
             -45, -25, -16, -17, 3, 0, -5, -33,   // Rank 3
@@ -249,7 +308,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             32, 42, 32, 51, 63, 9, 31, 43,    // Rank 8
     };
 
-    protected static final int[] EG_ROOK_TBL = {
+    private static final int[] EG_ROOK_TBL = {
             -9, 2, 3, -1, -5, -13, 4, -20,  // Rank 1
             -6, -6, 0, 2, -9, -9, -11, -3,  // Rank 2
             -4, 0, -5, -1, -7, -12, -8, -16,  // Rank 3
@@ -260,8 +319,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             13, 10, 18, 15, 12, 12, 8, 5,  // Rank 8
     };
 
-
-    protected static final int[] MG_QUEEN_TBL = {
+    private static final int[] MG_QUEEN_TBL = {
             -1, -18, -9, 10, -15, -25, -31, -50,      // Rank 1
             -35, -8, 11, 2, 8, 15, -3, 1,     // Rank 2
             -14, 2, -11, -2, -5, 2, 14, 5,     // Rank 3
@@ -272,7 +330,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -28, 0, 29, 12, 59, 44, 43, 45,     // Rank 8
     };
 
-    protected static final int[] EG_QUEEN_TBL = {
+    private static final int[] EG_QUEEN_TBL = {
             -33, -28, -22, -43, -5, -32, -20, -41,     // Rank 1
             -22, -23, -30, -16, -16, -23, -36, -32,     // Rank 2
             -16, -27, 15, 6, 9, 17, 10, 5,     // Rank 3
@@ -283,8 +341,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -9, 22, 22, 27, 27, 19, 10, 20,      // Rank 8
     };
 
-
-    protected static final int[] MG_KING_TBL = {
+    private static final int[] MG_KING_TBL = {
             -15, 36, 12, -54, 8, -28, 24, 14,     // Rank 1
             1, 7, -8, -64, -43, -16, 9, 8,     // Rank 2
             -14, -14, -22, -46, -44, -30, -15, -27,     // Rank 3
@@ -295,7 +352,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -65, 23, 16, -15, -56, -34, 2, 13,     // Rank 8
     };
 
-    protected static final int[] EG_KING_TBL = {
+    private static final int[] EG_KING_TBL = {
             -53, -34, -21, -11, -28, -14, -24, -43,     // Rank 1
             -27, -11, 4, 13, 14, 4, -5, -17,     // Rank 2
             -19, -3, 11, 21, 23, 16, 7, -9,     // Rank 3
@@ -305,26 +362,5 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             -12, 17, 14, 17, 17, 38, 23, 11,     // Rank 7
             -74, -35, -18, -18, -11, 15, 4, -17,     // Rank 8
     };
-
-
-    @Override
-    public void setGame(Game game) {
-        super.setGame(game);
-        game.accept(new GameVisitor() {
-            @Override
-            public void visit(ChessPositionReader chessPositionReader) {
-                positionReader = chessPositionReader;
-            }
-
-            @Override
-            public void visit(GameStateReader gameState) {
-            }
-
-            @Override
-            public void visit(MoveGenerator moveGenerator) {
-            }
-
-        });
-    }
 
 }
