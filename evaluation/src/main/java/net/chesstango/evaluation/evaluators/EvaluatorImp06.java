@@ -9,10 +9,10 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  *
- * ___________________________________________________________________________________________________________________________________________________
+ *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |                     EvaluatorImp06|      59 |      41 |      423 |      438 |       18 |       21 |       68.0 |       51.5 | 119.5 /1000 |   12.0 |
- * |                          Spike 1.4|     438 |     423 |       41 |       59 |       21 |       18 |      448.5 |      432.0 | 880.5 /1000 |   88.1 |
+ * |                     EvaluatorImp06|      50 |      42 |      433 |      439 |       17 |       18 |       58.5 |       51.0 | 109.5 /999 |   11.0 |
+ * |                          Spike 1.4|     439 |     433 |       42 |       50 |       18 |       17 |      448.0 |      441.5 | 889.5 /999 |   89.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  *
  */
@@ -113,13 +113,16 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         return switch (piece) {
             case PAWN_WHITE -> 100;
             case PAWN_BLACK -> -100;
-            case KNIGHT_WHITE, BISHOP_WHITE -> 350;
-            case KNIGHT_BLACK, BISHOP_BLACK -> -350;
-            case ROOK_WHITE -> 525;
-            case ROOK_BLACK -> -525;
+            case KNIGHT_WHITE -> 320;
+            case KNIGHT_BLACK -> -320;
+            case BISHOP_WHITE -> 330;
+            case BISHOP_BLACK -> -330;
+            case ROOK_WHITE -> 500;
+            case ROOK_BLACK -> -500;
             case QUEEN_WHITE -> 900;
             case QUEEN_BLACK -> -900;
-            case KING_WHITE, KING_BLACK -> 0;
+            case KING_WHITE -> 20000;
+            case KING_BLACK -> -20000;
         };
     }
 

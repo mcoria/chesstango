@@ -1,8 +1,7 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterialImbalance;
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
+import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.evaluation.evaluators.EvaluatorImp05;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
 import net.chesstango.uci.arena.MatchMultiple;
@@ -48,7 +47,7 @@ public class MatchMain {
      */
     public static void main(String[] args) {
         Supplier<EngineController> tangoSupplier = () ->
-                EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialImbalance::new);
+                EngineControllerFactory.createTangoControllerWithDefaultSearch(() -> new EvaluatorImp06(new int[]{495, 12, 44}));
                         /*
                         .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class,
                         builder -> builder
@@ -66,7 +65,7 @@ public class MatchMain {
         //Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
 
-        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorByMaterialPieces::new);
+        Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createTangoControllerWithDefaultSearch(EvaluatorImp05::new);
 
 
         List<MatchResult> matchResult = new MatchMain(tangoSupplier, opponentSupplier)
@@ -106,8 +105,8 @@ public class MatchMain {
         //List<String> fenList =  List.of(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
         return fenList;
     }
