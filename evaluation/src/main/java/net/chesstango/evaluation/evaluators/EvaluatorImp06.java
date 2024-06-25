@@ -8,6 +8,13 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
+ *
+ *  ___________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+ * |                     EvaluatorImp06|      50 |      42 |      433 |      439 |       17 |       18 |       58.5 |       51.0 | 109.5 /999 |   11.0 |
+ * |                          Spike 1.4|     439 |     433 |       42 |       50 |       18 |       17 |      448.0 |      441.5 | 889.5 /999 |   89.0 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+ *
  */
 public class EvaluatorImp06 extends AbstractEvaluator {
 
@@ -15,21 +22,18 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     private static final int WEIGH_MG_DEFAULT = 45;
     private static final int WEIGH_EG_DEFAULT = 43;
 
-    private static final int WEIGH_KNIGHT_PAIR = 0;
-    private static final int WEIGH_BISHOP_PAIR = 0;
-    private static final int WEIGH_ROOK_PAIR = 0;
-
     private int wgMaterial;
     private int wgMidGame;
     private int wgEndGame;
-    private int wgKnightPair;
-    private int wgBishopPair;
-    private int wgRookPair;
+
+    private static final long BISHOP_PARES = 0xAA55AA55AA55AA55L;
+
+    private static final long BISHOP_IMPARES = 0x55AA55AA55AA55AAL;
 
     private ChessPositionReader positionReader;
 
     public EvaluatorImp06() {
-        this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT, WEIGH_KNIGHT_PAIR, WEIGH_BISHOP_PAIR, WEIGH_ROOK_PAIR});
+        this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT});
     }
 
     public EvaluatorImp06(int[] weighs) {
@@ -40,9 +44,6 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         this.wgMaterial = weighs[0];
         this.wgMidGame = weighs[1];
         this.wgEndGame = weighs[2];
-        this.wgKnightPair = weighs[3];
-        this.wgBishopPair = weighs[4];
-        this.wgRookPair = weighs[5];
     }
 
 
@@ -51,12 +52,64 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         if (game.getStatus().isFinalStatus()) {
             return evaluateFinalStatus();
         } else {
-            return wgMaterial * evaluateByMaterial() + evaluateByPST() + evaluateByPairsTapered();
+            return wgMaterial * evaluateByMaterial() + evaluateByPST();
         }
     }
 
+    @Override
+    protected int evaluateByMaterial() {
+        int evaluation = 0;
 
-    public int getPieceValue(Piece piece) {
+        ChessPositionReader positionReader = game.getChessPosition();
+
+        long whitePositions = positionReader.getPositions(Color.WHITE);
+
+        long blackPositions = positionReader.getPositions(Color.BLACK);
+
+
+        /**
+         * Whites
+         */
+        evaluation += Long.bitCount(whitePositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_WHITE);
+        evaluation += Long.bitCount(whitePositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_WHITE);
+
+        long whiteBishopPositions = whitePositions & positionReader.getBishopPositions();
+        if (whiteBishopPositions != 0) {
+            if ((BISHOP_PARES & whiteBishopPositions) != 0) {
+                evaluation += getPieceValue(Piece.BISHOP_WHITE) + Long.bitCount(blackPositions & BISHOP_PARES);
+            }
+
+            if ((BISHOP_IMPARES & whiteBishopPositions) != 0) {
+                evaluation += getPieceValue(Piece.BISHOP_WHITE) + Long.bitCount(blackPositions & BISHOP_IMPARES);
+            }
+        }
+
+
+        /**
+         * Blacks
+         */
+        evaluation += Long.bitCount(blackPositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_BLACK);
+        evaluation += Long.bitCount(blackPositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_BLACK);
+
+        long blackBishopPositions = blackPositions & positionReader.getBishopPositions();
+        if (blackBishopPositions != 0) {
+            if ((BISHOP_PARES & blackBishopPositions) != 0) {
+                evaluation += getPieceValue(Piece.BISHOP_BLACK) - Long.bitCount(whitePositions & BISHOP_PARES);
+            }
+
+            if ((BISHOP_IMPARES & blackBishopPositions) != 0) {
+                evaluation += getPieceValue(Piece.BISHOP_BLACK) - Long.bitCount(whitePositions & BISHOP_IMPARES);
+            }
+        }
+
+        return evaluation;
+    }
+
+    protected int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 100;
             case PAWN_BLACK -> -100;
@@ -72,69 +125,6 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             case KING_BLACK -> -20000;
         };
     }
-
-    protected int evaluateByPairsTapered() {
-        final int numberOfPieces = Long.bitCount(positionReader.getAllPositions());
-        return wgEndGame * (32 - numberOfPieces) * evaluateByPairs();
-    }
-
-    protected int evaluateByPairs() {
-        final long whitePositions = positionReader.getPositions(Color.WHITE);
-        final long blackPositions = positionReader.getPositions(Color.BLACK);
-        return wgKnightPair * evaluateByKnightPair(whitePositions, blackPositions) +
-                wgBishopPair * evaluateByBishopPair(whitePositions, blackPositions) +
-                wgRookPair * evaluateByRookPair(whitePositions, blackPositions);
-    }
-
-
-    protected int evaluateByKnightPair(long whitePositions, long blackPositions) {
-        int evaluation = 0;
-
-        long knightPositions = positionReader.getKnightPositions();
-
-        if (Long.bitCount(whitePositions & knightPositions) > 1) {
-            evaluation++;
-        }
-
-        if (Long.bitCount(blackPositions & knightPositions) > 1) {
-            evaluation--;
-        }
-
-        return evaluation;
-    }
-
-    protected int evaluateByBishopPair(long whitePositions, long blackPositions) {
-        int evaluation = 0;
-
-        long bishopPositions = positionReader.getBishopPositions();
-
-        if (Long.bitCount(whitePositions & bishopPositions) > 1) {
-            evaluation++;
-        }
-
-        if (Long.bitCount(blackPositions & bishopPositions) > 1) {
-            evaluation--;
-        }
-
-        return evaluation;
-    }
-
-    protected int evaluateByRookPair(long whitePositions, long blackPositions) {
-        int evaluation = 0;
-
-        long rookPositions = positionReader.getRookPositions();
-
-        if (Long.bitCount(whitePositions & rookPositions) > 1) {
-            evaluation++;
-        }
-
-        if (Long.bitCount(blackPositions & rookPositions) > 1) {
-            evaluation--;
-        }
-
-        return evaluation;
-    }
-
 
     protected int evaluateByPST() {
         int evaluation = 0;
@@ -156,7 +146,6 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         }
         return evaluation;
     }
-
 
     protected int[] getMgPositionValues(Piece piece) {
         return switch (piece) {
@@ -336,31 +325,6 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             }
 
         });
-    }
-
-    @Override
-    protected int evaluateByMaterial() {
-        int evaluation = 0;
-
-        ChessPositionReader positionReader = game.getChessPosition();
-
-        long whitePositions = positionReader.getPositions(Color.WHITE);
-
-        long blackPositions = positionReader.getPositions(Color.BLACK);
-
-        evaluation += Long.bitCount(whitePositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_WHITE);
-        evaluation += Long.bitCount(whitePositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_WHITE);
-        evaluation += Long.bitCount(whitePositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_WHITE);
-        evaluation += Long.bitCount(whitePositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_WHITE);
-        evaluation += Long.bitCount(whitePositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_WHITE);
-
-        evaluation += Long.bitCount(blackPositions & positionReader.getRookPositions()) * getPieceValue(Piece.ROOK_BLACK);
-        evaluation += Long.bitCount(blackPositions & positionReader.getKnightPositions()) * getPieceValue(Piece.KNIGHT_BLACK);
-        evaluation += Long.bitCount(blackPositions & positionReader.getBishopPositions()) * getPieceValue(Piece.BISHOP_BLACK);
-        evaluation += Long.bitCount(blackPositions & positionReader.getQueenPositions()) * getPieceValue(Piece.QUEEN_BLACK);
-        evaluation += Long.bitCount(blackPositions & positionReader.getPawnPositions()) * getPieceValue(Piece.PAWN_BLACK);
-
-        return evaluation;
     }
 
 }

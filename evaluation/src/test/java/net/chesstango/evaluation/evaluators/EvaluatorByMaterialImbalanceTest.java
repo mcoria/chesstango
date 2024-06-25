@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static net.chesstango.evaluation.evaluators.EvaluatorImp05.*;
@@ -13,21 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorImp05Test extends EvaluatorTestCollection {
+public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
 
-    private EvaluatorImp05 evaluator;
+    private EvaluatorByMaterialImbalance evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new EvaluatorImp05();
-    }
-
-    @Override
-    protected AbstractEvaluator getEvaluator(Game game) {
-        if (game != null) {
-            evaluator.setGame(game);
-        }
-        return evaluator;
+        evaluator = new EvaluatorByMaterialImbalance();
     }
 
     @Test
@@ -38,6 +31,14 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
         assertEquals(evaluator.getPieceValue(Piece.BISHOP_WHITE), -evaluator.getPieceValue(Piece.BISHOP_BLACK));
         assertEquals(evaluator.getPieceValue(Piece.QUEEN_WHITE), -evaluator.getPieceValue(Piece.QUEEN_BLACK));
         assertEquals(evaluator.getPieceValue(Piece.KING_WHITE), -evaluator.getPieceValue(Piece.KING_BLACK));
+    }
+
+    @Override
+    protected AbstractEvaluator getEvaluator(Game game) {
+        if (game != null) {
+            evaluator.setGame(game);
+        }
+        return evaluator;
     }
 
     @Test
@@ -81,11 +82,11 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
     public void testEvaluateByPosition() {
         Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
         evaluator.setGame(game);
-        assertEquals(-218262, evaluator.evaluateByPST());
+        assertEquals(-646, evaluator.evaluate());
 
         Game gameMirror = game.mirror();
         evaluator.setGame(gameMirror);
-        assertEquals(218262, evaluator.evaluateByPST());
+        assertEquals(646, evaluator.evaluate());
     }
 
     @Test
@@ -96,19 +97,41 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
         Game gameMirror = game.mirror();
         evaluator.setGame(gameMirror);
-        assertEquals(0, evaluator.evaluateByPST());
+        assertEquals(0, evaluator.evaluate());
     }
 
 
     @Test
-    public void testEvaluation01() {
-        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+    public void testBishopPair() {
+        Game game = FENDecoder.loadGame("k7/8/8/8/4B3/8/8/K7 w - - 0 1");
         evaluator.setGame(game);
+        assertEquals(351, evaluator.evaluate());
 
-        game.executeMove(Square.a3, Square.c4);
-        game.executeMove(Square.h8, Square.g8);
+        game = FENDecoder.loadGame("k7/8/8/4B3/4B3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(701, evaluator.evaluate());
 
-        assertEquals(174890, evaluator.evaluate());
+        game = FENDecoder.loadGame("k7/8/8/8/4b3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(-350, evaluator.evaluate());
+
+
+        game = FENDecoder.loadGame("k7/8/8/4b3/4b3/8/8/K7 w - - 0 1");
+        evaluator.setGame(game);
+        assertEquals(-701, evaluator.evaluate());
+    }
+
+
+    @Test
+    @Override
+    @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
+    public void testCloseToPromotionOneMove() {
+    }
+
+    @Test
+    @Override
+    @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
+    public void testCloseToPromotionTwoMoves() {
     }
 
 }

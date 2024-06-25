@@ -52,7 +52,7 @@ public class MatchMultiple {
     public List<MatchResult> play(List<String> fenList) {
         int availableCores = Runtime.getRuntime().availableProcessors();
 
-        try (ExecutorService executor = Executors.newFixedThreadPool(availableCores)) {
+        try (ExecutorService executor = Executors.newFixedThreadPool(availableCores - 1)) {
 
             createPlayTasks(fenList, controllerPool1, controllerPool2)
                     .forEach(executor::submit);
