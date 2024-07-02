@@ -3,6 +3,7 @@ package net.chesstango.tools.tuning;
 import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
+import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp06;
@@ -75,6 +76,7 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
 
     private long fitness(Genotype<IntegerGene> genotype) {
-        return fitness(geneticProvider.createGameEvaluatorFactors(genotype));
+        GameEvaluatorFactory gameEvaluatorFactory = geneticProvider.createGameEvaluatorFactors(genotype);
+        return fitness(gameEvaluatorFactory);
     }
 }

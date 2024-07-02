@@ -10,5 +10,5 @@ public interface GameEvaluatorFactory {
 
     String getKey();
 
-    void dump(long points);
+    void dump();
 }

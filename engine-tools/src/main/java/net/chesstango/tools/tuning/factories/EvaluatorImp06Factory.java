@@ -1,10 +1,15 @@
 package net.chesstango.tools.tuning.factories;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * @author Mauricio Coria
@@ -14,6 +19,8 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
     public static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(EvaluatorImp06Factory.class);
+
+    private final String key;
 
     private final int[] weighs;
 
@@ -34,6 +41,8 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
     public EvaluatorImp06Factory(int[] weighs,
                                  int[] mgPawnTbl, int[] mgKnightTbl, int[] mgBishopTbl, int[] mgRookTbl, int[] mgQueenTbl, int[] mgKingTbl,
                                  int[] egPawnTbl, int[] egKnightTbl, int[] egBishopTbl, int[] egRookTbl, int[] egQueenTbl, int[] egKingTbl) {
+        this.key = String.format("%s-eval", UUID.randomUUID());
+
         this.weighs = weighs;
 
         this.mgPawnTbl = mgPawnTbl;
@@ -60,16 +69,23 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
 
     @Override
     public String getKey() {
-        return toString();
+        return key;
     }
 
     @Override
-    public void dump(long points) {
+    public void dump() {
+        GsonBuilder builder = new GsonBuilder();
+
+        Gson gson = builder.create();
+
+        TheJson theJson = new TheJson(weighs, mgPawnTbl);
+
+        String jsonString = gson.toJson(theJson);
+
+        logger.info("Tables {} - {}", key, jsonString);
     }
 
-    @Override
-    public String toString() {
-        return String.format("[factor1=[%d] factor2=[%d] factor3=[%d]]", weighs[0], weighs[1], weighs[2]);
+    public record TheJson(int[] weighs, int[] mgPawnTbl) implements Serializable {
     }
 
 }

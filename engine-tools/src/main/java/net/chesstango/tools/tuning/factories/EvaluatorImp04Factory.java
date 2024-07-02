@@ -3,7 +3,6 @@ package net.chesstango.tools.tuning.factories;
 import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +41,7 @@ public class EvaluatorImp04Factory implements GameEvaluatorFactory {
     }
 
     @Override
-    public void dump(long points) {
+    public void dump() {
 
     }
 

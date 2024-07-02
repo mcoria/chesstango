@@ -17,11 +17,26 @@ import java.util.List;
 public class GPEvaluatorImp06 implements GeneticProvider {
     private static final int CONSTRAINT_MAX_VALUE = 1000;
 
-    private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
+    private static final IntRange weighRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
+    private static final IntRange tableRange = IntRange.of(-CONSTRAINT_MAX_VALUE, CONSTRAINT_MAX_VALUE);
 
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
-        return Genotype.of(IntegerChromosome.of(geneRange, 6));
+        return Genotype.of(
+                IntegerChromosome.of(weighRange, 3),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64),
+                IntegerChromosome.of(tableRange, 64)
+        );
     }
 
     @Override
@@ -39,14 +54,30 @@ public class GPEvaluatorImp06 implements GeneticProvider {
 
     @Override
     public GameEvaluatorFactory createGameEvaluatorFactors(Genotype<IntegerGene> genotype) {
-        Chromosome<IntegerGene> chromo1 = genotype.chromosome();
+        int[] weighs = chromosomeToArray(genotype.get(0));
 
-        IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
+        int[] mgPawnTbl = chromosomeToArray(genotype.get(1));
+        int[] mgKnightTbl = chromosomeToArray(genotype.get(2));
+        int[] mgBishopTbl = chromosomeToArray(genotype.get(3));
+        int[] mgRookTbl = chromosomeToArray(genotype.get(4));
+        int[] mgQueenTbl = chromosomeToArray(genotype.get(5));
+        int[] mgKingTbl = chromosomeToArray(genotype.get(6));
 
-        int[] array = integerChromo.toArray();
+        int[] egPawnTbl = chromosomeToArray(genotype.get(7));
+        int[] egKnightTbl = chromosomeToArray(genotype.get(8));
+        int[] egBishopTbl = chromosomeToArray(genotype.get(9));
+        int[] egRookTbl = chromosomeToArray(genotype.get(10));
+        int[] egQueenTbl = chromosomeToArray(genotype.get(11));
+        int[] egKingTbl = chromosomeToArray(genotype.get(12));
 
-        //return new EvaluatorImp06Factory(array);
-        return null;
+        return new EvaluatorImp06Factory(weighs,
+                mgPawnTbl, mgKnightTbl, mgBishopTbl, mgRookTbl, mgQueenTbl, mgKingTbl,
+                egPawnTbl, egKnightTbl, egBishopTbl, egRookTbl, egQueenTbl, egKingTbl);
+    }
+
+    private int[] chromosomeToArray(Chromosome<IntegerGene> chromosome) {
+        IntegerChromosome intChromosome = chromosome.as(IntegerChromosome.class);
+        return intChromosome.toArray();
     }
 
     /**
@@ -55,6 +86,7 @@ public class GPEvaluatorImp06 implements GeneticProvider {
      * @return
      */
     private Phenotype<IntegerGene, Long> createPhenotype(int weigh1, int weigh2, int weigh3) {
+        /*
         return Phenotype.of(
                 Genotype.of(
                         IntegerChromosome.of(
@@ -63,6 +95,8 @@ public class GPEvaluatorImp06 implements GeneticProvider {
                                 IntegerGene.of(weigh3, geneRange)
                         )
                 ), 1);
+        */
+        return null;
     }
 
 

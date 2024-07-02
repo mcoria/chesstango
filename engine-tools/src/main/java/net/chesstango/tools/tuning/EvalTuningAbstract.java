@@ -34,7 +34,7 @@ public abstract class EvalTuningAbstract {
 
             points = fitnessFn.fitness(gameEvaluatorFactory::createGameEvaluator);
 
-            gameEvaluatorFactory.dump(points);
+            gameEvaluatorFactory.dump();
 
             fitnessMemory.put(keyGenes, points);
         } else {

@@ -32,7 +32,7 @@ public class EvaluatorImp05Factory implements GameEvaluatorFactory {
     }
 
     @Override
-    public void dump(long points) {
+    public void dump() {
     }
 
     @Override
