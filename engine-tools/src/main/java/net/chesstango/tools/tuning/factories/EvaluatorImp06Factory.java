@@ -8,7 +8,6 @@ import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -78,14 +77,14 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
 
         Gson gson = builder.create();
 
-        TheJson theJson = new TheJson(weighs, mgPawnTbl);
+        EvaluatorImp06.EvaluatorImp06Tables obj = new EvaluatorImp06.EvaluatorImp06Tables(weighs,
+                mgPawnTbl, mgKnightTbl, mgBishopTbl, mgRookTbl, mgQueenTbl, mgKingTbl,
+                egPawnTbl, egKnightTbl, egBishopTbl, egRookTbl, egQueenTbl, egKingTbl);
 
-        String jsonString = gson.toJson(theJson);
+        String jsonString = gson.toJson(obj);
 
         logger.info("Tables {} - {}", key, jsonString);
     }
 
-    public record TheJson(int[] weighs, int[] mgPawnTbl) implements Serializable {
-    }
 
 }

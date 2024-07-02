@@ -4,4 +4,5 @@ module net.chesstango.evaluation {
     requires net.chesstango.board;
 
     requires static lombok;
+    requires com.google.gson;
 }
