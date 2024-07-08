@@ -88,13 +88,6 @@
                         </filter>
                     </filters>
                     <finalName>chesstango-lichess</finalName>
-                    <!--
-                    <artifactSet>
-                        <excludes>
-                            <exclude>com.fasterxml.jackson.core:*</exclude>
-                        </excludes>
-                    </artifactSet>
-                    -->
                 </configuration>
             </plugin>
         </plugins>

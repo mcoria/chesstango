@@ -1,6 +1,6 @@
 package net.chesstango.evaluation.evaluators;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
@@ -8,7 +8,6 @@ import net.chesstango.board.position.ChessPositionReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Iterator;
 
 /**
@@ -261,12 +260,14 @@ public class EvaluatorImp06 extends AbstractEvaluator {
                                        int[] egKingTbl) {
 
         public static EvaluatorImp06Tables readValues() {
-            Gson gson = new Gson();
             try (InputStream inputStream = EvaluatorImp06Tables.class.getClassLoader()
                     .getResourceAsStream("b7d29d83-4c4b-4b00-813b-b54a256a71b3-eval.json");
-                 Reader reader = new InputStreamReader(inputStream);) {
+                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
 
-                return gson.fromJson(reader, EvaluatorImp06Tables.class);
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                return objectMapper.readValue(inputStreamReader, EvaluatorImp06Tables.class);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

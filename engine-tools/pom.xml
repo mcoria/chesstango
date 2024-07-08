@@ -31,10 +31,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.jenetics</groupId>
             <artifactId>jenetics</artifactId>
         </dependency>

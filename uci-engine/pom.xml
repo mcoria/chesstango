@@ -85,13 +85,6 @@
                         </filter>
                     </filters>
                     <finalName>chesstango-uci</finalName>
-                    <!--
-                    <artifactSet>
-                        <excludes>
-                            <exclude>com.fasterxml.jackson.core:*</exclude>
-                        </excludes>
-                    </artifactSet>
-                    -->
                 </configuration>
             </plugin>
         </plugins>

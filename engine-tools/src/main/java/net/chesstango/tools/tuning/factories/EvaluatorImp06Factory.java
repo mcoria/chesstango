@@ -1,7 +1,7 @@
 package net.chesstango.tools.tuning.factories;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorImp06;
@@ -73,18 +73,17 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
 
     @Override
     public void dump() {
-        GsonBuilder builder = new GsonBuilder();
-
-        Gson gson = builder.create();
-
         EvaluatorImp06.EvaluatorImp06Tables obj = new EvaluatorImp06.EvaluatorImp06Tables(weighs,
                 mgPawnTbl, mgKnightTbl, mgBishopTbl, mgRookTbl, mgQueenTbl, mgKingTbl,
                 egPawnTbl, egKnightTbl, egBishopTbl, egRookTbl, egQueenTbl, egKingTbl);
 
-        String jsonString = gson.toJson(obj);
-
-        logger.info("Tables {} - {}", key, jsonString);
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = mapper.writeValueAsString(obj);
+            logger.info("Tables {} - {}", key, jsonString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
 }
