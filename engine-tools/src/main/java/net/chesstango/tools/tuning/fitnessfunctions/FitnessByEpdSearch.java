@@ -69,7 +69,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
 
-        return epdSearchResults.stream()
+        return epdSearchResults
+                .stream()
                 .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epdEntry(), epdSearchResult.searchResult()))
                 .sum();
     }
@@ -90,7 +91,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
 
     protected long getPoints(EpdEntry epdEntry, SearchMoveResult searchMoveResult) {
-        List<Move> bestMoveList = searchMoveResult.getSearchByDepthResultList()
+        List<Move> bestMoveList = searchMoveResult
+                .getSearchByDepthResultList()
                 .stream()
                 .map(SearchByDepthResult::getBestMove)
                 .toList();

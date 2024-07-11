@@ -85,7 +85,7 @@ public class Tango {
     public void setPosition(String fen, List<String> moves) {
         if (currentSession == null ||
                 currentSession.getGame() != null &&
-                !Objects.equals(fen, currentSession.getInitialFen())) {
+                        !Objects.equals(fen, currentSession.getInitialFen())) {
             newGame();
         }
         currentSession.setPosition(fen, moves);
@@ -114,9 +114,7 @@ public class Tango {
 
     private static Properties loadProperties() {
         Properties properties;
-        InputStream inputStream = null;
-        try {
-            inputStream = Tango.class.getResourceAsStream("/chesstango.properties");
+        try (InputStream inputStream = Tango.class.getClassLoader().getResourceAsStream("chesstango.properties");) {
             // create Properties class object
             properties = new Properties();
             // load properties file into it
@@ -124,14 +122,6 @@ public class Tango {
         } catch (IOException e) {
             e.printStackTrace(System.err);
             throw new RuntimeException(e);
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
         return properties;
     }

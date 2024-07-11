@@ -9,7 +9,7 @@ import net.chesstango.board.Square;
  */
 public class MirrorBuilder<T> implements ChessRepresentationBuilder<T> {
 
-    private ChessRepresentationBuilder<T> chessPositionBuilder;
+    private final ChessRepresentationBuilder<T> chessPositionBuilder;
 
     public MirrorBuilder(ChessRepresentationBuilder<T> chessPositionBuilder) {
         this.chessPositionBuilder = chessPositionBuilder;

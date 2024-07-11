@@ -250,17 +250,6 @@ public class FENEncoderTest {
 
 
 	@Test
-	public void test_encode_without_clocks(){
-		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-		game.getChessPosition().constructChessPositionRepresentation(coder);
-
-		String fenWithoutClocks = coder.getFENWithoutClocks();
-
-		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", fenWithoutClocks);
-	}
-
-	@Test
 	public void test_encode_zobrist(){
 		Game game = FENDecoder.loadGame("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3");
 

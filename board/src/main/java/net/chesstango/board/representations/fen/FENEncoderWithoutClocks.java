@@ -1,21 +1,16 @@
 package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
+public class FENEncoderWithoutClocks extends AbstractChessRepresentationBuilder<String> {
 
     @Override
     public String getChessRepresentation() {
-        return getFEN(new StringBuilder(70));
-    }
-
-    public String getFENZobrist() {
         StringBuilder stringBuilder = new StringBuilder(70);
 
         getPiecePlacement(stringBuilder).append(' ');
@@ -24,35 +19,17 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
 
         getEnroques(stringBuilder).append(' ');
 
-        getEnPassantZobrist(stringBuilder);
+        getEnPassant(stringBuilder);
 
         return stringBuilder.toString();
     }
 
-    public String getFEN(StringBuilder stringBuilder) {
-        getPiecePlacement(stringBuilder).append(' ');
 
-        getTurno(stringBuilder).append(' ');
-
-        getEnroques(stringBuilder).append(' ');
-
-        getEnPassant(stringBuilder).append(' ');
-
-        getClocks(stringBuilder);
-
-        return stringBuilder.toString();
-    }
-
-    private void getClocks(StringBuilder stringBuilder) {
-        stringBuilder.append(this.halfMoveClock + " " + this.fullMoveClock);
-    }
-
-
-    public StringBuilder getTurno(StringBuilder stringBuilder) {
+    protected StringBuilder getTurno(StringBuilder stringBuilder) {
         return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
     }
 
-    public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
+    protected StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
         for (int i = 7; i >= 0; i--) {
             codePiecePlacementRank(board[i], stringBuilder);
             if (i > 0) {
@@ -62,30 +39,7 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
         return stringBuilder;
     }
 
-    private StringBuilder getEnPassantZobrist(StringBuilder stringBuilder) {
-        if (enPassantSquare == null) {
-            stringBuilder.append('-');
-        } else {
-            if (Color.WHITE.equals(turn)) {
-                if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
-                        || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
-                    stringBuilder.append(enPassantSquare);
-                } else {
-                    stringBuilder.append('-');
-                }
-            } else {
-                if (enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
-                        || enPassantSquare.getFile() + 1 < 8 && board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK) {
-                    stringBuilder.append(enPassantSquare);
-                } else {
-                    stringBuilder.append('-');
-                }
-            }
-        }
-        return stringBuilder;
-    }
-
-    public StringBuilder getEnPassant(StringBuilder stringBuilder) {
+    protected StringBuilder getEnPassant(StringBuilder stringBuilder) {
         if (enPassantSquare == null) {
             stringBuilder.append('-');
         } else {
@@ -94,7 +48,7 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
         return stringBuilder;
     }
 
-    public StringBuilder getEnroques(StringBuilder stringBuilder) {
+    protected StringBuilder getEnroques(StringBuilder stringBuilder) {
         if (castlingWhiteKingAllowed) {
             stringBuilder.append('K');
         }
@@ -182,12 +136,6 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
                 throw new RuntimeException("Falta pieza");
         }
         return result;
-    }
-
-    public static String encodeGame(Game game) {
-        FENEncoder encoder = new FENEncoder();
-        game.getChessPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation();
     }
 
 }

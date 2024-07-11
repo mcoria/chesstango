@@ -44,32 +44,42 @@ public class FENDecoder {
         String halfMoveClock = matcher.group("halfMoveClock");
         String fullMoveClock = matcher.group("fullMoveClock");
 
-        parsePiecePlacement(piecePlacement);
+        FEN fen = new FEN(piecePlacement,
+                activeColor,
+                castingsAllowed,
+                enPassantSquare,
+                halfMoveClock,
+                fullMoveClock);
 
-        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
+        parseFEN(fen);
+    }
 
-        chessRepresentationBuilder.withTurn(parseTurn(activeColor));
+    public void parseFEN(FEN fen) {
+        parsePiecePlacement(fen.piecePlacement());
 
-        if (isCastlingWhiteQueenAllowed(castingsAllowed)) {
+        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(fen.enPassantSquare()));
+
+        chessRepresentationBuilder.withTurn(parseTurn(fen.activeColor()));
+
+        if (isCastlingWhiteQueenAllowed(fen.castingsAllowed())) {
             chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
         }
 
-        if (isCastlingWhiteKingAllowed(castingsAllowed)) {
+        if (isCastlingWhiteKingAllowed(fen.castingsAllowed())) {
             chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
         }
 
-        if (isCastlingBlackQueenAllowed(castingsAllowed)) {
+        if (isCastlingBlackQueenAllowed(fen.castingsAllowed())) {
             chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
         }
 
-        if (isCastlingBlackKingAllowed(castingsAllowed)) {
+        if (isCastlingBlackKingAllowed(fen.castingsAllowed())) {
             chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
         }
 
-        chessRepresentationBuilder.withHalfMoveClock(halfMoveClock == null ? 0 : Integer.parseInt(halfMoveClock));
+        chessRepresentationBuilder.withHalfMoveClock(fen.halfMoveClock() == null ? 0 : Integer.parseInt(fen.halfMoveClock()));
 
-        chessRepresentationBuilder.withFullMoveClock(fullMoveClock == null ? 1 : Integer.parseInt(fullMoveClock));
-
+        chessRepresentationBuilder.withFullMoveClock(fen.fullMoveClock() == null ? 1 : Integer.parseInt(fen.fullMoveClock()));
     }
 
     public void parsePiecePlacement(String piecePlacement) {
