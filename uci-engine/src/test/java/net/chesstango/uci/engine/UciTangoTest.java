@@ -155,10 +155,4 @@ public class UciTangoTest {
 
         consumer2.accept("B");
     }
-
-    private String fenCode(Game board) {
-        FENEncoder coder = new FENEncoder();
-        board.getChessPosition().constructChessPositionRepresentation(coder);
-        return coder.getChessRepresentation();
-    }
 }

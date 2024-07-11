@@ -97,7 +97,7 @@ public class GameMockLoader {
 
             FENEncoder fenEncoder = new FENEncoder();
             node.position.constructChessPositionRepresentation(fenEncoder);
-            String fenFromPosition = fenEncoder.getChessRepresentation();
+            String fenFromPosition = fenEncoder.getChessRepresentation().toString();
 
             if (node.fen == null) {
                 node.fen = fenFromPosition;

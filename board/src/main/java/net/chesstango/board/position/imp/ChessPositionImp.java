@@ -260,7 +260,7 @@ public class ChessPositionImp implements ChessPosition {
 
         constructChessPositionRepresentation(fenEncoder);
 
-        return fenEncoder.getChessRepresentation();
+        return fenEncoder.getChessRepresentation().toString();
     }
 
 }

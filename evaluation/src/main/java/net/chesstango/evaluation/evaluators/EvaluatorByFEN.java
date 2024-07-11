@@ -33,7 +33,7 @@ public class EvaluatorByFEN implements Evaluator {
 
         game.getChessPosition().constructChessPositionRepresentation(fenEncoder);
 
-        String fen = fenEncoder.getChessRepresentation();
+        String fen = fenEncoder.getChessRepresentation().toString();
 
         Integer evaluation = evaluations.get(fen);
 

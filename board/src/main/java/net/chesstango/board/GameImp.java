@@ -147,7 +147,7 @@ public class GameImp implements Game {
 
         chessPosition.constructChessPositionRepresentation(encoder);
 
-        gameState.setInitialFEN(encoder.getChessRepresentation());
+        gameState.setInitialFEN(encoder.getChessRepresentation().toString());
     }
 
 }

@@ -18,7 +18,7 @@ public class FENIntegrationTest {
 		
 		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
-		String fen = coder.getChessRepresentation();
+		String fen = coder.getChessRepresentation().toString();
 		
 		assertEquals(FENDecoder.INITIAL_FEN, fen);
 		

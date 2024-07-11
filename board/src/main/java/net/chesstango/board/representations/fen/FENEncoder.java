@@ -8,56 +8,59 @@ import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
+public class FENEncoder extends AbstractChessRepresentationBuilder<FEN> {
 
     @Override
-    public String getChessRepresentation() {
-        return getFEN(new StringBuilder(70));
+    public FEN getChessRepresentation() {
+        String piecePlacement = getPiecePlacement();
+        String activeColor = getTurno();
+        String castingsAllowed = getEnroques();
+        String enPassantSquare = getEnPassant();
+        String halfMoveClock = getHalfMoveClock();
+        String fullMoveClock = getFullMoveClock();
+
+        return new FEN(piecePlacement,
+                activeColor,
+                castingsAllowed,
+                enPassantSquare,
+                halfMoveClock,
+                fullMoveClock);
     }
 
-    public String getFEN(StringBuilder stringBuilder) {
-        getPiecePlacement(stringBuilder).append(' ');
-
-        getTurno(stringBuilder).append(' ');
-
-        getEnroques(stringBuilder).append(' ');
-
-        getEnPassant(stringBuilder).append(' ');
-
-        getClocks(stringBuilder);
-
-        return stringBuilder.toString();
+    protected String getHalfMoveClock() {
+        return Integer.toString(this.halfMoveClock);
     }
 
-    private void getClocks(StringBuilder stringBuilder) {
-        stringBuilder.append(this.halfMoveClock + " " + this.fullMoveClock);
+    protected String getFullMoveClock() {
+        return Integer.toString(this.fullMoveClock);
     }
 
 
-    public StringBuilder getTurno(StringBuilder stringBuilder) {
-        return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
+    protected String getTurno() {
+        return Color.WHITE.equals(turn) ? "w" : "b";
     }
 
-    public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
+    protected String getPiecePlacement() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 7; i >= 0; i--) {
             codePiecePlacementRank(board[i], stringBuilder);
             if (i > 0) {
                 stringBuilder.append('/');
             }
         }
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 
-    public StringBuilder getEnPassant(StringBuilder stringBuilder) {
-        if (enPassantSquare == null) {
-            stringBuilder.append('-');
-        } else {
-            stringBuilder.append(enPassantSquare);
+    protected String getEnPassant() {
+        if (enPassantSquare != null) {
+            return enPassantSquare.toString();
         }
-        return stringBuilder;
+        return "-";
     }
 
-    public StringBuilder getEnroques(StringBuilder stringBuilder) {
+    protected String getEnroques() {
+        StringBuilder stringBuilder = new StringBuilder();
+
         if (castlingWhiteKingAllowed) {
             stringBuilder.append('K');
         }
@@ -78,10 +81,10 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
             stringBuilder.append('-');
         }
 
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 
-    protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
+    protected String codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
         int vacios = 0;
         for (int i = 0; i < piezas.length; i++) {
             if (piezas[i] == null) {
@@ -99,7 +102,7 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
             stringBuilder.append(vacios);
         }
 
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 
     private char getCode(Piece piece) {
@@ -150,7 +153,7 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
     public static String encodeGame(Game game) {
         FENEncoder encoder = new FENEncoder();
         game.getChessPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation();
+        return encoder.getChessRepresentation().toString();
     }
 
 }

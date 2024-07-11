@@ -9,4 +9,9 @@ public record FEN(String piecePlacement,
                   String enPassantSquare,
                   String halfMoveClock,
                   String fullMoveClock) {
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s %s %s %s", piecePlacement, activeColor, castingsAllowed, enPassantSquare, halfMoveClock, fullMoveClock);
+    }
 }
