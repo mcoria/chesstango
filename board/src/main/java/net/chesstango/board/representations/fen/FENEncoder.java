@@ -150,10 +150,4 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<FEN> {
         return result;
     }
 
-    public static String encodeGame(Game game) {
-        FENEncoder encoder = new FENEncoder();
-        game.getChessPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation().toString();
-    }
-
 }

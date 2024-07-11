@@ -36,6 +36,13 @@ public class GameImp implements Game {
     }
 
     @Override
+    public FEN getFEN() {
+        FENEncoder encoder = new FENEncoder();
+        getChessPosition().constructChessPositionRepresentation(encoder);
+        return encoder.getChessRepresentation();
+    }
+
+    @Override
     public Game executeMove(Square from, Square to) {
         Move move = getMove(from, to);
         if (move != null) {

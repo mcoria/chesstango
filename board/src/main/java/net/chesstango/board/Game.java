@@ -11,6 +11,8 @@ import net.chesstango.board.representations.fen.FEN;
 public interface Game extends GameVisitorAcceptor {
     FEN getInitialFEN();
 
+    FEN getFEN();
+
     Game executeMove(Move move);
 
     Game undoMove();

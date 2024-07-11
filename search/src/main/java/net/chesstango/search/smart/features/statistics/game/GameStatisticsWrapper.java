@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 /**
  * @author Mauricio Coria
@@ -25,6 +26,13 @@ public class GameStatisticsWrapper implements Game {
     @Override
     public FEN getInitialFEN() {
         return imp.getInitialFEN();
+    }
+
+    @Override
+    public FEN getFEN() {
+        FENEncoder encoder = new FENEncoder();
+        getChessPosition().constructChessPositionRepresentation(encoder);
+        return encoder.getChessRepresentation();
     }
 
     @Override

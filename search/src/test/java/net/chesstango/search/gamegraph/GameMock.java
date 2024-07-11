@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 /**
  * @author Mauricio Coria
@@ -78,6 +79,13 @@ public class GameMock implements Game {
     @Override
     public FEN getInitialFEN() {
         throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
+    public FEN getFEN() {
+        FENEncoder encoder = new FENEncoder();
+        getChessPosition().constructChessPositionRepresentation(encoder);
+        return encoder.getChessRepresentation();
     }
 
     @Override
