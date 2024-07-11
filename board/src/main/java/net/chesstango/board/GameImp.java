@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
 /**
@@ -30,7 +31,7 @@ public class GameImp implements Game {
     }
 
     @Override
-    public String getInitialFEN() {
+    public FEN getInitialFEN() {
         return gameState.getInitialFEN();
     }
 
@@ -147,7 +148,7 @@ public class GameImp implements Game {
 
         chessPosition.constructChessPositionRepresentation(encoder);
 
-        gameState.setInitialFEN(encoder.getChessRepresentation().toString());
+        gameState.setInitialFEN(encoder.getChessRepresentation());
     }
 
 }

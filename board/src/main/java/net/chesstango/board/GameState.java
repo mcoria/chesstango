@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.fen.FEN;
 
 /**
  * @author Mauricio Coria
@@ -17,7 +18,7 @@ public class GameState implements GameStateReader, GameStateWriter {
 
     @Setter
     @Getter
-    private String initialFEN;
+    private FEN initialFEN;
 
     @Override
     public GameStatus getStatus() {

@@ -132,7 +132,7 @@ public class PGNGame {
         SANEncoder sanEncoder = new SANEncoder();
         PGNGame pgnGame = new PGNGame();
         pgnGame.setResult(encodeGameResult(game));
-        pgnGame.setFen(game.getInitialFEN());
+        pgnGame.setFen(game.getInitialFEN().toString());
 
         List<String> moveList = new ArrayList<>();
 
