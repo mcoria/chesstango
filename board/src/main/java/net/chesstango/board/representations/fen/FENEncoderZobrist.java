@@ -8,31 +8,22 @@ import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
+public class FENEncoderZobrist extends AbstractChessRepresentationBuilder<String> {
 
     @Override
     public String getChessRepresentation() {
-        return getFEN(new StringBuilder(70));
-    }
+        StringBuilder stringBuilder = new StringBuilder(70);
 
-    public String getFEN(StringBuilder stringBuilder) {
         getPiecePlacement(stringBuilder).append(' ');
 
         getTurno(stringBuilder).append(' ');
 
         getEnroques(stringBuilder).append(' ');
 
-        getEnPassant(stringBuilder).append(' ');
-
-        getClocks(stringBuilder);
+        getEnPassantZobrist(stringBuilder);
 
         return stringBuilder.toString();
     }
-
-    private void getClocks(StringBuilder stringBuilder) {
-        stringBuilder.append(this.halfMoveClock + " " + this.fullMoveClock);
-    }
-
 
     public StringBuilder getTurno(StringBuilder stringBuilder) {
         return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
@@ -48,11 +39,25 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
         return stringBuilder;
     }
 
-    public StringBuilder getEnPassant(StringBuilder stringBuilder) {
+    private StringBuilder getEnPassantZobrist(StringBuilder stringBuilder) {
         if (enPassantSquare == null) {
             stringBuilder.append('-');
         } else {
-            stringBuilder.append(enPassantSquare);
+            if (Color.WHITE.equals(turn)) {
+                if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
+                        || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
+                    stringBuilder.append(enPassantSquare);
+                } else {
+                    stringBuilder.append('-');
+                }
+            } else {
+                if (enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
+                        || enPassantSquare.getFile() + 1 < 8 && board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK) {
+                    stringBuilder.append(enPassantSquare);
+                } else {
+                    stringBuilder.append('-');
+                }
+            }
         }
         return stringBuilder;
     }
@@ -148,7 +153,7 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
     }
 
     public static String encodeGame(Game game) {
-        FENEncoder encoder = new FENEncoder();
+        FENEncoderZobrist encoder = new FENEncoderZobrist();
         game.getChessPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();
     }
