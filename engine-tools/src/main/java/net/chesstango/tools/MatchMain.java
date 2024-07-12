@@ -1,6 +1,6 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.pgn.Transcoding;
+import net.chesstango.board.representations.pgn.PgnToFen;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.board.representations.pgn.PGNDecoder;
@@ -111,7 +111,7 @@ public class MatchMain {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         List<PGN> pgnGames = new PGNDecoder().decodeGames(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        return new Transcoding().pgnToFen(pgnGames);
+        return new PgnToFen().pgnToFen(pgnGames);
     }
 
     private final Supplier<EngineController> mainEngineSupplier;

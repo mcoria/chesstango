@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class Transcoding {
+public class PgnToFen {
 
     public List<FEN> pgnToFen(List<PGN> pgns) {
         List<FEN> fenPositions = new ArrayList<>();

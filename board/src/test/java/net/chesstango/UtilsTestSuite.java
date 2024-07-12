@@ -2,7 +2,7 @@ package net.chesstango;
 
 import net.chesstango.board.representations.move.SANDecoderTest;
 import net.chesstango.board.representations.move.SANEncoderTest;
-import net.chesstango.board.representations.TranscodingTest;
+import net.chesstango.board.representations.pgn.PgnToFenTest;
 import net.chesstango.board.representations.ascii.ASCIIEncoderTest;
 import net.chesstango.board.representations.fen.FENDecoderTest;
 import net.chesstango.board.representations.fen.FENEncoderTest;
@@ -21,7 +21,7 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
         SANEncoderTest.class, SANDecoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class, PGNGameTest.class,
-        TranscodingTest.class, PolyglotEncoderTest.class})
+        PgnToFenTest.class, PolyglotEncoderTest.class})
 public class UtilsTestSuite {
 
 }
