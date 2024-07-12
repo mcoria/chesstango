@@ -1,9 +1,8 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
-import net.chesstango.board.representations.pgn.PGN;
 
 import java.util.ArrayList;
 import java.util.List;

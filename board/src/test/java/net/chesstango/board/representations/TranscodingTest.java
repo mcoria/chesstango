@@ -3,6 +3,7 @@ package net.chesstango.board.representations;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.board.representations.pgn.PGNDecoder;
+import net.chesstango.board.representations.pgn.Transcoding;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

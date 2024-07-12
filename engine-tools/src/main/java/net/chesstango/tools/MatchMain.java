@@ -1,6 +1,6 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.Transcoding;
+import net.chesstango.board.representations.pgn.Transcoding;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.board.representations.pgn.PGNDecoder;
