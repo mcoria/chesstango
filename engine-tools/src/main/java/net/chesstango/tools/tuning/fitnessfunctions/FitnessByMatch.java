@@ -2,9 +2,12 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.pgn.PGN;
+import net.chesstango.board.representations.pgn.PGNDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.tools.MatchMain;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -39,10 +42,12 @@ public class FitnessByMatch implements FitnessFunction {
     public void start() {
         Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
-        this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<PGN> pgnGames = new PGNDecoder().decodeGames(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+
+        this.fenList = new Transcoding().pgnToFen(pgnGames);
         this.opponentPool = new GenericObjectPool<>(new EngineControllerPoolFactory(opponentSupplier));
     }
 

@@ -4,6 +4,8 @@ import net.chesstango.board.representations.move.SANDecoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +18,17 @@ public class PGNDecoder {
 
     private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
+    public List<PGN> decodeGames(InputStream inputStream) {
+
+        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+        ) {
+            return decodeGames(bufferReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     public List<PGN> decodeGames(BufferedReader bufferReader) throws IOException {
         List<PGN> result = new ArrayList<>();
