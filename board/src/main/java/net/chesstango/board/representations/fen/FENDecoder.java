@@ -9,21 +9,11 @@ import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.position.ChessPosition;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author Mauricio Coria
  */
 public class FENDecoder {
     public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-    public static Pattern fenPattern = Pattern.compile("(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
-            "(?<activeColor>[wb])\\s+" +
-            "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +
-            "(?<enPassantSquare>(\\w\\d|-))(\\s*|\\s+" +
-            "(?<halfMoveClock>[0-9]*)\\s+" +
-            "(?<fullMoveClock>[0-9]*)\\s*)");
 
     private final ChessRepresentationBuilder<?> chessRepresentationBuilder;
 
@@ -31,55 +21,36 @@ public class FENDecoder {
         this.chessRepresentationBuilder = chessRepresentationBuilder;
     }
 
-    public void parseFEN(String input) {
-        Matcher matcher = fenPattern.matcher(input);
-        if (!matcher.matches()) {
-            throw new RuntimeException("Invalid fen input string");
-        }
-
-        String piecePlacement = matcher.group("piecePlacement");
-        String activeColor = matcher.group("activeColor");
-        String castingsAllowed = matcher.group("castingsAllowed");
-        String enPassantSquare = matcher.group("enPassantSquare");
-        String halfMoveClock = matcher.group("halfMoveClock");
-        String fullMoveClock = matcher.group("fullMoveClock");
-
-        FEN fen = new FEN(piecePlacement,
-                activeColor,
-                castingsAllowed,
-                enPassantSquare,
-                halfMoveClock,
-                fullMoveClock);
-
-        parseFEN(fen);
+    public void parseFEN(String fenString) {
+        parseFEN(new FEN(fenString));
     }
 
     public void parseFEN(FEN fen) {
-        parsePiecePlacement(fen.piecePlacement());
+        parsePiecePlacement(fen.getPiecePlacement());
 
-        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(fen.enPassantSquare()));
+        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
 
-        chessRepresentationBuilder.withTurn(parseTurn(fen.activeColor()));
+        chessRepresentationBuilder.withTurn(parseTurn(fen.getActiveColor()));
 
-        if (isCastlingWhiteQueenAllowed(fen.castingsAllowed())) {
+        if (isCastlingWhiteQueenAllowed(fen.getCastingsAllowed())) {
             chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
         }
 
-        if (isCastlingWhiteKingAllowed(fen.castingsAllowed())) {
+        if (isCastlingWhiteKingAllowed(fen.getCastingsAllowed())) {
             chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
         }
 
-        if (isCastlingBlackQueenAllowed(fen.castingsAllowed())) {
+        if (isCastlingBlackQueenAllowed(fen.getCastingsAllowed())) {
             chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
         }
 
-        if (isCastlingBlackKingAllowed(fen.castingsAllowed())) {
+        if (isCastlingBlackKingAllowed(fen.getCastingsAllowed())) {
             chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
         }
 
-        chessRepresentationBuilder.withHalfMoveClock(fen.halfMoveClock() == null ? 0 : Integer.parseInt(fen.halfMoveClock()));
+        chessRepresentationBuilder.withHalfMoveClock(fen.getHalfMoveClock() == null ? 0 : Integer.parseInt(fen.getHalfMoveClock()));
 
-        chessRepresentationBuilder.withFullMoveClock(fen.fullMoveClock() == null ? 1 : Integer.parseInt(fen.fullMoveClock()));
+        chessRepresentationBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
     }
 
     public void parsePiecePlacement(String piecePlacement) {
@@ -266,6 +237,17 @@ public class FENDecoder {
 
         return builder.getChessRepresentation();
     }
+
+    public static Game loadGame(FEN fen) {
+        GameBuilder builder = new GameBuilder();
+
+        FENDecoder parser = new FENDecoder(builder);
+
+        parser.parseFEN(fen);
+
+        return builder.getChessRepresentation();
+    }
+
 
     public static ChessPosition loadChessPosition(String fen) {
         ChessPositionBuilder builder = new ChessPositionBuilder();

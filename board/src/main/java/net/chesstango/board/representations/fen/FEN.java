@@ -1,17 +1,73 @@
 package net.chesstango.board.representations.fen;
 
+import lombok.Getter;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Mauricio Coria
  */
-public record FEN(String piecePlacement,
-                  String activeColor,
-                  String castingsAllowed,
-                  String enPassantSquare,
-                  String halfMoveClock,
-                  String fullMoveClock) {
+@Getter
+public final class FEN {
+
+    private final String fen;
+
+    private final String piecePlacement;
+
+    private final String activeColor;
+
+    private final String castingsAllowed;
+
+    private final String enPassantSquare;
+
+    private final String halfMoveClock;
+
+    private final String fullMoveClock;
+
+
+    public static final Pattern fenPattern = Pattern.compile("(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
+            "(?<activeColor>[wb])\\s+" +
+            "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +
+            "(?<enPassantSquare>(\\w\\d|-))(\\s*|\\s+" +
+            "(?<halfMoveClock>[0-9]*)\\s+" +
+            "(?<fullMoveClock>[0-9]*)\\s*)");
+
+    public FEN(String fen) {
+        this.fen = fen.trim();
+
+        Matcher matcher = fenPattern.matcher(this.fen);
+        if (!matcher.matches()) {
+            throw new RuntimeException("Invalid fen input string");
+        }
+
+        this.piecePlacement = matcher.group("piecePlacement");
+        this.activeColor = matcher.group("activeColor");
+        this.castingsAllowed = matcher.group("castingsAllowed");
+        this.enPassantSquare = matcher.group("enPassantSquare");
+        this.halfMoveClock = matcher.group("halfMoveClock");
+        this.fullMoveClock = matcher.group("fullMoveClock");
+    }
+
+    FEN(String piecePlacement,
+        String activeColor,
+        String castingsAllowed,
+        String enPassantSquare,
+        String halfMoveClock,
+        String fullMoveClock) {
+
+        this.piecePlacement = piecePlacement;
+        this.activeColor = activeColor;
+        this.castingsAllowed = castingsAllowed;
+        this.enPassantSquare = enPassantSquare;
+        this.halfMoveClock = halfMoveClock;
+        this.fullMoveClock = fullMoveClock;
+        this.fen = String.format("%s %s %s %s %s %s", piecePlacement, activeColor, castingsAllowed, enPassantSquare, halfMoveClock, fullMoveClock);
+    }
+
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s", piecePlacement, activeColor, castingsAllowed, enPassantSquare, halfMoveClock, fullMoveClock);
+        return fen;
     }
 }
