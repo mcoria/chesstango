@@ -32,7 +32,7 @@ public class PGNEncoderTest {
                 .executeMove(Square.g1, Square.f3)
                 .executeMove(Square.d5, Square.e4);
 
-        PGN pgn = PGN.createFromGame(game);
+        PGN pgn = PGN.of(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -65,7 +65,7 @@ public class PGNEncoderTest {
         .executeMove(Square.f8, Square.c5)
         .executeMove(Square.f3, Square.f7);
 
-        PGN pgn = PGN.createFromGame(game);
+        PGN pgn = PGN.of(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -89,7 +89,7 @@ public class PGNEncoderTest {
         Game game =  FENDecoder.loadGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
         game.executeMove(Square.h7, Square.c7);
 
-        PGN pgn = PGN.createFromGame(game);
+        PGN pgn = PGN.of(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -119,7 +119,7 @@ public class PGNEncoderTest {
         game.executeMove(Square.b8, Square.a8);
         game.executeMove(Square.d6, Square.c7);
 
-        PGN pgn = PGN.createFromGame(game);
+        PGN pgn = PGN.of(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +

@@ -28,7 +28,6 @@ public final class FEN {
 
     private final String fullMoveClock;
 
-
     public static final Pattern fenPattern = Pattern.compile("(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
             "(?<activeColor>[wb])\\s+" +
             "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +

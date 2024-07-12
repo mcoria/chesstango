@@ -206,7 +206,7 @@ public class SearchesTest {
 
         PGN pgn = decoder.decodeGame(bufferReader);
 
-        Game game = pgn.buildGame();
+        Game game = pgn.toGame();
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = searchMove.search(game);

@@ -35,7 +35,7 @@ public class Transcoding {
 
         pgns.forEach(pgnGame -> {
             try {
-                Game game = pgnGame.buildGame();
+                Game game = pgnGame.toGame();
                 games.add(game);
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);

@@ -1,5 +1,7 @@
 package net.chesstango.board.representations.pgn;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStateReader;
@@ -19,6 +21,8 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Getter
+@Setter
 public class PGN {
     private String event;
     private String site;
@@ -30,85 +34,12 @@ public class PGN {
     private String result;
     private List<String> moveList;
 
-
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getRound() {
-        return round;
-    }
-
-    public void setRound(String round) {
-        this.round = round;
-    }
-
-    public String getWhite() {
-        return white;
-    }
-
-    public void setWhite(String white) {
-        this.white = white;
-    }
-
-    public String getBlack() {
-        return black;
-    }
-
-    public void setBlack(String black) {
-        this.black = black;
-    }
-
-    public String getFen() {
-        return fen;
-    }
-
-    public void setFen(String fen) {
-        this.fen = fen;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public List<String> getMoveList() {
-        return moveList;
-    }
-
-    public void setMoveList(List<String> moveList) {
-        this.moveList = moveList;
-    }
-
     @Override
     public String toString() {
         return new PGNEncoder().encode(this);
     }
 
-    public Game buildGame() {
+    public Game toGame() {
         Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen);
 
         SANDecoder sanDecoder = new SANDecoder();
@@ -128,7 +59,7 @@ public class PGN {
     }
 
 
-    public static PGN createFromGame(Game game) {
+    public static PGN of(Game game) {
         SANEncoder sanEncoder = new SANEncoder();
         PGN pgn = new PGN();
         pgn.setResult(encodeGameResult(game));
