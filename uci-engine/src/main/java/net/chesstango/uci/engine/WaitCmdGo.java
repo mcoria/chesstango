@@ -1,11 +1,11 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.protocol.requests.CmdGoExecutor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoFast;
 import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
+import net.chesstango.uci.protocol.requests.go.CmdGoFast;
 import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
 import net.chesstango.uci.protocol.requests.go.CmdGoTime;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
@@ -78,6 +78,9 @@ class WaitCmdGo implements UCIEngine {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
+        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
+                        ? new FEN(FENDecoder.INITIAL_FEN)
+                        : new FEN(cmdPosition.getFen())
+                , cmdPosition.getMoves());
     }
 }

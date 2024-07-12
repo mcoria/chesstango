@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.position.ChessPosition;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,6 +74,17 @@ public final class FEN {
         return fen;
     }
 
+    @Override
+    public int hashCode() {
+        return this.fen.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FEN fen1)) return false;
+        return Objects.equals(fen, fen1.fen);
+    }
 
     public ChessPosition toChessPosition() {
         ChessPositionBuilder builder = new ChessPositionBuilder();

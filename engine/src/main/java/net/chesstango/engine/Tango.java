@@ -6,6 +6,7 @@ import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.board.representations.fen.FEN;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,7 +83,7 @@ public class Tango {
         currentSession = new Session();
     }
 
-    public void setPosition(String fen, List<String> moves) {
+    public void setPosition(FEN fen, List<String> moves) {
         if (currentSession == null ||
                 currentSession.getGame() != null &&
                         !Objects.equals(fen, currentSession.getInitialFen())) {
