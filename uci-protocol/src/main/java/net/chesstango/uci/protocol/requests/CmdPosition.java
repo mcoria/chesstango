@@ -71,10 +71,10 @@ public class CmdPosition implements UCIRequest {
         if (CmdType.STARTPOS.equals(type)) {
             sb.append("startpos");
         } else {
-            sb.append("fen " + fen);
+            sb.append("fen ").append(fen);
         }
 
-        if (moves != null && moves.size() > 0) {
+        if (moves != null && !moves.isEmpty()) {
             sb.append(" moves");
             for (String move : moves) {
                 sb.append(" ");

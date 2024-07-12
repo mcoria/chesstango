@@ -2,6 +2,7 @@ package net.chesstango.uci.arena;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
@@ -49,7 +50,7 @@ public class MatchMultiple {
         this.switchChairs = true;
     }
 
-    public List<MatchResult> play(List<String> fenList) {
+    public List<MatchResult> play(List<FEN> fenList) {
         int availableCores = Runtime.getRuntime().availableProcessors();
 
         try (ExecutorService executor = Executors.newFixedThreadPool(availableCores - 1)) {
@@ -66,7 +67,7 @@ public class MatchMultiple {
         return result;
     }
 
-    private List<Runnable> createPlayTasks(List<String> fenList,
+    private List<Runnable> createPlayTasks(List<FEN> fenList,
                                            ObjectPool<EngineController> thePool1,
                                            ObjectPool<EngineController> thePool2) {
         return fenList.stream()
@@ -74,7 +75,7 @@ public class MatchMultiple {
                 .toList();
     }
 
-    private void play(String fen,
+    private void play(FEN fen,
                       ObjectPool<EngineController> thePool1,
                       ObjectPool<EngineController> thePool2) {
 

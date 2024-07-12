@@ -2,6 +2,7 @@ package net.chesstango.uci.arena;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.listeners.MatchListener;
@@ -35,7 +36,7 @@ public class Tournament {
         this.matchType = matchType;
     }
 
-    public List<MatchResult> play(List<String> fenList) {
+    public List<MatchResult> play(List<FEN> fenList) {
 
         List<MatchResult> matchResults = Collections.synchronizedList(new LinkedList<>());
 

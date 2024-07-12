@@ -1,6 +1,7 @@
 package net.chesstango.tools;
 
 import net.chesstango.board.representations.Transcoding;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
 import net.chesstango.evaluation.evaluators.EvaluatorImp02;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
@@ -50,9 +51,9 @@ public class TournamentMain {
                 .printReport(System.out);
     }
 
-    private static List<String> getFenList() {
+    private static List<FEN> getFenList() {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<FEN> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         return fenList;
     }
@@ -63,7 +64,7 @@ public class TournamentMain {
         this.engineSupplierList = engineSupplierList;
     }
 
-    public List<MatchResult> play(List<String> fenList) {
+    public List<MatchResult> play(List<FEN> fenList) {
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
         Tournament tournament = new Tournament(engineSupplierList, matchType)

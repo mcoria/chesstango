@@ -91,7 +91,7 @@ public final class FEN {
 
         FENDecoder parser = new FENDecoder(builder);
 
-        parser.parseFEN(fen);
+        parser.parseFEN(this);
 
         return builder.getChessRepresentation();
     }

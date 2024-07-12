@@ -1,6 +1,7 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
 import net.chesstango.board.representations.Transcoding;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
@@ -31,7 +32,7 @@ public class FitnessByMatch implements FitnessFunction {
 
     private ObjectPool<EngineController> opponentPool;
 
-    private List<String> fenList;
+    private List<FEN> fenList;
 
 
     @Override

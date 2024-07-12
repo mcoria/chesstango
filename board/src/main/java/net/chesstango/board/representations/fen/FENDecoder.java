@@ -4,10 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.position.ChessPosition;
 
 /**
  * @author Mauricio Coria
@@ -229,13 +227,7 @@ public class FENDecoder {
 
 
     public static Game loadGame(String fen) {
-        GameBuilder builder = new GameBuilder();
-
-        FENDecoder parser = new FENDecoder(builder);
-
-        parser.parseFEN(fen);
-
-        return builder.getChessRepresentation();
+        return loadGame(new FEN(fen));
     }
 
     public static Game loadGame(FEN fen) {

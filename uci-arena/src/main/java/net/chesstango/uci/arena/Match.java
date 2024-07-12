@@ -7,6 +7,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.GameDebugEncoder;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.board.representations.pgn.PGNGame;
@@ -39,7 +40,7 @@ class Match {
 
     @Setter
     @Accessors(chain = true)
-    private String fen;
+    private FEN fen;
 
     @Setter
     @Accessors(chain = true)
@@ -56,7 +57,7 @@ class Match {
         this.matchType = matchType;
     }
 
-    public MatchResult play(String fen) {
+    public MatchResult play(FEN fen) {
         try {
             setFen(fen);
 
@@ -173,10 +174,10 @@ class Match {
     }
 
     private String retrieveBestMoveFromController(EngineController currentTurn, List<String> moves) {
-        if (FENDecoder.INITIAL_FEN.equals(fen)) {
+        if (new FEN(FENDecoder.INITIAL_FEN).equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
-            currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
+            currentTurn.send_CmdPosition(new CmdPosition(fen.toString(), moves));
         }
 
         RspBestMove bestMove = matchType.retrieveBestMoveFromController(currentTurn, currentTurn == white);
