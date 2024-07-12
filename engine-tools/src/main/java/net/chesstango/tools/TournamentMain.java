@@ -55,7 +55,7 @@ public class TournamentMain {
 
     private static List<FEN> getFenList() {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        List<PGN> pgnGames = new PGNDecoder().decodeGames(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<PGN> pgnGames = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
         return new PgnToFen().pgnToFen(pgnGames);
     }

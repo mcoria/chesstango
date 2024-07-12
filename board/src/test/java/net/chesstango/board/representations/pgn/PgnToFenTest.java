@@ -15,7 +15,7 @@ public class PgnToFenTest {
 
     @Test
     public void testTranscoding01() {
-        List<PGN> pgnGames = new PGNDecoder().decodeGames(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
+        List<PGN> pgnGames = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
         PgnToFen pgnToFen = new PgnToFen();
 

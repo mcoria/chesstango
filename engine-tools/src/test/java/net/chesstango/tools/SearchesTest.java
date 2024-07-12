@@ -204,7 +204,7 @@ public class SearchesTest {
 
         PGNDecoder decoder = new PGNDecoder();
 
-        PGN pgn = decoder.decodeGame(bufferReader);
+        PGN pgn = decoder.decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 

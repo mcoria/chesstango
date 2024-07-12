@@ -40,7 +40,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -75,7 +75,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -112,7 +112,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -142,7 +142,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -174,7 +174,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -206,7 +206,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 

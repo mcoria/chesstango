@@ -109,7 +109,7 @@ public class MatchMain {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<PGN> pgnGames = new PGNDecoder().decodeGames(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        List<PGN> pgnGames = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
         return new PgnToFen().pgnToFen(pgnGames);
     }

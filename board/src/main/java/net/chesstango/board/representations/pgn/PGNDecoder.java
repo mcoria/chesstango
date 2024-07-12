@@ -18,37 +18,37 @@ public class PGNDecoder {
 
     private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
-    public List<PGN> decodeGames(InputStream inputStream) {
+    public List<PGN> decodePGNs(InputStream inputStream) {
 
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
              BufferedReader bufferReader = new BufferedReader(inputStreamReader);
         ) {
-            return decodeGames(bufferReader);
+            return decodePGNs(bufferReader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public List<PGN> decodeGames(BufferedReader bufferReader) throws IOException {
+    public List<PGN> decodePGNs(BufferedReader bufferReader) throws IOException {
         List<PGN> result = new ArrayList<>();
         PGN game;
-        while ((game = decodeGame(bufferReader)) != null) {
+        while ((game = decodePGN(bufferReader)) != null) {
             result.add(game);
         }
         return result;
     }
 
-    public PGN decodeGame(BufferedReader bufferReader) throws IOException {
-        PGN pgn = decodeHeader(bufferReader);
+    public PGN decodePGN(BufferedReader bufferReader) throws IOException {
+        PGN pgn = decodePGNHeaders(bufferReader);
         if (pgn == null) {
             return null;
         }
-        pgn.setMoveList(decodeMovesList(bufferReader));
+        pgn.setMoveList(decodePGNBody(bufferReader));
         return pgn;
     }
 
-    protected PGN decodeHeader(BufferedReader bufferReader) throws IOException {
+    protected PGN decodePGNHeaders(BufferedReader bufferReader) throws IOException {
         PGN result = new PGN();
         String line;
         while ((line = bufferReader.readLine()) != null) {
@@ -93,7 +93,7 @@ public class PGNDecoder {
         return result;
     }
 
-    protected List<String> decodeMovesList(BufferedReader bufferReader) throws IOException {
+    protected List<String> decodePGNBody(BufferedReader bufferReader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         while ((line = bufferReader.readLine()) != null) {
@@ -104,10 +104,10 @@ public class PGNDecoder {
             stringBuilder.append(" ");
         }
 
-        return decodeMovesList(stringBuilder.toString());
+        return decodePGNBody(stringBuilder.toString());
     }
 
-    protected List<String> decodeMovesList(String moveListStr) {
+    protected List<String> decodePGNBody(String moveListStr) {
         List<String> result = new ArrayList<>();
         final Matcher matcher = SANDecoder.movePattern.matcher(moveListStr);
         while (matcher.find()) {

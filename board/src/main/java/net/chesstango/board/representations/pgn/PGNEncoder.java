@@ -52,8 +52,6 @@ public class PGNEncoder {
         return sb.toString();
     }
 
-
-
     private String getToday() {
         String pattern = "yyyy.MM.dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -68,12 +66,6 @@ public class PGNEncoder {
             return env.get("HOSTNAME");
         else
             return "Unknown Computer";
-    }
-
-    public static String encodeGame(Game game){
-        PGN pgn = PGN.of(game);
-        PGNEncoder encoder = new PGNEncoder();
-        return encoder.encode(pgn);
     }
 
 }
