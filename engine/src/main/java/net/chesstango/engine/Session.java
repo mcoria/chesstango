@@ -39,8 +39,8 @@ public class Session {
         }
     }
 
-    public String getInitialFen() {
-        return game == null ? null : game.getInitialFEN().toString();
+    public FEN getInitialFen() {
+        return game == null ? null : game.getInitialFEN();
     }
 
     public void addResult(SearchMoveResult result) {
