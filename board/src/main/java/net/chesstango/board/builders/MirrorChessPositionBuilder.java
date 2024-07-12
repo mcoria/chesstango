@@ -7,11 +7,11 @@ import net.chesstango.board.Square;
 /**
  * @author Mauricio Coria
  */
-public class MirrorBuilder<T> implements ChessPositionBuilder<T> {
+public class MirrorChessPositionBuilder<T> implements ChessPositionBuilder<T> {
 
     private final ChessPositionBuilder<T> chessPositionBuilder;
 
-    public MirrorBuilder(ChessPositionBuilder<T> chessPositionBuilder) {
+    public MirrorChessPositionBuilder(ChessPositionBuilder<T> chessPositionBuilder) {
         this.chessPositionBuilder = chessPositionBuilder;
     }
 

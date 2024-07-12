@@ -2,7 +2,7 @@ package net.chesstango.board;
 
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.builders.MirrorBuilder;
+import net.chesstango.board.builders.MirrorChessPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPosition;
@@ -140,9 +140,9 @@ public class GameImp implements Game {
 
     @Override
     public Game mirror() {
-        MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder<>(new GameBuilder());
-        getChessPosition().constructChessPositionRepresentation(mirrorBuilder);
-        return mirrorBuilder.getChessRepresentation();
+        MirrorChessPositionBuilder<Game> mirrorChessPositionBuilder = new MirrorChessPositionBuilder<>(new GameBuilder());
+        getChessPosition().constructChessPositionRepresentation(mirrorChessPositionBuilder);
+        return mirrorChessPositionBuilder.getChessRepresentation();
     }
 
     @Override
