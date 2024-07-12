@@ -95,4 +95,8 @@ public final class FEN {
 
         return builder.getChessRepresentation();
     }
+
+    public static FEN of(String fenString) {
+        return new FEN(fenString);
+    }
 }

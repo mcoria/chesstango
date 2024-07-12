@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.board.representations.pgn.PGNDecoder;
-import net.chesstango.board.representations.pgn.PGNGame;
+import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -205,9 +204,9 @@ public class SearchesTest {
 
         PGNDecoder decoder = new PGNDecoder();
 
-        PGNGame pgnGame = decoder.decodeGame(bufferReader);
+        PGN pgn = decoder.decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = searchMove.search(game);

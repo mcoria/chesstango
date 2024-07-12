@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.board.representations.pgn.PGNDecoder;
-import net.chesstango.board.representations.pgn.PGNGame;
+import net.chesstango.board.representations.pgn.PGN;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,16 +24,16 @@ public class Transcoding {
 
         BufferedReader bufferReader = new BufferedReader(inputStreamReader);
 
-        List<PGNGame> pgnGames = null;
+        List<PGN> pgns = null;
         try {
-            pgnGames = new PGNDecoder().decodeGames(bufferReader);
+            pgns = new PGNDecoder().decodeGames(bufferReader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         List<Game> games = new ArrayList<>();
 
-        pgnGames.forEach(pgnGame -> {
+        pgns.forEach(pgnGame -> {
             try {
                 Game game = pgnGame.buildGame();
                 games.add(game);

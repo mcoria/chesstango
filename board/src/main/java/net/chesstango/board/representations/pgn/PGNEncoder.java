@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class PGNEncoder {
 
-    public String encode(PGNGame game) {
+    public String encode(PGN game) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[Event \"" + (game.getEvent() == null ? "?" : game.getEvent()) + "\"]\n");
@@ -71,9 +71,9 @@ public class PGNEncoder {
     }
 
     public static String encodeGame(Game game){
-        PGNGame pgnGame = PGNGame.createFromGame(game);
+        PGN pgn = PGN.createFromGame(game);
         PGNEncoder encoder = new PGNEncoder();
-        return encoder.encode(pgnGame);
+        return encoder.encode(pgn);
     }
 
 }

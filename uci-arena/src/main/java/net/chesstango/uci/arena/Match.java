@@ -10,7 +10,7 @@ import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
-import net.chesstango.board.representations.pgn.PGNGame;
+import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
@@ -201,11 +201,11 @@ class Match {
         printStream.println(encoder.encode(game));
     }
 
-    private PGNGame createPGN() {
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-        pgnGame.setEvent(mathId);
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-        return pgnGame;
+    private PGN createPGN() {
+        PGN pgn = PGN.createFromGame(game);
+        pgn.setEvent(mathId);
+        pgn.setWhite(white.getEngineName());
+        pgn.setBlack(black.getEngineName());
+        return pgn;
     }
 }

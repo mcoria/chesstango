@@ -40,9 +40,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
@@ -75,9 +75,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
@@ -112,9 +112,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.CHECK, game.getStatus());
     }
@@ -142,9 +142,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
@@ -174,9 +174,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
@@ -206,9 +206,9 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodeGame(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.buildGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
@@ -218,8 +218,8 @@ public class PGNGameTest {
         Game game = FENDecoder.loadGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
         game.executeMove(Square.a7, Square.a6);
 
-        PGNGame pgnGame = PGNGame.createFromGame(game);
+        PGN pgn = PGN.createFromGame(game);
 
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen());
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PGNGame {
+public class PGN {
     private String event;
     private String site;
     private String date;
@@ -128,11 +128,11 @@ public class PGNGame {
     }
 
 
-    public static PGNGame createFromGame(Game game) {
+    public static PGN createFromGame(Game game) {
         SANEncoder sanEncoder = new SANEncoder();
-        PGNGame pgnGame = new PGNGame();
-        pgnGame.setResult(encodeGameResult(game));
-        pgnGame.setFen(game.getInitialFEN().toString());
+        PGN pgn = new PGN();
+        pgn.setResult(encodeGameResult(game));
+        pgn.setFen(game.getInitialFEN().toString());
 
         List<String> moveList = new ArrayList<>();
 
@@ -156,9 +156,9 @@ public class PGNGame {
                 moveStrTmp = sanEncoder.encodeAlgebraicNotation(gameState.getSelectedMove(), gameState.getLegalMoves());
             }
         }
-        pgnGame.setMoveList(moveList);
+        pgn.setMoveList(moveList);
 
-        return pgnGame;
+        return pgn;
     }
 
     private static String encodeGameStatusAtMove(GameStatus gameStatus) {

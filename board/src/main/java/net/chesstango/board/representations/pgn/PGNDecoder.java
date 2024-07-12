@@ -17,26 +17,26 @@ public class PGNDecoder {
     private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
 
-    public List<PGNGame> decodeGames(BufferedReader bufferReader) throws IOException {
-        List<PGNGame> result = new ArrayList<>();
-        PGNGame game;
+    public List<PGN> decodeGames(BufferedReader bufferReader) throws IOException {
+        List<PGN> result = new ArrayList<>();
+        PGN game;
         while ((game = decodeGame(bufferReader)) != null) {
             result.add(game);
         }
         return result;
     }
 
-    public PGNGame decodeGame(BufferedReader bufferReader) throws IOException {
-        PGNGame pgnGame = decodeHeader(bufferReader);
-        if (pgnGame == null) {
+    public PGN decodeGame(BufferedReader bufferReader) throws IOException {
+        PGN pgn = decodeHeader(bufferReader);
+        if (pgn == null) {
             return null;
         }
-        pgnGame.setMoveList(decodeMovesList(bufferReader));
-        return pgnGame;
+        pgn.setMoveList(decodeMovesList(bufferReader));
+        return pgn;
     }
 
-    protected PGNGame decodeHeader(BufferedReader bufferReader) throws IOException {
-        PGNGame result = new PGNGame();
+    protected PGN decodeHeader(BufferedReader bufferReader) throws IOException {
+        PGN result = new PGN();
         String line;
         while ((line = bufferReader.readLine()) != null) {
             if ("".equals(line.trim())) {

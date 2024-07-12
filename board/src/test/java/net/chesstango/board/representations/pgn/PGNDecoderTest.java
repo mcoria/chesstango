@@ -115,16 +115,16 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = decoder.decodeHeader(bufferReader);
+        PGN pgn = decoder.decodeHeader(bufferReader);
 
-        assertEquals("Computer chess game", pgnGame.getEvent());
-        assertEquals("KANO-LENOVO", pgnGame.getSite());
-        assertEquals("2023.03.02", pgnGame.getDate());
-        assertEquals("10", pgnGame.getRound());
-        assertEquals("Tango", pgnGame.getWhite());
-        assertEquals("Chacarera", pgnGame.getBlack());
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
-        assertEquals("1/2-1/2", pgnGame.getResult());
+        assertEquals("Computer chess game", pgn.getEvent());
+        assertEquals("KANO-LENOVO", pgn.getSite());
+        assertEquals("2023.03.02", pgn.getDate());
+        assertEquals("10", pgn.getRound());
+        assertEquals("Tango", pgn.getWhite());
+        assertEquals("Chacarera", pgn.getBlack());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen());
+        assertEquals("1/2-1/2", pgn.getResult());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodeGame(bufferReader);
 
         assertEquals("Balsa - Top 10", game.getEvent());
         assertEquals("KANO-LENOVO", game.getSite());
@@ -192,7 +192,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodeGame(bufferReader);
 
         assertEquals("Rated Rapid game", game.getEvent());
         assertEquals("https://lichess.org/cjatYH5c", game.getSite());
@@ -224,7 +224,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodeGame(bufferReader);
 
         assertEquals("b3644c68-3c6a-40ab-870a-3b965dd38c6c", game.getEvent());
         assertEquals("LAPTOP-PTVVKHNB", game.getSite());
@@ -246,7 +246,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(inputStreamReader);
 
-        List<PGNGame> games = decoder.decodeGames(bufferReader);
+        List<PGN> games = decoder.decodeGames(bufferReader);
 
         assertEquals(10, games.size());
 
