@@ -1,6 +1,8 @@
 package net.chesstango.board.representations.fen;
 
 import lombok.Getter;
+import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.position.ChessPosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,5 +71,16 @@ public final class FEN {
     @Override
     public String toString() {
         return fen;
+    }
+
+
+    public ChessPosition toChessPosition() {
+        ChessPositionBuilder builder = new ChessPositionBuilder();
+
+        FENDecoder parser = new FENDecoder(builder);
+
+        parser.parseFEN(fen);
+
+        return builder.getChessRepresentation();
     }
 }

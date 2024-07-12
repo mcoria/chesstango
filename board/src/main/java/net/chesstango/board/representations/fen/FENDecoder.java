@@ -249,14 +249,4 @@ public class FENDecoder {
     }
 
 
-    public static ChessPosition loadChessPosition(String fen) {
-        ChessPositionBuilder builder = new ChessPositionBuilder();
-
-        FENDecoder parser = new FENDecoder(builder);
-
-        parser.parseFEN(fen);
-
-        return builder.getChessRepresentation();
-    }
-
 }
