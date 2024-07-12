@@ -7,64 +7,64 @@ import net.chesstango.board.Square;
 /**
  * @author Mauricio Coria
  */
-public class MirrorBuilder<T> implements ChessRepresentationBuilder<T> {
+public class MirrorBuilder<T> implements ChessPositionBuilder<T> {
 
-    private final ChessRepresentationBuilder<T> chessPositionBuilder;
+    private final ChessPositionBuilder<T> chessPositionBuilder;
 
-    public MirrorBuilder(ChessRepresentationBuilder<T> chessPositionBuilder) {
+    public MirrorBuilder(ChessPositionBuilder<T> chessPositionBuilder) {
         this.chessPositionBuilder = chessPositionBuilder;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withTurn(Color turn) {
+    public ChessPositionBuilder<T> withTurn(Color turn) {
         chessPositionBuilder.withTurn(turn.oppositeColor());
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withEnPassantSquare(Square enPassantSquare) {
+    public ChessPositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
         chessPositionBuilder.withEnPassantSquare(enPassantSquare == null ? null : enPassantSquare.getMirrorSquare());
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+    public ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         chessPositionBuilder.withCastlingBlackQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+    public ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         chessPositionBuilder.withCastlingBlackKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+    public ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         chessPositionBuilder.withCastlingWhiteQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+    public ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         chessPositionBuilder.withCastlingWhiteKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withPiece(Square square, Piece piece) {
+    public ChessPositionBuilder<T> withPiece(Square square, Piece piece) {
         chessPositionBuilder.withPiece(square.getMirrorSquare(), piece == null ? null : piece.getOpposite());
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withHalfMoveClock(int halfMoveClock) {
+    public ChessPositionBuilder<T> withHalfMoveClock(int halfMoveClock) {
         chessPositionBuilder.withHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
-    public ChessRepresentationBuilder<T> withFullMoveClock(int fullMoveClock) {
+    public ChessPositionBuilder<T> withFullMoveClock(int fullMoveClock) {
         chessPositionBuilder.withFullMoveClock(fullMoveClock);
         return this;
     }

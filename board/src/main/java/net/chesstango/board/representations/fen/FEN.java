@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.fen;
 
 import lombok.Getter;
-import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.builders.DefaultChessPositionBuilder;
 import net.chesstango.board.position.ChessPosition;
 
 import java.util.Objects;
@@ -86,7 +86,7 @@ public final class FEN {
     }
 
     public ChessPosition toChessPosition() {
-        ChessPositionBuilder builder = new ChessPositionBuilder();
+        DefaultChessPositionBuilder builder = new DefaultChessPositionBuilder();
 
         FENDecoder parser = new FENDecoder(builder);
 
