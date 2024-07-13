@@ -2,8 +2,8 @@ package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.representations.epd.EpdEntry;
-import net.chesstango.board.representations.epd.EpdReader;
+import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameFeatures;
 
@@ -41,17 +41,17 @@ public class ExtractorMain {
     }
 
     private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
-        EpdReader epdReader = new EpdReader();
+        EPDDecoder EPDDecoder = new EPDDecoder();
 
-        Stream<EpdEntry> epdEntryStream = epdReader.readEdpFile(fileName);
+        Stream<EPD> epdEntryStream = EPDDecoder.readEdpFile(fileName);
 
         epdEntryStream.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
-                Game game = FENDecoder.loadGame(epdEntry.fen);
+                Game game = FENDecoder.loadGame(epdEntry.getFen());
                 extractor.extractFeatures(game, features);
             }
-            Game game = FENDecoder.loadGame(epdEntry.fen);
+            Game game = FENDecoder.loadGame(epdEntry.getFen());
             featuresList.add(convertToLine(game.getChessPosition().toString(), features, gameResultString));
         });
     }

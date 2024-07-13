@@ -22,14 +22,14 @@ import java.util.stream.Stream;
  *
  * @author Mauricio Coria
  */
-public class EpdReader {
+public class EPDDecoder {
 
-    public Stream<EpdEntry> readEdpFile(String filename) {
+    public Stream<EPD> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
 
     }
 
-    public Stream<EpdEntry> readEdpFile(Path filePath) {
+    public Stream<EPD> readEdpFile(Path filePath) {
         if (!Files.exists(filePath)) {
             System.err.printf("file not found: %s\n", filePath.getFileName());
             throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
@@ -37,7 +37,7 @@ public class EpdReader {
 
         System.out.println("Reading suite " + filePath);
 
-        Stream.Builder<EpdEntry> epdEntryStreamBuilder = Stream.<EpdEntry>builder();
+        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.<EPD>builder();
 
         try (InputStream instr = new FileInputStream(filePath.toFile());
              InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -48,7 +48,7 @@ public class EpdReader {
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
                     try {
-                        EpdEntry entry = readEdpLine(line);
+                        EPD entry = readEdpLine(line);
                         epdEntryStreamBuilder.add(entry);
                     } catch (RuntimeException e) {
                         System.err.printf("Error decoding: %s\n", line);
@@ -62,18 +62,18 @@ public class EpdReader {
         return epdEntryStreamBuilder.build();
     }
 
-    public EpdEntry readEdpLine(String line) {
-        EpdEntry epdEntry = parseLine(line);
-        Game game = FENDecoder.loadGame(epdEntry.fen);
+    public EPD readEdpLine(String line) {
+        EPD epd = parseLine(line);
+        Game game = FENDecoder.loadGame(epd.getFen());
 
-        if (epdEntry.bestMovesString != null) {
-            bestMovesStringToMoves(game, epdEntry.bestMovesString, epdEntry.bestMoves);
-        } else if (epdEntry.avoidMoves != null) {
-            bestMovesStringToMoves(game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
+        if (epd.getBestMovesString() != null) {
+            bestMovesStringToMoves(game, epd.getBestMovesString(), epd.getBestMoves());
+        } else if (epd.getAvoidMoves() != null) {
+            bestMovesStringToMoves(game, epd.getAvoidMovesString(), epd.getAvoidMoves());
         } else {
             throw new RuntimeException("No best move nor avoid move detected");
         }
-        return epdEntry;
+        return epd;
     }
 
     private void bestMovesStringToMoves(Game game, String movesString, List<Move> moveList) {
@@ -90,23 +90,23 @@ public class EpdReader {
 
     private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
-    private EpdEntry parseLine(String line) {
-        EpdEntry edpParsed = new EpdEntry();
-        edpParsed.text = line;
+    private EPD parseLine(String line) {
+        EPD edpParsed = new EPD();
+        edpParsed.setText(line);
 
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
-            edpParsed.fen = matcher.group("fen");
+            edpParsed.setFen(matcher.group("fen"));
             if (matcher.group("bestmoves") != null) {
-                edpParsed.bestMovesString = matcher.group("bestmoves");
-                edpParsed.bestMoves = new ArrayList<>();
+                edpParsed.setBestMovesString(matcher.group("bestmoves"));
+                edpParsed.setBestMoves(new ArrayList<>());
             }
             if (matcher.group("avoidmoves") != null) {
-                edpParsed.avoidMovesString = matcher.group("avoidmoves");
-                edpParsed.avoidMoves = new ArrayList<>();
+                edpParsed.setAvoidMovesString(matcher.group("avoidmoves"));
+                edpParsed.setAvoidMoves(new ArrayList<>());
             }
             if (matcher.group("id") != null) {
-                edpParsed.id = matcher.group("id");
+                edpParsed.setId(matcher.group("id"));
             }
         }
 

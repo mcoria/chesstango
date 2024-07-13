@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANDecoder;
 
@@ -41,10 +41,10 @@ public class PGN {
         return new PGNGameEncoder().encode(this);
     }
 
-    public Stream<EpdEntry> stream() {
+    public Stream<EPD> stream() {
         SANDecoder sanDecoder = new SANDecoder();
 
-        Stream.Builder<EpdEntry> fenStreamBuilder = Stream.builder();
+        Stream.Builder<EPD> fenStreamBuilder = Stream.builder();
 
         Game game = FENDecoder.loadGame(getFen() == null ? FENDecoder.INITIAL_FEN : getFen());
 
@@ -53,10 +53,10 @@ public class PGN {
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
 
             if (legalMoveToExecute != null) {
-                EpdEntry epdEntry = new EpdEntry();
-                epdEntry.fen = game.getCurrentFEN().toString();
-                epdEntry.suppliedMoveString = moveStr;
-                fenStreamBuilder.add(epdEntry);
+                EPD EPD = new EPD();
+                EPD.setFen(game.getCurrentFEN().toString());
+                EPD.setSuppliedMoveString(moveStr);
+                fenStreamBuilder.add(EPD);
 
                 game.executeMove(legalMoveToExecute);
             } else {

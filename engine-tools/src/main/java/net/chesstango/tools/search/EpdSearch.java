@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchMove;
@@ -46,11 +46,11 @@ public class EpdSearch {
     private Integer timeOut;
 
 
-    public EpdSearchResult run(EpdEntry epdEntry) {
-        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(Stream.of(epdEntry)).getFirst();
+    public EpdSearchResult run(EPD epd) {
+        return timeOut == null ? run(searchMoveSupplier.get(), epd) : run(Stream.of(epd)).getFirst();
     }
 
-    public List<EpdSearchResult> run(Stream<EpdEntry> edpEntries) {
+    public List<EpdSearchResult> run(Stream<EPD> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
 
         AtomicInteger pendingJobsCounter = new AtomicInteger(0);
@@ -65,7 +65,7 @@ public class EpdSearch {
         }
 
         try (ExecutorService executorService = Executors.newFixedThreadPool(availableCores)) {
-            edpEntries.forEach(epdEntry -> {
+            edpEntries.forEach(epd -> {
                 pendingJobsCounter.incrementAndGet();
                 executorService.submit(() -> {
                     SearchJob searchJob = null;
@@ -78,12 +78,12 @@ public class EpdSearch {
 
                         activeJobs.add(searchJob);
 
-                        EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
+                        EpdSearchResult epdSearchResult = run(searchMove, epd);
 
                         epdSearchResults.add(epdSearchResult);
 
                         if (!epdSearchResult.isSearchSuccess()) {
-                            String failedTest = String.format("Fail [%s] - best move found %s", epdEntry.text, epdSearchResult.bestMoveFoundAlgNot());
+                            String failedTest = String.format("Fail [%s] - best move found %s", epd.getText(), epdSearchResult.bestMoveFoundAlgNot());
                             logger.info(failedTest);
                         }
 
@@ -91,10 +91,10 @@ public class EpdSearch {
 
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
-                        logger.error(String.format("Error processing: %s", epdEntry.text));
+                        logger.error(String.format("Error processing: %s", epd.getText()));
                         throw e;
                     } catch (InterruptedException e) {
-                        logger.error(String.format("Thread interrupted while processing: %s", epdEntry.text));
+                        logger.error(String.format("Thread interrupted while processing: %s", epd.getText()));
                         e.printStackTrace(System.err);
                         throw new RuntimeException(e);
                     } finally {
@@ -133,21 +133,21 @@ public class EpdSearch {
             throw new RuntimeException(String.format("Todavia siguen pendiente %d busquedas", pendingJobsCounter.get()));
         }
 
-        epdSearchResults.sort(Comparator.comparing(o -> o.epdEntry().id));
+        epdSearchResults.sort(Comparator.comparing(o -> o.epd().getId()));
 
         return epdSearchResults;
     }
 
 
-    private EpdSearchResult run(SearchMove searchMove, EpdEntry epdEntry) {
+    private EpdSearchResult run(SearchMove searchMove, EPD epd) {
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
 
-        Game game = FENDecoder.loadGame(epdEntry.fen);
+        Game game = FENDecoder.loadGame(epd.getFen());
 
         SearchMoveResult searchResult = searchMove.search(game);
 
-        searchResult.setId(epdEntry.id);
+        searchResult.setId(epd.getId());
 
         searchMove.reset();
 
@@ -155,7 +155,7 @@ public class EpdSearch {
 
         String bestMoveFoundStr = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
 
-        return new EpdSearchResult(epdEntry, searchResult, bestMoveFoundStr);
+        return new EpdSearchResult(epd, searchResult, bestMoveFoundStr);
     }
 
     private record SearchJob(Instant startInstant, SearchMove searchMove) {

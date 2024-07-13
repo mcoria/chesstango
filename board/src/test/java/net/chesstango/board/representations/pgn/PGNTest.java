@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ public class PGNTest {
 
         PGN pgn = PGN.of(game);
 
-        List<EpdEntry> pgnToEpd = pgn.stream().toList();
+        List<EPD> pgnToEpd = pgn.stream().toList();
 
         assertEquals(1, pgnToEpd.size());
         //assertEquals("", pgnToEpd.getFirst().toString());

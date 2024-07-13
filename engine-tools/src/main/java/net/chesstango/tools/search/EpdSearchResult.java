@@ -1,13 +1,13 @@
 package net.chesstango.tools.search;
 
-import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
  */
-public record EpdSearchResult(EpdEntry epdEntry,
+public record EpdSearchResult(EPD epd,
                               SearchMoveResult searchResult,
 
                               // Mejor movimiento encontrado en notacion algebraica
@@ -17,14 +17,14 @@ public record EpdSearchResult(EpdEntry epdEntry,
                               // Exactitud: de la lista de movimientos en profundidad, que movimientos sin exitosos
                               int depthAccuracyPct) {
 
-    public EpdSearchResult(EpdEntry epdEntry,
+    public EpdSearchResult(EPD epd,
                            SearchMoveResult searchResult,
                            String bestMoveFoundStr) {
-        this(epdEntry,
+        this(epd,
                 searchResult,
                 bestMoveFoundStr,
-                epdEntry.isMoveSuccess(searchResult.getBestMove()),
-                epdEntry.calculateAccuracyPct(searchResult.getSearchByDepthResultList()
+                epd.isMoveSuccess(searchResult.getBestMove()),
+                epd.calculateAccuracyPct(searchResult.getSearchByDepthResultList()
                         .stream()
                         .map(SearchByDepthResult::getBestMove)
                         .toList())
@@ -32,6 +32,6 @@ public record EpdSearchResult(EpdEntry epdEntry,
     }
 
     public String getText() {
-        return epdEntry.text;
+        return epd.getText();
     }
 }
