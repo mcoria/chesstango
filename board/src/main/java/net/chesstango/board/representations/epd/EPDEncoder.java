@@ -15,6 +15,12 @@ public class EPDEncoder {
             stringBuilder.append(";");
         }
 
+        if (epd.getId() != null) {
+            stringBuilder.append(" id \"");
+            stringBuilder.append(epd.getId());
+            stringBuilder.append("\";");
+        }
+
         return stringBuilder.toString();
     }
 }

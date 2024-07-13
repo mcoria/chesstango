@@ -10,6 +10,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANDecoder;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -41,12 +42,21 @@ public class PGN {
         return new PGNGameEncoder().encode(this);
     }
 
-    public Stream<EPD> stream() {
+    /**
+     * Cada entrada EPD representa la posicion y el movimiento ejecutado
+     *
+     * @return
+     */
+    public Stream<EPD> toEPD() {
         SANDecoder sanDecoder = new SANDecoder();
 
         Stream.Builder<EPD> fenStreamBuilder = Stream.builder();
 
         Game game = FENDecoder.loadGame(getFen() == null ? FENDecoder.INITIAL_FEN : getFen());
+        game.threefoldRepetitionRule(false);
+        game.fiftyMovesRule(false);
+
+        AtomicInteger moveIdAt = new AtomicInteger(0);
 
         getMoveList().forEach(moveStr -> {
             MoveContainerReader legalMoves = game.getPossibleMoves();
@@ -54,6 +64,14 @@ public class PGN {
 
             if (legalMoveToExecute != null) {
                 EPD epd = new EPD();
+
+                int moveId = moveIdAt.incrementAndGet();
+                if (event != null) {
+                    epd.setId(String.format("%s-%d", event, moveId));
+                } else {
+                    epd.setId(String.format("%d", moveId));
+                }
+
                 epd.setFen(game.getCurrentFEN());
                 epd.setSuppliedMoveStr(moveStr);
                 epd.setSuppliedMove(legalMoveToExecute);

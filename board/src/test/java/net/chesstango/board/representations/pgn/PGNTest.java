@@ -23,9 +23,9 @@ public class PGNTest {
 
         PGN pgn = PGN.of(game);
 
-        List<EPD> pgnToEpd = pgn.stream().toList();
+        List<EPD> pgnToEpd = pgn.toEPD().toList();
 
         assertEquals(1, pgnToEpd.size());
-        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 sm a4;", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 sm a4; id \"1\";", pgnToEpd.getFirst().toString());
     }
 }

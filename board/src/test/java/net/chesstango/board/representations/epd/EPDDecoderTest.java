@@ -113,7 +113,7 @@ public class EPDDecoderTest {
         assertEquals("Rg3", epd.getBestMovesStr());
         assertEquals("WAC.003", epd.getId());
         assertEquals(1, epd.getBestMoves().size());
-        assertEquals(Piece.ROOK_WHITE, epd.getBestMoves().get(0).getFrom().getPiece());
+        assertEquals(Piece.ROOK_WHITE, epd.getBestMoves().getFirst().getFrom().getPiece());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class EPDDecoderTest {
         assertEquals("e6", epd.getBestMovesStr());
         assertEquals("WAC.072", epd.getId());
         assertEquals(1, epd.getBestMoves().size());
-        assertEquals(Piece.PAWN_WHITE, epd.getBestMoves().get(0).getFrom().getPiece());
+        assertEquals(Piece.PAWN_WHITE, epd.getBestMoves().getFirst().getFrom().getPiece());
     }
 
     @Test
@@ -135,9 +135,9 @@ public class EPDDecoderTest {
         assertEquals("N7e5", epd.getBestMovesStr());
         assertEquals("STS(v12.0) Center Control.081", epd.getId());
         assertEquals(1, epd.getBestMoves().size());
-        assertEquals(Piece.KNIGHT_BLACK, epd.getBestMoves().get(0).getFrom().getPiece());
-        assertEquals(Square.d7, epd.getBestMoves().get(0).getFrom().getSquare());
-        assertEquals(Square.e5, epd.getBestMoves().get(0).getTo().getSquare());
+        assertEquals(Piece.KNIGHT_BLACK, epd.getBestMoves().getFirst().getFrom().getPiece());
+        assertEquals(Square.d7, epd.getBestMoves().getFirst().getFrom().getSquare());
+        assertEquals(Square.e5, epd.getBestMoves().getFirst().getTo().getSquare());
     }
 
     @Test
@@ -148,9 +148,9 @@ public class EPDDecoderTest {
         assertEquals("Rd1", epd.getAvoidMovesStr());
         assertEquals("position 03", epd.getId());
         assertEquals(1, epd.getAvoidMoves().size());
-        assertEquals(Piece.ROOK_WHITE, epd.getAvoidMoves().get(0).getFrom().getPiece());
-        assertEquals(Square.e1, epd.getAvoidMoves().get(0).getFrom().getSquare());
-        assertEquals(Square.d1, epd.getAvoidMoves().get(0).getTo().getSquare());
+        assertEquals(Piece.ROOK_WHITE, epd.getAvoidMoves().getFirst().getFrom().getPiece());
+        assertEquals(Square.e1, epd.getAvoidMoves().getFirst().getFrom().getSquare());
+        assertEquals(Square.d1, epd.getAvoidMoves().getFirst().getTo().getSquare());
     }
 
     @Test
@@ -202,4 +202,35 @@ public class EPDDecoderTest {
 
         assertEquals(32571, entryList.size());
     }
+
+    @Test
+    @Disabled
+    public void allEPDsFiles() {
+        List<String> epdFiles = List.of(
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-all.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov.pgn"
+        );
+
+        epdFiles.forEach(fileName -> epdDecoder.readEdpFile(fileName));
+    }
+
 }
