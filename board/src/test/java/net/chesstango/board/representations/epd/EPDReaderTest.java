@@ -1,9 +1,7 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.epd;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.epd.EpdEntry;
-import net.chesstango.board.representations.epd.EpdReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -160,7 +158,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadMateAll(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd").toList();
 
         assertEquals(23268, entryList.size());
     }
@@ -169,7 +167,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadWAC(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac.epd");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac.epd").toList();
 
         assertEquals(300, entryList.size());
     }
@@ -177,7 +175,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadWAC2018(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd").toList();
 
         assertEquals(201, entryList.size());
     }
@@ -185,7 +183,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testSilentButDeadly(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd").toList();
 
         assertEquals(134, entryList.size());
     }
@@ -193,7 +191,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testPET(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\pet.epd");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\pet.epd").toList();
 
         assertEquals(48, entryList.size());
     }
@@ -202,7 +200,7 @@ public class EPDReaderTest {
     @Test
     @Disabled
     public void testReadEvalTunnerWhite(){
-        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt");
+        List<EpdEntry> entryList = EPDReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt").toList();
 
         assertEquals(32571, entryList.size());
     }
