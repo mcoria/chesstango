@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.io.*;
@@ -22,14 +23,31 @@ import java.util.stream.Stream;
  *
  * @author Mauricio Coria
  */
-public class EpdReader {
+public class EPDDecoder {
+    /**
+     * Decode line components
+     */
+    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+" +
+            "(\\s*bm\\s+(?<bestmoves>[^;]*);" +
+            "|\\s*am\\s+(?<avoidmoves>[^;]*);" +
+            "|\\s*sm\\s+(?<suppliedmove>[^;]*);" +
+            "|\\s*c0\\s+\"(?<comment0>[^\"]+)\";" +
+            "|\\s*c1\\s+\"(?<comment1>[^\"]+)\";" +
+            "|\\s*c2\\s+\"(?<comment2>[^\"]+)\";" +
+            "|\\s*c3\\s+\"(?<comment3>[^\"]+)\";" +
+            "|\\s*c4\\s+\"(?<comment4>[^\"]+)\";" +
+            "|\\s*c5\\s+\"(?<comment5>[^\"]+)\";" +
+            "|\\s*c6\\s+\"(?<comment6>[^\"]+)\";" +
+            "|\\s*id\\s+\"(?<id>[^\"]+)\";" +
+            "|[^;]+;)*"
+    );
 
-    public Stream<EpdEntry> readEdpFile(String filename) {
+    public Stream<EPD> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
 
     }
 
-    public Stream<EpdEntry> readEdpFile(Path filePath) {
+    public Stream<EPD> readEdpFile(Path filePath) {
         if (!Files.exists(filePath)) {
             System.err.printf("file not found: %s\n", filePath.getFileName());
             throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
@@ -37,7 +55,7 @@ public class EpdReader {
 
         System.out.println("Reading suite " + filePath);
 
-        Stream.Builder<EpdEntry> epdEntryStreamBuilder = Stream.<EpdEntry>builder();
+        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.builder();
 
         try (InputStream instr = new FileInputStream(filePath.toFile());
              InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -48,7 +66,7 @@ public class EpdReader {
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
                     try {
-                        EpdEntry entry = readEdpLine(line);
+                        EPD entry = readEdpLine(line);
                         epdEntryStreamBuilder.add(entry);
                     } catch (RuntimeException e) {
                         System.err.printf("Error decoding: %s\n", line);
@@ -62,22 +80,72 @@ public class EpdReader {
         return epdEntryStreamBuilder.build();
     }
 
-    public EpdEntry readEdpLine(String line) {
-        EpdEntry epdEntry = parseLine(line);
-        Game game = FENDecoder.loadGame(epdEntry.fen);
+    public EPD readEdpLine(String line) {
+        EPD epd = new EPD();
+        epd.setText(line);
 
-        if (epdEntry.bestMovesString != null) {
-            bestMovesStringToMoves(game, epdEntry.bestMovesString, epdEntry.bestMoves);
-        } else if (epdEntry.avoidMoves != null) {
-            bestMovesStringToMoves(game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
-        } else {
-            throw new RuntimeException("No best move nor avoid move detected");
+        Matcher matcher = edpLinePattern.matcher(line);
+        if (matcher.matches()) {
+            epd.setFenWithoutClocks(FEN.of(matcher.group("fen")));
+            if (matcher.group("suppliedmove") != null) {
+                String suppliedMove = matcher.group("suppliedmove");
+                epd.setSuppliedMoveStr(suppliedMove);
+            }
+            if (matcher.group("bestmoves") != null) {
+                String bestMovesString = matcher.group("bestmoves");
+                epd.setBestMovesStr(bestMovesString);
+            }
+            if (matcher.group("avoidmoves") != null) {
+                String avoidMovesString = matcher.group("avoidmoves");
+                epd.setAvoidMovesStr(avoidMovesString);
+            }
+            if (matcher.group("id") != null) {
+                epd.setId(matcher.group("id"));
+            }
+            if (matcher.group("comment0") != null) {
+                String comment0 = matcher.group("comment0");
+                epd.setC0(comment0);
+            }
+            if (matcher.group("comment1") != null) {
+                String comment1 = matcher.group("comment1");
+                epd.setC1(comment1);
+            }
+            if (matcher.group("comment2") != null) {
+                String comment2 = matcher.group("comment2");
+                epd.setC2(comment2);
+            }
+            if (matcher.group("comment3") != null) {
+                String comment3 = matcher.group("comment3");
+                epd.setC3(comment3);
+            }
+            if (matcher.group("comment4") != null) {
+                String comment4 = matcher.group("comment4");
+                epd.setC4(comment4);
+            }
+            if (matcher.group("comment5") != null) {
+                String comment5 = matcher.group("comment5");
+                epd.setC5(comment5);
+            }
+            if (matcher.group("comment6") != null) {
+                String comment6 = matcher.group("comment6");
+                epd.setC6(comment6);
+            }
         }
-        return epdEntry;
+
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
+        if (epd.getBestMovesStr() != null) {
+            epd.setBestMoves(movesStringToMoves(game, epd.getBestMovesStr()));
+        }
+        if (epd.getAvoidMovesStr() != null) {
+            epd.setAvoidMoves(movesStringToMoves(game, epd.getAvoidMovesStr()));
+        }
+
+        return epd;
     }
 
-    private void bestMovesStringToMoves(Game game, String movesString, List<Move> moveList) {
+    private List<Move> movesStringToMoves(Game game, String movesString) {
         String[] bestMoves = movesString.split(" ");
+        List<Move> moveList = new ArrayList<>(bestMoves.length);
         for (int i = 0; i < bestMoves.length; i++) {
             Move move = decodeMove(bestMoves[i], game.getPossibleMoves());
             if (move != null) {
@@ -86,31 +154,7 @@ public class EpdReader {
                 throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
             }
         }
-    }
-
-    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
-
-    private EpdEntry parseLine(String line) {
-        EpdEntry edpParsed = new EpdEntry();
-        edpParsed.text = line;
-
-        Matcher matcher = edpLinePattern.matcher(line);
-        if (matcher.matches()) {
-            edpParsed.fen = matcher.group("fen");
-            if (matcher.group("bestmoves") != null) {
-                edpParsed.bestMovesString = matcher.group("bestmoves");
-                edpParsed.bestMoves = new ArrayList<>();
-            }
-            if (matcher.group("avoidmoves") != null) {
-                edpParsed.avoidMovesString = matcher.group("avoidmoves");
-                edpParsed.avoidMoves = new ArrayList<>();
-            }
-            if (matcher.group("id") != null) {
-                edpParsed.id = matcher.group("id");
-            }
-        }
-
-        return edpParsed;
+        return moveList;
     }
 
 
@@ -183,12 +227,12 @@ public class EpdReader {
     }
 
     private Move decodePromotion(Matcher matcher, Iterable<Move> possibleMoves) {
-        String promotionpieceStr = matcher.group("promotionpiece");
+        String promotionPieceStr = matcher.group("promotionpiece");
         String fromStr = matcher.group("promotionfrom");
         String toStr = matcher.group("promotionto");
         for (Move move : possibleMoves) {
             if (move instanceof MovePromotion movePromotion) {
-                if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionpieceStr)) {
+                if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionPieceStr)) {
                     return move;
                 }
             }

@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class PGNDecoder {
+public class PGNStringDecoder {
 
     private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 

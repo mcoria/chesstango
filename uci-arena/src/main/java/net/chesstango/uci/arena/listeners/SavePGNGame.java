@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.pgn.PGNEncoder;
+import net.chesstango.board.representations.pgn.PGNStringEncoder;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -30,7 +30,7 @@ public class SavePGNGame implements MatchListener {
 
 
     protected static synchronized void save(PGN pgn) {
-        PGNEncoder encoder = new PGNEncoder();
+        PGNStringEncoder encoder = new PGNStringEncoder();
         String encodedGame = encoder.encode(pgn);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));

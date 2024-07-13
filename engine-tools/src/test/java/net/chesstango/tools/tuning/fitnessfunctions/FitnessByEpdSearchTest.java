@@ -3,7 +3,7 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
@@ -53,11 +53,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(bestMoveFound));
+        EPD epd = createEpdEntry(game, List.of(bestMoveFound));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(19, points);
     }
@@ -88,11 +88,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(18, points);
     }
@@ -123,11 +123,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(0, points);
     }
@@ -159,11 +159,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(0, points);
     }
@@ -189,11 +189,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(bestMoveFoundBySearch));
+        EPD epd = createEpdEntry(game, List.of(bestMoveFoundBySearch));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(19, points);
     }
@@ -224,11 +224,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(18, points);
     }
@@ -259,11 +259,11 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(0, points);
     }
@@ -294,26 +294,25 @@ public class FitnessByEpdSearchTest {
             i++;
         }
 
-        EpdEntry epdEntry = createEpdEntry(game, List.of(actualBestMove));
+        EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
         SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
-        long points = fitnessFn.getPoints(epdEntry, searchResult);
+        long points = fitnessFn.getPoints(epd, searchResult);
 
         assertEquals(0, points);
     }
 
-    private EpdEntry createEpdEntry(Game game, List<Move> actualBestMove) {
-        EpdEntry epdEntry = new EpdEntry();
-        epdEntry.fen = game.getInitialFEN().toString();
-        epdEntry.bestMoves = actualBestMove;
-        return epdEntry;
+    private EPD createEpdEntry(Game game, List<Move> actualBestMove) {
+        EPD epd = new EPD();
+        epd.setFenWithoutClocks(game.getInitialFEN());
+        epd.setBestMoves(actualBestMove);
+        return epd;
     }
 
     private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT), null);
         //searchResult.setMoveEvaluations(moveEvaluations);
-
         return searchResult;
     }
 

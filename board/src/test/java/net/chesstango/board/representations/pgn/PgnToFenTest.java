@@ -16,7 +16,7 @@ public class PgnToFenTest {
 
     @Test
     public void testTranscoding01() {
-        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
+        Stream<PGN> pgnStream = new PGNStringDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
         List<FEN> fenPositions = pgnStream.map(PGN::toGame).map(Game::getCurrentFEN).toList();
 

@@ -2,21 +2,15 @@ package net.chesstango.board.representations.pgn;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
-import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.board.representations.move.SANDecoder;
-import net.chesstango.board.representations.move.SANEncoder;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -34,79 +28,76 @@ public class PGN {
     private String result;
     private List<String> moveList;
 
+    public static PGN of(Game game) {
+        return new PGNGameDecoder().decode(game);
+    }
+
     @Override
     public String toString() {
-        return new PGNEncoder().encode(this);
+        return new PGNStringEncoder().encode(this);
     }
 
     public Game toGame() {
-        Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen);
+        return new PGNGameEncoder().encode(this);
+    }
 
+    /**
+     * Cada entrada EPD representa la posicion y el movimiento ejecutado
+     *
+     * @return
+     */
+    public Stream<EPD> toEPD() {
         SANDecoder sanDecoder = new SANDecoder();
-        moveList.forEach(moveStr -> {
+
+        Stream.Builder<EPD> fenStreamBuilder = Stream.builder();
+
+        Game game = FENDecoder.loadGame(getFen() == null ? FENDecoder.INITIAL_FEN : getFen());
+        game.threefoldRepetitionRule(false);
+        game.fiftyMovesRule(false);
+
+
+        getMoveList().forEach(moveStr -> {
             MoveContainerReader legalMoves = game.getPossibleMoves();
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
+
             if (legalMoveToExecute != null) {
+                EPD epd = new EPD();
+
+                epd.setFenWithoutClocks(game.getCurrentFEN());
+
+                epd.setId(String.format("0x%sL", Long.toHexString(game.getChessPosition().getZobristHash())));
+
+                if (event != null) {
+                    epd.setC0(String.format("event='%s'", event));
+                }
+                if (site != null) {
+                    epd.setC1(String.format("site='%s'", site));
+                }
+                if (date != null) {
+                    epd.setC2(String.format("date='%s'", date));
+                }
+                if (white != null) {
+                    epd.setC3(String.format("white='%s'", white));
+                }
+                if (black != null) {
+                    epd.setC4(String.format("black='%s'", black));
+                }
+                if (result != null) {
+                    epd.setC5(String.format("result='%s'", result));
+                }
+
+                epd.setC6(String.format("clock=%d", game.getChessPosition().getFullMoveClock()));
+
+                epd.setSuppliedMoveStr(moveStr);
+                epd.setSuppliedMove(legalMoveToExecute);
+                fenStreamBuilder.add(epd);
+
                 game.executeMove(legalMoveToExecute);
             } else {
-                FENEncoder encoder = new FENEncoder();
-                game.getChessPosition().constructChessPositionRepresentation(encoder);
-                throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", event, moveStr, encoder.getChessRepresentation()));
+                throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", getEvent(), moveStr, game.getCurrentFEN().toString()));
             }
         });
 
-        return game;
-    }
-
-
-    public static PGN of(Game game) {
-        SANEncoder sanEncoder = new SANEncoder();
-        PGN pgn = new PGN();
-        pgn.setResult(encodeGameResult(game));
-        pgn.setFen(game.getInitialFEN().toString());
-
-        List<String> moveList = new ArrayList<>();
-
-        GameStateReader currentState = game.getState();
-        LinkedList<GameStateReader> gameStateList = new LinkedList<>();
-        do {
-            gameStateList.add(currentState);
-            currentState = currentState.getPreviousState();
-        } while (currentState != null);
-
-        String moveStrTmp = "";
-        Iterator<GameStateReader> listIt = gameStateList.descendingIterator();
-        while (listIt.hasNext()) {
-            GameStateReader gameState = listIt.next();
-            if (!"".equals(moveStrTmp)) {
-                moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
-                moveList.add(moveStrTmp);
-                moveStrTmp = "";
-            }
-            if (gameState.getSelectedMove() != null) {
-                moveStrTmp = sanEncoder.encodeAlgebraicNotation(gameState.getSelectedMove(), gameState.getLegalMoves());
-            }
-        }
-        pgn.setMoveList(moveList);
-
-        return pgn;
-    }
-
-    private static String encodeGameStatusAtMove(GameStatus gameStatus) {
-        return switch (gameStatus) {
-            case NO_CHECK, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "";
-            case CHECK -> "+";
-            case MATE -> "#";
-            default -> throw new RuntimeException("Invalid game status");
-        };
-    }
-
-    private static String encodeGameResult(Game game) {
-        return switch (game.getStatus()) {
-            case NO_CHECK, CHECK -> "*";
-            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "1/2-1/2";
-            case MATE -> Color.BLACK.equals(game.getChessPosition().getCurrentTurn()) ? "1-0" : "0-1";
-            default -> throw new RuntimeException("Invalid game status");
-        };
+        return fenStreamBuilder.build();
     }
 }
