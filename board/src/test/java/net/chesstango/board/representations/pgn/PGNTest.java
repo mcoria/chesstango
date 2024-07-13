@@ -26,6 +26,6 @@ public class PGNTest {
         List<EPD> pgnToEpd = pgn.stream().toList();
 
         assertEquals(1, pgnToEpd.size());
-        //assertEquals("", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 sm a4;", pgnToEpd.getFirst().toString());
     }
 }

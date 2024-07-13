@@ -26,6 +26,7 @@ public class EPD {
     private String avoidMovesStr;
     private List<Move> avoidMoves;
 
+    private String suppliedMoveStr;
     private Move suppliedMove;
 
     @Override
@@ -39,6 +40,12 @@ public class EPD {
     @Override
     public int hashCode() {
         return Objects.hash(getText());
+    }
+
+
+    @Override
+    public String toString() {
+        return text != null ? text : new EPDEncoder().encode(this);
     }
 
     public boolean isMoveSuccess(Move bestMove) {

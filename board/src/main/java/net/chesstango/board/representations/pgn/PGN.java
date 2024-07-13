@@ -55,7 +55,8 @@ public class PGN {
             if (legalMoveToExecute != null) {
                 EPD epd = new EPD();
                 epd.setFen(game.getCurrentFEN());
-                //epd.setSuppliedMoveString(moveStr);
+                epd.setSuppliedMoveStr(moveStr);
+                epd.setSuppliedMove(legalMoveToExecute);
                 fenStreamBuilder.add(epd);
 
                 game.executeMove(legalMoveToExecute);

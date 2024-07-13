@@ -24,6 +24,10 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 public class EPDDecoder {
+    /**
+     * Decode line components
+     */
+    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
     public Stream<EPD> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
@@ -38,7 +42,7 @@ public class EPDDecoder {
 
         System.out.println("Reading suite " + filePath);
 
-        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.<EPD>builder();
+        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.builder();
 
         try (InputStream instr = new FileInputStream(filePath.toFile());
              InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -62,11 +66,6 @@ public class EPDDecoder {
         }
         return epdEntryStreamBuilder.build();
     }
-
-    /**
-     * Decode line components
-     */
-    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
     public EPD readEdpLine(String line) {
         EPD epd = new EPD();
