@@ -25,7 +25,10 @@ public class EPD {
     private String c5;
     private String c6;
 
-    private FEN fen;
+    //  The halfmove clock and full move counter,
+    //  obligatory in Forsyth-Edwards Notation
+    //  are replaced by optional hmvc and fmvn operations
+    private FEN fenWithoutClocks;
 
     private String bestMovesStr;
     private List<Move> bestMoves;

@@ -63,7 +63,7 @@ public class PGN {
             if (legalMoveToExecute != null) {
                 EPD epd = new EPD();
 
-                epd.setFen(game.getCurrentFEN());
+                epd.setFenWithoutClocks(game.getCurrentFEN());
 
                 epd.setId(String.format("0x%sL", Long.toHexString(game.getChessPosition().getZobristHash())));
 

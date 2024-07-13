@@ -27,7 +27,13 @@ public class EPDDecoder {
     /**
      * Decode line components
      */
-    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
+    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+" +
+            "(\\s*bm\\s+(?<bestmoves>[^;]*);" +
+            "|\\s*am\\s+(?<avoidmoves>[^;]*);" +
+            "|\\s*sm\\s+(?<suppliedmove>[^;]*);" +
+            "|\\s*id\\s+\"(?<id>[^\"]+)\";" +
+            "|[^;]+;)*"
+    );
 
     public Stream<EPD> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
@@ -73,7 +79,11 @@ public class EPDDecoder {
 
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
-            epd.setFen(FEN.of(matcher.group("fen")));
+            epd.setFenWithoutClocks(FEN.of(matcher.group("fen")));
+            if (matcher.group("suppliedmove") != null) {
+                String suppliedMove = matcher.group("suppliedmove");
+                epd.setSuppliedMoveStr(suppliedMove);
+            }
             if (matcher.group("bestmoves") != null) {
                 String bestMovesString = matcher.group("bestmoves");
                 epd.setBestMovesStr(bestMovesString);
@@ -87,7 +97,7 @@ public class EPDDecoder {
             }
         }
 
-        Game game = FENDecoder.loadGame(epd.getFen());
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
         if (epd.getBestMovesStr() != null) {
             epd.setBestMoves(movesStringToMoves(game, epd.getBestMovesStr()));
         }

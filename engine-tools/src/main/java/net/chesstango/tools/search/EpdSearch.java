@@ -143,7 +143,7 @@ public class EpdSearch {
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
 
-        Game game = FENDecoder.loadGame(epd.getFen());
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
 
         SearchMoveResult searchResult = searchMove.search(game);
 

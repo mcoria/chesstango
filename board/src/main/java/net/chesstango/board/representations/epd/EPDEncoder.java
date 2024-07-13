@@ -1,13 +1,17 @@
 package net.chesstango.board.representations.epd;
 
+import net.chesstango.board.representations.fen.FEN;
+
 /**
  * @author Mauricio Coria
  */
 public class EPDEncoder {
+
     public String encode(EPD epd) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(epd.getFen().toString());
+        FEN fen = epd.getFenWithoutClocks();
+        stringBuilder.append(String.format("%s %s %s %s", fen.getPiecePlacement(), fen.getActiveColor(), fen.getCastingsAllowed(), fen.getEnPassantSquare()));
 
         if (epd.getSuppliedMoveStr() != null) {
             stringBuilder.append(" sm ");
