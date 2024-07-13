@@ -3,7 +3,7 @@ package net.chesstango.tools;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.board.representations.pgn.PGNDecoder;
+import net.chesstango.board.representations.pgn.PGNStringDecoder;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.SearchMove;
@@ -202,7 +202,7 @@ public class SearchesTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNDecoder decoder = new PGNDecoder();
+        PGNStringDecoder decoder = new PGNStringDecoder();
 
         PGN pgn = decoder.decodePGN(bufferReader);
 

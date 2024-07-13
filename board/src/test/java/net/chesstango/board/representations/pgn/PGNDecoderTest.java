@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PGNDecoderTest {
 
-    private PGNDecoder decoder;
+    private PGNStringDecoder decoder;
 
     @BeforeEach
     public void settup() {
-        decoder = new PGNDecoder();
+        decoder = new PGNStringDecoder();
     }
 
     @Test

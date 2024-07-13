@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class PGNEncoderTest {
 
-    private PGNEncoder encoder;
+    private PGNStringEncoder encoder;
 
     @BeforeEach
     public void settup(){
-        encoder = new PGNEncoder();
+        encoder = new PGNStringEncoder();
     }
 
     @Test
