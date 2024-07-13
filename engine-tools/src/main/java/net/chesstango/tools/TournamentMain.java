@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -53,11 +54,11 @@ public class TournamentMain {
                 .printReport(System.out);
     }
 
-    private static List<FEN> getFenList() {
+    private static Stream<FEN> getFenList() {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        List<PGN> pgnGames = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
-        return new PgnToFen().pgnToFen(pgnGames);
+        return pgnStream.map(PgnToFen::pgnToFen);
     }
 
     private final List<Supplier<EngineController>> engineSupplierList;
@@ -66,7 +67,7 @@ public class TournamentMain {
         this.engineSupplierList = engineSupplierList;
     }
 
-    public List<MatchResult> play(List<FEN> fenList) {
+    public List<MatchResult> play(Stream<FEN> fenList) {
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
         Tournament tournament = new Tournament(engineSupplierList, matchType)

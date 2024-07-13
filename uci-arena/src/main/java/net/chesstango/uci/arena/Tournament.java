@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -36,7 +37,7 @@ public class Tournament {
         this.matchType = matchType;
     }
 
-    public List<MatchResult> play(List<FEN> fenList) {
+    public List<MatchResult> play(Stream<FEN> fenList) {
 
         List<MatchResult> matchResults = Collections.synchronizedList(new LinkedList<>());
 

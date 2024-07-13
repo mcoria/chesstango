@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -18,8 +19,7 @@ public class PGNDecoder {
 
     private static final Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
-    public List<PGN> decodePGNs(InputStream inputStream) {
-
+    public Stream<PGN> decodePGNs(InputStream inputStream) {
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
              BufferedReader bufferReader = new BufferedReader(inputStreamReader);
         ) {
@@ -30,13 +30,15 @@ public class PGNDecoder {
 
     }
 
-    public List<PGN> decodePGNs(BufferedReader bufferReader) throws IOException {
-        List<PGN> result = new ArrayList<>();
+    public Stream<PGN> decodePGNs(BufferedReader bufferReader) throws IOException {
+        Stream.Builder<PGN> pgnStreamBuilder = Stream.builder();
+
         PGN game;
         while ((game = decodePGN(bufferReader)) != null) {
-            result.add(game);
+            pgnStreamBuilder.add(game);
         }
-        return result;
+        
+        return pgnStreamBuilder.build();
     }
 
     public PGN decodePGN(BufferedReader bufferReader) throws IOException {

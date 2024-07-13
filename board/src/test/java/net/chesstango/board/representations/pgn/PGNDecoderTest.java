@@ -246,7 +246,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(inputStreamReader);
 
-        List<PGN> games = decoder.decodePGNs(bufferReader);
+        List<PGN> games = decoder.decodePGNs(bufferReader).toList();
 
         assertEquals(10, games.size());
 

@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -50,29 +51,19 @@ public class MatchMultiple {
         this.switchChairs = true;
     }
 
-    public List<MatchResult> play(List<FEN> fenList) {
+    public List<MatchResult> play(Stream<FEN> fenStream) {
         int availableCores = Runtime.getRuntime().availableProcessors();
 
         try (ExecutorService executor = Executors.newFixedThreadPool(availableCores - 1)) {
-
-            createPlayTasks(fenList, controllerPool1, controllerPool2)
-                    .forEach(executor::submit);
-
-            if (switchChairs) {
-                createPlayTasks(fenList, controllerPool2, controllerPool1)
-                        .forEach(executor::submit);
-            }
+            fenStream.forEach(fen -> {
+                executor.submit(() -> play(fen, controllerPool1, controllerPool2));
+                if (switchChairs) {
+                    executor.submit(() -> play(fen, controllerPool1, controllerPool2));
+                }
+            });
         }
 
         return result;
-    }
-
-    private List<Runnable> createPlayTasks(List<FEN> fenList,
-                                           ObjectPool<EngineController> thePool1,
-                                           ObjectPool<EngineController> thePool2) {
-        return fenList.stream()
-                .map(fen -> (Runnable) () -> play(fen, thePool1, thePool2))
-                .toList();
     }
 
     private void play(FEN fen,

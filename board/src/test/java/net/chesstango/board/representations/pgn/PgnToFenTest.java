@@ -15,11 +15,9 @@ public class PgnToFenTest {
 
     @Test
     public void testTranscoding01() {
-        List<PGN> pgnGames = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
+        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
-        PgnToFen pgnToFen = new PgnToFen();
-
-        List<FEN> fenPositions = pgnToFen.pgnToFen(pgnGames);
+        List<FEN> fenPositions = pgnStream.map(PgnToFen::pgnToFen).toList();
 
         List<FEN> expectedFenPositions = Stream.of(
                         "r2qkbnr/pp1n1ppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R b KQkq - 3 6",
