@@ -14,7 +14,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKeyINITIAL_FEN() {
-        ChessPosition initialPosition = new FEN(FENDecoder.INITIAL_FEN).toChessPosition();
+        ChessPosition initialPosition = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -35,7 +35,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKey01() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -57,7 +57,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKey02() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -78,7 +78,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKey03() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -98,7 +98,7 @@ public class PolyglotEncoderTest {
      */
     @Test
     public void generateKey04() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -119,7 +119,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKey05() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR b kq - 0 3").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR b kq - 0 3").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -139,7 +139,7 @@ public class PolyglotEncoderTest {
      */
     @Test
     public void generateKey06() {
-        ChessPosition initialPosition = new FEN("rnbq1bnr/ppp1pkpp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR w - - 0 4").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbq1bnr/ppp1pkpp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR w - - 0 4").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -160,7 +160,7 @@ public class PolyglotEncoderTest {
      */
     @Test
     public void generateKey07() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/p1pppppp/8/8/PpP4P/8/1P1PPPP1/RNBQKBNR b KQkq c3 0 3").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/p1pppppp/8/8/PpP4P/8/1P1PPPP1/RNBQKBNR b KQkq c3 0 3").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
@@ -181,7 +181,7 @@ public class PolyglotEncoderTest {
      */
     @Test
     public void generateKey08() {
-        ChessPosition initialPosition = new FEN("rnbqkbnr/p1pppppp/8/8/P6P/R1p5/1P1PPPP1/1NBQKBNR b Kkq - 0 4").toChessPosition();
+        ChessPosition initialPosition = FEN.of("rnbqkbnr/p1pppppp/8/8/P6P/R1p5/1P1PPPP1/1NBQKBNR b Kkq - 0 4").toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 

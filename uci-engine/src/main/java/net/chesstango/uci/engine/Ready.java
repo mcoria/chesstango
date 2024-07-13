@@ -59,8 +59,8 @@ class Ready implements UCIEngine {
     @Override
     public void do_position(CmdPosition cmdPosition) {
         uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
-                        ? new FEN(FENDecoder.INITIAL_FEN)
-                        : new FEN(cmdPosition.getFen())
+                        ? FEN.of(FENDecoder.INITIAL_FEN)
+                        : FEN.of(cmdPosition.getFen())
                 , cmdPosition.getMoves());
         uciTango.currentState = uciTango.waitCmdGoState;
     }

@@ -89,7 +89,7 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                ChessPosition position = new FEN(node.fen).toChessPosition();
+                ChessPosition position = FEN.of(node.fen).toChessPosition();
                 Game game = loadGame(position);
                 node.position = game.getChessPosition();
                 node.gameState = game.getState();

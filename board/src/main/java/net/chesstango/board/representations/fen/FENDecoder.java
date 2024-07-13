@@ -20,7 +20,7 @@ public class FENDecoder {
     }
 
     public void parseFEN(String fenString) {
-        parseFEN(new FEN(fenString));
+        parseFEN(FEN.of(fenString));
     }
 
     public void parseFEN(FEN fen) {
@@ -227,7 +227,7 @@ public class FENDecoder {
 
 
     public static Game loadGame(String fen) {
-        return loadGame(new FEN(fen));
+        return loadGame(FEN.of(fen));
     }
 
     public static Game loadGame(FEN fen) {

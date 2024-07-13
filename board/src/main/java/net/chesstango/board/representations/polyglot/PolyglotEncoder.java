@@ -289,7 +289,7 @@ public class PolyglotEncoder extends AbstractChessPositionBuilder<Long> {
 
 
     public static Long getKey(String fenString) {
-        ChessPositionReader position = new FEN(fenString).toChessPosition();
+        ChessPositionReader position = FEN.of(fenString).toChessPosition();
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructChessPositionRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();

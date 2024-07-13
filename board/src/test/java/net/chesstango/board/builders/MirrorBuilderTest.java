@@ -30,7 +30,7 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition01() {
-        ChessPosition position = new FEN(FENDecoder.INITIAL_FEN).toChessPosition();
+        ChessPosition position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
 
         MirrorChessPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorChessPositionBuilder(new DefaultChessPositionBuilder());
 
@@ -50,7 +50,7 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition02() {
-        ChessPosition position = new FEN("4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20").toChessPosition();
+        ChessPosition position = FEN.of("4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20").toChessPosition();
 
         MirrorChessPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorChessPositionBuilder(new DefaultChessPositionBuilder());
 
@@ -69,7 +69,7 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition03() {
-        ChessPosition position = new FEN("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7").toChessPosition();
+        ChessPosition position = FEN.of("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7").toChessPosition();
 
         MirrorChessPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorChessPositionBuilder(new DefaultChessPositionBuilder());
 
@@ -88,7 +88,7 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition04() {
-        ChessPosition position = new FEN("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5").toChessPosition();
+        ChessPosition position = FEN.of("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5").toChessPosition();
 
         MirrorChessPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorChessPositionBuilder(new DefaultChessPositionBuilder());
 

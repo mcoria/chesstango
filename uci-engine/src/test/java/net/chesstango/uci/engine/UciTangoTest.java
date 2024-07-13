@@ -55,7 +55,7 @@ public class UciTangoTest {
         engine.accept(new CmdPosition(List.of("e2e4")));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(new FEN(FENDecoder.INITIAL_FEN), List.of("e2e4"));
+        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), List.of("e2e4"));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class UciTangoTest {
         engine.accept(new CmdPosition(moveList));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(new FEN(FENDecoder.INITIAL_FEN), moveList);
+        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), moveList);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class UciTangoTest {
         engine.accept(new CmdPosition(moveList));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(new FEN(FENDecoder.INITIAL_FEN), moveList);
+        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), moveList);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class UciTangoTest {
         engine.accept(new CmdPosition("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", List.of("e2e4")));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(new FEN("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"), List.of("e2e4"));
+        verify(tango, times(1)).setPosition(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"), List.of("e2e4"));
     }
 
 

@@ -169,7 +169,7 @@ class Match {
     }
 
     private String retrieveBestMoveFromController(EngineController currentTurn, List<String> moves) {
-        if (new FEN(FENDecoder.INITIAL_FEN).equals(fen)) {
+        if (FEN.of(FENDecoder.INITIAL_FEN).equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
             currentTurn.send_CmdPosition(new CmdPosition(fen.toString(), moves));

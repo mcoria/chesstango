@@ -158,7 +158,7 @@ public class LichessTango implements Runnable {
     }
 
     private void play(GameStateEvent.State state) {
-        tango.setPosition(new FEN(fenPosition), state.moveList());
+        tango.setPosition(FEN.of(fenPosition), state.moveList());
 
         ChessPositionReader currentChessPosition = tango
                 .getCurrentSession()
