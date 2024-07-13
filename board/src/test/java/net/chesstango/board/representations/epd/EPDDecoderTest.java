@@ -160,6 +160,13 @@ public class EPDDecoderTest {
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", epd.getFenWithoutClocks().toString());
         assertEquals("a4", epd.getSuppliedMoveStr());
+        assertEquals("c0", epd.getC0());
+        assertEquals("c1", epd.getC1());
+        assertEquals("c2", epd.getC2());
+        assertEquals("c3", epd.getC3());
+        assertEquals("c4", epd.getC4());
+        assertEquals("c5", epd.getC5());
+        assertEquals("c6", epd.getC6());
         assertEquals("1", epd.getId());
     }
 
