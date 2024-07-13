@@ -3,6 +3,7 @@ package net.chesstango.board.representations.epd;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.fen.FEN;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,18 +14,19 @@ import java.util.Objects;
 @Getter
 @Setter
 public class EPD {
-    private String id;
     private String text;
 
-    private String fen;
+    private String id;
 
-    private String bestMovesString;
+    private FEN fen;
+
+    private String bestMovesStr;
     private List<Move> bestMoves;
 
-    private String avoidMovesString;
+    private String avoidMovesStr;
     private List<Move> avoidMoves;
 
-    private String suppliedMoveString;
+    private Move suppliedMove;
 
     @Override
     public boolean equals(Object object) {
@@ -49,7 +51,7 @@ public class EPD {
         }
     }
 
-    public int calculateAccuracyPct(List<Move> moveList) {
+    public int calculateAccuracy(List<Move> moveList) {
         if (!moveList.isEmpty()) {
             long successMovesCounter = moveList.stream().filter(this::isMoveSuccess).count();
             return (int) (successMovesCounter * 100 / moveList.size());

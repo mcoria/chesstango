@@ -14,7 +14,7 @@ public record EpdSearchResult(EPD epd,
                               String bestMoveFoundAlgNot,
                               boolean isSearchSuccess,
 
-                              // Exactitud: de la lista de movimientos en profundidad, que movimientos sin exitosos
+                              // Exactitud: de la lista de movimientos en profundidad, que movimientos son exitosos
                               int depthAccuracyPct) {
 
     public EpdSearchResult(EPD epd,
@@ -24,7 +24,7 @@ public record EpdSearchResult(EPD epd,
                 searchResult,
                 bestMoveFoundStr,
                 epd.isMoveSuccess(searchResult.getBestMove()),
-                epd.calculateAccuracyPct(searchResult.getSearchByDepthResultList()
+                epd.calculateAccuracy(searchResult.getSearchByDepthResultList()
                         .stream()
                         .map(SearchByDepthResult::getBestMove)
                         .toList())

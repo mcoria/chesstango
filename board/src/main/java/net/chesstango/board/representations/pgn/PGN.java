@@ -53,10 +53,10 @@ public class PGN {
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
 
             if (legalMoveToExecute != null) {
-                EPD EPD = new EPD();
-                EPD.setFen(game.getCurrentFEN().toString());
-                EPD.setSuppliedMoveString(moveStr);
-                fenStreamBuilder.add(EPD);
+                EPD epd = new EPD();
+                epd.setFen(game.getCurrentFEN());
+                //epd.setSuppliedMoveString(moveStr);
+                fenStreamBuilder.add(epd);
 
                 game.executeMove(legalMoveToExecute);
             } else {

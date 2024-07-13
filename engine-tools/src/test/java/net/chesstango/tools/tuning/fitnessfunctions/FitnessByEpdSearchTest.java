@@ -305,7 +305,7 @@ public class FitnessByEpdSearchTest {
 
     private EPD createEpdEntry(Game game, List<Move> actualBestMove) {
         EPD epd = new EPD();
-        epd.setFen(game.getInitialFEN().toString());
+        epd.setFen(game.getInitialFEN());
         epd.setBestMoves(actualBestMove);
         return epd;
     }
@@ -313,7 +313,6 @@ public class FitnessByEpdSearchTest {
     private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT), null);
         //searchResult.setMoveEvaluations(moveEvaluations);
-
         return searchResult;
     }
 
