@@ -8,7 +8,6 @@ import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
@@ -46,7 +45,7 @@ public class MatchListenerToMBean implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFEN(), whiteName, blackName, turn);
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFEN().toString(), whiteName, blackName, turn);
 
         arena.newGame(gameDescriptionInitial);
     }
@@ -90,7 +89,7 @@ public class MatchListenerToMBean implements MatchListener {
 
         String lastMove = encodeMove(move);
 
-        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(currentGameId, FENEncoder.encodeGame(game), turn, lastMove, arrayMoveStr);
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(currentGameId, game.getCurrentFEN().toString(), turn, lastMove, arrayMoveStr);
 
         arena.newMove(gameDescriptionCurrent);
     }

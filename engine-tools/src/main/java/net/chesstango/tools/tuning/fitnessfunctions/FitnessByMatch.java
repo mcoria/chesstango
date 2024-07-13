@@ -1,9 +1,13 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-import net.chesstango.board.representations.Transcoding;
+import net.chesstango.board.Game;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.pgn.PGN;
+import net.chesstango.board.representations.pgn.PGNDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.tools.MatchMain;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
@@ -20,6 +24,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -31,17 +36,19 @@ public class FitnessByMatch implements FitnessFunction {
 
     private ObjectPool<EngineController> opponentPool;
 
-    private List<String> fenList;
+    private Stream<FEN> fenList;
 
 
     @Override
     public void start() {
         Supplier<EngineController> opponentSupplier = () -> EngineControllerFactory.createProxyController("Spike", null);
 
-        this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        Stream<PGN> pgnGames = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         //this.fenList = new Transcoding().pgnFileToFenPositions(FitnessByMatch.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+
+        this.fenList = pgnGames.map(PGN::toGame).map(Game::getCurrentFEN);
         this.opponentPool = new GenericObjectPool<>(new EngineControllerPoolFactory(opponentSupplier));
     }
 

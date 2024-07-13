@@ -4,15 +4,15 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
+import net.chesstango.board.builders.AbstractChessPositionBuilder;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
+public class PolyglotEncoder extends AbstractChessPositionBuilder<Long> {
 
     public static final int CASTLE_WHITE_KING_OFFSET = 768;
     public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
@@ -288,8 +288,8 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
     };
 
 
-    public static Long getKey(String fen) {
-        ChessPositionReader position = FENDecoder.loadChessPosition(fen);
+    public static Long getKey(String fenString) {
+        ChessPositionReader position = FEN.of(fenString).toChessPosition();
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructChessPositionRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();

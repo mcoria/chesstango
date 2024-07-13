@@ -5,7 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.ChessRepresentationBuilder;
+import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
@@ -48,7 +48,7 @@ public class ChessPositionImp implements ChessPosition {
 
 
     @Override
-    public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder) {
+    public void constructChessPositionRepresentation(ChessPositionBuilder<?> builder) {
         builder.withTurn(positionState.getCurrentTurn())
                 .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
                 .withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
@@ -260,7 +260,7 @@ public class ChessPositionImp implements ChessPosition {
 
         constructChessPositionRepresentation(fenEncoder);
 
-        return fenEncoder.getChessRepresentation();
+        return fenEncoder.getChessRepresentation().toString();
     }
 
 }

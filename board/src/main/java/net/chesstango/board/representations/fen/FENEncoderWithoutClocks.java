@@ -7,59 +7,48 @@ import net.chesstango.board.builders.AbstractChessPositionBuilder;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractChessPositionBuilder<FEN> {
+public class FENEncoderWithoutClocks extends AbstractChessPositionBuilder<String> {
 
     @Override
-    public FEN getChessRepresentation() {
-        String piecePlacement = getPiecePlacement();
-        String activeColor = getTurno();
-        String castingsAllowed = getEnroques();
-        String enPassantSquare = getEnPassant();
-        String halfMoveClock = getHalfMoveClock();
-        String fullMoveClock = getFullMoveClock();
+    public String getChessRepresentation() {
+        StringBuilder stringBuilder = new StringBuilder(70);
 
-        return new FEN(piecePlacement,
-                activeColor,
-                castingsAllowed,
-                enPassantSquare,
-                halfMoveClock,
-                fullMoveClock);
-    }
+        getPiecePlacement(stringBuilder).append(' ');
 
-    protected String getHalfMoveClock() {
-        return Integer.toString(this.halfMoveClock);
-    }
+        getTurno(stringBuilder).append(' ');
 
-    protected String getFullMoveClock() {
-        return Integer.toString(this.fullMoveClock);
+        getEnroques(stringBuilder).append(' ');
+
+        getEnPassant(stringBuilder);
+
+        return stringBuilder.toString();
     }
 
 
-    protected String getTurno() {
-        return Color.WHITE.equals(turn) ? "w" : "b";
+    protected StringBuilder getTurno(StringBuilder stringBuilder) {
+        return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
     }
 
-    protected String getPiecePlacement() {
-        StringBuilder stringBuilder = new StringBuilder();
+    protected StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
         for (int i = 7; i >= 0; i--) {
             codePiecePlacementRank(board[i], stringBuilder);
             if (i > 0) {
                 stringBuilder.append('/');
             }
         }
-        return stringBuilder.toString();
+        return stringBuilder;
     }
 
-    protected String getEnPassant() {
-        if (enPassantSquare != null) {
-            return enPassantSquare.toString();
+    protected StringBuilder getEnPassant(StringBuilder stringBuilder) {
+        if (enPassantSquare == null) {
+            stringBuilder.append('-');
+        } else {
+            stringBuilder.append(enPassantSquare);
         }
-        return "-";
+        return stringBuilder;
     }
 
-    protected String getEnroques() {
-        StringBuilder stringBuilder = new StringBuilder();
-
+    protected StringBuilder getEnroques(StringBuilder stringBuilder) {
         if (castlingWhiteKingAllowed) {
             stringBuilder.append('K');
         }
@@ -80,10 +69,10 @@ public class FENEncoder extends AbstractChessPositionBuilder<FEN> {
             stringBuilder.append('-');
         }
 
-        return stringBuilder.toString();
+        return stringBuilder;
     }
 
-    protected String codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
+    protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
         int vacios = 0;
         for (int i = 0; i < piezas.length; i++) {
             if (piezas[i] == null) {
@@ -101,7 +90,7 @@ public class FENEncoder extends AbstractChessPositionBuilder<FEN> {
             stringBuilder.append(vacios);
         }
 
-        return stringBuilder.toString();
+        return stringBuilder;
     }
 
     private char getCode(Piece piece) {

@@ -1,6 +1,9 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.Transcoding;
+import net.chesstango.board.Game;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.pgn.PGN;
+import net.chesstango.board.representations.pgn.PGNDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterialAndPST;
 import net.chesstango.evaluation.evaluators.EvaluatorImp02;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
@@ -19,6 +22,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -50,11 +54,11 @@ public class TournamentMain {
                 .printReport(System.out);
     }
 
-    private static List<String> getFenList() {
+    private static Stream<FEN> getFenList() {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = List.of(FENDecoder.INITIAL_FEN);
-        return fenList;
+        return pgnStream.map(PGN::toGame).map(Game::getCurrentFEN);
     }
 
     private final List<Supplier<EngineController>> engineSupplierList;
@@ -63,7 +67,7 @@ public class TournamentMain {
         this.engineSupplierList = engineSupplierList;
     }
 
-    public List<MatchResult> play(List<String> fenList) {
+    public List<MatchResult> play(Stream<FEN> fenList) {
         CaptureMatchResult captureMatchResult = new CaptureMatchResult();
 
         Tournament tournament = new Tournament(engineSupplierList, matchType)

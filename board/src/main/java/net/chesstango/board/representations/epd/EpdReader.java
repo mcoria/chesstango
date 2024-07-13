@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * This class reads Extended Position Description files.
@@ -23,36 +24,32 @@ import java.util.regex.Pattern;
  */
 public class EpdReader {
 
-    public List<EpdEntry> readEdpFile(String filename) {
+    public Stream<EpdEntry> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
 
     }
 
-    public List<EpdEntry> readEdpFile(Path filePath) {
+    public Stream<EpdEntry> readEdpFile(Path filePath) {
         if (!Files.exists(filePath)) {
             System.err.printf("file not found: %s\n", filePath.getFileName());
             throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
         }
 
-        List<EpdEntry> edpEntries = new ArrayList<>();
-        try {
-            System.out.println("Reading suite " + filePath);
+        System.out.println("Reading suite " + filePath);
 
-            InputStream instr = new FileInputStream(filePath.toFile());
+        Stream.Builder<EpdEntry> epdEntryStreamBuilder = Stream.<EpdEntry>builder();
 
-            // reading the files with buffered reader
-            InputStreamReader inputStreamReader = new InputStreamReader(instr);
-
-            BufferedReader rr = new BufferedReader(inputStreamReader);
+        try (InputStream instr = new FileInputStream(filePath.toFile());
+             InputStreamReader inputStreamReader = new InputStreamReader(instr);
+             BufferedReader rr = new BufferedReader(inputStreamReader)) {
 
             String line;
 
-            // outputting each line of the file.
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
                     try {
                         EpdEntry entry = readEdpLine(line);
-                        edpEntries.add(entry);
+                        epdEntryStreamBuilder.add(entry);
                     } catch (RuntimeException e) {
                         System.err.printf("Error decoding: %s\n", line);
                         e.printStackTrace(System.err);
@@ -62,7 +59,7 @@ public class EpdReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return edpEntries;
+        return epdEntryStreamBuilder.build();
     }
 
     public EpdEntry readEdpLine(String line) {
@@ -71,7 +68,7 @@ public class EpdReader {
 
         if (epdEntry.bestMovesString != null) {
             bestMovesStringToMoves(game, epdEntry.bestMovesString, epdEntry.bestMoves);
-        }else if (epdEntry.avoidMoves != null) {
+        } else if (epdEntry.avoidMoves != null) {
             bestMovesStringToMoves(game, epdEntry.avoidMovesString, epdEntry.avoidMoves);
         } else {
             throw new RuntimeException("No best move nor avoid move detected");
@@ -91,9 +88,9 @@ public class EpdReader {
         }
     }
 
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
+    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|am\\s+(?<avoidmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
-    protected EpdEntry parseLine(String line) {
+    private EpdEntry parseLine(String line) {
         EpdEntry edpParsed = new EpdEntry();
         edpParsed.text = line;
 
@@ -120,14 +117,14 @@ public class EpdReader {
     /**
      * DECODE MOVE
      */
-    private Pattern edpMovePattern = Pattern.compile("(" +
+    private static final Pattern edpMovePattern = Pattern.compile("(" +
             "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h])|(?<fromrank>[1-8]))?[-x]?(?<to>[a-h][1-8]))|" +
             "(?<promotion>(?<promotionfrom>[a-h][1-8])[-x](?<promotionto>[a-h][1-8])(?<promotionpiece>[RNBQK]))|" +
             "(?<queencaslting>O-O-O)|" +
             "(?<kingcastling>O-O)" +
             ")\\+?");
 
-    public Move decodeMove(String moveStr, Iterable<Move> possibleMoves) {
+    private Move decodeMove(String moveStr, Iterable<Move> possibleMoves) {
         final Matcher matcher = edpMovePattern.matcher(moveStr);
         if (matcher.matches()) {
             if (matcher.group("piecemove") != null) {
@@ -143,7 +140,7 @@ public class EpdReader {
         return null;
     }
 
-    protected Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
         String pieceStr = matcher.group("piece");
         String fromStr = matcher.group("from");
         String fromFileStr = matcher.group("fromfile");
@@ -185,13 +182,12 @@ public class EpdReader {
         return null;
     }
 
-    protected Move decodePromotion(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePromotion(Matcher matcher, Iterable<Move> possibleMoves) {
         String promotionpieceStr = matcher.group("promotionpiece");
         String fromStr = matcher.group("promotionfrom");
         String toStr = matcher.group("promotionto");
         for (Move move : possibleMoves) {
-            if (move instanceof MovePromotion) {
-                MovePromotion movePromotion = (MovePromotion) move;
+            if (move instanceof MovePromotion movePromotion) {
                 if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionpieceStr)) {
                     return move;
                 }
@@ -219,27 +215,14 @@ public class EpdReader {
     }
 
     private String getPieceCode(Piece piece) {
-        switch (piece) {
-            case PAWN_WHITE:
-            case PAWN_BLACK:
-                throw new RuntimeException("You should not call this method with pawn");
-            case ROOK_WHITE:
-            case ROOK_BLACK:
-                return "R";
-            case KNIGHT_WHITE:
-            case KNIGHT_BLACK:
-                return "N";
-            case BISHOP_WHITE:
-            case BISHOP_BLACK:
-                return "B";
-            case QUEEN_WHITE:
-            case QUEEN_BLACK:
-                return "Q";
-            case KING_WHITE:
-            case KING_BLACK:
-                return "K";
-            default:
-                throw new RuntimeException("Falta pieza");
-        }
+        return switch (piece) {
+            case PAWN_WHITE, PAWN_BLACK -> throw new RuntimeException("You should not call this method with pawn");
+            case ROOK_WHITE, ROOK_BLACK -> "R";
+            case KNIGHT_WHITE, KNIGHT_BLACK -> "N";
+            case BISHOP_WHITE, BISHOP_BLACK -> "B";
+            case QUEEN_WHITE, QUEEN_BLACK -> "Q";
+            case KING_WHITE, KING_BLACK -> "K";
+            default -> throw new RuntimeException("Falta pieza");
+        };
     }
 }

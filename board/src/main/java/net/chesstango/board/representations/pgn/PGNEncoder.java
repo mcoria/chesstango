@@ -13,19 +13,19 @@ import java.util.Objects;
  */
 public class PGNEncoder {
 
-    public String encode(PGNGame game) {
+    public String encode(PGN game) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[Event \"" + (game.getEvent() == null ? "?" : game.getEvent()) + "\"]\n");
-        sb.append("[Site \"" + (game.getSite() == null ? getComputerName() : game.getSite()) + "\"]\n");
-        sb.append("[Date \"" + (game.getDate() == null ? getToday() : game.getDate()) + "\"]\n");
-        sb.append("[Round \"" + (game.getRound() == null ? "?" : game.getRound()) + "\"]\n");
-        sb.append("[White \"" + (game.getWhite() == null ? "X" : game.getWhite()) + "\"]\n");
-        sb.append("[Black \"" + (game.getBlack() == null ? "X" : game.getBlack()) + "\"]\n");
+        sb.append("[Event \"").append(game.getEvent() == null ? "?" : game.getEvent()).append("\"]\n");
+        sb.append("[Site \"").append(game.getSite() == null ? getComputerName() : game.getSite()).append("\"]\n");
+        sb.append("[Date \"").append(game.getDate() == null ? getToday() : game.getDate()).append("\"]\n");
+        sb.append("[Round \"").append(game.getRound() == null ? "?" : game.getRound()).append("\"]\n");
+        sb.append("[White \"").append(game.getWhite() == null ? "X" : game.getWhite()).append("\"]\n");
+        sb.append("[Black \"").append(game.getBlack() == null ? "X" : game.getBlack()).append("\"]\n");
         if (game.getFen() != null && !Objects.equals(FENDecoder.INITIAL_FEN, game.getFen())) {
-            sb.append("[FEN \"" + game.getFen() + "\"]\n");
+            sb.append("[FEN \"").append(game.getFen()).append("\"]\n");
         }
-        sb.append("[Result \"" + game.getResult() + "\"]\n");
+        sb.append("[Result \"").append(game.getResult()).append("\"]\n");
         sb.append("\n");
 
         int moveCounter = 0;
@@ -36,23 +36,21 @@ public class PGNEncoder {
 
             if (moveCounter % 2 == 0) {
                 if (moveCounter % 10 == 0) {
-                    sb.append((moveCounter / 2 + 1) + ".");
+                    sb.append((moveCounter / 2 + 1)).append(".");
                 } else {
-                    sb.append(" " + (moveCounter / 2 + 1) + ".");
+                    sb.append(" ").append(moveCounter / 2 + 1).append(".");
                 }
             }
 
-            sb.append(" " + moveStr);
+            sb.append(" ").append(moveStr);
 
             moveCounter++;
         }
 
-        sb.append(" " + game.getResult());
+        sb.append(" ").append(game.getResult());
 
         return sb.toString();
     }
-
-
 
     private String getToday() {
         String pattern = "yyyy.MM.dd";
@@ -68,12 +66,6 @@ public class PGNEncoder {
             return env.get("HOSTNAME");
         else
             return "Unknown Computer";
-    }
-
-    public static String encodeGame(Game game){
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-        PGNEncoder encoder = new PGNEncoder();
-        return encoder.encode(pgnGame);
     }
 
 }

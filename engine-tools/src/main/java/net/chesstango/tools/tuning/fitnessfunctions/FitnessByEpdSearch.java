@@ -67,9 +67,10 @@ public class FitnessByEpdSearch implements FitnessFunction {
         epdSearch.setDepth(depth);
         epdSearch.setSearchMoveSupplier(() -> AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluatorSupplier.get()).build());
 
-        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
+        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries.stream());
 
-        return epdSearchResults.stream()
+        return epdSearchResults
+                .stream()
                 .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epdEntry(), epdSearchResult.searchResult()))
                 .sum();
     }
@@ -78,10 +79,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
     public void start() {
         EpdReader reader = new EpdReader();
 
-        epdFiles.stream()
-                .map(reader::readEdpFile)
-                .forEach(edpEntries::addAll);
-
+        epdFiles.forEach(fileName -> reader.readEdpFile(fileName).forEach(edpEntries::add));
     }
 
     @Override
@@ -90,7 +88,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
 
     protected long getPoints(EpdEntry epdEntry, SearchMoveResult searchMoveResult) {
-        List<Move> bestMoveList = searchMoveResult.getSearchByDepthResultList()
+        List<Move> bestMoveList = searchMoveResult
+                .getSearchByDepthResultList()
                 .stream()
                 .map(SearchByDepthResult::getBestMove)
                 .toList();

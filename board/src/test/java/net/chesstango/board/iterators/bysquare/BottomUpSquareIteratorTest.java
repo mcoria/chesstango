@@ -3,7 +3,7 @@ package net.chesstango.board.iterators.bysquare;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -23,11 +23,11 @@ public class BottomUpSquareIteratorTest {
 
 	private FENDecoder parser = null;
 
-	private PiecePlacementBuilder builder = null;
+	private SquareBoardBuilder builder = null;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		builder = new PiecePlacementBuilder(new ChessFactoryDebug());
+		builder = new SquareBoardBuilder(new ChessFactoryDebug());
 		parser = new FENDecoder(builder);
 	}
 

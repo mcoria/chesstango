@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
@@ -23,8 +24,9 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_setOption(CmdSetOption cmdSetOption) {
-        switch (cmdSetOption.getId()){
-            case POLYGLOT_BOOK: this.uciTango.tango.setPolyglotBook(cmdSetOption.getValue());
+        switch (cmdSetOption.getId()) {
+            case POLYGLOT_BOOK:
+                this.uciTango.tango.setPolyglotBook(cmdSetOption.getValue());
         }
     }
 
@@ -56,7 +58,10 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
+        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
+                        ? FEN.of(FENDecoder.INITIAL_FEN)
+                        : FEN.of(cmdPosition.getFen())
+                , cmdPosition.getMoves());
         uciTango.currentState = uciTango.waitCmdGoState;
     }
 }

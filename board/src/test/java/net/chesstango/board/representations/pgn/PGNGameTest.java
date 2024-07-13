@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PGNGameTest {
 
     @Test
-    public void testBuildGame01() throws IOException {
+    public void testToGame01() throws IOException {
         String lines = "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-LENOVO\"]\n" +
                 "[Date \"2023.03.03\"]\n" +
@@ -40,17 +40,17 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getInitialFEN());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getInitialFEN().toString());
     }
 
     @Test
-    public void testBuildGame02() throws IOException {
+    public void testToGame02() throws IOException {
         String lines = "[Event \"Testspel av Tony Hed\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"1991.01.01\"]\n" +
@@ -75,16 +75,16 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
     }
 
     @Test
-    public void testBuildGame03() throws IOException {
+    public void testToGame03() throws IOException {
         String lines = "[Event \"Testspel av Tony Hed\"]\n" +
                 "[Site \"?\"]\n" +
                 "[Date \"1996.01.01\"]\n" +
@@ -112,15 +112,15 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.CHECK, game.getStatus());
     }
 
     @Test
-    public void testBuildGame04() throws IOException {
+    public void testToGame04() throws IOException {
         String lines = "[Event \"Tango v0.0.28-SNAPSHOT vs Spike 1.4 - Match\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -142,15 +142,15 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
 
     @Test
-    public void testBuildGame05() throws IOException {
+    public void testToGame05() throws IOException {
         String lines = "[Event \"d72e3dd3-3eaf-43e6-8fce-83fe5dc79d2b\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -174,15 +174,15 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
 
     @Test
-    public void testBuildGame06() throws IOException {
+    public void testToGame06() throws IOException {
         String lines = "[Event \"03e76304-8992-4db3-b638-d52d3f08c5f8\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -206,20 +206,20 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
 
-        Game game = pgnGame.buildGame();
+        Game game = pgn.toGame();
 
         assertEquals(GameStatus.MATE, game.getStatus());
     }
 
     @Test
-    public void testCreateFromGame01() throws IOException {
+    public void testOf01() throws IOException {
         Game game = FENDecoder.loadGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
         game.executeMove(Square.a7, Square.a6);
 
-        PGNGame pgnGame = PGNGame.createFromGame(game);
+        PGN pgn = PGN.of(game);
 
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen());
     }
 }

@@ -1,5 +1,6 @@
 package net.chesstango.uci.protocol.requests;
 
+import lombok.Getter;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIRequest;
 
@@ -8,14 +9,21 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Getter
 public class CmdPosition implements UCIRequest {
 
     public enum CmdType {STARTPOS, FEN};
 
     private final CmdType type;
 
+    /**
+     * FEN string tal cual se recibe
+     */
     private final String fen;
 
+    /**
+     * La lista de movimientos tal cual se recibe
+     */
     private final List<String> moves;
 
     public CmdPosition(String fen, List<String> moves) {
@@ -52,18 +60,6 @@ public class CmdPosition implements UCIRequest {
         executor.do_position(this);
     }
 
-    public CmdType getType() {
-        return type;
-    }
-
-    public String getFen() {
-        return fen;
-    }
-
-    public List<String> getMoves() {
-        return moves;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -71,10 +67,10 @@ public class CmdPosition implements UCIRequest {
         if (CmdType.STARTPOS.equals(type)) {
             sb.append("startpos");
         } else {
-            sb.append("fen " + fen);
+            sb.append("fen ").append(fen);
         }
 
-        if (moves != null && moves.size() > 0) {
+        if (moves != null && !moves.isEmpty()) {
             sb.append(" moves");
             for (String move : moves) {
                 sb.append(" ");

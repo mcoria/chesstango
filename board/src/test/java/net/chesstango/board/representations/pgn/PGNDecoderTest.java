@@ -19,7 +19,7 @@ public class PGNDecoderTest {
 
     @Test
     public void decodeMoveList01() {
-        List<String> moves = decoder.decodeMovesList("1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 a6 8. O-O-O *");
+        List<String> moves = decoder.decodePGNBody("1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 a6 8. O-O-O *");
         assertEquals("e4", moves.get(0));
         assertEquals("c5", moves.get(1));
         assertEquals("Nf3", moves.get(2));
@@ -39,7 +39,7 @@ public class PGNDecoderTest {
 
     @Test
     public void decodeMoveList02() {
-        List<String> moves = decoder.decodeMovesList("1. e3 d5 2. Nc3 e5 3. Bb5+ c6 4. Qh5 cxb5 5. Qxe5+ Be6 6. Nxb5 Na6 7. h4 Nf6 8. Nd4 Bd6 9. Qg5 O-O 10. Nf5 Bxf5 11. Qxf5 g6 12. Qg5 Rc8 13. c3 Nc5 14. Ke2 Qe7 15. f3 Kh8 16. b3 b6 17. Bb2 Rfe8 18. c4 Be5 19. d4 Bxd4 20. Bxd4 Kg7 21. cxd5 h6 22. Qf4 a5 23. h5 g5 24. Qf5 Red8 25. Nh3 Re8 26. f4 gxf4 27. Qxf4 Ne4 28. Qg4+ Kh8 29. Qf4 Rc2+ 30. Kd1 Rd2+ 31. Ke1 Kg7 32. Bxf6+ Qxf6 33. Qxf6+ Kxf6 34. g4 Rxd5 35. Rf1+ Ke7 36. Rc1 Rd3 37. Ke2 Rc3 38. Rg1 Rd8 39. Kf3 Nd2+ 40. Ke2 Ne4 41. Kf3 Nd2+ 42. Ke2 Ne4 1/2-1/2");
+        List<String> moves = decoder.decodePGNBody("1. e3 d5 2. Nc3 e5 3. Bb5+ c6 4. Qh5 cxb5 5. Qxe5+ Be6 6. Nxb5 Na6 7. h4 Nf6 8. Nd4 Bd6 9. Qg5 O-O 10. Nf5 Bxf5 11. Qxf5 g6 12. Qg5 Rc8 13. c3 Nc5 14. Ke2 Qe7 15. f3 Kh8 16. b3 b6 17. Bb2 Rfe8 18. c4 Be5 19. d4 Bxd4 20. Bxd4 Kg7 21. cxd5 h6 22. Qf4 a5 23. h5 g5 24. Qf5 Red8 25. Nh3 Re8 26. f4 gxf4 27. Qxf4 Ne4 28. Qg4+ Kh8 29. Qf4 Rc2+ 30. Kd1 Rd2+ 31. Ke1 Kg7 32. Bxf6+ Qxf6 33. Qxf6+ Kxf6 34. g4 Rxd5 35. Rf1+ Ke7 36. Rc1 Rd3 37. Ke2 Rc3 38. Rg1 Rd8 39. Kf3 Nd2+ 40. Ke2 Ne4 41. Kf3 Nd2+ 42. Ke2 Ne4 1/2-1/2");
         assertEquals("e3", moves.get(0));
         assertEquals("d5", moves.get(1));
         assertEquals("Ke2", moves.get(82));
@@ -48,7 +48,7 @@ public class PGNDecoderTest {
 
     @Test
     public void decodeMoveList03() {
-        List<String> moves = decoder.decodeMovesList("1. e3 d5 2. Nc3 e5 3. Bb5+ c6 4. Qh5 cxb5 5. Qxe5+ Be6 6. Nxb5 Na6 7. h4 Nf6 8. Nd4 Bd6 9. Qg5 O-O 10. Nf5 Bxf5 11. Qxf5 g6 12. Qg5 Rc8 13. c3 Nc5 14. Ke2 Qe7 15. f3 Kh8 16. b3 b6 17. Bb2 Rfe8 18. c4 Be5 19. d4 Bxd4 20. Bxd4 Kg7 21. cxd5 h6 22. Qf4 a5 23. h5 g5 24. Qf5 Red8 25. Nh3 Re8 26. f4 gxf4 27. Qxf4 Ne4 28. Qg4+ Kh8 29. Qf4 Rc2+ 30. Kd1 Rd2+ 31. Ke1 Kg7 32. Bxf6+ Qxf6 33. Qxf6+ Kxf6 34. g4 Rxd5 35. Rf1+ Ke7 36. Rc1 Rd3 37. Ke2 Rc3 38. Rg1 Rd8 39. Kf3 Nd2+ 40. Ke2 Ne4 41. Kf3 Nd2+ 42. Ke2 Ne4 1/2-1/2 ");
+        List<String> moves = decoder.decodePGNBody("1. e3 d5 2. Nc3 e5 3. Bb5+ c6 4. Qh5 cxb5 5. Qxe5+ Be6 6. Nxb5 Na6 7. h4 Nf6 8. Nd4 Bd6 9. Qg5 O-O 10. Nf5 Bxf5 11. Qxf5 g6 12. Qg5 Rc8 13. c3 Nc5 14. Ke2 Qe7 15. f3 Kh8 16. b3 b6 17. Bb2 Rfe8 18. c4 Be5 19. d4 Bxd4 20. Bxd4 Kg7 21. cxd5 h6 22. Qf4 a5 23. h5 g5 24. Qf5 Red8 25. Nh3 Re8 26. f4 gxf4 27. Qxf4 Ne4 28. Qg4+ Kh8 29. Qf4 Rc2+ 30. Kd1 Rd2+ 31. Ke1 Kg7 32. Bxf6+ Qxf6 33. Qxf6+ Kxf6 34. g4 Rxd5 35. Rf1+ Ke7 36. Rc1 Rd3 37. Ke2 Rc3 38. Rg1 Rd8 39. Kf3 Nd2+ 40. Ke2 Ne4 41. Kf3 Nd2+ 42. Ke2 Ne4 1/2-1/2 ");
         assertEquals("e3", moves.get(0));
         assertEquals("d5", moves.get(1));
         assertEquals("Ke2", moves.get(82));
@@ -73,7 +73,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        List<String> moves = decoder.decodeMovesList(bufferReader);
+        List<String> moves = decoder.decodePGNBody(bufferReader);
 
         assertEquals("e3", moves.get(0));
         assertEquals("d5", moves.get(1));
@@ -91,7 +91,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        List<String> moves = decoder.decodeMovesList(bufferReader);
+        List<String> moves = decoder.decodePGNBody(bufferReader);
 
         assertEquals("e4", moves.get(0));
         assertEquals("c5", moves.get(1));
@@ -100,7 +100,7 @@ public class PGNDecoderTest {
 
 
     @Test
-    public void decodeHeader01() throws IOException {
+    public void decodePGNHeaders01() throws IOException {
         String lines =
                 "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-LENOVO\"]\n" +
@@ -115,20 +115,20 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame pgnGame = decoder.decodeHeader(bufferReader);
+        PGN pgn = decoder.decodePGNHeaders(bufferReader);
 
-        assertEquals("Computer chess game", pgnGame.getEvent());
-        assertEquals("KANO-LENOVO", pgnGame.getSite());
-        assertEquals("2023.03.02", pgnGame.getDate());
-        assertEquals("10", pgnGame.getRound());
-        assertEquals("Tango", pgnGame.getWhite());
-        assertEquals("Chacarera", pgnGame.getBlack());
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
-        assertEquals("1/2-1/2", pgnGame.getResult());
+        assertEquals("Computer chess game", pgn.getEvent());
+        assertEquals("KANO-LENOVO", pgn.getSite());
+        assertEquals("2023.03.02", pgn.getDate());
+        assertEquals("10", pgn.getRound());
+        assertEquals("Tango", pgn.getWhite());
+        assertEquals("Chacarera", pgn.getBlack());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen());
+        assertEquals("1/2-1/2", pgn.getResult());
     }
 
     @Test
-    public void decodeGame01() throws IOException {
+    public void decodePGN01() throws IOException {
         String lines = "[Event \"Balsa - Top 10\"]\n" +
                 "[Site \"KANO-LENOVO\"]\n" +
                 "[Date \"2023.03.02\"]\n" +
@@ -147,7 +147,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodePGN(bufferReader);
 
         assertEquals("Balsa - Top 10", game.getEvent());
         assertEquals("KANO-LENOVO", game.getSite());
@@ -165,7 +165,7 @@ public class PGNDecoderTest {
 
 
     @Test
-    public void decodeGame02() throws IOException {
+    public void decodePGN02() throws IOException {
         String lines = "[Event \"Rated Rapid game\"]\n" +
                 "[Site \"https://lichess.org/cjatYH5c\"]\n" +
                 "[Date \"2024.02.20\"]\n" +
@@ -192,7 +192,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodePGN(bufferReader);
 
         assertEquals("Rated Rapid game", game.getEvent());
         assertEquals("https://lichess.org/cjatYH5c", game.getSite());
@@ -206,7 +206,7 @@ public class PGNDecoderTest {
     }
 
     @Test
-    public void decodeGame03() throws IOException {
+    public void decodePGN03() throws IOException {
         String lines = "[Event \"b3644c68-3c6a-40ab-870a-3b965dd38c6c\"]\n" +
                 "[Site \"LAPTOP-PTVVKHNB\"]\n" +
                 "[Date \"2024.06.12\"]\n" +
@@ -224,7 +224,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame game = decoder.decodeGame(bufferReader);
+        PGN game = decoder.decodePGN(bufferReader);
 
         assertEquals("b3644c68-3c6a-40ab-870a-3b965dd38c6c", game.getEvent());
         assertEquals("LAPTOP-PTVVKHNB", game.getSite());
@@ -246,7 +246,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(inputStreamReader);
 
-        List<PGNGame> games = decoder.decodeGames(bufferReader);
+        List<PGN> games = decoder.decodePGNs(bufferReader).toList();
 
         assertEquals(10, games.size());
 

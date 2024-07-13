@@ -3,7 +3,7 @@ package net.chesstango.board.representations.fen;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.ChessRepresentationBuilder;
+import net.chesstango.board.builders.ChessPositionBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,57 +35,57 @@ public class FENDecoderTest {
 	public void setUp() throws Exception {
 		board = new Piece[8][8];
 		
-		parser = new FENDecoder(new ChessRepresentationBuilder<Object>() {
+		parser = new FENDecoder(new ChessPositionBuilder<Object>() {
 			@Override
-			public ChessRepresentationBuilder<Object> withPiece(Square square, Piece piece) {
+			public ChessPositionBuilder<Object> withPiece(Square square, Piece piece) {
 				board[square.getRank()][square.getFile()] = piece;
 				return this;
 			}
 
 			@Override
-			public ChessRepresentationBuilder<Object> withHalfMoveClock(int halfMoveClock) {
+			public ChessPositionBuilder<Object> withHalfMoveClock(int halfMoveClock) {
 				FENDecoderTest.this.halfMoveClock = halfMoveClock;
 				return null;
 			}
 
 			@Override
-			public ChessRepresentationBuilder<Object> withFullMoveClock(int fullMoveClock) {
+			public ChessPositionBuilder<Object> withFullMoveClock(int fullMoveClock) {
 				FENDecoderTest.this.fullMoveClock = fullMoveClock;
 				return null;
 			}
 
 			@Override
-			public ChessRepresentationBuilder<Object> withTurn(Color turn) {
+			public ChessPositionBuilder<Object> withTurn(Color turn) {
 				FENDecoderTest.this.turn = turn;
 				return this;
 			}
 			
 			@Override
-			public ChessRepresentationBuilder<Object> withEnPassantSquare(Square enPassantSquare) {
+			public ChessPositionBuilder<Object> withEnPassantSquare(Square enPassantSquare) {
 				FENDecoderTest.this.enPassantSquare = enPassantSquare;
 				return this;
 			}
 			
 			@Override
-			public ChessRepresentationBuilder<Object> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+			public ChessPositionBuilder<Object> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 				FENDecoderTest.this.castlingBlackKingAllowed = castlingBlackKingAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessRepresentationBuilder<Object> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+			public ChessPositionBuilder<Object> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 				FENDecoderTest.this.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessRepresentationBuilder<Object> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+			public ChessPositionBuilder<Object> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 				FENDecoderTest.this.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessRepresentationBuilder<Object> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+			public ChessPositionBuilder<Object> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 				FENDecoderTest.this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
 				return this;
 			}

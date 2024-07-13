@@ -7,9 +7,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.GameDebugEncoder;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
-import net.chesstango.board.representations.pgn.PGNGame;
+import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.listeners.MatchListener;
 import net.chesstango.uci.arena.matchtypes.MatchType;
@@ -31,15 +32,15 @@ class Match {
     private final EngineController white;
     private final EngineController black;
     private final MatchType matchType;
+    private final String mathId;
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
 
     private Game game;
-    private String mathId;
     private MatchResult matchResult;
 
     @Setter
     @Accessors(chain = true)
-    private String fen;
+    private FEN fen;
 
     @Setter
     @Accessors(chain = true)
@@ -54,13 +55,18 @@ class Match {
         this.white = white;
         this.black = black;
         this.matchType = matchType;
+        this.mathId = UUID.randomUUID().toString();
     }
 
-    public MatchResult play(String fen) {
+    public MatchResult play(FEN fen) {
         try {
             setFen(fen);
 
-            return play(white, black);
+            startNewGame();
+
+            compete();
+
+            return matchResult;
 
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
@@ -71,19 +77,9 @@ class Match {
         }
     }
 
-    protected MatchResult play(EngineController white, EngineController black) {
-        mathId = UUID.randomUUID().toString();
-
-        startNewGame();
-
-        compete();
-
-        return matchResult;
-    }
-
 
     protected void compete() {
-        this.game = FENDecoder.loadGame(fen);
+        setGame(FENDecoder.loadGame(fen));
 
         final List<String> executedMovesStr = new ArrayList<>();
 
@@ -173,10 +169,10 @@ class Match {
     }
 
     private String retrieveBestMoveFromController(EngineController currentTurn, List<String> moves) {
-        if (FENDecoder.INITIAL_FEN.equals(fen)) {
+        if (FEN.of(FENDecoder.INITIAL_FEN).equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
-            currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
+            currentTurn.send_CmdPosition(new CmdPosition(fen.toString(), moves));
         }
 
         RspBestMove bestMove = matchType.retrieveBestMoveFromController(currentTurn, currentTurn == white);
@@ -200,11 +196,11 @@ class Match {
         printStream.println(encoder.encode(game));
     }
 
-    private PGNGame createPGN() {
-        PGNGame pgnGame = PGNGame.createFromGame(game);
-        pgnGame.setEvent(mathId);
-        pgnGame.setWhite(white.getEngineName());
-        pgnGame.setBlack(black.getEngineName());
-        return pgnGame;
+    private PGN createPGN() {
+        PGN pgn = PGN.of(game);
+        pgn.setEvent(mathId);
+        pgn.setWhite(white.getEngineName());
+        pgn.setBlack(black.getEngineName());
+        return pgn;
     }
 }

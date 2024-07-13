@@ -5,12 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.ChessPositionBuilder;
-import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.position.ChessPosition;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Mauricio Coria
@@ -18,58 +13,42 @@ import java.util.regex.Pattern;
 public class FENDecoder {
     public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    public static Pattern fenPattern = Pattern.compile("(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
-            "(?<activeColor>[wb])\\s+" +
-            "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +
-            "(?<enPassantSquare>(\\w\\d|-))(\\s*|\\s+" +
-            "(?<halfMoveClock>[0-9]*)\\s+" +
-            "(?<fullMoveClock>[0-9]*)\\s*)");
+    private final ChessPositionBuilder<?> chessPositionBuilder;
 
-    private final ChessRepresentationBuilder<?> chessRepresentationBuilder;
-
-    public FENDecoder(ChessRepresentationBuilder<?> chessRepresentationBuilder) {
-        this.chessRepresentationBuilder = chessRepresentationBuilder;
+    public FENDecoder(ChessPositionBuilder<?> chessPositionBuilder) {
+        this.chessPositionBuilder = chessPositionBuilder;
     }
 
-    public void parseFEN(String input) {
-        Matcher matcher = fenPattern.matcher(input);
-        if (!matcher.matches()) {
-            throw new RuntimeException("Invalid fen input string");
+    public void parseFEN(String fenString) {
+        parseFEN(FEN.of(fenString));
+    }
+
+    public void parseFEN(FEN fen) {
+        parsePiecePlacement(fen.getPiecePlacement());
+
+        chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
+
+        chessPositionBuilder.withTurn(parseTurn(fen.getActiveColor()));
+
+        if (isCastlingWhiteQueenAllowed(fen.getCastingsAllowed())) {
+            chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
         }
 
-        String piecePlacement = matcher.group("piecePlacement");
-        String activeColor = matcher.group("activeColor");
-        String castingsAllowed = matcher.group("castingsAllowed");
-        String enPassantSquare = matcher.group("enPassantSquare");
-        String halfMoveClock = matcher.group("halfMoveClock");
-        String fullMoveClock = matcher.group("fullMoveClock");
-
-        parsePiecePlacement(piecePlacement);
-
-        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
-
-        chessRepresentationBuilder.withTurn(parseTurn(activeColor));
-
-        if (isCastlingWhiteQueenAllowed(castingsAllowed)) {
-            chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
+        if (isCastlingWhiteKingAllowed(fen.getCastingsAllowed())) {
+            chessPositionBuilder.withCastlingWhiteKingAllowed(true);
         }
 
-        if (isCastlingWhiteKingAllowed(castingsAllowed)) {
-            chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
+        if (isCastlingBlackQueenAllowed(fen.getCastingsAllowed())) {
+            chessPositionBuilder.withCastlingBlackQueenAllowed(true);
         }
 
-        if (isCastlingBlackQueenAllowed(castingsAllowed)) {
-            chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
+        if (isCastlingBlackKingAllowed(fen.getCastingsAllowed())) {
+            chessPositionBuilder.withCastlingBlackKingAllowed(true);
         }
 
-        if (isCastlingBlackKingAllowed(castingsAllowed)) {
-            chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
-        }
+        chessPositionBuilder.withHalfMoveClock(fen.getHalfMoveClock() == null ? 0 : Integer.parseInt(fen.getHalfMoveClock()));
 
-        chessRepresentationBuilder.withHalfMoveClock(halfMoveClock == null ? 0 : Integer.parseInt(halfMoveClock));
-
-        chessRepresentationBuilder.withFullMoveClock(fullMoveClock == null ? 1 : Integer.parseInt(fullMoveClock));
-
+        chessPositionBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
     }
 
     public void parsePiecePlacement(String piecePlacement) {
@@ -79,7 +58,7 @@ public class FENDecoder {
                 Square square = Square.getSquare(file, rank);
                 Piece piece = piezas[rank][file];
                 if (piece != null) {
-                    chessRepresentationBuilder.withPiece(square, piece);
+                    chessPositionBuilder.withPiece(square, piece);
                 }
             }
         }
@@ -248,6 +227,10 @@ public class FENDecoder {
 
 
     public static Game loadGame(String fen) {
+        return loadGame(FEN.of(fen));
+    }
+
+    public static Game loadGame(FEN fen) {
         GameBuilder builder = new GameBuilder();
 
         FENDecoder parser = new FENDecoder(builder);
@@ -257,14 +240,5 @@ public class FENDecoder {
         return builder.getChessRepresentation();
     }
 
-    public static ChessPosition loadChessPosition(String fen) {
-        ChessPositionBuilder builder = new ChessPositionBuilder();
-
-        FENDecoder parser = new FENDecoder(builder);
-
-        parser.parseFEN(fen);
-
-        return builder.getChessRepresentation();
-    }
 
 }

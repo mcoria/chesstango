@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -22,7 +23,7 @@ public class ExtractorMain {
 
     private final List<GameFeatures> featureExtractors = new ArrayList<>();
 
-    public ExtractorMain(){
+    public ExtractorMain() {
         featureExtractors.add(new ExtractorByMaterial());
     }
 
@@ -41,22 +42,23 @@ public class ExtractorMain {
 
     private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
         EpdReader epdReader = new EpdReader();
-        List<EpdEntry> EpdEntryList = epdReader.readEdpFile(fileName);
 
-        for (EpdEntry EPDEntry : EpdEntryList) {
+        Stream<EpdEntry> epdEntryStream = epdReader.readEdpFile(fileName);
+
+        epdEntryStream.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
-                Game game = FENDecoder.loadGame(EPDEntry.fen);
+                Game game = FENDecoder.loadGame(epdEntry.fen);
                 extractor.extractFeatures(game, features);
             }
-            Game game = FENDecoder.loadGame(EPDEntry.fen);
+            Game game = FENDecoder.loadGame(epdEntry.fen);
             featuresList.add(convertToLine(game.getChessPosition().toString(), features, gameResultString));
-        }
+        });
     }
 
     private void whiteToFile(List<String> featuresList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("eval-tunner-features.epd"))) {
-            for (String featuresStr: featuresList) {
+            for (String featuresStr : featuresList) {
                 writer.append(String.format("%s\n", featuresStr));
             }
             writer.flush();

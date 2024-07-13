@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
@@ -144,7 +144,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	}
 	
 	private SquareBoard getTablero(String string) {
-		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
+		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

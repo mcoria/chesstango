@@ -93,9 +93,9 @@ public class EpdSearchMain {
     public void execute(Path suitePath) {
         EpdReader reader = new EpdReader();
 
-        List<EpdEntry> edpEntries = reader.readEdpFile(suitePath);
+        Stream<EpdEntry> epdEntryStream = reader.readEdpFile(suitePath);
 
-        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries);
+        List<EpdSearchResult> epdSearchResults = epdSearch.run(epdEntryStream);
 
         report(suitePath, epdSearchResults);
 

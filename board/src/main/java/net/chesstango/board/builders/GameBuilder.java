@@ -14,7 +14,7 @@ import net.chesstango.board.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class GameBuilder implements ChessRepresentationBuilder<Game> {
+public class GameBuilder implements ChessPositionBuilder<Game> {
 	
 	private final SquareBoard squareBoard;
 	private final PositionState positionState;
@@ -45,58 +45,58 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	}
 
 	@Override
-	public ChessRepresentationBuilder<Game> withTurn(Color turn) {
+	public ChessPositionBuilder<Game> withTurn(Color turn) {
 		positionState.setCurrentTurn(turn);
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
+	public ChessPositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
 		positionState.setEnPassantSquare(enPassantSquare);
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public ChessPositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		positionState.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public ChessPositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		positionState.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public ChessPositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		positionState.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public ChessPositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		positionState.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
 		return this;
 	}
 
-	public ChessRepresentationBuilder<Game> withPiece(Square square, Piece piece) {
+	public ChessPositionBuilder<Game> withPiece(Square square, Piece piece) {
 		squareBoard.setPiece(square, piece);
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<Game> withHalfMoveClock(int halfMoveClock) {
+	public ChessPositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
 		positionState.setHalfMoveClock(halfMoveClock);
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<Game> withFullMoveClock(int fullMoveClock) {
+	public ChessPositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
 		positionState.setFullMoveClock(fullMoveClock);
 		return this;
 	}

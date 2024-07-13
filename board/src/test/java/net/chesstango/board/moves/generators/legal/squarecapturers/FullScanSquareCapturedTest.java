@@ -2,7 +2,7 @@ package net.chesstango.board.moves.generators.legal.squarecapturers;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.position.BitBoard;
@@ -70,7 +70,7 @@ public class FullScanSquareCapturedTest {
     private SquareBoard getSquareBoard(String string) {
         ChessFactory chessFactory = new ChessFactoryDebug();
 
-        PiecePlacementBuilder builder = new PiecePlacementBuilder(chessFactory);
+        SquareBoardBuilder builder = new SquareBoardBuilder(chessFactory);
 
         FENDecoder parser = new FENDecoder(builder);
 

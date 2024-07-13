@@ -2,7 +2,7 @@ package net.chesstango.board.moves.generators.legal.strategies;
 
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.builders.DefaultChessPositionBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
@@ -47,7 +47,7 @@ public class CheckLegalMoveGeneratorTest {
 		ChessFactory chessFactory = new ChessFactoryDebug();
 		ChessInjector injector = new ChessInjector(chessFactory);
 		
-		ChessPositionBuilder builder = new ChessPositionBuilder(injector);
+		DefaultChessPositionBuilder builder = new DefaultChessPositionBuilder(injector);
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 

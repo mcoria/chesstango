@@ -3,6 +3,7 @@ package net.chesstango.engine;
 import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.search.SearchMoveResult;
@@ -25,7 +26,7 @@ public class Session {
     @Getter
     private Game game;
 
-    public void setPosition(String fen, List<String> moves) {
+    public void setPosition(FEN fen, List<String> moves) {
         game = FENDecoder.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
@@ -38,7 +39,7 @@ public class Session {
         }
     }
 
-    public String getInitialFen() {
+    public FEN getInitialFen() {
         return game == null ? null : game.getInitialFEN();
     }
 

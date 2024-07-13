@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,7 +49,7 @@ public class MatchMultipleTest {
         MatchMultiple matchMultiple = new MatchMultiple(smartEnginePool, dummyEnginePool, new MatchByDepth(3));
         //matchMultiple.setDebugEnabled(true);
 
-        List<MatchResult> matchResult = matchMultiple.play(List.of(FENDecoder.INITIAL_FEN));
+        List<MatchResult> matchResult = matchMultiple.play(Stream.of(FEN.of(FENDecoder.INITIAL_FEN)));
 
         assertEquals(2, matchResult.size());
 

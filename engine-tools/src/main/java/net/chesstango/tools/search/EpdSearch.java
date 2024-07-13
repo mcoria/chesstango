@@ -25,6 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -46,13 +47,14 @@ public class EpdSearch {
 
 
     public EpdSearchResult run(EpdEntry epdEntry) {
-        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(List.of(epdEntry)).getFirst();
+        return timeOut == null ? run(searchMoveSupplier.get(), epdEntry) : run(Stream.of(epdEntry)).getFirst();
     }
 
-    public List<EpdSearchResult> run(List<EpdEntry> edpEntries) {
+    public List<EpdSearchResult> run(Stream<EpdEntry> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
 
-        AtomicInteger pendingJobsCounter = new AtomicInteger(edpEntries.size());
+        AtomicInteger pendingJobsCounter = new AtomicInteger(0);
+
         List<SearchJob> activeJobs = Collections.synchronizedList(new LinkedList<>());
 
         List<EpdSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
@@ -63,8 +65,8 @@ public class EpdSearch {
         }
 
         try (ExecutorService executorService = Executors.newFixedThreadPool(availableCores)) {
-
-            for (EpdEntry epdEntry : edpEntries) {
+            edpEntries.forEach(epdEntry -> {
+                pendingJobsCounter.incrementAndGet();
                 executorService.submit(() -> {
                     SearchJob searchJob = null;
                     try {
@@ -81,10 +83,7 @@ public class EpdSearch {
                         epdSearchResults.add(epdSearchResult);
 
                         if (!epdSearchResult.isSearchSuccess()) {
-                            String failedTest = String.format("Fail [%s] - best move found %s",
-                                    epdEntry.text,
-                                    epdSearchResult.bestMoveFoundAlgNot()
-                            );
+                            String failedTest = String.format("Fail [%s] - best move found %s", epdEntry.text, epdSearchResult.bestMoveFoundAlgNot());
                             logger.info(failedTest);
                         }
 
@@ -106,19 +105,17 @@ public class EpdSearch {
                         pendingJobsCounter.decrementAndGet();
                     }
                 });
-            }
+            });
 
             try {
                 if (timeOut != null) {
                     while (pendingJobsCounter.get() > 0) {
                         Thread.sleep(500);
-                        synchronized (this) {
-                            activeJobs.forEach(searchJob -> {
-                                if (searchJob.elapsedMillis() >= timeOut) {
-                                    searchJob.searchMove.stopSearching();
-                                }
-                            });
-                        }
+                        activeJobs.forEach(searchJob -> {
+                            if (searchJob.elapsedMillis() >= timeOut) {
+                                searchJob.searchMove.stopSearching();
+                            }
+                        });
                     }
                 }
             } catch (InterruptedException e) {

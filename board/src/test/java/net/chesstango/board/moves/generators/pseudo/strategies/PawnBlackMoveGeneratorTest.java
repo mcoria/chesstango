@@ -3,7 +3,7 @@ package net.chesstango.board.moves.generators.pseudo.strategies;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
@@ -150,7 +150,7 @@ public class PawnBlackMoveGeneratorTest {
     }
 
     private SquareBoard getTablero(String string) {
-        PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
+        SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
 
         FENDecoder parser = new FENDecoder(builder);
 
