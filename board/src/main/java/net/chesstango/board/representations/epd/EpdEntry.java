@@ -13,11 +13,15 @@ public class EpdEntry {
     public String text;
 
     public String fen;
+
+
     public String bestMovesString;
     public List<Move> bestMoves;
 
     public String avoidMovesString;
     public List<Move> avoidMoves;
+
+    public String suppliedMoveString;
 
     @Override
     public boolean equals(Object object) {

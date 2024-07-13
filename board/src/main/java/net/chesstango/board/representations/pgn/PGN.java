@@ -3,8 +3,14 @@ package net.chesstango.board.representations.pgn;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.move.SANDecoder;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
@@ -22,6 +28,10 @@ public class PGN {
     private String result;
     private List<String> moveList;
 
+    public static PGN of(Game game) {
+        return new PGNGameDecoder().decode(game);
+    }
+
     @Override
     public String toString() {
         return new PGNStringEncoder().encode(this);
@@ -31,7 +41,29 @@ public class PGN {
         return new PGNGameEncoder().encode(this);
     }
 
-    public static PGN of(Game game) {
-        return new PGNGameDecoder().decode(game);
+    public Stream<EpdEntry> stream() {
+        SANDecoder sanDecoder = new SANDecoder();
+
+        Stream.Builder<EpdEntry> fenStreamBuilder = Stream.builder();
+
+        Game game = FENDecoder.loadGame(getFen() == null ? FENDecoder.INITIAL_FEN : getFen());
+
+        getMoveList().forEach(moveStr -> {
+            MoveContainerReader legalMoves = game.getPossibleMoves();
+            Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
+
+            if (legalMoveToExecute != null) {
+                EpdEntry epdEntry = new EpdEntry();
+                epdEntry.fen = game.getCurrentFEN().toString();
+                epdEntry.suppliedMoveString = moveStr;
+                fenStreamBuilder.add(epdEntry);
+
+                game.executeMove(legalMoveToExecute);
+            } else {
+                throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", getEvent(), moveStr, game.getCurrentFEN().toString()));
+            }
+        });
+
+        return fenStreamBuilder.build();
     }
 }

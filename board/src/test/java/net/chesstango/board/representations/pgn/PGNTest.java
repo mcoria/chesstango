@@ -1,0 +1,31 @@
+package net.chesstango.board.representations.pgn;
+
+import net.chesstango.board.Game;
+import net.chesstango.board.representations.epd.EpdEntry;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static net.chesstango.board.Square.a2;
+import static net.chesstango.board.Square.a4;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * @author Mauricio Coria
+ */
+public class PGNTest {
+
+    @Test
+    public void testToEpd() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        game.executeMove(a2, a4);
+
+        PGN pgn = PGN.of(game);
+
+        List<EpdEntry> pgnToEpd = pgn.stream().toList();
+
+        assertEquals(1, pgnToEpd.size());
+        //assertEquals("", pgnToEpd.getFirst().toString());
+    }
+}
