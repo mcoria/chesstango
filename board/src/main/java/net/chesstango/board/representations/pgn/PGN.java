@@ -10,7 +10,6 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANDecoder;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -56,7 +55,6 @@ public class PGN {
         game.threefoldRepetitionRule(false);
         game.fiftyMovesRule(false);
 
-        AtomicInteger moveIdAt = new AtomicInteger(0);
 
         getMoveList().forEach(moveStr -> {
             MoveContainerReader legalMoves = game.getPossibleMoves();
@@ -65,14 +63,31 @@ public class PGN {
             if (legalMoveToExecute != null) {
                 EPD epd = new EPD();
 
-                int moveId = moveIdAt.incrementAndGet();
+                epd.setFen(game.getCurrentFEN());
+
+                epd.setId(String.format("0x%sL", Long.toHexString(game.getChessPosition().getZobristHash())));
+
                 if (event != null) {
-                    epd.setId(String.format("%s-%d", event, moveId));
-                } else {
-                    epd.setId(String.format("%d", moveId));
+                    epd.setC0(String.format("event='%s'", event));
+                }
+                if (site != null) {
+                    epd.setC1(String.format("site='%s'", site));
+                }
+                if (date != null) {
+                    epd.setC2(String.format("date='%s'", date));
+                }
+                if (white != null) {
+                    epd.setC3(String.format("white='%s'", white));
+                }
+                if (black != null) {
+                    epd.setC4(String.format("black='%s'", black));
+                }
+                if (result != null) {
+                    epd.setC5(String.format("result='%s'", result));
                 }
 
-                epd.setFen(game.getCurrentFEN());
+                epd.setC6(String.format("clock=%d", game.getChessPosition().getFullMoveClock()));
+
                 epd.setSuppliedMoveStr(moveStr);
                 epd.setSuppliedMove(legalMoveToExecute);
                 fenStreamBuilder.add(epd);
