@@ -243,8 +243,7 @@ public class EPDDecoderTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
-                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd",
-                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov.pgn"
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
         );
 
         epdFiles.forEach(fileName -> epdDecoder.readEdpFile(fileName));
