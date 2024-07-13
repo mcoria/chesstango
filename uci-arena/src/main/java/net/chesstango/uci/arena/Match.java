@@ -32,10 +32,10 @@ class Match {
     private final EngineController white;
     private final EngineController black;
     private final MatchType matchType;
+    private final String mathId;
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
 
     private Game game;
-    private String mathId;
     private MatchResult matchResult;
 
     @Setter
@@ -55,13 +55,18 @@ class Match {
         this.white = white;
         this.black = black;
         this.matchType = matchType;
+        this.mathId = UUID.randomUUID().toString();
     }
 
     public MatchResult play(FEN fen) {
         try {
             setFen(fen);
 
-            return play(white, black);
+            startNewGame();
+
+            compete();
+
+            return matchResult;
 
         } catch (RuntimeException e) {
             logger.error("Error playing fen: {}", fen);
@@ -72,19 +77,9 @@ class Match {
         }
     }
 
-    protected MatchResult play(EngineController white, EngineController black) {
-        mathId = UUID.randomUUID().toString();
-
-        startNewGame();
-
-        compete();
-
-        return matchResult;
-    }
-
 
     protected void compete() {
-        this.game = FENDecoder.loadGame(fen);
+        setGame(FENDecoder.loadGame(fen));
 
         final List<String> executedMovesStr = new ArrayList<>();
 

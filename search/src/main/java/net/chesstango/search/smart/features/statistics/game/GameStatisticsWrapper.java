@@ -29,7 +29,7 @@ public class GameStatisticsWrapper implements Game {
     }
 
     @Override
-    public FEN getFEN() {
+    public FEN getCurrentFEN() {
         FENEncoder encoder = new FENEncoder();
         getChessPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();

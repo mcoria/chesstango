@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.pgn;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class PgnToFenTest {
     public void testTranscoding01() {
         Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
 
-        List<FEN> fenPositions = pgnStream.map(PgnToFen::pgnToFen).toList();
+        List<FEN> fenPositions = pgnStream.map(PGN::toGame).map(Game::getCurrentFEN).toList();
 
         List<FEN> expectedFenPositions = Stream.of(
                         "r2qkbnr/pp1n1ppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R b KQkq - 3 6",
