@@ -87,6 +87,15 @@ public class FitnessByEpdSearch implements FitnessFunction {
     }
 
 
+    /**
+     * SearchByDepthResult es la lista de resultados de busqueda por profundidad
+     * Mientras más profundo el resultado de esta busqueda sea exitoso implica que mayor numero de comparaciones
+     * se realizó.
+     *
+     * @param epd
+     * @param searchMoveResult
+     * @return
+     */
     protected long getPoints(EPD epd, SearchMoveResult searchMoveResult) {
         List<Move> bestMoveList = searchMoveResult
                 .getSearchByDepthResultList()

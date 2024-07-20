@@ -47,7 +47,7 @@ public class EpdSearch {
 
 
     public EpdSearchResult run(EPD epd) {
-        return timeOut == null ? run(searchMoveSupplier.get(), epd) : run(Stream.of(epd)).getFirst();
+        return run(Stream.of(epd)).getFirst();
     }
 
     public List<EpdSearchResult> run(Stream<EPD> edpEntries) {
