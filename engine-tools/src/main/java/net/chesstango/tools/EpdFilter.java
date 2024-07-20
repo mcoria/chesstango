@@ -1,25 +1,22 @@
 package net.chesstango.tools;
 
-import net.chesstango.board.representations.pgn.PGNStringDecoder;
+import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.board.representations.epd.EPDDecoder;
 import org.apache.commons.cli.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
-public class PgnToEpd {
+public class EpdFilter {
 
-    /**
-     * Run with -i C:\java\projects\chess\chess-utils\testing\positions\players\Kasparov.pgn
-     *
-     */
     public static void main(String[] args) {
-
-        PgnToEpd pgnToEpd = new PgnToEpd();
+        EpdFilter epdFilter = new EpdFilter();
 
         CommandLine parsedArgs = parseArguments(args);
 
@@ -27,19 +24,17 @@ public class PgnToEpd {
                 ? new FileInputStream(parsedArgs.getOptionValue('i'))
                 : System.in) {
 
-            pgnToEpd.process(inputStream, System.out, System.err);
+            epdFilter.process(inputStream, System.out, System.err);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void process(InputStream inputStream, PrintStream out, PrintStream err) {
-        PGNStringDecoder pgnStringDecoder = new PGNStringDecoder();
-        pgnStringDecoder.decodePGNs(inputStream)
-                .forEach(pgn -> pgn.toEPD()
-                        .forEach(out::println)
-                );
+    private void process(InputStream in, PrintStream out, PrintStream err) throws IOException {
+        EPDDecoder epdDecoder = new EPDDecoder();
+        Stream<EPD> epdStream = epdDecoder.readEdpInputStream(in);
+        epdStream.forEach(out::println);
     }
 
 
