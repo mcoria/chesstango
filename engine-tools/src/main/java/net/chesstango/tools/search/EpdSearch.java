@@ -82,10 +82,12 @@ public class EpdSearch {
 
                         epdSearchResults.add(epdSearchResult);
 
+                        /*
                         if (!epdSearchResult.isSearchSuccess()) {
                             String failedTest = String.format("Fail [%s] - best move found %s", epd.getText(), epdSearchResult.bestMoveFoundAlgNot());
                             logger.info(failedTest);
                         }
+                         */
 
                         searchMovePool.put(searchJob.searchMove);
 

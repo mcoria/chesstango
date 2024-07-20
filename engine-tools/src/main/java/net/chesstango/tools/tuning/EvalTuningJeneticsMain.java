@@ -4,6 +4,7 @@ import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp06;
@@ -26,8 +27,8 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         GeneticProvider geneticProvider = new GPEvaluatorImp06();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
-        FitnessFunction fitnessFunction = new FitnessByMatch();
-        //FitnessFunction fitnessFunction = new FitnessByEpdSearch();
+        //FitnessFunction fitnessFunction = new FitnessByMatch();
+        FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
         EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider);

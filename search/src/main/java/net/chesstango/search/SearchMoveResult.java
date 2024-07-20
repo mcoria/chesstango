@@ -64,7 +64,7 @@ public class SearchMoveResult {
 
     private int searchByDepthCounter;
 
-    private List<SearchByDepthResult> searchByDepthResultList;
+    private List<SearchByDepthResult> searchByDepthResults;
 
     public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
         this.depth = depth;

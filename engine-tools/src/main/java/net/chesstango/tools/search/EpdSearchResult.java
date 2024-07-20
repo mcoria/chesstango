@@ -24,7 +24,7 @@ public record EpdSearchResult(EPD epd,
                 searchResult,
                 bestMoveFoundStr,
                 epd.isMoveSuccess(searchResult.getBestMove()),
-                epd.calculateAccuracy(searchResult.getSearchByDepthResultList()
+                epd.calculateAccuracy(searchResult.getSearchByDepthResults()
                         .stream()
                         .map(SearchByDepthResult::getBestMove)
                         .toList())

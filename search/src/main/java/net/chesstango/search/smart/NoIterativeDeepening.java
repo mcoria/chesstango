@@ -4,8 +4,6 @@ import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class NoIterativeDeepening implements SearchMove {
 
         SearchMoveResult searchResult = new SearchMoveResult(maxDepth, bestMoveEvaluation, null);
 
-        searchResult.setSearchByDepthResultList(searchByDepthResultList);
+        searchResult.setSearchByDepthResults(searchByDepthResultList);
 
         smartListenerMediator.triggerAfterSearch(searchResult);
 

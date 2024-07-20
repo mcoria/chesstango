@@ -141,7 +141,7 @@ public class SummaryModel {
             searchSummaryModeDetail.id = epdSearchResult.epd().getId();
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundAlgNot();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
-            searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResultList().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
+            searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResults().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
             searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;

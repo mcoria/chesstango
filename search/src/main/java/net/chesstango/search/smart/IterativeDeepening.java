@@ -42,7 +42,7 @@ public class IterativeDeepening implements SearchMove {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-        List<SearchByDepthResult> searchByDepthResultList = new ArrayList<>();
+        List<SearchByDepthResult> searchByDepthResults = new ArrayList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
@@ -62,7 +62,7 @@ public class IterativeDeepening implements SearchMove {
             searchByDepthResult.setDepth(currentSearchDepth);
             searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
-            searchByDepthResultList.add(searchByDepthResult);
+            searchByDepthResults.add(searchByDepthResult);
 
             smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
@@ -81,7 +81,7 @@ public class IterativeDeepening implements SearchMove {
         );
 
         SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);
-        searchResult.setSearchByDepthResultList(searchByDepthResultList);
+        searchResult.setSearchByDepthResults(searchByDepthResults);
 
         smartListenerMediator.triggerAfterSearch(searchResult);
 
@@ -99,7 +99,6 @@ public class IterativeDeepening implements SearchMove {
             // Espera que al menos se complete un ciclo
             // Aca se puede dar la interrupcion
             countDownLatch.await();
-
 
             smartListenerMediator.triggerStopSearching();
         } catch (InterruptedException e) {
