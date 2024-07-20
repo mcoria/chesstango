@@ -18,7 +18,7 @@ public class LANDecoder {
     private static final Pattern edpMovePattern = Pattern.compile("(" +
             "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h])|(?<fromrank>[1-8]))?[-x]?(?<to>[a-h][1-8]))|" +
             "(?<pawnmove>(?<pawnfrom>[a-h][1-8])[-x](?<pawnto>[a-h][1-8])(?<promotionpiece>[RNBQK]))" +
-            ")\\+?");
+            ")[+#]?");
 
     public Move decode(String moveStr, Iterable<Move> possibleMoves) {
         final Matcher matcher = edpMovePattern.matcher(moveStr);
