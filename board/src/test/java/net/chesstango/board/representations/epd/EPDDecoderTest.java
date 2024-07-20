@@ -228,6 +228,30 @@ public class EPDDecoderTest {
         assertEquals(48, entryList.size());
     }
 
+    @Test
+    @Disabled
+    public void test_arasana2023() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\arasan2023.epd").toList();
+
+        assertEquals(200, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void test_eet() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\eet.epd").toList();
+
+        assertEquals(100, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void test_bt2630() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\bt2630.epd").toList();
+
+        assertEquals(30, entryList.size());
+    }
+
 
     @Test
     @Disabled
@@ -247,6 +271,9 @@ public class EPDDecoderTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\pet.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\arasan2023.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\eet.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\bt2630.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
