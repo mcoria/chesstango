@@ -55,10 +55,16 @@ public class EPDDecoder {
 
         System.out.println("Reading suite " + filePath);
 
-        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.builder();
+        try (InputStream in = new FileInputStream(filePath.toFile());) {
+            return readEdpInputStream(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        try (InputStream instr = new FileInputStream(filePath.toFile());
-             InputStreamReader inputStreamReader = new InputStreamReader(instr);
+    public Stream<EPD> readEdpInputStream(InputStream in) throws IOException {
+        Stream.Builder<EPD> epdEntryStreamBuilder = Stream.builder();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(in);
              BufferedReader rr = new BufferedReader(inputStreamReader)) {
 
             String line;
@@ -74,10 +80,8 @@ public class EPDDecoder {
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            return epdEntryStreamBuilder.build();
         }
-        return epdEntryStreamBuilder.build();
     }
 
     public EPD readEdpLine(String line) {

@@ -153,7 +153,6 @@ public class EPDDecoderTest {
         assertEquals(Square.d1, epd.getAvoidMoves().getFirst().getTo().getSquare());
     }
 
-    //
     @Test
     public void testReadSM() {
         EPD epd = epdDecoder.readEdpLine("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm a4; c0 \"c0\"; c1 \"c1\"; c2 \"c2\"; c3 \"c3\"; c4 \"c4\"; c5 \"c5\"; c6 \"c6\"; id \"1\";");
@@ -168,6 +167,24 @@ public class EPDDecoderTest {
         assertEquals("c5", epd.getC5());
         assertEquals("c6", epd.getC6());
         assertEquals("1", epd.getId());
+    }
+
+    @Test
+    public void testReadSM01() {
+        EPD epd = epdDecoder.readEdpLine("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm e4; c0 \"event='Wch U16'\"; c1 \"site='Wattignies'\"; c2 \"date='1976.08.27'\"; c3 \"white='Chandler, Murray G'\"; c4 \"black='Kasparov, Gary'\"; c5 \"result='1-0'\"; c6 \"clock=1\"; id \"463b96181691fc9c\";");
+
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", epd.getFenWithoutClocks().toString());
+        assertEquals("e4", epd.getSuppliedMoveStr());
+        assertEquals("event='Wch U16'", epd.getC0());
+        assertEquals("site='Wattignies'", epd.getC1());
+        assertEquals("date='1976.08.27'", epd.getC2());
+        assertEquals("white='Chandler, Murray G'", epd.getC3());
+        assertEquals("black='Kasparov, Gary'", epd.getC4());
+        assertEquals("result='1-0'", epd.getC5());
+        assertEquals("clock=1", epd.getC6());
+        assertEquals("463b96181691fc9c", epd.getId());
+
+        assertEquals(0x463b96181691fc9cL, Long.parseUnsignedLong(epd.getId(), 16));
     }
 
     @Test

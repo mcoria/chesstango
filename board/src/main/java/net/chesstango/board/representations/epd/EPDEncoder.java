@@ -61,6 +61,12 @@ public class EPDEncoder {
             stringBuilder.append("\";");
         }
 
+        if (epd.getC7() != null) {
+            stringBuilder.append(" c7 \"");
+            stringBuilder.append(epd.getC7());
+            stringBuilder.append("\";");
+        }
+
         if (epd.getId() != null) {
             stringBuilder.append(" id \"");
             stringBuilder.append(epd.getId());

@@ -7,6 +7,7 @@ module net.chesstango.tools {
     exports net.chesstango.tools.search.reports.pv;
     exports net.chesstango.tools.search.reports.nodes;
     exports net.chesstango.tools.search.reports.evaluation;
+    exports net.chesstango.tools.epdfilters;
 
     requires net.chesstango.board;
     requires net.chesstango.engine;
@@ -22,6 +23,7 @@ module net.chesstango.tools {
     requires py4j;
 
     requires static lombok;
+    requires org.apache.commons.cli;
 
     opens net.chesstango.tools.search.reports.summary to com.fasterxml.jackson.databind;
 }

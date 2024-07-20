@@ -24,6 +24,7 @@ public class EPD {
     private String c4;
     private String c5;
     private String c6;
+    private String c7;
 
     //  The halfmove clock and full move counter,
     //  obligatory in Forsyth-Edwards Notation
