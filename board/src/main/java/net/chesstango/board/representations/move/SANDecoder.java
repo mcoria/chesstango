@@ -20,10 +20,13 @@ import static net.chesstango.board.Piece.PAWN_WHITE;
  * <SAN move descriptor pawn push>     ::= 														     <to square>[<promoted to>]
  */
 public class SANDecoder {
-    public static final Pattern movePattern = Pattern.compile("((?<piecemove>(?<piece>[RNBQK])(?<piecefrom>[a-h]|[1-8]|[a-h][1-8])?x?(?<pieceto>[a-h][1-8]))|" +
+    public static final Pattern movePattern = Pattern.compile("(" +
+            "(?<piecemove>(?<piece>[RNBQK])(?<piecefrom>[a-h]|[1-8]|[a-h][1-8])?x?(?<pieceto>[a-h][1-8]))|" +
             "(?<pawncapture>(?<pawncapturefile>[a-h])[1-8]?x(?<pawncaptureto>[a-h][1-8])=?(?<pawncapturepromotion>[RNBQ]?))|" +
             "(?<pawnpush>(?<pawnto>[a-h][1-8])=?(?<pawnpushpromotion>[RNBQ]?))|" +
-            "(?<queencaslting>O-O-O)|(?<kingcastling>O-O))[+#]?"
+            "(?<queencaslting>O-O-O)|" +
+            "(?<kingcastling>O-O)" +
+            ")[+#]?"
     );
 
     public Move decode(String moveStr, Iterable<Move> possibleMoves) {
@@ -140,7 +143,7 @@ public class SANDecoder {
             if (!PAWN_WHITE.equals(thePiece) && !PAWN_BLACK.equals(thePiece) && piece.equals(getPieceCode(move.getFrom().getPiece()))) {
                 Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
-                if (piecefrom == null || piecefrom !=null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
+                if (piecefrom == null || piecefrom != null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
                     if (pieceto.equals(toSquare.toString())) {
                         return move;
                     }

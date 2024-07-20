@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class SANDecoderTest {
 
     private SANDecoder decoder = new SANDecoder();
