@@ -69,7 +69,8 @@ public class EPDDecoder {
             String line;
 
             while ((line = rr.readLine()) != null) {
-                if (!line.startsWith("#")) {
+                line = line.trim();
+                if (!line.startsWith("#") && !line.isEmpty()) {
                     try {
                         EPD entry = readEdpLine(line);
                         epdEntryStreamBuilder.add(entry);

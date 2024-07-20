@@ -246,6 +246,7 @@ public class EPDDecoderTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\pet.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
