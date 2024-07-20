@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class LANDecoder {
     private static final Pattern edpMovePattern = Pattern.compile("(" +
             "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h])|(?<fromrank>[1-8]))?[-x]?(?<to>[a-h][1-8]))|" +
-            "(?<promotion>(?<promotionfrom>[a-h][1-8])[-x](?<promotionto>[a-h][1-8])(?<promotionpiece>[RNBQK]))" +
+            "(?<pawnmove>(?<pawnfrom>[a-h][1-8])[-x](?<pawnto>[a-h][1-8])(?<promotionpiece>[RNBQK]))" +
             ")\\+?");
 
     public Move decode(String moveStr, Iterable<Move> possibleMoves) {
@@ -25,8 +25,8 @@ public class LANDecoder {
         if (matcher.matches()) {
             if (matcher.group("piecemove") != null) {
                 return decodePieceMove(matcher, possibleMoves);
-            } else if (matcher.group("promotion") != null) {
-                return decodePromotion(matcher, possibleMoves);
+            } else if (matcher.group("pawnmove") != null) {
+                return decodePawnMove(matcher, possibleMoves);
             }
         }
         return null;
@@ -74,10 +74,10 @@ public class LANDecoder {
         return null;
     }
 
-    private Move decodePromotion(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePawnMove(Matcher matcher, Iterable<Move> possibleMoves) {
         String promotionPieceStr = matcher.group("promotionpiece");
-        String fromStr = matcher.group("promotionfrom");
-        String toStr = matcher.group("promotionto");
+        String fromStr = matcher.group("pawnfrom");
+        String toStr = matcher.group("pawnto");
         for (Move move : possibleMoves) {
             if (move instanceof MovePromotion movePromotion) {
                 if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionPieceStr)) {
