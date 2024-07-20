@@ -7,6 +7,7 @@ module net.chesstango.tools {
     exports net.chesstango.tools.search.reports.pv;
     exports net.chesstango.tools.search.reports.nodes;
     exports net.chesstango.tools.search.reports.evaluation;
+    exports net.chesstango.tools.epdfilters;
 
     requires net.chesstango.board;
     requires net.chesstango.engine;
