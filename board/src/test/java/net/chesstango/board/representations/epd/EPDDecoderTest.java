@@ -252,6 +252,38 @@ public class EPDDecoderTest {
         assertEquals(30, entryList.size());
     }
 
+    @Test
+    @Disabled
+    public void test_Kaufman() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd").toList();
+
+        assertEquals(25, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void test_lapuce2() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\lapuce2.epd").toList();
+
+        assertEquals(35, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void test_LCTII() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\LCTII.epd").toList();
+
+        assertEquals(35, entryList.size());
+    }
+
+    @Test
+    @Disabled
+    public void test_CCROneHourTest() {
+        List<EPD> entryList = epdDecoder.readEdpFile("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\CCROneHourTest.epd").toList();
+
+        assertEquals(24, entryList.size());
+    }
+
 
     @Test
     @Disabled
@@ -274,6 +306,10 @@ public class EPDDecoderTest {
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\arasan2023.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\eet.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\bt2630.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\lapuce2.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\LCTII.epd",
+                "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\CCROneHourTest.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
                 "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
