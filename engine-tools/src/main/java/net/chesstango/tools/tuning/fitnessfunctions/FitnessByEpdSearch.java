@@ -1,9 +1,11 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
 
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
@@ -65,6 +67,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
         EpdSearch epdSearch = new EpdSearch();
 
         epdSearch.setDepth(depth);
+
         epdSearch.setSearchMoveSupplier(() -> AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluatorSupplier.get()).build());
 
         List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries.stream());
@@ -103,12 +106,16 @@ public class FitnessByEpdSearch implements FitnessFunction {
                 .map(SearchByDepthResult::getBestMove)
                 .toList();
 
-        long points = 0;
-        for (int i = 0; i < bestMoveList.size(); i++) {
-            Move bestMove = bestMoveList.get(i);
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
+        int possibleMoves = game.getPossibleMoves().size();
+
+        int points = 0;
+        int i = 1;
+        for (Move bestMove : bestMoveList) {
             if (epd.isMoveSuccess(bestMove)) {
-                points += (long) (i + 1) * (i + 1);
+                points += i * i * (possibleMoves - 1);
             }
+            i++;
         }
 
         return points;
