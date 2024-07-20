@@ -136,9 +136,9 @@ public class SummaryModel {
         epdSearchResults.stream().map(epdSearchResult -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
             SearchMoveResult searchMoveResult = epdSearchResult.searchResult();
-            PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epdEntry().id);
+            PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epd().getId());
 
-            searchSummaryModeDetail.id = epdSearchResult.epdEntry().id;
+            searchSummaryModeDetail.id = epdSearchResult.epd().getId();
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundAlgNot();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
             searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResultList().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();

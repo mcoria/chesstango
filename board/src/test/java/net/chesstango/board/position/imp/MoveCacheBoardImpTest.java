@@ -58,7 +58,7 @@ public class MoveCacheBoardImpTest {
 		}
 
 		for (long posicion : posiciones) {
-			System.out.println(String.format("0x%sL,", Long.toHexString(posicion)));
+			System.out.printf("0x%sL,%n", Long.toHexString(posicion));
 		}
 	}
 

@@ -14,6 +14,9 @@ import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PGNGameTest {
 
     @Test
@@ -40,7 +43,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -75,7 +78,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -112,7 +115,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -142,7 +145,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -174,7 +177,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 
@@ -206,7 +209,7 @@ public class PGNGameTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGN pgn = new PGNDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
 
         Game game = pgn.toGame();
 

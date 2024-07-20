@@ -2,8 +2,8 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.epd.EpdEntry;
-import net.chesstango.board.representations.epd.EpdReader;
+import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
@@ -47,7 +47,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
     private final List<String> epdFiles;
     private final int depth;
-    private final List<EpdEntry> edpEntries;
+    private final List<EPD> edpEntries;
 
 
     public FitnessByEpdSearch() {
@@ -71,13 +71,13 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         return epdSearchResults
                 .stream()
-                .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epdEntry(), epdSearchResult.searchResult()))
+                .mapToLong(epdSearchResult -> getPoints(epdSearchResult.epd(), epdSearchResult.searchResult()))
                 .sum();
     }
 
     @Override
     public void start() {
-        EpdReader reader = new EpdReader();
+        EPDDecoder reader = new EPDDecoder();
 
         epdFiles.forEach(fileName -> reader.readEdpFile(fileName).forEach(edpEntries::add));
     }
@@ -87,7 +87,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
     }
 
 
-    protected long getPoints(EpdEntry epdEntry, SearchMoveResult searchMoveResult) {
+    protected long getPoints(EPD epd, SearchMoveResult searchMoveResult) {
         List<Move> bestMoveList = searchMoveResult
                 .getSearchByDepthResultList()
                 .stream()
@@ -97,7 +97,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
         long points = 0;
         for (int i = 0; i < bestMoveList.size(); i++) {
             Move bestMove = bestMoveList.get(i);
-            if (epdEntry.isMoveSuccess(bestMove)) {
+            if (epd.isMoveSuccess(bestMove)) {
                 points += (long) (i + 1) * (i + 1);
             }
         }

@@ -3,7 +3,7 @@ package net.chesstango.tools;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.pgn.PGN;
-import net.chesstango.board.representations.pgn.PGNDecoder;
+import net.chesstango.board.representations.pgn.PGNStringDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorImp05;
 import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.tools.search.reports.arena.SummaryReport;
@@ -110,7 +110,7 @@ public class MatchMain {
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        Stream<PGN> pgnStream = new PGNDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
+        Stream<PGN> pgnStream = new PGNStringDecoder().decodePGNs(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
         return pgnStream.map(PGN::toGame).map(Game::getCurrentFEN);
     }

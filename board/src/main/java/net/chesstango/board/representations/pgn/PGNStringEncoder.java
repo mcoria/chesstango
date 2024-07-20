@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.text.SimpleDateFormat;
@@ -11,7 +10,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PGNEncoder {
+public class PGNStringEncoder {
 
     public String encode(PGN game) {
         StringBuilder sb = new StringBuilder();
@@ -29,7 +28,7 @@ public class PGNEncoder {
         sb.append("\n");
 
         int moveCounter = 0;
-        for (String moveStr: game.getMoveList()) {
+        for (String moveStr : game.getMoveList()) {
             if (moveCounter > 0 && moveCounter % 10 == 0) {
                 sb.append("\n");
             }
