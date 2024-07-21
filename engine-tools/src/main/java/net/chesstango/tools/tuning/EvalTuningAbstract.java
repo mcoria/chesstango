@@ -23,6 +23,8 @@ public abstract class EvalTuningAbstract {
 
     public abstract void doWork();
 
+    public abstract void endWork();
+
     protected long fitness(GameEvaluatorFactory gameEvaluatorFactory) {
         String keyGenes = gameEvaluatorFactory.getKey();
 
@@ -56,5 +58,23 @@ public abstract class EvalTuningAbstract {
         entryList.stream().limit(20).forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
         });
+    }
+
+    protected void installShutdownHook(boolean interruptBeforeJoin) {
+        final Thread mainThread = Thread.currentThread();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.info("Shutting down....");
+
+            endWork();
+
+            if (interruptBeforeJoin) {
+                mainThread.interrupt();
+            }
+            try {
+                mainThread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }));
     }
 }
