@@ -45,10 +45,10 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     private ChessPositionReader positionReader;
 
     public EvaluatorImp06() {
-        this(EvaluatorImp06Tables.readValues());
+        this(readDefaultValues());
     }
 
-    public EvaluatorImp06(EvaluatorImp06Tables tables) {
+    public EvaluatorImp06(Tables tables) {
         this(tables.weighs,
                 tables.mgPawnTbl,
                 tables.mgKnightTbl,
@@ -244,35 +244,38 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             900, // QUEEN
     };
 
-    public record EvaluatorImp06Tables(int[] weighs,
-                                       int[] mgPawnTbl,
-                                       int[] mgKnightTbl,
-                                       int[] mgBishopTbl,
-                                       int[] mgRookTbl,
-                                       int[] mgQueenTbl,
-                                       int[] mgKingTbl,
+    public record Tables(int[] weighs,
+                         int[] mgPawnTbl,
+                         int[] mgKnightTbl,
+                         int[] mgBishopTbl,
+                         int[] mgRookTbl,
+                         int[] mgQueenTbl,
+                         int[] mgKingTbl,
 
-                                       int[] egPawnTbl,
-                                       int[] egKnightTbl,
-                                       int[] egBishopTbl,
-                                       int[] egRookTbl,
-                                       int[] egQueenTbl,
-                                       int[] egKingTbl) {
+                         int[] egPawnTbl,
+                         int[] egKnightTbl,
+                         int[] egBishopTbl,
+                         int[] egRookTbl,
+                         int[] egQueenTbl,
+                         int[] egKingTbl) {
+    }
 
-        public static EvaluatorImp06Tables readValues() {
-            try (InputStream inputStream = EvaluatorImp06Tables.class.getClassLoader()
-                    .getResourceAsStream("b7d29d83-4c4b-4b00-813b-b54a256a71b3-eval.json");
-                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
-
-                ObjectMapper objectMapper = new ObjectMapper();
-
-                return objectMapper.readValue(inputStreamReader, EvaluatorImp06Tables.class);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    private static Tables readDefaultValues() {
+        try (InputStream inputStream = Tables.class.getClassLoader()
+                .getResourceAsStream("b7d29d83-4c4b-4b00-813b-b54a256a71b3-eval.json");) {
+            return readValues(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    public static Tables readValues(InputStream inputStream) {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(inputStreamReader, Tables.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

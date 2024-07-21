@@ -40,6 +40,7 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
     public EvaluatorImp06Factory(int[] weighs,
                                  int[] mgPawnTbl, int[] mgKnightTbl, int[] mgBishopTbl, int[] mgRookTbl, int[] mgQueenTbl, int[] mgKingTbl,
                                  int[] egPawnTbl, int[] egKnightTbl, int[] egBishopTbl, int[] egRookTbl, int[] egQueenTbl, int[] egKingTbl) {
+
         this.key = String.format("%s-eval", UUID.randomUUID());
 
         this.weighs = weighs;
@@ -73,7 +74,7 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
 
     @Override
     public void dump() {
-        EvaluatorImp06.EvaluatorImp06Tables obj = new EvaluatorImp06.EvaluatorImp06Tables(weighs,
+        EvaluatorImp06.Tables obj = new EvaluatorImp06.Tables(weighs,
                 mgPawnTbl, mgKnightTbl, mgBishopTbl, mgRookTbl, mgQueenTbl, mgKingTbl,
                 egPawnTbl, egKnightTbl, egBishopTbl, egRookTbl, egQueenTbl, egKingTbl);
 
