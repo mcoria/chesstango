@@ -367,7 +367,10 @@ public class EpdSearchMainTest {
                 //.withDebugSearchTree(debugNodeTrap, false, true, true)
                 ;
 
-        if (PRINT_REPORT) builder.withStatistics();
+        if (PRINT_REPORT) {
+            builder.withStatistics();
+                    //.withTrackEvaluations();
+        }
 
         return builder.build();
     }

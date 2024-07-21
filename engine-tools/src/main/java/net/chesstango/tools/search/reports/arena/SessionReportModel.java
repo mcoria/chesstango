@@ -12,13 +12,6 @@ public class SessionReportModel {
     public String engineName;
     public long searches;
 
-    ///////////////////// START COLLISIONS
-    public long searchesWithoutCollisions;
-    public int searchesWithoutCollisionsPercentage;
-    public long searchesWithCollisions;
-    public int searchesWithCollisionsPercentage;
-    ///////////////////// END COLLISIONS
-
     ///////// START TOTALS
     public long expectedNodesTotal;
     public long expectedRNodesTotal;
@@ -61,12 +54,6 @@ public class SessionReportModel {
 
     private void load(List<SearchMoveResult> searchMoveResults) {
         this.searches = searchMoveResults.size();
-
-        this.searchesWithoutCollisions = searchMoveResults.stream().mapToInt(moveResult -> moveResult.getPossibleCollisions().size()).filter(value -> value == 1).count();
-        this.searchesWithoutCollisionsPercentage = (int) ((this.searchesWithoutCollisions * 100) / this.searches);
-        this.searchesWithCollisions = searchMoveResults.stream().mapToInt(moveResult -> moveResult.getPossibleCollisions().size()).filter(value -> value > 1).count();
-        this.searchesWithCollisionsPercentage = (int) ((this.searchesWithCollisions * 100) / this.searches);
-
 
         this.expectedRNodesCounters = new long[30];
         this.visitedRNodesCounters = new long[30];

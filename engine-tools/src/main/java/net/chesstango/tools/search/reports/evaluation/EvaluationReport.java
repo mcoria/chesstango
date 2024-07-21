@@ -34,7 +34,7 @@ public class EvaluationReport {
         printSummary();
 
         if (printEvaluationsStatistics) {
-            new PrintEvaluationsStatistics(out, reportModel)
+            new EvaluationStatisticsReport(out, reportModel)
                     .printEvaluationsStatistics();
         }
 

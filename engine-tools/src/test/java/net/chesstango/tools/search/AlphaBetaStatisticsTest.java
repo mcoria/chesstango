@@ -103,22 +103,6 @@ public class AlphaBetaStatisticsTest {
 
 
     @Test
-    public void testBestMovesCounter_NoIterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterialPieces())
-                .withTranspositionTable()       // Para detectar la cantidad de mejores movimientos necesita TT
-                .withStatistics()
-                .build();
-
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        searchResult = moveFinder.search(game);
-
-        assertEquals(19, searchResult.getPossibleCollisions().size());
-    }
-
-    @Test
     public void testVisitedNodesCounters_Iterative() {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterialPieces())
@@ -161,23 +145,6 @@ public class AlphaBetaStatisticsTest {
         assertEquals(440, expectedNodesCountersTotal);
     }
 
-
-    @Test
-    public void testBestMovesCounter_Iterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterialPieces())
-                .withTranspositionTable()       // Para detectar la cantidad de mejores movimientos necesita TT
-                .withStatistics()
-                .withIterativeDeepening()
-                .build();
-
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        searchResult = moveFinder.search(game);
-
-        assertEquals(19, searchResult.getPossibleCollisions().size());
-    }
 
     @Test
     public void testSearch_01() {

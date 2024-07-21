@@ -27,24 +27,4 @@ public class MoveEvaluationTrackerTest {
                 .build();
     }
 
-
-    @Test
-    public void testEvaluationCollisions01() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        SearchMoveResult searchResult = searchMove.search(game);
-
-        assertEquals(19, searchResult.getPossibleCollisions().size());
-    }
-
-    @Test
-    public void testEvaluationCollisions02() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        SearchMoveResult searchResult = searchMove.search(game);
-
-        assertEquals(19, searchResult.getPossibleCollisions().size());
-    }
 }

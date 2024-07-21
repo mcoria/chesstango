@@ -6,11 +6,11 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrintEvaluationsStatistics {
+public class EvaluationStatisticsReport {
     private final PrintStream out;
     private final EvaluationReportModel reportModel;
 
-    public PrintEvaluationsStatistics(PrintStream out, EvaluationReportModel reportModel) {
+    public EvaluationStatisticsReport(PrintStream out, EvaluationReportModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -28,7 +28,7 @@ public class PrintEvaluationsStatistics {
 
         // Marco superior de la tabla
         out.printf(" ________");
-        out.printf("____________");
+        //out.printf("____________");
         out.printf("______________");
         out.printf("______________");
         out.printf("_______________");
@@ -41,7 +41,7 @@ public class PrintEvaluationsStatistics {
 
         // Nombre de las columnas
         out.printf("| Move   ");
-        out.printf("| Collisions ");
+        //out.printf("| Collisions ");
         out.printf("| Evaluations ");
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
@@ -56,7 +56,7 @@ public class PrintEvaluationsStatistics {
         // Cuerpo
         for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
-            out.printf("| %10d ", moveDetail.possibleCollisionsCounter);
+            //out.printf("| %10d ", moveDetail.possibleCollisionsCounter);
             out.printf("| %11d ", moveDetail.evaluationCounter);
             out.printf("| %11d ", moveDetail.evaluationsCacheHitCounter);
             out.printf("| %12d ", moveDetail.evaluationPositionCounter);
@@ -70,7 +70,7 @@ public class PrintEvaluationsStatistics {
 
         // Totales
         out.printf("|--------");
-        out.printf("|------------");
+       // out.printf("|------------");
         out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
@@ -84,7 +84,7 @@ public class PrintEvaluationsStatistics {
 
 
         out.printf("| SUM    ");
-        out.printf("|            ");
+        //out.printf("|            ");
         out.printf("| %11d ", reportModel.evaluationCounterTotal);
         out.printf("| %11d ", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("| %12d ", reportModel.evaluationPositionCounterTotal);
@@ -99,7 +99,7 @@ public class PrintEvaluationsStatistics {
 
         // Marco inferior de la tabla
         out.printf(" ---------");
-        out.printf("--------------");
+        //out.printf("--------------");
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
@@ -110,7 +110,7 @@ public class PrintEvaluationsStatistics {
         }
         out.printf("\n");
 
-        out.printf("Collisions = posibles colisiones (puede o no serlo) \n");
+        //out.printf("Collisions = posibles colisiones (puede o no serlo) \n");
 
         out.printf("\n");
 
