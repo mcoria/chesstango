@@ -5,7 +5,6 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp06;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
@@ -17,10 +16,11 @@ import java.util.concurrent.Executor;
 /**
  * @author Mauricio Coria
  */
-public class EvalTuningJeneticsMain extends EvalTuningAbstract {
-    private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
-    private static final int POPULATION_SIZE = 20;
-    private static final int GENERATION_LIMIT = 500;
+public class JeneticsMain extends EvalTuningAbstract {
+    private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
+    private static final int POPULATION_SIZE = 10;
+    private static final int GENERATION_LIMIT = 20;
+    private volatile boolean stopped;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
@@ -31,14 +31,16 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
-        EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider);
+        JeneticsMain main = new JeneticsMain(fitnessFunction, geneticProvider);
+
+        main.installShutdownHook(false);
 
         main.doWork();
     }
 
     private final GeneticProvider geneticProvider;
 
-    public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider) {
+    public JeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider) {
         super(fitnessFn);
         this.geneticProvider = geneticProvider;
     }
@@ -61,18 +63,34 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
         //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
-        Phenotype<IntegerGene, Long> result = engine
+        EvolutionResult<IntegerGene, Long> result = engine
                 //.stream(start)
                 .stream()
+                .limit(evolutionResult -> !stopped)
                 .limit(GENERATION_LIMIT)
-                .collect(EvolutionResult.toBestPhenotype());
+                .peek(this::report)
+                .collect(EvolutionResult.toBestEvolutionResult());
 
-        System.out.println("El mejor fenotipo encontrado = " + result.fitness());
-        System.out.println("Y su genotipo = " + geneticProvider.createGameEvaluatorFactors(result.genotype()));
+        if (result != null) {
+            logger.info("El mejor fitness encontrado = {}", result.bestFitness());
 
-        dumpMemory();
+            Phenotype<IntegerGene, Long> bestPhenotype = result.bestPhenotype();
+
+            logger.info("Y su genotipo = {}", geneticProvider.createGameEvaluatorFactors(bestPhenotype.genotype()).getKey());
+        }
+
+        dumpMemory(POPULATION_SIZE);
 
         fitnessFn.stop();
+    }
+
+    private void report(EvolutionResult<IntegerGene, Long> evolutionResult) {
+        logger.info("TotalGenerations = {}", evolutionResult.totalGenerations());
+    }
+
+    @Override
+    public void endWork() {
+        this.stopped = true;
     }
 
 

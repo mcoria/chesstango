@@ -23,6 +23,8 @@ public abstract class EvalTuningAbstract {
 
     public abstract void doWork();
 
+    public abstract void endWork();
+
     protected long fitness(GameEvaluatorFactory gameEvaluatorFactory) {
         String keyGenes = gameEvaluatorFactory.getKey();
 
@@ -47,14 +49,34 @@ public abstract class EvalTuningAbstract {
     }
 
 
-    protected void dumpMemory() {
+    protected void dumpMemory(int maxElements) {
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
         List<Map.Entry<String, Long>> entryList = entrySet.stream()
                 .sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)))
                 .toList();
 
+        logger.info("Memory size = {}", fitnessMemory.size());
+
         entryList.stream().limit(20).forEach(entry -> {
-            System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
+            logger.info("key = [{}]; value=[{}]", entry.getKey(), entry.getValue());
         });
+    }
+
+    protected void installShutdownHook(boolean interruptBeforeJoin) {
+        final Thread mainThread = Thread.currentThread();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.info("Shutting down....");
+
+            endWork();
+
+            if (interruptBeforeJoin) {
+                mainThread.interrupt();
+            }
+            try {
+                mainThread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }));
     }
 }

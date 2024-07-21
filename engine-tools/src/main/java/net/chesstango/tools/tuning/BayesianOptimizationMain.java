@@ -1,6 +1,5 @@
 package net.chesstango.tools.tuning;
 
-import net.chesstango.tools.tuning.factories.EvaluatorImp06Factory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByMatch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import org.slf4j.Logger;
@@ -12,22 +11,22 @@ import py4j.GatewayServer;
  *
  * @author Mauricio Coria
  */
-public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
-    private static final Logger logger = LoggerFactory.getLogger(EvalTuningBayesianOptimizationMain.class);
+public class BayesianOptimizationMain extends EvalTuningAbstract {
+    private static final Logger logger = LoggerFactory.getLogger(BayesianOptimizationMain.class);
 
     public static void main(String[] args) {
 
         FitnessFunction fitnessFn = new FitnessByMatch();
 
-        EvalTuningBayesianOptimizationMain app = new EvalTuningBayesianOptimizationMain(fitnessFn);
+        BayesianOptimizationMain main = new BayesianOptimizationMain(fitnessFn);
 
-        Runtime.getRuntime().addShutdownHook(new ShutdownHook(app, Thread.currentThread()));
+        main.installShutdownHook(true);
 
-        app.doWork();
+        main.doWork();
     }
 
 
-    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn) {
+    public BayesianOptimizationMain(FitnessFunction fitnessFn) {
         super(fitnessFn);
     }
 
@@ -45,12 +44,13 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
             logger.info("main thread interrupted");
         }
 
-        dumpMemory();
+        dumpMemory(20);
 
         fitnessFn.stop();
         server.shutdown();
     }
 
+    @Override
     public void endWork() {
         synchronized (this) {
             notify();
@@ -63,32 +63,5 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
         int scalar3 = scalar3Dbl.intValue();
         //return fitness(new EvaluatorImp0Factory(new int[]{scalar1, scalar2, scalar3}));
         return 0;
-    }
-
-
-    private static class ShutdownHook extends Thread {
-
-        private final EvalTuningBayesianOptimizationMain app;
-        private final Thread mainThread;
-
-        private ShutdownHook(EvalTuningBayesianOptimizationMain app, Thread mainThread) {
-            this.app = app;
-            this.mainThread = mainThread;
-        }
-
-
-        @Override
-        public void run() {
-            logger.info("Shutting down....");
-
-            app.endWork();
-
-            mainThread.interrupt();
-            try {
-                mainThread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 }
