@@ -49,14 +49,16 @@ public abstract class EvalTuningAbstract {
     }
 
 
-    protected void dumpMemory() {
+    protected void dumpMemory(int maxElements) {
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
         List<Map.Entry<String, Long>> entryList = entrySet.stream()
                 .sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)))
                 .toList();
 
+        logger.info("Memory size = {}", fitnessMemory.size());
+
         entryList.stream().limit(20).forEach(entry -> {
-            System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
+            logger.info("key = [{}]; value=[{}]", entry.getKey(), entry.getValue());
         });
     }
 

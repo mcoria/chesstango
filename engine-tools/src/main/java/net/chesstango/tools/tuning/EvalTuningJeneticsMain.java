@@ -18,8 +18,8 @@ import java.util.concurrent.Executor;
  */
 public class EvalTuningJeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
-    private static final int POPULATION_SIZE = 2;
-    private static final int GENERATION_LIMIT = 500;
+    private static final int POPULATION_SIZE = 10;
+    private static final int GENERATION_LIMIT = 20;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
@@ -63,28 +63,34 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
         //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
-        Phenotype<IntegerGene, Long> result = engine
+        EvolutionResult<IntegerGene, Long> result = engine
                 //.stream(start)
                 .stream()
-                .limit(this::isStopped)
+                .limit(evolutionResult -> !stopped)
                 .limit(GENERATION_LIMIT)
-                .collect(EvolutionResult.toBestPhenotype());
+                .peek(this::report)
+                .collect(EvolutionResult.toBestEvolutionResult());
 
-        dumpMemory();
+        if (result != null) {
+            logger.info("El mejor fitness encontrado = {}", result.bestFitness());
 
-        System.out.println("El mejor fenotipo encontrado = " + result.fitness());
-        System.out.println("Y su genotipo = " + geneticProvider.createGameEvaluatorFactors(result.genotype()));
+            Phenotype<IntegerGene, Long> bestPhenotype = result.bestPhenotype();
+
+            logger.info("Y su genotipo = {}", geneticProvider.createGameEvaluatorFactors(bestPhenotype.genotype()).getKey());
+        }
+
+        dumpMemory(POPULATION_SIZE);
 
         fitnessFn.stop();
+    }
+
+    private void report(EvolutionResult<IntegerGene, Long> evolutionResult) {
+        logger.info("TotalGenerations = {}", evolutionResult.totalGenerations());
     }
 
     @Override
     public void endWork() {
         this.stopped = true;
-    }
-
-    private boolean isStopped(EvolutionResult<IntegerGene, Long> integerGeneLongEvolutionResult) {
-        return !stopped;
     }
 
 

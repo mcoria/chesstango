@@ -44,7 +44,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
             logger.info("main thread interrupted");
         }
 
-        dumpMemory();
+        dumpMemory(20);
 
         fitnessFn.stop();
         server.shutdown();
