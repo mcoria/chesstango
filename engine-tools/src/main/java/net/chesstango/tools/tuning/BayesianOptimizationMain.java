@@ -11,14 +11,14 @@ import py4j.GatewayServer;
  *
  * @author Mauricio Coria
  */
-public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
-    private static final Logger logger = LoggerFactory.getLogger(EvalTuningBayesianOptimizationMain.class);
+public class BayesianOptimizationMain extends EvalTuningAbstract {
+    private static final Logger logger = LoggerFactory.getLogger(BayesianOptimizationMain.class);
 
     public static void main(String[] args) {
 
         FitnessFunction fitnessFn = new FitnessByMatch();
 
-        EvalTuningBayesianOptimizationMain main = new EvalTuningBayesianOptimizationMain(fitnessFn);
+        BayesianOptimizationMain main = new BayesianOptimizationMain(fitnessFn);
 
         main.installShutdownHook(true);
 
@@ -26,7 +26,7 @@ public class EvalTuningBayesianOptimizationMain extends EvalTuningAbstract {
     }
 
 
-    public EvalTuningBayesianOptimizationMain(FitnessFunction fitnessFn) {
+    public BayesianOptimizationMain(FitnessFunction fitnessFn) {
         super(fitnessFn);
     }
 

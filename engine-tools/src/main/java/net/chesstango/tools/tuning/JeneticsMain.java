@@ -16,8 +16,8 @@ import java.util.concurrent.Executor;
 /**
  * @author Mauricio Coria
  */
-public class EvalTuningJeneticsMain extends EvalTuningAbstract {
-    private static final Logger logger = LoggerFactory.getLogger(EvalTuningJeneticsMain.class);
+public class JeneticsMain extends EvalTuningAbstract {
+    private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
     private static final int POPULATION_SIZE = 10;
     private static final int GENERATION_LIMIT = 20;
     private volatile boolean stopped;
@@ -31,7 +31,7 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
         FitnessFunction fitnessFunction = new FitnessByEpdSearch();
         //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
-        EvalTuningJeneticsMain main = new EvalTuningJeneticsMain(fitnessFunction, geneticProvider);
+        JeneticsMain main = new JeneticsMain(fitnessFunction, geneticProvider);
 
         main.installShutdownHook(false);
 
@@ -40,7 +40,7 @@ public class EvalTuningJeneticsMain extends EvalTuningAbstract {
 
     private final GeneticProvider geneticProvider;
 
-    public EvalTuningJeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider) {
+    public JeneticsMain(FitnessFunction fitnessFn, GeneticProvider geneticProvider) {
         super(fitnessFn);
         this.geneticProvider = geneticProvider;
     }
