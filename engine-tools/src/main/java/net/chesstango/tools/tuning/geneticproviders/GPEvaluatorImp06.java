@@ -5,11 +5,16 @@ import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
+import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.tools.tuning.factories.EvaluatorImp06Factory;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+
 
 /**
  * @author Mauricio Coria
@@ -23,32 +28,39 @@ public class GPEvaluatorImp06 implements GeneticProvider {
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
         return Genotype.of(
-                IntegerChromosome.of(weighRange, 3),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64),
-                IntegerChromosome.of(tableRange, 64)
+                IntegerChromosome.of(weighRange, 3),  // weighs
+                IntegerChromosome.of(tableRange, 64), // mgPawnTbl
+                IntegerChromosome.of(tableRange, 64), // mgKnightTbl
+                IntegerChromosome.of(tableRange, 64), // mgBishopTbl
+                IntegerChromosome.of(tableRange, 64), // mgRookTbl
+                IntegerChromosome.of(tableRange, 64), // mgQueenTbl
+                IntegerChromosome.of(tableRange, 64), // mgKingTbl
+                IntegerChromosome.of(tableRange, 64), // egPawnTbl
+                IntegerChromosome.of(tableRange, 64), // egKnightTbl
+                IntegerChromosome.of(tableRange, 64), // egBishopTbl
+                IntegerChromosome.of(tableRange, 64), // egRookTbl
+                IntegerChromosome.of(tableRange, 64), // egQueenTbl
+                IntegerChromosome.of(tableRange, 64)  // egKingTbl
         );
     }
 
     @Override
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
-        List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
-                createPhenotype(326, 173, 7),
-                createPhenotype(326, 173, 79)
-        );
 
-        ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
+        try {
+            List<String> dumps = Files.readAllLines(Paths.get("C:\\java\\projects\\chess\\chess-utils\\testing\\training\\Tango\\EvaluatorImp06-2024-07-22.txt"));
 
-        return EvolutionStart.of(population, 1);
+            List<Phenotype<IntegerGene, Long>> phenoList = dumps
+                    .stream()
+                    .map(this::createPhenotype)
+                    .toList();
+
+            ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
+
+            return EvolutionStart.of(population, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -85,18 +97,39 @@ public class GPEvaluatorImp06 implements GeneticProvider {
      *
      * @return
      */
-    private Phenotype<IntegerGene, Long> createPhenotype(int weigh1, int weigh2, int weigh3) {
-        /*
+    private Phenotype<IntegerGene, Long> createPhenotype(String dump) {
+        EvaluatorImp06.Tables tables = EvaluatorImp06.readValues(dump);
+
+        List<IntegerGene> weighs = Arrays.stream(tables.weighs()).mapToObj(val -> IntegerGene.of(val, weighRange)).toList();
+        List<IntegerGene> mgPawnTbl = Arrays.stream(tables.mgPawnTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> mgKnightTbl = Arrays.stream(tables.mgKnightTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> mgBishopTbl = Arrays.stream(tables.mgBishopTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> mgRookTbl = Arrays.stream(tables.mgRookTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> mgQueenTbl = Arrays.stream(tables.mgQueenTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> mgKingTbl = Arrays.stream(tables.mgKingTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egPawnTbl = Arrays.stream(tables.egPawnTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egKnightTbl = Arrays.stream(tables.egKnightTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egBishopTbl = Arrays.stream(tables.egBishopTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egRookTbl = Arrays.stream(tables.egRookTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egQueenTbl = Arrays.stream(tables.egQueenTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+        List<IntegerGene> egKingTbl = Arrays.stream(tables.egKingTbl()).mapToObj(val -> IntegerGene.of(val, tableRange)).toList();
+
         return Phenotype.of(
                 Genotype.of(
-                        IntegerChromosome.of(
-                                IntegerGene.of(weigh1, geneRange),
-                                IntegerGene.of(weigh2, geneRange),
-                                IntegerGene.of(weigh3, geneRange)
-                        )
+                        IntegerChromosome.of(weighs),
+                        IntegerChromosome.of(mgPawnTbl),
+                        IntegerChromosome.of(mgKnightTbl),
+                        IntegerChromosome.of(mgBishopTbl),
+                        IntegerChromosome.of(mgRookTbl),
+                        IntegerChromosome.of(mgQueenTbl),
+                        IntegerChromosome.of(mgKingTbl),
+                        IntegerChromosome.of(egPawnTbl),
+                        IntegerChromosome.of(egKnightTbl),
+                        IntegerChromosome.of(egBishopTbl),
+                        IntegerChromosome.of(egRookTbl),
+                        IntegerChromosome.of(egQueenTbl),
+                        IntegerChromosome.of(egKingTbl)
                 ), 1);
-        */
-        return null;
     }
 
 

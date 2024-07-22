@@ -41,8 +41,8 @@ public class EvaluatorImp04Factory implements GameEvaluatorFactory {
     }
 
     @Override
-    public void dump() {
-
+    public String getRepresentation() {
+        return toString();
     }
 
     @Override

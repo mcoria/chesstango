@@ -3,6 +3,7 @@ package net.chesstango.tools.tuning;
 import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
+import io.jenetics.engine.EvolutionStart;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
@@ -18,8 +19,8 @@ import java.util.concurrent.Executor;
  */
 public class JeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
-    private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 20;
+    private static final int POPULATION_SIZE = 20;
+    private static final int GENERATION_LIMIT = 100;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
@@ -61,11 +62,11 @@ public class JeneticsMain extends EvalTuningAbstract {
                 .populationSize(POPULATION_SIZE)
                 .build();
 
-        //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+        EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         EvolutionResult<IntegerGene, Long> result = engine
-                //.stream(start)
-                .stream()
+                .stream(start)
+                //.stream()
                 .limit(evolutionResult -> !stopped)
                 .limit(GENERATION_LIMIT)
                 .peek(this::report)

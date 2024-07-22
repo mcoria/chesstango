@@ -8,7 +8,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
+import java.util.Arrays;
 
 /**
  * @author Mauricio Coria
@@ -40,7 +40,6 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
     public EvaluatorImp06Factory(int[] weighs,
                                  int[] mgPawnTbl, int[] mgKnightTbl, int[] mgBishopTbl, int[] mgRookTbl, int[] mgQueenTbl, int[] mgKingTbl,
                                  int[] egPawnTbl, int[] egKnightTbl, int[] egBishopTbl, int[] egRookTbl, int[] egQueenTbl, int[] egKingTbl) {
-        this.key = String.format("%s-eval", UUID.randomUUID());
 
         this.weighs = weighs;
 
@@ -57,6 +56,24 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
         this.egRookTbl = egRookTbl;
         this.egQueenTbl = egQueenTbl;
         this.egKingTbl = egKingTbl;
+
+        int computedKey = Arrays.hashCode(weighs);
+        computedKey ^= Arrays.hashCode(mgPawnTbl);
+        computedKey ^= Arrays.hashCode(mgKnightTbl);
+        computedKey ^= Arrays.hashCode(mgBishopTbl);
+        computedKey ^= Arrays.hashCode(mgRookTbl);
+        computedKey ^= Arrays.hashCode(mgQueenTbl);
+        computedKey ^= Arrays.hashCode(mgKingTbl);
+        computedKey ^= Arrays.hashCode(egPawnTbl);
+        computedKey ^= Arrays.hashCode(egKnightTbl);
+        computedKey ^= Arrays.hashCode(egBishopTbl);
+        computedKey ^= Arrays.hashCode(egRookTbl);
+        computedKey ^= Arrays.hashCode(egQueenTbl);
+        computedKey ^= Arrays.hashCode(egKingTbl);
+
+
+        //this.key = String.format("%s", Long.toUnsignedString(computedKey, 16));
+        this.key = String.format("%08x", computedKey);
     }
 
     @Override
@@ -72,15 +89,14 @@ public class EvaluatorImp06Factory implements GameEvaluatorFactory {
     }
 
     @Override
-    public void dump() {
-        EvaluatorImp06.EvaluatorImp06Tables obj = new EvaluatorImp06.EvaluatorImp06Tables(weighs,
+    public String getRepresentation() {
+        EvaluatorImp06.Tables obj = new EvaluatorImp06.Tables(key, weighs,
                 mgPawnTbl, mgKnightTbl, mgBishopTbl, mgRookTbl, mgQueenTbl, mgKingTbl,
                 egPawnTbl, egKnightTbl, egBishopTbl, egRookTbl, egQueenTbl, egKingTbl);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String jsonString = mapper.writeValueAsString(obj);
-            logger.info("Tables {} - {}", key, jsonString);
+            return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

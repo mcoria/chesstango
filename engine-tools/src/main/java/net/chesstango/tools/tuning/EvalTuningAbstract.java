@@ -14,7 +14,7 @@ public abstract class EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(EvalTuningAbstract.class);
 
     protected final FitnessFunction fitnessFn;
-    protected final Map<String, Long> fitnessMemory;
+    protected final Map<String, MemoryEntry> fitnessMemory;
 
     protected EvalTuningAbstract(FitnessFunction fitnessFn) {
         this.fitnessFn = fitnessFn;
@@ -26,40 +26,57 @@ public abstract class EvalTuningAbstract {
     public abstract void endWork();
 
     protected long fitness(GameEvaluatorFactory gameEvaluatorFactory) {
-        String keyGenes = gameEvaluatorFactory.getKey();
+        String evaluatorKey = gameEvaluatorFactory.getKey();
 
-        logger.info("Searching {} ", keyGenes);
+        logger.info("Computing Fitness {} ", evaluatorKey);
 
-        Long points = fitnessMemory.get(keyGenes);
+        MemoryEntry memoryEntry = fitnessMemory.get(evaluatorKey);
 
-        if (points == null) {
+        Long points = null;
+
+        if (memoryEntry == null) {
 
             points = fitnessFn.fitness(gameEvaluatorFactory::createGameEvaluator);
 
-            gameEvaluatorFactory.dump();
+            String evaluatorRepresentation = gameEvaluatorFactory.getRepresentation();
 
-            fitnessMemory.put(keyGenes, points);
+            logger.info("{} - {}", evaluatorKey, evaluatorRepresentation);
+
+            fitnessMemory.put(evaluatorKey, new MemoryEntry(points, evaluatorRepresentation));
         } else {
-            logger.info("Fitness {} in memory", keyGenes);
+
+            points = memoryEntry.points;
+
+            logger.info("Fitness {} in memory", evaluatorKey);
         }
 
-        logger.info("Fitness {} ; points = [{}]", keyGenes, points);
+        logger.info("Fitness {}; points = [{}]", evaluatorKey, points);
 
         return points;
     }
 
 
-    protected void dumpMemory(int maxElements) {
-        Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
-        List<Map.Entry<String, Long>> entryList = entrySet.stream()
-                .sorted(Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)))
-                .toList();
+    private record MemoryEntry(Long points, String representation) {
+    }
 
+
+    protected void dumpMemory(int maxElements) {
         logger.info("Memory size = {}", fitnessMemory.size());
 
-        entryList.stream().limit(20).forEach(entry -> {
-            logger.info("key = [{}]; value=[{}]", entry.getKey(), entry.getValue());
-        });
+        List<Map.Entry<String, MemoryEntry>> entryList = fitnessMemory
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Comparator.comparingLong(o -> o.getValue().points)))
+                .toList();
+
+
+        entryList.stream()
+                .limit(maxElements)
+                .forEach(entry -> logger.info("key = [{}]; points=[{}]", entry.getKey(), entry.getValue().points));
+
+        entryList.stream()
+                .limit(maxElements)
+                .forEach(entry -> System.out.printf("%s\n", entry.getValue().representation));
     }
 
     protected void installShutdownHook(boolean interruptBeforeJoin) {
