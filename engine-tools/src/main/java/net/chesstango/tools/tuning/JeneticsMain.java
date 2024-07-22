@@ -18,8 +18,8 @@ import java.util.concurrent.Executor;
  */
 public class JeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
-    private static final int POPULATION_SIZE = 3;
-    private static final int GENERATION_LIMIT = 10;
+    private static final int POPULATION_SIZE = 20;
+    private static final int GENERATION_LIMIT = 100;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
