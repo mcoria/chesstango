@@ -244,7 +244,8 @@ public class EvaluatorImp06 extends AbstractEvaluator {
             900, // QUEEN
     };
 
-    public record Tables(int[] weighs,
+    public record Tables(String id,
+                         int[] weighs,
                          int[] mgPawnTbl,
                          int[] mgKnightTbl,
                          int[] mgBishopTbl,
@@ -262,7 +263,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
 
     private static Tables readDefaultValues() {
         try (InputStream inputStream = Tables.class.getClassLoader()
-                .getResourceAsStream("b7d29d83-4c4b-4b00-813b-b54a256a71b3-eval.json");) {
+                .getResourceAsStream("evaluatorImp06-tables.json");) {
             return readValues(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -273,6 +274,15 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(inputStreamReader, Tables.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Tables readValues(String dump) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(dump, Tables.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
