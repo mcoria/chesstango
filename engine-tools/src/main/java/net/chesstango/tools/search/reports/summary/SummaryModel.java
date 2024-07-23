@@ -139,7 +139,7 @@ public class SummaryModel {
             PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epd().getId());
 
             searchSummaryModeDetail.id = epdSearchResult.epd().getId();
-            searchSummaryModeDetail.move = epdSearchResult.bestMoveFoundAlgNot();
+            searchSummaryModeDetail.move = epdSearchResult.bestMoveFound();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
             searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResults().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
             searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();

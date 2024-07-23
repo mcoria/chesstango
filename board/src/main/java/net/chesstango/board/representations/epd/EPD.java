@@ -59,6 +59,7 @@ public class EPD {
         return text != null ? text : new EPDEncoder().encode(this);
     }
 
+
     public boolean isMoveSuccess(Move bestMove) {
         if (getBestMoves() != null && !getBestMoves().isEmpty()) {
             return getBestMoves().contains(bestMove);
@@ -67,13 +68,5 @@ public class EPD {
         } else {
             throw new RuntimeException("Undefined expected EPD result");
         }
-    }
-
-    public int calculateAccuracy(List<Move> moveList) {
-        if (!moveList.isEmpty()) {
-            long successMovesCounter = moveList.stream().filter(this::isMoveSuccess).count();
-            return (int) (successMovesCounter * 100 / moveList.size());
-        }
-        return 0;
     }
 }
