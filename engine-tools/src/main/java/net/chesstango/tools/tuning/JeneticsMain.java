@@ -19,8 +19,8 @@ import java.util.concurrent.Executor;
  */
 public class JeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
-    private static final int POPULATION_SIZE = 20;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int POPULATION_SIZE = 3;
+    private static final int GENERATION_LIMIT = 5;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
@@ -85,10 +85,6 @@ public class JeneticsMain extends EvalTuningAbstract {
         fitnessFn.stop();
     }
 
-    private void report(EvolutionResult<IntegerGene, Long> evolutionResult) {
-        logger.info("TotalGenerations = {}", evolutionResult.totalGenerations());
-    }
-
     @Override
     public void endWork() {
         this.stopped = true;
@@ -98,5 +94,9 @@ public class JeneticsMain extends EvalTuningAbstract {
     private long fitness(Genotype<IntegerGene> genotype) {
         GameEvaluatorFactory gameEvaluatorFactory = geneticProvider.createGameEvaluatorFactors(genotype);
         return fitness(gameEvaluatorFactory);
+    }
+
+    private void report(EvolutionResult<IntegerGene, Long> evolutionResult) {
+        logger.info("TotalGenerations = {}", evolutionResult.totalGenerations());
     }
 }

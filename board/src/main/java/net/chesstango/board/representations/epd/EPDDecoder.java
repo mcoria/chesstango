@@ -143,6 +143,9 @@ public class EPDDecoder {
         if (epd.getAvoidMovesStr() != null) {
             epd.setAvoidMoves(movesStringToMoves(game, epd.getAvoidMovesStr()));
         }
+        if (epd.getSuppliedMoveStr() != null) {
+            epd.setSuppliedMove(movesStringToMoves(game, epd.getSuppliedMoveStr()).getFirst());
+        }
 
         return epd;
     }

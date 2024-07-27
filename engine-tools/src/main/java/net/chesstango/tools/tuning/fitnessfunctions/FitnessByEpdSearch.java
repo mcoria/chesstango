@@ -1,6 +1,5 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
-
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
@@ -24,27 +23,9 @@ import java.util.function.Supplier;
  */
 public class FitnessByEpdSearch implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
-    private static final int MAX_DEPTH = 2;
+    private static final int MAX_DEPTH = 1;
     private static final List<String> EPD_FILES = List.of(
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd",
-            "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\sbd.epd",
-            "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Nolot.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS4.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS5.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS6.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS7.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS8.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS9.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS10.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS11.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS12.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd",
-            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd"
+            "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov-only-nobook-1k.epd"
     );
 
     private final List<String> epdFiles;
@@ -68,7 +49,22 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         epdSearch.setDepth(depth);
 
-        epdSearch.setSearchMoveSupplier(() -> AlphaBetaBuilder.createDefaultBuilderInstance(gameEvaluatorSupplier.get()).build());
+        epdSearch.setSearchMoveSupplier(() ->
+                new AlphaBetaBuilder()
+                        .withGameEvaluator(gameEvaluatorSupplier.get())
+                        .withGameEvaluatorCache()
+
+                        .withQuiescence()
+
+                        .withTranspositionTable()
+
+                        .withTranspositionMoveSorter()
+                        .withKillerMoveSorter()
+                        .withRecaptureSorter()
+                        .withMvvLvaSorter()
+
+                        .build()
+        );
 
         List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries.stream());
 
@@ -91,6 +87,29 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
 
     /**
+     * La unica verdad, es la realidad..... o lo que queremos predecir
+     */
+    protected static long getPoints(EPD epd, SearchMoveResult searchMoveResult) {
+        if (epd.isMoveSuccess(searchMoveResult.getBestMove())) {
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
+     * Esta funcion optimiza la mitad del juego donde existe mayor cantiaad de movimientos posibles
+     */
+    protected static long getPointsV1(EPD epd, SearchMoveResult searchMoveResult) {
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
+        int possibleMoves = game.getPossibleMoves().size();
+        if (epd.isMoveSuccess(searchMoveResult.getBestMove())) {
+            return (possibleMoves - 1);
+        }
+        return 0;
+    }
+
+
+    /**
      * SearchByDepthResult es la lista de resultados de busqueda por profundidad
      * Mientras más profundo el resultado de esta busqueda sea exitoso implica que mayor numero de comparaciones
      * se realizó.
@@ -99,7 +118,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
      * @param searchMoveResult
      * @return
      */
-    protected long getPoints(EPD epd, SearchMoveResult searchMoveResult) {
+    protected static long getPointsDepthV2(EPD epd, SearchMoveResult searchMoveResult) {
         List<Move> bestMoveList = searchMoveResult
                 .getSearchByDepthResults()
                 .stream()
@@ -117,7 +136,6 @@ public class FitnessByEpdSearch implements FitnessFunction {
             }
             i++;
         }
-
         return points;
     }
 

@@ -60,11 +60,13 @@ public class EPD {
     }
 
 
-    public boolean isMoveSuccess(Move bestMove) {
+    public boolean isMoveSuccess(Move move) {
         if (getBestMoves() != null && !getBestMoves().isEmpty()) {
-            return getBestMoves().contains(bestMove);
+            return getBestMoves().contains(move);
         } else if (getAvoidMoves() != null && !getAvoidMoves().isEmpty()) {
-            return !getAvoidMoves().contains(bestMove);
+            return !getAvoidMoves().contains(move);
+        } else if (getSuppliedMove() != null) {
+            return Objects.equals(getSuppliedMove(), move);
         } else {
             throw new RuntimeException("Undefined expected EPD result");
         }
