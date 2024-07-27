@@ -59,21 +59,16 @@ public class EPD {
         return text != null ? text : new EPDEncoder().encode(this);
     }
 
-    public boolean isMoveSuccess(Move bestMove) {
+
+    public boolean isMoveSuccess(Move move) {
         if (getBestMoves() != null && !getBestMoves().isEmpty()) {
-            return getBestMoves().contains(bestMove);
+            return getBestMoves().contains(move);
         } else if (getAvoidMoves() != null && !getAvoidMoves().isEmpty()) {
-            return !getAvoidMoves().contains(bestMove);
+            return !getAvoidMoves().contains(move);
+        } else if (getSuppliedMove() != null) {
+            return Objects.equals(getSuppliedMove(), move);
         } else {
             throw new RuntimeException("Undefined expected EPD result");
         }
-    }
-
-    public int calculateAccuracy(List<Move> moveList) {
-        if (!moveList.isEmpty()) {
-            long successMovesCounter = moveList.stream().filter(this::isMoveSuccess).count();
-            return (int) (successMovesCounter * 100 / moveList.size());
-        }
-        return 0;
     }
 }

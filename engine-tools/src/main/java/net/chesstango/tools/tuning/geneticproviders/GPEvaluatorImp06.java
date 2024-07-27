@@ -52,6 +52,7 @@ public class GPEvaluatorImp06 implements GeneticProvider {
 
             List<Phenotype<IntegerGene, Long>> phenoList = dumps
                     .stream()
+                    .limit(populationSize)
                     .map(this::createPhenotype)
                     .toList();
 

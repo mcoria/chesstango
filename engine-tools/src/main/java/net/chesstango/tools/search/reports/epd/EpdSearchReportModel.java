@@ -20,18 +20,18 @@ public class EpdSearchReportModel {
 
     public long duration;
 
-    public static EpdSearchReportModel collectStatistics(String reportTitle, List<EpdSearchResult> edpEntries) {
+    public static EpdSearchReportModel collectStatistics(String reportTitle, List<EpdSearchResult> epdEntries) {
         EpdSearchReportModel reportModel = new EpdSearchReportModel();
 
-        List<SearchMoveResult> searchMoveResults = edpEntries.stream().map(EpdSearchResult::searchResult).toList();
+        List<SearchMoveResult> searchMoveResults = epdEntries.stream().map(EpdSearchResult::searchResult).toList();
 
         reportModel.reportTitle = reportTitle;
 
-        reportModel.searches = edpEntries.size();
+        reportModel.searches = epdEntries.size();
 
-        reportModel.success = (int) edpEntries.stream().filter(EpdSearchResult::isSearchSuccess).count();
+        reportModel.success = (int) epdEntries.stream().filter(EpdSearchResult::isSearchSuccess).count();
 
-        reportModel.depthAccuracyPct = (int) edpEntries.stream().mapToInt(EpdSearchResult::depthAccuracyPct).average().orElse(0);
+        reportModel.depthAccuracyPct = (int) epdEntries.stream().mapToInt(EpdSearchResult::depthAccuracyPct).average().orElse(0);
 
         reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
@@ -39,13 +39,13 @@ public class EpdSearchReportModel {
 
         reportModel.failedEntries = new ArrayList<>();
 
-        edpEntries.stream()
+        epdEntries.stream()
                 .filter(edpEntry -> !edpEntry.isSearchSuccess())
                 .forEach(edpEntry ->
                         reportModel.failedEntries.add(
                                 String.format("Fail [%s] - best move found %s",
                                         edpEntry.getText(),
-                                        edpEntry.bestMoveFoundAlgNot()
+                                        edpEntry.bestMoveFound()
                                 )
                         ));
 

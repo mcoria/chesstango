@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
+import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
@@ -155,9 +156,26 @@ public class EpdSearch {
 
         Move bestMove = searchResult.getBestMove();
 
-        String bestMoveFoundStr = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
+        String bestMoveAlgNotation = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
 
-        return new EpdSearchResult(epd, searchResult, bestMoveFoundStr);
+        return new EpdSearchResult(epd, searchResult,
+                bestMoveAlgNotation,
+                epd.isMoveSuccess(bestMove),
+                calculateAccuracy(epd, searchResult.getSearchByDepthResults())
+        );
+    }
+
+
+    private int calculateAccuracy(EPD epd, List<SearchByDepthResult> searchByDepthResults) {
+        if (!searchByDepthResults.isEmpty()) {
+            long successCounter = searchByDepthResults
+                    .stream()
+                    .map(SearchByDepthResult::getBestMove)
+                    .filter(epd::isMoveSuccess)
+                    .count();
+            return (int) (successCounter * 100 / searchByDepthResults.size());
+        }
+        return 0;
     }
 
     private record SearchJob(Instant startInstant, SearchMove searchMove) {
