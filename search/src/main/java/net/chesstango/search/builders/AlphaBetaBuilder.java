@@ -170,8 +170,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withExploreMove() {
-        alphaBetaRootChainBuilder.withExploreMove();
+    public AlphaBetaBuilder withEpdHypothesisValidator() {
+        alphaBetaRootChainBuilder.withEpdHypothesisValidator();
         return this;
     }
 

@@ -53,7 +53,7 @@ public class AlphaBetaRootChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
-    private boolean withExploreMove;
+    private boolean withEpdHypothesisValidator;
 
     public AlphaBetaRootChainBuilder() {
         rootMoveSorter = new RootMoveSorter();
@@ -111,8 +111,8 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withExploreMove() {
-        this.withExploreMove = true;
+    public AlphaBetaRootChainBuilder withEpdHypothesisValidator() {
+        this.withEpdHypothesisValidator = true;
         return this;
     }
 
@@ -166,7 +166,7 @@ public class AlphaBetaRootChainBuilder {
             stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
         }
 
-        if (!withExploreMove) {
+        if (!withEpdHypothesisValidator) {
             alphaBeta = new AlphaBeta();
             alphaBeta.setMoveSorter(moveSorter);
         } else {

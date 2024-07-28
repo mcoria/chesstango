@@ -58,12 +58,12 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
                         .withTranspositionTable()
 
-                        .withExploreMove()
-
                         .withTranspositionMoveSorter()
                         .withKillerMoveSorter()
                         .withRecaptureSorter()
                         .withMvvLvaSorter()
+
+                        .withEpdHypothesisValidator()
 
                         .build()
         );
