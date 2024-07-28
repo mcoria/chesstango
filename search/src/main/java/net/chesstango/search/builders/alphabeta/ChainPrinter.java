@@ -258,7 +258,7 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBetaHypothesisValidator(AlphaBetaHypothesisValidator alphaBeta, int nestedChain) {
-        printChainText(String.format("%s [%s]", objectText(alphaBeta), printMoveSorterText(alphaBeta.getMoveSorter())), nestedChain);
+        printChainText(String.format("%s", objectText(alphaBeta)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
     }

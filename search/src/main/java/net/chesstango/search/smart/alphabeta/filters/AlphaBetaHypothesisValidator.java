@@ -32,10 +32,6 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
-    @Getter
-    private MoveSorter moveSorter;
-
     protected Game game;
 
     protected Move expectedRootBestMove;
@@ -65,8 +61,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
         Move bestMove = expectedRootBestMove;
         int maxValue = exploreMove(next::minimize, currentPly, alpha, beta);
 
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
-        Iterator<Move> moveIterator = sortedMoves.iterator();
+        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {
@@ -90,8 +85,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
         Move bestMove = expectedRootBestMove;
         int minValue = exploreMove(next::maximize, currentPly, alpha, beta);
 
-        Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
-        Iterator<Move> moveIterator = sortedMoves.iterator();
+        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {

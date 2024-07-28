@@ -77,7 +77,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
         moveStream.map(MoveEvaluation::move).forEach(moveList::add);
 
         if (moveList.size() != numberOfMove) {
-            throw new RuntimeException("getSortedMovesByLastMoveEvaluations exception");
+            throw new RuntimeException("Not all move were explorer during last iteration");
         }
 
         return moveList;

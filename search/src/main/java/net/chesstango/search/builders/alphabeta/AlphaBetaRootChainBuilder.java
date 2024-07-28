@@ -29,9 +29,9 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder {
-    private final RootMoveSorter rootMoveSorter;
     private final MoveEvaluationTracker moveEvaluationTracker;
     private AlphaBeta alphaBeta;
+    private RootMoveSorter rootMoveSorter;
     private AlphaBetaHypothesisValidator alphaBetaHypothesisValidator;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
@@ -56,7 +56,6 @@ public class AlphaBetaRootChainBuilder {
     private boolean withEpdHypothesisValidator;
 
     public AlphaBetaRootChainBuilder() {
-        rootMoveSorter = new RootMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
@@ -125,6 +124,10 @@ public class AlphaBetaRootChainBuilder {
     }
 
     private void buildObjects() {
+        if (!withEpdHypothesisValidator) {
+            rootMoveSorter = new RootMoveSorter();
+        }
+
         MoveSorter moveSorter = rootMoveSorter;
 
         if (withStatistics) {
@@ -148,14 +151,14 @@ public class AlphaBetaRootChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
-
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
 
-            moveSorterDebug = new MoveSorterDebug();
-            moveSorterDebug.setMoveSorterImp(rootMoveSorter);
-
-            moveSorter = moveSorterDebug;
+            if (moveSorter != null) {
+                moveSorterDebug = new MoveSorterDebug();
+                moveSorterDebug.setMoveSorterImp(moveSorter);
+                moveSorter = moveSorterDebug;
+            }
         }
 
         if (withTriangularPV) {
@@ -171,7 +174,6 @@ public class AlphaBetaRootChainBuilder {
             alphaBeta.setMoveSorter(moveSorter);
         } else {
             alphaBetaHypothesisValidator = new AlphaBetaHypothesisValidator();
-            alphaBetaHypothesisValidator.setMoveSorter(moveSorter);
         }
 
     }
@@ -219,9 +221,12 @@ public class AlphaBetaRootChainBuilder {
 
         if (alphaBeta != null) {
             smartListenerMediator.add(alphaBeta);
-        } else if (alphaBetaHypothesisValidator != null) {
+        }
+
+        if (alphaBetaHypothesisValidator != null) {
             smartListenerMediator.add(alphaBetaHypothesisValidator);
         }
+
         smartListenerMediator.add(rootMoveSorter);
     }
 
@@ -295,7 +300,7 @@ public class AlphaBetaRootChainBuilder {
                 alphaBeta.setNext(next);
             } else if (currentFilter instanceof AlphaBetaHypothesisValidator) {
                 alphaBetaHypothesisValidator.setNext(next);
-            }else if (currentFilter instanceof MoveEvaluationTracker) {
+            } else if (currentFilter instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(next);
