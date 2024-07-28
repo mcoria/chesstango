@@ -19,7 +19,7 @@ import static net.chesstango.search.SearchParameter.EXPECTED_BEST_MOVE;
  * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
  * Al comienzo se realiza la busqueda de valor para expectedRootBestMove
  * y luego se explora los otros movimientos posibles con una ventana reducida,
- * es decir una busqueda de tipo PV.
+ * es decir una busqueda de tipo PV con ventana null.
  * Tan pronto encuentra un movimiento superador, retorna.
  *
  * @author Mauricio Coria
@@ -46,7 +46,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
         if (!searchParameters.containsKey(EXPECTED_BEST_MOVE)) {
             throw new RuntimeException("ExpectedRootBestMove not present in searchParameters");
         }
-        
+
         this.expectedRootBestMove = (Move) searchParameters.get(EXPECTED_BEST_MOVE);
     }
 
@@ -62,7 +62,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
-                long bestMoveAndValue = next.minimize(currentPly + 1, maxValue - 1, maxValue + 1);
+                long bestMoveAndValue = next.minimize(currentPly + 1, maxValue, maxValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -87,7 +87,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
-                long bestMoveAndValue = next.maximize(currentPly + 1, minValue - 1, minValue + 1);
+                long bestMoveAndValue = next.maximize(currentPly + 1, minValue - 1, minValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < minValue) {
                     minValue = currentValue;
