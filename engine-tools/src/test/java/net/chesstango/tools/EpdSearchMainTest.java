@@ -40,6 +40,7 @@ public class EpdSearchMainTest {
     public static void setup() {
         EPDDecoder = new EPDDecoder();
         epdSearch = new EpdSearch();
+        //epdSearch.setExploreMove(true);
     }
 
     @AfterEach
@@ -360,6 +361,8 @@ public class EpdSearchMainTest {
                 .withAspirationWindows()
                 .withIterativeDeepening()
 
+                //.withExploreMove()
+
                 //.withStopProcessingCatch()
                 //.withPrintChain()
                 //.withZobristTracker()
@@ -369,7 +372,7 @@ public class EpdSearchMainTest {
 
         if (PRINT_REPORT) {
             builder.withStatistics();
-                    //.withTrackEvaluations();
+            //.withTrackEvaluations();
         }
 
         return builder.build();

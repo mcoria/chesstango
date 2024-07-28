@@ -2,11 +2,13 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.chesstango.search.SearchParameter.EXPLORE_MOVE;
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
@@ -22,6 +24,8 @@ public class NoIterativeDeepening implements SearchMove {
 
     private int maxDepth = Integer.MAX_VALUE;
 
+    private Move exploreMove = null;
+
     public NoIterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
         this.smartAlgorithm = smartAlgorithm;
         this.smartListenerMediator = smartListenerMediator;
@@ -32,6 +36,10 @@ public class NoIterativeDeepening implements SearchMove {
         List<SearchByDepthResult> searchByDepthResultList = new ArrayList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+
+        if (exploreMove != null) {
+            searchByCycleContext.setExploreMove(exploreMove);
+        }
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -72,6 +80,9 @@ public class NoIterativeDeepening implements SearchMove {
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             maxDepth = maxDepthParam;
+        }
+        if (EXPLORE_MOVE.equals(parameter) && value instanceof Move move) {
+            exploreMove = move;
         }
     }
 

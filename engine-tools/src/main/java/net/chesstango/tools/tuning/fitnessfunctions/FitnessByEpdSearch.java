@@ -48,6 +48,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
         EpdSearch epdSearch = new EpdSearch();
 
         epdSearch.setDepth(depth);
+        epdSearch.setExploreMove(true);
 
         epdSearch.setSearchMoveSupplier(() ->
                 new AlphaBetaBuilder()
@@ -57,6 +58,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
                         .withQuiescence()
 
                         .withTranspositionTable()
+
+                        .withExploreMove()
 
                         .withTranspositionMoveSorter()
                         .withKillerMoveSorter()

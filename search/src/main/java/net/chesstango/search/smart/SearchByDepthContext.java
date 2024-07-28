@@ -7,7 +7,6 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
 
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Mauricio Coria

@@ -6,6 +6,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaRootExplorer;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
@@ -28,9 +29,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder {
-    private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
     private final MoveEvaluationTracker moveEvaluationTracker;
+    private AlphaBeta alphaBeta;
+    private AlphaBetaRootExplorer alphaBetaRootExplorer;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private StopProcessingCatch stopProcessingCatch;
@@ -51,9 +53,9 @@ public class AlphaBetaRootChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
+    private boolean withExploreMove;
 
     public AlphaBetaRootChainBuilder() {
-        alphaBeta = new AlphaBeta();
         rootMoveSorter = new RootMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
@@ -109,6 +111,11 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
+    public AlphaBetaRootChainBuilder withExploreMove() {
+        this.withExploreMove = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -159,7 +166,14 @@ public class AlphaBetaRootChainBuilder {
             stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
         }
 
-        alphaBeta.setMoveSorter(moveSorter);
+        if (!withExploreMove) {
+            alphaBeta = new AlphaBeta();
+            alphaBeta.setMoveSorter(moveSorter);
+        } else {
+            alphaBetaRootExplorer = new AlphaBetaRootExplorer();
+            alphaBetaRootExplorer.setMoveSorter(moveSorter);
+        }
+
     }
 
 
@@ -203,7 +217,11 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(triangularPV);
         }
 
-        smartListenerMediator.add(alphaBeta);
+        if (alphaBeta != null) {
+            smartListenerMediator.add(alphaBeta);
+        } else if (alphaBetaRootExplorer != null) {
+            smartListenerMediator.add(alphaBetaRootExplorer);
+        }
         smartListenerMediator.add(rootMoveSorter);
     }
 
@@ -236,7 +254,11 @@ public class AlphaBetaRootChainBuilder {
             chain.add(alphaBetaStatisticsExpected);
         }
 
-        chain.add(alphaBeta);
+        if (alphaBeta != null) {
+            chain.add(alphaBeta);
+        } else if (alphaBetaRootExplorer != null) {
+            chain.add(alphaBetaRootExplorer);
+        }
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
@@ -271,7 +293,9 @@ public class AlphaBetaRootChainBuilder {
                 alphaBetaStatisticsExpected.setNext(next);
             } else if (currentFilter instanceof AlphaBeta) {
                 alphaBeta.setNext(next);
-            } else if (currentFilter instanceof MoveEvaluationTracker) {
+            } else if (currentFilter instanceof AlphaBetaRootExplorer) {
+                alphaBetaRootExplorer.setNext(next);
+            }else if (currentFilter instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
                 alphaBetaStatisticsVisited.setNext(next);
@@ -281,11 +305,11 @@ public class AlphaBetaRootChainBuilder {
                 triangularPV.setNext(next);
             } else if (currentFilter instanceof TranspositionPV) {
                 transpositionPV.setNext(next);
-            }else {
+            } else {
                 throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }
