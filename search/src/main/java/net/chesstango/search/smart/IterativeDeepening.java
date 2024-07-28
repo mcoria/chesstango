@@ -3,16 +3,19 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
-import static net.chesstango.search.SearchParameter.MAX_DEPTH;
-import static net.chesstango.search.SearchParameter.SEARCH_PREDICATE;
+import static net.chesstango.search.SearchParameter.*;
+import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 
 /**
  * @author Mauricio Coria
@@ -29,7 +32,11 @@ public class IterativeDeepening implements SearchMove {
 
     @Setter
     private ProgressListener progressListener;
+
+    private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
+
     private int maxDepth = Integer.MAX_VALUE;
+
     private Predicate<SearchByDepthResult> searchPredicate = searchMoveResult -> true;
 
     public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
@@ -45,6 +52,7 @@ public class IterativeDeepening implements SearchMove {
         List<SearchByDepthResult> searchByDepthResults = new ArrayList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        searchByCycleContext.setSearchParameters(searchParameters);
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -117,6 +125,10 @@ public class IterativeDeepening implements SearchMove {
             this.searchPredicate = (Predicate<SearchByDepthResult>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
+        }
+
+        if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
+            searchParameters.put(EPD_PARAMS, epd);
         }
     }
 

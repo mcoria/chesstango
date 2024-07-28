@@ -47,10 +47,6 @@ public class EpdSearch {
     private Integer timeOut;
 
 
-    public EpdSearchResult run(EPD epd) {
-        return run(Stream.of(epd)).getFirst();
-    }
-
     public List<EpdSearchResult> run(Stream<EPD> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
 
@@ -142,11 +138,11 @@ public class EpdSearch {
     }
 
 
-    private EpdSearchResult run(SearchMove searchMove, EPD epd) {
+    public EpdSearchResult run(SearchMove searchMove, EPD epd) {
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-
-        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
+        searchMove.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
 
         SearchMoveResult searchResult = searchMove.search(game);
 

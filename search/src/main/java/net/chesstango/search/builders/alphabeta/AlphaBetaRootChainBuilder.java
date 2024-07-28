@@ -6,6 +6,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHypothesisValidator;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
@@ -28,9 +29,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder {
-    private final AlphaBeta alphaBeta;
-    private final RootMoveSorter rootMoveSorter;
     private final MoveEvaluationTracker moveEvaluationTracker;
+    private AlphaBeta alphaBeta;
+    private RootMoveSorter rootMoveSorter;
+    private AlphaBetaHypothesisValidator alphaBetaHypothesisValidator;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private StopProcessingCatch stopProcessingCatch;
@@ -51,10 +53,9 @@ public class AlphaBetaRootChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
+    private boolean withEpdHypothesisValidator;
 
     public AlphaBetaRootChainBuilder() {
-        alphaBeta = new AlphaBeta();
-        rootMoveSorter = new RootMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
@@ -109,6 +110,11 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
+    public AlphaBetaRootChainBuilder withEpdHypothesisValidator() {
+        this.withEpdHypothesisValidator = true;
+        return this;
+    }
+
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -118,6 +124,10 @@ public class AlphaBetaRootChainBuilder {
     }
 
     private void buildObjects() {
+        if (!withEpdHypothesisValidator) {
+            rootMoveSorter = new RootMoveSorter();
+        }
+
         MoveSorter moveSorter = rootMoveSorter;
 
         if (withStatistics) {
@@ -141,14 +151,14 @@ public class AlphaBetaRootChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
-
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
 
-            moveSorterDebug = new MoveSorterDebug();
-            moveSorterDebug.setMoveSorterImp(rootMoveSorter);
-
-            moveSorter = moveSorterDebug;
+            if (moveSorter != null) {
+                moveSorterDebug = new MoveSorterDebug();
+                moveSorterDebug.setMoveSorterImp(moveSorter);
+                moveSorter = moveSorterDebug;
+            }
         }
 
         if (withTriangularPV) {
@@ -159,7 +169,13 @@ public class AlphaBetaRootChainBuilder {
             stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
         }
 
-        alphaBeta.setMoveSorter(moveSorter);
+        if (!withEpdHypothesisValidator) {
+            alphaBeta = new AlphaBeta();
+            alphaBeta.setMoveSorter(moveSorter);
+        } else {
+            alphaBetaHypothesisValidator = new AlphaBetaHypothesisValidator();
+        }
+
     }
 
 
@@ -203,7 +219,14 @@ public class AlphaBetaRootChainBuilder {
             smartListenerMediator.add(triangularPV);
         }
 
-        smartListenerMediator.add(alphaBeta);
+        if (alphaBeta != null) {
+            smartListenerMediator.add(alphaBeta);
+        }
+
+        if (alphaBetaHypothesisValidator != null) {
+            smartListenerMediator.add(alphaBetaHypothesisValidator);
+        }
+
         smartListenerMediator.add(rootMoveSorter);
     }
 
@@ -236,7 +259,11 @@ public class AlphaBetaRootChainBuilder {
             chain.add(alphaBetaStatisticsExpected);
         }
 
-        chain.add(alphaBeta);
+        if (alphaBeta != null) {
+            chain.add(alphaBeta);
+        } else if (alphaBetaHypothesisValidator != null) {
+            chain.add(alphaBetaHypothesisValidator);
+        }
 
         if (alphaBetaStatisticsVisited != null) {
             chain.add(alphaBetaStatisticsVisited);
@@ -271,6 +298,8 @@ public class AlphaBetaRootChainBuilder {
                 alphaBetaStatisticsExpected.setNext(next);
             } else if (currentFilter instanceof AlphaBeta) {
                 alphaBeta.setNext(next);
+            } else if (currentFilter instanceof AlphaBetaHypothesisValidator) {
+                alphaBetaHypothesisValidator.setNext(next);
             } else if (currentFilter instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
@@ -281,11 +310,11 @@ public class AlphaBetaRootChainBuilder {
                 triangularPV.setNext(next);
             } else if (currentFilter instanceof TranspositionPV) {
                 transpositionPV.setNext(next);
-            }else {
+            } else {
                 throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

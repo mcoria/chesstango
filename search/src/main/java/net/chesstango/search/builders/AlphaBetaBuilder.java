@@ -170,6 +170,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withEpdHypothesisValidator() {
+        alphaBetaRootChainBuilder.withEpdHypothesisValidator();
+        return this;
+    }
+
     public AlphaBetaBuilder withStopProcessingCatch() {
         alphaBetaRootChainBuilder.withStopProcessingCatch();
         return this;
@@ -533,6 +538,5 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
                 .withStopProcessingCatch();
     }
-
 }
 

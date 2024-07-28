@@ -19,8 +19,8 @@ import java.util.concurrent.Executor;
  */
 public class JeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
-    private static final int POPULATION_SIZE = 3;
-    private static final int GENERATION_LIMIT = 5;
+    private static final int POPULATION_SIZE = 20;
+    private static final int GENERATION_LIMIT = 500;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
@@ -97,6 +97,8 @@ public class JeneticsMain extends EvalTuningAbstract {
     }
 
     private void report(EvolutionResult<IntegerGene, Long> evolutionResult) {
-        logger.info("TotalGenerations = {}", evolutionResult.totalGenerations());
+        double avg = evolutionResult.population().stream().map(Phenotype::fitness).mapToDouble(Long::doubleValue).average().orElse(0);
+        Long bestFitness = evolutionResult.bestFitness();
+        logger.info("TotalGenerations = {}; BestFitness = {}, Avg = {}", evolutionResult.totalGenerations(), bestFitness, avg);
     }
 }
