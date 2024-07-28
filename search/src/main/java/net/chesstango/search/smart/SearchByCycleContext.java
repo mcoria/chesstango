@@ -3,7 +3,7 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -39,7 +39,7 @@ public class SearchByCycleContext {
 
     private SearchTracker searchTracker;
 
-    private Move exploreMove;
+    private Map<SearchParameter, Object> searchParameters;
 
     public SearchByCycleContext(Game game) {
         this.game = game;

@@ -4,17 +4,27 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
+import java.util.Map;
+
+import static net.chesstango.search.SearchParameter.EXPECTED_BEST_MOVE;
 
 /**
+ * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
+ * Al comienzo se realiza la busqueda de valor para expectedRootBestMove
+ * y luego se explora los otros movimientos posibles con una ventana reducida,
+ * es decir una busqueda de tipo PV.
+ * Tan pronto encuentra un movimiento superador, retorna.
+ *
  * @author Mauricio Coria
  */
-public class AlphaBetaRootExplorer implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCycleListener {
 
     @Setter
     @Getter
@@ -24,28 +34,33 @@ public class AlphaBetaRootExplorer implements AlphaBetaFilter, SearchByCycleList
     @Getter
     private MoveSorter moveSorter;
 
-    private Move exploreMove;
-
     protected Game game;
 
+    protected Move expectedRootBestMove;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
-        this.exploreMove = context.getExploreMove();
+
+        Map<SearchParameter, Object> searchParameters = context.getSearchParameters();
+        if (!searchParameters.containsKey(EXPECTED_BEST_MOVE)) {
+            throw new RuntimeException("ExpectedRootBestMove not present in searchParameters");
+        }
+        
+        this.expectedRootBestMove = (Move) searchParameters.get(EXPECTED_BEST_MOVE);
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = exploreMove;
-        int maxValue = exploreMove(currentPly, alpha, beta, next::minimize);
+        Move bestMove = expectedRootBestMove;
+        int maxValue = exploreMove(next::minimize, currentPly, alpha, beta);
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            if (!move.equals(exploreMove)) {
+            if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
                 long bestMoveAndValue = next.minimize(currentPly + 1, maxValue - 1, maxValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -63,14 +78,14 @@ public class AlphaBetaRootExplorer implements AlphaBetaFilter, SearchByCycleList
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         boolean search = true;
-        Move bestMove = exploreMove;
-        int minValue = exploreMove(currentPly, alpha, beta, next::maximize);
+        Move bestMove = expectedRootBestMove;
+        int minValue = exploreMove(next::maximize, currentPly, alpha, beta);
 
         Iterable<Move> sortedMoves = moveSorter.getOrderedMoves(currentPly);
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            if (!move.equals(exploreMove)) {
+            if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
                 long bestMoveAndValue = next.maximize(currentPly + 1, minValue - 1, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -86,8 +101,8 @@ public class AlphaBetaRootExplorer implements AlphaBetaFilter, SearchByCycleList
     }
 
 
-    public int exploreMove(final int currentPly, final int alpha, final int beta, AlphaBetaFunction alphaBetaFn) {
-        game = game.executeMove(exploreMove);
+    protected int exploreMove(final AlphaBetaFunction alphaBetaFn, final int currentPly, final int alpha, final int beta) {
+        game = game.executeMove(expectedRootBestMove);
         long bestMoveAndValue = alphaBetaFn.search(currentPly + 1, alpha, beta);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
         game = game.undoMove();

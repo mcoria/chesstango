@@ -152,10 +152,10 @@ public class EpdSearch {
 
         if (exploreMove) {
             if (epd.getBestMoves() != null) {
-                searchMove.setSearchParameter(SearchParameter.EXPLORE_MOVE, epd.getBestMoves().getFirst());
+                searchMove.setSearchParameter(SearchParameter.EXPECTED_BEST_MOVE, epd.getBestMoves().getFirst());
             }
             if (epd.getSuppliedMove() != null) {
-                searchMove.setSearchParameter(SearchParameter.EXPLORE_MOVE, epd.getSuppliedMove());
+                searchMove.setSearchParameter(SearchParameter.EXPECTED_BEST_MOVE, epd.getSuppliedMove());
             }
         }
 

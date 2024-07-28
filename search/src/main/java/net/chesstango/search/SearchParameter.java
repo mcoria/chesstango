@@ -7,5 +7,5 @@ public enum SearchParameter {
     MAX_DEPTH,
     SEARCH_PREDICATE,
     POLYGLOT_PATH,
-    EXPLORE_MOVE
+    EXPECTED_BEST_MOVE
 }

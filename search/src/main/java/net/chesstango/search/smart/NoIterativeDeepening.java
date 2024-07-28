@@ -5,10 +5,12 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import static net.chesstango.search.SearchParameter.EXPLORE_MOVE;
+import static net.chesstango.search.SearchParameter.EXPECTED_BEST_MOVE;
 import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
@@ -22,9 +24,9 @@ public class NoIterativeDeepening implements SearchMove {
     @Getter
     private final SmartListenerMediator smartListenerMediator;
 
-    private int maxDepth = Integer.MAX_VALUE;
+    private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
-    private Move exploreMove = null;
+    private int maxDepth = Integer.MAX_VALUE;
 
     public NoIterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
         this.smartAlgorithm = smartAlgorithm;
@@ -33,13 +35,10 @@ public class NoIterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult search(Game game) {
-        List<SearchByDepthResult> searchByDepthResultList = new ArrayList<>();
+        List<SearchByDepthResult> searchByDepthResultList = new LinkedList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
-
-        if (exploreMove != null) {
-            searchByCycleContext.setExploreMove(exploreMove);
-        }
+        searchByCycleContext.setSearchParameters(searchParameters);
 
         smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -80,9 +79,11 @@ public class NoIterativeDeepening implements SearchMove {
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             maxDepth = maxDepthParam;
+            searchParameters.put(MAX_DEPTH, maxDepthParam);
         }
-        if (EXPLORE_MOVE.equals(parameter) && value instanceof Move move) {
-            exploreMove = move;
+
+        if (EXPECTED_BEST_MOVE.equals(parameter) && value instanceof Move move) {
+            searchParameters.put(EXPECTED_BEST_MOVE, move);
         }
     }
 

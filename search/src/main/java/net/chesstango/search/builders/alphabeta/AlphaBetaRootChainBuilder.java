@@ -6,7 +6,7 @@ import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaRootExplorer;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHypothesisValidator;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
@@ -32,7 +32,7 @@ public class AlphaBetaRootChainBuilder {
     private final RootMoveSorter rootMoveSorter;
     private final MoveEvaluationTracker moveEvaluationTracker;
     private AlphaBeta alphaBeta;
-    private AlphaBetaRootExplorer alphaBetaRootExplorer;
+    private AlphaBetaHypothesisValidator alphaBetaHypothesisValidator;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private StopProcessingCatch stopProcessingCatch;
@@ -170,8 +170,8 @@ public class AlphaBetaRootChainBuilder {
             alphaBeta = new AlphaBeta();
             alphaBeta.setMoveSorter(moveSorter);
         } else {
-            alphaBetaRootExplorer = new AlphaBetaRootExplorer();
-            alphaBetaRootExplorer.setMoveSorter(moveSorter);
+            alphaBetaHypothesisValidator = new AlphaBetaHypothesisValidator();
+            alphaBetaHypothesisValidator.setMoveSorter(moveSorter);
         }
 
     }
@@ -219,8 +219,8 @@ public class AlphaBetaRootChainBuilder {
 
         if (alphaBeta != null) {
             smartListenerMediator.add(alphaBeta);
-        } else if (alphaBetaRootExplorer != null) {
-            smartListenerMediator.add(alphaBetaRootExplorer);
+        } else if (alphaBetaHypothesisValidator != null) {
+            smartListenerMediator.add(alphaBetaHypothesisValidator);
         }
         smartListenerMediator.add(rootMoveSorter);
     }
@@ -256,8 +256,8 @@ public class AlphaBetaRootChainBuilder {
 
         if (alphaBeta != null) {
             chain.add(alphaBeta);
-        } else if (alphaBetaRootExplorer != null) {
-            chain.add(alphaBetaRootExplorer);
+        } else if (alphaBetaHypothesisValidator != null) {
+            chain.add(alphaBetaHypothesisValidator);
         }
 
         if (alphaBetaStatisticsVisited != null) {
@@ -293,8 +293,8 @@ public class AlphaBetaRootChainBuilder {
                 alphaBetaStatisticsExpected.setNext(next);
             } else if (currentFilter instanceof AlphaBeta) {
                 alphaBeta.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaRootExplorer) {
-                alphaBetaRootExplorer.setNext(next);
+            } else if (currentFilter instanceof AlphaBetaHypothesisValidator) {
+                alphaBetaHypothesisValidator.setNext(next);
             }else if (currentFilter instanceof MoveEvaluationTracker) {
                 moveEvaluationTracker.setNext(next);
             } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
