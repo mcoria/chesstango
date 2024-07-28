@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -13,7 +14,8 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import java.util.Iterator;
 import java.util.Map;
 
-import static net.chesstango.search.SearchParameter.EXPECTED_BEST_MOVE;
+import static net.chesstango.search.SearchParameter.EPD_PARAMS;
+
 
 /**
  * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
@@ -43,11 +45,18 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
         this.game = context.getGame();
 
         Map<SearchParameter, Object> searchParameters = context.getSearchParameters();
-        if (!searchParameters.containsKey(EXPECTED_BEST_MOVE)) {
-            throw new RuntimeException("ExpectedRootBestMove not present in searchParameters");
+        if (!searchParameters.containsKey(EPD_PARAMS)) {
+            throw new RuntimeException("EPD_PARAMS not present in searchParameters");
         }
 
-        this.expectedRootBestMove = (Move) searchParameters.get(EXPECTED_BEST_MOVE);
+        EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
+        if (epd.getBestMoves() != null) {
+            this.expectedRootBestMove = epd.getBestMoves().getFirst();
+        } else if (epd.getSuppliedMove() != null) {
+            this.expectedRootBestMove = epd.getSuppliedMove();
+        } else {
+            throw new RuntimeException("ExpectedRootBestMove not present in EPD entry");
+        }
     }
 
     @Override

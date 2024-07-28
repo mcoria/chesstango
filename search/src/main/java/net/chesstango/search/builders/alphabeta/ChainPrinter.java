@@ -5,43 +5,35 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
-import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
 import net.chesstango.search.smart.SmartListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableAbstract;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.transposition.filters.*;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -147,6 +139,8 @@ public class ChainPrinter {
                 printChainTranspositionTable(transpositionTable, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBeta alphaBeta) {
                 printChainAlphaBeta(alphaBeta, nestedChain);
+            } else if (alphaBetaFilter instanceof AlphaBetaHypothesisValidator alphaBetaHypothesisValidator) {
+                printChainAlphaBetaHypothesisValidator(alphaBetaHypothesisValidator, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaFlowControl alphaBetaFlowControl) {
                 printChainAlphaBetaFlowControl(alphaBetaFlowControl, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaEvaluation alphaBetaEvaluation) {
@@ -177,7 +171,7 @@ public class ChainPrinter {
                 printChainTranspositionTableTerminal(transpositionTableTerminal, nestedChain);
             } else if (alphaBetaFilter instanceof TranspositionPV transpositionPV) {
                 printChainTranspositionPV(transpositionPV, nestedChain);
-            }else {
+            } else {
                 throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
         } else {
@@ -258,6 +252,12 @@ public class ChainPrinter {
     }
 
     private void printChainAlphaBeta(AlphaBeta alphaBeta, int nestedChain) {
+        printChainText(String.format("%s [%s]", objectText(alphaBeta), printMoveSorterText(alphaBeta.getMoveSorter())), nestedChain);
+        printChainDownLine(nestedChain);
+        printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
+    }
+
+    private void printChainAlphaBetaHypothesisValidator(AlphaBetaHypothesisValidator alphaBeta, int nestedChain) {
         printChainText(String.format("%s [%s]", objectText(alphaBeta), printMoveSorterText(alphaBeta.getMoveSorter())), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);

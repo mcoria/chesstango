@@ -46,13 +46,6 @@ public class EpdSearch {
     @Accessors(chain = true)
     private Integer timeOut;
 
-    @Accessors(chain = true)
-    private boolean exploreMove;
-
-
-    public EpdSearchResult run(EPD epd) {
-        return run(Stream.of(epd)).getFirst();
-    }
 
     public List<EpdSearchResult> run(Stream<EPD> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
@@ -145,19 +138,11 @@ public class EpdSearch {
     }
 
 
-    private EpdSearchResult run(SearchMove searchMove, EPD epd) {
+    public EpdSearchResult run(SearchMove searchMove, EPD epd) {
         Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-
-        if (exploreMove) {
-            if (epd.getBestMoves() != null) {
-                searchMove.setSearchParameter(SearchParameter.EXPECTED_BEST_MOVE, epd.getBestMoves().getFirst());
-            }
-            if (epd.getSuppliedMove() != null) {
-                searchMove.setSearchParameter(SearchParameter.EXPECTED_BEST_MOVE, epd.getSuppliedMove());
-            }
-        }
+        searchMove.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
 
         SearchMoveResult searchResult = searchMove.search(game);
 
