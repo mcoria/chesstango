@@ -9,7 +9,6 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
-import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
 import java.util.Map;
