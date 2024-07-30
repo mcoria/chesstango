@@ -7,16 +7,11 @@ import net.chesstango.board.Color;
  */
 public class EvaluatorByMaterialCount extends AbstractEvaluator {
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return evaluateByMaterial();
-        }
+    public int evaluateNonFinalStatus() {
+        return evaluateByMaterial();
     }
 
 
-    @Override
     protected int evaluateByMaterial() {
         long whitePositions = game.getChessPosition().getPositions(Color.WHITE);
         long blackPositions = game.getChessPosition().getPositions(Color.BLACK);

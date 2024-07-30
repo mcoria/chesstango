@@ -23,14 +23,10 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate() {
+    public int evaluateNonFinalStatus() {
         int evaluation = 0;
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            evaluation += material * evaluateByMaterial();
-            evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
-        }
+        evaluation += material * evaluateByMaterial();
+        evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
         return evaluation;
     }
 
@@ -52,7 +48,6 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
         };
     }
 
-    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

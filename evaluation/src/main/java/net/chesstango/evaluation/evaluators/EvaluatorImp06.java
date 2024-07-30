@@ -110,15 +110,10 @@ public class EvaluatorImp06 extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return wgMaterial * evaluateByMaterial() + evaluateByPST();
-        }
+    public int evaluateNonFinalStatus() {
+        return wgMaterial * evaluateByMaterial() + evaluateByPST();
     }
 
-    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

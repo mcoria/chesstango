@@ -40,19 +40,18 @@ public class EvaluatorImp03 extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate() {
+    public int evaluateNonFinalStatus() {
         int evaluation = 0;
         switch (game.getStatus()) {
-            case MATE:
-            case STALEMATE:
-                evaluation = evaluateFinalStatus();
-                break;
             case CHECK:
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
                 evaluation += material * evaluateByMaterial();
                 evaluation += material_color * evaluateByColor();
+                break;
+            default:
+                throw new RuntimeException("Invalid Status");
         }
         return evaluation;
     }
@@ -85,7 +84,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
         };
     }
 
-    @Override
+
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

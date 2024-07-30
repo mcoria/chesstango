@@ -64,12 +64,8 @@ public class EvaluatorImp04 extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
-        }
+    public int evaluateNonFinalStatus() {
+        return material * evaluateByMaterial() + position * evaluateByPosition() + evaluateByMoveAndByAttack();
     }
 
     protected int evaluateByPosition() {
@@ -309,7 +305,7 @@ public class EvaluatorImp04 extends AbstractEvaluator {
         });
     }
 
-    @Override
+
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

@@ -11,7 +11,16 @@ public abstract class AbstractEvaluator implements Evaluator {
 
     protected Game game;
 
-    public int evaluateFinalStatus() {
+    @Override
+    public int evaluate() {
+        if (game.getStatus().isFinalStatus()) {
+            return evaluateFinalStatus();
+        } else {
+            return evaluateNonFinalStatus();
+        }
+    }
+
+    protected int evaluateFinalStatus() {
         return switch (game.getStatus()) {
             case MATE -> Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
             case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> 0;
@@ -19,10 +28,11 @@ public abstract class AbstractEvaluator implements Evaluator {
         };
     }
 
+    protected abstract int evaluateNonFinalStatus();
+
     @Override
     public void setGame(Game game) {
         this.game = game;
     }
 
-    protected abstract int evaluateByMaterial();
 }

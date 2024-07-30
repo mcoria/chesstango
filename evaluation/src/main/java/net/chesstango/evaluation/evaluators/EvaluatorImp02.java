@@ -69,7 +69,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     }
 
     @Override
-    public int evaluate() {
+    public int evaluateNonFinalStatus() {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -154,7 +154,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
         });
     }
 
-    @Override
+
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

@@ -52,31 +52,6 @@ public abstract class EvaluatorTestCollection {
     }
 
     @Test
-    public void testEvaluateByMaterial() {
-        // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        final int eval = getEvaluator(game).evaluateByMaterial();
-        assertEquals(0, eval);
-
-        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        final int evalWhite = getEvaluator(game).evaluateByMaterial();
-        assertTrue(evalWhite > 0);
-
-        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
-        final int evalBlack = getEvaluator(game).evaluateByMaterial();
-        assertTrue(evalBlack < 0);
-
-        // El puntaje de cada termino es simetrico con respecto a la posicion
-        assertEquals(evalWhite, -evalBlack);
-    }
-
-    @Test
-    public void testEvaluateByMaterial01() {
-        AbstractEvaluator evaluator = getEvaluator(null);
-        testGenericFeature(evaluator, evaluator::evaluateByMaterial, "rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    }
-
-    @Test
     public void testInMateBlack() {
         Game mate = FENDecoder.loadGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
         Game check = FENDecoder.loadGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
@@ -193,22 +168,6 @@ public abstract class EvaluatorTestCollection {
 
         assertEquals(Evaluator.WHITE_LOST, (-1) * Evaluator.WHITE_WON);
         assertEquals(Evaluator.BLACK_LOST, (-1) * Evaluator.BLACK_WON);
-    }
-
-    @Test
-    public void testMaterial() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        int eval = getEvaluator(game).evaluateByMaterial();
-        assertEquals(0, eval);
-
-        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        eval = getEvaluator(game).evaluateByMaterial();
-        assertTrue(eval > 0);
-
-
-        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
-        eval = getEvaluator(game).evaluateByMaterial();
-        assertTrue(eval < 0);
     }
 
 }

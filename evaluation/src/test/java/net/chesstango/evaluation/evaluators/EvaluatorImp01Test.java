@@ -91,4 +91,50 @@ public class EvaluatorImp01Test extends EvaluatorTestCollection {
         assertEquals(evaluator.getPieceValue(Piece.QUEEN_WHITE), -evaluator.getPieceValue(Piece.QUEEN_BLACK));
         assertEquals(evaluator.getPieceValue(Piece.KING_WHITE), -evaluator.getPieceValue(Piece.KING_BLACK));
     }
+
+    @Test
+    public void testEvaluateByMaterial() {
+        // El puntaje de cada termino es 0 en la posicion inicial
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        evaluator.setGame(game);
+        final int eval = evaluator.evaluateByMaterial();
+        assertEquals(0, eval);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        evaluator.setGame(game);
+        final int evalWhite = evaluator.evaluateByMaterial();
+        assertTrue(evalWhite > 0);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        evaluator.setGame(game);
+        final int evalBlack = evaluator.evaluateByMaterial();
+        assertTrue(evalBlack < 0);
+
+        // El puntaje de cada termino es simetrico con respecto a la posicion
+        assertEquals(evalWhite, -evalBlack);
+    }
+
+    @Test
+    public void testEvaluateByMaterial01() {
+        testGenericFeature(evaluator, evaluator::evaluateByMaterial, "rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    }
+
+    @Test
+    public void testEvaluateByMaterial02() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        evaluator.setGame(game);
+        int eval = evaluator.evaluateByMaterial();
+        assertEquals(0, eval);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        evaluator.setGame(game);
+        eval = evaluator.evaluateByMaterial();
+        assertTrue(eval > 0);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        evaluator.setGame(game);
+        eval = evaluator.evaluateByMaterial();
+        assertTrue(eval < 0);
+    }
 }

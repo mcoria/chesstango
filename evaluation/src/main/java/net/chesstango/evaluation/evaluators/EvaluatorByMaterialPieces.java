@@ -11,12 +11,8 @@ public class EvaluatorByMaterialPieces extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return evaluateByMaterial();
-        }
+    public int evaluateNonFinalStatus() {
+        return evaluateByMaterial();
     }
 
 
@@ -37,7 +33,7 @@ public class EvaluatorByMaterialPieces extends AbstractEvaluator {
         };
     }
 
-    @Override
+
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

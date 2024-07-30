@@ -6,26 +6,21 @@ import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
- *
- *  MatchByDepth = 3
- *  Balsa_Top50
- *  ___________________________________________________________________________________________________________________________________________________
+ * <p>
+ * MatchByDepth = 3
+ * Balsa_Top50
+ * ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
  * |       EvaluatorByMaterialImbalance|      94 |     128 |       31 |       32 |      375 |      340 |      281.5 |      298.0 | 579.5 /1000 |   58.0 |
  * |          EvaluatorByMaterialPieces|      32 |      31 |      128 |       94 |      340 |      375 |      202.0 |      218.5 | 420.5 /1000 |   42.1 |
- *  ---------------------------------------------------------------------------------------------------------------------------------------------------
- *
+ * ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class EvaluatorByMaterialImbalance extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return evaluateByMaterial();
-        }
+    public int evaluateNonFinalStatus() {
+        return evaluateByMaterial();
     }
 
 
@@ -33,7 +28,7 @@ public class EvaluatorByMaterialImbalance extends AbstractEvaluator {
 
     private static final long BISHOP_IMPARES = 0x55AA55AA55AA55AAL;
 
-    @Override
+
     protected int evaluateByMaterial() {
         int evaluation = 0;
 

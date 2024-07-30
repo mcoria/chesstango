@@ -30,12 +30,8 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
 
 
     @Override
-    public int evaluate() {
-        if (game.getStatus().isFinalStatus()) {
-            return evaluateFinalStatus();
-        } else {
-            return material * evaluateByMaterial() + position * evaluateByPosition();
-        }
+    public int evaluateNonFinalStatus() {
+        return material * evaluateByMaterial() + position * evaluateByPosition();
     }
 
     protected int evaluateByPosition() {
@@ -238,7 +234,6 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
         });
     }
 
-    @Override
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
