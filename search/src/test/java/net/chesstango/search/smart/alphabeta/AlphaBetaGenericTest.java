@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.GenericTest;
@@ -13,7 +13,7 @@ public class AlphaBetaGenericTest extends GenericTest {
     @BeforeEach
     public void setup() {
         this.searchMove = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterialPieces())
+                .withGameEvaluator(new EvaluatorByMaterial())
 
                 .withQuiescence()
 

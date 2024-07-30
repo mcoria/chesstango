@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.minmax;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -15,7 +15,7 @@ public class MinMaxMateIn2Test extends MateIn2Test {
     @BeforeEach
     public void setup() {
         MinMax searchMove = new MinMax();
-        searchMove.setGameEvaluator(new EvaluatorByMaterialPieces());
+        searchMove.setGameEvaluator(new EvaluatorByMaterial());
 
         SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
         smartListenerMediator.add(searchMove);

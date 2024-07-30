@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.evaluation.evaluators.EvaluatorByMaterialPieces;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.AbstractBestMovesBlackTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
     @BeforeEach
     public void setup() {
         this.searchMove = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterialPieces())
+                .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withIterativeDeepening()
                 .build();
