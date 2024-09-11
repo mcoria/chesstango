@@ -44,6 +44,8 @@ public class SearchMoveResult {
 
     private int searchByDepthCounter;
 
+    private int expectedRootBestMoveCounter;
+
     private List<SearchByDepthResult> searchByDepthResults;
 
     public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
