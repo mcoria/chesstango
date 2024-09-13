@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.search.*;
 
@@ -11,7 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static net.chesstango.search.SearchParameter.*;
+import static net.chesstango.search.SearchParameter.EPD_PARAMS;
+import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -56,8 +56,9 @@ public class NoIterativeDeepening implements SearchMove {
 
         smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
-        SearchMoveResult searchResult = new SearchMoveResult(maxDepth, bestMoveEvaluation, null);
+        SearchMoveResult searchResult = new SearchMoveResult(maxDepth);
 
+        searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResultList);
 
         smartListenerMediator.triggerAfterSearch(searchResult);

@@ -83,7 +83,8 @@ public final class SearchManagerByBook implements SearchManagerChain {
                 Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
                 if (move != null) {
                     MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
-                    return new SearchMoveResult(1, bestMove, null);
+                    return new SearchMoveResult(1)
+                            .setBestMoveEvaluation(bestMove);
                 }
             }
         }

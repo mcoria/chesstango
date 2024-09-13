@@ -6,12 +6,15 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SmartListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
@@ -147,7 +150,8 @@ public class AlphaBetaTest {
 
         smartListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult());
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth)
+                .setBestMoveEvaluation(bestMoveEvaluation);
 
         smartListenerMediator.triggerAfterSearch(searchResult);
 

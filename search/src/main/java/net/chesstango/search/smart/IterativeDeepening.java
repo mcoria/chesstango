@@ -88,7 +88,9 @@ public class IterativeDeepening implements SearchMove {
                 Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
-        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);
+        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1);
+
+        searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResults);
 
         smartListenerMediator.triggerAfterSearch(searchResult);

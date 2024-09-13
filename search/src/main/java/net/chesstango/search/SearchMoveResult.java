@@ -22,9 +22,9 @@ public class SearchMoveResult {
 
     private final int depth;
 
-    private final MoveEvaluation bestMoveEvaluation;
+    private MoveEvaluation bestMoveEvaluation;
 
-    private final Move ponderMove;
+    private Move ponderMove;
 
     private List<PrincipalVariation> principalVariation;
 
@@ -48,10 +48,8 @@ public class SearchMoveResult {
 
     private List<SearchByDepthResult> searchByDepthResults;
 
-    public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
+    public SearchMoveResult(int depth) {
         this.depth = depth;
-        this.bestMoveEvaluation = bestMoveEvaluation;
-        this.ponderMove = ponderMove;
     }
 
     public Move getBestMove() {

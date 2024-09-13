@@ -6,8 +6,8 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,7 +107,7 @@ public class NegaMaxTest {
 
         negaMax.afterSearchByDepth(new SearchByDepthResult());
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
+        SearchMoveResult searchResult = new SearchMoveResult(depth).setBestMoveEvaluation(bestMoveEvaluation);
 
         negaMax.afterSearch(searchResult);
 

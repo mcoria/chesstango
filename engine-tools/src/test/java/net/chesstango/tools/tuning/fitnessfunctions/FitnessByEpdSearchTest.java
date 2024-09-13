@@ -481,9 +481,8 @@ public class FitnessByEpdSearchTest {
     }
 
     private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
-        SearchMoveResult searchResult = new SearchMoveResult(1, new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT), null);
-        //searchResult.setMoveEvaluations(moveEvaluations);
-        return searchResult;
+        return new SearchMoveResult(1)
+                .setBestMoveEvaluation(new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT));
     }
 
 
