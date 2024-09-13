@@ -4,7 +4,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
@@ -36,7 +36,7 @@ public class MinMaxTest {
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        SearchMoveResult searchResult = search(game, 1);
+        SearchResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -52,7 +52,7 @@ public class MinMaxTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        SearchMoveResult searchResult = search(game, 1);
+        SearchResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -68,7 +68,7 @@ public class MinMaxTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        SearchMoveResult searchResult = search(game, 2);
+        SearchResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -84,7 +84,7 @@ public class MinMaxTest {
     public void blackTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn2Ply.json");
 
-        SearchMoveResult searchResult = search(game, 2);
+        SearchResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -96,7 +96,7 @@ public class MinMaxTest {
         assertEquals(12, game.getNodesVisited());
     }
 
-    private SearchMoveResult search(GameMock game, int depth) {
+    private SearchResult search(GameMock game, int depth) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         minMax.beforeSearch(searchByCycleContext);
@@ -109,7 +109,7 @@ public class MinMaxTest {
 
         minMax.afterSearchByDepth(new SearchByDepthResult());
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth)
+        SearchResult searchResult = new SearchResult(depth)
                 .setBestMoveEvaluation(bestMoveEvaluation);
 
         minMax.afterSearch(searchResult);

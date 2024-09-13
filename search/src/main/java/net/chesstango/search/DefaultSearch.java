@@ -21,7 +21,7 @@ public class DefaultSearch implements Search {
     }
 
     @Override
-    public SearchMoveResult search(Game game) {
+    public SearchResult search(Game game) {
         return imp.search(game);
     }
 

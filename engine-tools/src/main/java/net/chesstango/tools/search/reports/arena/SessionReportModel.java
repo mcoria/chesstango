@@ -1,6 +1,6 @@
 package net.chesstango.tools.search.reports.arena;
 
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
 import java.util.List;
@@ -42,18 +42,18 @@ public class SessionReportModel {
     public int[] visitedQNodesCountersAvg;
     ///////////////////// END VISITED QUIESCENCE NODES
 
-    public static SessionReportModel collectStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
+    public static SessionReportModel collectStatics(String engineName, List<SearchResult> searchResults) {
         SessionReportModel sessionReportModel = new SessionReportModel();
 
         sessionReportModel.engineName = engineName;
 
-        sessionReportModel.load(searchMoveResults);
+        sessionReportModel.load(searchResults);
 
         return sessionReportModel;
     }
 
-    private void load(List<SearchMoveResult> searchMoveResults) {
-        this.searches = searchMoveResults.size();
+    private void load(List<SearchResult> searchResults) {
+        this.searches = searchResults.size();
 
         this.expectedRNodesCounters = new long[30];
         this.visitedRNodesCounters = new long[30];
@@ -65,7 +65,7 @@ public class SessionReportModel {
         this.cutoffQPercentages = new int[30];
 
 
-        searchMoveResults.forEach(this::summarize);
+        searchResults.forEach(this::summarize);
 
         /**
          * Totales sumarizados
@@ -100,18 +100,18 @@ public class SessionReportModel {
         this.visitedNodesTotalAvg = (int) (this.visitedNodesTotal / this.searches);
     }
 
-    private void summarize(SearchMoveResult searchMoveResult) {
-        if (searchMoveResult.getRegularNodeStatistics() != null) {
-            collectRegularNodeStatistics(searchMoveResult);
+    private void summarize(SearchResult searchResult) {
+        if (searchResult.getRegularNodeStatistics() != null) {
+            collectRegularNodeStatistics(searchResult);
         }
 
-        if (searchMoveResult.getQuiescenceNodeStatistics() != null) {
-            collectQuiescenceNodeStatistics(searchMoveResult);
+        if (searchResult.getQuiescenceNodeStatistics() != null) {
+            collectQuiescenceNodeStatistics(searchResult);
         }
     }
 
-    private void collectRegularNodeStatistics(SearchMoveResult searchMoveResult) {
-        NodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
+    private void collectRegularNodeStatistics(SearchResult searchResult) {
+        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
         int[] visitedRNodeCounters = regularNodeStatistics.visitedNodesCounters();
         int[] expectedRNodeCounters = regularNodeStatistics.expectedNodesCounters();
 
@@ -126,8 +126,8 @@ public class SessionReportModel {
         }
     }
 
-    private void collectQuiescenceNodeStatistics(SearchMoveResult searchMoveResult) {
-        NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
+    private void collectQuiescenceNodeStatistics(SearchResult searchResult) {
+        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
         int[] visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
         int[] expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
 

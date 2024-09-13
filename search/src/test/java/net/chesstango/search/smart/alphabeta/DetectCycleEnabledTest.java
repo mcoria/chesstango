@@ -7,7 +7,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +87,7 @@ public class DetectCycleEnabledTest {
 
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
-        SearchMoveResult searchResult = search
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -128,7 +128,7 @@ public class DetectCycleEnabledTest {
         });
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 17);
-        SearchMoveResult searchResult = search
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -172,7 +172,7 @@ public class DetectCycleEnabledTest {
         });
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
-        SearchMoveResult searchResult = search
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -206,7 +206,7 @@ public class DetectCycleEnabledTest {
         });
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        SearchMoveResult searchResult = search
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);

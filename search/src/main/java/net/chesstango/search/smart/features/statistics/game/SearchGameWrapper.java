@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.search.ProgressListener;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -25,7 +25,7 @@ public class SearchGameWrapper implements Search, SearchByCycleListener {
     }
 
     @Override
-    public SearchMoveResult search(Game game) {
+    public SearchResult search(Game game) {
         gameStatisticsWrapper = new GameStatisticsWrapper(game);
         return imp.search(gameStatisticsWrapper);
     }
@@ -55,7 +55,7 @@ public class SearchGameWrapper implements Search, SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         result.setExecutedMoves(gameStatisticsWrapper.getExecutedMoves());
     }
 

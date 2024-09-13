@@ -8,7 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 import org.junit.jupiter.api.Disabled;
@@ -30,7 +30,7 @@ public class AlphaBetaSymmetryTest {
 
         Search search = buildSearch();
 
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -48,7 +48,7 @@ public class AlphaBetaSymmetryTest {
 
         Search searchMirror = buildSearch();
 
-        SearchMoveResult searchResultMirror = searchMirror.search(mirrorGame);
+        SearchResult searchResultMirror = searchMirror.search(mirrorGame);
 
         Move smartMoveMirror = searchResultMirror.getBestMove();
 

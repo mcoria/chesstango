@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class AlphaBetaStatisticsTest {
 
-    private SearchMoveResult searchResult;
+    private SearchResult searchResult;
 
     private static final boolean PRINT_REPORT = false;
 
@@ -336,7 +336,7 @@ public class AlphaBetaStatisticsTest {
          */
         Game game1 = FENDecoder.loadGame("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - -");
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        SearchMoveResult searchResult1 = moveFinder.search(game1);
+        SearchResult searchResult1 = moveFinder.search(game1);
 
 
         NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();

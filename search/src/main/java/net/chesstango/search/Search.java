@@ -77,7 +77,7 @@ public interface Search {
     /**
      * Search up to depth
      */
-    SearchMoveResult search(Game game);
+    SearchResult search(Game game);
 
     /**
      * Stop searching. This method may be called while another thread is searching

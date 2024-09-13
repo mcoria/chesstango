@@ -11,7 +11,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorImp05;
 import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(bestMoveFound));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -128,7 +128,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFound, bestMoveEvaluationFound, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -185,7 +185,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -243,7 +243,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -295,7 +295,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(bestMoveFoundBySearch));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -352,7 +352,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -409,7 +409,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -466,7 +466,7 @@ public class FitnessByEpdSearchTest {
 
         EPD epd = createEpdEntry(game, List.of(actualBestMove));
 
-        SearchMoveResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
+        SearchResult searchResult = createSearchMoveResult(bestMoveFoundBySearch, bestEvaluationFoundBySearch, moveEvaluations);
 
         long points = fitnessFn.getPoints(epd, searchResult);
 
@@ -480,8 +480,8 @@ public class FitnessByEpdSearchTest {
         return epd;
     }
 
-    private SearchMoveResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
-        return new SearchMoveResult(1)
+    private SearchResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
+        return new SearchResult(1)
                 .setBestMoveEvaluation(new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT));
     }
 

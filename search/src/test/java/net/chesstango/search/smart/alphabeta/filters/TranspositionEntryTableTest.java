@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
@@ -20,8 +20,8 @@ public class TranspositionEntryTableTest {
     private static final boolean PRINT_REPORT = false;
     private Search searchWithoutTT;
     private Search searchWithTT;
-    private SearchMoveResult searchResultWithoutTT;
-    private SearchMoveResult searchResultWithTT;
+    private SearchResult searchResultWithoutTT;
+    private SearchResult searchResultWithTT;
 
     @BeforeEach
     public void setup() {
@@ -92,9 +92,9 @@ public class TranspositionEntryTableTest {
             Game game01 = FENDecoder.loadGame(fen);
             Game game02 = FENDecoder.loadGame(fen);
 
-            SearchMoveResult searchResult01 = searchMethod1.search(game01);
+            SearchResult searchResult01 = searchMethod1.search(game01);
 
-            SearchMoveResult searchResult02 = searchMethod2.search(game02);
+            SearchResult searchResult02 = searchMethod2.search(game02);
 
             Assertions.assertEquals(evaluation, searchResult01.getBestEvaluation());
 

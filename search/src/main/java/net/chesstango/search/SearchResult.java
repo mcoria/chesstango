@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class SearchMoveResult {
+public class SearchResult {
 
     private String id;
 
@@ -48,7 +48,7 @@ public class SearchMoveResult {
 
     private List<SearchByDepthResult> searchByDepthResults;
 
-    public SearchMoveResult(int depth) {
+    public SearchResult(int depth) {
         this.depth = depth;
     }
 

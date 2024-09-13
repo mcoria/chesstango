@@ -9,7 +9,7 @@ import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 
 import java.util.concurrent.Executors;
@@ -106,7 +106,7 @@ public final class SearchManager {
 
                 searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
                 searchManagerChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
-                SearchMoveResult searchResult = searchManagerChain.search(game);
+                SearchResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {
                     stopTask.cancel(true);

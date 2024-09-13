@@ -2,7 +2,7 @@ package net.chesstango.search.gamegraph;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartListenerMediator;
@@ -34,7 +34,7 @@ public class GameMockTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, smartListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        SearchMoveResult searchResult = searchMove.search(game);
+        SearchResult searchResult = searchMove.search(game);
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);

@@ -4,7 +4,7 @@ package net.chesstango.tools.search.reports.summary;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReportModel;
@@ -135,17 +135,17 @@ public class SummaryModel {
 
         epdSearchResults.stream().map(epdSearchResult -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
-            SearchMoveResult searchMoveResult = epdSearchResult.searchResult();
+            SearchResult searchResult = epdSearchResult.searchResult();
             PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epd().getId());
 
             searchSummaryModeDetail.id = epdSearchResult.epd().getId();
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFound();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
-            searchSummaryModeDetail.depthMoves = searchMoveResult.getSearchByDepthResults().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
+            searchSummaryModeDetail.depthMoves = searchResult.getSearchByDepthResults().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
             searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;
-            searchSummaryModeDetail.evaluation = searchMoveResult.getBestEvaluation();
+            searchSummaryModeDetail.evaluation = searchResult.getBestEvaluation();
             return searchSummaryModeDetail;
         }).forEach(model.searchDetailList::add);
 

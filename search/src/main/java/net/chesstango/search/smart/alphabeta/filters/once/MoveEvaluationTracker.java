@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
@@ -64,7 +64,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
     }
 
     @Override

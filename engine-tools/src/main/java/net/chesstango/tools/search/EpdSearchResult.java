@@ -1,14 +1,13 @@
 package net.chesstango.tools.search;
 
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 /**
  * @author Mauricio Coria
  */
 public record EpdSearchResult(EPD epd,
-                              SearchMoveResult searchResult,
+                              SearchResult searchResult,
 
                               // Mejor movimiento encontrado en notacion algebraica
                               String bestMoveFound,

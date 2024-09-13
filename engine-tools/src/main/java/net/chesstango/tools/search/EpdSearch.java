@@ -9,7 +9,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,7 +144,7 @@ public class EpdSearch {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
         search.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
 
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         searchResult.setId(epd.getId());
 

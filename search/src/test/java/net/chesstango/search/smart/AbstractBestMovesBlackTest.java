@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ public abstract class AbstractBestMovesBlackTest {
         Game game = FENDecoder.loadGame("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1");
 
 		search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -48,7 +48,7 @@ public abstract class AbstractBestMovesBlackTest {
         Game game = FENDecoder.loadGame("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -66,7 +66,7 @@ public abstract class AbstractBestMovesBlackTest {
         Game game = FENDecoder.loadGame("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -84,7 +84,7 @@ public abstract class AbstractBestMovesBlackTest {
         Game game = FENDecoder.loadGame("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -103,7 +103,7 @@ public abstract class AbstractBestMovesBlackTest {
         Game game = FENDecoder.loadGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 

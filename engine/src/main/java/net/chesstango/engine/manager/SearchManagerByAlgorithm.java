@@ -2,7 +2,7 @@ package net.chesstango.engine.manager;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.ProgressListener;
 
@@ -45,7 +45,7 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
-    public SearchMoveResult search(Game game) {
+    public SearchResult search(Game game) {
         return search.search(game);
     }
 }

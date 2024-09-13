@@ -2,7 +2,7 @@ package net.chesstango.tools.search.reports.pv;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -37,8 +37,8 @@ public class PrincipalVariationReport {
     }
 
 
-    public PrincipalVariationReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = PrincipalVariationReportModel.collectStatics(this.reportTitle, searchMoveResults);
+    public PrincipalVariationReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = PrincipalVariationReportModel.collectStatics(this.reportTitle, searchResults);
         return this;
     }
 }

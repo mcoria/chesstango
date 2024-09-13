@@ -45,7 +45,7 @@ public class IterativeDeepening implements Search {
     }
 
     @Override
-    public SearchMoveResult search(final Game game) {
+    public SearchResult search(final Game game) {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
@@ -88,7 +88,7 @@ public class IterativeDeepening implements Search {
                 Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
-        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1);
+        SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
 
         searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResults);

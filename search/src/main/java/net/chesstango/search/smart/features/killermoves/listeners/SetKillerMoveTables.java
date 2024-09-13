@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.features.killermoves.listeners;
 
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -23,7 +23,7 @@ public class SetKillerMoveTables implements SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         killerMoves.reset();
     }
 }

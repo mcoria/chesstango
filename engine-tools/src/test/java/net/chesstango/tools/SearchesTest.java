@@ -7,7 +7,7 @@ import net.chesstango.board.representations.pgn.PGNStringDecoder;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +26,7 @@ import java.io.StringReader;
 public class SearchesTest {
     private static final boolean PRINT_REPORT = false;
     private Search search;
-    private SearchMoveResult searchResult;
+    private SearchResult searchResult;
 
     private SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 

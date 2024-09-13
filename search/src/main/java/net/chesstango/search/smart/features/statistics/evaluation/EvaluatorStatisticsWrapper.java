@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -65,7 +65,7 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         long cacheHitsCounter = gameEvaluatorCache != null ? gameEvaluatorCache.getCacheHitsCounter() : 0;
         result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
     }

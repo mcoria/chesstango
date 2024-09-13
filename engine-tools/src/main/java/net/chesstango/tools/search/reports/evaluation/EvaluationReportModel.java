@@ -2,7 +2,7 @@ package net.chesstango.tools.search.reports.evaluation;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
 
@@ -77,33 +77,33 @@ public class EvaluationReportModel {
     }
 
 
-    public static EvaluationReportModel collectStatistics(String reportTitle, List<SearchMoveResult> searchMoveResults) {
+    public static EvaluationReportModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
         EvaluationReportModel searchesReportModel = new EvaluationReportModel();
 
         searchesReportModel.reportTitle = reportTitle;
 
-        searchesReportModel.load(searchMoveResults);
+        searchesReportModel.load(searchResults);
 
         return searchesReportModel;
     }
 
-    private void load(List<SearchMoveResult> searchMoveResults) {
+    private void load(List<SearchResult> searchResults) {
         this.moveDetails = new LinkedList<>();
 
-        searchMoveResults.forEach(this::loadModelDetail);
+        searchResults.forEach(this::loadModelDetail);
     }
 
-    private void loadModelDetail(SearchMoveResult searchMoveResult) {
-        Move bestMove = searchMoveResult.getBestMove();
+    private void loadModelDetail(SearchResult searchResult) {
+        Move bestMove = searchResult.getBestMove();
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
-        reportModelDetail.id = searchMoveResult.getId();
+        reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
+        reportModelDetail.evaluation = searchResult.getBestEvaluation();
 
-        if (searchMoveResult.getEvaluationStatistics() != null) {
-            collectEvaluationStatistics(reportModelDetail, searchMoveResult);
+        if (searchResult.getEvaluationStatistics() != null) {
+            collectEvaluationStatistics(reportModelDetail, searchResult);
         }
 
         this.evaluationCounterTotal += reportModelDetail.evaluationCounter;
@@ -118,8 +118,8 @@ public class EvaluationReportModel {
     }
 
 
-    private void collectEvaluationStatistics(EvaluationReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
+    private void collectEvaluationStatistics(EvaluationReportModelDetail reportModelDetail, SearchResult searchResult) {
+        EvaluationStatistics evaluationStatistics = searchResult.getEvaluationStatistics();
 
         reportModelDetail.evaluationCounter = evaluationStatistics.evaluationsCounter();
         reportModelDetail.evaluationsCacheHitCounter = evaluationStatistics.cacheHitsCounter();

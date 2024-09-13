@@ -10,7 +10,7 @@ import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -56,9 +56,9 @@ public class LichessTango implements Runnable {
             }
 
             @Override
-            public void searchFinished(SearchMoveResult searchMoveResult) {
-                String moveUci = simpleMoveEncoder.encode(searchMoveResult.getBestMove());
-                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchMoveResult.getBestEvaluation()), moveUci);
+            public void searchFinished(SearchResult searchResult) {
+                String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
+                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
                 client.gameMove(gameId, moveUci);
                 MDC.remove("gameId");
             }

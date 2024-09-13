@@ -2,7 +2,6 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria

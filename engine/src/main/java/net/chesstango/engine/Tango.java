@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.board.representations.fen.FEN;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class Tango {
             }
 
             @Override
-            public void searchFinished(SearchMoveResult searchMoveResult) {
+            public void searchFinished(SearchResult searchMoveResult) {
                 currentSession.addResult(searchMoveResult);
 
                 if (listenerClient != null) {
