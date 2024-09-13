@@ -7,7 +7,7 @@ import io.jenetics.engine.EvolutionStart;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdSearch;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
-import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorImp06;
+import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorByMaterial;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class JeneticsMain extends EvalTuningAbstract {
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider2FactorsGenes();
-        GeneticProvider geneticProvider = new GPEvaluatorImp06();
+        GeneticProvider geneticProvider = new GPEvaluatorByMaterial();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         //FitnessFunction fitnessFunction = new FitnessByMatch();
@@ -55,7 +55,7 @@ public class JeneticsMain extends EvalTuningAbstract {
         Engine<IntegerGene, Long> engine = Engine
                 .builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .executor(executor)
-                .offspringFraction(0.8)
+                .offspringFraction(0.1)
                 .survivorsSelector(new EliteSelector<>())
                 .offspringSelector(new TournamentSelector<>())
                 //.constraint(geneticProvider.getPhenotypeConstraint())
@@ -65,8 +65,8 @@ public class JeneticsMain extends EvalTuningAbstract {
         EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         EvolutionResult<IntegerGene, Long> result = engine
-                .stream(start)
-                //.stream()
+                //.stream(start)
+                .stream()
                 .limit(evolutionResult -> !stopped)
                 .limit(GENERATION_LIMIT)
                 .peek(this::report)
