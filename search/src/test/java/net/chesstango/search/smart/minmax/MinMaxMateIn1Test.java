@@ -23,6 +23,6 @@ public class MinMaxMateIn1Test extends MateIn1Test {
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(searchMove, smartListenerMediator);
         noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
 
-        this.searchMove = noIterativeDeepening;
+        this.search = noIterativeDeepening;
     }
 }

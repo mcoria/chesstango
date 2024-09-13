@@ -20,7 +20,7 @@ import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeepening implements SearchMove {
+public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
     private volatile CountDownLatch countDownLatch;
 

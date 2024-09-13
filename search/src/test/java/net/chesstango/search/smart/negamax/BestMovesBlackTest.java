@@ -35,6 +35,6 @@ public class BestMovesBlackTest extends AbstractBestMovesBlackTest {
 
         IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning, smartListenerMediator);
 
-        this.searchMove = iterativeDeepening;
+        this.search = iterativeDeepening;
     }
 }

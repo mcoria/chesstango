@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Mauricio Coria
  */
-public class Dummy implements SearchMove {
+public class Dummy implements Search {
 
     @Override
     public SearchMoveResult search(Game game) {

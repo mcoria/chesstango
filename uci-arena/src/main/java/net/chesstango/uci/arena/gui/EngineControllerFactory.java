@@ -2,8 +2,8 @@ package net.chesstango.uci.arena.gui;
 
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.DefaultSearch;
+import net.chesstango.search.Search;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.proxy.UciProxy;
 
@@ -22,8 +22,8 @@ public class EngineControllerFactory {
         return new EngineControllerImp(proxy);
     }
 
-    public static EngineController createTangoController(Supplier<SearchMove> searchMoveSupplier) {
-        SearchMove search = searchMoveSupplier.get();
+    public static EngineController createTangoController(Supplier<Search> searchMoveSupplier) {
+        Search search = searchMoveSupplier.get();
 
         return new EngineControllerImp(new UciTango(new Tango(searchMoveSupplier.get())))
                 .overrideEngineName(search.getClass().getSimpleName());
@@ -32,7 +32,7 @@ public class EngineControllerFactory {
     public static EngineController createTangoControllerWithDefaultSearch(Supplier<Evaluator> gameEvaluatorSupplier) {
         Evaluator evaluator = gameEvaluatorSupplier.get();
 
-        SearchMove search = new DefaultSearchMove(evaluator);
+        Search search = new DefaultSearch(evaluator);
 
         return new EngineControllerImp(new UciTango(new Tango(search)))
                 .overrideEngineName(evaluator.getClass().getSimpleName());

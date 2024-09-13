@@ -2,9 +2,9 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.board.representations.fen.FEN;
 
@@ -33,10 +33,10 @@ public class Tango {
     private SearchListener listenerClient;
 
     public Tango() {
-        this(new DefaultSearchMove());
+        this(new DefaultSearch());
     }
 
-    public Tango(SearchMove searchMove) {
+    public Tango(Search search) {
         SearchListener myListener = new SearchListener() {
             @Override
             public void searchStarted() {
@@ -62,7 +62,7 @@ public class Tango {
             }
         };
 
-        this.searchManager = new SearchManager(searchMove, myListener);
+        this.searchManager = new SearchManager(search, myListener);
         this.searchManager.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
     }
 

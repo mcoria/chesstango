@@ -8,15 +8,15 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 /**
  * @author Mauricio Coria
  */
-public class DefaultSearchMove implements SearchMove {
+public class DefaultSearch implements Search {
 
-    private final SearchMove imp;
+    private final Search imp;
 
-    public DefaultSearchMove() {
+    public DefaultSearch() {
         this(new DefaultEvaluator());
     }
 
-    public DefaultSearchMove(final Evaluator evaluator) {
+    public DefaultSearch(final Evaluator evaluator) {
         this.imp = AlphaBetaBuilder.createDefaultBuilderInstance(evaluator).build();
     }
 

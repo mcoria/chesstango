@@ -23,7 +23,7 @@ public class NegaMaxMateIn2Test extends MateIn2Test {
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMax,smartListenerMediator);
         noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH,3);
 
-        this.searchMove = noIterativeDeepening;
+        this.search = noIterativeDeepening;
     }
 
 

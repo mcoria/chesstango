@@ -6,7 +6,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.board.representations.pgn.PGNStringDecoder;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -25,7 +25,7 @@ import java.io.StringReader;
  */
 public class SearchesTest {
     private static final boolean PRINT_REPORT = false;
-    private SearchMove searchMove;
+    private Search search;
     private SearchMoveResult searchResult;
 
     private SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
@@ -34,7 +34,7 @@ public class SearchesTest {
     public void setup() {
         searchResult = null;
 
-        searchMove = new AlphaBetaBuilder()
+        search = new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
                 .withGameEvaluatorCache()
 
@@ -90,8 +90,8 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 6);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 6);
+        searchResult = search.search(game);
     }
 
 
@@ -100,8 +100,8 @@ public class SearchesTest {
     public void testSearch_01() {
         Game game = FENDecoder.loadGame("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 6);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 6);
+        searchResult = search.search(game);
     }
 
     @Test
@@ -109,8 +109,8 @@ public class SearchesTest {
     public void testSearch_02() {
         Game game = FENDecoder.loadGame("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
+        searchResult = search.search(game);
     }
 
 
@@ -119,8 +119,8 @@ public class SearchesTest {
     public void testSearch_03() {
         Game game = FENDecoder.loadGame("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
     }
 
 
@@ -129,8 +129,8 @@ public class SearchesTest {
     public void testSearch_04() {
         Game game = FENDecoder.loadGame("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
     }
 
 
@@ -139,8 +139,8 @@ public class SearchesTest {
     public void testSearch_06() {
         Game game = FENDecoder.loadGame("R7/P4k2/8/8/8/8/r7/6K1 w - - 0 1");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
     }
 
     @Test
@@ -148,8 +148,8 @@ public class SearchesTest {
     public void testSearch_07() {
         Game game = FENDecoder.loadGame("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
+        searchResult = search.search(game);
     }
 
     @Test
@@ -157,8 +157,8 @@ public class SearchesTest {
     public void testSearch_08() {
         Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
+        searchResult = search.search(game);
     }
 
 
@@ -167,8 +167,8 @@ public class SearchesTest {
     public void testSearch_09() {
         Game game = FENDecoder.loadGame("rnb2rk1/pp3ppp/4pn2/2q5/1Q2P3/P1P2P2/3B2PP/R3KBNR b KQ - 4 12");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
 
         System.out.println(searchResult.getBestMoveEvaluation());
     }
@@ -208,8 +208,8 @@ public class SearchesTest {
 
         Game game = pgn.toGame();
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
 
         System.out.println(searchResult.getBestMoveEvaluation());
     }
@@ -219,8 +219,8 @@ public class SearchesTest {
     public void testSearch_11() {
         Game game = FENDecoder.loadGame("1r2r1k1/pp3p1p/3pb1pB/4b3/P2pQ3/1PqP2P1/2P2RBP/3R2K1 b - - 2 23");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        searchResult = search.search(game);
 
         System.out.println(searchResult.getBestMoveEvaluation());
     }
@@ -232,8 +232,8 @@ public class SearchesTest {
     public void testSearch_12() {
         Game game = FENDecoder.loadGame("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49");
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = searchMove.search(game);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        searchResult = search.search(game);
 
         System.out.println(searchResult.getBestMoveEvaluation());
     }

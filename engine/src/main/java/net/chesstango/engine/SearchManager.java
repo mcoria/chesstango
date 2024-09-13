@@ -8,7 +8,7 @@ import net.chesstango.engine.manager.SearchManagerChain;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 
@@ -32,10 +32,10 @@ public final class SearchManager {
     private int infiniteDepth = 1;
     private ScheduledExecutorService executorService;
 
-    public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
+    public SearchManager(Search search, SearchListener listenerClient) {
         this.listenerClient = listenerClient;
 
-        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(searchMove);
+        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(search);
 
         this.searchManagerByBook = new SearchManagerByBook();
         this.searchManagerByBook.setNext(searchManagerByAlgorithm);

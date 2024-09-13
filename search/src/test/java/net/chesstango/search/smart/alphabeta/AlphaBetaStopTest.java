@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AlphaBetaStopTest {
     @Test
     public void testStop() throws InterruptedException {
-        SearchMove search = new AlphaBetaBuilder()
+        Search search = new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()

@@ -1,7 +1,7 @@
 package net.chesstango.engine.manager;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.ProgressListener;
@@ -10,30 +10,30 @@ import net.chesstango.search.ProgressListener;
  * @author Mauricio Coria
  */
 public final class SearchManagerByAlgorithm implements SearchManagerChain {
-    private final SearchMove searchMove;
+    private final Search search;
 
-    public SearchManagerByAlgorithm(SearchMove searchMove) {
-        this.searchMove = searchMove;
+    public SearchManagerByAlgorithm(Search search) {
+        this.search = search;
     }
 
     @Override
     public void reset() {
-        searchMove.reset();
+        search.reset();
     }
 
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
-        searchMove.setSearchParameter(parameter, value);
+        search.setSearchParameter(parameter, value);
     }
 
     @Override
     public void setProgressListener(ProgressListener progressListener) {
-        searchMove.setProgressListener(progressListener);
+        search.setProgressListener(progressListener);
     }
 
     @Override
     public void stopSearching() {
-        searchMove.stopSearching();
+        search.stopSearching();
     }
 
     @Override
@@ -46,6 +46,6 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
 
     @Override
     public SearchMoveResult search(Game game) {
-        return searchMove.search(game);
+        return search.search(game);
     }
 }

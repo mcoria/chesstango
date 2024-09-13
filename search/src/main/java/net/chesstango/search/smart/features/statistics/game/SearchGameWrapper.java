@@ -3,25 +3,24 @@ package net.chesstango.search.smart.features.statistics.game;
 import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.search.ProgressListener;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthListener;
 
 /**
  * @author Mauricio Coria
  */
-public class SearchMoveGameWrapper implements SearchMove, SearchByCycleListener {
+public class SearchGameWrapper implements Search, SearchByCycleListener {
 
     @Getter
-    private final SearchMove imp;
+    private final Search imp;
 
     @Getter
     private GameStatisticsWrapper gameStatisticsWrapper;
 
-    public SearchMoveGameWrapper(SearchMove imp) {
+    public SearchGameWrapper(Search imp) {
         this.imp = imp;
     }
 

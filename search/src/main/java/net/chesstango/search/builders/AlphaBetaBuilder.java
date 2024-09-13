@@ -3,7 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -22,7 +22,7 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchGameWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
@@ -276,7 +276,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     @Override
-    public SearchMove build() {
+    public Search build() {
         if (!withTranspositionTable) {
             withTriangularPV();
         }
@@ -293,26 +293,26 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         setupListenerMediatorAfterChain();
 
-        SearchMove searchMove;
+        Search search;
 
         if (withIterativeDeepening) {
-            searchMove = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
+            search = new IterativeDeepening(alphaBetaFacade, smartListenerMediator);
         } else {
-            searchMove = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
+            search = new NoIterativeDeepening(alphaBetaFacade, smartListenerMediator);
         }
 
         if (withStatistics) {
-            SearchMoveGameWrapper searchMoveGameWrapper = new SearchMoveGameWrapper(searchMove);
+            SearchGameWrapper searchMoveGameWrapper = new SearchGameWrapper(search);
             smartListenerMediator.add(searchMoveGameWrapper);
 
-            searchMove = searchMoveGameWrapper;
+            search = searchMoveGameWrapper;
         }
 
         if (withPrintChain) {
-            new ChainPrinter().printChain(searchMove);
+            new ChainPrinter().printChain(search);
         }
 
-        return searchMove;
+        return search;
     }
 
     private void buildObjects() {

@@ -13,11 +13,11 @@ public class AlphaBetaMateIn1Test extends MateIn1Test {
 
     @BeforeEach
     public void setup() {
-        this.searchMove = new AlphaBetaBuilder()
+        this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .build();
 
-        this.searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
+        this.search.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
     }
 
 

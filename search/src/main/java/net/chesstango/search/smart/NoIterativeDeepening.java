@@ -16,7 +16,7 @@ import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 /**
  * @author Mauricio Coria
  */
-public class NoIterativeDeepening implements SearchMove {
+public class NoIterativeDeepening implements Search {
 
     @Getter
     private final SmartAlgorithm smartAlgorithm;

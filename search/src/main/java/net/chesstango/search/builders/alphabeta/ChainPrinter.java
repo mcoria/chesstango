@@ -4,7 +4,7 @@ import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SmartAlgorithm;
@@ -23,7 +23,7 @@ import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationCom
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.game.SearchMoveGameWrapper;
+import net.chesstango.search.smart.features.statistics.game.SearchGameWrapper;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -43,19 +43,19 @@ import java.util.Objects;
  * @author Mauricio Corias
  */
 public class ChainPrinter {
-    public void printChain(SearchMove searchMove) {
-        if (searchMove instanceof SearchMoveGameWrapper searchMoveGameWrapper) {
+    public void printChain(Search search) {
+        if (search instanceof SearchGameWrapper searchMoveGameWrapper) {
             printChainSearchMoveWrapper(searchMoveGameWrapper);
-        } else if (searchMove instanceof NoIterativeDeepening noIterativeDeepening) {
+        } else if (search instanceof NoIterativeDeepening noIterativeDeepening) {
             printChainNoIterativeDeepening(noIterativeDeepening);
-        } else if (searchMove instanceof IterativeDeepening iterativeDeepening) {
+        } else if (search instanceof IterativeDeepening iterativeDeepening) {
             printChainIterativeDeepening(iterativeDeepening);
         } else {
-            throw new RuntimeException(String.format("Unknown SearchMove class: %s", searchMove.getClass()));
+            throw new RuntimeException(String.format("Unknown SearchMove class: %s", search.getClass()));
         }
     }
 
-    private void printChainSearchMoveWrapper(SearchMoveGameWrapper searchMoveGameWrapper) {
+    private void printChainSearchMoveWrapper(SearchGameWrapper searchMoveGameWrapper) {
         printNodeObjectText(searchMoveGameWrapper, 0);
         printChainDownLine(0);
         printChain(searchMoveGameWrapper.getImp());

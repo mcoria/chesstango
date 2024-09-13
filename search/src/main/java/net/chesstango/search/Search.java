@@ -72,7 +72,7 @@ import net.chesstango.board.Game;
  * <p>
  * EL OBJETIVO SERIA DISMINUIR 'AVG Nodes/S' (promedio de nodos visitados por busqueda)
  */
-public interface SearchMove {
+public interface Search {
 
     /**
      * Search up to depth

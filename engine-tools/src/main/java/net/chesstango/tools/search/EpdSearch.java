@@ -8,7 +8,7 @@ import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class EpdSearch {
     private static final SANEncoder sanEncoder = new SANEncoder();
 
     @Accessors(chain = true)
-    private Supplier<SearchMove> searchMoveSupplier;
+    private Supplier<Search> searchMoveSupplier;
 
     @Accessors(chain = true)
     private int depth;
@@ -56,9 +56,9 @@ public class EpdSearch {
 
         List<EpdSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
 
-        BlockingQueue<SearchMove> searchMovePool = new LinkedBlockingDeque<>(availableCores);
+        BlockingQueue<Search> searchPool = new LinkedBlockingDeque<>(availableCores);
         for (int i = 0; i < availableCores; i++) {
-            searchMovePool.add(searchMoveSupplier.get());
+            searchPool.add(searchMoveSupplier.get());
         }
 
         try (ExecutorService executorService = Executors.newFixedThreadPool(availableCores)) {
@@ -69,13 +69,13 @@ public class EpdSearch {
                     try {
                         Instant startInstant = Instant.now();
 
-                        SearchMove searchMove = searchMovePool.take();
+                        Search search = searchPool.take();
 
-                        searchJob = new SearchJob(startInstant, searchMove);
+                        searchJob = new SearchJob(startInstant, search);
 
                         activeJobs.add(searchJob);
 
-                        EpdSearchResult epdSearchResult = run(searchMove, epd);
+                        EpdSearchResult epdSearchResult = run(search, epd);
 
                         epdSearchResults.add(epdSearchResult);
 
@@ -86,7 +86,7 @@ public class EpdSearch {
                         }
                          */
 
-                        searchMovePool.put(searchJob.searchMove);
+                        searchPool.put(searchJob.search);
 
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
@@ -112,7 +112,7 @@ public class EpdSearch {
                         Thread.sleep(500);
                         activeJobs.forEach(searchJob -> {
                             if (searchJob.elapsedMillis() >= timeOut) {
-                                searchJob.searchMove.stopSearching();
+                                searchJob.search.stopSearching();
                             }
                         });
                     }
@@ -138,17 +138,17 @@ public class EpdSearch {
     }
 
 
-    public EpdSearchResult run(SearchMove searchMove, EPD epd) {
+    public EpdSearchResult run(Search search, EPD epd) {
         Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-        searchMove.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+        search.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
 
-        SearchMoveResult searchResult = searchMove.search(game);
+        SearchMoveResult searchResult = search.search(game);
 
         searchResult.setId(epd.getId());
 
-        searchMove.reset();
+        search.reset();
 
         Move bestMove = searchResult.getBestMove();
 
@@ -174,7 +174,7 @@ public class EpdSearch {
         return 0;
     }
 
-    private record SearchJob(Instant startInstant, SearchMove searchMove) {
+    private record SearchJob(Instant startInstant, Search search) {
         public long elapsedMillis() {
             return Duration.between(startInstant, Instant.now()).toMillis();
         }

@@ -3,7 +3,7 @@ package net.chesstango.tools.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -53,7 +53,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testVisitedNodesCounters_NoIterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
                 .build();
@@ -83,7 +83,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testExpectedNodesCounters_NoIterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
                 .build();
@@ -104,7 +104,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testVisitedNodesCounters_Iterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
                 .withIterativeDeepening()
@@ -125,7 +125,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testExpectedNodesCounters_Iterative() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
                 .withIterativeDeepening()
@@ -148,7 +148,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_01() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
                 .build();
@@ -173,7 +173,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_02() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withTranspositionTable()
                 .withStatistics()
@@ -205,7 +205,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_03() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withStatistics()
@@ -231,7 +231,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_04() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withTranspositionTable()
@@ -258,7 +258,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_05() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withTranspositionTable()
                 .withIterativeDeepening()
@@ -288,7 +288,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void testSearch_06() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withIterativeDeepening()
                 .withStatistics()
@@ -319,7 +319,7 @@ public class AlphaBetaStatisticsTest {
 
     @Test
     public void test_40H_2820() {
-        SearchMove moveFinder = new AlphaBetaBuilder()
+        Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withIterativeDeepening()
                 .withAspirationWindows()

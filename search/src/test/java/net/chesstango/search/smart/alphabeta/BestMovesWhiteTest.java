@@ -12,7 +12,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
 
     @BeforeEach
     public void setup() {
-        this.searchMove = new AlphaBetaBuilder()
+        this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
                 .withIterativeDeepening()

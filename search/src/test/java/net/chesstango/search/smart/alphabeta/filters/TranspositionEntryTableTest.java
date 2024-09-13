@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
  */
 public class TranspositionEntryTableTest {
     private static final boolean PRINT_REPORT = false;
-    private SearchMove searchWithoutTT;
-    private SearchMove searchWithTT;
+    private Search searchWithoutTT;
+    private Search searchWithTT;
     private SearchMoveResult searchResultWithoutTT;
     private SearchMoveResult searchResultWithTT;
 
@@ -87,7 +87,7 @@ public class TranspositionEntryTableTest {
         Assertions.assertEquals(searchResultWithoutTT.getBestMove(), searchResultWithTT.getBestMove());
     }
 
-    private void debugTT(String fen, int evaluation, int depth, SearchMove searchMethod1, SearchMove searchMethod2) {
+    private void debugTT(String fen, int evaluation, int depth, Search searchMethod1, Search searchMethod2) {
         if (depth > 0 && FENDecoder.loadGame(fen).getStatus().isInProgress()) {
             Game game01 = FENDecoder.loadGame(fen);
             Game game02 = FENDecoder.loadGame(fen);
@@ -107,7 +107,7 @@ public class TranspositionEntryTableTest {
     }
 
 
-    private SearchMove createSearchWithoutTT() {
+    private Search createSearchWithoutTT() {
         EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
                 .setImp(new EvaluatorImp04());
 
@@ -116,7 +116,7 @@ public class TranspositionEntryTableTest {
                 .build();
     }
 
-    private SearchMove createSearchWithTT() {
+    private Search createSearchWithTT() {
         EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
                 .setImp(new EvaluatorImp04());
 

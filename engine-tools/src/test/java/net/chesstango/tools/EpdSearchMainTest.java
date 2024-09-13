@@ -4,7 +4,7 @@ import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -312,7 +312,7 @@ public class EpdSearchMainTest {
     }
 
 
-    private static SearchMove buildSearchMove(Evaluator evaluator) {
+    private static Search buildSearchMove(Evaluator evaluator) {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(evaluator)
                 .withGameEvaluatorCache()
