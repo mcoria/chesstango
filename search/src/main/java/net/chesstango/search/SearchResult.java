@@ -18,9 +18,9 @@ import java.util.List;
 @Setter
 public class SearchResult {
 
-    private String id;
-
     private final int depth;
+
+    private String id;
 
     private MoveEvaluation bestMoveEvaluation;
 

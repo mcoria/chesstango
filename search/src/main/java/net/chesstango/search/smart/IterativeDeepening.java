@@ -66,8 +66,7 @@ public class IterativeDeepening implements Search {
 
             bestMoveEvaluation = smartAlgorithm.search();
 
-            searchByDepthResult = new SearchByDepthResult();
-            searchByDepthResult.setDepth(currentSearchDepth);
+            searchByDepthResult = new SearchByDepthResult(currentSearchDepth);
             searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
             searchByDepthResults.add(searchByDepthResult);

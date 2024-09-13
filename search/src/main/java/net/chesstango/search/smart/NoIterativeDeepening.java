@@ -48,8 +48,7 @@ public class NoIterativeDeepening implements Search {
 
         MoveEvaluation bestMoveEvaluation = smartAlgorithm.search();
 
-        SearchByDepthResult searchByDepthResult = new SearchByDepthResult();
-        searchByDepthResult.setDepth(maxDepth);
+        SearchByDepthResult searchByDepthResult = new SearchByDepthResult(maxDepth);
         searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
         searchByDepthResultList.add(searchByDepthResult);
