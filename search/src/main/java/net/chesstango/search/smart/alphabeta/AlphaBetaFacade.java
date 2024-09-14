@@ -8,8 +8,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchByDepthResult;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -72,7 +72,15 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
+    public void afterSearchByDepth(SearchResultByDepth result) {
         result.setBestMoveEvaluation(bestMoveEvaluation);
+
+        /**
+         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
+         */
+        result.setSearchNextDepth(
+                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
+                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+        );
     }
 }

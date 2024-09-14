@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.features.pv.listeners;
 
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -29,7 +29,7 @@ public class SetPVStatistics implements SearchByCycleListener, SearchByDepthList
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
+    public void afterSearchByDepth(SearchResultByDepth result) {
         if (result.isPvComplete()) {
             pvCompleteCounter++;
         }

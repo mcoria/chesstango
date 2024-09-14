@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @author Mauricio Coria
  */
 public class SetSearchContext implements SearchByCycleListener, SearchByDepthListener {
-    private SearchByDepthResult lastSearchByDepthResult;
+    private SearchResultByDepth lastSearchResultByDepth;
     private Instant startInstant;
     private Instant startDepthInstant;
 
@@ -26,7 +26,7 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.lastSearchByDepthResult = null;
+        this.lastSearchResultByDepth = null;
         this.startInstant = Instant.now();
         this.searchByDepthCounter = 0;
     }
@@ -41,17 +41,17 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     public void beforeSearchByDepth(SearchByDepthContext context) {
         startDepthInstant = Instant.now();
         searchByDepthCounter++;
-        if (lastSearchByDepthResult != null) {
-            context.setLastBestMoveEvaluation(lastSearchByDepthResult.getBestMoveEvaluation());
-            context.setLastMoveEvaluations(lastSearchByDepthResult.getMoveEvaluations());
-            context.setLastPrincipalVariation(new LinkedList<>(lastSearchByDepthResult.getPrincipalVariation()));
+        if (lastSearchResultByDepth != null) {
+            context.setLastBestMoveEvaluation(lastSearchResultByDepth.getBestMoveEvaluation());
+            context.setLastMoveEvaluations(lastSearchResultByDepth.getMoveEvaluations());
+            context.setLastPrincipalVariation(new LinkedList<>(lastSearchResultByDepth.getPrincipalVariation()));
         }
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult searchByDepthResult) {
-        lastSearchByDepthResult = searchByDepthResult;
-        searchByDepthResult.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
-        searchByDepthResult.setTimeSearchingLastDepth(Duration.between(startDepthInstant, Instant.now()).toMillis());
+    public void afterSearchByDepth(SearchResultByDepth searchResultByDepth) {
+        lastSearchResultByDepth = searchResultByDepth;
+        searchResultByDepth.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
+        searchResultByDepth.setTimeSearchingLastDepth(Duration.between(startDepthInstant, Instant.now()).toMillis());
     }
 }

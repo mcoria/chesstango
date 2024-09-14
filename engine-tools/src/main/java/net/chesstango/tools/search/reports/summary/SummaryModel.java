@@ -3,7 +3,7 @@ package net.chesstango.tools.search.reports.summary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.tools.search.EpdSearchResult;
 import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
@@ -141,7 +141,7 @@ public class SummaryModel {
             searchSummaryModeDetail.id = epdSearchResult.epd().getId();
             searchSummaryModeDetail.move = epdSearchResult.bestMoveFound();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
-            searchSummaryModeDetail.depthMoves = searchResult.getSearchByDepthResults().stream().map(SearchByDepthResult::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
+            searchSummaryModeDetail.depthMoves = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
             searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;

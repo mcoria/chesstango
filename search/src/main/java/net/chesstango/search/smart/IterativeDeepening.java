@@ -21,6 +21,7 @@ import static net.chesstango.search.SearchParameter.*;
  */
 public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
+
     private volatile CountDownLatch countDownLatch;
 
     @Getter
@@ -36,7 +37,7 @@ public class IterativeDeepening implements Search {
 
     private int maxDepth = Integer.MAX_VALUE;
 
-    private Predicate<SearchByDepthResult> searchPredicate = searchMoveResult -> true;
+    private Predicate<SearchResultByDepth> searchPredicateParameter =  searchMoveResult -> true;
 
     public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
         this.searchAlgorithm = searchAlgorithm;
@@ -48,7 +49,7 @@ public class IterativeDeepening implements Search {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-        List<SearchByDepthResult> searchByDepthResults = new ArrayList<>();
+        List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
@@ -56,7 +57,7 @@ public class IterativeDeepening implements Search {
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
-        SearchByDepthResult searchByDepthResult = null;
+        SearchResultByDepth searchResultByDepth = null;
         do {
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
@@ -64,14 +65,14 @@ public class IterativeDeepening implements Search {
 
             searchAlgorithm.search();
 
-            searchByDepthResult = new SearchByDepthResult(currentSearchDepth);
+            searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
 
-            searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
+            searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
-            searchByDepthResults.add(searchByDepthResult);
+            searchResultByDepths.add(searchResultByDepth);
 
             if (progressListener != null) {
-                progressListener.accept(searchByDepthResult);
+                progressListener.accept(searchResultByDepth);
             }
 
             countDownLatch.countDown();
@@ -79,17 +80,12 @@ public class IterativeDeepening implements Search {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchPredicate.test(searchByDepthResult) &&
-
-                /**
-                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate dentro de QS
-                 */
-                Evaluator.WHITE_WON != searchByDepthResult.getBestMoveEvaluation().evaluation() &&
-                Evaluator.BLACK_WON != searchByDepthResult.getBestMoveEvaluation().evaluation()
+                searchPredicateParameter.test(searchResultByDepth) &&
+                searchResultByDepth.isSearchNextDepth()
         );
 
         SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
-        searchResult.setSearchByDepthResults(searchByDepthResults);
+        searchResult.setSearchResultByDepths(searchResultByDepths);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 
@@ -122,15 +118,11 @@ public class IterativeDeepening implements Search {
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicate = (Predicate<SearchByDepthResult>) searchPredicateArg;
+            this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
-        }
-
-        if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
-            searchParameters.put(EPD_PARAMS, epd);
+        } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
+            this.searchParameters.put(EPD_PARAMS, epd);
         }
     }
-
-
 }

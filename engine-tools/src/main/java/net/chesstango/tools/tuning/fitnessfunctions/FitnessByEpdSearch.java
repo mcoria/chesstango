@@ -6,7 +6,7 @@ import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.tools.search.EpdSearch;
@@ -122,9 +122,9 @@ public class FitnessByEpdSearch implements FitnessFunction {
      */
     protected static long getPointsDepthV2(EPD epd, SearchResult searchResult) {
         List<Move> bestMoveList = searchResult
-                .getSearchByDepthResults()
+                .getSearchResultByDepths()
                 .stream()
-                .map(SearchByDepthResult::getBestMove)
+                .map(SearchResultByDepth::getBestMove)
                 .toList();
 
         Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());

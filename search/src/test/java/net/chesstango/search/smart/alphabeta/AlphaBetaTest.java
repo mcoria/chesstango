@@ -2,8 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
@@ -148,7 +147,7 @@ public class AlphaBetaTest {
 
         alphaBetaFacade.search();
 
-        searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
+        searchListenerMediator.triggerAfterSearchByDepth(new SearchResultByDepth(depth));
 
         SearchResult searchResult = new SearchResult(depth);
 

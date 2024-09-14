@@ -13,9 +13,11 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class SearchByDepthResult {
+public class SearchResultByDepth {
 
     private final int depth;
+
+    private boolean searchNextDepth;
 
     private MoveEvaluation bestMoveEvaluation;
 
@@ -36,7 +38,7 @@ public class SearchByDepthResult {
 
     private long timeSearching;
 
-    public SearchByDepthResult(int depth) {
+    public SearchResultByDepth(int depth) {
         this.depth = depth;
     }
 

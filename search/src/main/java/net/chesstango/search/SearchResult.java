@@ -18,13 +18,14 @@ import java.util.List;
 @Setter
 public class SearchResult {
 
-    private final int depth;
+    /**
+     * Max depth searched during the entire cycle
+     */
+    private final int maxDepth;
 
     private String id;
 
     private MoveEvaluation bestMoveEvaluation;
-
-    private Move ponderMove;
 
     private List<PrincipalVariation> principalVariation;
 
@@ -46,10 +47,10 @@ public class SearchResult {
 
     private int expectedRootBestMoveCounter;
 
-    private List<SearchByDepthResult> searchByDepthResults;
+    private List<SearchResultByDepth> searchResultByDepths;
 
-    public SearchResult(int depth) {
-        this.depth = depth;
+    public SearchResult(int maxDepth) {
+        this.maxDepth = maxDepth;
     }
 
     public Move getBestMove() {

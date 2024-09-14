@@ -7,7 +7,7 @@ import net.chesstango.engine.manager.SearchManagerByBook;
 import net.chesstango.engine.manager.SearchManagerChain;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
@@ -94,7 +94,7 @@ public final class SearchManager {
         searchImp(game, depth, timeOut, searchMoveResult -> true);
     }
 
-    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchByDepthResult> searchPredicate) {
+    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate) {
         executorService.execute(() -> {
             try {
                 listenerClient.searchStarted();
@@ -106,6 +106,7 @@ public final class SearchManager {
 
                 searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
                 searchManagerChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
+
                 SearchResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {

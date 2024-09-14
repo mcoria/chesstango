@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
@@ -45,7 +45,7 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
+    public void afterSearchByDepth(SearchResultByDepth result) {
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
             debugNodeTrapSearchByDepthListener.afterSearchByDepth(result);
         }
