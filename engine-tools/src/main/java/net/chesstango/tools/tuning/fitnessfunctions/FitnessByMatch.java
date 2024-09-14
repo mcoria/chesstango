@@ -6,7 +6,7 @@ import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.board.representations.pgn.PGNStringDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.DefaultSearch;
 import net.chesstango.tools.MatchMain;
 import net.chesstango.uci.arena.MatchMultiple;
 import net.chesstango.uci.arena.MatchResult;
@@ -60,7 +60,7 @@ public class FitnessByMatch implements FitnessFunction {
     @Override
     public long fitness(Supplier<Evaluator> tangoEvaluatorSupplier) {
         Supplier<EngineController> tangoEngineSupplier = () ->
-                new EngineControllerImp(new UciTango(new Tango(new DefaultSearchMove(tangoEvaluatorSupplier.get()))))
+                new EngineControllerImp(new UciTango(new Tango(new DefaultSearch(tangoEvaluatorSupplier.get()))))
                         .overrideEngineName(ENGINE_NAME);
 
         List<MatchResult> matchResult = fitnessEval(tangoEngineSupplier);

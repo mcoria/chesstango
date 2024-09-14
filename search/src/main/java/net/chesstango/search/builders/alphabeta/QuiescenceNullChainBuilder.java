@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
@@ -17,7 +17,7 @@ public class QuiescenceNullChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private Evaluator evaluator;
     private ZobristTracker zobristTracker;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     private boolean withZobristTracker;
 
@@ -36,8 +36,8 @@ public class QuiescenceNullChainBuilder {
         return this;
     }
 
-    public QuiescenceNullChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public QuiescenceNullChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -63,7 +63,7 @@ public class QuiescenceNullChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
     }
 

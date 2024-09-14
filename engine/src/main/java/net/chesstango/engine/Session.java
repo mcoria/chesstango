@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Session {
      * Resultado de las busquedas efectuadas durante el juego.
      */
     @Getter
-    private final List<SearchMoveResult> searches = new ArrayList<>();
+    private final List<SearchResult> searches = new ArrayList<>();
 
     @Getter
     private Game game;
@@ -43,7 +43,7 @@ public class Session {
         return game == null ? null : game.getInitialFEN();
     }
 
-    public void addResult(SearchMoveResult result) {
+    public void addResult(SearchResult result) {
         searches.add(result);
     }
 }

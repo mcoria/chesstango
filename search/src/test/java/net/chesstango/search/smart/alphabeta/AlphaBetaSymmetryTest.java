@@ -7,8 +7,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.Search;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 import org.junit.jupiter.api.Disabled;
@@ -28,9 +28,9 @@ public class AlphaBetaSymmetryTest {
     public void symmetryMate02() {
         Game game = FENDecoder.loadGame("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -");
 
-        SearchMove search = buildSearch();
+        Search search = buildSearch();
 
-        SearchMoveResult searchResult = search.search(game);
+        SearchResult searchResult = search.search(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -46,9 +46,9 @@ public class AlphaBetaSymmetryTest {
          */
         Game mirrorGame = game.mirror();
 
-        SearchMove searchMirror = buildSearch();
+        Search searchMirror = buildSearch();
 
-        SearchMoveResult searchResultMirror = searchMirror.search(mirrorGame);
+        SearchResult searchResultMirror = searchMirror.search(mirrorGame);
 
         Move smartMoveMirror = searchResultMirror.getBestMove();
 
@@ -83,7 +83,7 @@ public class AlphaBetaSymmetryTest {
 
     }
 
-    private SearchMove buildSearch() {
+    private Search buildSearch() {
         return new AlphaBetaBuilder()
                 //.withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluator(new DefaultEvaluator())

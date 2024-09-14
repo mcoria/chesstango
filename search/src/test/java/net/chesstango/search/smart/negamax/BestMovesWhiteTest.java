@@ -4,7 +4,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.smart.AbstractBestMovesWhiteTest;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +30,11 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         NegaMaxPruning negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
 
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
+        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
-        IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning, smartListenerMediator);
+        IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning, searchListenerMediator);
 
-        this.searchMove = iterativeDeepening;
+        this.search = iterativeDeepening;
     }
 }

@@ -15,20 +15,19 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
 import static net.chesstango.search.SearchParameter.*;
-import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeepening implements SearchMove {
+public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
     private volatile CountDownLatch countDownLatch;
 
     @Getter
-    private final SmartAlgorithm smartAlgorithm;
+    private final SearchAlgorithm searchAlgorithm;
 
     @Getter
-    private final SmartListenerMediator smartListenerMediator;
+    private final SearchListenerMediator searchListenerMediator;
 
     @Setter
     private ProgressListener progressListener;
@@ -39,13 +38,13 @@ public class IterativeDeepening implements SearchMove {
 
     private Predicate<SearchByDepthResult> searchPredicate = searchMoveResult -> true;
 
-    public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
-        this.smartAlgorithm = smartAlgorithm;
-        this.smartListenerMediator = smartListenerMediator;
+    public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
+        this.searchAlgorithm = searchAlgorithm;
+        this.searchListenerMediator = searchListenerMediator;
     }
 
     @Override
-    public SearchMoveResult search(final Game game) {
+    public SearchResult search(final Game game) {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
@@ -54,25 +53,22 @@ public class IterativeDeepening implements SearchMove {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
         SearchByDepthResult searchByDepthResult = null;
-        MoveEvaluation bestMoveEvaluation = null;
         do {
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
-            smartListenerMediator.triggerBeforeSearchByDepth(context);
+            searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-            bestMoveEvaluation = smartAlgorithm.search();
+            searchAlgorithm.search();
 
-            searchByDepthResult = new SearchByDepthResult();
-            searchByDepthResult.setDepth(currentSearchDepth);
-            searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
+            searchByDepthResult = new SearchByDepthResult(currentSearchDepth);
+
+            searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
             searchByDepthResults.add(searchByDepthResult);
-
-            smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
             if (progressListener != null) {
                 progressListener.accept(searchByDepthResult);
@@ -84,14 +80,18 @@ public class IterativeDeepening implements SearchMove {
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
                 searchPredicate.test(searchByDepthResult) &&
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+
+                /**
+                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate dentro de QS
+                 */
+                Evaluator.WHITE_WON != searchByDepthResult.getBestMoveEvaluation().evaluation() &&
+                Evaluator.BLACK_WON != searchByDepthResult.getBestMoveEvaluation().evaluation()
         );
 
-        SearchMoveResult searchResult = new SearchMoveResult(currentSearchDepth - 1, bestMoveEvaluation, null);
+        SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
         searchResult.setSearchByDepthResults(searchByDepthResults);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }
@@ -108,7 +108,7 @@ public class IterativeDeepening implements SearchMove {
             // Aca se puede dar la interrupcion
             countDownLatch.await();
 
-            smartListenerMediator.triggerStopSearching();
+            searchListenerMediator.triggerStopSearching();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
         }
@@ -116,7 +116,7 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void reset() {
-        smartListenerMediator.triggerReset();
+        searchListenerMediator.triggerReset();
     }
 
     @Override

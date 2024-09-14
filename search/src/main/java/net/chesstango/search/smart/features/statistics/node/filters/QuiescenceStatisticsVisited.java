@@ -2,7 +2,6 @@ package net.chesstango.search.smart.features.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;

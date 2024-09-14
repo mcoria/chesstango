@@ -1,7 +1,7 @@
 package net.chesstango.tools.search.reports.arena;
 
 import net.chesstango.engine.Session;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.uci.arena.MatchResult;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.tools.search.reports.arena.sessionreport_ui.PrintCutoffStatics;
@@ -36,8 +36,8 @@ public class SessionReport {
             List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(MatchResult::getSessionWhite).collect(Collectors.toList());
             List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(MatchResult::getSessionBlack).collect(Collectors.toList());
 
-            List<SearchMoveResult> searchesWhite = sessionsWhite.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());
-            List<SearchMoveResult> searchesBlack = sessionsBlack.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());
+            List<SearchResult> searchesWhite = sessionsWhite.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());
+            List<SearchResult> searchesBlack = sessionsBlack.stream().map(Session::getSearches).flatMap(List::stream).collect(Collectors.toList());
 
             if (breakByColor) {
                 if (searchesWhite.size() > 0) {
@@ -47,7 +47,7 @@ public class SessionReport {
                     sessionReportModels.add(SessionReportModel.collectStatics(String.format("%s black", engineController.getEngineName()), searchesBlack));
                 }
             } else {
-                List<SearchMoveResult> searches = new ArrayList<>();
+                List<SearchResult> searches = new ArrayList<>();
                 searches.addAll(searchesWhite);
                 searches.addAll(searchesBlack);
 

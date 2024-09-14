@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class RepetitionTest {
     private static final boolean PRINT_REPORT = false;
-    private SearchMove moveFinder;
-    private SearchMoveResult searchResult;
+    private Search moveFinder;
+    private SearchResult searchResult;
 
     @BeforeEach
     public void setup() {

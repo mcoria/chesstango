@@ -1,15 +1,13 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.MoveEvaluation;
-
 /**
  * @author Mauricio Coria
  */
-public interface SmartAlgorithm {
+public interface SearchAlgorithm extends SearchByCycleListener, SearchByDepthListener {
 
     /**
      * Invoked once per search depth
      */
-    MoveEvaluation search();
+    void search();
 
 }

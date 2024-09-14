@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -20,7 +20,7 @@ public class IterativeDeepeningTest {
 
     private IterativeDeepening iterativeDeepening;
 
-    private SmartAlgorithm smart;
+    private SearchAlgorithm smart;
 
     @BeforeEach
     public void setup() {
@@ -40,7 +40,7 @@ public class IterativeDeepeningTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = iterativeDeepening.search(game);
+        SearchResult searchResult = iterativeDeepening.search(game);
         Move bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().getSquare());
         assertEquals(Square.e4, bestMove.getTo().getSquare());

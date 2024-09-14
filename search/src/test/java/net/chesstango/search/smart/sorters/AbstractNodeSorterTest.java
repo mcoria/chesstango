@@ -9,7 +9,7 @@ import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public abstract class AbstractNodeSorterTest {
     protected SearchByCycleContext cycleContext;
     protected SearchByDepthContext depthContext;
 
-    protected SmartListenerMediator smartListenerMediator;
+    protected SearchListenerMediator searchListenerMediator;
     protected MoveSorterBuilder moveSorterBuilder;
     protected TTable maxMap;
     protected TTable minMap;
@@ -39,7 +39,7 @@ public abstract class AbstractNodeSorterTest {
     public void setup() {
         Game game = createGame();
 
-        smartListenerMediator = new SmartListenerMediator();
+        searchListenerMediator = new SearchListenerMediator();
 
         cycleContext = new SearchByCycleContext(game);
 
@@ -58,7 +58,7 @@ public abstract class AbstractNodeSorterTest {
         depthContext = new SearchByDepthContext(getMaxSearchPly());
 
         moveSorterBuilder = new MoveSorterBuilder()
-                .withSmartListenerMediator(smartListenerMediator);
+                .withSmartListenerMediator(searchListenerMediator);
     }
 
     protected abstract Game createGame();

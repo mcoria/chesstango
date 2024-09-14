@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.features.transposition.listeners;
 
 import lombok.Setter;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -37,7 +37,7 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         if (!reuseTranspositionTable) {
             reset();
         }

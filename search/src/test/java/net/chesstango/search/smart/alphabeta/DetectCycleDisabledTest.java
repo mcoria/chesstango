@@ -6,8 +6,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.Search;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class DetectCycleDisabledTest {
 
     private EvaluatorByCondition evaluator;
-    private SearchMove searchMove;
+    private Search search;
 
     @BeforeEach
     public void setup() {
@@ -32,7 +32,7 @@ public class DetectCycleDisabledTest {
         evaluator.setDefaultValue(0);
 
 
-        this.searchMove = new AlphaBetaBuilder()
+        this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(evaluator)
                 .withStatistics()
                 .build();
@@ -85,8 +85,8 @@ public class DetectCycleDisabledTest {
         });
 
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
-        SearchMoveResult searchResult = searchMove
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -127,8 +127,8 @@ public class DetectCycleDisabledTest {
         });
 
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
-        SearchMoveResult searchResult = searchMove
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -167,8 +167,8 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
-        SearchMoveResult searchResult = searchMove
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);
@@ -201,8 +201,8 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        SearchMoveResult searchResult = searchMove
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        SearchResult searchResult = search
                 .search(game);
 
         assertNotNull(searchResult);

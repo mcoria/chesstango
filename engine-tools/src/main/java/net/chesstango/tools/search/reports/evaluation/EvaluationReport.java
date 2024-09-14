@@ -2,7 +2,7 @@ package net.chesstango.tools.search.reports.evaluation;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -67,8 +67,8 @@ public class EvaluationReport {
         return this;
     }
 
-    public EvaluationReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
-        this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchMoveResults);
+    public EvaluationReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 

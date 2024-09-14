@@ -4,13 +4,13 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
-import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
+import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ public class NegaMaxPruningTest {
 
     private NegaMaxPruning negaMaxPruning;
 
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     @BeforeEach
     public void setup() {
@@ -46,15 +46,15 @@ public class NegaMaxPruningTest {
         negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
 
-        smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator = new SearchListenerMediator();
+        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
     }
 
     @Test
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        SearchMoveResult searchResult = search(game, 1);
+        SearchResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -70,7 +70,7 @@ public class NegaMaxPruningTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        SearchMoveResult searchResult = search(game, 1);
+        SearchResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -86,7 +86,7 @@ public class NegaMaxPruningTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        SearchMoveResult searchResult = search(game, 2);
+        SearchResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -102,7 +102,7 @@ public class NegaMaxPruningTest {
     public void blackTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn2Ply.json");
 
-        SearchMoveResult searchResult = search(game, 2);
+        SearchResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -114,22 +114,22 @@ public class NegaMaxPruningTest {
         assertEquals(12, game.getNodesVisited());
     }
 
-    private SearchMoveResult search(GameMock game, int depth) {
+    private SearchResult search(GameMock game, int depth) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        smartListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
+        negaMaxPruning.search();
 
-        smartListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult());
+        searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
 
-        SearchMoveResult searchResult = new SearchMoveResult(depth, bestMoveEvaluation, null);
+        SearchResult searchResult = new SearchResult(depth);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }

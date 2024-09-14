@@ -3,7 +3,7 @@ package net.chesstango.tools.search.reports.pv;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,35 +37,35 @@ public class PrincipalVariationReportModel {
     }
 
 
-    public static PrincipalVariationReportModel collectStatics(String reportTitle, List<SearchMoveResult> searchMoveResults) {
+    public static PrincipalVariationReportModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
         PrincipalVariationReportModel principalVariationReportModel = new PrincipalVariationReportModel();
 
         principalVariationReportModel.reportTitle = reportTitle;
 
-        principalVariationReportModel.load(searchMoveResults);
+        principalVariationReportModel.load(searchResults);
 
         principalVariationReportModel.pvAccuracyAvgPercentageTotal = principalVariationReportModel.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / principalVariationReportModel.moveDetails.size();
 
         return principalVariationReportModel;
     }
 
-    private void load(List<SearchMoveResult> searchMoveResults) {
+    private void load(List<SearchResult> searchResults) {
         moveDetails = new LinkedList<>();
 
-        searchMoveResults.forEach(this::loadModelDetail);
+        searchResults.forEach(this::loadModelDetail);
     }
 
-    private void loadModelDetail(SearchMoveResult searchMoveResult) {
+    private void loadModelDetail(SearchResult searchResult) {
         PrincipalVariationReportModelDetail reportModelDetail = new PrincipalVariationReportModelDetail();
 
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-        Move bestMove = searchMoveResult.getBestMove();
-        reportModelDetail.id = searchMoveResult.getId();
+        Move bestMove = searchResult.getBestMove();
+        reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchMoveResult.getBestEvaluation();
-        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchMoveResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchMoveResult.isPvComplete() ? "" : "truncated");
-        reportModelDetail.pvAccuracyPercentage = (100 * searchMoveResult.getSearchByDepthPvCompleteCounter() / searchMoveResult.getSearchByDepthCounter());
+        reportModelDetail.evaluation = searchResult.getBestEvaluation();
+        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResult.isPvComplete() ? "" : "truncated");
+        reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchByDepthCounter());
 
         moveDetails.add(reportModelDetail);
     }

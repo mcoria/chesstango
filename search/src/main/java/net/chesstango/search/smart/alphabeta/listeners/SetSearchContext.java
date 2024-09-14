@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -32,7 +32,7 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         result.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
         result.setSearchByDepthCounter(searchByDepthCounter);
     }

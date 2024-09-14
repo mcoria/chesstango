@@ -16,15 +16,15 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class SearchMoveResult {
-
-    private String id;
+public class SearchResult {
 
     private final int depth;
 
-    private final MoveEvaluation bestMoveEvaluation;
+    private String id;
 
-    private final Move ponderMove;
+    private MoveEvaluation bestMoveEvaluation;
+
+    private Move ponderMove;
 
     private List<PrincipalVariation> principalVariation;
 
@@ -48,10 +48,8 @@ public class SearchMoveResult {
 
     private List<SearchByDepthResult> searchByDepthResults;
 
-    public SearchMoveResult(int depth, MoveEvaluation bestMoveEvaluation, Move ponderMove) {
+    public SearchResult(int depth) {
         this.depth = depth;
-        this.bestMoveEvaluation = bestMoveEvaluation;
-        this.ponderMove = ponderMove;
     }
 
     public Move getBestMove() {

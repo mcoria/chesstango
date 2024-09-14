@@ -6,6 +6,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
@@ -16,12 +18,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class NegaMaxPruning implements SearchAlgorithm {
     private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;
     private int[] visitedNodesCounter;
     private int maxPly;
+    private MoveEvaluation bestMoveEvaluation;
 
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
@@ -29,7 +32,7 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
-    public MoveEvaluation search() {
+    public void search() {
         this.visitedNodesCounter = new int[30];
 
         final boolean minOrMax = !Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
@@ -65,16 +68,9 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
             game.undoMove();
         }
 
-
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        /*
-        return new SearchMoveResult(maxPly, minOrMax ? -bestValue : bestValue, bestMove, null)
-                .setRegularNodeStatistics(new NodeStatistics(new int[30], visitedNodesCounter))
-                .setBestMoves(bestMoves);
-         */
-
-        return new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
+        bestMoveEvaluation =  new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
@@ -117,8 +113,19 @@ public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, Se
     }
 
     @Override
+    public void afterSearch(SearchResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
+    }
+
+    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
+        this.bestMoveEvaluation = null;
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchByDepthResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
     }
 
 

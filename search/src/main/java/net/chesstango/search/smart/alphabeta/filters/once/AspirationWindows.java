@@ -19,7 +19,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     private AlphaBetaFilter next;
 
     @Setter
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     private Integer lastBestValue;
 
@@ -64,7 +64,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
         int alphaCycle = 1;
         int betaCycle = 1;
         do {
-            smartListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
+            searchListenerMediator.triggerBeforeSearchByWindows(alphaBound, betaBound, searchByWindowsCycle++);
 
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 
@@ -88,7 +88,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
                 search = false;
             }
 
-            smartListenerMediator.triggerAfterSearchByWindows(!search);
+            searchListenerMediator.triggerAfterSearchByWindows(!search);
         } while (search);
 
         return bestMoveAndValue;

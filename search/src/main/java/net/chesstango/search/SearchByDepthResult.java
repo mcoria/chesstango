@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class SearchByDepthResult {
 
-    private int depth;
+    private final int depth;
 
     private MoveEvaluation bestMoveEvaluation;
 
@@ -35,6 +35,10 @@ public class SearchByDepthResult {
     private long timeSearchingLastDepth;
 
     private long timeSearching;
+
+    public SearchByDepthResult(int depth) {
+        this.depth = depth;
+    }
 
     public Move getBestMove() {
         return bestMoveEvaluation.move();

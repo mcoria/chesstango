@@ -2,7 +2,7 @@ package net.chesstango.tools.search.reports.nodes;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
 import java.util.LinkedList;
@@ -77,18 +77,18 @@ public class NodesReportModel {
     }
 
 
-    public static NodesReportModel collectStatistics(String reportTitle, List<SearchMoveResult> searchMoveResults) {
+    public static NodesReportModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
         NodesReportModel nodesReportModel = new NodesReportModel();
 
         nodesReportModel.reportTitle = reportTitle;
 
-        nodesReportModel.load(searchMoveResults);
+        nodesReportModel.load(searchResults);
 
         return nodesReportModel;
     }
 
-    private void load(List<SearchMoveResult> searchMoveResults) {
-        this.searches = searchMoveResults.size();
+    private void load(List<SearchResult> searchResults) {
+        this.searches = searchResults.size();
 
         this.moveDetails = new LinkedList<>();
         this.expectedRNodesCounters = new long[30];
@@ -99,7 +99,7 @@ public class NodesReportModel {
         this.cutoffQPercentages = new int[30];
 
 
-        searchMoveResults.forEach(this::loadModelDetail);
+        searchResults.forEach(this::loadModelDetail);
 
         /**
          * Totales sumarizados
@@ -127,21 +127,21 @@ public class NodesReportModel {
         this.cutoffPercentageTotal = (int) (100 - ((100 * this.visitedNodesTotal) / this.expectedNodesTotal));
     }
 
-    private void loadModelDetail(SearchMoveResult searchMoveResult) {
+    private void loadModelDetail(SearchResult searchResult) {
         SearchesReportModelDetail reportModelDetail = new SearchesReportModelDetail();
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-        Move bestMove = searchMoveResult.getBestMove();
-        reportModelDetail.id = searchMoveResult.getId();
+        Move bestMove = searchResult.getBestMove();
+        reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
+        reportModelDetail.executedMoves = searchResult.getExecutedMoves();
 
-        if (searchMoveResult.getRegularNodeStatistics() != null) {
-            collectRegularNodeStatistics(reportModelDetail, searchMoveResult);
+        if (searchResult.getRegularNodeStatistics() != null) {
+            collectRegularNodeStatistics(reportModelDetail, searchResult);
         }
 
-        if (searchMoveResult.getQuiescenceNodeStatistics() != null) {
-            collectQuiescenceNodeStatistics(reportModelDetail, searchMoveResult);
+        if (searchResult.getQuiescenceNodeStatistics() != null) {
+            collectQuiescenceNodeStatistics(reportModelDetail, searchResult);
         }
 
         reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter + reportModelDetail.visitedQNodesCounter;
@@ -152,8 +152,8 @@ public class NodesReportModel {
         this.moveDetails.add(reportModelDetail);
     }
 
-    private void collectRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        NodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
+    private void collectRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchResult searchResult) {
+        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffRPercentages = new int[30];
@@ -177,8 +177,8 @@ public class NodesReportModel {
         }
     }
 
-    private void collectQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
+    private void collectQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchResult searchResult) {
+        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
         reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffQPercentages = new int[30];

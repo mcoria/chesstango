@@ -6,6 +6,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
@@ -14,15 +16,16 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class NegaMax implements SearchAlgorithm {
 
     private static final int DEFAULT_MAX_PLIES = 4;
     private Evaluator evaluator;
     private Game game;
     private int maxPly;
+    private MoveEvaluation bestMoveEvaluation;
 
     @Override
-    public MoveEvaluation search() {
+    public void search() {
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
@@ -49,8 +52,7 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        //return new SearchMoveResult(maxPly, minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null);
-        return new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation, MoveEvaluationType.EXACT);
+        bestMoveEvaluation =  new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation, MoveEvaluationType.EXACT);
     }
 
 
@@ -81,8 +83,19 @@ public class NegaMax implements SmartAlgorithm, SearchByCycleListener, SearchByD
     }
 
     @Override
+    public void afterSearch(SearchResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
+    }
+
+    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
+        this.bestMoveEvaluation = null;
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchByDepthResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
     }
 
     public void setGameEvaluator(Evaluator evaluator) {

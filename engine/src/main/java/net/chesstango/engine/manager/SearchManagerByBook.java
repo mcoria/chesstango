@@ -67,15 +67,15 @@ public final class SearchManagerByBook implements SearchManagerChain {
     }
 
     @Override
-    public SearchMoveResult search(Game game) {
-        SearchMoveResult searchResult = null;
+    public SearchResult search(Game game) {
+        SearchResult searchResult = null;
         if (book.isLoaded()) {
             searchResult = searchByBook(game);
         }
         return searchResult == null ? next.search(game) : searchResult;
     }
 
-    private SearchMoveResult searchByBook(Game game) {
+    private SearchResult searchByBook(Game game) {
         List<PolyglotEntry> bookSearchResult = book.search(game.getChessPosition().getZobristHash());
         if (bookSearchResult != null) {
             MoveContainerReader possibleMoves = game.getPossibleMoves();
@@ -83,7 +83,8 @@ public final class SearchManagerByBook implements SearchManagerChain {
                 Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
                 if (move != null) {
                     MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
-                    return new SearchMoveResult(1, bestMove, null);
+                    return new SearchResult(1)
+                            .setBestMoveEvaluation(bestMove);
                 }
             }
         }

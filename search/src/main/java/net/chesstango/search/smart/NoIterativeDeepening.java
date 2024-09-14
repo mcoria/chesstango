@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.search.*;
 
@@ -11,68 +10,66 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static net.chesstango.search.SearchParameter.*;
+import static net.chesstango.search.SearchParameter.EPD_PARAMS;
+import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
  */
-public class NoIterativeDeepening implements SearchMove {
+public class NoIterativeDeepening implements Search {
 
     @Getter
-    private final SmartAlgorithm smartAlgorithm;
+    private final SearchAlgorithm searchAlgorithm;
 
     @Getter
-    private final SmartListenerMediator smartListenerMediator;
+    private final SearchListenerMediator searchListenerMediator;
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
     private int maxDepth = Integer.MAX_VALUE;
 
-    public NoIterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
-        this.smartAlgorithm = smartAlgorithm;
-        this.smartListenerMediator = smartListenerMediator;
+    public NoIterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
+        this.searchAlgorithm = searchAlgorithm;
+        this.searchListenerMediator = searchListenerMediator;
     }
 
     @Override
-    public SearchMoveResult search(Game game) {
+    public SearchResult search(Game game) {
         List<SearchByDepthResult> searchByDepthResultList = new LinkedList<>();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(maxDepth);
 
-        smartListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = smartAlgorithm.search();
+        searchAlgorithm.search();
 
-        SearchByDepthResult searchByDepthResult = new SearchByDepthResult();
-        searchByDepthResult.setDepth(maxDepth);
-        searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
+        SearchByDepthResult searchByDepthResult = new SearchByDepthResult(maxDepth);
 
         searchByDepthResultList.add(searchByDepthResult);
 
-        smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
+        searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
-        SearchMoveResult searchResult = new SearchMoveResult(maxDepth, bestMoveEvaluation, null);
-
+        SearchResult searchResult = new SearchResult(maxDepth);
         searchResult.setSearchByDepthResults(searchByDepthResultList);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }
 
     @Override
     public void stopSearching() {
-        this.smartListenerMediator.triggerStopSearching();
+        this.searchListenerMediator.triggerStopSearching();
     }
 
     @Override
     public void reset() {
-        this.smartListenerMediator.triggerReset();
+        this.searchListenerMediator.triggerReset();
     }
 
     @Override

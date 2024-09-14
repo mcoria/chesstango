@@ -12,13 +12,13 @@ import org.junit.jupiter.api.BeforeEach;
 public class AlphaBetaGenericTest extends GenericTest {
     @BeforeEach
     public void setup() {
-        this.searchMove = new AlphaBetaBuilder()
+        this.search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
 
                 .withQuiescence()
 
                 .build();
 
-        this.searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
+        this.search.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
     }
 }

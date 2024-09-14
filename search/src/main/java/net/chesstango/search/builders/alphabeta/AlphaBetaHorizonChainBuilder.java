@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaHorizonChainBuilder {
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
     private Evaluator evaluator;
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
@@ -39,8 +39,8 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
-    public AlphaBetaHorizonChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public AlphaBetaHorizonChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -86,13 +86,13 @@ public class AlphaBetaHorizonChainBuilder {
 
     private void setupListenerMediator() {
         if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
-            smartListenerMediator.add(transpositionTable);
+            searchListenerMediator.add(transpositionTable);
         }
     }
 

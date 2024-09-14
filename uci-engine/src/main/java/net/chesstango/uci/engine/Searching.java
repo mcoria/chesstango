@@ -1,17 +1,14 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspInfo;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -74,8 +71,8 @@ class Searching implements UCIEngine, SearchListener {
 
 
     @Override
-    public void searchFinished(SearchMoveResult searchMoveResult) {
-        String selectedMoveStr = simpleMoveEncoder.encode(searchMoveResult.getBestMove());
+    public void searchFinished(SearchResult searchResult) {
+        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
 
         synchronized (uciTango.engineExecutor) {
             uciTango.reply(new RspBestMove(selectedMoveStr));

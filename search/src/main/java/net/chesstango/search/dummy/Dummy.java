@@ -12,10 +12,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Mauricio Coria
  */
-public class Dummy implements SearchMove {
+public class Dummy implements Search {
 
     @Override
-    public SearchMoveResult search(Game game) {
+    public SearchResult search(Game game) {
         Iterable<Move> moves = game.getPossibleMoves();
 
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
@@ -34,7 +34,8 @@ public class Dummy implements SearchMove {
 
         MoveEvaluation bestMove = new MoveEvaluation(selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), 0, MoveEvaluationType.EXACT);
 
-        return new SearchMoveResult(1, bestMove, null);
+        return new SearchResult(1)
+                .setBestMoveEvaluation(bestMove);
     }
 
     @Override

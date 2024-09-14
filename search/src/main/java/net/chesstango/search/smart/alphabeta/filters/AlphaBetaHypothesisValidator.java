@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -60,7 +60,7 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         result.setExpectedRootBestMoveCounter(expectedRootBestMoveCounter);
     }
 

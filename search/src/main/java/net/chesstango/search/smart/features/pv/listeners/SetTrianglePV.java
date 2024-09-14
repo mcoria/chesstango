@@ -8,7 +8,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -41,7 +41,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         result.setPrincipalVariation(principalVariation);
         result.setPvComplete(pvComplete);
     }

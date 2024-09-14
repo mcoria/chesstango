@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.features.statistics.node.listeners;
 
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
@@ -30,7 +30,7 @@ public class SetNodeStatistics implements SearchByCycleListener {
     }
 
     @Override
-    public void afterSearch(SearchMoveResult result) {
+    public void afterSearch(SearchResult result) {
         if (result != null) {
             result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
             result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));

@@ -9,7 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.SearchMove;
+import net.chesstango.search.Search;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,13 +22,13 @@ public abstract class GenericTest {
 
     private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
-    protected SearchMove searchMove;
+    protected Search search;
 
     @Test
     public void testHorizonteEffectCapture() {
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
-        Move bestMove = searchMove.search(game).getBestMove();
+        Move bestMove = search.search(game).getBestMove();
 
         Move rookCapturePawn = moveFactoryWhite.createCaptureRookMove(PiecePositioned.getPiecePositioned(Square.d2, Piece.ROOK_WHITE), PiecePositioned.getPiecePositioned(Square.d5, Piece.PAWN_BLACK), Cardinal.Norte);
 
@@ -39,7 +39,7 @@ public abstract class GenericTest {
     public void testHorizonteEffectPromotion() {
         Game game = FENDecoder.loadGame("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
 
-        Move bestMove = searchMove.search(game).getBestMove();
+        Move bestMove = search.search(game).getBestMove();
 
         Move queenCaptureKnight = moveFactoryWhite.createCaptureQueenMove(PiecePositioned.getPiecePositioned(Square.d4, Piece.QUEEN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), Cardinal.SurOeste);
 
@@ -50,11 +50,11 @@ public abstract class GenericTest {
     public void testDeterministicMove() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        Move bestMove = searchMove.search(game).getBestMove();
+        Move bestMove = search.search(game).getBestMove();
 
         Game gameMirror = game.mirror();
 
-        Move bestMoveMirror = searchMove.search(gameMirror).getBestMove();
+        Move bestMoveMirror = search.search(gameMirror).getBestMove();
 
 
         assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());

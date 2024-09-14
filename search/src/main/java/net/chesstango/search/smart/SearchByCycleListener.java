@@ -1,11 +1,11 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 
 /**
  * @author Mauricio Coria
  */
-public interface SearchByCycleListener extends SmartListener {
+public interface SearchByCycleListener extends SearchListener {
 
     /**
      * Invoked once before searching
@@ -16,6 +16,6 @@ public interface SearchByCycleListener extends SmartListener {
     /**
      * Invoked once after searching is done
      */
-    default void afterSearch(SearchMoveResult result) {
+    default void afterSearch(SearchResult result) {
     }
 }

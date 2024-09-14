@@ -33,8 +33,8 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        smartListenerMediator.triggerBeforeSearch(cycleContext);
-        smartListenerMediator.triggerBeforeSearchByDepth(depthContext);
+        searchListenerMediator.triggerBeforeSearch(cycleContext);
+        searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
 

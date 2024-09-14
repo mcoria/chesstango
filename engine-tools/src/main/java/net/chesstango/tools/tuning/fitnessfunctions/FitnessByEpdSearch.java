@@ -7,7 +7,7 @@ import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchByDepthResult;
-import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
@@ -91,8 +91,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
     /**
      * La unica verdad, es la realidad..... o lo que queremos predecir
      */
-    protected static long getPoints(EPD epd, SearchMoveResult searchMoveResult) {
-        if (epd.isMoveSuccess(searchMoveResult.getBestMove())) {
+    protected static long getPoints(EPD epd, SearchResult searchResult) {
+        if (epd.isMoveSuccess(searchResult.getBestMove())) {
             return 1;
         }
         return 0;
@@ -101,10 +101,10 @@ public class FitnessByEpdSearch implements FitnessFunction {
     /**
      * Esta funcion optimiza la mitad del juego donde existe mayor cantiaad de movimientos posibles
      */
-    protected static long getPointsV1(EPD epd, SearchMoveResult searchMoveResult) {
+    protected static long getPointsV1(EPD epd, SearchResult searchResult) {
         Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
         int possibleMoves = game.getPossibleMoves().size();
-        if (epd.isMoveSuccess(searchMoveResult.getBestMove())) {
+        if (epd.isMoveSuccess(searchResult.getBestMove())) {
             return (possibleMoves - 1);
         }
         return 0;
@@ -117,11 +117,11 @@ public class FitnessByEpdSearch implements FitnessFunction {
      * se realizó.
      *
      * @param epd
-     * @param searchMoveResult
+     * @param searchResult
      * @return
      */
-    protected static long getPointsDepthV2(EPD epd, SearchMoveResult searchMoveResult) {
-        List<Move> bestMoveList = searchMoveResult
+    protected static long getPointsDepthV2(EPD epd, SearchResult searchResult) {
+        List<Move> bestMoveList = searchResult
                 .getSearchByDepthResults()
                 .stream()
                 .map(SearchByDepthResult::getBestMove)
@@ -142,8 +142,8 @@ public class FitnessByEpdSearch implements FitnessFunction {
     }
 
 
-    protected static long getPointsDepthV3(EPD epd, SearchMoveResult searchMoveResult) {
-        return searchMoveResult.getExpectedRootBestMoveCounter();
+    protected static long getPointsDepthV3(EPD epd, SearchResult searchResult) {
+        return searchResult.getExpectedRootBestMoveCounter();
     }
 
 }
