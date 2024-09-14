@@ -5,7 +5,7 @@ import net.chesstango.search.SearchResult;
 /**
  * @author Mauricio Coria
  */
-public interface SearchByCycleListener extends SmartListener {
+public interface SearchByCycleListener extends SearchListener {
 
     /**
      * Invoked once before searching

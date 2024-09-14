@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SmartListenerMediator {
+public class SearchListenerMediator {
 
     @Getter
     private List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
@@ -64,7 +64,7 @@ public class SmartListenerMediator {
         resetListeners.forEach(ResetListener::reset);
     }
 
-    public void add(SmartListener listener) {
+    public void add(SearchListener listener) {
 
         if (searchByCycleListeners.contains(listener) ||
                 searchByDepthListeners.contains(listener) ||
@@ -95,7 +95,7 @@ public class SmartListenerMediator {
         }
     }
 
-    public void addAll(List<SmartListener> listeners) {
+    public void addAll(List<SearchListener> listeners) {
         listeners.forEach(this::add);
     }
 }

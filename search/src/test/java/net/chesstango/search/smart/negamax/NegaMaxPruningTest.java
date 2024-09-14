@@ -10,7 +10,7 @@ import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ public class NegaMaxPruningTest {
 
     private NegaMaxPruning negaMaxPruning;
 
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     @BeforeEach
     public void setup() {
@@ -46,8 +46,8 @@ public class NegaMaxPruningTest {
         negaMaxPruning = new NegaMaxPruning(negaQuiescence);
         negaMaxPruning.setMoveSorter(moveSorter);
 
-        smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator = new SearchListenerMediator();
+        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
     }
 
     @Test
@@ -117,20 +117,20 @@ public class NegaMaxPruningTest {
     private SearchResult search(GameMock game, int depth) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        smartListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth(context);
 
         MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
 
-        smartListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult());
+        searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
 
         SearchResult searchResult = new SearchResult(depth)
                 .setBestMoveEvaluation(bestMoveEvaluation);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }

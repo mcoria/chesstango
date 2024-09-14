@@ -10,7 +10,7 @@ import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
@@ -36,7 +36,7 @@ public class AlphaBetaTest {
 
     private AlphaBetaFacade alphaBetaFacade;
 
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     @BeforeEach
     public void setup() {
@@ -65,12 +65,12 @@ public class AlphaBetaTest {
 
         setGameEvaluator.setEvaluator(evaluator);
 
-        this.smartListenerMediator = new SmartListenerMediator();
+        this.searchListenerMediator = new SearchListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.smartListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.searchListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
     }
 
     @Test
@@ -140,20 +140,20 @@ public class AlphaBetaTest {
     private SearchResult search(GameMock game, int depth) {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 
-        smartListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth(context);
 
         MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
 
-        smartListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult());
+        searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
 
         SearchResult searchResult = new SearchResult(depth)
                 .setBestMoveEvaluation(bestMoveEvaluation);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }

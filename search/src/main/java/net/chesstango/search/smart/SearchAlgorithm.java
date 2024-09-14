@@ -5,7 +5,7 @@ import net.chesstango.search.MoveEvaluation;
 /**
  * @author Mauricio Coria
  */
-public interface SmartAlgorithm {
+public interface SearchAlgorithm {
 
     /**
      * Invoked once per search depth

@@ -107,7 +107,7 @@ public class MinMaxTest {
 
         MoveEvaluation bestMoveEvaluation = minMax.search();
 
-        minMax.afterSearchByDepth(new SearchByDepthResult());
+        minMax.afterSearchByDepth(new SearchByDepthResult(depth));
 
         SearchResult searchResult = new SearchResult(depth)
                 .setBestMoveEvaluation(bestMoveEvaluation);

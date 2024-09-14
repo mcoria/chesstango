@@ -7,8 +7,8 @@ import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Search;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartAlgorithm;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
@@ -64,51 +64,51 @@ public class ChainPrinter {
     private void printChainNoIterativeDeepening(NoIterativeDeepening noIterativeDeepening) {
         printNodeObjectText(noIterativeDeepening, 0);
         printChainDownLine(0);
-        printChainSmartAlgorithm(noIterativeDeepening.getSmartAlgorithm());
+        printChainSmartAlgorithm(noIterativeDeepening.getSearchAlgorithm());
     }
 
     private void printChainIterativeDeepening(IterativeDeepening iterativeDeepening) {
         printNodeObjectText(iterativeDeepening, 0);
         printChainDownLine(0);
-        printChainSmartAlgorithm(iterativeDeepening.getSmartAlgorithm());
+        printChainSmartAlgorithm(iterativeDeepening.getSearchAlgorithm());
 
         printChainText("", 0);
         printChainText("", 0);
-        printChainSmartListenerMediator(iterativeDeepening.getSmartListenerMediator());
+        printChainSmartListenerMediator(iterativeDeepening.getSearchListenerMediator());
     }
 
-    private void printChainSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
+    private void printChainSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         System.out.print("SearchByCycleListeners:\n");
-        smartListenerMediator.getSearchByCycleListeners()
+        searchListenerMediator.getSearchByCycleListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
 
         System.out.print("SearchByDepthListener:\n");
-        smartListenerMediator.getSearchByDepthListeners()
+        searchListenerMediator.getSearchByDepthListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
 
         System.out.print("SearchByWindowsListeners:\n");
-        smartListenerMediator.getSearchByWindowsListeners()
+        searchListenerMediator.getSearchByWindowsListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
 
         System.out.print("StopSearchingListener:\n");
-        smartListenerMediator.getStopSearchingListeners()
+        searchListenerMediator.getStopSearchingListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
 
         System.out.print("ResetListener:\n");
-        smartListenerMediator.getResetListeners()
+        searchListenerMediator.getResetListeners()
                 .forEach(listener -> printNodeObjectText(listener, 1));
         System.out.print("\n");
     }
 
-    private void printChainSmartAlgorithm(SmartAlgorithm smartAlgorithm) {
-        if (smartAlgorithm instanceof AlphaBetaFacade alphaBetaFacade) {
+    private void printChainSmartAlgorithm(SearchAlgorithm searchAlgorithm) {
+        if (searchAlgorithm instanceof AlphaBetaFacade alphaBetaFacade) {
             printChainAlphaBetaFacade(alphaBetaFacade);
         } else {
-            throw new RuntimeException(String.format("Unknown SmartAlgorithm class: %s", smartAlgorithm.getClass()));
+            throw new RuntimeException(String.format("Unknown SmartAlgorithm class: %s", searchAlgorithm.getClass()));
         }
     }
 

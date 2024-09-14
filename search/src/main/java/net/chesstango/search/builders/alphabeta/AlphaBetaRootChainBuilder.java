@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
@@ -39,7 +39,7 @@ public class AlphaBetaRootChainBuilder {
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
     private TranspositionPV transpositionPV;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private MoveSorterDebug moveSorterDebug;
@@ -64,8 +64,8 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public AlphaBetaRootChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -137,7 +137,7 @@ public class AlphaBetaRootChainBuilder {
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
-            aspirationWindows.setSmartListenerMediator(smartListenerMediator);
+            aspirationWindows.setSearchListenerMediator(searchListenerMediator);
         }
 
         if (withTranspositionTable) {
@@ -180,54 +180,54 @@ public class AlphaBetaRootChainBuilder {
 
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(moveEvaluationTracker);
+        searchListenerMediator.add(moveEvaluationTracker);
 
         if (withStatistics) {
-            smartListenerMediator.add(alphaBetaStatisticsExpected);
-            smartListenerMediator.add(alphaBetaStatisticsVisited);
+            searchListenerMediator.add(alphaBetaStatisticsExpected);
+            searchListenerMediator.add(alphaBetaStatisticsVisited);
         }
 
         if (aspirationWindows != null) {
-            smartListenerMediator.add(aspirationWindows);
+            searchListenerMediator.add(aspirationWindows);
         }
 
         if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
 
         if (moveSorterDebug != null) {
-            smartListenerMediator.add(moveSorterDebug);
+            searchListenerMediator.add(moveSorterDebug);
         }
 
         if (stopProcessingCatch != null) {
-            smartListenerMediator.add(stopProcessingCatch);
+            searchListenerMediator.add(stopProcessingCatch);
         }
 
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
 
         if (transpositionTableRoot != null) {
-            smartListenerMediator.add(transpositionTableRoot);
+            searchListenerMediator.add(transpositionTableRoot);
         }
 
         if (transpositionPV != null) {
-            smartListenerMediator.add(transpositionPV);
+            searchListenerMediator.add(transpositionPV);
         }
 
         if (triangularPV != null) {
-            smartListenerMediator.add(triangularPV);
+            searchListenerMediator.add(triangularPV);
         }
 
         if (alphaBeta != null) {
-            smartListenerMediator.add(alphaBeta);
+            searchListenerMediator.add(alphaBeta);
         }
 
         if (alphaBetaHypothesisValidator != null) {
-            smartListenerMediator.add(alphaBetaHypothesisValidator);
+            searchListenerMediator.add(alphaBetaHypothesisValidator);
         }
 
-        smartListenerMediator.add(rootMoveSorter);
+        searchListenerMediator.add(rootMoveSorter);
     }
 
 

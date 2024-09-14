@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.*;
@@ -30,7 +30,7 @@ public class AlphaBetaInteriorChainBuilder {
     private DebugFilter debugFilter;
     private TriangularPV triangularPV;
     private KillerMoveTracker killerMoveTracker;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
     private boolean withStatistics;
     private boolean withZobristTracker;
     private boolean withTranspositionTable;
@@ -48,9 +48,9 @@ public class AlphaBetaInteriorChainBuilder {
         return this;
     }
 
-    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.moveSorterBuilder.withSmartListenerMediator(smartListenerMediator);
-        this.smartListenerMediator = smartListenerMediator;
+    public AlphaBetaInteriorChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -144,27 +144,27 @@ public class AlphaBetaInteriorChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            smartListenerMediator.add(alphaBetaStatisticsExpected);
-            smartListenerMediator.add(alphaBetaStatisticsVisited);
+            searchListenerMediator.add(alphaBetaStatisticsExpected);
+            searchListenerMediator.add(alphaBetaStatisticsVisited);
         }
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
-            smartListenerMediator.add(transpositionTable);
+            searchListenerMediator.add(transpositionTable);
         }
         if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (triangularPV != null) {
-            smartListenerMediator.add(triangularPV);
+            searchListenerMediator.add(triangularPV);
         }
         if (killerMoveTracker != null) {
-            smartListenerMediator.add(killerMoveTracker);
+            searchListenerMediator.add(killerMoveTracker);
         }
 
 
-        smartListenerMediator.add(alphaBeta);
+        searchListenerMediator.add(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {

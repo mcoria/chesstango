@@ -5,7 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.jupiter.api.Test;
 
@@ -28,10 +28,10 @@ public class GameMockTest {
 
         minMax.setGameEvaluator(evaluator);
 
-        SmartListenerMediator smartListenerMediator = new SmartListenerMediator();
-        smartListenerMediator.add(minMax);
+        SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
+        searchListenerMediator.add(minMax);
 
-        NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, smartListenerMediator);
+        NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, searchListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchResult searchResult = searchMove.search(game);

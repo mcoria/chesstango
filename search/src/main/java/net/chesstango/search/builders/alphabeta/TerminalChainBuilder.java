@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
@@ -21,7 +21,7 @@ public class TerminalChainBuilder {
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TranspositionTableTerminal transpositionTableTerminal;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
@@ -43,8 +43,8 @@ public class TerminalChainBuilder {
         return this;
     }
 
-    public TerminalChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public TerminalChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -88,13 +88,13 @@ public class TerminalChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (transpositionTableTerminal != null) {
-            smartListenerMediator.add(transpositionTableTerminal);
+            searchListenerMediator.add(transpositionTableTerminal);
         }
     }
 

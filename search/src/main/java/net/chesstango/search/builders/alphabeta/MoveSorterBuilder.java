@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
@@ -25,7 +25,7 @@ public class MoveSorterBuilder {
     private final NodeMoveSorter nodeMoveSorter;
     private final QuietComparator quietComparator;
     private final DefaultMoveComparator defaultMoveComparator;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparatorQ;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
@@ -54,8 +54,8 @@ public class MoveSorterBuilder {
     }
 
 
-    public MoveSorterBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public MoveSorterBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -148,46 +148,46 @@ public class MoveSorterBuilder {
     }
 
     private void setupListenerMediator() {
-        smartListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.add(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
-            smartListenerMediator.add(transpositionHeadMoveComparator);
+            searchListenerMediator.add(transpositionHeadMoveComparator);
         }
 
         if (transpositionHeadMoveComparatorQ != null) {
-            smartListenerMediator.add(transpositionHeadMoveComparatorQ);
+            searchListenerMediator.add(transpositionHeadMoveComparatorQ);
         }
 
         if (transpositionTailMoveComparator != null) {
-            smartListenerMediator.add(transpositionTailMoveComparator);
+            searchListenerMediator.add(transpositionTailMoveComparator);
         }
 
         if (transpositionTailMoveComparatorQ != null) {
-            smartListenerMediator.add(transpositionTailMoveComparatorQ);
+            searchListenerMediator.add(transpositionTailMoveComparatorQ);
         }
 
         if (principalVariationComparator != null) {
-            smartListenerMediator.add(principalVariationComparator);
+            searchListenerMediator.add(principalVariationComparator);
         }
 
         if (recaptureMoveComparator != null) {
-            smartListenerMediator.add(recaptureMoveComparator);
+            searchListenerMediator.add(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            smartListenerMediator.add(gameEvaluatorCacheComparator);
+            searchListenerMediator.add(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
-            smartListenerMediator.add(moveSorterDebug);
+            searchListenerMediator.add(moveSorterDebug);
         }
 
         if (gameEvaluatorCacheDebug != null) {
-            smartListenerMediator.add(gameEvaluatorCacheDebug);
+            searchListenerMediator.add(gameEvaluatorCacheDebug);
         }
 
         if (killerMoveComparator != null) {
-            smartListenerMediator.add(killerMoveComparator);
+            searchListenerMediator.add(killerMoveComparator);
         }
 
         /*

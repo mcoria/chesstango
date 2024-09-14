@@ -25,10 +25,10 @@ public class IterativeDeepening implements Search {
     private volatile CountDownLatch countDownLatch;
 
     @Getter
-    private final SmartAlgorithm smartAlgorithm;
+    private final SearchAlgorithm searchAlgorithm;
 
     @Getter
-    private final SmartListenerMediator smartListenerMediator;
+    private final SearchListenerMediator searchListenerMediator;
 
     @Setter
     private ProgressListener progressListener;
@@ -39,9 +39,9 @@ public class IterativeDeepening implements Search {
 
     private Predicate<SearchByDepthResult> searchPredicate = searchMoveResult -> true;
 
-    public IterativeDeepening(SmartAlgorithm smartAlgorithm, SmartListenerMediator smartListenerMediator) {
-        this.smartAlgorithm = smartAlgorithm;
-        this.smartListenerMediator = smartListenerMediator;
+    public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
+        this.searchAlgorithm = searchAlgorithm;
+        this.searchListenerMediator = searchListenerMediator;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class IterativeDeepening implements Search {
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
 
-        smartListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
         SearchByDepthResult searchByDepthResult = null;
@@ -62,16 +62,16 @@ public class IterativeDeepening implements Search {
         do {
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
-            smartListenerMediator.triggerBeforeSearchByDepth(context);
+            searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-            bestMoveEvaluation = smartAlgorithm.search();
+            bestMoveEvaluation = searchAlgorithm.search();
 
             searchByDepthResult = new SearchByDepthResult(currentSearchDepth);
             searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
             searchByDepthResults.add(searchByDepthResult);
 
-            smartListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
+            searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
             if (progressListener != null) {
                 progressListener.accept(searchByDepthResult);
@@ -83,16 +83,19 @@ public class IterativeDeepening implements Search {
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
                 searchPredicate.test(searchByDepthResult) &&
+
+                /**
+                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate dentro de QS
+                 */
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
                 Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
 
         SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
-
         searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResults);
 
-        smartListenerMediator.triggerAfterSearch(searchResult);
+        searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
     }
@@ -109,7 +112,7 @@ public class IterativeDeepening implements Search {
             // Aca se puede dar la interrupcion
             countDownLatch.await();
 
-            smartListenerMediator.triggerStopSearching();
+            searchListenerMediator.triggerStopSearching();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
         }
@@ -117,7 +120,7 @@ public class IterativeDeepening implements Search {
 
     @Override
     public void reset() {
-        smartListenerMediator.triggerReset();
+        searchListenerMediator.triggerReset();
     }
 
     @Override

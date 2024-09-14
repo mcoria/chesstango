@@ -1,6 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -17,7 +17,7 @@ public class LoopChainBuilder {
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
@@ -36,8 +36,8 @@ public class LoopChainBuilder {
         return this;
     }
 
-    public void withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public void withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
     }
 
     /**
@@ -64,11 +64,11 @@ public class LoopChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            smartListenerMediator.add(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
 
         if (debugFilter != null) {
-            smartListenerMediator.add(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements SmartAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class NegaMaxPruning implements SearchAlgorithm, SearchByCycleListener, SearchByDepthListener {
     private final NegaQuiescence negaQuiescence;
     private Game game;
     private MoveSorter moveSorter;

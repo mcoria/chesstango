@@ -1,7 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.smart.SmartListenerMediator;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
@@ -19,7 +19,7 @@ public class LeafChainBuilder {
     private Evaluator evaluator;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
-    private SmartListenerMediator smartListenerMediator;
+    private SearchListenerMediator searchListenerMediator;
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
 
@@ -38,8 +38,8 @@ public class LeafChainBuilder {
         return this;
     }
 
-    public LeafChainBuilder withSmartListenerMediator(SmartListenerMediator smartListenerMediator) {
-        this.smartListenerMediator = smartListenerMediator;
+    public LeafChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -73,10 +73,10 @@ public class LeafChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristQTracker != null) {
-            smartListenerMediator.add(zobristQTracker);
+            searchListenerMediator.add(zobristQTracker);
         }
         if (debugSearchTree != null) {
-            smartListenerMediator.add(debugSearchTree);
+            searchListenerMediator.add(debugSearchTree);
         }
     }
 
