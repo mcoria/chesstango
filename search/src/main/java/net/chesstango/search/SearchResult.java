@@ -34,8 +34,6 @@ public class SearchResult {
 
     private int searchByDepthPvCompleteCounter;
 
-    private int searchByDepthCounter;
-
     private int expectedRootBestMoveCounter;
 
     @Setter(AccessLevel.NONE)
@@ -60,5 +58,9 @@ public class SearchResult {
     public SearchResult addSearchResultByDepth(SearchResultByDepth searchResultByDepth) {
         searchResultByDepths.add(searchResultByDepth);
         return this;
+    }
+
+    public int getSearchByDepthCounter() {
+        return searchResultByDepths.size();
     }
 }

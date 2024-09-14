@@ -19,28 +19,20 @@ public class SetSearchContext implements SearchByCycleListener, SearchByDepthLis
     private Instant startInstant;
     private Instant startDepthInstant;
 
-    /**
-     * Cuantas veces se busca por profundidad
-     */
-    private int searchByDepthCounter;
-
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.lastSearchResultByDepth = null;
         this.startInstant = Instant.now();
-        this.searchByDepthCounter = 0;
     }
 
     @Override
     public void afterSearch(SearchResult result) {
         result.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
-        result.setSearchByDepthCounter(searchByDepthCounter);
     }
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         startDepthInstant = Instant.now();
-        searchByDepthCounter++;
         if (lastSearchResultByDepth != null) {
             context.setLastBestMoveEvaluation(lastSearchResultByDepth.getBestMoveEvaluation());
             context.setLastMoveEvaluations(lastSearchResultByDepth.getMoveEvaluations());
