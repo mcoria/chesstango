@@ -12,6 +12,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorImp06;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -481,8 +482,13 @@ public class FitnessByEpdSearchTest {
     }
 
     private SearchResult createSearchMoveResult(Move bestMoveFoundBySearch, int bestEvaluationFoundBySearch, List<MoveEvaluation> moveEvaluations) {
-        return new SearchResult(1)
-                .setBestMoveEvaluation(new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT));
+        return new SearchResult()
+                .addSearchResultByDepth(
+                        new SearchResultByDepth(1)
+                                .setBestMoveEvaluation(
+                                        new MoveEvaluation(bestMoveFoundBySearch, bestEvaluationFoundBySearch, MoveEvaluationType.EXACT)
+                                )
+                );
     }
 
 
