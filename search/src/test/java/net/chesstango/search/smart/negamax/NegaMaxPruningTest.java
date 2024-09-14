@@ -2,8 +2,8 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
@@ -114,6 +114,8 @@ public class NegaMaxPruningTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
+        SearchResult searchResult = new SearchResult();
+
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
@@ -128,7 +130,7 @@ public class NegaMaxPruningTest {
 
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
-        SearchResult searchResult = new SearchResult(depth).setSearchResultByDepths(List.of(searchResultByDepth));
+        searchResult.addSearchResultByDepth(searchResultByDepth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

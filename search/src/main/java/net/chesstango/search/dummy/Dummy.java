@@ -34,12 +34,7 @@ public class Dummy implements Search {
 
         MoveEvaluation bestMove = new MoveEvaluation(selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), 0, MoveEvaluationType.EXACT);
 
-        return new SearchResult(1)
-                .setSearchResultByDepths(
-                        List.of(new SearchResultByDepth(1)
-                                .setBestMoveEvaluation(bestMove)
-                        )
-                );
+        return new SearchResult().addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
     }
 
     @Override

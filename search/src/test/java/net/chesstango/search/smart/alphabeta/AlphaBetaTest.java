@@ -152,7 +152,7 @@ public class AlphaBetaTest {
 
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
-        SearchResult searchResult = new SearchResult(depth).setSearchResultByDepths(List.of(searchResultByDepth));
+        SearchResult searchResult = new SearchResult().addSearchResultByDepth(searchResultByDepth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

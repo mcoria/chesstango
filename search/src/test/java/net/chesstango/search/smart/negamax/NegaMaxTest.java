@@ -12,6 +12,8 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -104,9 +106,11 @@ public class NegaMaxTest {
 
         negaMax.search();
 
-        negaMax.afterSearchByDepth(new SearchResultByDepth(depth));
+        SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
-        SearchResult searchResult = new SearchResult(depth);
+        negaMax.afterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult().addSearchResultByDepth(searchResultByDepth);
 
         negaMax.afterSearch(searchResult);
 
