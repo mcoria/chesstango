@@ -126,6 +126,14 @@ public class NegaMaxPruning implements SearchAlgorithm {
     @Override
     public void afterSearchByDepth(SearchResultByDepth result) {
         result.setBestMoveEvaluation(bestMoveEvaluation);
+
+        /**
+         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
+         */
+        result.setSearchNextDepth(
+                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
+                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+        );
     }
 
 

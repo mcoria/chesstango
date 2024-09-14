@@ -17,6 +17,8 @@ public class SearchResultByDepth {
 
     private final int depth;
 
+    private boolean searchNextDepth;
+
     private MoveEvaluation bestMoveEvaluation;
 
     private List<PrincipalVariation> principalVariation;

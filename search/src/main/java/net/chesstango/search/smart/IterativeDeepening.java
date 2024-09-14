@@ -37,7 +37,7 @@ public class IterativeDeepening implements Search {
 
     private int maxDepth = Integer.MAX_VALUE;
 
-    private Predicate<SearchResultByDepth> searchPredicate = searchMoveResult -> true;
+    private Predicate<SearchResultByDepth> searchPredicateParameter =  searchMoveResult -> true;
 
     public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
         this.searchAlgorithm = searchAlgorithm;
@@ -80,13 +80,8 @@ public class IterativeDeepening implements Search {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchPredicate.test(searchResultByDepth) &&
-
-                /**
-                 * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate dentro de QS
-                 */
-                Evaluator.WHITE_WON != searchResultByDepth.getBestMoveEvaluation().evaluation() &&
-                Evaluator.BLACK_WON != searchResultByDepth.getBestMoveEvaluation().evaluation()
+                searchPredicateParameter.test(searchResultByDepth) &&
+                searchResultByDepth.isSearchNextDepth()
         );
 
         SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
@@ -123,7 +118,7 @@ public class IterativeDeepening implements Search {
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicate = (Predicate<SearchResultByDepth>) searchPredicateArg;
+            this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
         } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
