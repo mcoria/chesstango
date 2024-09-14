@@ -6,8 +6,6 @@ import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.search.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import static net.chesstango.search.SearchParameter.EPD_PARAMS;
@@ -35,9 +33,10 @@ public class NoIterativeDeepening implements Search {
 
     @Override
     public SearchResult search(Game game) {
-        List<SearchResultByDepth> searchResultByDepthList = new LinkedList<>();
+        SearchResult searchResult = new SearchResult();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+
         searchByCycleContext.setSearchParameters(searchParameters);
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
@@ -50,12 +49,9 @@ public class NoIterativeDeepening implements Search {
 
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(maxDepth);
 
-        searchResultByDepthList.add(searchResultByDepth);
-
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
-        SearchResult searchResult = new SearchResult(maxDepth);
-        searchResult.setSearchResultByDepths(searchResultByDepthList);
+        searchResult.addSearchResultByDepth(searchResultByDepth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

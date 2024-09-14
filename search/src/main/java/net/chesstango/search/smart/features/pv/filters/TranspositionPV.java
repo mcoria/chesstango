@@ -54,12 +54,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        result.setPrincipalVariation(principalVariation);
-        result.setPvComplete(pvComplete);
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
     }

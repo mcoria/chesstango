@@ -1,5 +1,6 @@
 package net.chesstango.search;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -7,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,18 +20,7 @@ import java.util.List;
 @Setter
 public class SearchResult {
 
-    /**
-     * Max depth searched during the entire cycle
-     */
-    private final int maxDepth;
-
     private String id;
-
-    private MoveEvaluation bestMoveEvaluation;
-
-    private List<PrincipalVariation> principalVariation;
-
-    private boolean pvComplete;
 
     private EvaluationStatistics evaluationStatistics;
 
@@ -47,17 +38,27 @@ public class SearchResult {
 
     private int expectedRootBestMoveCounter;
 
-    private List<SearchResultByDepth> searchResultByDepths;
-
-    public SearchResult(int maxDepth) {
-        this.maxDepth = maxDepth;
-    }
+    @Setter(AccessLevel.NONE)
+    private List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();
 
     public Move getBestMove() {
-        return bestMoveEvaluation.move();
+        return searchResultByDepths.getLast().getBestMove();
     }
 
     public int getBestEvaluation() {
-        return bestMoveEvaluation.evaluation();
+        return searchResultByDepths.getLast().getBestEvaluation();
+    }
+
+    public List<PrincipalVariation> getPrincipalVariation() {
+        return searchResultByDepths.getLast().getPrincipalVariation();
+    }
+
+    public boolean isPvComplete() {
+        return searchResultByDepths.getLast().isPvComplete();
+    }
+
+    public SearchResult addSearchResultByDepth(SearchResultByDepth searchResultByDepth) {
+        searchResultByDepths.add(searchResultByDepth);
+        return this;
     }
 }

@@ -41,12 +41,6 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        result.setPrincipalVariation(principalVariation);
-        result.setPvComplete(pvComplete);
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         context.setTrianglePV(trianglePV);
     }

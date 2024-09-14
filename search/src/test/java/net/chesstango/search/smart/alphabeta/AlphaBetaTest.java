@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -147,9 +148,11 @@ public class AlphaBetaTest {
 
         alphaBetaFacade.search();
 
-        searchListenerMediator.triggerAfterSearchByDepth(new SearchResultByDepth(depth));
+        SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
-        SearchResult searchResult = new SearchResult(depth);
+        searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult().addSearchResultByDepth(searchResultByDepth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

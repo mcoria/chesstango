@@ -170,7 +170,7 @@ public class SearchesTest {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = search.search(game);
 
-        System.out.println(searchResult.getBestMoveEvaluation());
+        System.out.println(searchResult.getBestEvaluation());
     }
 
     @Test
@@ -211,7 +211,7 @@ public class SearchesTest {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = search.search(game);
 
-        System.out.println(searchResult.getBestMoveEvaluation());
+        System.out.println(searchResult.getBestEvaluation());
     }
 
     @Test
@@ -222,7 +222,7 @@ public class SearchesTest {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         searchResult = search.search(game);
 
-        System.out.println(searchResult.getBestMoveEvaluation());
+        System.out.println(searchResult.getBestEvaluation());
     }
 
 
@@ -235,7 +235,7 @@ public class SearchesTest {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
         searchResult = search.search(game);
 
-        System.out.println(searchResult.getBestMoveEvaluation());
+        System.out.println(searchResult.getBestEvaluation());
     }
     
 }

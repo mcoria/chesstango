@@ -4,12 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
@@ -37,7 +34,7 @@ public class IterativeDeepening implements Search {
 
     private int maxDepth = Integer.MAX_VALUE;
 
-    private Predicate<SearchResultByDepth> searchPredicateParameter =  searchMoveResult -> true;
+    private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
     public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
         this.searchAlgorithm = searchAlgorithm;
@@ -49,14 +46,13 @@ public class IterativeDeepening implements Search {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
-        List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();
-
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
         int currentSearchDepth = 1;
+        SearchResult searchResult = new SearchResult();
         SearchResultByDepth searchResultByDepth = null;
         do {
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
@@ -69,7 +65,7 @@ public class IterativeDeepening implements Search {
 
             searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
-            searchResultByDepths.add(searchResultByDepth);
+            searchResult.addSearchResultByDepth(searchResultByDepth);
 
             if (progressListener != null) {
                 progressListener.accept(searchResultByDepth);
@@ -83,9 +79,6 @@ public class IterativeDeepening implements Search {
                 searchPredicateParameter.test(searchResultByDepth) &&
                 searchResultByDepth.isSearchNextDepth()
         );
-
-        SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
-        searchResult.setSearchResultByDepths(searchResultByDepths);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 
