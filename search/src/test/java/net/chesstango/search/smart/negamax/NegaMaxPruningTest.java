@@ -124,9 +124,11 @@ public class NegaMaxPruningTest {
 
         negaMaxPruning.search();
 
-        searchListenerMediator.triggerAfterSearchByDepth(new SearchResultByDepth(depth));
+        SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
-        SearchResult searchResult = new SearchResult(depth);
+        searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult(depth).setSearchResultByDepths(List.of(searchResultByDepth));
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

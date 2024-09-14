@@ -113,11 +113,6 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        result.setBestMoveEvaluation(bestMoveEvaluation);
-    }
-
-    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
         this.bestMoveEvaluation = null;

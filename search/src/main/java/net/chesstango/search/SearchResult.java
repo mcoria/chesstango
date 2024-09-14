@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,12 +25,6 @@ public class SearchResult {
     private final int maxDepth;
 
     private String id;
-
-    private MoveEvaluation bestMoveEvaluation;
-
-    private List<PrincipalVariation> principalVariation;
-
-    private boolean pvComplete;
 
     private EvaluationStatistics evaluationStatistics;
 
@@ -54,10 +49,18 @@ public class SearchResult {
     }
 
     public Move getBestMove() {
-        return bestMoveEvaluation.move();
+        return searchResultByDepths.getLast().getBestMove();
     }
 
     public int getBestEvaluation() {
-        return bestMoveEvaluation.evaluation();
+        return searchResultByDepths.getLast().getBestEvaluation();
+    }
+
+    public List<PrincipalVariation> getPrincipalVariation() {
+        return searchResultByDepths.getLast().getPrincipalVariation();
+    }
+
+    public boolean isPvComplete() {
+        return searchResultByDepths.getLast().isPvComplete();
     }
 }
