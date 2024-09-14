@@ -1,7 +1,7 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 
 import java.util.LinkedList;
@@ -42,7 +42,7 @@ public class SearchListenerMediator {
         searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
     }
 
-    public void triggerAfterSearchByDepth(SearchByDepthResult result) {
+    public void triggerAfterSearchByDepth(SearchResultByDepth result) {
         searchByDepthListeners.forEach(filter -> filter.afterSearchByDepth(result));
     }
 

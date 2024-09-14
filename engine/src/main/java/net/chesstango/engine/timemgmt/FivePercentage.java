@@ -2,7 +2,7 @@ package net.chesstango.engine.timemgmt;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 
 /**
  * @author Mauricio Coria
@@ -15,8 +15,8 @@ public class FivePercentage implements TimeMgmt {
     }
 
     @Override
-    public boolean keepSearching(int timeOut, SearchByDepthResult searchByDepthResult) {
-        return timeOut - searchByDepthResult.getTimeSearching() >= searchByDepthResult.getTimeSearchingLastDepth() * 2;
+    public boolean keepSearching(int timeOut, SearchResultByDepth searchResultByDepth) {
+        return timeOut - searchResultByDepth.getTimeSearching() >= searchResultByDepth.getTimeSearchingLastDepth() * 2;
     }
 
     protected int calculateTimeOut(int time, int inc) {

@@ -46,7 +46,7 @@ public class SearchResult {
 
     private int expectedRootBestMoveCounter;
 
-    private List<SearchByDepthResult> searchByDepthResults;
+    private List<SearchResultByDepth> searchResultByDepths;
 
     public SearchResult(int depth) {
         this.depth = depth;

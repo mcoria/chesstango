@@ -3,7 +3,7 @@ package net.chesstango.uci.engine;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
@@ -61,10 +61,10 @@ class Searching implements UCIEngine, SearchListener {
 
 
     @Override
-    public void searchInfo(SearchByDepthResult searchByDepthResult) {
-        String pv = simpleMoveEncoder.encodeMoves(searchByDepthResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList());
+    public void searchInfo(SearchResultByDepth searchResultByDepth) {
+        String pv = simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList());
 
-        String infoStr = String.format("depth %d seldepth %d pv %s", searchByDepthResult.getDepth(), searchByDepthResult.getDepth(), pv);
+        String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
         uciTango.reply(new RspInfo(infoStr));
     }

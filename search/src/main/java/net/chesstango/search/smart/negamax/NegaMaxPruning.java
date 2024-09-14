@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -124,7 +124,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void afterSearchByDepth(SearchByDepthResult result) {
+    public void afterSearchByDepth(SearchResultByDepth result) {
         result.setBestMoveEvaluation(bestMoveEvaluation);
     }
 

@@ -3,7 +3,7 @@ package net.chesstango.engine;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.DefaultSearch;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.board.representations.fen.FEN;
@@ -46,7 +46,7 @@ public class Tango {
             }
 
             @Override
-            public void searchInfo(SearchByDepthResult searchByDepthResult) {
+            public void searchInfo(SearchResultByDepth searchByDepthResult) {
                 if (listenerClient != null) {
                     listenerClient.searchInfo(searchByDepthResult);
                 }

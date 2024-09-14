@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
@@ -157,19 +157,19 @@ public class EpdSearch {
         return new EpdSearchResult(epd, searchResult,
                 bestMoveAlgNotation,
                 epd.isMoveSuccess(bestMove),
-                calculateAccuracy(epd, searchResult.getSearchByDepthResults())
+                calculateAccuracy(epd, searchResult.getSearchResultByDepths())
         );
     }
 
 
-    private int calculateAccuracy(EPD epd, List<SearchByDepthResult> searchByDepthResults) {
-        if (!searchByDepthResults.isEmpty()) {
-            long successCounter = searchByDepthResults
+    private int calculateAccuracy(EPD epd, List<SearchResultByDepth> searchResultByDepths) {
+        if (!searchResultByDepths.isEmpty()) {
+            long successCounter = searchResultByDepths
                     .stream()
-                    .map(SearchByDepthResult::getBestMove)
+                    .map(SearchResultByDepth::getBestMove)
                     .filter(epd::isMoveSuccess)
                     .count();
-            return (int) (successCounter * 100 / searchByDepthResults.size());
+            return (int) (successCounter * 100 / searchResultByDepths.size());
         }
         return 0;
     }

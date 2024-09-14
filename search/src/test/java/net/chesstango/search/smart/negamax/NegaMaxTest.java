@@ -2,8 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
@@ -105,7 +104,7 @@ public class NegaMaxTest {
 
         negaMax.search();
 
-        negaMax.afterSearchByDepth(new SearchByDepthResult(depth));
+        negaMax.afterSearchByDepth(new SearchResultByDepth(depth));
 
         SearchResult searchResult = new SearchResult(depth);
 
