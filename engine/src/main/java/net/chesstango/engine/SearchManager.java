@@ -106,6 +106,7 @@ public final class SearchManager {
 
                 searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
                 searchManagerChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
+
                 SearchResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {

@@ -21,6 +21,7 @@ import static net.chesstango.search.SearchParameter.*;
  */
 public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
+
     private volatile CountDownLatch countDownLatch;
 
     @Getter
@@ -125,12 +126,8 @@ public class IterativeDeepening implements Search {
             this.searchPredicate = (Predicate<SearchByDepthResult>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;
-        }
-
-        if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
-            searchParameters.put(EPD_PARAMS, epd);
+        } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
+            this.searchParameters.put(EPD_PARAMS, epd);
         }
     }
-
-
 }
