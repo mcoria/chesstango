@@ -146,12 +146,11 @@ public class AlphaBetaTest {
 
         searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = alphaBetaFacade.search();
+        alphaBetaFacade.search();
 
         searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
 
-        SearchResult searchResult = new SearchResult(depth)
-                .setBestMoveEvaluation(bestMoveEvaluation);
+        SearchResult searchResult = new SearchResult(depth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

@@ -6,7 +6,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +19,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax implements SearchAlgorithm, SearchByCycleListener, SearchByDepthListener {
+public class MinMax implements SearchAlgorithm {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
     private Game game;
@@ -22,9 +27,10 @@ public class MinMax implements SearchAlgorithm, SearchByCycleListener, SearchByD
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
     private Evaluator evaluator;
+    private MoveEvaluation bestMoveEvaluation;
 
     @Override
-    public MoveEvaluation search() {
+    public void search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -58,7 +64,7 @@ public class MinMax implements SearchAlgorithm, SearchByCycleListener, SearchByD
             game.undoMove();
         }
 
-        return new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation, MoveEvaluationType.EXACT);
+        bestMoveEvaluation = new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation, MoveEvaluationType.EXACT);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
@@ -98,8 +104,19 @@ public class MinMax implements SearchAlgorithm, SearchByCycleListener, SearchByD
     }
 
     @Override
+    public void afterSearch(SearchResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
+    }
+
+    @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
         this.maxPly = context.getMaxPly();
+        this.bestMoveEvaluation = null;
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchByDepthResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
     }
 
     public void setGameEvaluator(Evaluator evaluator) {

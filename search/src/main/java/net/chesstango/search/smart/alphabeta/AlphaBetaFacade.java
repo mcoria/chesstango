@@ -8,24 +8,29 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.SearchByDepthResult;
+import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFacade implements SearchAlgorithm, SearchByCycleListener {
+public class AlphaBetaFacade implements SearchAlgorithm {
 
     @Setter
     @Getter
     private AlphaBetaFilter alphaBetaFilter;
+
     private Game game;
 
+    private MoveEvaluation bestMoveEvaluation;
+
     @Override
-    public MoveEvaluation search() {
+    public void search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
@@ -46,11 +51,28 @@ public class AlphaBetaFacade implements SearchAlgorithm, SearchByCycleListener {
             throw new RuntimeException("BestMove not found");
         }
 
-        return new MoveEvaluation(bestMove, bestValue, MoveEvaluationType.EXACT);
+
+        this.bestMoveEvaluation = new MoveEvaluation(bestMove, bestValue, MoveEvaluationType.EXACT);
     }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
+        this.bestMoveEvaluation = null;
+    }
+
+    @Override
+    public void afterSearch(SearchResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+        this.bestMoveEvaluation = null;
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchByDepthResult result) {
+        result.setBestMoveEvaluation(bestMoveEvaluation);
     }
 }

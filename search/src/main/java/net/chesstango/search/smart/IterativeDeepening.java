@@ -15,7 +15,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
 import static net.chesstango.search.SearchParameter.*;
-import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 
 /**
  * @author Mauricio Coria
@@ -58,20 +57,18 @@ public class IterativeDeepening implements Search {
 
         int currentSearchDepth = 1;
         SearchByDepthResult searchByDepthResult = null;
-        MoveEvaluation bestMoveEvaluation = null;
         do {
             SearchByDepthContext context = new SearchByDepthContext(currentSearchDepth);
 
             searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-            bestMoveEvaluation = searchAlgorithm.search();
+            searchAlgorithm.search();
 
             searchByDepthResult = new SearchByDepthResult(currentSearchDepth);
-            searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
-
-            searchByDepthResults.add(searchByDepthResult);
 
             searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
+
+            searchByDepthResults.add(searchByDepthResult);
 
             if (progressListener != null) {
                 progressListener.accept(searchByDepthResult);
@@ -87,12 +84,11 @@ public class IterativeDeepening implements Search {
                 /**
                  * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate dentro de QS
                  */
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+                Evaluator.WHITE_WON != searchByDepthResult.getBestMoveEvaluation().evaluation() &&
+                Evaluator.BLACK_WON != searchByDepthResult.getBestMoveEvaluation().evaluation()
         );
 
         SearchResult searchResult = new SearchResult(currentSearchDepth - 1);
-        searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResults);
 
         searchListenerMediator.triggerAfterSearch(searchResult);

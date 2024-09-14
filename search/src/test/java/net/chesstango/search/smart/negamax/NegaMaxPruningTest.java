@@ -123,12 +123,11 @@ public class NegaMaxPruningTest {
 
         searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = negaMaxPruning.search();
+        negaMaxPruning.search();
 
         searchListenerMediator.triggerAfterSearchByDepth(new SearchByDepthResult(depth));
 
-        SearchResult searchResult = new SearchResult(depth)
-                .setBestMoveEvaluation(bestMoveEvaluation);
+        SearchResult searchResult = new SearchResult(depth);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 

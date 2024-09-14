@@ -373,6 +373,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     private void setupListenerMediatorBeforeChain() {
+        searchListenerMediator.add(setGameEvaluator);
+
+        searchListenerMediator.add(alphaBetaFacade);
+
         searchListenerMediator.add(setSearchContext);
 
         if (setSearchTracker != null) {
@@ -411,10 +415,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setKillerMoveDebug);
             searchListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
         }
-
-        searchListenerMediator.add(setGameEvaluator);
-
-        searchListenerMediator.add(alphaBetaFacade);
 
         searchListenerMediator.add(alphaBetaFlowControl);
 

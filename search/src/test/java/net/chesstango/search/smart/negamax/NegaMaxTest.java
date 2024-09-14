@@ -103,11 +103,11 @@ public class NegaMaxTest {
 
         negaMax.beforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = negaMax.search();
+        negaMax.search();
 
         negaMax.afterSearchByDepth(new SearchByDepthResult(depth));
 
-        SearchResult searchResult = new SearchResult(depth).setBestMoveEvaluation(bestMoveEvaluation);
+        SearchResult searchResult = new SearchResult(depth);
 
         negaMax.afterSearch(searchResult);
 

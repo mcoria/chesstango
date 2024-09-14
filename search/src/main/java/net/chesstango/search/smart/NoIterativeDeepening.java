@@ -46,18 +46,15 @@ public class NoIterativeDeepening implements Search {
 
         searchListenerMediator.triggerBeforeSearchByDepth(context);
 
-        MoveEvaluation bestMoveEvaluation = searchAlgorithm.search();
+        searchAlgorithm.search();
 
         SearchByDepthResult searchByDepthResult = new SearchByDepthResult(maxDepth);
-        searchByDepthResult.setBestMoveEvaluation(bestMoveEvaluation);
 
         searchByDepthResultList.add(searchByDepthResult);
 
         searchListenerMediator.triggerAfterSearchByDepth(searchByDepthResult);
 
         SearchResult searchResult = new SearchResult(maxDepth);
-
-        searchResult.setBestMoveEvaluation(bestMoveEvaluation);
         searchResult.setSearchByDepthResults(searchByDepthResultList);
 
         searchListenerMediator.triggerAfterSearch(searchResult);
