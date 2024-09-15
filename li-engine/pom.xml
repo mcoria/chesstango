@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.chesstango</groupId>
         <artifactId>chesstango</artifactId>
-        <version>0.0.28</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>li-engine</artifactId>
