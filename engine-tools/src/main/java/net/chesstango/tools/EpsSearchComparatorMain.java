@@ -22,8 +22,8 @@ public class EpsSearchComparatorMain {
     public static void main(String[] args) {
         EpsSearchComparatorMain epsSearchComparatorMain = new EpsSearchComparatorMain("depth-5-2024-04-10-23-20-v0.0.27");
         //epsSearchComparatorMain.addSession("depth-5-2024-05-12-07-17-v0.0.28-SNAPSHOT");
-        //epsSearchComparatorMain.addSession("depth-5-2024-06-17-00-50-v0.0.28-SNAPSHOT");
-        epsSearchComparatorMain.addSession("depth-5-2024-09-15-06-06-v0.0.28-SNAPSHOT");
+        epsSearchComparatorMain.addSession("depth-5-2024-09-15-06-06-v0.0.28-SNAPSHOT"); // Con EvaluatorImp04
+        epsSearchComparatorMain.addSession("depth-5-2024-09-15-07-14-v0.0.28-SNAPSHOT");
         //
         //
 
