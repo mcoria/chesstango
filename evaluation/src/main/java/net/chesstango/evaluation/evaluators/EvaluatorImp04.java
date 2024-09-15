@@ -18,7 +18,7 @@ import java.util.Iterator;
  * Time elapsed: 980000 ms
  * _________________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|     TOTAL POINTS |   WIN %|
- * |            GameEvaluatorSEandImp02|    3464 |    3270 |     1704 |     1775 |     5728 |     5851 |     6328.0 |     6195.5 | 12523.5 /  21792 |   57.5 |
+ * |                     EvaluatorImp04|    3464 |    3270 |     1704 |     1775 |     5728 |     5851 |     6328.0 |     6195.5 | 12523.5 /  21792 |   57.5 |
  * |    GameEvaluatorByMaterialAndMoves|      13 |       9 |     1666 |     1631 |     1045 |     1084 |      535.5 |      551.0 |  1086.5 /   5448 |   19.9 |
  * |                 GameEvaluatorImp02|     269 |     232 |      533 |      670 |     1922 |     1822 |     1230.0 |     1143.0 |  2373.0 /   5448 |   43.6 |
  * |   GameEvaluatorSimplifiedEvaluator|      42 |      55 |     1023 |     1093 |     1659 |     1576 |      871.5 |      843.0 |  1714.5 /   5448 |   31.5 |
