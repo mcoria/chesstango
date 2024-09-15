@@ -20,12 +20,9 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     @Setter
     @Getter
     private AlphaBetaFilter next;
-
     protected TTable maxMap;
     protected TTable minMap;
-
     protected Game game;
-
     protected int maxPly;
 
     @Override

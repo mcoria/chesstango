@@ -135,14 +135,14 @@ public class SummaryModel {
 
         epdSearchResults.stream().map(epdSearchResult -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
-            SearchResult searchResult = epdSearchResult.searchResult();
-            PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.epd().getId());
+            SearchResult searchResult = epdSearchResult.getSearchResult();
+            PrincipalVariationReportModel.PrincipalVariationReportModelDetail pvDetail = pvMap.get(epdSearchResult.getEpd().getId());
 
-            searchSummaryModeDetail.id = epdSearchResult.epd().getId();
-            searchSummaryModeDetail.move = epdSearchResult.bestMoveFound();
+            searchSummaryModeDetail.id = epdSearchResult.getEpd().getId();
+            searchSummaryModeDetail.move = epdSearchResult.getBestMoveFound();
             searchSummaryModeDetail.success = epdSearchResult.isSearchSuccess();
             searchSummaryModeDetail.depthMoves = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestMove).map(simpleMoveEncoder::encode).toList().toString();
-            searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.depthAccuracyPct();
+            searchSummaryModeDetail.depthAccuracyPercentage = epdSearchResult.getDepthAccuracyPct();
             searchSummaryModeDetail.pv = pvDetail.principalVariation;
             searchSummaryModeDetail.pvAccuracyPercentage = pvDetail.pvAccuracyPercentage;
             searchSummaryModeDetail.evaluation = searchResult.getBestEvaluation();

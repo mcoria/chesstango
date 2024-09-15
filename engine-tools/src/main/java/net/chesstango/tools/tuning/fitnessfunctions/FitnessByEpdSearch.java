@@ -72,7 +72,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         return epdSearchResults
                 .stream()
-                .mapToLong(epdSearchResult -> getPointsDepthV3(epdSearchResult.epd(), epdSearchResult.searchResult()))
+                .mapToLong(epdSearchResult -> getPointsDepthV3(epdSearchResult.getEpd(), epdSearchResult.getSearchResult()))
                 .sum();
     }
 
