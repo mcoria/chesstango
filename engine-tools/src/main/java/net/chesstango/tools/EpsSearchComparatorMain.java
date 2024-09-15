@@ -21,21 +21,20 @@ public class EpsSearchComparatorMain {
 
     public static void main(String[] args) {
         EpsSearchComparatorMain epsSearchComparatorMain = new EpsSearchComparatorMain("depth-5-2024-04-10-23-20-v0.0.27");
-        epsSearchComparatorMain.addSession("depth-5-2024-05-12-07-17-v0.0.28-SNAPSHOT");
-        epsSearchComparatorMain.addSession("depth-5-2024-06-17-00-50-v0.0.28-SNAPSHOT");
+        //epsSearchComparatorMain.addSession("depth-5-2024-05-12-07-17-v0.0.28-SNAPSHOT");
+        //epsSearchComparatorMain.addSession("depth-5-2024-06-17-00-50-v0.0.28-SNAPSHOT");
+        epsSearchComparatorMain.addSession("depth-5-2024-09-15-06-06-v0.0.28-SNAPSHOT");
         //
         //
 
-        /*
-        summaryComparatorMain.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
-        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
+        epsSearchComparatorMain.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
+        epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
 
-        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
-        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
+        epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
+        epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
 
-        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w3.epd");
-        summaryComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
-        */
+        epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w3.epd");
+        epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
 
         epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         epsSearchComparatorMain.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Kaufman.epd");

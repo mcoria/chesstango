@@ -65,7 +65,7 @@ public class PrincipalVariationReportModel {
         reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
         reportModelDetail.evaluation = searchResult.getBestEvaluation();
         reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResult.isPvComplete() ? "" : "truncated");
-        reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchByDepthCounter());
+        reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchesByDepthCounter());
 
         moveDetails.add(reportModelDetail);
     }

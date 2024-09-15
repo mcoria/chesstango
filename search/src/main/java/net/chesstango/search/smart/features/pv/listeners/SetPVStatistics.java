@@ -21,7 +21,7 @@ public class SetPVStatistics implements SearchByCycleListener, SearchByDepthList
 
     @Override
     public void afterSearch(SearchResult result) {
-        result.setSearchByDepthPvCompleteCounter(pvCompleteCounter);
+        //result.setSearchByDepthPvCompleteCounter(pvCompleteCounter);
     }
 
     @Override

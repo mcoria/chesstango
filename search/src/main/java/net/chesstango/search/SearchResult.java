@@ -32,8 +32,6 @@ public class SearchResult {
 
     private long timeSearching;
 
-    private int searchByDepthPvCompleteCounter;
-
     private int expectedRootBestMoveCounter;
 
     @Setter(AccessLevel.NONE)
@@ -60,7 +58,11 @@ public class SearchResult {
         return this;
     }
 
-    public int getSearchByDepthCounter() {
+    public int getSearchesByDepthCounter() {
         return searchResultByDepths.size();
+    }
+
+    public int getSearchByDepthPvCompleteCounter() {
+        return (int) searchResultByDepths.stream().filter(SearchResultByDepth::isPvComplete).count();
     }
 }
