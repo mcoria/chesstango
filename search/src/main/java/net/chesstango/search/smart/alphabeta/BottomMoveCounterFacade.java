@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchParameter;
@@ -31,17 +30,17 @@ import static net.chesstango.search.SearchParameter.EPD_PARAMS;
  *
  * @author Mauricio Coria
  */
-public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
+public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     @Setter
     @Getter
     private AlphaBetaFilter alphaBetaFilter;
 
-    protected Game game;
+    private Game game;
 
-    protected Move expectedRootBestMove;
+    private Move targetMove;
 
-    private int expectedRootBestMoveCounter;
+    private int bottomMoveCounter;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
@@ -54,19 +53,19 @@ public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
 
         EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
         if (epd.getBestMoves() != null) {
-            this.expectedRootBestMove = epd.getBestMoves().getFirst();
+            this.targetMove = epd.getBestMoves().getFirst();
         } else if (epd.getSuppliedMove() != null) {
-            this.expectedRootBestMove = epd.getSuppliedMove();
+            this.targetMove = epd.getSuppliedMove();
         } else {
             throw new RuntimeException("ExpectedRootBestMove not present in EPD entry");
         }
 
-        this.expectedRootBestMoveCounter = 0;
+        this.bottomMoveCounter = 0;
     }
 
     @Override
     public void afterSearch(SearchResult result) {
-        result.setExpectedRootBestMoveCounter(expectedRootBestMoveCounter);
+        result.setExpectedRootBestMoveCounter(bottomMoveCounter);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
 
 
     protected int exploreMove(final AlphaBetaFunction alphaBetaFn) {
-        game = game.executeMove(expectedRootBestMove);
+        game = game.executeMove(targetMove);
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
         game = game.undoMove();
@@ -97,12 +96,12 @@ public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
-            if (!move.equals(expectedRootBestMove)) {
+            if (!move.equals(targetMove)) {
                 game = game.executeMove(move);
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
-                    this.expectedRootBestMoveCounter++;
+                    this.bottomMoveCounter++;
                 }
                 game = game.undoMove();
             }
@@ -114,12 +113,12 @@ public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
-            if (!move.equals(expectedRootBestMove)) {
+            if (!move.equals(targetMove)) {
                 game = game.executeMove(move);
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
-                    this.expectedRootBestMoveCounter++;
+                    this.bottomMoveCounter++;
                 }
                 game = game.undoMove();
             }

@@ -6,7 +6,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.Search;
-import net.chesstango.search.builders.AlphaBetaHypothesisBuilder;
+import net.chesstango.search.builders.BottomMoveCounterBuilder;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.traps.ComposedTrap;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class EpdSearchHypothesisTest {
+public class EpdSearchBottomMoveCounterTest {
     private static final boolean PRINT_REPORT = false;
     private static EPDDecoder epdDecoder;
     private static EpdSearch epdSearch;
@@ -343,7 +343,7 @@ public class EpdSearchHypothesisTest {
 
 
     private static Search buildSearchMove(Evaluator evaluator) {
-        AlphaBetaHypothesisBuilder builder = new AlphaBetaHypothesisBuilder()
+        BottomMoveCounterBuilder builder = new BottomMoveCounterBuilder()
                 .withGameEvaluator(evaluator)
                 .withGameEvaluatorCache()
 

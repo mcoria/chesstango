@@ -32,12 +32,12 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     public void search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
+        final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                 alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
                 alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
-        int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
+        final int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        final short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {
