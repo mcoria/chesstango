@@ -5,10 +5,9 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.alphabeta.*;
-import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHypothesisFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
@@ -31,9 +30,8 @@ import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 /**
  * @author Mauricio Corias
  */
-public class AlphaBetaBuilder implements SearchBuilder {
+public class AlphaBetaHypothesisBuilder implements SearchBuilder {
     private final SetSearchContext setSearchContext;
-    private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
     private final TerminalChainBuilder quiescenceTerminalChainBuilder;
@@ -46,7 +44,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final SetGameEvaluator setGameEvaluator;
-    private final AlphaBetaFacade alphaBetaFacade;
+    private final AlphaBetaHypothesisFacade alphaBetaHypothesisFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
@@ -58,33 +56,25 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetKillerMoveDebug setKillerMoveDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
-    private SetTrianglePV setTrianglePV;
-    private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
     private DebugNodeTrap debugNodeTrap;
 
-    private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
     private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
-    private boolean withTriangularPV;
-    private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
     private boolean withPrintChain;
     private boolean withDebugSearchTree;
-    private boolean showOnlyPV;
     private boolean showNodeTranspositionAccess;
     private boolean showSorterOperations;
-    private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
 
-    public AlphaBetaBuilder() {
-        alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
+    public AlphaBetaHypothesisBuilder() {
         alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
         alphaBetaHorizonChainBuilder = new AlphaBetaHorizonChainBuilder();
 
@@ -93,7 +83,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         checkResolverChainBuilder = new CheckResolverChainBuilder();
 
-        alphaBetaFacade = new AlphaBetaFacade();
+        alphaBetaHypothesisFacade = new AlphaBetaHypothesisFacade();
         setGameEvaluator = new SetGameEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
@@ -111,45 +101,38 @@ public class AlphaBetaBuilder implements SearchBuilder {
         quiescenceLoopChainBuilder = new LoopChainBuilder();
     }
 
-    public AlphaBetaBuilder withIterativeDeepening() {
-        withIterativeDeepening = true;
-        return this;
-    }
-
 
     @Override
-    public AlphaBetaBuilder withGameEvaluator(Evaluator evaluator) {
+    public AlphaBetaHypothesisBuilder withGameEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
         return this;
     }
 
-    public AlphaBetaBuilder withGameEvaluatorCache() {
+    public AlphaBetaHypothesisBuilder withGameEvaluatorCache() {
         withGameEvaluatorCache = true;
         return this;
     }
 
-    public AlphaBetaBuilder withQuiescence() {
+    public AlphaBetaHypothesisBuilder withQuiescence() {
         withQuiescence = true;
         return this;
     }
 
-    public AlphaBetaBuilder withExtensionCheckResolver() {
+    public AlphaBetaHypothesisBuilder withExtensionCheckResolver() {
         withExtensionCheckResolver = true;
         return this;
     }
 
-    public AlphaBetaBuilder withStatistics() {
+    public AlphaBetaHypothesisBuilder withStatistics() {
         withStatistics = true;
-        alphaBetaRootChainBuilder.withStatistics();
         alphaBetaInteriorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
         checkResolverChainBuilder.withStatistics();
         return this;
     }
 
-    public AlphaBetaBuilder withTranspositionTable() {
+    public AlphaBetaHypothesisBuilder withTranspositionTable() {
         withTranspositionTable = true;
-        alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
         alphaBetaHorizonChainBuilder.withTranspositionTable();
         terminalChainBuilder.withTranspositionTable();
@@ -161,7 +144,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withTranspositionMoveSorter() {
+    public AlphaBetaHypothesisBuilder withTranspositionMoveSorter() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
@@ -170,13 +153,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withStopProcessingCatch() {
-        alphaBetaRootChainBuilder.withStopProcessingCatch();
-        return this;
-    }
-
-
-    public AlphaBetaBuilder withTranspositionTableReuse() {
+    public AlphaBetaHypothesisBuilder withTranspositionTableReuse() {
         if (!withTranspositionTable) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
@@ -185,7 +162,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    public AlphaBetaBuilder withTrackEvaluations() {
+    public AlphaBetaHypothesisBuilder withTrackEvaluations() {
         if (!withStatistics) {
             throw new RuntimeException("You must enable Statistics first");
         }
@@ -193,63 +170,30 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withZobristTracker() {
-        withZobristTracker = true;
-
-        alphaBetaRootChainBuilder.withZobristTracker();
-        alphaBetaInteriorChainBuilder.withZobristTracker();
-        terminalChainBuilder.withZobristTracker();
-        alphaBetaHorizonChainBuilder.withZobristTracker();
-        loopChainBuilder.withZobristTracker();
-
-        quiescenceLoopChainBuilder.withZobristTracker();
-        quiescenceChainBuilder.withZobristTracker();
-        quiescenceLeafChainBuilder.withZobristTracker();
-        checkResolverChainBuilder.withZobristTracker();
-        quiescenceTerminalChainBuilder.withZobristTracker();
-        return this;
-    }
-
-    public AlphaBetaBuilder withAspirationWindows() {
-        alphaBetaRootChainBuilder.withAspirationWindows();
-        withAspirationWindows = true;
-        return this;
-    }
-
-    public AlphaBetaBuilder withTriangularPV() {
-        withTriangularPV = true;
-        alphaBetaRootChainBuilder.withTriangularPV();
-        alphaBetaInteriorChainBuilder.withTriangularPV();
-        quiescenceChainBuilder.withTriangularPV();
-        checkResolverChainBuilder.withTriangularPV();
-        return this;
-    }
-
-    public AlphaBetaBuilder withPrintChain() {
+    public AlphaBetaHypothesisBuilder withPrintChain() {
         withPrintChain = true;
         return this;
     }
 
-    public AlphaBetaBuilder withKillerMoveSorter() {
+    public AlphaBetaHypothesisBuilder withKillerMoveSorter() {
         alphaBetaInteriorChainBuilder.withKillerMoveSorter();
         withKillerMoveSorter = true;
         return this;
     }
 
-    public AlphaBetaBuilder withRecaptureSorter() {
+    public AlphaBetaHypothesisBuilder withRecaptureSorter() {
         alphaBetaInteriorChainBuilder.withRecaptureSorter();
         quiescenceChainBuilder.withRecaptureSorter();
         return this;
     }
 
-    public AlphaBetaBuilder withMvvLvaSorter() {
+    public AlphaBetaHypothesisBuilder withMvvLvaSorter() {
         alphaBetaInteriorChainBuilder.withMvvLvaSorter();
         quiescenceChainBuilder.withMvvLvaSorter();
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
-        alphaBetaRootChainBuilder.withDebugSearchTree();
+    public AlphaBetaHypothesisBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
@@ -264,7 +208,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         this.withDebugSearchTree = true;
         this.debugNodeTrap = debugNodeTrap;
-        this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
         return this;
@@ -272,29 +215,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public Search build() {
-        if (!withTranspositionTable) {
-            withTriangularPV();
-        }
-
-        if (withTriangularPV && withTranspositionTable) {
-            throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
-        }
-
         buildObjects();
 
         setupListenerMediatorBeforeChain();
 
-        alphaBetaFacade.setAlphaBetaFilter(createChain());
+        alphaBetaHypothesisFacade.setAlphaBetaFilter(createChain());
 
         setupListenerMediatorAfterChain();
 
-        Search search;
-
-        if (withIterativeDeepening) {
-            search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
-        } else {
-            search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
-        }
+        Search search = new NoIterativeDeepening(alphaBetaHypothesisFacade, searchListenerMediator);
 
         if (withStatistics) {
             SearchGameWrapper searchMoveGameWrapper = new SearchGameWrapper(search);
@@ -337,23 +266,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
         }
 
-        if (withTriangularPV) {
-            setTrianglePV = new SetTrianglePV();
-            setTrianglePV.setEvaluator(evaluator);
-        }
-
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
             setPVStatistics = new SetPVStatistics();
         }
 
-        if (withZobristTracker) {
-            setZobristMemory = new SetZobristMemory();
-        }
-
         if (withDebugSearchTree) {
             setSearchTracker = new SetSearchTracker(debugNodeTrap);
-            setDebugOutput = new SetDebugOutput(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            setDebugOutput = new SetDebugOutput(false, debugNodeTrap, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
         if (withKillerMoveSorter) {
@@ -370,7 +290,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private void setupListenerMediatorBeforeChain() {
         searchListenerMediator.add(setGameEvaluator);
 
-        searchListenerMediator.add(alphaBetaFacade);
+        searchListenerMediator.add(alphaBetaHypothesisFacade);
 
         searchListenerMediator.add(setSearchContext);
 
@@ -386,14 +306,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setTranspositionTablesDebug.getMinMap());
             searchListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
             searchListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
-        }
-
-        if (setZobristMemory != null) {
-            searchListenerMediator.add(setZobristMemory);
-        }
-
-        if (setTrianglePV != null) {
-            searchListenerMediator.add(setTrianglePV);
         }
 
         if (setNodeStatistics != null) {
@@ -458,11 +370,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl.setLoopNode(loopChain);
         alphaBetaFlowControl.setLeafNode(leafChain);
 
-        alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaRootChainBuilder.withGameEvaluator(evaluator);
-
-        return alphaBetaRootChainBuilder.build();
+        return alphaBetaFlowControl;
     }
 
     private AlphaBetaFilter createExtensionChain() {
@@ -514,8 +422,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    public static AlphaBetaBuilder createDefaultBuilderInstance(final Evaluator evaluator) {
-        return new AlphaBetaBuilder()
+    public static AlphaBetaHypothesisBuilder createDefaultBuilderInstance(final Evaluator evaluator) {
+        return new AlphaBetaHypothesisBuilder()
                 .withGameEvaluator(evaluator)
                 .withGameEvaluatorCache()
 
@@ -526,12 +434,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 .withTranspositionMoveSorter()
                 .withKillerMoveSorter()
                 .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStopProcessingCatch();
+                .withMvvLvaSorter();
     }
 }
 

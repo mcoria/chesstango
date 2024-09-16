@@ -63,8 +63,6 @@ public class FitnessByEpdSearch implements FitnessFunction {
                         .withRecaptureSorter()
                         .withMvvLvaSorter()
 
-                        .withEpdHypothesisValidator()
-
                         .build()
         );
 

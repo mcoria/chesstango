@@ -1,21 +1,26 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.alphabeta;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.search.SearchResult;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import static net.chesstango.search.SearchParameter.EPD_PARAMS;
-
 
 /**
  * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
@@ -26,11 +31,11 @@ import static net.chesstango.search.SearchParameter.EPD_PARAMS;
  *
  * @author Mauricio Coria
  */
-public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBetaHypothesisFacade implements SearchAlgorithm {
 
     @Setter
     @Getter
-    private AlphaBetaFilter next;
+    private AlphaBetaFilter alphaBetaFilter;
 
     protected Game game;
 
@@ -65,16 +70,36 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta) {
-        final Move bestMove = expectedRootBestMove;
-        final int maxValue = exploreMove(next::minimize, currentPly, alpha, beta);
+    public void beforeSearchByDepth(SearchByDepthContext context) {
+    }
 
+    @Override
+    public void search() {
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        if (Color.WHITE.equals(currentTurn)) {
+            maximize(exploreMove(alphaBetaFilter::minimize));
+        } else {
+            minimize(exploreMove(alphaBetaFilter::maximize));
+        }
+    }
+
+
+    protected int exploreMove(final AlphaBetaFunction alphaBetaFn) {
+        game = game.executeMove(expectedRootBestMove);
+        long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
+        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        game = game.undoMove();
+        return currentValue;
+    }
+
+
+    protected void maximize(final int maxValue) {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
-                long bestMoveAndValue = next.minimize(currentPly + 1, maxValue - 1, maxValue);
+                long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.expectedRootBestMoveCounter++;
@@ -82,20 +107,16 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, maxValue);
     }
 
-    @Override
-    public long minimize(final int currentPly, final int alpha, final int beta) {
-        final Move bestMove = expectedRootBestMove;
-        final int minValue = exploreMove(next::maximize, currentPly, alpha, beta);
 
+    protected void minimize(final int minValue) {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(expectedRootBestMove)) {
                 game = game.executeMove(move);
-                long bestMoveAndValue = next.maximize(currentPly + 1, minValue, minValue + 1);
+                long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.expectedRootBestMoveCounter++;
@@ -103,16 +124,5 @@ public class AlphaBetaHypothesisValidator implements AlphaBetaFilter, SearchByCy
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encode(bestMove, minValue);
     }
-
-
-    protected int exploreMove(final AlphaBetaFunction alphaBetaFn, final int currentPly, final int alpha, final int beta) {
-        game = game.executeMove(expectedRootBestMove);
-        long bestMoveAndValue = alphaBetaFn.search(currentPly + 1, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        game = game.undoMove();
-        return currentValue;
-    }
-
 }

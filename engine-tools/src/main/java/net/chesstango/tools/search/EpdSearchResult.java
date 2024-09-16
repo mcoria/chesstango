@@ -3,15 +3,8 @@ package net.chesstango.tools.search;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -38,5 +31,9 @@ public class EpdSearchResult {
 
     public String getText() {
         return epd.getText();
+    }
+
+    public int getExpectedRootBestMoveCounter() {
+        return searchResult.getExpectedRootBestMoveCounter();
     }
 }

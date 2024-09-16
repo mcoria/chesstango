@@ -41,7 +41,7 @@ public class EpdSearch {
 
     private Supplier<Search> searchMoveSupplier;
 
-    private BiFunction<EPD, SearchResult, EpdSearchResult> epdSearchResultCreator;
+    private BiFunction<EPD, SearchResult, EpdSearchResult> epdSearchResultCreator = EpdSearchResult::new;
 
     private int depth;
 
@@ -78,13 +78,6 @@ public class EpdSearch {
                         EpdSearchResult epdSearchResult = run(search, epd);
 
                         epdSearchResults.add(epdSearchResult);
-
-                        /*
-                        if (!epdSearchResult.isSearchSuccess()) {
-                            String failedTest = String.format("Fail [%s] - best move found %s", epd.getText(), epdSearchResult.bestMoveFoundAlgNot());
-                            logger.info(failedTest);
-                        }
-                         */
 
                         searchPool.put(searchJob.search);
 

@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -75,7 +74,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
          */
         result.setSearchNextDepth(
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
     }
 }
