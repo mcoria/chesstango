@@ -33,7 +33,7 @@ public class EpdSearchResult {
         return epd.getText();
     }
 
-    public int getExpectedRootBestMoveCounter() {
-        return searchResult.getExpectedRootBestMoveCounter();
+    public int getBottomMoveCounter() {
+        return searchResult.getBottomMoveCounter();
     }
 }

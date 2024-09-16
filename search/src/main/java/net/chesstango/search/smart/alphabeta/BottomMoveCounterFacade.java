@@ -65,7 +65,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     @Override
     public void afterSearch(SearchResult result) {
-        result.setExpectedRootBestMoveCounter(bottomMoveCounter);
+        result.setBottomMoveCounter(bottomMoveCounter);
     }
 
     @Override

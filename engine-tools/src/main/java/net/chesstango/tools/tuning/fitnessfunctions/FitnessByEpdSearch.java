@@ -141,7 +141,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
 
     protected static long getPointsDepthV3(EPD epd, SearchResult searchResult) {
-        return searchResult.getExpectedRootBestMoveCounter();
+        return searchResult.getBottomMoveCounter();
     }
 
 }
