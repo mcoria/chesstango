@@ -76,21 +76,19 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     public void search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         if (Color.WHITE.equals(currentTurn)) {
-            maximize(exploreMove(alphaBetaFilter::minimize));
+            maximize(targetMoveEvaluation(alphaBetaFilter::minimize));
         } else {
-            minimize(exploreMove(alphaBetaFilter::maximize));
+            minimize(targetMoveEvaluation(alphaBetaFilter::maximize));
         }
     }
 
-
-    protected int exploreMove(final AlphaBetaFunction alphaBetaFn) {
+    protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
         game = game.executeMove(targetMove);
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
         game = game.undoMove();
         return currentValue;
     }
-
 
     protected void maximize(final int maxValue) {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
@@ -107,7 +105,6 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
             }
         }
     }
-
 
     protected void minimize(final int minValue) {
         Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
