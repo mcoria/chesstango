@@ -32,21 +32,21 @@ public class SearchResult {
 
     private long timeSearching;
 
-    private int expectedRootBestMoveCounter;
+    private int bottomMoveCounter;
 
     @Setter(AccessLevel.NONE)
     private List<SearchResultByDepth> searchResultByDepths = new ArrayList<>();
 
     public Move getBestMove() {
-        return searchResultByDepths.getLast().getBestMove();
+        return !searchResultByDepths.isEmpty() ? searchResultByDepths.getLast().getBestMove() : null;
     }
 
-    public int getBestEvaluation() {
-        return searchResultByDepths.getLast().getBestEvaluation();
+    public Integer getBestEvaluation() {
+        return !searchResultByDepths.isEmpty() ? searchResultByDepths.getLast().getBestEvaluation() : null;
     }
 
     public List<PrincipalVariation> getPrincipalVariation() {
-        return searchResultByDepths.getLast().getPrincipalVariation();
+        return !searchResultByDepths.isEmpty() ? searchResultByDepths.getLast().getPrincipalVariation() : null;
     }
 
     public boolean isPvComplete() {

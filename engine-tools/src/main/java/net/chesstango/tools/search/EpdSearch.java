@@ -7,10 +7,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -32,20 +33,19 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 @Setter
+@Accessors(chain = true)
 public class EpdSearch {
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
 
     private static final SANEncoder sanEncoder = new SANEncoder();
 
-    @Accessors(chain = true)
     private Supplier<Search> searchMoveSupplier;
 
-    @Accessors(chain = true)
+    private BiFunction<EPD, SearchResult, EpdSearchResult> epdSearchResultCreator = EpdSearchResult::new;
+
     private int depth;
 
-    @Accessors(chain = true)
     private Integer timeOut;
-
 
     public List<EpdSearchResult> run(Stream<EPD> edpEntries) {
         final int availableCores = Runtime.getRuntime().availableProcessors();
@@ -78,13 +78,6 @@ public class EpdSearch {
                         EpdSearchResult epdSearchResult = run(search, epd);
 
                         epdSearchResults.add(epdSearchResult);
-
-                        /*
-                        if (!epdSearchResult.isSearchSuccess()) {
-                            String failedTest = String.format("Fail [%s] - best move found %s", epd.getText(), epdSearchResult.bestMoveFoundAlgNot());
-                            logger.info(failedTest);
-                        }
-                         */
 
                         searchPool.put(searchJob.search);
 
@@ -132,7 +125,7 @@ public class EpdSearch {
             throw new RuntimeException(String.format("Todavia siguen pendiente %d busquedas", pendingJobsCounter.get()));
         }
 
-        epdSearchResults.sort(Comparator.comparing(o -> o.epd().getId()));
+        epdSearchResults.sort(Comparator.comparing(o -> o.getEpd().getId()));
 
         return epdSearchResults;
     }
@@ -142,6 +135,7 @@ public class EpdSearch {
         Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+
         search.setSearchParameter(SearchParameter.EPD_PARAMS, epd);
 
         SearchResult searchResult = search.search(game);
@@ -150,19 +144,30 @@ public class EpdSearch {
 
         search.reset();
 
+        return epdSearchResultCreator.apply(epd, searchResult);
+    }
+
+    private record SearchJob(Instant startInstant, Search search) {
+        public long elapsedMillis() {
+            return Duration.between(startInstant, Instant.now()).toMillis();
+        }
+    }
+
+
+    public static EpdSearchResult epdSearchResultCreatorBestMove(EPD epd, SearchResult searchResult) {
+        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
+
         Move bestMove = searchResult.getBestMove();
 
         String bestMoveAlgNotation = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
 
-        return new EpdSearchResult(epd, searchResult,
-                bestMoveAlgNotation,
-                epd.isMoveSuccess(bestMove),
-                calculateAccuracy(epd, searchResult.getSearchResultByDepths())
-        );
+        return new EpdSearchResult(epd, searchResult)
+                .setSearchSuccess(epd.isMoveSuccess(bestMove))
+                .setBestMoveFound(bestMoveAlgNotation)
+                .setDepthAccuracyPct(calculateAccuracy(epd, searchResult.getSearchResultByDepths()));
     }
 
-
-    private int calculateAccuracy(EPD epd, List<SearchResultByDepth> searchResultByDepths) {
+    private static int calculateAccuracy(EPD epd, List<SearchResultByDepth> searchResultByDepths) {
         if (!searchResultByDepths.isEmpty()) {
             long successCounter = searchResultByDepths
                     .stream()
@@ -172,11 +177,5 @@ public class EpdSearch {
             return (int) (successCounter * 100 / searchResultByDepths.size());
         }
         return 0;
-    }
-
-    private record SearchJob(Instant startInstant, Search search) {
-        public long elapsedMillis() {
-            return Duration.between(startInstant, Instant.now()).toMillis();
-        }
     }
 }

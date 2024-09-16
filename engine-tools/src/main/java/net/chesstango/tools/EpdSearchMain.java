@@ -4,12 +4,9 @@ import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.DefaultEvaluator;
-import net.chesstango.evaluation.evaluators.EvaluatorImp02;
-import net.chesstango.evaluation.evaluators.EvaluatorImp04;
-import net.chesstango.evaluation.evaluators.EvaluatorImp06;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
-import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.tools.search.reports.epd.EpdSearchReport;
 import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
@@ -86,7 +83,8 @@ public class EpdSearchMain {
                         .createDefaultBuilderInstance(new DefaultEvaluator())
                         .withStatistics()
                         .build())
-                .setDepth(depth);
+                .setDepth(depth)
+                .setEpdSearchResultCreator(EpdSearch::epdSearchResultCreatorBestMove);
 
         if (timeOut > 0) {
             this.epdSearch.setTimeOut(timeOut);
@@ -110,9 +108,9 @@ public class EpdSearchMain {
         String suiteName = suitePath.getFileName().toString();
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatistics(suiteName, epdSearchResults);
-        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
-        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
-        PrincipalVariationReportModel principalVariationReportModel = PrincipalVariationReportModel.collectStatics(suiteName, epdSearchResults.stream().map(EpdSearchResult::searchResult).toList());
+        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::getSearchResult).toList());
+        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(suiteName, epdSearchResults.stream().map(EpdSearchResult::getSearchResult).toList());
+        PrincipalVariationReportModel principalVariationReportModel = PrincipalVariationReportModel.collectStatics(suiteName, epdSearchResults.stream().map(EpdSearchResult::getSearchResult).toList());
         SummaryModel summaryModel = SummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchResults, epdSearchReportModel, nodesReportModel, evaluationReportModel, principalVariationReportModel);
 
         //printReports(System.out, epdSearchReportModel, nodesReportModel, evaluationReportModel);
@@ -127,7 +125,6 @@ public class EpdSearchMain {
         Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(searchSummaryPath.toFile()), true)) {
-
             new SummarySaver()
                     .withSearchSummaryModel(summaryModel)
                     .print(out);

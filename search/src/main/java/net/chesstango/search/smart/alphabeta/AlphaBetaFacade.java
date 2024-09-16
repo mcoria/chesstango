@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -33,12 +32,12 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     public void search() {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
+        final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                 alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
                 alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
-        int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
+        final int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        final short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {
@@ -75,7 +74,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
          */
         result.setSearchNextDepth(
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
+                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
     }
 }

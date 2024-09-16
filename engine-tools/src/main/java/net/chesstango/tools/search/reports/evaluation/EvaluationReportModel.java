@@ -99,8 +99,8 @@ public class EvaluationReportModel {
 
         EvaluationReportModelDetail reportModelDetail = new EvaluationReportModelDetail();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
-        reportModelDetail.evaluation = searchResult.getBestEvaluation();
+        reportModelDetail.move = bestMove != null ? simpleMoveEncoder.encode(bestMove) : "";
+        reportModelDetail.evaluation = searchResult.getBestEvaluation() != null ? searchResult.getBestEvaluation() : 0;
 
         if (searchResult.getEvaluationStatistics() != null) {
             collectEvaluationStatistics(reportModelDetail, searchResult);

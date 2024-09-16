@@ -139,8 +139,6 @@ public class ChainPrinter {
                 printChainTranspositionTable(transpositionTable, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBeta alphaBeta) {
                 printChainAlphaBeta(alphaBeta, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaHypothesisValidator alphaBetaHypothesisValidator) {
-                printChainAlphaBetaHypothesisValidator(alphaBetaHypothesisValidator, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaFlowControl alphaBetaFlowControl) {
                 printChainAlphaBetaFlowControl(alphaBetaFlowControl, nestedChain);
             } else if (alphaBetaFilter instanceof AlphaBetaEvaluation alphaBetaEvaluation) {
@@ -253,12 +251,6 @@ public class ChainPrinter {
 
     private void printChainAlphaBeta(AlphaBeta alphaBeta, int nestedChain) {
         printChainText(String.format("%s [%s]", objectText(alphaBeta), printMoveSorterText(alphaBeta.getMoveSorter())), nestedChain);
-        printChainDownLine(nestedChain);
-        printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
-    }
-
-    private void printChainAlphaBetaHypothesisValidator(AlphaBetaHypothesisValidator alphaBeta, int nestedChain) {
-        printChainText(String.format("%s", objectText(alphaBeta)), nestedChain);
         printChainDownLine(nestedChain);
         printChainAlphaBetaFilter(alphaBeta.getNext(), nestedChain);
     }

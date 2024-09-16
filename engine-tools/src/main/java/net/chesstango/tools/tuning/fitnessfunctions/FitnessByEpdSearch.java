@@ -63,8 +63,6 @@ public class FitnessByEpdSearch implements FitnessFunction {
                         .withRecaptureSorter()
                         .withMvvLvaSorter()
 
-                        .withEpdHypothesisValidator()
-
                         .build()
         );
 
@@ -72,7 +70,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         return epdSearchResults
                 .stream()
-                .mapToLong(epdSearchResult -> getPointsDepthV3(epdSearchResult.epd(), epdSearchResult.searchResult()))
+                .mapToLong(epdSearchResult -> getPointsDepthV3(epdSearchResult.getEpd(), epdSearchResult.getSearchResult()))
                 .sum();
     }
 
@@ -143,7 +141,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
 
     protected static long getPointsDepthV3(EPD epd, SearchResult searchResult) {
-        return searchResult.getExpectedRootBestMoveCounter();
+        return searchResult.getBottomMoveCounter();
     }
 
 }

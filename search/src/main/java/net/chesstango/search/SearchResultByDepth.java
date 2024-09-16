@@ -43,10 +43,10 @@ public class SearchResultByDepth {
     }
 
     public Move getBestMove() {
-        return bestMoveEvaluation.move();
+        return bestMoveEvaluation != null ? bestMoveEvaluation.move() : null;
     }
 
-    public int getBestEvaluation() {
-        return bestMoveEvaluation.evaluation();
+    public Integer getBestEvaluation() {
+        return bestMoveEvaluation != null ? bestMoveEvaluation.evaluation() : null;
     }
 }
