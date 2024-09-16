@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
-public class FitnessByEpdSearch implements FitnessFunction {
-    private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdSearch.class);
+public class FitnessByEpdBestMove implements FitnessFunction {
+    private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdBestMove.class);
     private static final int MAX_DEPTH = 1;
     private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov-only-nobook-1k.epd"
@@ -33,11 +33,11 @@ public class FitnessByEpdSearch implements FitnessFunction {
     private final List<EPD> edpEntries;
 
 
-    public FitnessByEpdSearch() {
+    public FitnessByEpdBestMove() {
         this(EPD_FILES, MAX_DEPTH);
     }
 
-    public FitnessByEpdSearch(List<String> epdFiles, int depth) {
+    public FitnessByEpdBestMove(List<String> epdFiles, int depth) {
         this.epdFiles = epdFiles;
         this.edpEntries = new LinkedList<>();
         this.depth = depth;
@@ -70,7 +70,7 @@ public class FitnessByEpdSearch implements FitnessFunction {
 
         return epdSearchResults
                 .stream()
-                .mapToLong(epdSearchResult -> getPointsDepthV3(epdSearchResult.getEpd(), epdSearchResult.getSearchResult()))
+                .mapToLong(epdSearchResult -> getPointsDepthV2(epdSearchResult.getEpd(), epdSearchResult.getSearchResult()))
                 .sum();
     }
 
@@ -137,11 +137,6 @@ public class FitnessByEpdSearch implements FitnessFunction {
             i++;
         }
         return points;
-    }
-
-
-    protected static long getPointsDepthV3(EPD epd, SearchResult searchResult) {
-        return searchResult.getBottomMoveCounter();
     }
 
 }
