@@ -7,6 +7,7 @@ import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
+import net.chesstango.tools.search.EpdSearchResultBuildWithBestMove;
 import net.chesstango.tools.search.reports.epd.EpdSearchReport;
 import net.chesstango.tools.search.reports.epd.EpdSearchReportModel;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
@@ -84,7 +85,7 @@ public class EpdSearchMain {
                         .withStatistics()
                         .build())
                 .setDepth(depth)
-                .setEpdSearchResultCreator(EpdSearch::epdSearchResultCreatorBestMove);
+                .setEpdSearchResultBuilder(new EpdSearchResultBuildWithBestMove());
 
         if (timeOut > 0) {
             this.epdSearch.setTimeOut(timeOut);

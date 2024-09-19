@@ -1,5 +1,6 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
+import lombok.Setter;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.evaluation.Evaluator;
@@ -23,8 +24,8 @@ public class FitnessByEpdBottomMoveCounter implements FitnessFunction {
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov-only-nobook-1k.epd"
     );
 
-    private final List<String> epdFiles;
     private final int depth;
+    private final List<String> epdFiles;
     private final List<EPD> edpEntries;
 
 
@@ -34,8 +35,8 @@ public class FitnessByEpdBottomMoveCounter implements FitnessFunction {
 
     public FitnessByEpdBottomMoveCounter(List<String> epdFiles, int depth) {
         this.epdFiles = epdFiles;
-        this.edpEntries = new LinkedList<>();
         this.depth = depth;
+        this.edpEntries = new LinkedList<>();
     }
 
     @Override

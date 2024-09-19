@@ -3,14 +3,11 @@ package net.chesstango.tools.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SANEncoder;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +22,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -37,11 +33,9 @@ import java.util.stream.Stream;
 public class EpdSearch {
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
 
-    private static final SANEncoder sanEncoder = new SANEncoder();
-
     private Supplier<Search> searchMoveSupplier;
 
-    private BiFunction<EPD, SearchResult, EpdSearchResult> epdSearchResultCreator = EpdSearchResult::new;
+    private EpdSearchResultBuilder epdSearchResultBuilder = EpdSearchResult::new;
 
     private int depth;
 
@@ -144,7 +138,7 @@ public class EpdSearch {
 
         search.reset();
 
-        return epdSearchResultCreator.apply(epd, searchResult);
+        return epdSearchResultBuilder.apply(epd, searchResult);
     }
 
     private record SearchJob(Instant startInstant, Search search) {
@@ -153,29 +147,4 @@ public class EpdSearch {
         }
     }
 
-
-    public static EpdSearchResult epdSearchResultCreatorBestMove(EPD epd, SearchResult searchResult) {
-        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
-
-        Move bestMove = searchResult.getBestMove();
-
-        String bestMoveAlgNotation = sanEncoder.encodeAlgebraicNotation(bestMove, game.getPossibleMoves());
-
-        return new EpdSearchResult(epd, searchResult)
-                .setSearchSuccess(epd.isMoveSuccess(bestMove))
-                .setBestMoveFound(bestMoveAlgNotation)
-                .setDepthAccuracyPct(calculateAccuracy(epd, searchResult.getSearchResultByDepths()));
-    }
-
-    private static int calculateAccuracy(EPD epd, List<SearchResultByDepth> searchResultByDepths) {
-        if (!searchResultByDepths.isEmpty()) {
-            long successCounter = searchResultByDepths
-                    .stream()
-                    .map(SearchResultByDepth::getBestMove)
-                    .filter(epd::isMoveSuccess)
-                    .count();
-            return (int) (successCounter * 100 / searchResultByDepths.size());
-        }
-        return 0;
-    }
 }
