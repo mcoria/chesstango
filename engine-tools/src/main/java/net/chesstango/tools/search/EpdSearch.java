@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 public class EpdSearch {
     private static final Logger logger = LoggerFactory.getLogger(EpdSearch.class);
 
-    private Supplier<Search> searchMoveSupplier;
+    private Supplier<Search> searchSupplier;
 
     private EpdSearchResultBuilder epdSearchResultBuilder = EpdSearchResult::new;
 
@@ -52,7 +52,7 @@ public class EpdSearch {
 
         BlockingQueue<Search> searchPool = new LinkedBlockingDeque<>(availableCores);
         for (int i = 0; i < availableCores; i++) {
-            searchPool.add(searchMoveSupplier.get());
+            searchPool.add(searchSupplier.get());
         }
 
         try (ExecutorService executorService = Executors.newFixedThreadPool(availableCores)) {

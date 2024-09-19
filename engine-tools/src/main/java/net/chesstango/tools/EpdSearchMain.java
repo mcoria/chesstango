@@ -79,7 +79,7 @@ public class EpdSearchMain {
     public EpdSearchMain(int depth, int timeOut) {
         this.depth = depth;
         this.epdSearch = new EpdSearch()
-                .setSearchMoveSupplier(() -> AlphaBetaBuilder
+                .setSearchSupplier(() -> AlphaBetaBuilder
                         // Hasta v0.0.27 se utilizó EvaluatorSEandImp02 (ahora EvaluatorImp04) como evaluador
                         .createDefaultBuilderInstance(new DefaultEvaluator())
                         .withStatistics()
