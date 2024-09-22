@@ -3,93 +3,60 @@ package net.chesstango.tools.tuning.fitnessfunctions;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.tools.search.EpdSearch;
-import net.chesstango.tools.search.EpdSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
  */
-public class FitnessByEpdBestMove implements FitnessFunction {
+public class FitnessByEpdBestMove extends FitnessByEpdAbstract {
     private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdBestMove.class);
     private static final int MAX_DEPTH = 1;
     private static final List<String> EPD_FILES = List.of(
             "C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\players\\Kasparov-only-nobook-1k.epd"
     );
 
-    private final List<String> epdFiles;
-    private final int depth;
-    private final List<EPD> edpEntries;
-
-
     public FitnessByEpdBestMove() {
-        this(EPD_FILES, MAX_DEPTH);
+        super(EPD_FILES, MAX_DEPTH);
     }
 
     public FitnessByEpdBestMove(List<String> epdFiles, int depth) {
-        this.epdFiles = epdFiles;
-        this.edpEntries = new LinkedList<>();
-        this.depth = depth;
+        super(EPD_FILES, MAX_DEPTH);
     }
 
     @Override
-    public long fitness(Supplier<Evaluator> gameEvaluatorSupplier) {
-        EpdSearch epdSearch = new EpdSearch();
+    protected Supplier<Search> createSearchSupplier(Supplier<Evaluator> gameEvaluatorSupplier) {
+        return () -> new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluatorSupplier.get())
+                .withGameEvaluatorCache()
 
-        epdSearch.setDepth(depth);
+                .withQuiescence()
 
-        epdSearch.setSearchMoveSupplier(() ->
-                new AlphaBetaBuilder()
-                        .withGameEvaluator(gameEvaluatorSupplier.get())
-                        .withGameEvaluatorCache()
+                .withTranspositionTable()
 
-                        .withQuiescence()
+                .withTranspositionMoveSorter()
+                .withKillerMoveSorter()
+                .withRecaptureSorter()
+                .withMvvLvaSorter()
 
-                        .withTranspositionTable()
-
-                        .withTranspositionMoveSorter()
-                        .withKillerMoveSorter()
-                        .withRecaptureSorter()
-                        .withMvvLvaSorter()
-
-                        .build()
-        );
-
-        List<EpdSearchResult> epdSearchResults = epdSearch.run(edpEntries.stream());
-
-        return epdSearchResults
-                .stream()
-                .mapToLong(epdSearchResult -> getPointsDepthV2(epdSearchResult.getEpd(), epdSearchResult.getSearchResult()))
-                .sum();
-    }
-
-    @Override
-    public void start() {
-        EPDDecoder reader = new EPDDecoder();
-
-        epdFiles.forEach(fileName -> reader.readEdpFile(fileName).forEach(edpEntries::add));
-    }
-
-    @Override
-    public void stop() {
+                .build();
     }
 
 
     /**
      * La unica verdad, es la realidad..... o lo que queremos predecir
      */
-    protected static long getPoints(EPD epd, SearchResult searchResult) {
+    @Override
+    protected long getPoints(EPD epd, SearchResult searchResult) {
         if (epd.isMoveSuccess(searchResult.getBestMove())) {
             return 1;
         }

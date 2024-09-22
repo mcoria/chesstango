@@ -13,6 +13,7 @@ import net.chesstango.search.smart.features.debug.traps.actions.PrintForUnitTest
 import net.chesstango.search.smart.features.debug.traps.predicates.NodeByZobrist;
 import net.chesstango.tools.search.EpdSearch;
 import net.chesstango.tools.search.EpdSearchResult;
+import net.chesstango.tools.search.EpdSearchResultBuildWithBestMove;
 import net.chesstango.tools.search.reports.evaluation.EvaluationReport;
 import net.chesstango.tools.search.reports.nodes.NodesReport;
 import net.chesstango.tools.search.reports.pv.PrincipalVariationReport;
@@ -40,7 +41,7 @@ public class EpdSearchBestMoveTest {
     public static void setup() {
         epdDecoder = new EPDDecoder();
         epdSearch = new EpdSearch()
-                .setEpdSearchResultCreator(EpdSearch::epdSearchResultCreatorBestMove);
+                .setEpdSearchResultBuilder(new EpdSearchResultBuildWithBestMove());
     }
 
     @AfterEach
