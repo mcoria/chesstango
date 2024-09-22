@@ -1,5 +1,6 @@
 package net.chesstango.tools.tuning.fitnessfunctions;
 
+import lombok.Setter;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
 import net.chesstango.evaluation.Evaluator;
@@ -20,9 +21,13 @@ import java.util.function.Supplier;
 public abstract class FitnessByEpdAbstract implements FitnessFunction {
     private static final Logger logger = LoggerFactory.getLogger(FitnessByEpdAbstract.class);
 
-    protected final List<String> epdFiles;
-    protected final int depth;
-    protected final List<EPD> edpEntries;
+    protected final List<EPD> edpEntries = new LinkedList<>();
+
+    @Setter
+    protected List<String> epdFiles;
+
+    @Setter
+    protected int depth;
 
     protected abstract Supplier<Search> createSearchSupplier(Supplier<Evaluator> gameEvaluatorSupplier);
 
@@ -31,7 +36,6 @@ public abstract class FitnessByEpdAbstract implements FitnessFunction {
 
     public FitnessByEpdAbstract(List<String> epdFiles, int depth) {
         this.epdFiles = epdFiles;
-        this.edpEntries = new LinkedList<>();
         this.depth = depth;
     }
 
