@@ -27,13 +27,14 @@ public class EvaluatorByMaterialFactory implements GameEvaluatorFactory {
 
         int computedKey = Arrays.hashCode(pieceValues);
 
-        //this.key = String.format("%s", Long.toUnsignedString(computedKey, 16));
-        this.key = String.format("%08x", computedKey);
+        this.key = Integer.toHexString(computedKey);
     }
 
     @Override
     public Evaluator createGameEvaluator() {
-        return new EvaluatorByMaterial(pieceValues[0], pieceValues[1], pieceValues[2], pieceValues[3], pieceValues[4]);
+        EvaluatorByMaterial.EvaluatorByMaterialTable table = new EvaluatorByMaterial.EvaluatorByMaterialTable(key,
+                pieceValues[0], pieceValues[1], pieceValues[2], pieceValues[3], pieceValues[4]);
+        return new EvaluatorByMaterial(table);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class EvaluatorByMaterialFactory implements GameEvaluatorFactory {
 
     @Override
     public String getRepresentation() {
-        EvaluatorByMaterial.Tables obj = new EvaluatorByMaterial.Tables(key,
+        EvaluatorByMaterial.EvaluatorByMaterialTable obj = new EvaluatorByMaterial.EvaluatorByMaterialTable(key,
                 pieceValues[0], pieceValues[1], pieceValues[2], pieceValues[3], pieceValues[4]);
 
         try {

@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
+@Disabled
 public class FitnessByEpdBottomMoveCounterTest {
     private FitnessByEpdBottomMoveCounter fitnessByEpdBottomMoveCounter;
 
@@ -35,8 +36,7 @@ public class FitnessByEpdBottomMoveCounterTest {
     @Disabled
     public void test01() {
         long fitness = fitnessByEpdBottomMoveCounter.fitness(() ->
-                new EvaluatorByMaterial(
-                        EvaluatorByMaterial.readValues("{\"id\":\"01fd3aaa\",\"pawn\":5,\"knight\":4,\"bishop\":7,\"rook\":6,\"queen\":9}"))
+                new EvaluatorByMaterial("{\"id\":\"01fd3aaa\",\"pawn\":5,\"knight\":4,\"bishop\":7,\"rook\":6,\"queen\":9}")
         );
         assertEquals(56037, fitness);
     }
