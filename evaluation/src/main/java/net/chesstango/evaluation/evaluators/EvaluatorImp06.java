@@ -48,6 +48,10 @@ public class EvaluatorImp06 extends AbstractEvaluator {
         this(readDefaultValues());
     }
 
+    public EvaluatorImp06(String json) {
+        this(readValues(json));
+    }
+
     public EvaluatorImp06(Tables tables) {
         this(tables.weighs,
                 tables.mgPawnTbl,
@@ -256,9 +260,13 @@ public class EvaluatorImp06 extends AbstractEvaluator {
                          int[] egKingTbl) {
     }
 
-    private static Tables readDefaultValues() {
-        try (InputStream inputStream = Tables.class.getClassLoader()
-                .getResourceAsStream("evaluatorImp06-tables.json");) {
+    public static Tables readDefaultValues() {
+        String fileName = "EvaluatorImp06.json";
+        try (InputStream inputStream = EvaluatorByMaterial.EvaluatorByMaterialTable.class.getClassLoader()
+                .getResourceAsStream(fileName)) {
+            if (inputStream == null) {
+                throw new RuntimeException(String.format("File doesn't exist: %s", fileName));
+            }
             return readValues(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);

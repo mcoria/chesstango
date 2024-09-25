@@ -27,8 +27,8 @@ public class EvaluatorByMaterial extends AbstractEvaluator {
         this(readDefaultValues());
     }
 
-    public EvaluatorByMaterial(Tables tables) {
-        this(tables.pawn, tables.knight, tables.bishop, tables.rook, tables.queen);
+    public EvaluatorByMaterial(String json) {
+        this(readValues(json));
     }
 
     public EvaluatorByMaterial(int pawn,
@@ -36,12 +36,15 @@ public class EvaluatorByMaterial extends AbstractEvaluator {
                                int bishop,
                                int rook,
                                int queen) {
-
         this.PAWN_VALUE = pawn;
         this.KNIGHT_VALUE = knight;
         this.BISHOP_VALUE = bishop;
         this.ROOK_VALUE = rook;
         this.QUEEN_VALUE = queen;
+    }
+
+    public EvaluatorByMaterial(EvaluatorByMaterialTable evaluatorByMaterialTable) {
+        this(evaluatorByMaterialTable.pawn, evaluatorByMaterialTable.knight, evaluatorByMaterialTable.bishop, evaluatorByMaterialTable.rook, evaluatorByMaterialTable.queen);
     }
 
     @Override
@@ -90,36 +93,40 @@ public class EvaluatorByMaterial extends AbstractEvaluator {
         };
     }
 
-    public record Tables(String id,
-                         int pawn,
-                         int knight,
-                         int bishop,
-                         int rook,
-                         int queen) {
+    public record EvaluatorByMaterialTable(String id,
+                                           int pawn,
+                                           int knight,
+                                           int bishop,
+                                           int rook,
+                                           int queen) {
     }
 
-    private static Tables readDefaultValues() {
-        try (InputStream inputStream = Tables.class.getClassLoader()
-                .getResourceAsStream("evaluatorByMaterial.json");) {
+    private static EvaluatorByMaterialTable readDefaultValues() {
+        String fileName = "EvaluatorByMaterial.json";
+        try (InputStream inputStream = EvaluatorByMaterialTable.class.getClassLoader()
+                .getResourceAsStream(fileName)) {
+            if (inputStream == null) {
+                throw new RuntimeException(String.format("File doesn't exist: %s", fileName));
+            }
             return readValues(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Tables readValues(InputStream inputStream) {
+    private static EvaluatorByMaterialTable readValues(InputStream inputStream) {
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(inputStreamReader, Tables.class);
+            return objectMapper.readValue(inputStreamReader, EvaluatorByMaterialTable.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Tables readValues(String dump) {
+    private static EvaluatorByMaterialTable readValues(String dump) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(dump, Tables.class);
+            return objectMapper.readValue(dump, EvaluatorByMaterialTable.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

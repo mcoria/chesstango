@@ -5,7 +5,7 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
 import net.chesstango.tools.tuning.factories.GameEvaluatorFactory;
-import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdBottomMoveCounter;
+import net.chesstango.tools.tuning.fitnessfunctions.FitnessByEpdBestMove;
 import net.chesstango.tools.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.tools.tuning.geneticproviders.GPEvaluatorByMaterial;
 import net.chesstango.tools.tuning.geneticproviders.GeneticProvider;
@@ -20,7 +20,7 @@ import java.util.concurrent.Executor;
 public class JeneticsMain extends EvalTuningAbstract {
     private static final Logger logger = LoggerFactory.getLogger(JeneticsMain.class);
     private static final int POPULATION_SIZE = 20;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int GENERATION_LIMIT = 200;
     private volatile boolean stopped;
 
     public static void main(String[] args) {
@@ -28,9 +28,7 @@ public class JeneticsMain extends EvalTuningAbstract {
         GeneticProvider geneticProvider = new GPEvaluatorByMaterial();
         //GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
-        //FitnessFunction fitnessFunction = new FitnessByMatch();
-        FitnessFunction fitnessFunction = new FitnessByEpdBottomMoveCounter();
-        //FitnessFunction fitnessFunction = new FitnessByLeastSquare();
+        FitnessFunction fitnessFunction = new FitnessByEpdBestMove();
 
         JeneticsMain main = new JeneticsMain(fitnessFunction, geneticProvider);
 

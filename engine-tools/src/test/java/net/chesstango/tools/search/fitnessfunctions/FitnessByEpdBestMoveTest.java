@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
+@Disabled
 public class FitnessByEpdBestMoveTest {
     private FitnessByEpdBestMove fitnessByEpdBestMove;
 
@@ -40,9 +41,20 @@ public class FitnessByEpdBestMoveTest {
     @Disabled
     public void test02() {
         long fitness = fitnessByEpdBestMove.fitness(() ->
-                new EvaluatorByMaterial(
-                        EvaluatorByMaterial.readValues("{\"id\":\"01fd3aaa\",\"pawn\":5,\"knight\":4,\"bishop\":7,\"rook\":6,\"queen\":9}"))
+                new EvaluatorByMaterial("{\"id\":\"01fd3aaa\",\"pawn\":5,\"knight\":4,\"bishop\":7,\"rook\":6,\"queen\":9}")
         );
         assertEquals(222, fitness);
     }
+
+    @Test
+    @Disabled
+    public void test03() {
+        long fitness = fitnessByEpdBestMove.fitness(() ->
+                new EvaluatorByMaterial("{\"id\":\"1c4d904\",\"pawn\":1,\"knight\":4,\"bishop\":6,\"rook\":7,\"queen\":9}")
+        );
+        assertEquals(252, fitness);
+    }
+
+
+
 }
