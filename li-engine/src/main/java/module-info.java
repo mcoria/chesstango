@@ -6,7 +6,6 @@ module net.chesstango.li.engine {
     requires net.chesstango.engine;
     requires net.chesstango.search;
     requires net.chesstango.board;
-    requires net.chesstango.uci;
     requires static lombok;
     requires java.management;
 }

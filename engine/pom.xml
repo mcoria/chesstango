@@ -24,10 +24,6 @@
         </dependency>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>uci-protocol</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
             <artifactId>search</artifactId>
         </dependency>
 
