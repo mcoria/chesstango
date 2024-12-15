@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.chesstango</groupId>
-    <artifactId>chesstango</artifactId>
+    <artifactId>chesstango-engine-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -18,10 +18,6 @@
         <module>engine</module>
         <module>uci-engine</module>
         <module>li-engine</module>
-        <module>uci-arena-ipc</module>
-        <module>uci-arena</module>
-        <module>uci-arena-tv</module>
-        <module>engine-tools</module>
     </modules>
 
     <properties>
