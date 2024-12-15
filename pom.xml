@@ -16,7 +16,6 @@
         <module>evaluation</module>
         <module>search</module>
         <module>engine</module>
-        <module>uci-protocol</module>
         <module>uci-engine</module>
         <module>li-engine</module>
         <module>uci-arena-ipc</module>
@@ -42,6 +41,7 @@
         <jenetics.version>8.0.0</jenetics.version>
         <py4j.version>0.10.9.7</py4j.version>
         <commons-cli.version>1.8.0</commons-cli.version>
+        <uci-protocol.version>1.0.0</uci-protocol.version>
     </properties>
 
     <build>
@@ -176,7 +176,7 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>uci-protocol</artifactId>
-                <version>${project.version}</version>
+                <version>${uci-protocol.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
