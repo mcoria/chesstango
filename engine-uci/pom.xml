@@ -78,7 +78,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>net.chesstango.uci.service.UciMain</mainClass>
+                            <mainClass>net.chesstango.uci.engine.service.UciMain</mainClass>
                         </transformer>
                     </transformers>
                     <filters>
