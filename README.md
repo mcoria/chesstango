@@ -23,11 +23,6 @@ While I've certainly taken performance considerations into account, the predomin
   - piece-centric bitboard representation
 - Move generation 
   - Implementation has been [tested](PerftMainTestSuiteResult.txt) with +100K positions (perft)
-- Representations
-  - Forsyth–Edwards Notation (FEN)
-  - Portable Game Notation (PGN) 
-  - Extended Position Description (EPD)
-  - Standard Algebraic Notation (SAN)
 - Search
   - Alpha Beta Pruning
   - Zobrist hash
@@ -37,11 +32,16 @@ While I've certainly taken performance considerations into account, the predomin
   - Transposition Tables
 - Evaluation
   - Piece-Square Tables
-- Polyglot Opening Books
-- Communication protocols
+- Engine
+  - Polyglot Opening Books
+- Supported communication protocols
   - Universal Chess Interface (UCI)
   - [Lichess API](https://lichess.org/api)
-- Arena for tournaments between ChessTango vs other UCI-compliant engines
+- Supported formats
+  - Forsyth–Edwards Notation (FEN)
+  - Portable Game Notation (PGN)
+  - Extended Position Description (EPD)
+  - Standard Algebraic Notation (SAN)
 - GraalVM for native image (.exe) packaging  
 
 # Usage
@@ -59,6 +59,7 @@ While I've certainly taken performance considerations into account, the predomin
 
 ## Lichess BOT
 If you prefer to play on-line you can challenge [chesstango_bot](https://lichess.org/@/chesstango_bot).
+Keep in mind the engine may be offline, I occasionally run it for fun.  
 For the moment Standard time-controlled (Bullet/Blitz/Rapid) games are acceptable.
 
 

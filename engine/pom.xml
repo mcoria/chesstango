@@ -3,10 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.chesstango</groupId>
-        <artifactId>chesstango-engine-parent</artifactId>
+        <artifactId>engine-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <description>Abstract chess engine independent of any communication protocol</description>
     <artifactId>engine</artifactId>
     <packaging>jar</packaging>
 

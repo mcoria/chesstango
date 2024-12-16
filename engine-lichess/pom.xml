@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.chesstango</groupId>
-        <artifactId>chesstango-engine-parent</artifactId>
+        <artifactId>engine-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>uci-engine</artifactId>
+    <artifactId>engine-lichess</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -23,20 +24,23 @@
             <artifactId>engine</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>uci-protocol</artifactId>
+            <groupId>io.github.tors42</groupId>
+            <artifactId>chariot</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <!-- Por el momento no nungun tipo de log -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
             <scope>runtime</scope>
         </dependency>
-
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -76,8 +80,9 @@
                 <configuration>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
                     <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>net.chesstango.uci.service.UciMain</mainClass>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>net.chesstango.li.LichessBotMain</mainClass>
                         </transformer>
                     </transformers>
                     <filters>
@@ -88,7 +93,7 @@
                             </excludes>
                         </filter>
                     </filters>
-                    <finalName>chesstango-uci</finalName>
+                    <finalName>chesstango-lichess</finalName>
                 </configuration>
             </plugin>
         </plugins>
