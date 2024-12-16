@@ -1,4 +1,4 @@
-package net.chesstango.li;
+package net.chesstango.lichess;
 
 import chariot.api.ChallengesAuthCommon;
 import chariot.model.*;

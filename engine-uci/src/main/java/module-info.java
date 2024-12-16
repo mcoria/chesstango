@@ -1,8 +1,8 @@
 module net.chesstango.uci.engine {
-    exports net.chesstango.uci.engine;
-    exports net.chesstango.uci.service;
-    exports net.chesstango.uci;
-    exports net.chesstango.uci.proxy;
+    exports net.chesstango.uci.engine.states;
+    exports net.chesstango.uci.engine.service;
+    exports net.chesstango.uci.engine.proxy;
+
     requires net.chesstango.search;
     requires net.chesstango.board;
     requires net.chesstango.uci;

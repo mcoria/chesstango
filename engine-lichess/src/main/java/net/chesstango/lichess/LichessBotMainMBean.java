@@ -1,4 +1,4 @@
-package net.chesstango.li;
+package net.chesstango.lichess;
 
 /**
  * @author Mauricio Coria

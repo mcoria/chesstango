@@ -1,4 +1,4 @@
-package net.chesstango.li;
+package net.chesstango.lichess;
 
 import chariot.api.ChallengesAuthCommon;
 import chariot.model.Enums;
@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
-
-import static net.chesstango.li.LichessChallenger.ChallengeType.*;
 
 public class LichessChallenger {
     public enum ChallengeType {BULLET, BLITZ, RAPID};

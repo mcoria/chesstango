@@ -1,4 +1,4 @@
-package net.chesstango.li;
+package net.chesstango.lichess;
 
 import chariot.model.*;
 import org.slf4j.Logger;

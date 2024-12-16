@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.states;
 
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;

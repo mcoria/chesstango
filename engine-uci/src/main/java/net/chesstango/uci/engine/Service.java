@@ -1,4 +1,4 @@
-package net.chesstango.uci;
+package net.chesstango.uci.engine;
 
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 

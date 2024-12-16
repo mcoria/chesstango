@@ -1,8 +1,8 @@
 
-package net.chesstango.uci;
+package net.chesstango.uci.engine;
 
-import net.chesstango.uci.engine.UciTangoTest;
-import net.chesstango.uci.service.UciMainTangoTest;
+import net.chesstango.uci.engine.states.UciTangoTest;
+import net.chesstango.uci.engine.service.UciMainTangoTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.states;
 
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;

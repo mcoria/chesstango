@@ -1,14 +1,13 @@
-package net.chesstango.uci.service;
+package net.chesstango.uci.engine.service;
 
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.Service;
-import net.chesstango.uci.engine.UciTango;
+import net.chesstango.uci.engine.Service;
+import net.chesstango.uci.engine.states.UciTango;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
-import net.chesstango.uci.proxy.UciProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

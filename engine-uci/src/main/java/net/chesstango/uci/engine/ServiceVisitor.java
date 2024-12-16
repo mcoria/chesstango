@@ -1,7 +1,7 @@
-package net.chesstango.uci;
+package net.chesstango.uci.engine;
 
-import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.proxy.UciProxy;
+import net.chesstango.uci.engine.states.UciTango;
+import net.chesstango.uci.engine.proxy.UciProxy;
 
 /**
  * @author Mauricio Coria

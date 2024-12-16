@@ -1,10 +1,10 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.states;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.Service;
-import net.chesstango.uci.ServiceVisitor;
+import net.chesstango.uci.engine.Service;
+import net.chesstango.uci.engine.ServiceVisitor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;

@@ -4,9 +4,9 @@
 		<appender-ref ref="FILE" />
 	</root>
 
-	<logger level="info" name="net.chesstango.li" />
+	<logger level="info" name="net.chesstango.lichess" />
 
-	<logger level="info" name="net.chesstango.li.LichessTango">
+	<logger level="info" name="net.chesstango.lichess.LichessTango">
 		<appender-ref ref="SIFT" />
 	</logger>
 

@@ -1,4 +1,4 @@
-package net.chesstango.uci.proxy;
+package net.chesstango.uci.engine.proxy;
 
 
 import net.chesstango.uci.protocol.requests.*;

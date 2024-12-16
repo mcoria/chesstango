@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.states;
 
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;

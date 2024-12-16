@@ -1,5 +1,4 @@
-
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.states;
 
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 

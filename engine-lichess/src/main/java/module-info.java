@@ -1,5 +1,5 @@
-module net.chesstango.li.engine {
-    exports net.chesstango.li;
+module net.chesstango.lichess.engine {
+    exports net.chesstango.lichess;
 
     requires chariot;
     requires org.slf4j;

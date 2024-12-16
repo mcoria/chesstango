@@ -1,13 +1,7 @@
+package net.chesstango.uci.engine.service;
 
-package net.chesstango.uci.service;
-
-
-import net.chesstango.uci.proxy.SpikeProxy;
-import net.chesstango.uci.proxy.UciProxy;
-import net.chesstango.uci.service.UciMain;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import net.chesstango.uci.engine.states.UciTango;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,18 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class UciMainProxyIntegrationTest {
+public class UciMainTangoTest {
 
     private ExecutorService executorService;
 
 
     @BeforeEach
-    public void setup() {
+    public void setup(){
         executorService = Executors.newSingleThreadExecutor();
     }
 
     @AfterEach
-    public void end() {
+    public void end(){
         executorService.shutdown();
         try {
             executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
@@ -44,13 +38,12 @@ public class UciMainProxyIntegrationTest {
     }
 
     @Test
-    public void test_playProxy() throws IOException, InterruptedException {
-        List<String> lines = null;
-
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
+    public void test_playTango() throws IOException, InterruptedException {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        UciProxy engine = new UciProxy(SpikeProxy.INSTANCE);
+        UciTango engine = new UciTango();
 
         UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
         executorService.submit(uciMain::run);
@@ -60,42 +53,32 @@ public class UciMainProxyIntegrationTest {
 
         // uci command
         out.println("uci");
-        Thread.sleep(200);
-        lines = readLastLine(in, "uciok"::equals);
-        assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
+        assertTrue(in.readLine().startsWith("id name Tango"));
+        assertEquals("id author Mauricio Coria", in.readLine());
+        assertEquals("uciok", in.readLine());
 
         // isready command
         out.println("isready");
-        Thread.sleep(200);
         assertEquals("readyok", in.readLine());
 
         // ucinewgame command
         out.println("ucinewgame");
-        Thread.sleep(200);
 
         // isready command
         out.println("isready");
-        Thread.sleep(200);
+        assertEquals("readyok", in.readLine());
 
         // isrpositioneady command
-        out.println("position startpos");
-        Thread.sleep(200);
-
-        // go command
-        out.println("go depth 1");
-        Thread.sleep(200);
-
-        lines = readLastLine(in, line -> line.startsWith("bestmove"));
-        assertTrue(lines.size() > 0);
+        out.println("position startpos moves e2e4");
 
         // quit command
         out.println("quit");
 
-        while (uciMain.isRunning()) {
+        while (uciMain.isRunning()){
             Thread.sleep(200);
-        }
-        ;
+        };
     }
+
 
     private List<String> readLastLine(BufferedReader input, Predicate<String> breakCondition) throws IOException {
         List<String> result = new ArrayList<>();

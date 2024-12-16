@@ -1,4 +1,4 @@
-package net.chesstango.uci.proxy;
+package net.chesstango.uci.engine.proxy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,8 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringActionSupplier;
-import net.chesstango.uci.Service;
-import net.chesstango.uci.ServiceVisitor;
+import net.chesstango.uci.engine.Service;
+import net.chesstango.uci.engine.ServiceVisitor;
 
 import java.io.*;
 import java.util.ArrayList;
