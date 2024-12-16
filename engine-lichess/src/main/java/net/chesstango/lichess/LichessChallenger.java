@@ -1,6 +1,6 @@
 package net.chesstango.lichess;
 
-import chariot.api.ChallengesAuthCommon;
+import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.Enums;
 import chariot.model.User;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class LichessChallenger {
 
 
     public void challengeUser(String username, ChallengeType challengeType) {
-        Consumer<ChallengesAuthCommon.ChallengeBuilder> challengeBuilderConsumer = (builder) -> {
+        Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer = (builder) -> {
             switch (challengeType) {
                 case BULLET -> builder.clockBullet2m1s()
                         .color(Enums.ColorPref.random)

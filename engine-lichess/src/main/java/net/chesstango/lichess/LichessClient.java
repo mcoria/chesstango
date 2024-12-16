@@ -1,7 +1,7 @@
 package net.chesstango.lichess;
 
 import chariot.ClientAuth;
-import chariot.api.ChallengesAuthCommon;
+import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.*;
 
 import java.util.List;
@@ -69,7 +69,7 @@ public class LichessClient {
         throw new RuntimeException("Rating not found");
     }
 
-    public void challengeUser(User user, Consumer<ChallengesAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
+    public void challengeUser(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
         client.challenges().challenge(user.id(), challengeBuilderConsumer);
     }
 

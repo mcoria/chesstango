@@ -119,10 +119,10 @@ public class LichessTango implements Runnable {
         logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
         GameType gameType = gameFullEvent.gameType();
-        VariantType gameVariant = gameType.variant();
-        if (VariantType.Variant.standard.equals(gameType.variant())) {
+        Variant gameVariant = gameType.variant();
+        if (Variant.Basic.standard.equals(gameType.variant())) {
             fenPosition = FENDecoder.INITIAL_FEN;
-        } else if (gameVariant instanceof VariantType.Variant.FromPosition fromPositionVariant) {
+        } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Some<String> someFen = (Some) fromPositionVariant.fen();
 
             fenPosition = someFen.value();

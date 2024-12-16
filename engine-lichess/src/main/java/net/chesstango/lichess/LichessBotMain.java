@@ -39,7 +39,7 @@ public class LichessBotMain implements Runnable, LichessBotMainMBean {
 
         ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), BOT_TOKEN);
 
-        if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
+        if (clientAuth.scopes().stream().anyMatch(Client.Scope.bot_play::equals)) {
             logger.info("Start playing as a bot");
             new LichessBotMain(new LichessClient(clientAuth))
                     .run();

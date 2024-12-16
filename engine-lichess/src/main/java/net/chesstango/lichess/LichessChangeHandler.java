@@ -104,8 +104,8 @@ public class LichessChangeHandler {
         return "BOT".equals(userTitle) && player.rating() <= myRating + LichessChallengerBot.RATING_THRESHOLD;
     }
 
-    private static boolean isVariantAcceptable(VariantType variant) {
-        return VariantType.Variant.standard.equals(variant) || variant instanceof VariantType.FromPosition;
+    private static boolean isVariantAcceptable(Variant variant) {
+        return Variant.Basic.standard.equals(variant) || variant instanceof Variant.FromPosition;
     }
 
     private static boolean isTimeControlAcceptable(TimeControl timeControl) {

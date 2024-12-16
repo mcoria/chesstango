@@ -1,6 +1,6 @@
 package net.chesstango.lichess;
 
-import chariot.api.ChallengesAuthCommon;
+import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.*;
 
 import java.util.*;
@@ -13,7 +13,7 @@ public abstract class LichessChallengerBot {
     public static final int RATING_THRESHOLD = 100;
     private final LichessClient client;
     private final Queue<User> botsOnline = new LinkedList<>();
-    protected final List<Consumer<ChallengesAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
+    protected final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
 
     protected abstract StatsPerfType getRatingType();
 
@@ -43,9 +43,9 @@ public abstract class LichessChallengerBot {
         return botsOnline.poll();
     }
 
-    private void consumeChallengeBuilder(ChallengesAuthCommon.ChallengeBuilder challengeBuilder) {
+    private void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
         Random rand = new Random();
-        Consumer<ChallengesAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
+        Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
         element.accept(challengeBuilder);
     }
 
