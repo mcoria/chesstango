@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine.engine;
 
 import lombok.Getter;
 import lombok.Setter;

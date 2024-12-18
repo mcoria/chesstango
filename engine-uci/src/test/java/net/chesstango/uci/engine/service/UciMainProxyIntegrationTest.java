@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine.service;
 
 
+import net.chesstango.uci.engine.UciMain;
 import net.chesstango.uci.engine.proxy.SpikeProxy;
 import net.chesstango.uci.engine.proxy.UciProxy;
 import org.junit.jupiter.api.AfterEach;
@@ -51,7 +52,7 @@ public class UciMainProxyIntegrationTest {
         UciProxy engine = new UciProxy(SpikeProxy.INSTANCE);
 
         UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
-        executorService.submit(uciMain::run);
+        executorService.submit(uciMain);
 
         PrintStream out = new PrintStream(outputToEngine, true);
         BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));

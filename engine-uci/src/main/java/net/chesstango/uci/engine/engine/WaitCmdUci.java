@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine.engine;
 
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;
@@ -9,7 +9,7 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
 /**
  * @author Mauricio Coria
  */
-public class WaitCmdUci implements UCIEngine {
+class WaitCmdUci implements UCIEngine {
     private final UciTango uciTango;
 
     protected WaitCmdUci(UciTango uciTango) {
