@@ -16,7 +16,7 @@ import java.io.*;
 /**
  * @author Mauricio Coria
  */
-public class UciMain implements Runnable{
+public class UciMain implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(UciMain.class);
     private final Service service;
     private final InputStream in;
@@ -48,7 +48,7 @@ public class UciMain implements Runnable{
         this.pipe.setOutputStream(this.service);
 
         try {
-            logger.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR,  Tango.ENGINE_VERSION);
+            logger.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR, Tango.ENGINE_VERSION);
 
             service.open();
 

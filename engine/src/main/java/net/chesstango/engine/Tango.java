@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.engine.manager.SearchManager;
 import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
