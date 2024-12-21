@@ -28,8 +28,6 @@ public class UciMain implements Runnable {
 
     public static void main(String[] args) {
         UciMain uciMain = new UciMain(new UciTango(), System.in, System.out);
-        //ServiceMain serviceMain = new ServiceMain(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")), System.in, System.out);
-
         uciMain.run();
     }
 

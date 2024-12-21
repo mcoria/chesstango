@@ -1,6 +1,5 @@
-package net.chesstango.uci.engine.service;
+package net.chesstango.uci.engine;
 
-import net.chesstango.uci.engine.UciMain;
 import net.chesstango.uci.engine.engine.UciTango;
 import org.junit.jupiter.api.*;
 

@@ -1,7 +1,6 @@
 module net.chesstango.uci.engine {
     exports net.chesstango.uci.engine;
     exports net.chesstango.uci.engine.engine;
-    exports net.chesstango.uci.engine.proxy;
 
     requires net.chesstango.search;
     requires net.chesstango.board;
