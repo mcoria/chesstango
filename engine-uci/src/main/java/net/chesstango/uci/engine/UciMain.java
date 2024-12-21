@@ -2,6 +2,7 @@ package net.chesstango.uci.engine;
 
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.engine.UciTango;
+import net.chesstango.uci.protocol.UciService;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
@@ -17,7 +18,7 @@ import java.io.*;
  */
 public class UciMain implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(UciMain.class);
-    private final Service service;
+    private final UciService service;
     private final InputStream in;
 
     private final PrintStream out;
@@ -32,7 +33,7 @@ public class UciMain implements Runnable {
         uciMain.run();
     }
 
-    public UciMain(Service service, InputStream in, PrintStream out) {
+    public UciMain(UciService service, InputStream in, PrintStream out) {
         this.service = service;
         this.in = in;
         this.out = out;

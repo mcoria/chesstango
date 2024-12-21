@@ -3,8 +3,6 @@ package net.chesstango.uci.engine.engine;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.Service;
-import net.chesstango.uci.engine.ServiceVisitor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
@@ -13,10 +11,12 @@ import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.chesstango.uci.protocol.UciService;
+
 /**
  * @author Mauricio Coria
  */
-public class UciTango implements Service {
+public class UciTango implements UciService {
     private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
 
     @Getter
@@ -88,11 +88,6 @@ public class UciTango implements Service {
         this.tango.setListenerClient(this.searchingState);
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
-    }
-
-    @Override
-    public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
     }
 
     @Override
