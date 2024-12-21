@@ -1,21 +1,17 @@
 package net.chesstango.uci.engine.proxy;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import net.chesstango.uci.engine.Service;
+import net.chesstango.uci.engine.ServiceVisitor;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
-import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringActionSupplier;
-import net.chesstango.uci.engine.Service;
-import net.chesstango.uci.engine.ServiceVisitor;
+import net.chesstango.uci.protocol.stream.strings.StringSupplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.InputStreamReader;
 import java.util.function.Supplier;
 
 /**
@@ -23,13 +19,12 @@ import java.util.function.Supplier;
  */
 public class UciProxy implements Service {
     private static final Logger logger = LoggerFactory.getLogger(UciProxy.class);
-    private final ProxyConfig config;
-    private Process process;
-    private InputStream inputStreamProcess;
-    private PrintStream outputStreamProcess;
+
+    private final UCIActiveStreamReader pipe;
+
     private UCIOutputStream responseOutputStream;
-    private UCIActiveStreamReader pipe;
     private Thread readingPipeThread;
+    private UciProcess uciProcess;
 
 
     /**
@@ -38,25 +33,36 @@ public class UciProxy implements Service {
      */
     public UciProxy(ProxyConfig config) {
         this.pipe = new UCIActiveStreamReader();
-        this.config = config;
+        this.uciProcess = new UciProcess(config);
     }
 
+    @Override
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
+    }
 
     @Override
     public void accept(UCIMessage message) {
-        if (outputStreamProcess == null) {
-            waitProcessStart();
+        if (uciProcess.outputStreamProcess == null) {
+            uciProcess.waitProcessStart();
         }
 
         logger.trace("proxy >> {}", message);
 
-        outputStreamProcess.println(message);
+        uciProcess.outputStreamProcess.println(message);
     }
-
 
     @Override
     public void open() {
-        startProcess();
+        uciProcess.startProcess();
+
+        Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(uciProcess.inputStreamProcess));
+
+        stringSupplier = new StringActionSupplier(stringSupplier, line -> logger.trace("proxy << {}", line));
+
+        pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
+        pipe.setOutputStream(responseOutputStream);
+
         readingPipeThread = new Thread(this::readFromProcess);
         readingPipeThread.start();
     }
@@ -65,7 +71,7 @@ public class UciProxy implements Service {
     public void close() {
         pipe.stopReading();
 
-        closeProcessIO();
+        uciProcess.closeProcessIO();
 
         try {
             readingPipeThread.join();
@@ -73,7 +79,7 @@ public class UciProxy implements Service {
             throw new RuntimeException(e);
         }
 
-        stopProcess();
+        uciProcess.stopProcess();
     }
 
     @Override
@@ -81,87 +87,9 @@ public class UciProxy implements Service {
         this.responseOutputStream = output;
     }
 
-    private void closeProcessIO() {
-        try {
-            outputStreamProcess.close();
-            inputStreamProcess.close();
-        } catch (IOException e) {
-            logger.error("Error:", e);
-        }
-    }
-
-    private void startProcess() {
-        List<String> commandAndArguments = new ArrayList<>();
-
-        commandAndArguments.add(config.getExe());
-
-        if (config.getParams() != null) {
-            String[] parameters = config.getParams().split(" ");
-            if (parameters.length > 0) {
-                commandAndArguments.addAll(Arrays.stream(parameters).toList());
-            }
-        }
-
-        ProcessBuilder processBuilder = new ProcessBuilder(commandAndArguments);
-        processBuilder.directory(new File(config.getDirectory()));
-
-        try {
-            synchronized (this) {
-                process = processBuilder.start();
-
-                inputStreamProcess = process.getInputStream();
-                outputStreamProcess = new PrintStream(process.getOutputStream(), true);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
-
-        stringSupplier = new StringActionSupplier(stringSupplier, line -> logger.trace("proxy << {}", line));
-
-        pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
-        pipe.setOutputStream(responseOutputStream);
-    }
-
-    private void stopProcess() {
-        logger.debug("stopProcess() invoked");
-
-        try {
-            process.waitFor();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        logger.debug("stopProcess() finished");
-    }
-
-    private void waitProcessStart() {
-        int counter = 0;
-        try {
-            do {
-                counter++;
-                synchronized (this) {
-                    this.wait(100);
-                }
-            } while (outputStreamProcess == null && counter < 10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        if (outputStreamProcess == null) {
-            throw new RuntimeException("Process has not started yet");
-        }
-    }
-
     private void readFromProcess() {
         logger.debug("readFromPipe(): start reading engine output");
         pipe.run();
         logger.debug("readFromPipe():end reading engine output");
-    }
-
-
-    @Override
-    public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
     }
 }

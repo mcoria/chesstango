@@ -91,16 +91,16 @@ public class UciTango implements Service {
     }
 
     @Override
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
+    }
+
+    @Override
     public void accept(UCIMessage message) {
         logger.trace("tango << {}", message);
         synchronized (engineExecutor) {
             engineExecutor.accept(message);
         }
-    }
-
-    @Override
-    public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
     }
 
     @Override
