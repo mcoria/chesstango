@@ -11,12 +11,12 @@ import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.chesstango.uci.protocol.UciService;
+import net.chesstango.uci.protocol.UCIService;
 
 /**
  * @author Mauricio Coria
  */
-public class UciTango implements UciService {
+public class UciTango implements UCIService {
     private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
 
     @Getter
