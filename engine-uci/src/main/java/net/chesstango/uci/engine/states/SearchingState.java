@@ -1,10 +1,12 @@
-package net.chesstango.uci.engine.engine;
+package net.chesstango.uci.engine.states;
 
+import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -13,11 +15,15 @@ import net.chesstango.uci.protocol.responses.RspInfo;
 /**
  * @author Mauricio Coria
  */
-class Searching implements UCIEngine, SearchListener {
+public class SearchingState implements UCIEngine, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     private final UciTango uciTango;
 
-    protected Searching(UciTango uciTango) {
+    @Setter
+    private ReadyState readyState;
+
+    public SearchingState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 
@@ -45,12 +51,12 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-        uciTango.tango.stopSearching();
+        uciTango.getTango().stopSearching();
     }
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        uciTango.tango.stopSearching();
+        uciTango.getTango().stopSearching();
         uciTango.close();
     }
 
@@ -74,10 +80,10 @@ class Searching implements UCIEngine, SearchListener {
     public void searchFinished(SearchResult searchResult) {
         String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
 
-        synchronized (uciTango.engineExecutor) {
+        synchronized (uciTango.getEngineExecutor()) {
             uciTango.reply(new RspBestMove(selectedMoveStr));
 
-            uciTango.currentState = uciTango.readyState;
+            uciTango.setCurrentState(readyState);
         }
     }
 }

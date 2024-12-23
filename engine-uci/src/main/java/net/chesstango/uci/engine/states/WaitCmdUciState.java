@@ -1,6 +1,8 @@
-package net.chesstango.uci.engine.engine;
+package net.chesstango.uci.engine.states;
 
+import lombok.Setter;
 import net.chesstango.engine.Tango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
@@ -9,10 +11,13 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
 /**
  * @author Mauricio Coria
  */
-class WaitCmdUci implements UCIEngine {
+public class WaitCmdUciState implements UCIEngine {
     private final UciTango uciTango;
 
-    protected WaitCmdUci(UciTango uciTango) {
+    @Setter
+    private ReadyState readyState;
+
+    public WaitCmdUciState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 
@@ -25,7 +30,7 @@ class WaitCmdUci implements UCIEngine {
         uciTango.reply(new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
         uciTango.reply(new RspUciOk());
-        uciTango.currentState = uciTango.readyState;
+        uciTango.setCurrentState(readyState);
     }
 
     @Override

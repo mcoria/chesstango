@@ -1,7 +1,9 @@
-package net.chesstango.uci.engine.engine;
+package net.chesstango.uci.engine.states;
 
+import lombok.Setter;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
@@ -9,12 +11,16 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 /**
  * @author Mauricio Coria
  */
-class Ready implements UCIEngine {
+public class ReadyState implements UCIEngine {
 
     public static final String POLYGLOT_BOOK = "PolyglotBook";
+
     private final UciTango uciTango;
 
-    protected Ready(UciTango uciTango) {
+    @Setter
+    private WaitCmdGoState waitCmdGoState;
+
+    public ReadyState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 
@@ -26,14 +32,14 @@ class Ready implements UCIEngine {
     public void do_setOption(CmdSetOption cmdSetOption) {
         switch (cmdSetOption.getId()) {
             case POLYGLOT_BOOK:
-                this.uciTango.tango.setPolyglotBook(cmdSetOption.getValue());
+                this.uciTango.getTango().setPolyglotBook(cmdSetOption.getValue());
         }
     }
 
     @Override
 
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-        uciTango.tango.newGame();
+        uciTango.getTango().newGame();
     }
 
     @Override
@@ -58,10 +64,10 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
+        uciTango.getTango().setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
                         ? FEN.of(FENDecoder.INITIAL_FEN)
                         : FEN.of(cmdPosition.getFen())
                 , cmdPosition.getMoves());
-        uciTango.currentState = uciTango.waitCmdGoState;
+        uciTango.setCurrentState(waitCmdGoState);;
     }
 }

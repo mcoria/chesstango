@@ -1,7 +1,6 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.engine.UciTango;
 import net.chesstango.uci.protocol.UCIService;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;

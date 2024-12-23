@@ -1,8 +1,11 @@
-package net.chesstango.uci.engine.engine;
+package net.chesstango.uci.engine;
 
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
+import net.chesstango.uci.engine.states.ReadyState;
+import net.chesstango.uci.engine.states.WaitCmdGoState;
+import net.chesstango.uci.engine.states.WaitCmdUciState;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
@@ -108,33 +111,33 @@ public class UciTangoTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
         // Initial state
-        assertEquals(WaitCmdUci.class, engine.currentState.getClass());
+        assertEquals(WaitCmdUciState.class, engine.currentState.getClass());
 
         // uci command
         engine.accept(new CmdUci());
         assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("uciok", in.readLine());
-        assertEquals(Ready.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.currentState.getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         assertEquals("readyok", in.readLine());
-        assertEquals(Ready.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.currentState.getClass());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
-        assertEquals(Ready.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.currentState.getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         assertEquals("readyok", in.readLine());
-        assertEquals(Ready.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.currentState.getClass());
 
         // position command
         engine.accept(new CmdPosition(List.of("e2e4")));
         assertEquals
-                (WaitCmdGo.class, engine.currentState.getClass());
+                (WaitCmdGoState.class, engine.currentState.getClass());
 
         // quit command
         engine.accept(new CmdQuit());

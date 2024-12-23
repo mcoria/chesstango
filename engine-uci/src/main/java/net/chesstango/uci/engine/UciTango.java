@@ -1,8 +1,12 @@
-package net.chesstango.uci.engine.engine;
+package net.chesstango.uci.engine;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
+import net.chesstango.uci.engine.states.ReadyState;
+import net.chesstango.uci.engine.states.SearchingState;
+import net.chesstango.uci.engine.states.WaitCmdGoState;
+import net.chesstango.uci.engine.states.WaitCmdUciState;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
@@ -22,14 +26,13 @@ public class UciTango implements UCIService {
     @Getter
     protected final Tango tango;
 
+    @Getter
+    protected final UCIOutputStreamEngineExecutor engineExecutor;
+
     @Setter
     private UCIOutputStream responseOutputStream;
 
-    protected final UCIOutputStreamEngineExecutor engineExecutor;
-    protected final Ready readyState;
-    protected final WaitCmdUci waitCmdUciState;
-    protected final WaitCmdGo waitCmdGoState;
-    protected final Searching searchingState;
+    @Setter
     protected volatile UCIEngine currentState;
 
     public UciTango() {
@@ -79,13 +82,7 @@ public class UciTango implements UCIService {
             }
         };
 
-        this.readyState = new Ready(this);
-        this.waitCmdUciState = new WaitCmdUci(this);
-        this.waitCmdGoState = new WaitCmdGo(this);
-        this.searchingState = new Searching(this);
-
         this.tango = tango;
-        this.tango.setListenerClient(this.searchingState);
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
@@ -100,7 +97,20 @@ public class UciTango implements UCIService {
 
     @Override
     public void open() {
+        ReadyState readyState = new ReadyState(this);
+        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
+        WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
+        SearchingState searchingState = new SearchingState(this);
+
+        readyState.setWaitCmdGoState(waitCmdGoState);
+        waitCmdUciState.setReadyState(readyState);
+        waitCmdGoState.setSearchingState(searchingState);
+        searchingState.setReadyState(readyState);
+
+        tango.setListenerClient(searchingState);
+
         currentState = waitCmdUciState;
+
         tango.open();
     }
 
@@ -110,7 +120,7 @@ public class UciTango implements UCIService {
         currentState = null;
     }
 
-    protected void reply(UCIMessage message) {
+    public void reply(UCIMessage message) {
         logger.trace("tango >> {}", message);
         responseOutputStream.accept(message);
     }
