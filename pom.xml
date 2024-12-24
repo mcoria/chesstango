@@ -34,7 +34,7 @@
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.17.1</jackson.version>
         <commons-cli.version>1.8.0</commons-cli.version>
-        <uci-protocol.version>1.0.1-SNAPSHOT</uci-protocol.version>
+        <uci-protocol.version>1.0.1</uci-protocol.version>
     </properties>
 
     <build>

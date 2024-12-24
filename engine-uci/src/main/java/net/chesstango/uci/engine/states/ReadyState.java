@@ -3,6 +3,7 @@ package net.chesstango.uci.engine.states;
 import lombok.Setter;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
@@ -16,12 +17,14 @@ public class ReadyState implements UCIEngine {
     public static final String POLYGLOT_BOOK = "PolyglotBook";
 
     private final UciTango uciTango;
+    private final Tango tango;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    public ReadyState(UciTango uciTango) {
+    public ReadyState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
+        this.tango = tango;
     }
 
     @Override
@@ -32,19 +35,19 @@ public class ReadyState implements UCIEngine {
     public void do_setOption(CmdSetOption cmdSetOption) {
         switch (cmdSetOption.getId()) {
             case POLYGLOT_BOOK:
-                this.uciTango.getTango().setPolyglotBook(cmdSetOption.getValue());
+                tango.setPolyglotBook(cmdSetOption.getValue());
         }
     }
 
     @Override
 
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-        uciTango.getTango().newGame();
+        tango.newGame();
     }
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
-        uciTango.reply(new RspReadyOk());
+        uciTango.reply(this, new RspReadyOk());
     }
 
     @Override
@@ -64,10 +67,10 @@ public class ReadyState implements UCIEngine {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-        uciTango.getTango().setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
+        tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
                         ? FEN.of(FENDecoder.INITIAL_FEN)
                         : FEN.of(cmdPosition.getFen())
                 , cmdPosition.getMoves());
-        uciTango.setCurrentState(waitCmdGoState);;
+        uciTango.changeState(waitCmdGoState);;
     }
 }

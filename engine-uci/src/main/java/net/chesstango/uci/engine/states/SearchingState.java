@@ -3,6 +3,7 @@ package net.chesstango.uci.engine.states;
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
+import net.chesstango.engine.Tango;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -19,12 +20,15 @@ public class SearchingState implements UCIEngine, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final UciTango uciTango;
+    private final Tango tango;
 
     @Setter
     private ReadyState readyState;
 
-    public SearchingState(UciTango uciTango) {
+    public SearchingState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
+        this.tango = tango;
+        tango.setListenerClient(this);
     }
 
     @Override
@@ -51,12 +55,12 @@ public class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-        uciTango.getTango().stopSearching();
+        tango.stopSearching();
     }
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        uciTango.getTango().stopSearching();
+        tango.stopSearching();
         uciTango.close();
     }
 
@@ -72,7 +76,7 @@ public class SearchingState implements UCIEngine, SearchListener {
 
         String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
-        uciTango.reply(new RspInfo(infoStr));
+        uciTango.reply(this, new RspInfo(infoStr));
     }
 
 
@@ -80,10 +84,6 @@ public class SearchingState implements UCIEngine, SearchListener {
     public void searchFinished(SearchResult searchResult) {
         String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
 
-        synchronized (uciTango.getEngineExecutor()) {
-            uciTango.reply(new RspBestMove(selectedMoveStr));
-
-            uciTango.setCurrentState(readyState);
-        }
+        uciTango.reply(readyState, new RspBestMove(selectedMoveStr));
     }
 }

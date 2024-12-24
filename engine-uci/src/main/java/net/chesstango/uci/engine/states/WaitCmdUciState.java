@@ -27,10 +27,9 @@ public class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        uciTango.reply(new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
-        uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
-        uciTango.reply(new RspUciOk());
-        uciTango.setCurrentState(readyState);
+        uciTango.reply(this, new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
+        uciTango.reply(this, new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
+        uciTango.reply(readyState, new RspUciOk());
     }
 
     @Override

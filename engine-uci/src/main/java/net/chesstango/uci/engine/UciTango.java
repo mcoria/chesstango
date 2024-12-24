@@ -24,15 +24,13 @@ public class UciTango implements UCIService {
     private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
 
     @Getter
-    protected final Tango tango;
+    private final Tango tango;
 
-    @Getter
-    protected final UCIOutputStreamEngineExecutor engineExecutor;
+    private final UCIOutputStreamEngineExecutor engineExecutor;
 
     @Setter
     private UCIOutputStream responseOutputStream;
 
-    @Setter
     protected volatile UCIEngine currentState;
 
     public UciTango() {
@@ -89,25 +87,23 @@ public class UciTango implements UCIService {
 
     @Override
     public void accept(UCIMessage message) {
-        logger.trace("tango << {}", message);
         synchronized (engineExecutor) {
+            logger.trace("tango << {}", message);
             engineExecutor.accept(message);
         }
     }
 
     @Override
     public void open() {
-        ReadyState readyState = new ReadyState(this);
+        ReadyState readyState = new ReadyState(this, tango);
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
-        WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
-        SearchingState searchingState = new SearchingState(this);
+        WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this, tango);
+        SearchingState searchingState = new SearchingState(this, tango);
 
         readyState.setWaitCmdGoState(waitCmdGoState);
         waitCmdUciState.setReadyState(readyState);
         waitCmdGoState.setSearchingState(searchingState);
         searchingState.setReadyState(readyState);
-
-        tango.setListenerClient(searchingState);
 
         currentState = waitCmdUciState;
 
@@ -120,8 +116,17 @@ public class UciTango implements UCIService {
         currentState = null;
     }
 
-    public void reply(UCIMessage message) {
-        logger.trace("tango >> {}", message);
-        responseOutputStream.accept(message);
+    public void reply(UCIEngine newState, UCIMessage message) {
+        synchronized (engineExecutor) {
+            logger.trace("tango >> {}", message);
+            currentState = newState;
+            responseOutputStream.accept(message);
+        }
+    }
+
+    public void changeState(UCIEngine newState) {
+        synchronized (engineExecutor) {
+            currentState = newState;
+        }
     }
 }
