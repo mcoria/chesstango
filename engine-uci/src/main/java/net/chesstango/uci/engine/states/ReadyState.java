@@ -13,7 +13,6 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
  * @author Mauricio Coria
  */
 public class ReadyState implements UCIEngine {
-
     public static final String POLYGLOT_BOOK = "PolyglotBook";
 
     private final UciTango uciTango;
@@ -62,7 +61,6 @@ public class ReadyState implements UCIEngine {
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        uciTango.close();
     }
 
     @Override

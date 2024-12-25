@@ -42,7 +42,7 @@ public class LichessTango implements Runnable {
         this.properties = properties;
 
         this.tango = new Tango();
-        this.tango.setListenerClient(new SearchListener() {
+        this.tango.setSearchListener(new SearchListener() {
 
             @Override
             public void searchStarted(){

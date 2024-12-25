@@ -6,6 +6,7 @@ import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
+import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 
 /**
@@ -38,6 +39,7 @@ public class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
+        uciTango.reply(this, new RspReadyOk());
     }
 
     @Override
@@ -50,7 +52,6 @@ public class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        uciTango.close();
     }
 
     @Override

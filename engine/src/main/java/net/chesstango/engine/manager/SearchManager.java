@@ -5,22 +5,20 @@ import net.chesstango.board.Game;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
  */
 public final class SearchManager {
-    private final SearchListener listenerClient;
+    private final SearchListener searchListener;
     private final SearchManagerChain searchManagerChain;
     private final SearchManagerByBook searchManagerByBook;
     private final SearchManagerByAlgorithm searchManagerByAlgorithm;
@@ -28,10 +26,15 @@ public final class SearchManager {
 
     @Setter
     private int infiniteDepth = 1;
-    private ScheduledExecutorService executorService;
 
-    public SearchManager(Search search, SearchListener listenerClient) {
-        this.listenerClient = listenerClient;
+    private volatile Future<?> currentSearchTask;
+
+    private static final AtomicInteger executorCounter = new AtomicInteger(0);
+    private static volatile ExecutorService searchExecutor;
+    private static volatile ScheduledExecutorService timeOutExecutor;
+
+    public SearchManager(Search search, SearchListener searchListener) {
+        this.searchListener = searchListener;
 
         this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(search);
 
@@ -39,7 +42,7 @@ public final class SearchManager {
         this.searchManagerByBook.setNext(searchManagerByAlgorithm);
 
         this.searchManagerChain = this.searchManagerByBook;
-        this.searchManagerChain.setProgressListener(listenerClient::searchInfo);
+        this.searchManagerChain.setProgressListener(searchListener::searchInfo);
 
         this.timeMgmt = new FivePercentage();
     }
@@ -70,16 +73,20 @@ public final class SearchManager {
     }
 
     public void open() {
-        executorService = Executors.newScheduledThreadPool(2);
         searchManagerChain.open();
+        int currentValue = executorCounter.incrementAndGet();
+        if (currentValue == 1) {
+            initExecutors();
+        }
     }
 
+
     public void close() {
-        try {
-            executorService.shutdown();
-            executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        int currentValue = executorCounter.decrementAndGet();
+        if (currentValue == 0) {
+            stopExecutors();
+        } else if (currentValue < 0) {
+            throw new RuntimeException("Closed too many times");
         }
         searchManagerChain.close();
     }
@@ -92,14 +99,23 @@ public final class SearchManager {
         searchImp(game, depth, timeOut, searchMoveResult -> true);
     }
 
-    private void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate) {
-        executorService.execute(() -> {
+    private synchronized void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate) {
+        if (currentSearchTask != null && !currentSearchTask.isDone()) {
             try {
-                listenerClient.searchStarted();
+                currentSearchTask.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace(System.err);
+                throw new RuntimeException(e);
+            }
+        }
+
+        currentSearchTask = searchExecutor.submit(() -> {
+            try {
+                searchListener.searchStarted();
 
                 ScheduledFuture<?> stopTask = null;
                 if (timeOut != 0) {
-                    stopTask = executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
+                    stopTask = timeOutExecutor.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
                 searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
@@ -108,13 +124,26 @@ public final class SearchManager {
                 SearchResult searchResult = searchManagerChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {
-                    stopTask.cancel(true);
+                    stopTask.cancel(false);
                 }
 
-                listenerClient.searchFinished(searchResult);
+                searchListener.searchFinished(searchResult);
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);
+                throw new RuntimeException(e);
             }
         });
+    }
+
+
+    private synchronized static void initExecutors() {
+        timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
+        searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
+
+
+    private synchronized static void stopExecutors() {
+        searchExecutor.shutdownNow();
+        timeOutExecutor.shutdownNow();
     }
 }

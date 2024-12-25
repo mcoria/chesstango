@@ -12,6 +12,7 @@ import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspInfo;
+import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
  * @author Mauricio Coria
@@ -28,7 +29,7 @@ public class SearchingState implements UCIEngine, SearchListener {
     public SearchingState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
         this.tango = tango;
-        tango.setListenerClient(this);
+        tango.setSearchListener(this);
     }
 
     @Override
@@ -41,6 +42,7 @@ public class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
+        uciTango.reply(this, new RspReadyOk());
     }
 
     @Override
@@ -61,7 +63,6 @@ public class SearchingState implements UCIEngine, SearchListener {
     @Override
     public void do_quit(CmdQuit cmdQuit) {
         tango.stopSearching();
-        uciTango.close();
     }
 
     @Override

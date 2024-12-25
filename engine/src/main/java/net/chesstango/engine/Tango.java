@@ -31,7 +31,7 @@ public class Tango {
     private Session currentSession;
 
     @Setter
-    private SearchListener listenerClient;
+    private SearchListener searchListener;
 
     public Tango() {
         this(new DefaultSearch());
@@ -41,15 +41,15 @@ public class Tango {
         SearchListener myListener = new SearchListener() {
             @Override
             public void searchStarted() {
-                if (listenerClient != null) {
-                    listenerClient.searchStarted();
+                if (searchListener != null) {
+                    searchListener.searchStarted();
                 }
             }
 
             @Override
             public void searchInfo(SearchResultByDepth searchByDepthResult) {
-                if (listenerClient != null) {
-                    listenerClient.searchInfo(searchByDepthResult);
+                if (searchListener != null) {
+                    searchListener.searchInfo(searchByDepthResult);
                 }
             }
 
@@ -57,8 +57,8 @@ public class Tango {
             public void searchFinished(SearchResult searchMoveResult) {
                 currentSession.addResult(searchMoveResult);
 
-                if (listenerClient != null) {
-                    listenerClient.searchFinished(searchMoveResult);
+                if (searchListener != null) {
+                    searchListener.searchFinished(searchMoveResult);
                 }
             }
         };
