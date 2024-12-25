@@ -16,17 +16,15 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 /**
  * @author Mauricio Coria
  */
-public class WaitCmdGoState implements UCIEngine {
-    private final UciTango uciTango;
-    private final Tango tango;
-
+public class WaitCmdGoState extends ReadyState {
     private final CmdGoExecutor cmdGoExecutor;
 
     @Setter
     private SearchingState searchingState;
 
+
     public WaitCmdGoState(UciTango uciTango, Tango tango) {
-        this.uciTango = uciTango;
+        super(uciTango, tango);
         this.cmdGoExecutor = new CmdGoExecutor() {
             @Override
             public void go(CmdGoInfinite cmdGoInfinite) {
@@ -48,46 +46,11 @@ public class WaitCmdGoState implements UCIEngine {
                 tango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
-        this.tango = tango;
     }
-
-    @Override
-    public void do_uci(CmdUci cmdUci) {
-    }
-
-    @Override
-    public void do_setOption(CmdSetOption cmdSetOption) {
-    }
-
-    @Override
-    public void do_isReady(CmdIsReady cmdIsReady) {
-        uciTango.reply(this, new RspReadyOk());
-    }
-
-    @Override
-    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-    }
-
 
     @Override
     public void do_go(CmdGo cmdGo) {
         cmdGo.go(cmdGoExecutor);
         uciTango.changeState(searchingState);
-    }
-
-    @Override
-    public void do_stop(CmdStop cmdStop) {
-    }
-
-    @Override
-    public void do_quit(CmdQuit cmdQuit) {
-    }
-
-    @Override
-    public void do_position(CmdPosition cmdPosition) {
-        tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType()
-                        ? FEN.of(FENDecoder.INITIAL_FEN)
-                        : FEN.of(cmdPosition.getFen()),
-                cmdPosition.getMoves());
     }
 }

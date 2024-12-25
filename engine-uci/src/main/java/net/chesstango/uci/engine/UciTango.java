@@ -3,10 +3,7 @@ package net.chesstango.uci.engine;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.states.ReadyState;
-import net.chesstango.uci.engine.states.SearchingState;
-import net.chesstango.uci.engine.states.WaitCmdGoState;
-import net.chesstango.uci.engine.states.WaitCmdUciState;
+import net.chesstango.uci.engine.states.*;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
@@ -95,13 +92,13 @@ public class UciTango implements UCIService {
 
     @Override
     public void open() {
-        ReadyState readyState = new ReadyState(this, tango);
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
+        ReadyState readyState = new ReadyState(this, tango);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this, tango);
         SearchingState searchingState = new SearchingState(this, tango);
 
-        readyState.setWaitCmdGoState(waitCmdGoState);
         waitCmdUciState.setReadyState(readyState);
+        readyState.setWaitCmdGoState(waitCmdGoState);
         waitCmdGoState.setSearchingState(searchingState);
         searchingState.setReadyState(readyState);
 

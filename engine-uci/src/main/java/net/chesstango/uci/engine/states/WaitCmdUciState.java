@@ -52,6 +52,7 @@ public class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
+        uciTango.changeState(new EndState());
     }
 
     @Override

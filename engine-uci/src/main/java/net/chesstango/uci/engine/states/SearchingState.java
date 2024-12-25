@@ -47,12 +47,10 @@ public class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-        throw new RuntimeException("Unable to process newgame command. Tango is still searching.");
     }
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        throw new RuntimeException("Unable to process go command. Tango is still searching.");
     }
 
     @Override
@@ -63,6 +61,7 @@ public class SearchingState implements UCIEngine, SearchListener {
     @Override
     public void do_quit(CmdQuit cmdQuit) {
         tango.stopSearching();
+        uciTango.changeState(new EndState());
     }
 
     @Override

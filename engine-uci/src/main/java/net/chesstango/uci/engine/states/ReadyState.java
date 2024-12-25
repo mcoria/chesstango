@@ -15,8 +15,8 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 public class ReadyState implements UCIEngine {
     public static final String POLYGLOT_BOOK = "PolyglotBook";
 
-    private final UciTango uciTango;
-    private final Tango tango;
+    protected final UciTango uciTango;
+    protected final Tango tango;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
@@ -51,16 +51,15 @@ public class ReadyState implements UCIEngine {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        throw new RuntimeException("Unable to process go command. Waiting position command.");
     }
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-        throw new RuntimeException("Unable to process stop command. Waiting position command.");
     }
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
+        uciTango.changeState(new EndState());
     }
 
     @Override
