@@ -31,10 +31,10 @@ public class LichessTango implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
+    private final Map<String, Object> properties;
     private String fenPosition;
     private Color myColor;
     private GameInfo gameInfo;
-    private Map<String, Object> properties;
 
     public LichessTango(LichessClient client, String gameId, Map<String, Object> properties) {
         this.client = client;
@@ -96,7 +96,7 @@ public class LichessTango implements Runnable {
 
         logger.info("[{}] Ready to play game. Entering game event loop...", gameId);
 
-        Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
+        Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId);
 
         gameEvents.forEach(gameEvent -> {
             try {

@@ -17,47 +17,47 @@ public class LichessClient {
 
     private final ClientAuth client;
 
-    //private final UserAuth profile;
-
     public LichessClient(ClientAuth client) {
         this.client = client;
     }
-
-
+    
     public Stream<Event> streamEvents() {
         return client.bot().connect().stream();
     }
 
-    public void challengeAccept(String challengeId) {
-        client.bot().acceptChallenge(challengeId);
-    }
-
-    public void challengeDecline(String challengeId) {
-        client.bot().declineChallenge(challengeId);
-    }
-
-    public Stream<GameStateEvent> gameStreamEvents(String gameId) {
+    public Stream<GameStateEvent> streamGameStateEvent(String gameId) {
         return client.bot().connectToGame(gameId).stream();
     }
 
-    public void gameMove(String gameId, String moveUci) {
+    public synchronized void challengeUser(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
+        client.challenges().challenge(user.id(), challengeBuilderConsumer);
+    }
+
+    public synchronized void challengeAccept(String challengeId) {
+        client.bot().acceptChallenge(challengeId);
+    }
+
+    public synchronized void challengeDecline(String challengeId) {
+        client.bot().declineChallenge(challengeId);
+    }
+
+    public synchronized void gameMove(String gameId, String moveUci) {
         client.bot().move(gameId, moveUci);
     }
 
-    public void gameResign(String gameId) {
+    public synchronized void gameResign(String gameId) {
         client.bot().resign(gameId);
     }
 
-    public void gameChat(String gameId, String message) {
+    public synchronized void gameChat(String gameId, String message) {
         client.bot().chat(gameId, message);
     }
 
-    public void gameAbort(String gameId) {
+    public synchronized void gameAbort(String gameId) {
         client.bot().abort(gameId);
     }
 
-
-    public int getRating(StatsPerfType type) {
+    public synchronized int getRating(StatsPerfType type) {
         Map<StatsPerfType, StatsPerf> rating = client.account()
                 .profile()
                 .get()
@@ -69,19 +69,15 @@ public class LichessClient {
         throw new RuntimeException("Rating not found");
     }
 
-    public void challengeUser(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
-        client.challenges().challenge(user.id(), challengeBuilderConsumer);
-    }
-
-    public Many<User> botsOnline(int i) {
-        return client.bot().botsOnline(i);
-    }
-
-    public boolean isMe(UserInfo theUser) {
+    public synchronized boolean isMe(UserInfo theUser) {
         return client.account().profile().get().id().equals(theUser.id());
     }
 
-    public Optional<User> findUser(String username) {
+    public synchronized Many<User> botsOnline() {
+        return client.bot().botsOnline();
+    }
+
+    public synchronized Optional<User> findUser(String username) {
         Many<User> users = client.users().byIds(List.of(username));
         return users.stream().findFirst();
     }

@@ -11,14 +11,16 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public class LichessChangeHandler {
-    private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
+public class LichessChallengeHandler {
+    private static final Logger logger = LoggerFactory.getLogger(LichessChallengeHandler.class);
+
     private final LichessClient client;
     private final int maxSimultaneousGames;
     private final Map<String, LichessTango> onlineGameMap;
+
     private boolean acceptChallenges;
 
-    public LichessChangeHandler(LichessClient client, int maxSimultaneousGames, Map<String, LichessTango> onlineGameMap) {
+    public LichessChallengeHandler(LichessClient client, int maxSimultaneousGames, Map<String, LichessTango> onlineGameMap) {
         this.client = client;
         this.maxSimultaneousGames = maxSimultaneousGames;
         this.onlineGameMap = onlineGameMap;

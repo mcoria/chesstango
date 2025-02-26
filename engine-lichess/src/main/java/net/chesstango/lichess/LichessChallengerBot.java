@@ -9,33 +9,42 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
-public abstract class LichessChallengerBot {
-    public static final int RATING_THRESHOLD = 100;
+public class LichessChallengerBot {
+    public static final int RATING_THRESHOLD = 150;
+
+    private static final Random rand = new Random();
+
     private final LichessClient client;
     private final Queue<User> botsOnline = new LinkedList<>();
-    protected final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
 
-    protected abstract StatsPerfType getRatingType();
+    private final List<Challenger> challengerBotList;
 
     public LichessChallengerBot(LichessClient client) {
         this.client = client;
+        this.challengerBotList = List.of(
+                new BulletChallengerBot(),
+                new BlitzChallengerBot(),
+                new RapidChallengerBot()
+        );
     }
 
     public void challengeRandomBot() {
-        User aBot = pickRandomBot();
+        Challenger challenger = challengerBotList.get(rand.nextInt(challengerBotList.size()));
+
+        User aBot = pickRandomBot(challenger);
         if (aBot != null) {
-            client.challengeUser(aBot, this::consumeChallengeBuilder);
+            client.challengeUser(aBot, challenger::consumeChallengeBuilder);
         }
     }
 
-    private synchronized User pickRandomBot() {
+    private synchronized User pickRandomBot(Challenger challenger) {
         if (botsOnline.isEmpty()) {
-            int rating = client.getRating(getRatingType());
-            Many<User> bots = client.botsOnline(50);
+            int myRating = client.getRating(challenger.getRatingType());
+            Many<User> bots = client.botsOnline();
             bots.stream().filter(bot -> {
-                StatsPerf stats = bot.ratings().get(getRatingType());
+                StatsPerf stats = bot.ratings().get(challenger.getRatingType());
                 if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-                    return statsPerfGame.rating() >= rating - RATING_THRESHOLD && statsPerfGame.rating() <= rating + RATING_THRESHOLD;
+                    return statsPerfGame.rating() >= myRating - RATING_THRESHOLD && statsPerfGame.rating() <= myRating + RATING_THRESHOLD;
                 }
                 return false;
             }).forEach(botsOnline::add);
@@ -43,16 +52,17 @@ public abstract class LichessChallengerBot {
         return botsOnline.poll();
     }
 
-    private void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
-        Random rand = new Random();
-        Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
-        element.accept(challengeBuilder);
+    private interface Challenger {
+        StatsPerfType getRatingType();
+
+        void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder);
     }
 
 
-    public static class BulletChallengerBot extends LichessChallengerBot {
-        public BulletChallengerBot(LichessClient client) {
-            super(client);
+    private static class BulletChallengerBot implements Challenger {
+        private final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
+
+        public BulletChallengerBot() {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBullet2m1s()
                     .color(Enums.ColorPref.random)
@@ -66,14 +76,21 @@ public abstract class LichessChallengerBot {
         }
 
         @Override
-        protected StatsPerfType getRatingType() {
+        public StatsPerfType getRatingType() {
             return StatsPerfType.bullet;
+        }
+
+        @Override
+        public void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
+            Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
+            element.accept(challengeBuilder);
         }
     }
 
-    public static class BlitzChallengerBot extends LichessChallengerBot {
-        public BlitzChallengerBot(LichessClient client) {
-            super(client);
+    private static class BlitzChallengerBot implements Challenger {
+        private final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
+
+        public BlitzChallengerBot() {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockBlitz5m3s()
                     .color(Enums.ColorPref.random)
@@ -87,15 +104,22 @@ public abstract class LichessChallengerBot {
         }
 
         @Override
-        protected StatsPerfType getRatingType() {
+        public StatsPerfType getRatingType() {
             return StatsPerfType.blitz;
+        }
+
+        @Override
+        public void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
+            Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
+            element.accept(challengeBuilder);
         }
     }
 
 
-    public static class RapidChallengerBot extends LichessChallengerBot {
-        public RapidChallengerBot(LichessClient client) {
-            super(client);
+    private static class RapidChallengerBot implements Challenger {
+        private final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
+
+        public RapidChallengerBot() {
             builders.add(challengeBuilder -> challengeBuilder
                     .clockRapid10m5s()
                     .color(Enums.ColorPref.random)
@@ -109,10 +133,15 @@ public abstract class LichessChallengerBot {
         }
 
         @Override
-        protected StatsPerfType getRatingType() {
+        public StatsPerfType getRatingType() {
             return StatsPerfType.rapid;
         }
 
+        @Override
+        public void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
+            Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
+            element.accept(challengeBuilder);
+        }
     }
 
 }

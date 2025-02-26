@@ -2,12 +2,12 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.engine.manager.SearchManager;
 import net.chesstango.search.DefaultSearch;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
 import java.io.InputStream;

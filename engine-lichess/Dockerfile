@@ -1,5 +1,5 @@
-FROM amazoncorretto:17
-COPY target/li-engine-0.0.28-shaded.jar /tmp
+FROM amazoncorretto:21
+COPY target/chesstango-lichess.jar /tmp
 ENV MAX_SIMULTANEOUS_GAMES=2
 ENV CHALLENGE_BOTS=true
-ENTRYPOINT ["java","-jar","/tmp/li-engine-0.0.28-shaded.jar"]
+ENTRYPOINT ["java","-jar","/tmp/chesstango-lichess.jar"]
