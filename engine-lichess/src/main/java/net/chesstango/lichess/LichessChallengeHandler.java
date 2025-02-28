@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 /**
@@ -16,14 +17,14 @@ public class LichessChallengeHandler {
 
     private final LichessClient client;
     private final int maxSimultaneousGames;
-    private final Map<String, LichessTango> onlineGameMap;
+    private final AtomicInteger gameCounter;
 
     private boolean acceptChallenges;
 
-    public LichessChallengeHandler(LichessClient client, int maxSimultaneousGames, Map<String, LichessTango> onlineGameMap) {
+    public LichessChallengeHandler(LichessClient client, int maxSimultaneousGames, AtomicInteger gameCounter) {
         this.client = client;
         this.maxSimultaneousGames = maxSimultaneousGames;
-        this.onlineGameMap = onlineGameMap;
+        this.gameCounter = gameCounter;
         this.acceptChallenges = true;
     }
 
@@ -49,16 +50,13 @@ public class LichessChallengeHandler {
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
         logger.info("Accepting challenge {}", challengeEvent.id());
-
         client.challengeAccept(challengeEvent.id());
-
     }
 
     private void declineChallenge(Event.ChallengeEvent challengeEvent) {
         logger.info("Declining challenge {}", challengeEvent.id());
         client.challengeDecline(challengeEvent.id());
     }
-
 
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         Optional<ChallengeInfo.Player> challengerPlayer = challengeEvent.challenge().players().challengerOpt();
@@ -70,16 +68,11 @@ public class LichessChallengeHandler {
             return true;
         }
 
-
         GameType gameType = challengeEvent.challenge().gameType();
-        long timeControlledGames = onlineGameMap.values()
-                .stream()
-                .filter(LichessTango::isTimeControlledGame)
-                .count();
 
-        return isVariantAcceptable(gameType.variant())                // Chess variant
+        return isVariantAcceptable(gameType.variant())                    // Chess variant
                 && isTimeControlAcceptable(gameType.timeControl())        // Time control
-                && timeControlledGames < maxSimultaneousGames          // Not busy..
+                && gameCounter.get() < maxSimultaneousGames               // Not busy..
                 && isChallengerAcceptable(challengerPlayer.get(), gameType.timeControl().speed());
     }
 

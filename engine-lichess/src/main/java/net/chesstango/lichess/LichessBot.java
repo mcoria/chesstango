@@ -8,13 +8,12 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -29,11 +28,11 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
     private final ScheduledExecutorService gameExecutorService;
 
-    private final Map<String, LichessTango> onlineGameMap = Collections.synchronizedMap(new HashMap<>());
-
     private final LichessClient client;
 
     private final int maxSimultaneousGames;
+
+    private final AtomicInteger gameCounter = new AtomicInteger(0);
 
     private final LichessChallenger lichessChallenger;
 
@@ -48,45 +47,38 @@ public class LichessBot implements Runnable, LichessBotMBean {
         this.challengeRandomBot = challengeRandomBot;
         this.properties = properties;
         this.gameExecutorService = Executors.newScheduledThreadPool(maxSimultaneousGames);
-        this.lichessChallengeHandler = new LichessChallengeHandler(client, maxSimultaneousGames, onlineGameMap);
+        this.lichessChallengeHandler = new LichessChallengeHandler(client, maxSimultaneousGames, gameCounter);
         this.lichessChallenger = new LichessChallenger(client);
     }
 
     @Override
     public void run() {
-        registerMBean();
-        do {
-            try {
-                Stream<Event> events = client.streamEvents();
+        try {
+            registerMBean();
 
-                logger.info("Connection successful, entering main event loop...");
+            Stream<Event> events = client.streamEvents();
 
-                if (challengeRandomBot) {
-                    challengeRandomBotScheduler = gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 30, 10, TimeUnit.SECONDS);
-                }
+            logger.info("Connection successful, entering main event loop...");
 
-                events.forEach(event -> {
-                    logger.info("event received: {}", event);
-                    switch (event.type()) {
-                        case challenge -> lichessChallengeHandler.newChallenge((Event.ChallengeEvent) event);
-                        case challengeCanceled, challengeDeclined ->
-                                logger.info("Challenge cancelled / declined: {}", event.id());
-                        case gameStart -> gameStart((Event.GameStartEvent) event);
-                        case gameFinish -> gameFinish((Event.GameStopEvent) event);
-                    }
-                });
-
-                logger.info("main event loop finished");
-            } catch (UncheckedIOException uio) {
-                logger.error("UncheckedIOException", uio);
-                try {
-                    logger.info("Trying to reconnect");
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            if (challengeRandomBot) {
+                challengeRandomBotScheduler = gameExecutorService.scheduleWithFixedDelay(this::challengeRandomBot, 30, 10, TimeUnit.SECONDS);
             }
-        } while (true);
+
+            events.forEach(event -> {
+                logger.info("event received: {}", event);
+                switch (event.type()) {
+                    case challenge -> lichessChallengeHandler.newChallenge((Event.ChallengeEvent) event);
+                    case challengeCanceled, challengeDeclined ->
+                            logger.info("Challenge cancelled / declined: {}", event.id());
+                    case gameStart -> gameStart((Event.GameStartEvent) event);
+                    case gameFinish -> gameFinish((Event.GameStopEvent) event);
+                }
+            });
+
+            logger.info("main event loop finished");
+        } catch (UncheckedIOException uio) {
+            logger.error("UncheckedIOException", uio);
+        }
     }
 
     @Override
@@ -103,51 +95,29 @@ public class LichessBot implements Runnable, LichessBotMBean {
             return;
         }
 
-        try {
-            // Contar la cantidad de juegos activos
-            long timeControlledGames = onlineGameMap
-                    .values()
-                    .stream()
-                    .filter(LichessTango::isTimeControlledGame)
-                    .count();
+        // Si no se alcanzo la cantidad de juegos maximos
+        if (gameCounter.get() < maxSimultaneousGames) {
+            logger.info("Challenging User {} {}", user, type);
 
-            // Si no se alcanzo la cantidad de juegos maximos
-            if (timeControlledGames < maxSimultaneousGames) {
-                logger.info("Challenging User {} {}", user, type);
-
-                lichessChallenger.challengeUser(user, challengeType);
-            } else {
-                logger.info("Scheduler Busy");
-            }
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage(), e);
+            lichessChallenger.challengeUser(user, challengeType);
+        } else {
+            logger.info("Scheduler Busy");
         }
     }
 
     @Override
     public void challengeRandomBot() {
-        try {
-            // Contar la cantidad de juegos activos
-            long timeControlledGames = onlineGameMap
-                    .values()
-                    .stream()
-                    .filter(LichessTango::isTimeControlledGame)
-                    .count();
-
-            // Si no se alcanzo la cantidad de juegos maximos
-            if (timeControlledGames < maxSimultaneousGames) {
-                logger.info("Challenging random bot");
-                lichessChallenger.challengeRandomBot();
-            } else {
-                logger.info("Scheduler Busy");
-            }
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage(), e);
+        // Si no se alcanzo la cantidad de juegos maximos
+        if (gameCounter.get() < maxSimultaneousGames) {
+            logger.info("Challenging random bot");
+            lichessChallenger.challengeRandomBot();
+        } else {
+            logger.info("Scheduler Busy");
         }
     }
 
     @Override
-    public synchronized void stopAcceptingChallenges() {
+    public void stopAcceptingChallenges() {
         logger.info("stopAcceptingChallenges() invoked");
         if (challengeRandomBotScheduler != null && !challengeRandomBotScheduler.isCancelled()) {
             challengeRandomBotScheduler.cancel(false);
@@ -158,31 +128,20 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
     private void gameStart(Event.GameStartEvent gameStartEvent) {
         logger.info("GameStartEvent {}", gameStartEvent.id());
-
-        LichessTango onlineGame = new LichessTango(client, gameStartEvent.id(), properties);
-
-        onlineGameMap.put(gameStartEvent.id(), onlineGame);
-
-        onlineGame.start(gameStartEvent);
-
-        gameExecutorService.submit(onlineGame);
+        gameExecutorService.submit(() -> {
+            try {
+                gameCounter.incrementAndGet();
+                LichessTango onlineGame = new LichessTango(client, gameStartEvent.id(), properties);
+                onlineGame.setGameInfo(gameStartEvent.game());
+                onlineGame.run();
+            } finally {
+                gameCounter.decrementAndGet();
+            }
+        });
     }
 
     private void gameFinish(Event.GameStopEvent gameStopEvent) {
         logger.info("GameStopEvent {}", gameStopEvent.id());
-
-        if (!onlineGameMap.containsKey(gameStopEvent.id())) {
-            logger.info("Game {} finished but not in memory", gameStopEvent.id());
-            return;
-        }
-
-        var onlineGame = onlineGameMap.get(gameStopEvent.id());
-
-        logger.info("Game {} finished, cleaning memory", gameStopEvent.id());
-
-        onlineGameMap.remove(gameStopEvent.id());
-
-        onlineGame.stop(gameStopEvent);
     }
 
     private void registerMBean() {

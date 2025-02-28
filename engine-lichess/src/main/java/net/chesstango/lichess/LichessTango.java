@@ -65,8 +65,8 @@ public class LichessTango implements Runnable {
         });
     }
 
-    public void start(Event.GameStartEvent gameStartEvent) {
-        gameInfo = gameStartEvent.game();
+    public void setGameInfo(GameInfo gameInfo) {
+        this.gameInfo = gameInfo;
 
         if (Enums.Color.white.equals(gameInfo.color())) {
             myColor = Color.WHITE;
@@ -75,24 +75,18 @@ public class LichessTango implements Runnable {
         } else {
             throw new RuntimeException("Unknown color");
         }
-
-        tango.open();
-
-        String polyglotBookPath = (String) properties.get(LichessBotMain.POLYGLOT_BOOK);
-        if (Objects.nonNull(polyglotBookPath)) {
-            tango.setPolyglotBook(polyglotBookPath);
-        }
-
-        tango.newGame();
-    }
-
-    public void stop(Event.GameStopEvent gameStopEvent) {
-        tango.close();
     }
 
     @Override
     public void run() {
         MDC.put("gameId", gameId);
+
+        tango.open();
+        String polyglotBookPath = (String) properties.get(LichessBotMain.POLYGLOT_BOOK);
+        if (Objects.nonNull(polyglotBookPath)) {
+            tango.setPolyglotBook(polyglotBookPath);
+        }
+        tango.newGame();
 
         logger.info("[{}] Ready to play game. Entering game event loop...", gameId);
 
@@ -110,8 +104,10 @@ public class LichessTango implements Runnable {
                 logger.error("[{}] {}", gameId, e.getMessage());
             }
         });
-
         logger.info("[{}] Event loop finished", gameId);
+
+        tango.close();
+
         MDC.remove("gameId");
     }
 
