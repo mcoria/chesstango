@@ -137,6 +137,8 @@ public class LichessBot implements Runnable, LichessBotMBean {
                 LichessTango onlineGame = new LichessTango(client, gameStartEvent.id(), properties);
                 onlineGame.setGameInfo(gameStartEvent.game());
                 onlineGame.run();
+            } catch (RuntimeException e) {
+                logger.error("[{}] Game execution failed", gameStartEvent.id(), e);
             } finally {
                 gameCounter.decrementAndGet();
             }

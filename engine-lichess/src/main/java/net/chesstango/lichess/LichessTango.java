@@ -91,19 +91,20 @@ public class LichessTango implements Runnable {
 
         Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId);
 
-        gameEvents.forEach(gameEvent -> {
-            try {
+        try {
+            gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
                     case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
                     case gameState -> gameState((GameStateEvent.State) gameEvent);
                     case chatLine -> receiveChatMessage((GameStateEvent.Chat) gameEvent);
                     case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
+                    default -> logger.warn("[{}] Game event unknown failed: {}", gameId, gameEvent);
                 }
-            } catch (RuntimeException e) {
-                logger.error("[{}] {}", gameId, e.getMessage());
-            }
-        });
-        logger.info("[{}] Game event loop finished", gameId);
+            });
+            logger.info("[{}] Game event loop finished", gameId);
+        } catch (RuntimeException e) {
+            logger.error("[{}] Game event loop failed", gameId, e);
+        }
 
         tango.close();
 
