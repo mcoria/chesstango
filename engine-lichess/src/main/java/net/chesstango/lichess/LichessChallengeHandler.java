@@ -4,7 +4,6 @@ import chariot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -29,19 +28,26 @@ public class LichessChallengeHandler {
     }
 
 
-    public void newChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("New challenge received: {}", challengeEvent.id());
-
+    public void challengeCreated(Event.ChallengeCreatedEvent event) {
+        logger.info("ChallengeCreatedEvent: {}", event.id());
         if (acceptChallenges) {
-            if (isChallengeAcceptable(challengeEvent)) {
-                acceptChallenge(challengeEvent);
+            if (isChallengeAcceptable(event)) {
+                acceptChallenge(event);
             } else {
-                declineChallenge(challengeEvent);
+                declineChallenge(event);
             }
         } else {
-            logger.info("Not accepting more challenges at this time {}", challengeEvent.id());
-            declineChallenge(challengeEvent);
+            logger.info("Not accepting more challenges at this time {}", event.id());
+            declineChallenge(event);
         }
+    }
+
+    public void challengeCanceled(Event.ChallengeCanceledEvent event) {
+        logger.info("ChallengeCanceledEvent: {}", event.id());
+    }
+
+    public void challengeDeclined(Event.ChallengeDeclinedEvent event) {
+        logger.info("ChallengeDeclinedEvent: {}", event.id());
     }
 
     public void stopAcceptingChallenges() {
@@ -115,5 +121,4 @@ public class LichessChallengeHandler {
                 (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));   // Realtime
 
     }
-
 }

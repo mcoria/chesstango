@@ -30,8 +30,8 @@ public final class SearchManager {
     private volatile Future<?> currentSearchTask;
 
     private static final AtomicInteger executorCounter = new AtomicInteger(0);
-    private static volatile ExecutorService searchExecutor;
-    private static volatile ScheduledExecutorService timeOutExecutor;
+    private static ExecutorService searchExecutor;
+    private static ScheduledExecutorService timeOutExecutor;
 
     public SearchManager(Search search, SearchListener searchListener) {
         this.searchListener = searchListener;
@@ -137,13 +137,27 @@ public final class SearchManager {
 
 
     private synchronized static void initExecutors() {
-        timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
-        searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
+        searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
     }
 
 
     private synchronized static void stopExecutors() {
         searchExecutor.shutdownNow();
         timeOutExecutor.shutdownNow();
+    }
+
+
+    public static class SearchManagerThreadFactory implements ThreadFactory {
+        private final AtomicInteger threadCounter = new AtomicInteger(1);
+        private String threadNamePrefix = "";
+
+        public SearchManagerThreadFactory(String threadNamePrefix) {
+            this.threadNamePrefix = threadNamePrefix;
+        }
+
+        public Thread newThread(Runnable runnable) {
+            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
+        }
     }
 }
