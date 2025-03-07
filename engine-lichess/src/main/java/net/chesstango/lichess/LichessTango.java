@@ -9,8 +9,8 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -45,7 +45,7 @@ public class LichessTango implements Runnable {
         this.tango.setSearchListener(new SearchListener() {
 
             @Override
-            public void searchStarted(){
+            public void searchStarted() {
                 MDC.put("gameId", gameId);
             }
 
@@ -104,7 +104,7 @@ public class LichessTango implements Runnable {
                 logger.error("[{}] {}", gameId, e.getMessage());
             }
         });
-        logger.info("[{}] Event loop finished", gameId);
+        logger.info("[{}] Game event loop finished", gameId);
 
         tango.close();
 
@@ -142,10 +142,9 @@ public class LichessTango implements Runnable {
 
         switch (status) {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
+            case aborted -> sendChatMessage("goodbye!!!");
             case started, created -> play(state);
-            default -> {
-                logger.warn("[{}] No action handler for status {}", gameId, status);
-            }
+            default -> logger.warn("[{}] No action handler for status {}", gameId, status);
         }
     }
 

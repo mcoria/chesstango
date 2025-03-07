@@ -71,7 +71,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
                     case challengeDeclined ->
                             lichessChallengeHandler.challengeDeclined((Event.ChallengeDeclinedEvent) event);
                     case gameStart -> gameStart((Event.GameStartEvent) event);
-                    case gameFinish -> gameFinish((Event.GameStopEvent) event);
+                    case gameFinish -> gameStop((Event.GameStopEvent) event);
                 }
             });
             logger.info("main event loop finished");
@@ -143,7 +143,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
         });
     }
 
-    private void gameFinish(Event.GameStopEvent gameStopEvent) {
+    private void gameStop(Event.GameStopEvent gameStopEvent) {
         logger.info("GameStopEvent {}", gameStopEvent.id());
     }
 
