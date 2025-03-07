@@ -43,7 +43,6 @@ public class LichessTango implements Runnable {
 
         this.tango = new Tango();
         this.tango.setSearchListener(new SearchListener() {
-
             @Override
             public void searchStarted() {
                 MDC.put("gameId", gameId);
@@ -119,9 +118,8 @@ public class LichessTango implements Runnable {
         if (Variant.Basic.standard.equals(gameType.variant())) {
             fenPosition = FENDecoder.INITIAL_FEN;
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
-            Some<String> someFen = (Some) fromPositionVariant.fen();
-
-            fenPosition = someFen.value();
+            Opt<String> someFen = fromPositionVariant.fen();
+            fenPosition = someFen.get();
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }
