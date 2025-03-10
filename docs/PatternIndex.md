@@ -48,10 +48,10 @@ The classes in the package net.chesstango.uci.engine collaborate within the **St
 Please read [State Pattern](state-pattern-engine-uci.md) for further description.
 
 ### Template method
-Template method pattern is applied in different situations by abstract classes:
-[AbstractPawnMoveGenerator](board/src/main/java/net/chesstango/board/movesgenerators/pseudo/strategies/AbstractPawnMoveGenerator.java)
+Template method pattern is applied in different situations by abstract classes. By convention, those classes with template methods are abstract classes and named with the `Abstract` prefix.
 
-By convention, those classes with template methods are abstract classes and named with the prefix Abstract.
+- [AbstractPawnMoveGenerator](board/src/main/java/net/chesstango/board/moves/generators/pseudo/strategies/AbstractPawnMoveGenerator.java): provides a structured algorithm for generating pawn moves, while allowing subclasses to customize specific steps of the process, including the calculation of square movements, attack directions, and promotion logic.
+
 
 ### Command
 Command pattern in combination with Visitor pattern can be found at chess.moves package.

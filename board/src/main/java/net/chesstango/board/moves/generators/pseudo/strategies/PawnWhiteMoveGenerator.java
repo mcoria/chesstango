@@ -18,22 +18,22 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 	}
 
 	@Override
-	protected Square getSquareSimplePawnMove(Square square) {
+	protected Square getOneSquareForward(Square square) {
 		return Square.getSquare(square.getFile(), square.getRank() + 1);
 	}
 
 	@Override
-	protected Square getSquareSimpleTwoSquaresPawnMove(Square square) {
+	protected Square getTwoSquareForward(Square square) {
 		return square.getRank() == 1 ? Square.getSquare(square.getFile(), 3) : null;
 	}
 
 	@Override
-	protected Square getSquareAttackLeft(Square square) {
+	protected Square getAttackSquareLeft(Square square) {
 		return Square.getSquare(square.getFile() - 1, square.getRank() + 1);
 	}
 	
 	@Override
-	protected Square getSquareAttackRight(Square square) {
+	protected Square getAttackSquareRight(Square square) {
 		return Square.getSquare(square.getFile() + 1, square.getRank() + 1);
 	}
 
@@ -43,12 +43,12 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 	}
 
 	@Override
-	protected Cardinal getLeftDirection() {
+	protected Cardinal getDiagonalLeftDirection() {
 		return Cardinal.NorteOeste;
 	}
 
 	@Override
-	protected Cardinal getRightDirection() {
+	protected Cardinal getDiagonalRightDirection() {
 		return Cardinal.NorteEste;
 	}
 }
