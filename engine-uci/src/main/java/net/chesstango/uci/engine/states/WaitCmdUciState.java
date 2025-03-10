@@ -23,39 +23,39 @@ public class WaitCmdUciState implements UCIEngine {
     }
 
     @Override
-    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+    public void do_newGame(ReqUciNewGame cmdUciNewGame) {
     }
 
     @Override
-    public void do_uci(CmdUci cmdUci) {
+    public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
         uciTango.reply(readyState, new RspUciOk());
     }
 
     @Override
-    public void do_setOption(CmdSetOption cmdSetOption) {
+    public void do_setOption(ReqSetOption cmdSetOption) {
     }
 
     @Override
-    public void do_isReady(CmdIsReady cmdIsReady) {
+    public void do_isReady(ReqIsReady cmdIsReady) {
         uciTango.reply(this, new RspReadyOk());
     }
 
     @Override
-    public void do_go(CmdGo cmdGo) {
+    public void do_go(ReqGo cmdGo) {
     }
 
     @Override
-    public void do_stop(CmdStop cmdStop) {
+    public void do_stop(ReqStop cmdStop) {
     }
 
     @Override
-    public void do_quit(CmdQuit cmdQuit) {
+    public void do_quit(ReqQuit cmdQuit) {
         uciTango.changeState(new EndState());
     }
 
     @Override
-    public void do_position(CmdPosition cmdPosition) {
+    public void do_position(ReqPosition cmdPosition) {
     }
 }

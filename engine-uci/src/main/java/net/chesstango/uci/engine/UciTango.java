@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.states.*;
+import net.chesstango.uci.protocol.UCICommand;
 import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
@@ -26,7 +26,7 @@ public class UciTango implements UCIService {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
     @Setter
-    private UCIOutputStream responseOutputStream;
+    private UCIOutputStream outputStream;
 
     protected volatile UCIEngine currentState;
 
@@ -37,42 +37,42 @@ public class UciTango implements UCIService {
     public UciTango(Tango tango) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
-            public void do_uci(CmdUci cmdUci) {
+            public void do_uci(ReqUci cmdUci) {
                 currentState.do_uci(cmdUci);
             }
 
             @Override
-            public void do_isReady(CmdIsReady cmdIsReady) {
+            public void do_isReady(ReqIsReady cmdIsReady) {
                 currentState.do_isReady(cmdIsReady);
             }
 
             @Override
-            public void do_setOption(CmdSetOption cmdSetOption) {
+            public void do_setOption(ReqSetOption cmdSetOption) {
                 currentState.do_setOption(cmdSetOption);
             }
 
             @Override
-            public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+            public void do_newGame(ReqUciNewGame cmdUciNewGame) {
                 currentState.do_newGame(cmdUciNewGame);
             }
 
             @Override
-            public void do_position(CmdPosition cmdPosition) {
+            public void do_position(ReqPosition cmdPosition) {
                 currentState.do_position(cmdPosition);
             }
 
             @Override
-            public void do_go(CmdGo cmdGo) {
+            public void do_go(ReqGo cmdGo) {
                 currentState.do_go(cmdGo);
             }
 
             @Override
-            public void do_stop(CmdStop cmdStop) {
+            public void do_stop(ReqStop cmdStop) {
                 currentState.do_stop(cmdStop);
             }
 
             @Override
-            public void do_quit(CmdQuit cmdQuit) {
+            public void do_quit(ReqQuit cmdQuit) {
                 currentState.do_quit(cmdQuit);
             }
         };
@@ -83,10 +83,10 @@ public class UciTango implements UCIService {
     }
 
     @Override
-    public void accept(UCIMessage message) {
+    public void accept(UCICommand command) {
         synchronized (engineExecutor) {
-            logger.trace("tango << {}", message);
-            engineExecutor.accept(message);
+            logger.trace("tango << {}", command);
+            engineExecutor.accept(command);
         }
     }
 
@@ -113,11 +113,11 @@ public class UciTango implements UCIService {
         currentState = null;
     }
 
-    public void reply(UCIEngine newState, UCIMessage message) {
+    public void reply(UCIEngine newState, UCICommand command) {
         synchronized (engineExecutor) {
-            logger.trace("tango >> {}", message);
+            logger.trace("tango >> {}", command);
             currentState = newState;
-            responseOutputStream.accept(message);
+            outputStream.accept(command);
         }
     }
 

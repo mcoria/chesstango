@@ -12,36 +12,36 @@ public class EndState implements UCIEngine {
     }
 
     @Override
-    public void do_uci(CmdUci cmdUci) {
+    public void do_uci(ReqUci cmdUci) {
     }
 
     @Override
-    public void do_setOption(CmdSetOption cmdSetOption) {
+    public void do_setOption(ReqSetOption cmdSetOption) {
     }
 
     @Override
 
-    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+    public void do_newGame(ReqUciNewGame cmdUciNewGame) {
 
     }
 
     @Override
-    public void do_isReady(CmdIsReady cmdIsReady) {
+    public void do_isReady(ReqIsReady cmdIsReady) {
     }
 
     @Override
-    public void do_go(CmdGo cmdGo) {
+    public void do_go(ReqGo cmdGo) {
     }
 
     @Override
-    public void do_stop(CmdStop cmdStop) {
+    public void do_stop(ReqStop cmdStop) {
     }
 
     @Override
-    public void do_quit(CmdQuit cmdQuit) {
+    public void do_quit(ReqQuit cmdQuit) {
     }
 
     @Override
-    public void do_position(CmdPosition cmdPosition) {
+    public void do_position(ReqPosition cmdPosition) {
     }
 }

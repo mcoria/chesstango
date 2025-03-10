@@ -1,23 +1,20 @@
 package net.chesstango.uci.engine.states;
 
 import lombok.Setter;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.go.CmdGoDepth;
-import net.chesstango.uci.protocol.requests.go.CmdGoFast;
-import net.chesstango.uci.protocol.requests.go.CmdGoInfinite;
-import net.chesstango.uci.protocol.requests.go.CmdGoTime;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
+import net.chesstango.uci.protocol.requests.ReqGo;
+import net.chesstango.uci.protocol.requests.ReqGoExecutor;
+import net.chesstango.uci.protocol.requests.go.ReqGoDepth;
+import net.chesstango.uci.protocol.requests.go.ReqGoFast;
+import net.chesstango.uci.protocol.requests.go.ReqGoInfinite;
+import net.chesstango.uci.protocol.requests.go.ReqGoTime;
 
 /**
  * @author Mauricio Coria
  */
 public class WaitCmdGoState extends ReadyState {
-    private final CmdGoExecutor cmdGoExecutor;
+    private final ReqGoExecutor cmdGoExecutor;
 
     @Setter
     private SearchingState searchingState;
@@ -25,32 +22,32 @@ public class WaitCmdGoState extends ReadyState {
 
     public WaitCmdGoState(UciTango uciTango, Tango tango) {
         super(uciTango, tango);
-        this.cmdGoExecutor = new CmdGoExecutor() {
+        this.cmdGoExecutor = new ReqGoExecutor() {
             @Override
-            public void go(CmdGoInfinite cmdGoInfinite) {
+            public void go(ReqGoInfinite cmdGoInfinite) {
                 tango.goInfinite();
             }
 
             @Override
-            public void go(CmdGoDepth cmdGoDepth) {
+            public void go(ReqGoDepth cmdGoDepth) {
                 tango.goDepth(cmdGoDepth.getDepth());
             }
 
             @Override
-            public void go(CmdGoTime cmdGoTime) {
+            public void go(ReqGoTime cmdGoTime) {
                 tango.goTime(cmdGoTime.getTimeOut());
             }
 
             @Override
-            public void go(CmdGoFast cmdGoFast) {
+            public void go(ReqGoFast cmdGoFast) {
                 tango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
     }
 
     @Override
-    public void do_go(CmdGo cmdGo) {
-        cmdGo.go(cmdGoExecutor);
+    public void do_go(ReqGo cmdGo) {
+        cmdGo.execute(cmdGoExecutor);
         uciTango.changeState(searchingState);
     }
 }

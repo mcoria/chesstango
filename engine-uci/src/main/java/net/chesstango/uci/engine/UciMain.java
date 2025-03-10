@@ -38,7 +38,7 @@ public class UciMain implements Runnable {
         this.in = in;
         this.out = out;
         this.pipe = new UCIActiveStreamReader();
-        this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
+        this.service.setOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
         this.pipe.setInputStream(new UCIInputStreamFromStringAdapter(new StringSupplier(new InputStreamReader(in))));
         this.pipe.setOutputStream(service::accept);
     }

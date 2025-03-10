@@ -45,7 +45,7 @@ public class UciMainTangoTest {
         UciTango engine = new UciTango();
 
         UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
-        executorService.submit(uciMain::run);
+        executorService.submit(uciMain);
 
         PrintStream out = new PrintStream(outputToEngine, true);
         BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));

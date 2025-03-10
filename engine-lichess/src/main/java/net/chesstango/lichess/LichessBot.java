@@ -58,14 +58,15 @@ public class LichessBot implements Runnable, LichessBotMBean {
         logger.info("Connection successful, entering main event loop...");
 
         if (challengeRandomBot) {
-            challengeRandomBotTask = challengeRandomBotExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 30, 10, TimeUnit.SECONDS);
+            challengeRandomBotTask = challengeRandomBotExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 30, 60, TimeUnit.SECONDS);
         }
 
         try {
             events.forEach(event -> {
                 logger.info("event received: {}", event);
                 switch (event.type()) {
-                    case challenge -> lichessChallengeHandler.challengeCreated((Event.ChallengeCreatedEvent) event);
+                    case challenge ->
+                            lichessChallengeHandler.challengeCreated((Event.ChallengeCreatedEvent) event);
                     case challengeCanceled ->
                             lichessChallengeHandler.challengeCanceled((Event.ChallengeCanceledEvent) event);
                     case challengeDeclined ->
