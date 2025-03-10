@@ -35,11 +35,17 @@ Proxy pattern is implemented by ChessPositionReader as access control interface 
 MoveGenaratorWithCacheProxy implements a cache proxy. Another example is MoveGeneratorWithCacheProxy.
 
 ## Behavioral Patterns
+- State
 - Template method
 - Command
 - Strategy
 - Visitor
 - Iterator
+
+### State
+The classes in the package net.chesstango.uci.engine collaborate within the **State Design Pattern** to implement the behavior of a chess engine that uses the **Universal Chess Interface (UCI)** protocol. The **State Design Pattern** allows the engine to encapsulate its behavior and manage the transitions between different operational states. Each state is represented as a class that defines specific behavior and controls transitions to other states.
+
+Please read [State Pattern](state-pattern-engine-uci.md) for further description
 
 ### Template method
 Template method pattern is applied in different situations by abstract classes:

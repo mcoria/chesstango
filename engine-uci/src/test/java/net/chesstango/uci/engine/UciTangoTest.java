@@ -3,9 +3,6 @@ package net.chesstango.uci.engine;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.states.ReadyState;
-import net.chesstango.uci.engine.states.WaitCmdGoState;
-import net.chesstango.uci.engine.states.WaitCmdUciState;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
@@ -78,7 +75,7 @@ public class UciTangoTest {
         engine.accept(new ReqUciNewGame());
 
         String moveListStr = "e2e4 e7e6 g1f3 f7f5 e4e5 c7c6 d2d4 d8a5 c1d2 f8b4 c2c3 b4e7 f1e2 a5d5 c3c4 d5e4 e1g1 b7b6 b1c3 e4g4 a2a3 h7h5 h2h3 g4g6 d4d5 c6d5 c4d5 e8f8 d5e6 g6e6 a1c1 c8b7 c3b5 b7f3 e2f3 b8c6 b5c7 e6e5 c7a8 e7d6 g2g3 e5e8 f3c6 d7c6 a8b6 a7b6 d2c3 e8g6 d1f3 d6c5 b2b4 c5e7 c3b2 g6g5 c1c6 g5d2 c6c8 e7d8 f3f5 g8f6 b2f6 g7f6 f5f6 f8g8 c8d8 d2d8 f6d8 g8h7 d8b6 h8g8 a3a4 h5h4 g3g4 h7g7 a4a5 g8f8 a5a6 g7h7 a6a7 f8a8 b6b7 h7g6 b7a8 g6g5 a8b8 g5f6 a7a8q";
-        String noveListArray[] = moveListStr.split(" ");
+        String[] noveListArray = moveListStr.split(" ");
         List<String> moveList = List.of(noveListArray);
 
         engine.accept(new ReqPosition(moveList));

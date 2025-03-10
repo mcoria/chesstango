@@ -1,8 +1,7 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
@@ -10,15 +9,20 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 
 /**
+ * The WaitCmdUciState class is part of the State design pattern implementation for the UCI engine.
+ * It represents the state where the engine is waiting for the initial "uci" command from the client.
+ * This state handles the "uci" command to provide engine identification and transitions to the
+ * ReadyState upon completion.
+ *
  * @author Mauricio Coria
  */
-public class WaitCmdUciState implements UCIEngine {
+class WaitCmdUciState implements UCIEngine {
     private final UciTango uciTango;
 
     @Setter
     private ReadyState readyState;
 
-    public WaitCmdUciState(UciTango uciTango) {
+    WaitCmdUciState(UciTango uciTango) {
         this.uciTango = uciTango;
     }
 

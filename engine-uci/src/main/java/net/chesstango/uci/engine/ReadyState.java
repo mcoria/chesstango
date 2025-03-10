@@ -1,18 +1,22 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
+ * This class represents one of the possible states in the state design pattern for the UCI engine.
+ * In the "ReadyState", the engine is ready to accept commands such as setting options, starting new games,
+ * and updating the position on the board. This state also handles transitions to specific states like the
+ * "WaitCmdGoState" after setting a position or transitioning to the "EndState" when quitting.
+ *
  * @author Mauricio Coria
  */
-public class ReadyState implements UCIEngine {
+class ReadyState implements UCIEngine {
     public static final String POLYGLOT_BOOK = "PolyglotBook";
 
     protected final UciTango uciTango;
@@ -21,7 +25,7 @@ public class ReadyState implements UCIEngine {
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    public ReadyState(UciTango uciTango, Tango tango) {
+    ReadyState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
         this.tango = tango;
     }
@@ -32,9 +36,8 @@ public class ReadyState implements UCIEngine {
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        switch (cmdSetOption.getId()) {
-            case POLYGLOT_BOOK:
-                tango.setPolyglotBook(cmdSetOption.getValue());
+        if (cmdSetOption.getId().equals(POLYGLOT_BOOK)) {
+            tango.setPolyglotBook(cmdSetOption.getValue());
         }
     }
 
@@ -68,6 +71,6 @@ public class ReadyState implements UCIEngine {
                         ? FEN.of(FENDecoder.INITIAL_FEN)
                         : FEN.of(cmdPosition.getFen())
                 , cmdPosition.getMoves());
-        uciTango.changeState(waitCmdGoState);;
+        uciTango.changeState(waitCmdGoState);
     }
 }

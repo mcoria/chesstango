@@ -1,6 +1,5 @@
 module net.chesstango.uci.engine {
     exports net.chesstango.uci.engine;
-    exports net.chesstango.uci.engine.states;
 
     requires net.chesstango.search;
     requires net.chesstango.board;

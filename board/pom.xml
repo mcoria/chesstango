@@ -8,7 +8,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <description>Chessboard , move generation, game abstraction and support for different chess-related representation
+    <description>Chessboard, move generation, game abstraction and support for different chess-related representation
         formats
     </description>
 

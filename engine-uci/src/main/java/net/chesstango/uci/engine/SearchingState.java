@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -7,7 +7,6 @@ import net.chesstango.engine.Tango;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -15,9 +14,15 @@ import net.chesstango.uci.protocol.responses.RspInfo;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
+ * This class represents a specific state in the State design pattern for the UCI engine's lifecycle.
+ * In this state, the engine is actively searching for the best move. The behavior of the engine related
+ * to the search process is encapsulated here. It overrides methods to handle commands such as stopping
+ * the search and transition to appropriate states. Once the search finishes, it transitions back to the
+ * ReadyState or other states as defined in the UciTango lifecycle.
+ *
  * @author Mauricio Coria
  */
-public class SearchingState implements UCIEngine, SearchListener {
+class SearchingState implements UCIEngine, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final UciTango uciTango;
@@ -26,7 +31,7 @@ public class SearchingState implements UCIEngine, SearchListener {
     @Setter
     private ReadyState readyState;
 
-    public SearchingState(UciTango uciTango, Tango tango) {
+    SearchingState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
         this.tango = tango;
         tango.setSearchListener(this);

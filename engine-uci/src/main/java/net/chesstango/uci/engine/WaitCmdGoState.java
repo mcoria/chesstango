@@ -1,8 +1,7 @@
-package net.chesstango.uci.engine.states;
+package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.requests.ReqGo;
 import net.chesstango.uci.protocol.requests.ReqGoExecutor;
 import net.chesstango.uci.protocol.requests.go.ReqGoDepth;
@@ -11,16 +10,19 @@ import net.chesstango.uci.protocol.requests.go.ReqGoInfinite;
 import net.chesstango.uci.protocol.requests.go.ReqGoTime;
 
 /**
+ * The WaitCmdGoState class represents a specific state in the State design pattern implementation for the UCI engine workflow in a chess engine.
+ * It handles the "go" command and transitions the UCI engine to the SearchingState after processing the command.
+ *
  * @author Mauricio Coria
  */
-public class WaitCmdGoState extends ReadyState {
+class WaitCmdGoState extends ReadyState {
     private final ReqGoExecutor cmdGoExecutor;
 
     @Setter
     private SearchingState searchingState;
 
 
-    public WaitCmdGoState(UciTango uciTango, Tango tango) {
+    WaitCmdGoState(UciTango uciTango, Tango tango) {
         super(uciTango, tango);
         this.cmdGoExecutor = new ReqGoExecutor() {
             @Override
