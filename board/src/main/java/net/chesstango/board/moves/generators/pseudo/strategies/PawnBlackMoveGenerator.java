@@ -11,7 +11,7 @@ import net.chesstango.board.iterators.Cardinal;
  */
 public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	
-	private static final Piece[] PROMOCIONES_BLACK = new Piece[]{Piece.ROOK_BLACK, Piece.KNIGHT_BLACK, Piece.BISHOP_BLACK, Piece.QUEEN_BLACK};
+	private static final Piece[] BLACK_PROMOTIONS = new Piece[]{Piece.ROOK_BLACK, Piece.KNIGHT_BLACK, Piece.BISHOP_BLACK, Piece.QUEEN_BLACK};
 	
 	public PawnBlackMoveGenerator() {
 		super(Color.BLACK);
@@ -39,7 +39,7 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected Piece[] getPromotionPieces() {
-		return PROMOCIONES_BLACK;
+		return BLACK_PROMOTIONS;
 	}
 
 	@Override

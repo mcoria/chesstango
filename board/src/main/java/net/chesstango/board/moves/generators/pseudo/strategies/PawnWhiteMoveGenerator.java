@@ -11,7 +11,7 @@ import net.chesstango.board.iterators.Cardinal;
  */
 public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 	
-	private static final Piece[] PROMOCIONES_WHITE = new Piece[]{Piece.ROOK_WHITE, Piece.KNIGHT_WHITE, Piece.BISHOP_WHITE, Piece.QUEEN_WHITE};
+	private static final Piece[] WHITE_PROMOTIONS = new Piece[]{Piece.ROOK_WHITE, Piece.KNIGHT_WHITE, Piece.BISHOP_WHITE, Piece.QUEEN_WHITE};
 	
 	public PawnWhiteMoveGenerator() {
 		super(Color.WHITE);
@@ -39,7 +39,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected Piece[] getPromotionPieces() {
-		return PROMOCIONES_WHITE;
+		return WHITE_PROMOTIONS;
 	}
 
 	@Override
