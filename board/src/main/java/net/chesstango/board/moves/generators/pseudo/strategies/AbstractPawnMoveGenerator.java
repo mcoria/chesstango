@@ -100,6 +100,16 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
     }
 
 
+    /**
+     * Generates all pseudo-legal moves for a pawn based on its current position.
+     * This includes simple forward moves, double moves from the initial rank,
+     * and diagonal capture moves, as well as moves that lead to pawn promotion
+     * when reaching the promotion rank.
+     *
+     * @param from The current position of the pawn, encapsulated within a {@code PiecePositioned}.
+     * @return A {@code MoveGeneratorResult} containing the list of generated pseudo-moves,
+     *         as well as metadata regarding affected and captured positions.
+     */
     @Override
     public MoveGeneratorResult generatePseudoMoves(PiecePositioned from) {
         MoveGeneratorResult result = new MoveGeneratorResult(from);
@@ -121,14 +131,14 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
             result.addAffectedByPositions(squareSimpleJump);
             // Check if the square ahead is empty
             if (toPiecePositioned.getPiece() == null) {
-                MoveImp moveSaltoSimple = this.createSimplePawnMove(from, toPiecePositioned);
+                MoveImp moveSimpleJump = this.createSimplePawnMove(from, toPiecePositioned);
 
                 // Check for pawn promotion when reaching the final rank
                 toRank = squareSimpleJump.getRank();
                 if (toRank == 0 || toRank == 7) { // Promotion scenario
                     addSimpleJumpPromotion(result, toPiecePositioned);
                 } else {
-                    result.addPseudoMove(moveSaltoSimple);
+                    result.addPseudoMove(moveSimpleJump);
 
                     // Handle double-step forward move from the pawn's initial position
                     if (squareDoubleJump != null) {
