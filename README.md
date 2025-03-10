@@ -15,7 +15,7 @@ It's worth clarifying that the objective of this project isn't to incorporate ev
 
 While I've certainly taken performance considerations into account, the predominant non-functional priority remains the precise and coherent implementation of design patterns.
 
-[Patterns Index](PatternIndex.md) provides a non-exhaust list of the patterns that have been used.
+[Patterns Index](docs/PatternIndex.md) provides a non-exhaust list of the patterns that have been used.
 
 # Engine Features
 - Board
