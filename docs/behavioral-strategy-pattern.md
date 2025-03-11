@@ -53,26 +53,21 @@ The `MoveGeneratorImp` delegates the task of generating moves to the appropriate
 
 ```java
 private MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(Piece piece) {
-    switch (piece) {
-        case PAWN_WHITE:
-            return pawnWhiteMoveGenerator;
-        case PAWN_BLACK:
-            return pawnBlackMoveGenerator;
-        case ROOK_WHITE:
-        case ROOK_BLACK:
-            return rookMoveGenerator; // Depending on color
-        case KNIGHT_WHITE:
-        case KNIGHT_BLACK:
-            return knightMoveGenerator; // Depending on color
-        case QUEEN_WHITE:
-        case QUEEN_BLACK:
-            return queenMoveGenerator; // Depending on color
-        case KING_WHITE:
-        case KING_BLACK:
-            return kingMoveGenerator; // Depending on color
-        default:
-            // Handle other pieces
-    }
+    return switch (piece) {
+        case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
+        case PAWN_BLACK -> this.pawnBlackMoveGenerator;
+        case ROOK_WHITE -> this.rookWhiteMoveGenerator;
+        case ROOK_BLACK -> this.rookBlackMoveGenerator;
+        case KNIGHT_WHITE -> this.knightWhiteMoveGenerator;
+        case KNIGHT_BLACK -> this.knightBlackMoveGenerator;
+        case BISHOP_WHITE -> this.bishopWhiteMoveGenerator;
+        case BISHOP_BLACK -> this.bishopBlackMoveGenerator;
+        case QUEEN_WHITE -> this.queenWhiteMoveGenerator;
+        case QUEEN_BLACK -> this.queenBlackMoveGenerator;
+        case KING_WHITE -> this.kingWhiteMoveGenerator;
+        case KING_BLACK -> this.kingBlackMoveGenerator;
+        default -> throw new RuntimeException("Generator not found");
+    };
 }
 ```
 
@@ -117,6 +112,9 @@ Some abstract classes help facilitate shared behavior among strategies. These ab
 
 ### **4. `AbstractKingMoveGenerator`:**
 - Encapsulates king movement logic, including validation for castling moves.
+
+![Abstract classes](behavioral-strategy-pattern.png)
+
 
 ---
 
