@@ -14,7 +14,7 @@ import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMo
 import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorWithCacheProxy;
+import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
@@ -73,7 +73,7 @@ public class ChessFactory {
 	}
 
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGeneratorWithCacheProxy(moveGenerator, moveCacheBoard);
+		return new MoveGeneratorCache(moveGenerator, moveCacheBoard);
 	}
 
 	public MoveGeneratorImp createMoveGenerator() {

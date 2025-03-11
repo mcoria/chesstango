@@ -67,7 +67,7 @@ public class ChessFactoryDebug extends ChessFactory {
 	
 	@Override
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGenaratorWithCacheDebug(moveGenerator, moveCacheBoard);
+		return new MoveGenaratorCacheDebug(moveGenerator, moveCacheBoard);
 	}
 
 	@Override
