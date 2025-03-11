@@ -49,10 +49,6 @@ public class MoveGeneratorEnPassantImpTest {
 		moveGenerator.setPositionState(state);
 	}
 	
-
-
-
-	
 	@Test
 	public void testPawnWhitePasanteIzquierda() {
 		SquareBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");

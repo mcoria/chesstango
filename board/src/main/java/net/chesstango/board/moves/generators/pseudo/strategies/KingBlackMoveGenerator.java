@@ -28,7 +28,7 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 	public MovePair generateCastlingPseudoMoves() {
 		MovePair moveContainer = new MovePair();
 		if (this.positionState.isCastlingBlackQueenAllowed()){
-			if(puedeEnroqueQueen(	kingSquare.getKingSquareBlack(),
+			if(validateCastlingQueen(	kingSquare.getKingSquareBlack(),
 								PiecePositioned.KING_BLACK, 
 								PiecePositioned.ROOK_BLACK_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
@@ -37,10 +37,9 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 				moveContainer.setFirst(moveFactory.createCastlingQueenMove());
 			}
 		}
-			
-			
+
 		if (this.positionState.isCastlingBlackKingAllowed()){
-			if(puedeEnroqueKing(	kingSquare.getKingSquareBlack(),
+			if(validateCastlingKing(	kingSquare.getKingSquareBlack(),
 								PiecePositioned.KING_BLACK, 
 								PiecePositioned.ROOK_BLACK_KING,
 								DESTINO_KING_SQUARE, 
@@ -49,16 +48,5 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 			}
 		}
 		return moveContainer;
-	}	
-
-	@Override
-	protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to) {
-		return this.moveFactory.createSimpleKingMove(from, to);
 	}
-
-	@Override
-	protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to) {
-		return this.moveFactory.createCaptureKingMove(from, to);
-	}	
-
 }

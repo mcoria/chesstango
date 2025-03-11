@@ -6,7 +6,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.imp.MoveImp;
 
-
 /**
  * @author Mauricio Coria
  *
@@ -24,13 +23,12 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	public KingWhiteMoveGenerator() {
 		super(Color.WHITE);
 	}
-	
+
 	@Override
 	public MovePair generateCastlingPseudoMoves() {
-		//TODO: al dope creamos este objeto
 		MovePair moveContainer = new MovePair();
 		if (this.positionState.isCastlingWhiteQueenAllowed()){
-			if(puedeEnroqueQueen(	kingSquare.getKingSquareWhite(),
+			if(validateCastlingQueen(	kingSquare.getKingSquareWhite(),
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
@@ -39,10 +37,9 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 				moveContainer.setFirst(moveFactory.createCastlingQueenMove());
 			}
 		}
-		
-		
+
 		if (this.positionState.isCastlingWhiteKingAllowed() ){
-			if(puedeEnroqueKing(	kingSquare.getKingSquareWhite(),
+			if(validateCastlingKing(	kingSquare.getKingSquareWhite(),
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_KING,
 								DESTINO_KING_SQUARE, 
@@ -50,19 +47,6 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 				moveContainer.setSecond(moveFactory.createCastlingKingMove());
 			}
 		}
-
 		return moveContainer;
-	}		
-
-	@Override
-	protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to) {
-		return this.moveFactory.createSimpleKingMove(from, to);
 	}
-
-	@Override
-	protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to) {
-		return this.moveFactory.createCaptureKingMove(from, to);
-	}
-
-
 }

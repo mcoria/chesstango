@@ -95,6 +95,26 @@ public class MoveGeneratorImp implements MoveGenerator {
         }
     }
 
+    public void setSquareBoardReader(SquareBoardReader squareBoardReader) {
+        this.squareBoardReader = squareBoardReader;
+        setupMoveGenerators();
+    }
+
+    public void setBitBoardReader(BitBoardReader bitBoardReader) {
+        this.bitBoardReader = bitBoardReader;
+        setupMoveGenerators();
+    }
+
+    public void setBoardState(PositionStateReader positionState) {
+        this.positionStateReader = positionState;
+        setupMoveGenerators();
+    }
+
+    public void setKingSquare(KingSquare kingSquare) {
+        this.kingSquare = kingSquare;
+        setupMoveGenerators();
+    }
+
     private void setupMoveGenerators() {
         setupMoveGenerator(pawnWhiteMoveGenerator, Color.WHITE);
 
@@ -168,7 +188,7 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
 
-    protected MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(Piece piece) {
+    private MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
             case PAWN_BLACK -> this.pawnBlackMoveGenerator;
@@ -184,26 +204,6 @@ public class MoveGeneratorImp implements MoveGenerator {
             case KING_BLACK -> this.kingBlackMoveGenerator;
             default -> throw new RuntimeException("Generator not found");
         };
-    }
-
-    public void setSquareBoardReader(SquareBoardReader squareBoardReader) {
-        this.squareBoardReader = squareBoardReader;
-        setupMoveGenerators();
-    }
-
-    public void setBitBoardReader(BitBoardReader bitBoardReader) {
-        this.bitBoardReader = bitBoardReader;
-        setupMoveGenerators();
-    }
-
-    public void setBoardState(PositionStateReader positionState) {
-        this.positionStateReader = positionState;
-        setupMoveGenerators();
-    }
-
-    public void setKingSquare(KingSquare kingSquare) {
-        this.kingSquare = kingSquare;
-        setupMoveGenerators();
     }
 
 }
