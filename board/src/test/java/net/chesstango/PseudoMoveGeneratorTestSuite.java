@@ -1,7 +1,6 @@
 package net.chesstango;
 
-import net.chesstango.board.moves.generators.pseudo.strategies.PawnWhiteMoveGeneratorEnPassantTest;
-import net.chesstango.board.moves.generators.pseudo.strategies.*;
+import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

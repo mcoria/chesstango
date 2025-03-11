@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.generators.legal.squarecapturers.bypiece;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.moves.generators.pseudo.strategies.BishopMoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.imp.strategies.BishopMoveGenerator;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.SquareBoardReader;
 

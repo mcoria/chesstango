@@ -9,7 +9,7 @@ import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.generators.pseudo.strategies.*;
+import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
@@ -65,8 +65,8 @@ public class MoveGeneratorImp implements MoveGenerator {
 
         kingBlackMoveGenerator = new KingBlackMoveGenerator();
 
-
         moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+
         moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
     }
 
