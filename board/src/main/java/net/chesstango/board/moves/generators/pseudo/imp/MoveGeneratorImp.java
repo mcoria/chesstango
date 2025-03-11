@@ -118,67 +118,60 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
     private void setupMoveGenerators() {
-        setupMoveGenerator(pawnWhiteMoveGenerator, Color.WHITE);
+        setupMoveGenerator(pawnWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(pawnBlackMoveGenerator, Color.BLACK);
+        setupMoveGenerator(pawnBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(rookMoveGeneratorWhite, Color.WHITE);
+        setupMoveGenerator(rookMoveGeneratorWhite, moveFactoryWhite);
 
-        setupMoveGenerator(rookMoveGeneratorBlack, Color.BLACK);
+        setupMoveGenerator(rookMoveGeneratorBlack, moveFactoryBlack);
 
-        setupMoveGenerator(knightMoveGeneratorWhite, Color.WHITE);
+        setupMoveGenerator(knightMoveGeneratorWhite, moveFactoryWhite);
 
-        setupMoveGenerator(knightMoveGeneratorBlack, Color.BLACK);
+        setupMoveGenerator(knightMoveGeneratorBlack, moveFactoryBlack);
 
-        setupMoveGenerator(bishopMoveGeneratorWhite, Color.WHITE);
+        setupMoveGenerator(bishopMoveGeneratorWhite, moveFactoryWhite);
 
-        setupMoveGenerator(bishopMoveGeneratorBlack, Color.BLACK);
+        setupMoveGenerator(bishopMoveGeneratorBlack, moveFactoryBlack);
 
-        setupMoveGenerator(queenMoveGeneratorWhite, Color.WHITE);
+        setupMoveGenerator(queenMoveGeneratorWhite, moveFactoryWhite);
 
-        setupMoveGenerator(queenMoveGeneratorBlack, Color.BLACK);
+        setupMoveGenerator(queenMoveGeneratorBlack, moveFactoryBlack);
 
-        setupMoveGenerator(kingWhiteMoveGenerator, Color.WHITE);
+        setupMoveGenerator(kingWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(kingBlackMoveGenerator, Color.BLACK);
+        setupMoveGenerator(kingBlackMoveGenerator, moveFactoryBlack);
     }
 
-    private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned, Color color) {
-        if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator generator) {
-            generator.setSquareBoard(squareBoardReader);
-            generator.setBitBoard(bitBoardReader);
-        }
+    private void setupMoveGenerator(AbstractMoveGenerator abstractMoveGenerator, MoveFactory moveFactory) {
+            abstractMoveGenerator.setSquareBoard(squareBoardReader);
+            abstractMoveGenerator.setBitBoard(bitBoardReader);
 
-        MoveFactory moveFactory = Color.WHITE.equals(color) ? moveFactoryWhite : moveFactoryBlack;
-
-        if (moveGeneratorByPiecePositioned instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
+        if (abstractMoveGenerator instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
             abstractPawnMoveGenerator.setMoveFactory(moveFactory);
             abstractPawnMoveGenerator.setPositionState(positionStateReader);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
+        if (abstractMoveGenerator instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
             abstractKingMoveGenerator.setMoveFactory(moveFactory);
+            abstractKingMoveGenerator.setPositionState(positionStateReader);
+            abstractKingMoveGenerator.setKingSquare(kingSquare);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof RookMoveGenerator rookMoveGenerator) {
+        if (abstractMoveGenerator instanceof RookMoveGenerator rookMoveGenerator) {
             rookMoveGenerator.setMoveFactory(moveFactory);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof BishopMoveGenerator bishopMoveGenerator) {
+        if (abstractMoveGenerator instanceof BishopMoveGenerator bishopMoveGenerator) {
             bishopMoveGenerator.setMoveFactory(moveFactory);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof KnightMoveGenerator knightMoveGenerator) {
+        if (abstractMoveGenerator instanceof KnightMoveGenerator knightMoveGenerator) {
             knightMoveGenerator.setMoveFactory(moveFactory);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof QueenMoveGenerator queenMoveGenerator) {
+        if (abstractMoveGenerator instanceof QueenMoveGenerator queenMoveGenerator) {
             queenMoveGenerator.setMoveFactory(moveFactory);
-        }
-
-        if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
-            abstractKingMoveGenerator.setPositionState(positionStateReader);
-            abstractKingMoveGenerator.setKingSquare(kingSquare);
         }
     }
 
