@@ -8,7 +8,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
@@ -22,9 +21,9 @@ import net.chesstango.board.position.PositionStateReader;
  */
 public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
-    private final EnPassantMoveGeneratorBlack pasanteMoveGeneratorBlack = new EnPassantMoveGeneratorBlack();
+    private final EnPassantMoveGeneratorBlack enPassantMoveGeneratorBlack = new EnPassantMoveGeneratorBlack();
 
-    private final EnPassantMoveGeneratorWhite pasanteMoveGeneratorWhite = new EnPassantMoveGeneratorWhite();
+    private final EnPassantMoveGeneratorWhite enPassantMoveGeneratorWhite = new EnPassantMoveGeneratorWhite();
 
     @Setter
     private PositionStateReader positionState;
@@ -38,9 +37,9 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
         Square pawnPasanteSquare = positionState.getEnPassantSquare();
         if (pawnPasanteSquare != null) {
             if (Color.WHITE.equals(positionState.getCurrentTurn())) {
-                return pasanteMoveGeneratorWhite.generatePseudoMoves(pawnPasanteSquare);
+                return enPassantMoveGeneratorWhite.generatePseudoMoves(pawnPasanteSquare);
             } else {
-                return pasanteMoveGeneratorBlack.generatePseudoMoves(pawnPasanteSquare);
+                return enPassantMoveGeneratorBlack.generatePseudoMoves(pawnPasanteSquare);
             }
         }
         return null;

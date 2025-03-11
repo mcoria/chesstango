@@ -11,9 +11,8 @@ import net.chesstango.board.moves.containers.MovePair;
  */
 public interface MoveGeneratorCastling {
 	
-	/*
-	 * Este tipo de movimientos no debe entrar en cache
-	 * ver GameTest.testUndoCaptureRook()
+	/**
+	 * This type of moves should not be cached. See GameTest.testUndoCaptureRook().
 	 */
 	MovePair generateCastlingPseudoMoves();
 }

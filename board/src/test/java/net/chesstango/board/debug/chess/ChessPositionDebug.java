@@ -8,8 +8,6 @@ import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
-import java.util.Collection;
-
 
 /**
  * @author Mauricio Coria
@@ -53,9 +51,9 @@ public class ChessPositionDebug extends ChessPositionImp {
     protected MoveGeneratorImp getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = new MoveGeneratorImp();
-            moveGeneratorImp.setPiecePlacement(this.squareBoard);
+            moveGeneratorImp.setSquareBoardReader(this.squareBoard);
             moveGeneratorImp.setBoardState(this.positionState);
-            moveGeneratorImp.setColorBoard(this.bitBoard);
+            moveGeneratorImp.setBitBoardReader(this.bitBoard);
         }
         return moveGeneratorImp;
     }

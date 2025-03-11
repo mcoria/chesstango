@@ -22,51 +22,51 @@ public class MoveGeneratorImp implements MoveGenerator {
     private final MoveFactory moveFactoryWhite;
     private final MoveFactory moveFactoryBlack;
 
-    private final PawnWhiteMoveGenerator pbmg;
-    private final PawnBlackMoveGenerator pnmg;
-    private final RookMoveGenerator tbmg;
-    private final RookMoveGenerator tnmg;
-    private final KnightMoveGenerator cbmg;
-    private final KnightMoveGenerator cnmg;
-    private final BishopMoveGenerator abmg;
-    private final BishopMoveGenerator anmg;
-    private final QueenMoveGenerator rebmg;
-    private final QueenMoveGenerator renmg;
-    private final KingWhiteMoveGenerator rbmg;
-    private final KingBlackMoveGenerator rnmg;
-    private final MoveGeneratorEnPassantImp ppmg;
+    private final PawnWhiteMoveGenerator pawnWhiteMoveGenerator;
+    private final PawnBlackMoveGenerator pawnBlackMoveGenerator;
+    private final RookMoveGenerator rookMoveGeneratorWhite;
+    private final RookMoveGenerator rookMoveGeneratorBlack;
+    private final KnightMoveGenerator knightMoveGeneratorWhite;
+    private final KnightMoveGenerator knightMoveGeneratorBlack;
+    private final BishopMoveGenerator bishopMoveGeneratorWhite;
+    private final BishopMoveGenerator bishopMoveGeneratorBlack;
+    private final QueenMoveGenerator queenMoveGeneratorWhite;
+    private final QueenMoveGenerator queenMoveGeneratorBlack;
+    private final KingWhiteMoveGenerator kingWhiteMoveGenerator;
+    private final KingBlackMoveGenerator kingBlackMoveGenerator;
+    private final MoveGeneratorEnPassantImp moveGeneratorEnPassant;
 
-    private SquareBoardReader piecePlacement;
-    private BitBoardReader colorBoard;
-    private PositionStateReader positionState;
+    private SquareBoardReader squareBoardReader;
+    private BitBoardReader bitBoardReader;
+    private PositionStateReader positionStateReader;
     private KingSquare kingSquare;
 
     public MoveGeneratorImp() {
-        pbmg = new PawnWhiteMoveGenerator();
+        pawnWhiteMoveGenerator = new PawnWhiteMoveGenerator();
 
-        pnmg = new PawnBlackMoveGenerator();
+        pawnBlackMoveGenerator = new PawnBlackMoveGenerator();
 
-        tbmg = new RookMoveGenerator(Color.WHITE);
+        rookMoveGeneratorWhite = new RookMoveGenerator(Color.WHITE);
 
-        tnmg = new RookMoveGenerator(Color.BLACK);
+        rookMoveGeneratorBlack = new RookMoveGenerator(Color.BLACK);
 
-        cbmg = new KnightMoveGenerator(Color.WHITE);
+        knightMoveGeneratorWhite = new KnightMoveGenerator(Color.WHITE);
 
-        cnmg = new KnightMoveGenerator(Color.BLACK);
+        knightMoveGeneratorBlack = new KnightMoveGenerator(Color.BLACK);
 
-        abmg = new BishopMoveGenerator(Color.WHITE);
+        bishopMoveGeneratorWhite = new BishopMoveGenerator(Color.WHITE);
 
-        anmg = new BishopMoveGenerator(Color.BLACK);
+        bishopMoveGeneratorBlack = new BishopMoveGenerator(Color.BLACK);
 
-        rebmg = new QueenMoveGenerator(Color.WHITE);
+        queenMoveGeneratorWhite = new QueenMoveGenerator(Color.WHITE);
 
-        renmg = new QueenMoveGenerator(Color.BLACK);
+        queenMoveGeneratorBlack = new QueenMoveGenerator(Color.BLACK);
 
-        rbmg = new KingWhiteMoveGenerator();
+        kingWhiteMoveGenerator = new KingWhiteMoveGenerator();
 
-        rnmg = new KingBlackMoveGenerator();
+        kingBlackMoveGenerator = new KingBlackMoveGenerator();
 
-        ppmg = new MoveGeneratorEnPassantImp();
+        moveGeneratorEnPassant = new MoveGeneratorEnPassantImp();
 
         moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
         moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
@@ -76,78 +76,57 @@ public class MoveGeneratorImp implements MoveGenerator {
     @Override
     public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
         Piece piece = origen.getPiece();
-        //MoveGeneratorStrategy strategy = piece.selectMoveGeneratorStrategy(this);
         MoveGeneratorByPiecePositioned strategy = selectMoveGeneratorStrategy(piece);
         return strategy.generatePseudoMoves(origen);
     }
 
     @Override
     public MovePair generateEnPassantPseudoMoves() {
-        return ppmg.generateEnPassantPseudoMoves();
+        return moveGeneratorEnPassant.generateEnPassantPseudoMoves();
     }
 
 
     @Override
     public MovePair generateCastlingPseudoMoves() {
-        if (Color.WHITE.equals(positionState.getCurrentTurn())) {
-            return rbmg.generateCastlingPseudoMoves();
+        if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
+            return kingWhiteMoveGenerator.generateCastlingPseudoMoves();
         } else {
-            return rnmg.generateCastlingPseudoMoves();
+            return kingBlackMoveGenerator.generateCastlingPseudoMoves();
         }
     }
 
-    public void setPiecePlacement(SquareBoardReader dummyBoard) {
-        this.piecePlacement = dummyBoard;
-        setupMoveGenerators();
-    }
-
-    public void setColorBoard(BitBoardReader colorBoard) {
-        this.colorBoard = colorBoard;
-        setupMoveGenerators();
-    }
-
-    public void setBoardState(PositionStateReader positionState) {
-        this.positionState = positionState;
-        setupMoveGenerators();
-    }
-
-    public void setKingSquare(KingSquare kingSquare) {
-        this.kingSquare = kingSquare;
-        setupMoveGenerators();
-    }
-
     private void setupMoveGenerators() {
-        setupMoveGenerator(pbmg, Color.WHITE);
+        setupMoveGenerator(pawnWhiteMoveGenerator, Color.WHITE);
 
-        setupMoveGenerator(pnmg, Color.BLACK);
+        setupMoveGenerator(pawnBlackMoveGenerator, Color.BLACK);
 
-        setupMoveGenerator(tbmg, Color.WHITE);
+        setupMoveGenerator(rookMoveGeneratorWhite, Color.WHITE);
 
-        setupMoveGenerator(tnmg, Color.BLACK);
+        setupMoveGenerator(rookMoveGeneratorBlack, Color.BLACK);
 
-        setupMoveGenerator(cbmg, Color.WHITE);
+        setupMoveGenerator(knightMoveGeneratorWhite, Color.WHITE);
 
-        setupMoveGenerator(cnmg, Color.BLACK);
+        setupMoveGenerator(knightMoveGeneratorBlack, Color.BLACK);
 
-        setupMoveGenerator(abmg, Color.WHITE);
+        setupMoveGenerator(bishopMoveGeneratorWhite, Color.WHITE);
 
-        setupMoveGenerator(anmg, Color.BLACK);
+        setupMoveGenerator(bishopMoveGeneratorBlack, Color.BLACK);
 
-        setupMoveGenerator(rebmg, Color.WHITE);
+        setupMoveGenerator(queenMoveGeneratorWhite, Color.WHITE);
 
-        setupMoveGenerator(renmg, Color.BLACK);
+        setupMoveGenerator(queenMoveGeneratorBlack, Color.BLACK);
 
-        setupMoveGenerator(rbmg, Color.WHITE);
+        setupMoveGenerator(kingWhiteMoveGenerator, Color.WHITE);
 
-        setupMoveGenerator(rnmg, Color.BLACK);
+        setupMoveGenerator(kingBlackMoveGenerator, Color.BLACK);
 
         setupEnPassantMoveGenerator();
     }
 
     private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned, Color color) {
         if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator generator) {
-            generator.setSquareBoard(piecePlacement);
-            generator.setBitBoard(colorBoard);
+            generator.setSquareBoard(squareBoardReader);
+            generator.setBitBoard(bitBoardReader);
         }
 
         MoveFactory moveFactory = Color.WHITE.equals(color) ? moveFactoryWhite : moveFactoryBlack;
@@ -177,110 +156,54 @@ public class MoveGeneratorImp implements MoveGenerator {
         }
 
         if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator generator) {
-            generator.setBoardState(positionState);
+            generator.setBoardState(positionStateReader);
             generator.setKingCacheBoard(kingSquare);
         }
     }
 
 
     private void setupEnPassantMoveGenerator() {
-        ppmg.setPositionState(positionState);
-        ppmg.setPiecePlacement(piecePlacement);
-    }
-
-
-    public PawnWhiteMoveGenerator getPawnWhiteMoveGenerator() {
-        return pbmg;
-    }
-
-    public PawnBlackMoveGenerator getPawnBlackMoveGenerator() {
-        return pnmg;
-    }
-
-    public RookMoveGenerator getRookWhiteMoveGenerator() {
-        return tbmg;
-    }
-
-    public RookMoveGenerator getRookBlackMoveGenerator() {
-        return tnmg;
-    }
-
-    public KnightMoveGenerator getKnightWhiteMoveGenerator() {
-        return cbmg;
-    }
-
-    public KnightMoveGenerator getKnightBlackMoveGenerator() {
-        return cnmg;
-    }
-
-    public BishopMoveGenerator getBishopWhiteMoveGenerator() {
-        return abmg;
-    }
-
-    public BishopMoveGenerator getBishopBlackMoveGenerator() {
-        return anmg;
-    }
-
-    public QueenMoveGenerator getQueenWhiteMoveGenerator() {
-        return rebmg;
-    }
-
-    public QueenMoveGenerator getQueenBlackMoveGenerator() {
-        return renmg;
-    }
-
-    public KingWhiteMoveGenerator getKingWhiteMoveGenerator() {
-        return rbmg;
-    }
-
-    public KingBlackMoveGenerator getKingBlackMoveGenerator() {
-        return rnmg;
+        moveGeneratorEnPassant.setPositionState(positionStateReader);
+        moveGeneratorEnPassant.setPiecePlacement(squareBoardReader);
     }
 
 
     protected MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(Piece piece) {
-        MoveGeneratorByPiecePositioned value = null;
-        switch (piece) {
-            case PAWN_WHITE:
-                value = this.pbmg;
-                break;
-            case PAWN_BLACK:
-                value = this.pnmg;
-                break;
-            case ROOK_WHITE:
-                value = this.tbmg;
-                break;
-            case ROOK_BLACK:
-                value = this.tnmg;
-                break;
-            case KNIGHT_WHITE:
-                value = this.cbmg;
-                break;
-            case KNIGHT_BLACK:
-                value = this.cnmg;
-                break;
-            case BISHOP_WHITE:
-                value = this.abmg;
-                break;
-            case BISHOP_BLACK:
-                value = this.anmg;
-                break;
-            case QUEEN_WHITE:
-                value = this.rebmg;
-                break;
-            case QUEEN_BLACK:
-                value = this.renmg;
-                break;
-            case KING_WHITE:
-                value = this.rbmg;
-                break;
-            case KING_BLACK:
-                value = this.rnmg;
-                break;
-            default:
-                throw new RuntimeException("Generator not found");
-        }
-        return value;
+        return switch (piece) {
+            case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
+            case PAWN_BLACK -> this.pawnBlackMoveGenerator;
+            case ROOK_WHITE -> this.rookMoveGeneratorWhite;
+            case ROOK_BLACK -> this.rookMoveGeneratorBlack;
+            case KNIGHT_WHITE -> this.knightMoveGeneratorWhite;
+            case KNIGHT_BLACK -> this.knightMoveGeneratorBlack;
+            case BISHOP_WHITE -> this.bishopMoveGeneratorWhite;
+            case BISHOP_BLACK -> this.bishopMoveGeneratorBlack;
+            case QUEEN_WHITE -> this.queenMoveGeneratorWhite;
+            case QUEEN_BLACK -> this.queenMoveGeneratorBlack;
+            case KING_WHITE -> this.kingWhiteMoveGenerator;
+            case KING_BLACK -> this.kingBlackMoveGenerator;
+            default -> throw new RuntimeException("Generator not found");
+        };
+    }
+
+    public void setSquareBoardReader(SquareBoardReader squareBoardReader) {
+        this.squareBoardReader = squareBoardReader;
+        setupMoveGenerators();
+    }
+
+    public void setBitBoardReader(BitBoardReader bitBoardReader) {
+        this.bitBoardReader = bitBoardReader;
+        setupMoveGenerators();
+    }
+
+    public void setBoardState(PositionStateReader positionState) {
+        this.positionStateReader = positionState;
+        setupMoveGenerators();
+    }
+
+    public void setKingSquare(KingSquare kingSquare) {
+        this.kingSquare = kingSquare;
+        setupMoveGenerators();
     }
 
 }

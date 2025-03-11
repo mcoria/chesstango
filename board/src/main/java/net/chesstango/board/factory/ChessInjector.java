@@ -217,9 +217,9 @@ public class ChessInjector {
     protected MoveGenerator getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = chessFactory.createMoveGenerator();
-            moveGeneratorImp.setPiecePlacement(getPiecePlacement());
+            moveGeneratorImp.setSquareBoardReader(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
-            moveGeneratorImp.setColorBoard(getBitBoard());
+            moveGeneratorImp.setBitBoardReader(getBitBoard());
             moveGeneratorImp.setKingSquare(getKingCacheBoard());
         }
         return moveGeneratorImp;

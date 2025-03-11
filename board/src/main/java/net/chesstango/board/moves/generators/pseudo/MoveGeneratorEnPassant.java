@@ -8,11 +8,10 @@ import net.chesstango.board.moves.containers.MovePair;
  */
 public interface MoveGeneratorEnPassant {
 
-	/*
-	 * Este tipo de movimientos no debe entrar en cache
-	 * Es necesario validar un movimiento de EnPassant dado que hay posibilidad de jaque
-	 * por mas que el peon que cubra al rey no sea pinned position 
+	/**
+	 * This type of moves should not be cached.
+	 * It is necessary to validate an EnPassant move as there is a possibility of check
+	 * even if the pawn covering the king is not in a pinned position.
 	 */
 	MovePair generateEnPassantPseudoMoves();
-
 }
