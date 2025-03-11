@@ -1,6 +1,6 @@
 package net.chesstango;
 
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorEnPassantImpTest;
+import net.chesstango.board.moves.generators.pseudo.strategies.PawnWhiteMoveGeneratorEnPassantTest;
 import net.chesstango.board.moves.generators.pseudo.strategies.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -16,6 +16,6 @@ import org.junit.platform.suite.api.Suite;
 		AbstractCardinalMoveGeneratorSurOesteTest.class, AbstractCardinalMoveGeneratorSurTest.class,
 		BishopMoveGeneratorTest.class, KingBlackMoveGeneratorTest.class, KingWhiteMoveGeneratorTest.class,
 		KnightMoveGeneratorTest.class, PawnBlackMoveGeneratorTest.class, PawnWhiteMoveGeneratorTest.class,
-		QueenMoveGeneratorTest.class, RookMoveGeneratorTest.class, MoveGeneratorEnPassantImpTest.class })
+		QueenMoveGeneratorTest.class, RookMoveGeneratorTest.class, PawnWhiteMoveGeneratorEnPassantTest.class })
 public class PseudoMoveGeneratorTestSuite {
 }

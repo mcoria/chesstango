@@ -7,8 +7,10 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.position.PositionStateReader;
 
 /**
  * The AbstractPawnMoveGenerator class applies the Template Method design pattern
@@ -34,9 +36,11 @@ import net.chesstango.board.moves.imp.MoveImp;
  * @author Mauricio Coria
  */
 @Setter
-public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
+public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator implements MoveGeneratorEnPassant {
 
-    private PawnMoveFactory moveFactory;
+    protected PawnMoveFactory moveFactory;
+
+    protected PositionStateReader positionState;
 
     /**
      * Determines the next square ahead for a pawn's simple forward move
@@ -60,7 +64,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
      * or null if the move is not legal or not possible in the current context.
      */
     protected abstract Square getTwoSquareForward(Square square);
-    
+
     /**
      * Determines the square reachable by a pawn to attack a piece to its left,
      * based on the pawn's current position and movement direction.
@@ -82,7 +86,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
      */
     protected abstract Square getAttackSquareRight(Square square);
 
-    
+
     /**
      * Determines the array of pieces that a pawn can promote to
      * upon reaching the promotion rank.
@@ -108,7 +112,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
      *
      * @param from The current position of the pawn, encapsulated within a {@code PiecePositioned}.
      * @return A {@code MoveGeneratorResult} containing the list of generated pseudo-moves,
-     *         as well as metadata regarding affected and captured positions.
+     * as well as metadata regarding affected and captured positions.
      */
     @Override
     public MoveGeneratorResult generatePseudoMoves(PiecePositioned from) {
@@ -124,7 +128,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
         PiecePositioned toPiecePositioned = null;
 
-        
+
         // Handle simple forward move for the pawn
         if (squareSimpleJump != null) {
             toPiecePositioned = this.squareBoard.getPosition(squareSimpleJump);

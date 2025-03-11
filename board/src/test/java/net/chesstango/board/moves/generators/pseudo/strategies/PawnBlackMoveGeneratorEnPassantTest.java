@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.pseudo.imp;
+package net.chesstango.board.moves.generators.pseudo.strategies;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
@@ -9,10 +9,10 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class MoveGeneratorEnPassantImpTest {
-	private MoveGeneratorEnPassantImp moveGenerator;
+public class PawnBlackMoveGeneratorEnPassantTest {
+	private PawnBlackMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves;
 
@@ -41,70 +41,23 @@ public class MoveGeneratorEnPassantImpTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 		moves = new ArrayList<Move>();
 		state = new PositionStateImp();
 		
-		moveGenerator = new MoveGeneratorEnPassantImp();
+		moveGenerator = new PawnBlackMoveGenerator();
 		moveGenerator.setPositionState(state);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 	}
-	
-	@Test
-	public void testPawnWhitePasanteIzquierda() {
-		SquareBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
-		
-		state.setEnPassantSquare(Square.d6);
-		state.setCurrentTurn(Color.WHITE);
-		
-		moveGenerator.setPiecePlacement(tablero);
-
-		Square from = Square.e5;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.d5));
-		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
-
-		movePair = moveGenerator.generateEnPassantPseudoMoves();
-		
-		assertEquals(1, movePair.size());
-		
-		assertTrue(movePair.contains( createCaptureBlackEnPassantMove(origen, Square.d6) ));
-	}
-	
-	
-
-	
-	@Test
-	public void testPawnWhitePasanteDerecha() {
-		SquareBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
-		
-		state.setEnPassantSquare(Square.e6);
-		state.setCurrentTurn(Color.WHITE);
-		
-		moveGenerator.setPiecePlacement(tablero);
-		
-		Square from = Square.d5;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.e5));
-		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
-
-		movePair = moveGenerator.generateEnPassantPseudoMoves();
-		
-		assertEquals(1, movePair.size());
-		
-		assertTrue(movePair.contains( createCaptureBlackEnPassantMove(origen, Square.e6) ));
-	}
-	
 
 	@Test
 	public void testPawnBlackPasanteDerecha() {
-		SquareBoard tablero = getTablero("8/8/8/8/3pP3/8/8/8");
+		SquareBoard tablero = getSquareBoard("8/8/8/8/3pP3/8/8/8");
 		
 		state.setEnPassantSquare(Square.e3);
 		state.setCurrentTurn(Color.BLACK);
-		
-		moveGenerator.setPiecePlacement(tablero);
+
+		moveGenerator.setSquareBoard(tablero);
 		
 		Square from = Square.d4;
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -121,12 +74,12 @@ public class MoveGeneratorEnPassantImpTest {
 
 	@Test
 	public void testPawnBlackPasanteIzquierda() {
-		SquareBoard tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
+		SquareBoard tablero = getSquareBoard("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setEnPassantSquare(Square.d3);
 		state.setCurrentTurn(Color.BLACK);
-		
-		moveGenerator.setPiecePlacement(tablero);
+
+		moveGenerator.setSquareBoard(tablero);
 		
 		Square from = Square.e4;
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -140,18 +93,12 @@ public class MoveGeneratorEnPassantImpTest {
 		
 		assertTrue(movePair.contains( createCaptureWhiteEnPassantMove(origen, Square.d3) ));
 	}
-
-	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
-				PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
-				Piece.PAWN_BLACK), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
-	}
 	
 	private Move createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}	
 	
-	private SquareBoard getTablero(String string) {
+	private SquareBoard getSquareBoard(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);

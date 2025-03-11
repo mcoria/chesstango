@@ -57,14 +57,14 @@ public class KingBlackMoveGeneratorTest {
 		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();
-		moveGenerator.setBoardState(state);
+		moveGenerator.setPositionState(state);
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
 		bitBoard = new BitBoardDebug();
 		moveGenerator.setBitBoard(bitBoard);
 		
 		kingSquare = new KingSquareImp();
-		moveGenerator.setKingCacheBoard(kingSquare);
+		moveGenerator.setKingSquare(kingSquare);
 	}
 	
 	

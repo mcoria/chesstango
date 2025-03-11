@@ -6,10 +6,10 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.generators.pseudo.strategies.*;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.strategies.*;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
@@ -34,7 +34,6 @@ public class MoveGeneratorImp implements MoveGenerator {
     private final QueenMoveGenerator queenMoveGeneratorBlack;
     private final KingWhiteMoveGenerator kingWhiteMoveGenerator;
     private final KingBlackMoveGenerator kingBlackMoveGenerator;
-    private final MoveGeneratorEnPassantImp moveGeneratorEnPassant;
 
     private SquareBoardReader squareBoardReader;
     private BitBoardReader bitBoardReader;
@@ -66,7 +65,6 @@ public class MoveGeneratorImp implements MoveGenerator {
 
         kingBlackMoveGenerator = new KingBlackMoveGenerator();
 
-        moveGeneratorEnPassant = new MoveGeneratorEnPassantImp();
 
         moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
         moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
@@ -82,7 +80,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 
     @Override
     public MovePair generateEnPassantPseudoMoves() {
-        return moveGeneratorEnPassant.generateEnPassantPseudoMoves();
+        if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
+            return pawnWhiteMoveGenerator.generateEnPassantPseudoMoves();
+        } else {
+            return pawnBlackMoveGenerator.generateEnPassantPseudoMoves();
+        }
     }
 
 
@@ -139,8 +141,6 @@ public class MoveGeneratorImp implements MoveGenerator {
         setupMoveGenerator(kingWhiteMoveGenerator, Color.WHITE);
 
         setupMoveGenerator(kingBlackMoveGenerator, Color.BLACK);
-
-        setupEnPassantMoveGenerator();
     }
 
     private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned, Color color) {
@@ -153,6 +153,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
         if (moveGeneratorByPiecePositioned instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
             abstractPawnMoveGenerator.setMoveFactory(moveFactory);
+            abstractPawnMoveGenerator.setPositionState(positionStateReader);
         }
 
         if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
@@ -175,16 +176,10 @@ public class MoveGeneratorImp implements MoveGenerator {
             queenMoveGenerator.setMoveFactory(moveFactory);
         }
 
-        if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator generator) {
-            generator.setBoardState(positionStateReader);
-            generator.setKingCacheBoard(kingSquare);
+        if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
+            abstractKingMoveGenerator.setPositionState(positionStateReader);
+            abstractKingMoveGenerator.setKingSquare(kingSquare);
         }
-    }
-
-
-    private void setupEnPassantMoveGenerator() {
-        moveGeneratorEnPassant.setPositionState(positionStateReader);
-        moveGeneratorEnPassant.setPiecePlacement(squareBoardReader);
     }
 
 

@@ -2,8 +2,11 @@ package net.chesstango.board.moves.generators.pseudo.strategies;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
@@ -50,5 +53,36 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	@Override
 	protected Cardinal getDiagonalRightDirection() {
 		return Cardinal.SurEste;
+	}
+
+	@Override
+	public MovePair generateEnPassantPseudoMoves() {
+		Square pawnPasanteSquare = positionState.getEnPassantSquare();
+		MovePair moveContainer = new MovePair();
+		if (pawnPasanteSquare != null) {
+			PiecePositioned from = null;
+			PiecePositioned capture = null;
+
+			Square casilleroPawnIzquirda = Square.getSquare(pawnPasanteSquare.getFile() - 1, pawnPasanteSquare.getRank() + 1);
+			if (casilleroPawnIzquirda != null) {
+				from = squareBoard.getPosition(casilleroPawnIzquirda);
+				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
+				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
+					MoveImp move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurEste);
+					moveContainer.setFirst(move);
+				}
+			}
+
+			Square casilleroPawnDerecha = Square.getSquare(pawnPasanteSquare.getFile() + 1, pawnPasanteSquare.getRank() + 1);
+			if (casilleroPawnDerecha != null) {
+				from = squareBoard.getPosition(casilleroPawnDerecha);
+				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
+				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
+					MoveImp move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurOeste);
+					moveContainer.setSecond(move);
+				}
+			}
+		}
+		return moveContainer;
 	}
 }
