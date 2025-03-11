@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.moves.generators.pseudo;
 
 import net.chesstango.board.moves.containers.MovePair;
