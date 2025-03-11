@@ -10,10 +10,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
-import net.chesstango.board.position.BitBoardReader;
-import net.chesstango.board.position.KingSquare;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.SquareBoardReader;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
@@ -24,42 +21,42 @@ public class MoveGeneratorImp implements MoveGenerator {
 
     private final PawnWhiteMoveGenerator pawnWhiteMoveGenerator;
     private final PawnBlackMoveGenerator pawnBlackMoveGenerator;
-    private final RookMoveGenerator rookMoveGeneratorWhite;
-    private final RookMoveGenerator rookMoveGeneratorBlack;
-    private final KnightMoveGenerator knightMoveGeneratorWhite;
-    private final KnightMoveGenerator knightMoveGeneratorBlack;
-    private final BishopMoveGenerator bishopMoveGeneratorWhite;
-    private final BishopMoveGenerator bishopMoveGeneratorBlack;
-    private final QueenMoveGenerator queenMoveGeneratorWhite;
-    private final QueenMoveGenerator queenMoveGeneratorBlack;
+    private final RookMoveGenerator rookWhiteMoveGenerator;
+    private final RookMoveGenerator rookBlackMoveGenerator;
+    private final KnightMoveGenerator knightWhiteMoveGenerator;
+    private final KnightMoveGenerator knightBlackMoveGenerator;
+    private final BishopMoveGenerator bishopWhiteMoveGenerator;
+    private final BishopMoveGenerator bishopBlackMoveGenerator;
+    private final QueenMoveGenerator queenWhiteMoveGenerator;
+    private final QueenMoveGenerator queenBlackMoveGenerator;
     private final KingWhiteMoveGenerator kingWhiteMoveGenerator;
     private final KingBlackMoveGenerator kingBlackMoveGenerator;
 
     private SquareBoardReader squareBoardReader;
     private BitBoardReader bitBoardReader;
     private PositionStateReader positionStateReader;
-    private KingSquare kingSquare;
+    private KingSquareReader kingSquareReader;
 
     public MoveGeneratorImp() {
         pawnWhiteMoveGenerator = new PawnWhiteMoveGenerator();
 
         pawnBlackMoveGenerator = new PawnBlackMoveGenerator();
 
-        rookMoveGeneratorWhite = new RookMoveGenerator(Color.WHITE);
+        rookWhiteMoveGenerator = new RookMoveGenerator(Color.WHITE);
 
-        rookMoveGeneratorBlack = new RookMoveGenerator(Color.BLACK);
+        rookBlackMoveGenerator = new RookMoveGenerator(Color.BLACK);
 
-        knightMoveGeneratorWhite = new KnightMoveGenerator(Color.WHITE);
+        knightWhiteMoveGenerator = new KnightMoveGenerator(Color.WHITE);
 
-        knightMoveGeneratorBlack = new KnightMoveGenerator(Color.BLACK);
+        knightBlackMoveGenerator = new KnightMoveGenerator(Color.BLACK);
 
-        bishopMoveGeneratorWhite = new BishopMoveGenerator(Color.WHITE);
+        bishopWhiteMoveGenerator = new BishopMoveGenerator(Color.WHITE);
 
-        bishopMoveGeneratorBlack = new BishopMoveGenerator(Color.BLACK);
+        bishopBlackMoveGenerator = new BishopMoveGenerator(Color.BLACK);
 
-        queenMoveGeneratorWhite = new QueenMoveGenerator(Color.WHITE);
+        queenWhiteMoveGenerator = new QueenMoveGenerator(Color.WHITE);
 
-        queenMoveGeneratorBlack = new QueenMoveGenerator(Color.BLACK);
+        queenBlackMoveGenerator = new QueenMoveGenerator(Color.BLACK);
 
         kingWhiteMoveGenerator = new KingWhiteMoveGenerator();
 
@@ -112,8 +109,8 @@ public class MoveGeneratorImp implements MoveGenerator {
         setupMoveGenerators();
     }
 
-    public void setKingSquare(KingSquare kingSquare) {
-        this.kingSquare = kingSquare;
+    public void setKingSquareReader(KingSquare kingSquareReader) {
+        this.kingSquareReader = kingSquareReader;
         setupMoveGenerators();
     }
 
@@ -122,21 +119,21 @@ public class MoveGeneratorImp implements MoveGenerator {
 
         setupMoveGenerator(pawnBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(rookMoveGeneratorWhite, moveFactoryWhite);
+        setupMoveGenerator(rookWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(rookMoveGeneratorBlack, moveFactoryBlack);
+        setupMoveGenerator(rookBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(knightMoveGeneratorWhite, moveFactoryWhite);
+        setupMoveGenerator(knightWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(knightMoveGeneratorBlack, moveFactoryBlack);
+        setupMoveGenerator(knightBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(bishopMoveGeneratorWhite, moveFactoryWhite);
+        setupMoveGenerator(bishopWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(bishopMoveGeneratorBlack, moveFactoryBlack);
+        setupMoveGenerator(bishopBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(queenMoveGeneratorWhite, moveFactoryWhite);
+        setupMoveGenerator(queenWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(queenMoveGeneratorBlack, moveFactoryBlack);
+        setupMoveGenerator(queenBlackMoveGenerator, moveFactoryBlack);
 
         setupMoveGenerator(kingWhiteMoveGenerator, moveFactoryWhite);
 
@@ -144,8 +141,8 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
     private void setupMoveGenerator(AbstractMoveGenerator abstractMoveGenerator, MoveFactory moveFactory) {
-            abstractMoveGenerator.setSquareBoard(squareBoardReader);
-            abstractMoveGenerator.setBitBoard(bitBoardReader);
+        abstractMoveGenerator.setSquareBoard(squareBoardReader);
+        abstractMoveGenerator.setBitBoard(bitBoardReader);
 
         if (abstractMoveGenerator instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
             abstractPawnMoveGenerator.setMoveFactory(moveFactory);
@@ -155,7 +152,7 @@ public class MoveGeneratorImp implements MoveGenerator {
         if (abstractMoveGenerator instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
             abstractKingMoveGenerator.setMoveFactory(moveFactory);
             abstractKingMoveGenerator.setPositionState(positionStateReader);
-            abstractKingMoveGenerator.setKingSquare(kingSquare);
+            abstractKingMoveGenerator.setKingSquare(kingSquareReader);
         }
 
         if (abstractMoveGenerator instanceof RookMoveGenerator rookMoveGenerator) {
@@ -180,14 +177,14 @@ public class MoveGeneratorImp implements MoveGenerator {
         return switch (piece) {
             case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
             case PAWN_BLACK -> this.pawnBlackMoveGenerator;
-            case ROOK_WHITE -> this.rookMoveGeneratorWhite;
-            case ROOK_BLACK -> this.rookMoveGeneratorBlack;
-            case KNIGHT_WHITE -> this.knightMoveGeneratorWhite;
-            case KNIGHT_BLACK -> this.knightMoveGeneratorBlack;
-            case BISHOP_WHITE -> this.bishopMoveGeneratorWhite;
-            case BISHOP_BLACK -> this.bishopMoveGeneratorBlack;
-            case QUEEN_WHITE -> this.queenMoveGeneratorWhite;
-            case QUEEN_BLACK -> this.queenMoveGeneratorBlack;
+            case ROOK_WHITE -> this.rookWhiteMoveGenerator;
+            case ROOK_BLACK -> this.rookBlackMoveGenerator;
+            case KNIGHT_WHITE -> this.knightWhiteMoveGenerator;
+            case KNIGHT_BLACK -> this.knightBlackMoveGenerator;
+            case BISHOP_WHITE -> this.bishopWhiteMoveGenerator;
+            case BISHOP_BLACK -> this.bishopBlackMoveGenerator;
+            case QUEEN_WHITE -> this.queenWhiteMoveGenerator;
+            case QUEEN_BLACK -> this.queenBlackMoveGenerator;
             case KING_WHITE -> this.kingWhiteMoveGenerator;
             case KING_BLACK -> this.kingBlackMoveGenerator;
             default -> throw new RuntimeException("Generator not found");

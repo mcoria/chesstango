@@ -220,7 +220,7 @@ public class ChessInjector {
             moveGeneratorImp.setSquareBoardReader(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setBitBoardReader(getBitBoard());
-            moveGeneratorImp.setKingSquare(getKingCacheBoard());
+            moveGeneratorImp.setKingSquareReader(getKingCacheBoard());
         }
         return moveGeneratorImp;
     }
