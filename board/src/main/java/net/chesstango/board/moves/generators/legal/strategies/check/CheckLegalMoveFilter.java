@@ -37,13 +37,12 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
 	public boolean isLegalMove(MoveImp move) {
 		boolean result = false;
 		
-		final Color turnoActual = positionState.getCurrentTurn();
-		final Color opositeTurnoActual = turnoActual.oppositeColor();
+		final Color currentTurn = positionState.getCurrentTurn();
 		
 		move.doMove(this.dummySquareBoard);
 		move.doMove(this.bitBoard);
 
-		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn)) ) {
 			result = true;
 		}
 

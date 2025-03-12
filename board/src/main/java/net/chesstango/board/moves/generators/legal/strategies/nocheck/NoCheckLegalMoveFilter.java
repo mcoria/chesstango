@@ -53,13 +53,12 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 
 		boolean result = false;
 		
-		final Color turnoActual = positionState.getCurrentTurn();
-		final Color opositeTurnoActual = turnoActual.oppositeColor();
+		final Color currentTurn = positionState.getCurrentTurn();
 		
 		move.doMove(this.dummySquareBoard);
 		move.doMove(this.bitBoard);
 
-		if(! cardinalSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! cardinalSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn)) ) {
 			result = true;
 		}
 
@@ -72,14 +71,13 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 	@Override
 	public boolean isLegalMove(MoveKingImp move) {
 		boolean result = false;
-		final Color turnoActual = positionState.getCurrentTurn();
-		final Color opositeTurnoActual = turnoActual.oppositeColor();
+		final Color currentTurn = positionState.getCurrentTurn();
 		
 		move.doMove(this.kingCacheBoard);
 		move.doMove(this.dummySquareBoard);
 		move.doMove(this.bitBoard);
 
-		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn)) ) {
 			result = true;
 		}
 
@@ -95,8 +93,8 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 	@Override
 	public boolean isLegalMove(MoveCastlingImp moveCastling) {
 		Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
-		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					    // El king no esta en jaque... lo asumimos
-		return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 		// El king no puede ser capturado en casillero intermedio
+		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					// El king no esta en jaque... lo asumimos
+		return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 			// El king no puede ser capturado en casillero intermedio
 			&& !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getTo().getSquare());  			// El king no puede  ser capturado en casillero destino
 		
 	}		
