@@ -1,7 +1,10 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.imp.AlgoPositionStateWhite;
+import net.chesstango.board.moves.imp.MoveCastlingImp;
+import net.chesstango.board.moves.imp.MoveCastlingWhiteKing;
+import net.chesstango.board.moves.imp.MoveCastlingWhiteQueen;
 
 /**
  * @author Mauricio Coria

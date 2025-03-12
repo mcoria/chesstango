@@ -6,12 +6,12 @@ import net.chesstango.board.position.SquareBoardWriter;
 /**
  * @author Mauricio Coria
  */
-class AlgoSquareBoard {
-    protected void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
+public class AlgoSquareBoard {
+    public void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
         squareBoardWriter.move(from, to);
     }
 
-    protected void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
+    public void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
         squareBoardWriter.setPosition(from);
         squareBoardWriter.setPosition(to);
     }

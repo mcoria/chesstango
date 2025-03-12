@@ -9,24 +9,19 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class MoveComposed extends MoveImp {
 
-    @Setter
     private MoveLayerExecutor<PositionStateWriter> fnDoPositionState;
 
-    @Setter
     private MoveLayerExecutor<SquareBoardWriter> fnDoSquareBoard;
 
-    @Setter
     private MoveLayerExecutor<SquareBoardWriter> fnUndoSquareBoard;
 
-    @Setter
     private MoveLayerExecutor<BitBoardWriter> fnDoColorBoard;
 
-    @Setter
     private MoveLayerExecutor<BitBoardWriter> fnUndoColorBoard;
 
-    @Setter
     private ZobristExecutor fnDoZobrist;
 
     public MoveComposed(PiecePositioned from, PiecePositioned to, Cardinal direction) {

@@ -6,7 +6,7 @@ import net.chesstango.board.position.BitBoardWriter;
 /**
  * @author Mauricio Coria
  */
-class AlgoBitBoard {
+public class AlgoBitBoard {
     public void captureFnDoBitBoard(PiecePositioned from, PiecePositioned to, BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(to);
 

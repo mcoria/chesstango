@@ -9,7 +9,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-class MovePawnTwoSquares extends MoveImp {
+public class MovePawnTwoSquares extends MoveImp {
     protected final Square enPassantSquare;
 
     public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {

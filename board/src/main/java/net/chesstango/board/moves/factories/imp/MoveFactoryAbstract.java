@@ -1,10 +1,11 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.imp.*;
 
 /**
  * @author Mauricio Coria

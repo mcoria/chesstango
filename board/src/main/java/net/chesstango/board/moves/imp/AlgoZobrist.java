@@ -8,7 +8,7 @@ import net.chesstango.board.position.ZobristHashWriter;
 /**
  * @author Mauricio Coria
  */
-class AlgoZobrist {
+public class AlgoZobrist {
 
     public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         hash.pushState();

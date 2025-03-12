@@ -6,7 +6,7 @@ import net.chesstango.board.position.PositionStateWriter;
 /**
  * @author Mauricio Coria
  */
-interface AlgoPositionState {
+public interface AlgoPositionState {
     void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);
 
     void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter);

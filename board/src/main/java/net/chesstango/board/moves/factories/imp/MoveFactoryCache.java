@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -6,6 +6,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.imp.MoveCastlingImp;
+import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveKingImp;
+import net.chesstango.board.moves.imp.MovePromotionImp;
 
 import java.util.Objects;
 
@@ -192,7 +196,7 @@ public class MoveFactoryCache implements MoveFactory {
         return squaresKey ^ pieceKey;
     }*/
 
-    protected int computeKey(PiecePositioned origen, PiecePositioned destino) {
+    public int computeKey(PiecePositioned origen, PiecePositioned destino) {
         return origen.hashCode() ^ destino.hashCode();
     }
 }

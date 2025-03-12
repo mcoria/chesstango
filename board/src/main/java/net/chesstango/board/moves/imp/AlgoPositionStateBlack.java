@@ -6,7 +6,7 @@ import net.chesstango.board.position.PositionStateWriter;
 /**
  * @author Mauricio Coria
  */
-class AlgoPositionStateBlack implements AlgoPositionState {
+public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {

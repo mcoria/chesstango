@@ -1,8 +1,8 @@
 package net.chesstango.board.factory;
 
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 
 /**
  * @author Mauricio Coria
