@@ -7,8 +7,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
-import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.SquareBoardReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

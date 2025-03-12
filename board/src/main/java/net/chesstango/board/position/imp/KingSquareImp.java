@@ -4,8 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.KingSquare;
+import net.chesstango.board.position.SquareBoardReader;
 
 /**
  * @author Mauricio Coria

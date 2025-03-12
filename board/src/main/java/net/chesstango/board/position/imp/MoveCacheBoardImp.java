@@ -4,7 +4,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
