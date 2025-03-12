@@ -4,12 +4,12 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionCommand;
+import net.chesstango.board.position.MoveCommand;
 
 /**
  * @author Mauricio Coria
  */
-public interface Move extends ChessPositionCommand {
+public interface Move extends MoveCommand {
     PiecePositioned getFrom();
 
     PiecePositioned getTo();

@@ -9,7 +9,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MoveKingImp extends MoveComposed implements MoveKing, KingSquareCommand {
+public class MoveKingImp extends MoveComposed implements MoveKing {
 
     public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(from, to, direction);

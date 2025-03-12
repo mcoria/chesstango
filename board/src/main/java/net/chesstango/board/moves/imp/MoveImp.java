@@ -11,13 +11,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move,
-        SquareBoardCommand,
-        MoveCacheBoardCommand,
-        BitBoardCommand,
-        PositionStateCommand,
-        ZobristHashCommand,
-        LegalMoveFilterSelector {
+public abstract class MoveImp implements Move, LegalMoveFilterSelector {
 
     protected final PiecePositioned from;
     protected final PiecePositioned to;
