@@ -205,7 +205,7 @@ public class SimpleKingMoveTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).isLegalMove(moveExecutor);
+        verify(filter).isLegalMoveKing(moveExecutor);
     }
 
     @Test

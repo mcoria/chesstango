@@ -21,17 +21,6 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         this.rookTo = rookTo;
     }
 
-    /**
-     * This method checks if this move is legal or not.
-     *
-     * @param filter
-     * @return
-     */
-    @Override
-    public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
-
     @Override
     public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.move(from, to);

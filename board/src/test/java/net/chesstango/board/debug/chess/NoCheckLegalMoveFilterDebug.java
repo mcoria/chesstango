@@ -67,13 +67,13 @@ public class NoCheckLegalMoveFilterDebug extends NoCheckLegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(MoveKing move) {
+    public boolean isLegalMoveKing(MoveKing move) {
         try {
             boolean reportError = false;
 
             KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 
-            boolean result = super.isLegalMove(move);
+            boolean result = super.isLegalMoveKing(move);
 
             if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
                 System.out.println("El cache de king fu� modificado");

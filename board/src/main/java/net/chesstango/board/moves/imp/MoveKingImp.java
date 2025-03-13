@@ -19,17 +19,6 @@ public class MoveKingImp extends MoveComposed implements MoveKing {
         super(from, to);
     }
 
-    /**
-     * This method checks if this move is legal or not.
-     *
-     * @param filter
-     * @return
-     */
-    @Override
-    public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
-
     @Override
     public void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();

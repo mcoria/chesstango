@@ -53,7 +53,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(MoveKing move) {
+    public boolean isLegalMoveKing(MoveKing move) {
         move.doMove(this.kingCacheBoard);
 
         boolean result = isLegalMove((MoveImp) move);
@@ -64,7 +64,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(MoveCastling moveCastling) {
+    public boolean isLegalMoveCastling(MoveCastling moveCastling) {
         return false;
     }
 

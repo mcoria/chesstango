@@ -10,7 +10,7 @@ import net.chesstango.board.moves.MoveKing;
 public interface LegalMoveFilter {
     boolean isLegalMove(Move move);
 
-    boolean isLegalMove(MoveKing move);
+    boolean isLegalMoveKing(MoveKing move);
 
-    boolean isLegalMove(MoveCastling moveCastling);
+    boolean isLegalMoveCastling(MoveCastling moveCastling);
 }
