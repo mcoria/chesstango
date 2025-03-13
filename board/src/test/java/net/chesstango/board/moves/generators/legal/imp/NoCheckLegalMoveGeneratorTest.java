@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies;
+package net.chesstango.board.moves.generators.legal.imp;
 
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.PositionAnalyzer;
@@ -7,7 +7,7 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.strategies.nocheck.NoCheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.representations.fen.FENDecoder;

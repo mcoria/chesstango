@@ -2,7 +2,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.moves.generators.legal.strategies.check.CheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;

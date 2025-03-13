@@ -10,7 +10,7 @@ import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.strategies.LegalMoveGeneratorImp;
+import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;

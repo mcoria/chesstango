@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies;
+package net.chesstango.board.moves.generators.legal.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
@@ -11,8 +11,6 @@ import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.Collection;
 
 /**
  * @author Mauricio Coria

@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies.check;
+package net.chesstango.board.moves.generators.legal.imp.check;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
@@ -6,7 +6,7 @@ import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.strategies.AbstractLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 

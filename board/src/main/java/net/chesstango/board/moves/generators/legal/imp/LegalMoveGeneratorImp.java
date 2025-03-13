@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies;
+package net.chesstango.board.moves.generators.legal.imp;
 
 import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;

@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies.nocheck;
+package net.chesstango.board.moves.generators.legal.imp.nocheck;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
@@ -11,7 +11,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.strategies.AbstractLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 

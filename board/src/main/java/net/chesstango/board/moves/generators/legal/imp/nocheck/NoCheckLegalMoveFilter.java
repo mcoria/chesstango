@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.generators.legal.strategies.nocheck;
+package net.chesstango.board.moves.generators.legal.imp.nocheck;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
