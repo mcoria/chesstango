@@ -27,7 +27,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
         try {
             boolean reportError = false;
 
-            SquareBoardImp boardInicial = ((SquareBoardImp) super.dummySquareBoard).clone();
+            SquareBoardImp boardInicial = ((SquareBoardImp) super.squareBoard).clone();
 
             KingSquareImp kingCacheBoardInicial = ((KingSquareImp)super.kingCacheBoard).clone();
 
@@ -47,9 +47,9 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
                 reportError = true;
             }
 
-            if (!super.dummySquareBoard.equals(boardInicial)) {
+            if (!super.squareBoard.equals(boardInicial)) {
                 System.out.println("El board fu� modificado");
-                System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummySquareBoard);
+                System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.squareBoard);
                 reportError = true;
             }
 
@@ -58,8 +58,8 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
                 throw new RuntimeException("Hubo modificaciones ! ! !");
             }
 
-            ((PositionStateDebug) positionState).validar(this.dummySquareBoard);
-            ((BitBoardDebug) bitBoard).validar(this.dummySquareBoard);
+            ((PositionStateDebug) positionState).validar(this.squareBoard);
+            ((BitBoardDebug) bitBoard).validar(this.squareBoard);
 
             return result;
         } catch (CloneNotSupportedException e) {
@@ -87,7 +87,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
                 throw new RuntimeException("Hubo modificaciones ! ! !");
             }
 
-            ((KingSquareDebug) kingCacheBoard).validar(this.dummySquareBoard);
+            ((KingSquareDebug) kingCacheBoard).validar(this.squareBoard);
 
             return result;
         } catch (CloneNotSupportedException e) {

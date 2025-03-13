@@ -12,7 +12,6 @@ import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.KingSquareImp;
 
 /**
  * Este filtro se utiliza cuando el jugador actual no se encuentra en jaque
@@ -21,7 +20,7 @@ import net.chesstango.board.position.imp.KingSquareImp;
  */
 public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 
-    protected final SquareBoard dummySquareBoard;
+    protected final SquareBoard squareBoard;
     protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
     protected final PositionStateReader positionState;
@@ -29,13 +28,13 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     protected final FullScanSquareCaptured fullScanSquareCapturer;
     protected final CardinalSquareCaptured cardinalSquareCapturer;
 
-    public NoCheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
-        this.dummySquareBoard = dummySquareBoard;
+    public NoCheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+        this.squareBoard = squareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;
         this.positionState = positionState;
-        this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
-        this.cardinalSquareCapturer = new CardinalSquareCaptured(dummySquareBoard, bitBoard);
+        this.fullScanSquareCapturer = new FullScanSquareCaptured(squareBoard, bitBoard);
+        this.cardinalSquareCapturer = new CardinalSquareCaptured(squareBoard, bitBoard);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 
         final Color currentTurn = positionState.getCurrentTurn();
 
-        move.doMove(this.dummySquareBoard);
+        move.doMove(this.squareBoard);
         move.doMove(this.bitBoard);
 
         if (!cardinalSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
@@ -63,7 +62,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
         }
 
         move.undoMove(this.bitBoard);
-        move.undoMove(this.dummySquareBoard);
+        move.undoMove(this.squareBoard);
 
         return result;
     }
@@ -74,7 +73,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
         final Color currentTurn = positionState.getCurrentTurn();
 
         move.doMove(this.kingCacheBoard);
-        move.doMove(this.dummySquareBoard);
+        move.doMove(this.squareBoard);
         move.doMove(this.bitBoard);
 
         if (!fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
@@ -82,7 +81,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
         }
 
         move.undoMove(this.bitBoard);
-        move.undoMove(this.dummySquareBoard);
+        move.undoMove(this.squareBoard);
         move.undoMove(this.kingCacheBoard);
 
         return result;

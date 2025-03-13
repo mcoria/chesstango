@@ -6,7 +6,6 @@ import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
-import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
@@ -19,18 +18,18 @@ import net.chesstango.board.position.SquareBoard;
  */
 public class CheckLegalMoveFilter implements LegalMoveFilter {
 
-    protected final SquareBoard dummySquareBoard;
+    protected final SquareBoard squareBoard;
     protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
     protected final PositionStateReader positionState;
     protected final FullScanSquareCaptured fullScanSquareCapturer;
 
-    public CheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
-        this.dummySquareBoard = dummySquareBoard;
+    public CheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+        this.squareBoard = squareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;
         this.positionState = positionState;
-        this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
+        this.fullScanSquareCapturer = new FullScanSquareCaptured(squareBoard, bitBoard);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
 
         final Color currentTurn = positionState.getCurrentTurn();
 
-        move.doMove(this.dummySquareBoard);
+        move.doMove(this.squareBoard);
         move.doMove(this.bitBoard);
 
         if (!fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
@@ -47,7 +46,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
         }
 
         move.undoMove(this.bitBoard);
-        move.undoMove(this.dummySquareBoard);
+        move.undoMove(this.squareBoard);
 
         return result;
     }
@@ -56,7 +55,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     public boolean isLegalMoveKing(MoveKing move) {
         move.doMove(this.kingCacheBoard);
 
-        boolean result = isLegalMove((MoveImp) move);
+        boolean result = isLegalMove(move);
 
         move.undoMove(this.kingCacheBoard);
 
