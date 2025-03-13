@@ -43,7 +43,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-		moves = new ArrayList<Move>();
+		moves = new ArrayList<>();
 		state = new PositionStateImp();
 		
 		moveGenerator = new PawnWhiteMoveGenerator();

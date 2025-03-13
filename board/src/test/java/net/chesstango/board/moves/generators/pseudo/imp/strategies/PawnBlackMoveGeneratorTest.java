@@ -30,7 +30,7 @@ public class PawnBlackMoveGeneratorTest {
 
     private PawnBlackMoveGenerator moveGenerator;
 
-    private Collection<MoveImp> moves;
+    private Collection<Move> moves;
 
     private MoveFactory moveFactoryImp;
 

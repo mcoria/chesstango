@@ -43,7 +43,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
-		moves = new ArrayList<Move>();
+		moves = new ArrayList<>();
 		state = new PositionStateImp();
 		
 		moveGenerator = new PawnBlackMoveGenerator();

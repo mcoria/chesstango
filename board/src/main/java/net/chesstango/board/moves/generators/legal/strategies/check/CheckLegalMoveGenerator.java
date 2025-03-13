@@ -12,35 +12,34 @@ import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
-	
-	public CheckLegalMoveGenerator(ChessPositionReader positionReader,
+
+    public CheckLegalMoveGenerator(ChessPositionReader positionReader,
                                    MoveGenerator strategy,
-								   LegalMoveFilter filter) {
-		super(positionReader, strategy, filter);
-	}	
+                                   LegalMoveFilter filter) {
+        super(positionReader, strategy, filter);
+    }
 
-	@Override
-	public MoveContainer getLegalMoves(AnalyzerResult analysis) {
-		MoveContainer moves = new MoveContainer();
-		
-		getBySquareMoves(moves);
-		
-		getEnPassantMoves(moves);
-		
-		return moves;
-	}
+    @Override
+    public MoveContainer getLegalMoves(AnalyzerResult analysis) {
+        MoveContainer moves = new MoveContainer();
 
-	protected void getBySquareMoves(MoveContainer moves) {
-		for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext();) {
-			
-			Square origenSquare = iterator.next();
+        getBySquareMoves(moves);
 
-			MoveList pseudoMoves = getPseudoMoves(origenSquare);
+        getEnPassantMoves(moves);
 
-			filterMoveCollection(pseudoMoves, moves);
-		}
-	}
+        return moves;
+    }
+
+    protected void getBySquareMoves(MoveContainer moves) {
+        for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext(); ) {
+
+            Square origenSquare = iterator.next();
+
+            MoveList pseudoMoves = getPseudoMoves(origenSquare);
+
+            filterMoveCollection(pseudoMoves, moves);
+        }
+    }
 }

@@ -37,7 +37,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private KingWhiteMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<Move> moves;
 	
 	private MovePair moveCastling;
 	

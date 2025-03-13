@@ -34,7 +34,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<Move> moves;
 
 	private MoveFactory moveFactoryImp;
 	

@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PawnWhiteMoveGeneratorTest {
     private PawnWhiteMoveGenerator moveGenerator;
 
-    private Collection<MoveImp> moves;
+    private Collection<Move> moves;
 
 
     private MoveFactory moveFactoryImp;

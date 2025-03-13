@@ -1,7 +1,6 @@
 package net.chesstango.board.moves.containers;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveImp;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -9,14 +8,14 @@ import java.util.ArrayList;
 /**
  * @author Mauricio Coria
  */
-public class MoveList extends ArrayList<MoveImp> {
+public class MoveList extends ArrayList<Move> {
 
     @Serial
     private static final long serialVersionUID = 1L;
     private boolean hasQuietMoves = true;
 
     @Override
-    public boolean add(MoveImp move) {
+    public boolean add(Move move) {
         if (!move.isQuiet()) {
             hasQuietMoves = false;
         }

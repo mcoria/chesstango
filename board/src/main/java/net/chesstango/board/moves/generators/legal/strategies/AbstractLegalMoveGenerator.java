@@ -10,7 +10,6 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Collection;
@@ -50,8 +49,8 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 	protected void filterMovePair(MovePair movePairToFilter, MoveContainer collectionToAdd) {
 		if(movePairToFilter != null){
-			final MoveImp first = movePairToFilter.getFirst();
-			final MoveImp second = movePairToFilter.getSecond();
+			final Move first = movePairToFilter.getFirst();
+			final Move second = movePairToFilter.getSecond();
 
 			if(first != null) {
 				filter(first, collectionToAdd);
@@ -63,15 +62,15 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		}
 	}
 
-	protected void filterMoveCollection(Iterable<MoveImp> moveCollectionToFilter, MoveContainer collectionToAdd){
+	protected void filterMoveCollection(Iterable<Move> moveCollectionToFilter, MoveContainer collectionToAdd){
 		if(moveCollectionToFilter != null) {
-			for (MoveImp move : moveCollectionToFilter) {
+			for (Move move : moveCollectionToFilter) {
 				filter(move, collectionToAdd);
 			}
 		}
 	}
 
-	protected void filter(MoveImp move, MoveContainer collectionToAdd) {
+	protected void filter(Move move, MoveContainer collectionToAdd) {
 		if(move.isLegalMove(filter)){
 			collectionToAdd.add(move);
 		}

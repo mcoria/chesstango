@@ -34,7 +34,7 @@ public class KnightMoveGeneratorTest {
 	
 	private KnightMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<Move> moves;
 
 	private MoveFactory moveFactoryImp;
 	

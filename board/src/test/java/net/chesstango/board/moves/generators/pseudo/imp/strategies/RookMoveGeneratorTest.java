@@ -35,7 +35,7 @@ public class RookMoveGeneratorTest {
 
 	private RookMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<Move> moves;
 
 	private MoveFactory moveFactoryImp;
 	

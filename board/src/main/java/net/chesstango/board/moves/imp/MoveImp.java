@@ -11,7 +11,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move, LegalMoveFilterSelector {
+public abstract class MoveImp implements Move{
 
     protected final PiecePositioned from;
     protected final PiecePositioned to;

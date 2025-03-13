@@ -48,11 +48,6 @@ public class MoveComposed extends MoveImp {
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoard) {
         fnDoColorBoard.apply(from, to, bitBoard);
     }
@@ -63,35 +58,8 @@ public class MoveComposed extends MoveImp {
     }
 
     @Override
-    public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
-        moveCache.push();
-    }
-
-    @Override
-    public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
-        moveCache.pop();
-    }
-
-    @Override
     public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         fnDoZobrist.apply(from, to, hash, chessPositionReader);
-    }
-
-    @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
-    }
-
-    @Override
-    public Cardinal getMoveDirection() {
-        return direction;
-    }
-
-    @Override
-    public boolean isQuiet() {
-        return to.getPiece() == null;
     }
 
     @Override
@@ -100,11 +68,6 @@ public class MoveComposed extends MoveImp {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
     private Cardinal calculateMoveDirection() {
