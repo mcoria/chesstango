@@ -8,9 +8,9 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.KingSquareImp;
 
 /**
  * Este filtro se utiliza cuando el jugador actual SI se encuentra en jaque
@@ -20,12 +20,12 @@ import net.chesstango.board.position.imp.KingSquareImp;
 public class CheckLegalMoveFilter implements LegalMoveFilter {
 
     protected final SquareBoard dummySquareBoard;
-    protected final KingSquareImp kingCacheBoard;
+    protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
     protected final PositionStateReader positionState;
     protected final FullScanSquareCaptured fullScanSquareCapturer;
 
-    public CheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+    public CheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
         this.dummySquareBoard = dummySquareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;

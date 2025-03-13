@@ -54,12 +54,12 @@ public class ChessFactory {
 		return new MoveCacheBoardImp();
 	}
 
-	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                                       PositionState positionState) {
 		return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 	
-	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                                           PositionState positionState) {
 		return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}	

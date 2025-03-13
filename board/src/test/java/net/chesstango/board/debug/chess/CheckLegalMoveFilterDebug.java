@@ -4,6 +4,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
@@ -16,7 +17,7 @@ import net.chesstango.board.position.imp.SquareBoardImp;
  */
 public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 
-    public CheckLegalMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+    public CheckLegalMoveFilterDebug(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                      PositionState positionState) {
         super(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
@@ -28,7 +29,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 
             SquareBoardImp boardInicial = ((SquareBoardImp) super.dummySquareBoard).clone();
 
-            KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
+            KingSquareImp kingCacheBoardInicial = ((KingSquareImp)super.kingCacheBoard).clone();
 
             PositionStateImp boardStateInicial = ((PositionStateImp) positionState).clone();
 
@@ -71,7 +72,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
         try {
             boolean reportError = false;
 
-            KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
+            KingSquareImp kingCacheBoardInicial = ((KingSquareImp)super.kingCacheBoard).clone();
 
             boolean result = super.isLegalMoveKing(move);
 

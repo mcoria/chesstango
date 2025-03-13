@@ -107,7 +107,7 @@ public class ChessInjector {
         return positionState;
     }
 
-    protected KingSquareImp getKingCacheBoard() {
+    protected KingSquare getKingCacheBoard() {
         if (kingCacheBoard == null) {
             kingCacheBoard = chessFactory.createKingCacheBoard();
         }

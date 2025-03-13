@@ -9,6 +9,7 @@ import net.chesstango.board.moves.generators.legal.squarecapturers.CardinalSquar
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.imp.MoveCaptureEnPassantImp;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
@@ -21,14 +22,14 @@ import net.chesstango.board.position.imp.KingSquareImp;
 public class NoCheckLegalMoveFilter implements LegalMoveFilter {
 
     protected final SquareBoard dummySquareBoard;
-    protected final KingSquareImp kingCacheBoard;
+    protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
     protected final PositionStateReader positionState;
 
     protected final FullScanSquareCaptured fullScanSquareCapturer;
     protected final CardinalSquareCaptured cardinalSquareCapturer;
 
-    public NoCheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+    public NoCheckLegalMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
         this.dummySquareBoard = dummySquareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;
