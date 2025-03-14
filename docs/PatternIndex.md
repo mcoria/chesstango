@@ -41,6 +41,7 @@ MoveGenaratorWithCacheProxy implements a cache proxy. Another example is MoveGen
 - Strategy
 - Visitor
 - Iterator
+- Memento (game state)
 
 ### State
 The classes in the package `net.chesstango.uci.engine` collaborate within the **State Design Pattern** to implement the behavior of a chess engine that uses the **Universal Chess Interface (UCI)** protocol. 
