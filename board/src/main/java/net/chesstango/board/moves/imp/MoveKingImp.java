@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveKing;
@@ -11,12 +12,12 @@ import net.chesstango.board.position.*;
  */
 public class MoveKingImp extends MoveComposed implements MoveKing {
 
-    public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
-        super(from, to, direction);
+    public MoveKingImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        super(gameImp, from, to, direction);
     }
 
-    public MoveKingImp(PiecePositioned from, PiecePositioned to) {
-        super(from, to);
+    public MoveKingImp(GameImp gameImp, PiecePositioned from, PiecePositioned to) {
+        super(gameImp, from, to);
     }
 
     @Override

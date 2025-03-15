@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
@@ -14,8 +15,8 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
     protected final PiecePositioned rookFrom;
     protected final PiecePositioned rookTo;
 
-    public MoveCastlingImp(PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
-        super(kingFrom, kingTo);
+    public MoveCastlingImp(GameImp gameImp, PiecePositioned kingFrom, PiecePositioned kingTo, PiecePositioned rookFrom, PiecePositioned rookTo) {
+        super(gameImp, kingFrom, kingTo);
 
         this.rookFrom = rookFrom;
         this.rookTo = rookTo;

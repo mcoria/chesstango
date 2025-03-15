@@ -8,8 +8,9 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveKingImp;
@@ -35,6 +36,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CaptureKingMoveTest {
+    private MoveFactory moveFactory;
     private MoveKingImp moveExecutor;
     private SquareBoard squareBoard;
     private PositionStateDebug positionState;
@@ -42,8 +44,6 @@ public class CaptureKingMoveTest {
     private KingSquareDebug kingCacheBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
-
-    private ChessPosition chessPosition;
 
     @Mock
     private LegalMoveFilter filter;
@@ -81,15 +81,15 @@ public class CaptureKingMoveTest {
         chessPositionImp.setPositionState(positionState);
         chessPositionImp.setZobristHash(zobristHash);
         chessPositionImp.setSquareBoard(squareBoard);
-        chessPosition = chessPositionImp;
 
+        moveFactory = new MoveFactoryWhite();
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
+        moveExecutor = moveFactory.createCaptureKingMove(origen, destino);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(squareBoard.getPosition(Square.e1), squareBoard.getPosition(Square.e2)), moveExecutor);
+        assertEquals(moveFactory.createCaptureKingMove(squareBoard.getPosition(Square.e1), squareBoard.getPosition(Square.e2)), moveExecutor);
     }
 
     @Test

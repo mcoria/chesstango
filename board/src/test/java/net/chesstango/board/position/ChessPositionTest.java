@@ -7,11 +7,12 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,9 +41,9 @@ public class ChessPositionTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        moveFactoryWhite = new MoveFactoryWhite();
 
-        moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+        moveFactoryBlack = new MoveFactoryBlack();
 
         factory = new ChessFactoryDebug();
 

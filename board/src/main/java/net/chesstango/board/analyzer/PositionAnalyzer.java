@@ -20,14 +20,19 @@ import net.chesstango.board.position.ChessPositionReader;
 public class PositionAnalyzer {
     @Setter
     private Analyzer pinnedAnalyzer;
+
     @Setter
     private Analyzer kingSafePositionsAnalyzer;
+
     @Setter
     private GameState gameState;
+
     @Setter
     private ChessPositionReader positionReader;
+
     @Setter
     private LegalMoveGenerator legalMoveGenerator;
+
     private boolean threefoldRepetitionRule;
     private boolean fiftyMovesRule;
 

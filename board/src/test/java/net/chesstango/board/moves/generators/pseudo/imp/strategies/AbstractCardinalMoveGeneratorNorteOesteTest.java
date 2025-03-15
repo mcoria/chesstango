@@ -7,12 +7,11 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.generators.pseudo.imp.strategies.AbstractCardinalMoveGenerator;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
@@ -40,7 +39,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = new MoveFactoryWhite();
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.NorteOeste}){
 
 			@Override

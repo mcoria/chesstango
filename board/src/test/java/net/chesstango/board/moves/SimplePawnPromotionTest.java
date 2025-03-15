@@ -1,14 +1,12 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
+import net.chesstango.board.*;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
@@ -35,6 +33,8 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class SimplePawnPromotionTest {
 
+    private MoveFactory moveFactory;
+
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;
 
@@ -44,10 +44,10 @@ public class SimplePawnPromotionTest {
     private ZobristHash zobristHash;
 
     @Mock
-    private ChessPosition chessPosition;
+    private LegalMoveFilter filter;
 
     @Mock
-    private LegalMoveFilter filter;
+    private GameImp gameImp;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -71,13 +71,15 @@ public class SimplePawnPromotionTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE);
+        moveFactory = new MoveFactoryWhite();
+
+        moveExecutor = moveFactory.createSimplePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
+        assertEquals(moveFactory.createSimplePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+        assertNotEquals(moveFactory.createSimplePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
     }
 
     @Test

@@ -6,12 +6,12 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.generators.pseudo.imp.strategies.PawnBlackMoveGenerator;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
@@ -42,7 +42,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+		moveFactoryImp = new MoveFactoryBlack();
 		moves = new ArrayList<>();
 		state = new PositionStateImp();
 		

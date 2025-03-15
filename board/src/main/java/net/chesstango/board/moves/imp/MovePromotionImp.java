@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -13,8 +14,8 @@ import net.chesstango.board.position.*;
 public class MovePromotionImp extends MoveImp implements MovePromotion {
     protected final Piece promotion;
 
-    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
-        super(from, to, direction);
+    public MovePromotionImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
+        super(gameImp, from, to, direction);
         this.promotion = promotion;
     }
 

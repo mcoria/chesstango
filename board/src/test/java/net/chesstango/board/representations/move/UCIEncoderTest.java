@@ -4,10 +4,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class UCIEncoderTest {
     @BeforeEach
     public void setup(){
         encoder = new SimpleMoveEncoder();
-        moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        moveFactoryWhite = new MoveFactoryWhite();
     }
 
     @Test

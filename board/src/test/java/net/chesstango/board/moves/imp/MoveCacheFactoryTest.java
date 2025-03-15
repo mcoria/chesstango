@@ -3,9 +3,9 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryCache;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class MoveCacheFactoryTest {
 
     @BeforeEach
     public void setUp() {
-        moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        moveFactoryImp = new MoveFactoryWhite();
         moveFactoryCache = new MoveFactoryCache(moveFactoryImp);
     }
 

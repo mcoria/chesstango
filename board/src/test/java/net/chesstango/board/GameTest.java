@@ -2,11 +2,12 @@ package net.chesstango.board;
 
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
@@ -618,8 +619,11 @@ public class GameTest {
 
     @Test
     public void testCaptureRook() {
-        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
+
+        MoveFactoryBlack moveFactory = new MoveFactoryBlack();
+
+        moveFactory.setGameImp((GameImp) game);
 
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
@@ -648,8 +652,11 @@ public class GameTest {
 
     @Test
     public void testUndoCaptureRook() {
-        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
+
+        MoveFactoryBlack moveFactory = new MoveFactoryBlack();
+
+        moveFactory.setGameImp((GameImp) game);
 
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
@@ -733,8 +740,11 @@ public class GameTest {
 
     @Test
     public void testCacheEnEstadoInvalido01() {
-        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
         Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
+
+        MoveFactoryWhite moveFactory = new MoveFactoryWhite();
+
+        moveFactory.setGameImp((GameImp) game);
 
         //Antes de mover blanca podemos ver que tenemos enroque
         assertTrue(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");

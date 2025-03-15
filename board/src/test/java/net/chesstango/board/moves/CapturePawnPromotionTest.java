@@ -7,8 +7,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CapturePawnPromotionTest {
-
+    private MoveFactory moveFactory;
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;
 
@@ -74,13 +75,15 @@ public class CapturePawnPromotionTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE, Cardinal.NorteEste);
+        moveFactory = new MoveFactoryWhite();
+
+        moveExecutor = moveFactory.createCapturePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE, Cardinal.NorteEste);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.QUEEN_WHITE, Cardinal.NorteEste), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.ROOK_WHITE, Cardinal.NorteEste), moveExecutor);
+        assertEquals(moveFactory.createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.QUEEN_WHITE, Cardinal.NorteEste), moveExecutor);
+        assertNotEquals(moveFactory.createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.ROOK_WHITE, Cardinal.NorteEste), moveExecutor);
     }
 
     @Test

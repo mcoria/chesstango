@@ -7,8 +7,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
@@ -34,6 +35,8 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class SimpleTwoSquaresPawnMoveTest {
+
+    private MoveFactory moveFactory;
 
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;
@@ -77,12 +80,14 @@ public class SimpleTwoSquaresPawnMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
+        moveFactory = new MoveFactoryWhite();
+
+        moveExecutor = moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(squareBoard.getPosition(Square.e2), squareBoard.getPosition(Square.e4), Square.e3), moveExecutor);
+        assertEquals(moveFactory.createSimpleTwoSquaresPawnMove(squareBoard.getPosition(Square.e2), squareBoard.getPosition(Square.e4), Square.e3), moveExecutor);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
@@ -12,8 +13,8 @@ import net.chesstango.board.position.*;
 public class MovePawnTwoSquares extends MoveImp {
     protected final Square enPassantSquare;
 
-    public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
-        super(from, to, direction);
+    public MovePawnTwoSquares(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
+        super(gameImp, from, to, direction);
         this.enPassantSquare = enPassantSquare;
     }
 

@@ -7,15 +7,17 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
-import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +27,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-
 
 
 /**
@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CastlingBlackKingTest {
+    private MoveFactory moveFactory;
 
     private SquareBoard squareBoard;
 
@@ -57,7 +58,9 @@ public class CastlingBlackKingTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove();
+        moveFactory = new MoveFactoryBlack();
+
+        moveExecutor = moveFactory.createCastlingKingMove();
 
         positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.BLACK);
@@ -86,7 +89,7 @@ public class CastlingBlackKingTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove(), moveExecutor);
+        assertEquals(moveFactory.createCastlingKingMove(), moveExecutor);
     }
 
     @Test

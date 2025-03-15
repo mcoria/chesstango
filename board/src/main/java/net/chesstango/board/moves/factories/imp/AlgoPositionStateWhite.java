@@ -1,6 +1,10 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.moves.imp.MoveCastlingBlackKing;
+import net.chesstango.board.moves.imp.MoveCastlingBlackQueen;
+import net.chesstango.board.moves.imp.MoveCastlingWhiteKing;
+import net.chesstango.board.moves.imp.MoveCastlingWhiteQueen;
 import net.chesstango.board.position.PositionStateWriter;
 
 /**

@@ -4,9 +4,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
@@ -28,7 +29,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+        moveFactoryImp = new MoveFactoryBlack();
         positionState = new PositionStateImp();
         moveExecutor = null;
     }

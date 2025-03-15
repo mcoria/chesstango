@@ -1,6 +1,6 @@
 package net.chesstango.board.factory;
 
-import net.chesstango.board.Game;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.GameState;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.GameVisitorAcceptor;
@@ -8,8 +8,9 @@ import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
@@ -61,8 +62,11 @@ public class ChessInjector {
 
     private GameState gameState = null;
 
-    private Game game = null;
+    private GameImp game = null;
 
+    private MoveFactory moveFactoryBlack;
+
+    private MoveFactory moveFactoryWhite;
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
@@ -135,7 +139,7 @@ public class ChessInjector {
         return zobristHash;
     }
 
-    public Game getGame() {
+    public GameImp getGame() {
         if (game == null) {
             game = chessFactory.createGame(getChessPosition(), getGameState(), getAnalyzer(), new GameVisitorAcceptor() {
                 @Override
@@ -216,13 +220,27 @@ public class ChessInjector {
 
     protected MoveGenerator getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
-            moveGeneratorImp = chessFactory.createMoveGenerator();
+            moveGeneratorImp = chessFactory.createMoveGenerator(getMoveFactoryWhite(), getMoveFactoryBlack());
             moveGeneratorImp.setSquareBoardReader(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setBitBoardReader(getBitBoard());
             moveGeneratorImp.setKingSquareReader(getKingCacheBoard());
         }
         return moveGeneratorImp;
+    }
+
+    private MoveFactory getMoveFactoryBlack() {
+        if (moveFactoryBlack == null) {
+            moveFactoryBlack = chessFactory.createMoveFactoryBlack();
+        }
+        return moveFactoryBlack;
+    }
+
+    private MoveFactory getMoveFactoryWhite() {
+        if (moveFactoryWhite == null) {
+            moveFactoryWhite = chessFactory.createMoveFactoryWhite();
+        }
+        return moveFactoryWhite;
     }
 
     private LegalMoveFilter getCheckMoveFilter() {

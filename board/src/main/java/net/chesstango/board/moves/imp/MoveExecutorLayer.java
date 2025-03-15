@@ -6,6 +6,6 @@ import net.chesstango.board.PiecePositioned;
  * @author Mauricio Coria
  */
 @FunctionalInterface
-public interface MoveLayerExecutor<T> {
+public interface MoveExecutorLayer<T> {
     void apply(PiecePositioned from, PiecePositioned to, T layer);
 }

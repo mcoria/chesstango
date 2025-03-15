@@ -7,13 +7,11 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.generators.pseudo.imp.strategies.KingBlackMoveGenerator;
-import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.PositionState;
@@ -53,7 +51,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = new MoveFactoryWhite();
 		state = new PositionStateImp();
 		state.setCurrentTurn(Color.BLACK);
 		

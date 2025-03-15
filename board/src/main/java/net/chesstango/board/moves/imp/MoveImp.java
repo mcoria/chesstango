@@ -1,5 +1,7 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.Game;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -9,25 +11,27 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move{
-
+public abstract class MoveImp implements Move {
+    protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
 
-    public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+    public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         /*
         if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
             throw new RuntimeException(String.format("Direccion %s however %s %s %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()), from, to));
         }
          */
+        this.gameImp = gameImp;
         this.from = from;
         this.to = to;
         this.direction = direction;
         assert (direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
     }
 
-    public MoveImp(PiecePositioned from, PiecePositioned to) {
+    public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to) {
+        this.gameImp = gameImp;
         this.from = from;
         this.to = to;
         this.direction = calculateMoveDirection();
@@ -138,8 +142,8 @@ public abstract class MoveImp implements Move{
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MoveImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
+        if (obj instanceof Move theOther) {
+            return from.equals(theOther.getFrom()) && to.equals(theOther.getTo());
         }
         return false;
     }

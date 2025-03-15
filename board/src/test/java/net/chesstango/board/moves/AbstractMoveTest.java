@@ -3,8 +3,8 @@ package net.chesstango.board.moves;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ public class AbstractMoveTest {
 
     @BeforeEach
     public void setup() {
-        moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        moveFactory = new MoveFactoryWhite();
     }
 
     @Test

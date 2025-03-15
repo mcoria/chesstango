@@ -7,7 +7,8 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
@@ -33,6 +34,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CastlingWhiteQueenTest {
+    private MoveFactory moveFactory;
 
     private SquareBoard squareBoard;
 
@@ -56,7 +58,9 @@ public class CastlingWhiteQueenTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove();
+        moveFactory = new MoveFactoryWhite();
+
+        moveExecutor = moveFactory.createCastlingQueenMove();
 
         positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.WHITE);
@@ -85,7 +89,7 @@ public class CastlingWhiteQueenTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove(), moveExecutor);
+        assertEquals(moveFactory.createCastlingQueenMove(), moveExecutor);
     }
 
     @Test

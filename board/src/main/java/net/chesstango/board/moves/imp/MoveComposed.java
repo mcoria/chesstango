@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import lombok.Setter;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -12,24 +13,24 @@ import net.chesstango.board.position.*;
 @Setter
 public class MoveComposed extends MoveImp {
 
-    private MoveLayerExecutor<PositionStateWriter> fnDoPositionState;
+    private MoveExecutorLayer<PositionStateWriter> fnDoPositionState;
 
-    private MoveLayerExecutor<SquareBoardWriter> fnDoSquareBoard;
+    private MoveExecutorLayer<SquareBoardWriter> fnDoSquareBoard;
 
-    private MoveLayerExecutor<SquareBoardWriter> fnUndoSquareBoard;
+    private MoveExecutorLayer<SquareBoardWriter> fnUndoSquareBoard;
 
-    private MoveLayerExecutor<BitBoardWriter> fnDoColorBoard;
+    private MoveExecutorLayer<BitBoardWriter> fnDoColorBoard;
 
-    private MoveLayerExecutor<BitBoardWriter> fnUndoColorBoard;
+    private MoveExecutorLayer<BitBoardWriter> fnUndoColorBoard;
 
-    private ZobristExecutor fnDoZobrist;
+    private MoveExecutorZobrist fnDoZobrist;
 
-    public MoveComposed(PiecePositioned from, PiecePositioned to, Cardinal direction) {
-        super(from, to, direction);
+    public MoveComposed(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        super(gameImp, from, to, direction);
     }
 
-    public MoveComposed(PiecePositioned from, PiecePositioned to) {
-        super(from, to);
+    public MoveComposed(GameImp gameImp, PiecePositioned from, PiecePositioned to) {
+        super(gameImp, from, to);
     }
 
     @Override
@@ -60,14 +61,6 @@ public class MoveComposed extends MoveImp {
     @Override
     public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
         fnDoZobrist.apply(from, to, hash, chessPositionReader);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MoveComposed theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
-        }
-        return false;
     }
 
     private Cardinal calculateMoveDirection() {

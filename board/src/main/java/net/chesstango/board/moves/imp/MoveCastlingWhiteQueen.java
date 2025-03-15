@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
@@ -12,15 +13,15 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 public class MoveCastlingWhiteQueen extends MoveCastlingImp {
 
-    protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.c1, null);
+    public static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
+    public static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.c1, null);
 
-    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
-    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.d1, null);
+    public static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
+    public static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.d1, null);
 
 
-    public MoveCastlingWhiteQueen() {
-        super(KING_FROM, KING_TO, ROOK_FROM, ROOK_TO);
+    public MoveCastlingWhiteQueen(GameImp gameImp) {
+        super(gameImp, KING_FROM, KING_TO, ROOK_FROM, ROOK_TO);
     }
 
     @Override
