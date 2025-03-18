@@ -16,6 +16,10 @@ public interface Move extends MoveCommand {
 
     PiecePositioned getTo();
 
+    void executeMove();
+
+    void undoMove();
+
     /**
      * "move" is a bit field with the following meaning (bit 0 is the least significant bit)
      * bits                meaning

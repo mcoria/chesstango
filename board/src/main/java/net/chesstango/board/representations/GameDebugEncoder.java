@@ -45,7 +45,7 @@ public class GameDebugEncoder {
                 moves.forEach(move -> {
                     sb.append(".executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
 
-                    theGame.executeMove(move);
+                    move.executeMove();
                     FENEncoder fenEncoder = new FENEncoder();
                     ChessPositionReader theGamePositionReader = theGame.getChessPosition();
                     theGamePositionReader.constructChessPositionRepresentation(fenEncoder);

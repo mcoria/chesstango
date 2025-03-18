@@ -33,7 +33,7 @@ public class NegaMax implements SearchAlgorithm {
         int betterEvaluation = Evaluator.INFINITE_NEGATIVE;
 
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
+            move.executeMove();
 
             int currentEvaluation = -negaMax(game, maxPly - 1);
 
@@ -47,7 +47,7 @@ public class NegaMax implements SearchAlgorithm {
                 }
             }
 
-            game.undoMove();
+            move.undoMove();
         }
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
@@ -63,14 +63,14 @@ public class NegaMax implements SearchAlgorithm {
             betterEvaluation = evaluator.evaluate();
         } else {
             for (Move move : game.getPossibleMoves()) {
-                game = game.executeMove(move);
+                move.executeMove();
 
                 int currentEvaluation = -negaMax(game, currentPly - 1);
                 if (currentEvaluation > betterEvaluation) {
                     betterEvaluation = currentEvaluation;
                 }
 
-                game = game.undoMove();
+                move.undoMove();
             }
         }
         return betterEvaluation;

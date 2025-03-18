@@ -157,6 +157,14 @@ public class DefaultMoveComparatorTest {
             }
 
             @Override
+            public void executeMove() {
+            }
+
+            @Override
+            public void undoMove() {
+            }
+
+            @Override
             public Cardinal getMoveDirection() {
                 return null;
             }

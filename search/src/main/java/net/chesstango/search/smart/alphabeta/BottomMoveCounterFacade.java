@@ -83,10 +83,10 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     }
 
     protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
-        game = game.executeMove(targetMove);
+        targetMove.executeMove();
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        game = game.undoMove();
+        targetMove.undoMove();
         return currentValue;
     }
 
@@ -95,13 +95,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(targetMove)) {
-                game = game.executeMove(move);
+                targetMove.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
                 }
-                game = game.undoMove();
+                targetMove.undoMove();
             }
         }
     }
@@ -111,13 +111,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(targetMove)) {
-                game = game.executeMove(move);
+                targetMove.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.bottomMoveCounter++;
                 }
-                game = game.undoMove();
+                targetMove.undoMove();
             }
         }
     }

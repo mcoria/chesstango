@@ -8,13 +8,14 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -59,14 +60,18 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         Move move = null;
         long hash = 0;
         int pvMoveCounter = 0;
+        Deque<Move> moves = new LinkedList<>();
         short[] pvMoves = trianglePV[0];
+
         do {
             move = readMove(pvMoves[pvMoveCounter]);
             hash = game.getChessPosition().getZobristHash();
 
             principalVariation.add(new PrincipalVariation(hash, move));
 
-            game.executeMove(move);
+            move.executeMove();
+
+            moves.push(move);
 
             pvMoveCounter++;
 
@@ -86,8 +91,9 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
             throw new RuntimeException(String.format("bestEvaluation (%d) no coincide con la evaluacion PV (%d)", bestMoveEvaluation.evaluation(), pvEvaluation, principalVariation.stream().map(PrincipalVariation::move).toList()));
         }
 
-        for (int i = 0; i < pvMoveCounter; i++) {
-            game.undoMove();
+        while (!moves.isEmpty()) {
+            move = moves.pop();
+            move.undoMove();
         }
     }
 

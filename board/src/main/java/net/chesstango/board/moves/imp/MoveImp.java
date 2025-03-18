@@ -48,6 +48,16 @@ public abstract class MoveImp implements Move {
     }
 
     @Override
+    public void executeMove() {
+        gameImp.executeMove(this);
+    }
+
+    @Override
+    public void undoMove() {
+        gameImp.undoMove();
+    }
+
+    @Override
     public void doMove(ChessPosition chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();

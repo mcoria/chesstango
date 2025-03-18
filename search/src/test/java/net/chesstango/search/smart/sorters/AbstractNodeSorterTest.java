@@ -87,6 +87,14 @@ public abstract class AbstractNodeSorterTest {
             }
 
             @Override
+            public void executeMove() {
+            }
+
+            @Override
+            public void undoMove() {
+            }
+
+            @Override
             public Cardinal getMoveDirection() {
                 return cardinal;
             }

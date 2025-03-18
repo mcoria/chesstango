@@ -83,8 +83,8 @@ public class ChessFactory {
 		return new MoveGeneratorImp(moveFactoryWhite, moveFactoryBlack);
 	}
 
-	public GameImp createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor visitorAcceptor) {
-		return new GameImp(chessPosition, gameState, analyzer, visitorAcceptor);
+	public GameImp createGame(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor visitorAcceptor) {
+		return new GameImp(chessPosition, gameState, visitorAcceptor);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {
@@ -112,11 +112,11 @@ public class ChessFactory {
 		return new ZobristHashImp();
 	}
 
-	public MoveFactory createMoveFactoryBlack() {
-		return new MoveFactoryBlack();
+	public MoveFactoryBlack createMoveFactoryBlack(GameImp gameImp) {
+		return new MoveFactoryBlack(gameImp);
 	}
 
-	public MoveFactory createMoveFactoryWhite() {
-		return new MoveFactoryWhite();
+	public MoveFactoryWhite createMoveFactoryWhite(GameImp gameImp) {
+		return new MoveFactoryWhite(gameImp);
 	}
 }

@@ -47,7 +47,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
-            game.executeMove(move);
+            move.executeMove();
 
             int currentValue = -negaMax(game, maxPly - 1, Evaluator.INFINITE_NEGATIVE, -bestValue);
 
@@ -65,7 +65,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
                 bestMoves.add(move);
             }
 
-            game.undoMove();
+            move.undoMove();
         }
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
@@ -86,7 +86,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
             while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
 
-                game = game.executeMove(move);
+                move.executeMove();
 
                 int currentValue = -negaMax(game, currentPly - 1, -beta, -Math.max(maxValue, alpha));
 
@@ -97,7 +97,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
                     }
                 }
 
-                game = game.undoMove();
+                move.undoMove();
             }
             return maxValue;
         }

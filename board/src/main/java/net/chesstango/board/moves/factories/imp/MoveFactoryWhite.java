@@ -14,8 +14,12 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     private final MoveCastlingImp castlingKingMove;
     private final MoveCastlingImp castlingQueenMove;
 
-    public MoveFactoryWhite() {
-        super(new AlgoPositionStateWhite());
+    public MoveFactoryWhite(){
+        this(null);
+    }
+
+    public MoveFactoryWhite(GameImp gameImp) {
+        super(gameImp, new AlgoPositionStateWhite());
         this.castlingKingMove = new MoveCastlingWhiteKing(gameImp);
         this.castlingQueenMove = new MoveCastlingWhiteQueen(gameImp);
     }

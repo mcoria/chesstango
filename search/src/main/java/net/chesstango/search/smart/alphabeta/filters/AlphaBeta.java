@@ -7,8 +7,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
 
@@ -43,7 +43,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            game = game.executeMove(move);
+            move.executeMove();
 
             long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -56,7 +56,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
                     search = false;
                 }
             }
-            game = game.undoMove();
+            move.undoMove();
         }
         return TranspositionEntry.encode(bestMove, maxValue);
     }
@@ -71,7 +71,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
-            game = game.executeMove(move);
+            move.executeMove();
 
             long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
             int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
@@ -84,7 +84,7 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
                     search = false;
                 }
             }
-            game = game.undoMove();
+            move.undoMove();
         }
         return TranspositionEntry.encode(bestMove, minValue);
     }

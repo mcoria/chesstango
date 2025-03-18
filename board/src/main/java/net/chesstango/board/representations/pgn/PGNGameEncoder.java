@@ -18,7 +18,7 @@ public class PGNGameEncoder {
             MoveContainerReader legalMoves = game.getPossibleMoves();
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
             if (legalMoveToExecute != null) {
-                game.executeMove(legalMoveToExecute);
+                legalMoveToExecute.executeMove();
             } else {
                 throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", pgn.getEvent(), moveStr, game.getCurrentFEN().toString()));
             }

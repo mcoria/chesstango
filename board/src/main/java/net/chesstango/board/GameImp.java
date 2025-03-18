@@ -1,5 +1,6 @@
 package net.chesstango.board;
 
+import lombok.Setter;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorChessPositionBuilder;
@@ -16,17 +17,15 @@ import net.chesstango.board.representations.fen.FENEncoder;
 public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
-    private final PositionAnalyzer analyzer;
     private final GameVisitorAcceptor gameVisitorAcceptor;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor gameVisitorAcceptor) {
+    private PositionAnalyzer analyzer;
+
+    public GameImp(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor gameVisitorAcceptor) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
-        this.analyzer = analyzer;
         this.gameVisitorAcceptor = gameVisitorAcceptor;
         this.chessPosition.init();
-        this.analyzer.threefoldRepetitionRule(true);
-        this.analyzer.fiftyMovesRule(true);
         saveInitialFEN();
     }
 
@@ -62,7 +61,6 @@ public class GameImp implements Game {
         }
     }
 
-    @Override
     public Game executeMove(Move move) {
         gameState.setSelectedMove(move);
 
@@ -76,7 +74,6 @@ public class GameImp implements Game {
 
         return this;
     }
-
 
     @Override
     public Game undoMove() {
@@ -158,4 +155,9 @@ public class GameImp implements Game {
         gameState.setInitialFEN(encoder.getChessRepresentation());
     }
 
+    public void setAnalyzer(PositionAnalyzer analyzer) {
+        this.analyzer = analyzer;
+        this.analyzer.threefoldRepetitionRule(true);
+        this.analyzer.fiftyMovesRule(true);
+    }
 }

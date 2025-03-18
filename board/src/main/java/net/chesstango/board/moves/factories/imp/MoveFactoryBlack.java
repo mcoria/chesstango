@@ -14,8 +14,12 @@ public class MoveFactoryBlack extends MoveFactoryAbstract {
     private final MoveCastlingImp castlingKingMove;
     private final MoveCastlingImp castlingQueenMove;
 
-    public MoveFactoryBlack() {
-        super(new AlgoPositionStateBlack());
+    public MoveFactoryBlack(){
+        this(null);
+    }
+
+    public MoveFactoryBlack(GameImp gameImp) {
+        super(gameImp, new AlgoPositionStateBlack());
         this.castlingKingMove = new MoveCastlingBlackKing(gameImp);
         this.castlingQueenMove = new MoveCastlingBlackQueen(gameImp);
     }

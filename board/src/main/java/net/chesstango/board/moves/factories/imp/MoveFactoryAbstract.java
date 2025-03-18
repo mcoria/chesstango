@@ -1,6 +1,5 @@
 package net.chesstango.board.moves.factories.imp;
 
-import lombok.Setter;
 import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -21,12 +20,12 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
     protected final AlgoPositionState algoPositionState;
 
+    protected final GameImp gameImp;
+
     protected abstract Cardinal getPawnDirection();
 
-    @Setter
-    protected GameImp gameImp;
-
-    protected MoveFactoryAbstract(AlgoPositionState algoPositionState) {
+    protected MoveFactoryAbstract(GameImp gameImp, AlgoPositionState algoPositionState) {
+        this.gameImp = gameImp;
         this.algoPositionState = algoPositionState;
     }
 

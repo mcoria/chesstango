@@ -98,7 +98,7 @@ public class PGN {
 
                 epdList.add(epd);
 
-                game.executeMove(legalMoveToExecute);
+                legalMoveToExecute.executeMove();
             } else {
                 throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", getEvent(), moveStr, game.getCurrentFEN().toString()));
             }

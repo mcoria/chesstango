@@ -13,10 +13,6 @@ public interface Game extends GameVisitorAcceptor {
 
     FEN getCurrentFEN();
 
-    Game executeMove(Move move);
-
-    Game undoMove();
-
     GameStateReader getState();
 
     ChessPositionReader getChessPosition();
@@ -37,6 +33,8 @@ public interface Game extends GameVisitorAcceptor {
     Game executeMove(Square from, Square to);
 
     Game executeMove(Square from, Square to, Piece promotionPiece);
+
+    Game undoMove();
     //*******
 
     Game mirror();

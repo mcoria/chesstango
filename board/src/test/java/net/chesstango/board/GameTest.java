@@ -621,9 +621,7 @@ public class GameTest {
     public void testCaptureRook() {
         Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 
-        MoveFactoryBlack moveFactory = new MoveFactoryBlack();
-
-        moveFactory.setGameImp((GameImp) game);
+        MoveFactoryBlack moveFactory = new MoveFactoryBlack((GameImp) game);
 
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
@@ -654,9 +652,7 @@ public class GameTest {
     public void testUndoCaptureRook() {
         Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 
-        MoveFactoryBlack moveFactory = new MoveFactoryBlack();
-
-        moveFactory.setGameImp((GameImp) game);
+        MoveFactoryBlack moveFactory = new MoveFactoryBlack((GameImp) game);
 
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
@@ -742,9 +738,7 @@ public class GameTest {
     public void testCacheEnEstadoInvalido01() {
         Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 
-        MoveFactoryWhite moveFactory = new MoveFactoryWhite();
-
-        moveFactory.setGameImp((GameImp) game);
+        MoveFactoryWhite moveFactory = new MoveFactoryWhite((GameImp) game);
 
         //Antes de mover blanca podemos ver que tenemos enroque
         assertTrue(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");

@@ -1,14 +1,13 @@
 package net.chesstango.board.factory;
 
-import net.chesstango.board.GameImp;
-import net.chesstango.board.GameState;
-import net.chesstango.board.GameVisitor;
-import net.chesstango.board.GameVisitorAcceptor;
+import net.chesstango.board.*;
 import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
@@ -64,9 +63,9 @@ public class ChessInjector {
 
     private GameImp game = null;
 
-    private MoveFactory moveFactoryBlack;
+    private MoveFactoryBlack moveFactoryBlack;
 
-    private MoveFactory moveFactoryWhite;
+    private MoveFactoryWhite moveFactoryWhite;
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
@@ -141,14 +140,12 @@ public class ChessInjector {
 
     public GameImp getGame() {
         if (game == null) {
-            game = chessFactory.createGame(getChessPosition(), getGameState(), getAnalyzer(), new GameVisitorAcceptor() {
-                @Override
-                public void accept(GameVisitor visitor) {
-                    visitor.visit(getGameState());
-                    visitor.visit(getPseudoMoveGenerator());
-                    visitor.visit(getChessPosition());
-                }
+            game = chessFactory.createGame(getChessPosition(), getGameState(), visitor -> {
+                visitor.visit(chessPosition);
+                visitor.visit(gameState);
+                visitor.visit(moveGenerator);
             });
+            game.setAnalyzer(getAnalyzer());
         }
         return game;
     }
@@ -229,16 +226,16 @@ public class ChessInjector {
         return moveGeneratorImp;
     }
 
-    private MoveFactory getMoveFactoryBlack() {
+    private MoveFactoryBlack getMoveFactoryBlack() {
         if (moveFactoryBlack == null) {
-            moveFactoryBlack = chessFactory.createMoveFactoryBlack();
+            moveFactoryBlack = chessFactory.createMoveFactoryBlack(getGame());
         }
         return moveFactoryBlack;
     }
 
-    private MoveFactory getMoveFactoryWhite() {
+    private MoveFactoryWhite getMoveFactoryWhite() {
         if (moveFactoryWhite == null) {
-            moveFactoryWhite = chessFactory.createMoveFactoryWhite();
+            moveFactoryWhite = chessFactory.createMoveFactoryWhite(getGame());
         }
         return moveFactoryWhite;
     }
