@@ -100,15 +100,6 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MoveCaptureEnPassantImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
-        }
-        return false;
-    }
-
-
-    @Override
     public PiecePositioned getCapture() {
         return capture;
     }

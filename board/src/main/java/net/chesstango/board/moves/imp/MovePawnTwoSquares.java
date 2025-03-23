@@ -87,12 +87,4 @@ public class MovePawnTwoSquares extends MoveImp {
 
         hash.xorTurn();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MovePawnTwoSquares theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
-        }
-        return false;
-    }
 }

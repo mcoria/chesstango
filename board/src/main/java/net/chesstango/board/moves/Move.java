@@ -1,6 +1,5 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;

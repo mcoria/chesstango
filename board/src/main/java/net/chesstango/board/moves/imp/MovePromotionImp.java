@@ -152,8 +152,8 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MovePromotionImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to) && promotion.equals(theOther.promotion);
+        if (obj instanceof MovePromotion theOther) {
+            return from.equals(theOther.getFrom()) && to.equals(theOther.getTo()) && promotion.equals(theOther.getPromotion());
         }
         return false;
     }
