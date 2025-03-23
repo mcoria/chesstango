@@ -10,6 +10,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -107,7 +108,9 @@ public class ChainPrinter {
     private void printChainSmartAlgorithm(SearchAlgorithm searchAlgorithm) {
         if (searchAlgorithm instanceof AlphaBetaFacade alphaBetaFacade) {
             printChainAlphaBetaFacade(alphaBetaFacade);
-        } else {
+        } if (searchAlgorithm instanceof BottomMoveCounterFacade bottomMoveCounterFacade) {
+            printChainBottomMoveCounterFacade(bottomMoveCounterFacade);
+        }else {
             throw new RuntimeException(String.format("Unknown SmartAlgorithm class: %s", searchAlgorithm.getClass()));
         }
     }
@@ -116,6 +119,12 @@ public class ChainPrinter {
         printNodeObjectText(alphaBetaFacade, 0);
         printChainDownLine(0);
         printChainAlphaBetaFilter(alphaBetaFacade.getAlphaBetaFilter(), 0);
+    }
+
+    private void printChainBottomMoveCounterFacade(BottomMoveCounterFacade bottomMoveCounterFacade) {
+        printNodeObjectText(bottomMoveCounterFacade, 0);
+        printChainDownLine(0);
+        printChainAlphaBetaFilter(bottomMoveCounterFacade.getAlphaBetaFilter(), 0);
     }
 
     private List<AlphaBetaFilter> printedAlphaBetaFilter = new LinkedList<>();
