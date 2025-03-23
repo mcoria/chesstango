@@ -5,6 +5,9 @@ import lombok.Setter;
 import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCaptureEnPassant;
+import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.*;
@@ -113,6 +116,363 @@ public class GameStatisticsWrapper implements Game {
     }
 
     private Move wrappMove(Move moveImp) {
+        if (moveImp instanceof MoveCaptureEnPassant moveCaptureEnPassant) {
+            return new MoveCaptureEnPassant() {
+                @Override
+                public PiecePositioned getCapture() {
+                    return moveCaptureEnPassant.getCapture();
+                }
+
+                @Override
+                public PiecePositioned getFrom() {
+                    return moveImp.getFrom();
+                }
+
+                @Override
+                public PiecePositioned getTo() {
+                    return moveImp.getTo();
+                }
+
+                @Override
+                public void executeMove() {
+                    executedMoves++;
+                    moveImp.executeMove();
+                }
+
+                @Override
+                public void undoMove() {
+                    moveImp.undoMove();
+                }
+
+                @Override
+                public Cardinal getMoveDirection() {
+                    return moveImp.getMoveDirection();
+                }
+
+                @Override
+                public boolean isQuiet() {
+                    return moveImp.isQuiet();
+                }
+
+                @Override
+                public long getZobristHash(ChessPosition chessPosition) {
+                    return moveImp.getZobristHash(chessPosition);
+                }
+
+                @Override
+                public void doMove(BitBoardWriter bitBoard) {
+                    moveImp.doMove(bitBoard);
+                }
+
+                @Override
+                public void undoMove(BitBoardWriter bitBoard) {
+                    moveImp.undoMove(bitBoard);
+                }
+
+                @Override
+                public void doMove(ChessPosition chessPosition) {
+                    moveImp.doMove(chessPosition);
+                }
+
+                @Override
+                public void undoMove(ChessPosition chessPosition) {
+                    moveImp.undoMove(chessPosition);
+                }
+
+                @Override
+                public void doMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.doMove(moveCache);
+                }
+
+                @Override
+                public void undoMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.undoMove(moveCache);
+                }
+
+                @Override
+                public void doMove(PositionStateWriter positionState) {
+                    moveImp.doMove(positionState);
+                }
+
+                @Override
+                public void undoMove(PositionStateWriter positionStateWriter) {
+                    moveImp.undoMove(positionStateWriter);
+                }
+
+                @Override
+                public void doMove(SquareBoardWriter squareBoard) {
+                    moveImp.doMove(squareBoard);
+                }
+
+                @Override
+                public void undoMove(SquareBoardWriter squareBoard) {
+                    moveImp.undoMove(squareBoard);
+                }
+
+                @Override
+                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+                    moveImp.doMove(hash, chessPositionReader);
+                }
+
+                @Override
+                public void undoMove(ZobristHashWriter hash) {
+                    moveImp.undoMove(hash);
+                }
+
+                @Override
+                public String toString() {
+                    return moveImp.toString();
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    return moveImp.equals(obj);
+
+                }
+            };
+        } else if (moveImp instanceof MovePromotion movePromotion) {
+            return new MovePromotion() {
+                @Override
+                public Piece getPromotion() {
+                    return movePromotion.getPromotion();
+                }
+
+                @Override
+                public PiecePositioned getFrom() {
+                    return moveImp.getFrom();
+                }
+
+                @Override
+                public PiecePositioned getTo() {
+                    return moveImp.getTo();
+                }
+
+                @Override
+                public void executeMove() {
+                    executedMoves++;
+                    moveImp.executeMove();
+                }
+
+                @Override
+                public void undoMove() {
+                    moveImp.undoMove();
+                }
+
+                @Override
+                public Cardinal getMoveDirection() {
+                    return moveImp.getMoveDirection();
+                }
+
+                @Override
+                public boolean isQuiet() {
+                    return moveImp.isQuiet();
+                }
+
+                @Override
+                public long getZobristHash(ChessPosition chessPosition) {
+                    return moveImp.getZobristHash(chessPosition);
+                }
+
+                @Override
+                public void doMove(BitBoardWriter bitBoard) {
+                    moveImp.doMove(bitBoard);
+                }
+
+                @Override
+                public void undoMove(BitBoardWriter bitBoard) {
+                    moveImp.undoMove(bitBoard);
+                }
+
+                @Override
+                public void doMove(ChessPosition chessPosition) {
+                    moveImp.doMove(chessPosition);
+                }
+
+                @Override
+                public void undoMove(ChessPosition chessPosition) {
+                    moveImp.undoMove(chessPosition);
+                }
+
+                @Override
+                public void doMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.doMove(moveCache);
+                }
+
+                @Override
+                public void undoMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.undoMove(moveCache);
+                }
+
+                @Override
+                public void doMove(PositionStateWriter positionState) {
+                    moveImp.doMove(positionState);
+                }
+
+                @Override
+                public void undoMove(PositionStateWriter positionStateWriter) {
+                    moveImp.undoMove(positionStateWriter);
+                }
+
+                @Override
+                public void doMove(SquareBoardWriter squareBoard) {
+                    moveImp.doMove(squareBoard);
+                }
+
+                @Override
+                public void undoMove(SquareBoardWriter squareBoard) {
+                    moveImp.undoMove(squareBoard);
+                }
+
+                @Override
+                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+                    moveImp.doMove(hash, chessPositionReader);
+                }
+
+                @Override
+                public void undoMove(ZobristHashWriter hash) {
+                    moveImp.undoMove(hash);
+                }
+
+                @Override
+                public String toString() {
+                    return moveImp.toString();
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    return moveImp.equals(obj);
+                }
+            };
+        } else if(moveImp instanceof MoveCastling moveCastling) {
+            return new MoveCastling() {
+                @Override
+                public void doMove(KingSquareWriter kingSquareWriter) {
+                    moveCastling.doMove(kingSquareWriter);
+                }
+
+                @Override
+                public void undoMove(KingSquareWriter kingSquareWriter) {
+                    moveCastling.undoMove(kingSquareWriter);
+                }
+
+                @Override
+                public PiecePositioned getRookFrom() {
+                    return moveCastling.getRookFrom();
+                }
+
+                @Override
+                public PiecePositioned getRookTo() {
+                    return moveCastling.getRookTo();
+                }
+
+                @Override
+                public PiecePositioned getFrom() {
+                    return moveImp.getFrom();
+                }
+
+                @Override
+                public PiecePositioned getTo() {
+                    return moveImp.getTo();
+                }
+
+                @Override
+                public void executeMove() {
+                    executedMoves++;
+                    moveImp.executeMove();
+                }
+
+                @Override
+                public void undoMove() {
+                    moveImp.undoMove();
+                }
+
+                @Override
+                public Cardinal getMoveDirection() {
+                    return moveImp.getMoveDirection();
+                }
+
+                @Override
+                public boolean isQuiet() {
+                    return moveImp.isQuiet();
+                }
+
+                @Override
+                public long getZobristHash(ChessPosition chessPosition) {
+                    return moveImp.getZobristHash(chessPosition);
+                }
+
+                @Override
+                public void doMove(BitBoardWriter bitBoard) {
+                    moveImp.doMove(bitBoard);
+                }
+
+                @Override
+                public void undoMove(BitBoardWriter bitBoard) {
+                    moveImp.undoMove(bitBoard);
+                }
+
+                @Override
+                public void doMove(ChessPosition chessPosition) {
+                    moveImp.doMove(chessPosition);
+                }
+
+                @Override
+                public void undoMove(ChessPosition chessPosition) {
+                    moveImp.undoMove(chessPosition);
+                }
+
+                @Override
+                public void doMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.doMove(moveCache);
+                }
+
+                @Override
+                public void undoMove(MoveCacheBoardWriter moveCache) {
+                    moveImp.undoMove(moveCache);
+                }
+
+                @Override
+                public void doMove(PositionStateWriter positionState) {
+                    moveImp.doMove(positionState);
+                }
+
+                @Override
+                public void undoMove(PositionStateWriter positionStateWriter) {
+                    moveImp.undoMove(positionStateWriter);
+                }
+
+                @Override
+                public void doMove(SquareBoardWriter squareBoard) {
+                    moveImp.doMove(squareBoard);
+                }
+
+                @Override
+                public void undoMove(SquareBoardWriter squareBoard) {
+                    moveImp.undoMove(squareBoard);
+                }
+
+                @Override
+                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+                    moveImp.doMove(hash, chessPositionReader);
+                }
+
+                @Override
+                public void undoMove(ZobristHashWriter hash) {
+                    moveImp.undoMove(hash);
+                }
+
+                @Override
+                public String toString() {
+                    return moveImp.toString();
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    return moveImp.equals(obj);
+                }
+            };
+        }
+
         return new Move() {
             @Override
             public PiecePositioned getFrom() {
