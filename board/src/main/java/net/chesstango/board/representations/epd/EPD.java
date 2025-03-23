@@ -2,9 +2,13 @@ package net.chesstango.board.representations.epd;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.move.MoveDecoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,13 +36,10 @@ public class EPD {
     private FEN fenWithoutClocks;
 
     private String bestMovesStr;
-    private List<Move> bestMoves;
 
     private String avoidMovesStr;
-    private List<Move> avoidMoves;
 
     private String suppliedMoveStr;
-    private Move suppliedMove;
 
     @Override
     public boolean equals(Object object) {
@@ -61,14 +62,41 @@ public class EPD {
 
 
     public boolean isMoveSuccess(Move move) {
-        if (getBestMoves() != null && !getBestMoves().isEmpty()) {
-            return getBestMoves().contains(move);
-        } else if (getAvoidMoves() != null && !getAvoidMoves().isEmpty()) {
-            return !getAvoidMoves().contains(move);
-        } else if (getSuppliedMove() != null) {
-            return Objects.equals(getSuppliedMove(), move);
+        if (bestMovesStr != null && !bestMovesStr.isEmpty()) {
+            return isMoveSuccess(move, bestMovesStr);
+        } else if (avoidMovesStr != null && !avoidMovesStr.isEmpty()) {
+            return isMoveSuccess(move, avoidMovesStr);
+        } else if (suppliedMoveStr != null && !suppliedMoveStr.isEmpty()) {
+            return isMoveSuccess(move, suppliedMoveStr);
         } else {
             throw new RuntimeException("Undefined expected EPD result");
         }
     }
+
+    private boolean isMoveSuccess(Move move, String movesStr) {
+        List<Move> movesFromString = movesStringToMoves(movesStr);
+        for (Move moveFromString : movesFromString) {
+            if (move.equals(moveFromString)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    List<Move> movesStringToMoves(String movesString) {
+        Game game = FENDecoder.loadGame(fenWithoutClocks);
+        String[] bestMoves = movesString.split(" ");
+        List<Move> moveList = new ArrayList<>(bestMoves.length);
+        MoveDecoder moveDecoder = new MoveDecoder();
+        for (String bestMove : bestMoves) {
+            Move move = moveDecoder.decode(bestMove, game.getPossibleMoves());
+            if (move != null) {
+                moveList.add(move);
+            } else {
+                throw new RuntimeException(String.format("Unable to find move %s", bestMove));
+            }
+        }
+        return moveList;
+    }
+
 }

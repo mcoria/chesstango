@@ -94,7 +94,6 @@ public class PGN {
                 epd.setC6(String.format("clock=%d", lastClock));
 
                 epd.setSuppliedMoveStr(moveStr);
-                epd.setSuppliedMove(legalMoveToExecute);
 
                 epdList.add(epd);
 
