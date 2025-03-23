@@ -101,13 +101,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(targetMove)) {
-                targetMove.executeMove();
+                move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
                 }
-                targetMove.undoMove();
+                move.undoMove();
             }
         }
     }
@@ -117,13 +117,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         while (moveIterator.hasNext()) {
             Move move = moveIterator.next();
             if (!move.equals(targetMove)) {
-                targetMove.executeMove();
+                move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.bottomMoveCounter++;
                 }
-                targetMove.undoMove();
+                move.undoMove();
             }
         }
     }
