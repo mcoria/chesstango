@@ -7,15 +7,15 @@ import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.position.BitBoard;
-import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.KingSquare;
+import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -36,7 +36,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private KingWhiteMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<MoveCommandImp> moves;
 	
 	private MovePair moveCastling;
 	

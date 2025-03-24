@@ -5,7 +5,7 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorChessPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FEN;
@@ -63,7 +63,7 @@ public class GameImp implements Game {
         return this;
     }
 
-    public void executeMove(MoveImp move) {
+    public void executeMove(MoveCommandImp move) {
         gameState.setSelectedMove(move);
 
         gameState.push();
@@ -75,7 +75,7 @@ public class GameImp implements Game {
         // this.analyzer.updateGameState();
     }
 
-    public void undoMove(MoveImp move) {
+    public void undoMove(MoveCommandImp move) {
         gameState.pop();
 
         chessPosition.undoMove(move);

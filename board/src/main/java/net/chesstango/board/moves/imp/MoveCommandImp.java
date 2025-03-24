@@ -7,7 +7,7 @@ import net.chesstango.board.position.MoveCommand;
 /**
  * @author Mauricio Coria
  */
-public interface IMoveCommand extends Move, MoveCommand {
+public interface MoveCommandImp extends Move, MoveCommand {
 
     boolean isLegalMove(LegalMoveFilter filter);
 }

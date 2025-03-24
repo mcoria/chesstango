@@ -8,7 +8,7 @@ import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -23,8 +23,8 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
     @Override
-    public MoveContainer<MoveImp> getLegalMoves(AnalyzerResult analysis) {
-        MoveContainer<MoveImp> moves = new MoveContainer<>();
+    public MoveContainer<MoveCommandImp> getLegalMoves(AnalyzerResult analysis) {
+        MoveContainer<MoveCommandImp> moves = new MoveContainer<>();
 
         getBySquareMoves(moves);
 
@@ -33,12 +33,12 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
         return moves;
     }
 
-    protected void getBySquareMoves(MoveContainer<MoveImp> moves) {
+    protected void getBySquareMoves(MoveContainer<MoveCommandImp> moves) {
         for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext(); ) {
 
             Square origenSquare = iterator.next();
 
-            MoveList<MoveImp> pseudoMoves = getPseudoMoves(origenSquare);
+            MoveList<MoveCommandImp> pseudoMoves = getPseudoMoves(origenSquare);
 
             filterMoveCollection(pseudoMoves, moves);
         }

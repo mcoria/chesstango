@@ -11,9 +11,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class RookMoveGeneratorTest {
 
 	private RookMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<MoveCommandImp> moves;
 
 	private MoveFactory moveFactoryImp;
 	

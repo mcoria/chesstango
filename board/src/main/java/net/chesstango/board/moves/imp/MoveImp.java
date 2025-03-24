@@ -11,7 +11,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements IMoveCommand {
+public abstract class MoveImp implements MoveCommandImp {
     protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;

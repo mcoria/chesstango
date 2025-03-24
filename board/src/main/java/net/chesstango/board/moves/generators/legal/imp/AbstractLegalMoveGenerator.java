@@ -9,6 +9,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -30,21 +31,21 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         this.filter = filter;
     }
 
-    protected MoveList<MoveImp> getPseudoMoves(PiecePositioned origen) {
+    protected MoveList<MoveCommandImp> getPseudoMoves(PiecePositioned origen) {
         MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
         return generatorResult.getPseudoMoves();
     }
 
-    protected MoveList<MoveImp> getPseudoMoves(Square origenSquare) {
+    protected MoveList<MoveCommandImp> getPseudoMoves(Square origenSquare) {
         return getPseudoMoves(positionReader.getPosition(origenSquare));
     }
 
-    protected void getEnPassantMoves(MoveContainer<MoveImp> moves) {
+    protected void getEnPassantMoves(MoveContainer<MoveCommandImp> moves) {
         final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
 
-    protected void filterMovePair(MovePair movePairToFilter, MoveContainer<MoveImp> collectionToAdd) {
+    protected void filterMovePair(MovePair movePairToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
         if (movePairToFilter != null) {
             final MoveImp first = movePairToFilter.getFirst();
             final MoveImp second = movePairToFilter.getSecond();
@@ -59,15 +60,15 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         }
     }
 
-    protected void filterMoveCollection(Iterable<MoveImp> moveCollectionToFilter, MoveContainer<MoveImp> collectionToAdd) {
+    protected void filterMoveCollection(Iterable<MoveCommandImp> moveCollectionToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
         if (moveCollectionToFilter != null) {
-            for (MoveImp move : moveCollectionToFilter) {
+            for (MoveCommandImp move : moveCollectionToFilter) {
                 filter(move, collectionToAdd);
             }
         }
     }
 
-    protected void filter(MoveImp move, MoveContainer<MoveImp> collectionToAdd) {
+    protected void filter(MoveCommandImp move, MoveContainer<MoveCommandImp> collectionToAdd) {
         if (move.isLegalMove(filter)) {
             collectionToAdd.add(move);
         }

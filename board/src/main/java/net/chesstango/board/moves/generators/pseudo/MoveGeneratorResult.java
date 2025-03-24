@@ -3,9 +3,8 @@ package net.chesstango.board.moves.generators.pseudo;
 import lombok.Getter;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 
 
 /**
@@ -30,7 +29,7 @@ public class MoveGeneratorResult {
 	 * A dynamically generated list of pseudo-legal moves for the piece located at the position.
 	 * This list is initialized as empty and populated as moves are added.
 	 */
-	private final MoveList<MoveImp> pseudoMoves;
+	private final MoveList<MoveCommandImp> pseudoMoves;
 
 	/**
 	 * A bitboard representation indicating all squares whose positions influence the moves 
@@ -62,7 +61,7 @@ public class MoveGeneratorResult {
 	 *
 	 * @param move The pseudo-legal move to add.
 	 */
-	public void addPseudoMove(MoveImp move) {
+	public void addPseudoMove(MoveCommandImp move) {
 		pseudoMoves.add(move);
 	}
 

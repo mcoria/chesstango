@@ -8,12 +8,12 @@ import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.moves.imp.MoveCommandImp;
 import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PawnWhiteMoveGeneratorEnPassantTest {
 	private PawnWhiteMoveGenerator moveGenerator;
 	
-	private Collection<MoveImp> moves;
+	private Collection<MoveCommandImp> moves;
 
 	private MovePair movePair;
 
