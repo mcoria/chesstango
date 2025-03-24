@@ -10,6 +10,7 @@ package net.chesstango.board.position;
  *     <li>{@link SquareBoardCommand} - Operations involving the chessboard and squares.</li>
  *     <li>{@link MoveCacheBoardCommand} - Handles cached move-related operations.</li>
  *     <li>{@link BitBoardCommand} - Manages low-level bitboard operations.</li>
+ *     <li>{@link KingSquareCommand} - Manages KingSquare operations.</li>
  *     <li>{@link PositionStateCommand} - Tracks the position state of the chess game.</li>
  *     <li>{@link ZobristHashCommand} - Handles hashing for unique game states using Zobrist hashing.</li>
  * </ul>
@@ -22,6 +23,7 @@ public interface MoveCommand extends
         SquareBoardCommand,
         MoveCacheBoardCommand,
         BitBoardCommand,
+        KingSquareCommand,
         PositionStateCommand,
         ZobristHashCommand {
 }
