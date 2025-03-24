@@ -4,7 +4,7 @@ package net.chesstango.board.position;
  * @author Mauricio Coria
  *
  */
-public interface SquareBoardCommand {
+public interface SquareBoardVisitor {
     void doMove(SquareBoardWriter squareBoard);
 
     void undoMove(SquareBoardWriter squareBoard);

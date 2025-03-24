@@ -4,7 +4,7 @@ package net.chesstango.board.position;
  * @author Mauricio Coria
  *
  */
-public interface MoveCacheBoardCommand {
+public interface MoveCacheBoardVisitor {
     void doMove(MoveCacheBoardWriter moveCache);
 
     void undoMove(MoveCacheBoardWriter moveCache);

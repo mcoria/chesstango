@@ -6,9 +6,9 @@ package net.chesstango.board.position;
 public interface ChessPosition extends ChessPositionReader {
     void init();
     
-	void doMove(ChessPositionCommand move);
+	void doMove(ChessPositionVisitor move);
 
-    void undoMove(ChessPositionCommand move);
+    void undoMove(ChessPositionVisitor move);
 
     SquareBoard getSquareBoard();
 
