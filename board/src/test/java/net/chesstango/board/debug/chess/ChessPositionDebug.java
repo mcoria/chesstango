@@ -6,6 +6,7 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.position.ChessPositionCommand;
 import net.chesstango.board.position.MoveCommand;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
@@ -20,7 +21,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 
 
     @Override
-    public void doMove(MoveCommand move) {
+    public void doMove(ChessPositionCommand move) {
         super.doMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
@@ -30,7 +31,7 @@ public class ChessPositionDebug extends ChessPositionImp {
     }
 
     @Override
-    public void undoMove(MoveCommand move) {
+    public void undoMove(ChessPositionCommand move) {
         super.undoMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
