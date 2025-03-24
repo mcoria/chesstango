@@ -36,13 +36,13 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public void doMove(MoveCommand move) {
+    public void doMove(ChessPositionCommand move) {
         move.doMove(this);
     }
 
 
     @Override
-    public void undoMove(MoveCommand move) {
+    public void undoMove(ChessPositionCommand move) {
         move.undoMove(this);
     }
 
