@@ -10,7 +10,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MoveKingImp extends MoveComposed implements MoveKing {
+public class MoveKingImp extends MoveComposed implements MoveKing, MoveKingCommand {
 
     public MoveKingImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(gameImp, from, to, direction);
@@ -81,5 +81,10 @@ public class MoveKingImp extends MoveComposed implements MoveKing {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMoveKing(this);
     }
 }

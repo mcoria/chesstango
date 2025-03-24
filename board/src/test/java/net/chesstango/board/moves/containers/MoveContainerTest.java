@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class MoveContainerTest {
 
-    private MoveContainer moveContainerImp;
+    private MoveContainer<Move> moveContainerImp;
 
     private MoveFactory factory;
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveContainerImp = new MoveContainer();
+        moveContainerImp = new MoveContainer<>();
         factory = new MoveFactoryWhite();
     }
 

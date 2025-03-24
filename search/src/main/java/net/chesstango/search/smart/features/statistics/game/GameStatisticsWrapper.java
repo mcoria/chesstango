@@ -78,8 +78,8 @@ public class GameStatisticsWrapper implements Game {
     }
 
     @Override
-    public MoveContainerReader getPossibleMoves() {
-        MoveContainer moveContainer = new MoveContainer();
+    public MoveContainerReader<Move> getPossibleMoves() {
+        MoveContainer<Move> moveContainer = new MoveContainer<>();
         for (Move move : imp.getPossibleMoves()) {
             moveContainer.add(wrappMove(move));
         }
@@ -160,66 +160,6 @@ public class GameStatisticsWrapper implements Game {
                 }
 
                 @Override
-                public void doMove(BitBoardWriter bitBoard) {
-                    moveImp.doMove(bitBoard);
-                }
-
-                @Override
-                public void undoMove(BitBoardWriter bitBoard) {
-                    moveImp.undoMove(bitBoard);
-                }
-
-                @Override
-                public void doMove(ChessPosition chessPosition) {
-                    moveImp.doMove(chessPosition);
-                }
-
-                @Override
-                public void undoMove(ChessPosition chessPosition) {
-                    moveImp.undoMove(chessPosition);
-                }
-
-                @Override
-                public void doMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.doMove(moveCache);
-                }
-
-                @Override
-                public void undoMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.undoMove(moveCache);
-                }
-
-                @Override
-                public void doMove(PositionStateWriter positionState) {
-                    moveImp.doMove(positionState);
-                }
-
-                @Override
-                public void undoMove(PositionStateWriter positionStateWriter) {
-                    moveImp.undoMove(positionStateWriter);
-                }
-
-                @Override
-                public void doMove(SquareBoardWriter squareBoard) {
-                    moveImp.doMove(squareBoard);
-                }
-
-                @Override
-                public void undoMove(SquareBoardWriter squareBoard) {
-                    moveImp.undoMove(squareBoard);
-                }
-
-                @Override
-                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-                    moveImp.doMove(hash, chessPositionReader);
-                }
-
-                @Override
-                public void undoMove(ZobristHashWriter hash) {
-                    moveImp.undoMove(hash);
-                }
-
-                @Override
                 public String toString() {
                     return moveImp.toString();
                 }
@@ -274,66 +214,6 @@ public class GameStatisticsWrapper implements Game {
                 }
 
                 @Override
-                public void doMove(BitBoardWriter bitBoard) {
-                    moveImp.doMove(bitBoard);
-                }
-
-                @Override
-                public void undoMove(BitBoardWriter bitBoard) {
-                    moveImp.undoMove(bitBoard);
-                }
-
-                @Override
-                public void doMove(ChessPosition chessPosition) {
-                    moveImp.doMove(chessPosition);
-                }
-
-                @Override
-                public void undoMove(ChessPosition chessPosition) {
-                    moveImp.undoMove(chessPosition);
-                }
-
-                @Override
-                public void doMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.doMove(moveCache);
-                }
-
-                @Override
-                public void undoMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.undoMove(moveCache);
-                }
-
-                @Override
-                public void doMove(PositionStateWriter positionState) {
-                    moveImp.doMove(positionState);
-                }
-
-                @Override
-                public void undoMove(PositionStateWriter positionStateWriter) {
-                    moveImp.undoMove(positionStateWriter);
-                }
-
-                @Override
-                public void doMove(SquareBoardWriter squareBoard) {
-                    moveImp.doMove(squareBoard);
-                }
-
-                @Override
-                public void undoMove(SquareBoardWriter squareBoard) {
-                    moveImp.undoMove(squareBoard);
-                }
-
-                @Override
-                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-                    moveImp.doMove(hash, chessPositionReader);
-                }
-
-                @Override
-                public void undoMove(ZobristHashWriter hash) {
-                    moveImp.undoMove(hash);
-                }
-
-                @Override
                 public String toString() {
                     return moveImp.toString();
                 }
@@ -343,17 +223,9 @@ public class GameStatisticsWrapper implements Game {
                     return moveImp.equals(obj);
                 }
             };
-        } else if(moveImp instanceof MoveCastling moveCastling) {
+        } else if (moveImp instanceof MoveCastling moveCastling) {
             return new MoveCastling() {
-                @Override
-                public void doMove(KingSquareWriter kingSquareWriter) {
-                    moveCastling.doMove(kingSquareWriter);
-                }
 
-                @Override
-                public void undoMove(KingSquareWriter kingSquareWriter) {
-                    moveCastling.undoMove(kingSquareWriter);
-                }
 
                 @Override
                 public PiecePositioned getRookFrom() {
@@ -399,66 +271,6 @@ public class GameStatisticsWrapper implements Game {
                 @Override
                 public long getZobristHash(ChessPosition chessPosition) {
                     return moveImp.getZobristHash(chessPosition);
-                }
-
-                @Override
-                public void doMove(BitBoardWriter bitBoard) {
-                    moveImp.doMove(bitBoard);
-                }
-
-                @Override
-                public void undoMove(BitBoardWriter bitBoard) {
-                    moveImp.undoMove(bitBoard);
-                }
-
-                @Override
-                public void doMove(ChessPosition chessPosition) {
-                    moveImp.doMove(chessPosition);
-                }
-
-                @Override
-                public void undoMove(ChessPosition chessPosition) {
-                    moveImp.undoMove(chessPosition);
-                }
-
-                @Override
-                public void doMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.doMove(moveCache);
-                }
-
-                @Override
-                public void undoMove(MoveCacheBoardWriter moveCache) {
-                    moveImp.undoMove(moveCache);
-                }
-
-                @Override
-                public void doMove(PositionStateWriter positionState) {
-                    moveImp.doMove(positionState);
-                }
-
-                @Override
-                public void undoMove(PositionStateWriter positionStateWriter) {
-                    moveImp.undoMove(positionStateWriter);
-                }
-
-                @Override
-                public void doMove(SquareBoardWriter squareBoard) {
-                    moveImp.doMove(squareBoard);
-                }
-
-                @Override
-                public void undoMove(SquareBoardWriter squareBoard) {
-                    moveImp.undoMove(squareBoard);
-                }
-
-                @Override
-                public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-                    moveImp.doMove(hash, chessPositionReader);
-                }
-
-                @Override
-                public void undoMove(ZobristHashWriter hash) {
-                    moveImp.undoMove(hash);
                 }
 
                 @Override
@@ -508,66 +320,6 @@ public class GameStatisticsWrapper implements Game {
             @Override
             public long getZobristHash(ChessPosition chessPosition) {
                 return moveImp.getZobristHash(chessPosition);
-            }
-
-            @Override
-            public void doMove(BitBoardWriter bitBoard) {
-                moveImp.doMove(bitBoard);
-            }
-
-            @Override
-            public void undoMove(BitBoardWriter bitBoard) {
-                moveImp.undoMove(bitBoard);
-            }
-
-            @Override
-            public void doMove(ChessPosition chessPosition) {
-                moveImp.doMove(chessPosition);
-            }
-
-            @Override
-            public void undoMove(ChessPosition chessPosition) {
-                moveImp.undoMove(chessPosition);
-            }
-
-            @Override
-            public void doMove(MoveCacheBoardWriter moveCache) {
-                moveImp.doMove(moveCache);
-            }
-
-            @Override
-            public void undoMove(MoveCacheBoardWriter moveCache) {
-                moveImp.undoMove(moveCache);
-            }
-
-            @Override
-            public void doMove(PositionStateWriter positionState) {
-                moveImp.doMove(positionState);
-            }
-
-            @Override
-            public void undoMove(PositionStateWriter positionStateWriter) {
-                moveImp.undoMove(positionStateWriter);
-            }
-
-            @Override
-            public void doMove(SquareBoardWriter squareBoard) {
-                moveImp.doMove(squareBoard);
-            }
-
-            @Override
-            public void undoMove(SquareBoardWriter squareBoard) {
-                moveImp.undoMove(squareBoard);
-            }
-
-            @Override
-            public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-                moveImp.doMove(hash, chessPositionReader);
-            }
-
-            @Override
-            public void undoMove(ZobristHashWriter hash) {
-                moveImp.undoMove(hash);
             }
 
             @Override

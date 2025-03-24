@@ -30,7 +30,7 @@ public class MoveGeneratorResult {
 	 * A dynamically generated list of pseudo-legal moves for the piece located at the position.
 	 * This list is initialized as empty and populated as moves are added.
 	 */
-	private final MoveList pseudoMoves;
+	private final MoveList<MoveImp> pseudoMoves;
 
 	/**
 	 * A bitboard representation indicating all squares whose positions influence the moves 
@@ -51,7 +51,7 @@ public class MoveGeneratorResult {
 	 * @param from The piece and its position for which pseudo-legal moves are generated.
 	 */
 	public MoveGeneratorResult(PiecePositioned from) {
-		this.pseudoMoves = new MoveList();
+		this.pseudoMoves = new MoveList<>();
 		this.from = from;
 		this.affectedByPositions = from.getSquare().getBitPosition();
 	}

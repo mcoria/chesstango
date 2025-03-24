@@ -80,6 +80,11 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
     }
 
     @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMoveCastling(this);
+    }
+
+    @Override
     public String toString() {
         return getFrom().toString() + " " + getTo().toString() + " - " + this.getClass().getSimpleName();
     }

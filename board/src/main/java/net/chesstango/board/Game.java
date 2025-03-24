@@ -23,7 +23,7 @@ public interface Game extends GameVisitorAcceptor {
 
     void threefoldRepetitionRule(boolean flag);
 
-    MoveContainerReader getPossibleMoves();
+    MoveContainerReader<Move> getPossibleMoves();
 
     //******* FOR DEBUGGING
     Move getMove(Square from, Square to);

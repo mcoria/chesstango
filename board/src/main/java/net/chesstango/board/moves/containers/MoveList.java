@@ -8,14 +8,14 @@ import java.util.ArrayList;
 /**
  * @author Mauricio Coria
  */
-public class MoveList extends ArrayList<Move> {
+public class MoveList<M extends Move> extends ArrayList<M> {
 
     @Serial
     private static final long serialVersionUID = 1L;
     private boolean hasQuietMoves = true;
 
     @Override
-    public boolean add(Move move) {
+    public boolean add(M move) {
         if (!move.isQuiet()) {
             hasQuietMoves = false;
         }
@@ -25,7 +25,7 @@ public class MoveList extends ArrayList<Move> {
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        for (Move move : this) {
+        for (M move : this) {
             buffer.append(move).append("\n");
         }
         return buffer.toString();

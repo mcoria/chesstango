@@ -1,11 +1,11 @@
 package net.chesstango.board;
 
-import lombok.Setter;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorChessPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FEN;
@@ -45,23 +45,25 @@ public class GameImp implements Game {
     public Game executeMove(Square from, Square to) {
         Move move = getMove(from, to);
         if (move != null) {
-            return executeMove(move);
+            move.executeMove();
         } else {
             throw new RuntimeException(String.format("Invalid move: %s%s", from, to));
         }
+        return this;
     }
 
     @Override
     public Game executeMove(Square from, Square to, Piece promotionPiece) {
         Move move = getMove(from, to, promotionPiece);
         if (move != null) {
-            return executeMove(move);
+            move.executeMove();
         } else {
             throw new RuntimeException(String.format("Invalid move: %s%s %s", from, to, promotionPiece));
         }
+        return this;
     }
 
-    public Game executeMove(Move move) {
+    public void executeMove(MoveImp move) {
         gameState.setSelectedMove(move);
 
         gameState.push();
@@ -71,17 +73,20 @@ public class GameImp implements Game {
         // NO LLAMAR a updateGameState
         // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
         // this.analyzer.updateGameState();
+    }
 
-        return this;
+    public void undoMove(MoveImp move) {
+        gameState.pop();
+
+        chessPosition.undoMove(move);
     }
 
     @Override
     public Game undoMove() {
-        gameState.pop();
 
-        Move lastMove = gameState.getSelectedMove();
+        Move lasMove = gameState.getPreviousState().getSelectedMove();
 
-        chessPosition.undoMove(lastMove);
+        lasMove.undoMove();
 
         return this;
     }
@@ -107,7 +112,7 @@ public class GameImp implements Game {
     }
 
     @Override
-    public MoveContainerReader getPossibleMoves() {
+    public MoveContainerReader<Move> getPossibleMoves() {
         return getState().getLegalMoves();
     }
 
@@ -128,8 +133,8 @@ public class GameImp implements Game {
     public ChessPositionReader getChessPosition() {
         return chessPosition;
     }
-    
-	@Override
+
+    @Override
     public void accept(GameVisitor visitor) {
         gameVisitorAcceptor.accept(visitor);
     }

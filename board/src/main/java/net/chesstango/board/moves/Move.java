@@ -5,12 +5,11 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.MoveCommand;
 
 /**
  * @author Mauricio Coria
  */
-public interface Move extends MoveCommand {
+public interface Move {
     PiecePositioned getFrom();
 
     PiecePositioned getTo();
@@ -52,8 +51,4 @@ public interface Move extends MoveCommand {
 
     long getZobristHash(ChessPosition chessPosition);
 
-
-    default boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
-    }
 }

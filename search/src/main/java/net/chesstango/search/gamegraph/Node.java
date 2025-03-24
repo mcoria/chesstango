@@ -50,8 +50,8 @@ class Node {
         gameMock.currentMockNode = parentNode;
     }
 
-    MoveContainerReader getPossibleMoves() {
-        return new MoveContainerReader() {
+    MoveContainerReader<Move> getPossibleMoves() {
+        return new MoveContainerReader<>() {
 
             @Override
             public Iterator<Move> iterator() {

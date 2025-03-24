@@ -1,12 +1,12 @@
 package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.position.MoveCommand;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
@@ -20,7 +20,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 
 
     @Override
-    public void doMove(Move move) {
+    public void doMove(MoveCommand move) {
         super.doMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
@@ -30,7 +30,7 @@ public class ChessPositionDebug extends ChessPositionImp {
     }
 
     @Override
-    public void undoMove(Move move) {
+    public void undoMove(MoveCommand move) {
         super.undoMove(move);
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);

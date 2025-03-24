@@ -33,7 +33,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves;
+	private Collection<MoveImp> moves;
 
 	private MoveFactory moveFactoryImp;
 	

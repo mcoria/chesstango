@@ -6,19 +6,17 @@ import net.chesstango.board.moves.Move;
 
 /**
  * @author Mauricio Coria
- *
  */
-public interface MoveContainerReader extends Iterable<Move> {
+public interface MoveContainerReader<M extends Move> extends Iterable<M> {
     int size();
 
     boolean isEmpty();
 
-    boolean contains(Move move);
+    boolean contains(M move);
 
-    Move getMove(Square from, Square to);
+    M getMove(Square from, Square to);
 
-    Move getMove(Square from, Square to, Piece promotionPiece);
+    M getMove(Square from, Square to, Piece promotionPiece);
 
     boolean hasQuietMoves();
-
 }

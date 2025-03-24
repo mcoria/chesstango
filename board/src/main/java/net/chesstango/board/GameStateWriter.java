@@ -11,7 +11,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 public interface GameStateWriter {
     void setStatus(GameStatus gameStatus);
 
-    void setLegalMoves(MoveContainerReader legalMoves);
+    void setLegalMoves(MoveContainerReader<Move> legalMoves);
 
     void setSelectedMove(Move selectedMove);
 

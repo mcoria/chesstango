@@ -5,12 +5,13 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move {
+public abstract class MoveImp implements Move, MoveCommand {
     protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;
@@ -53,7 +54,7 @@ public abstract class MoveImp implements Move {
 
     @Override
     public void undoMove() {
-        gameImp.undoMove();
+        gameImp.undoMove(this);
     }
 
     @Override
@@ -114,6 +115,10 @@ public abstract class MoveImp implements Move {
     @Override
     public void undoMove(ZobristHashWriter hash) {
         hash.popState();
+    }
+
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
 
     @Override

@@ -275,66 +275,6 @@ public class DefaultMoveComparatorReversedTest {
             public long getZobristHash(ChessPosition chessPosition) {
                 return 0;
             }
-
-            @Override
-            public void doMove(BitBoardWriter bitBoard) {
-
-            }
-
-            @Override
-            public void undoMove(BitBoardWriter bitBoard) {
-
-            }
-
-            @Override
-            public void doMove(ChessPosition chessPosition) {
-
-            }
-
-            @Override
-            public void undoMove(ChessPosition chessPosition) {
-
-            }
-
-            @Override
-            public void doMove(MoveCacheBoardWriter moveCache) {
-
-            }
-
-            @Override
-            public void undoMove(MoveCacheBoardWriter moveCache) {
-
-            }
-
-            @Override
-            public void doMove(PositionStateWriter positionState) {
-
-            }
-
-            @Override
-            public void undoMove(PositionStateWriter positionStateWriter) {
-
-            }
-
-            @Override
-            public void doMove(SquareBoardWriter squareBoard) {
-
-            }
-
-            @Override
-            public void undoMove(SquareBoardWriter squareBoard) {
-
-            }
-
-            @Override
-            public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-
-            }
-
-            @Override
-            public void undoMove(ZobristHashWriter hash) {
-
-            }
         };
     }
 

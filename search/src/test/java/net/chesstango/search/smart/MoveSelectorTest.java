@@ -24,7 +24,7 @@ public class MoveSelectorTest {
     public void selectMoveTest01() {
         Game game = FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14");
 
-        MoveContainerReader possibleMovesMoves = game.getPossibleMoves();
+        MoveContainerReader<Move> possibleMovesMoves = game.getPossibleMoves();
 
         List<Move> moves = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class MoveSelectorTest {
 
         Game gameMirror = game.mirror();
 
-        MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
+        MoveContainerReader<Move> possibleMovesMoves = gameMirror.getPossibleMoves();
 
         List<Move> moves = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class MoveSelectorTest {
     public void selectMoveTest02() {
         Game game = FENDecoder.loadGame("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1");
 
-        MoveContainerReader possibleMovesMoves = game.getPossibleMoves();
+        MoveContainerReader<Move> possibleMovesMoves = game.getPossibleMoves();
 
         List<Move> moves = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class MoveSelectorTest {
 
         Game gameMirror = game.mirror();
 
-        MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
+        MoveContainerReader<Move> possibleMovesMoves = gameMirror.getPossibleMoves();
 
         List<Move> moves = new ArrayList<>();
 

@@ -13,6 +13,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -218,11 +219,13 @@ public class ChessPositionTest {
     public void testGetZobristHashMove() {
         setupWithDefaultBoard();
 
-        MoveContainerReader moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         long initialZobristHash = chessPosition.getZobristHash();
 
-        for (Move move : moves) {
+        for (Move theMove : moves) {
+
+            MoveImp move = (MoveImp) theMove;
 
             long zobristHash = chessPosition.getZobristHash(move);
 
