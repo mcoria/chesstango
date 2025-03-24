@@ -41,14 +41,14 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
     }
 
     protected void getEnPassantMoves(MoveContainer<MoveCommandImp> moves) {
-        final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
+        final MovePair<MoveCommandImp> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
 
-    protected void filterMovePair(MovePair movePairToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
+    protected void filterMovePair(MovePair<MoveCommandImp> movePairToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
         if (movePairToFilter != null) {
-            final MoveImp first = movePairToFilter.getFirst();
-            final MoveImp second = movePairToFilter.getSecond();
+            final MoveCommandImp first = movePairToFilter.getFirst();
+            final MoveCommandImp second = movePairToFilter.getSecond();
 
             if (first != null) {
                 filter(first, collectionToAdd);
