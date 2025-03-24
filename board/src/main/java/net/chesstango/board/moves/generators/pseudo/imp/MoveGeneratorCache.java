@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommandImp;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.MoveCacheBoard;
 
 /**
@@ -42,13 +42,13 @@ public class MoveGeneratorCache implements MoveGenerator {
 	}
 	
 	@Override
-	public MovePair<MoveCommandImp> generateEnPassantPseudoMoves() {
+	public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
 		return moveGenerator.generateEnPassantPseudoMoves();
 	}
 
 
 	@Override
-	public MovePair<MoveCommandImp> generateCastlingPseudoMoves() {
+	public MovePair<MoveCommand> generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();
 	}
 }

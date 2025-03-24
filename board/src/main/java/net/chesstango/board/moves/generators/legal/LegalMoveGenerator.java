@@ -2,7 +2,7 @@ package net.chesstango.board.moves.generators.legal;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.imp.MoveCommandImp;
+import net.chesstango.board.moves.imp.MoveCommand;
 
 // Doble  Jaque 										-> Mover el King. 								 El castling no esta permitido.
 // Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no esta permitido.
@@ -22,5 +22,5 @@ public interface LegalMoveGenerator {
 	// En movimiento anterior Queen Negra se movi� desde h7 a e7 y ahora el king blanco e1 queda en jaque.
 	// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al king en Jaque
 	// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI	
-	MoveContainerReader<MoveCommandImp> getLegalMoves(AnalyzerResult analysis);
+	MoveContainerReader<MoveCommand> getLegalMoves(AnalyzerResult analysis);
 }

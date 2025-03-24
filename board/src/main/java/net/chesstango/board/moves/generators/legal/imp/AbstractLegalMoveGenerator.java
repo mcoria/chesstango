@@ -9,8 +9,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommandImp;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -31,24 +30,24 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         this.filter = filter;
     }
 
-    protected MoveList<MoveCommandImp> getPseudoMoves(PiecePositioned origen) {
+    protected MoveList<MoveCommand> getPseudoMoves(PiecePositioned origen) {
         MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
         return generatorResult.getPseudoMoves();
     }
 
-    protected MoveList<MoveCommandImp> getPseudoMoves(Square origenSquare) {
+    protected MoveList<MoveCommand> getPseudoMoves(Square origenSquare) {
         return getPseudoMoves(positionReader.getPosition(origenSquare));
     }
 
-    protected void getEnPassantMoves(MoveContainer<MoveCommandImp> moves) {
-        final MovePair<MoveCommandImp> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
+    protected void getEnPassantMoves(MoveContainer<MoveCommand> moves) {
+        final MovePair<MoveCommand> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
 
-    protected void filterMovePair(MovePair<MoveCommandImp> movePairToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
+    protected void filterMovePair(MovePair<MoveCommand> movePairToFilter, MoveContainer<MoveCommand> collectionToAdd) {
         if (movePairToFilter != null) {
-            final MoveCommandImp first = movePairToFilter.getFirst();
-            final MoveCommandImp second = movePairToFilter.getSecond();
+            final MoveCommand first = movePairToFilter.getFirst();
+            final MoveCommand second = movePairToFilter.getSecond();
 
             if (first != null) {
                 filter(first, collectionToAdd);
@@ -60,15 +59,15 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         }
     }
 
-    protected void filterMoveCollection(Iterable<MoveCommandImp> moveCollectionToFilter, MoveContainer<MoveCommandImp> collectionToAdd) {
+    protected void filterMoveCollection(Iterable<MoveCommand> moveCollectionToFilter, MoveContainer<MoveCommand> collectionToAdd) {
         if (moveCollectionToFilter != null) {
-            for (MoveCommandImp move : moveCollectionToFilter) {
+            for (MoveCommand move : moveCollectionToFilter) {
                 filter(move, collectionToAdd);
             }
         }
     }
 
-    protected void filter(MoveCommandImp move, MoveContainer<MoveCommandImp> collectionToAdd) {
+    protected void filter(MoveCommand move, MoveContainer<MoveCommand> collectionToAdd) {
         if (move.isLegalMove(filter)) {
             collectionToAdd.add(move);
         }

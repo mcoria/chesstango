@@ -12,7 +12,7 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommandImp;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionState;
@@ -38,7 +38,7 @@ public class KingBlackMoveGeneratorTest {
 
 	private KingBlackMoveGenerator moveGenerator;
 	
-	private Collection<MoveCommandImp> moves;
+	private Collection<MoveCommand> moves;
 	
 	private MovePair moveCastling;
 	

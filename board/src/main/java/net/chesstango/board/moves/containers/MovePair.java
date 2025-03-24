@@ -3,8 +3,6 @@ package net.chesstango.board.moves.containers;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveCommandImp;
-import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
