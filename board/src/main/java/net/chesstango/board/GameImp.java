@@ -68,7 +68,7 @@ public class GameImp implements Game {
 
         gameState.push();
 
-        chessPosition.doMove(move);
+        move.doMove(chessPosition);
 
         // NO LLAMAR a updateGameState
         // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
@@ -78,7 +78,7 @@ public class GameImp implements Game {
     public void undoMove(MoveCommand move) {
         gameState.pop();
 
-        chessPosition.undoMove(move);
+        move.undoMove(chessPosition);
     }
 
     @Override

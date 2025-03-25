@@ -19,19 +19,7 @@ public class ChessPositionDebug extends ChessPositionImp {
     private MoveGeneratorImp moveGeneratorImp;
 
 
-    @Override
-    public void doMove(ChessPositionVisitor move) {
-        super.doMove(move);
-        ((PositionStateDebug) positionState).validar(this.squareBoard);
-        ((BitBoardDebug) bitBoard).validar(this.squareBoard);
-        ((KingSquareDebug) kingSquare).validar(this.squareBoard);
-        ((MoveCacheBoardDebug) moveCache).validar(this.squareBoard);
-        ((ZobristHashDebug) zobristHash).validar(this);
-    }
-
-    @Override
-    public void undoMove(ChessPositionVisitor move) {
-        super.undoMove(move);
+    public void validar() {
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
         ((KingSquareDebug) kingSquare).validar(this.squareBoard);

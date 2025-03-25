@@ -35,17 +35,6 @@ public class ChessPositionImp implements ChessPosition {
         zobristHash.init(squareBoard, positionState);
     }
 
-    @Override
-    public void doMove(ChessPositionVisitor move) {
-        move.doMove(this);
-    }
-
-
-    @Override
-    public void undoMove(ChessPositionVisitor move) {
-        move.undoMove(this);
-    }
-
 
     @Override
     public void constructChessPositionRepresentation(ChessPositionBuilder<?> builder) {
