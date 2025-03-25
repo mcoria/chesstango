@@ -74,11 +74,6 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(from);
         // Captura

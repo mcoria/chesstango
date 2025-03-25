@@ -20,7 +20,7 @@ public interface MoveCommand extends Move {
     void undoMove(SquareBoardWriter squareBoard);
 
     void doMove(PositionStateWriter positionState);
-    void undoMove(PositionStateWriter positionStateWriter);
+    void undoMove(PositionStateWriter positionState);
 
     void doMove(BitBoardWriter bitBoard);
     void undoMove(BitBoardWriter bitBoard);
@@ -28,8 +28,8 @@ public interface MoveCommand extends Move {
     void doMove(MoveCacheBoardWriter moveCache);
     void undoMove(MoveCacheBoardWriter moveCache);
 
-    void doMove(KingSquareWriter kingSquareWriter);
-    void undoMove(KingSquareWriter kingSquareWriter);
+    void doMove(KingSquareWriter kingSquare);
+    void undoMove(KingSquareWriter kingSquare);
 
     void doMove(ZobristHashWriter hash);
     void undoMove(ZobristHashWriter hash);

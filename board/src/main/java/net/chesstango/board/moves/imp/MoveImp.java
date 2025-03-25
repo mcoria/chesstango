@@ -109,8 +109,8 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
+    public void undoMove(PositionStateWriter positionState) {
+        positionState.popState();
     }
 
     @Override
@@ -126,11 +126,11 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     @Override
-    public void doMove(KingSquareWriter kingSquareWriter) {
+    public void doMove(KingSquareWriter kingSquare) {
     }
 
     @Override
-    public void undoMove(KingSquareWriter kingSquareWriter) {
+    public void undoMove(KingSquareWriter kingSquare) {
     }
 
     @Override
