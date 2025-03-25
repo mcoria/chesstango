@@ -100,7 +100,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -110,6 +110,8 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
         }
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
+
+        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 
         PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
 

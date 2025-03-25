@@ -63,7 +63,7 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -71,6 +71,8 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
 
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
+
+        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 
         xorCastling(hash, chessPositionReader.getPreviousPositionState(), chessPositionReader);
 

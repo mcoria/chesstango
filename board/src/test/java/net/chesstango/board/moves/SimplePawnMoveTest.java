@@ -1,9 +1,6 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
+import net.chesstango.board.*;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
@@ -13,7 +10,6 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -28,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -42,15 +39,17 @@ public class SimplePawnMoveTest {
     private SquareBoard squareBoard;
 
     private PositionStateDebug positionState;
-    private BitBoardDebug colorBoard;
+    private BitBoardDebug bitBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
     @Mock
-    private ChessPosition chessPosition;
+    private GameImp gameImp;
 
     @Mock
     private LegalMoveFilter filter;
+
+    private ChessPositionImp chessPosition;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -62,8 +61,8 @@ public class SimplePawnMoveTest {
         squareBoard = new SquareBoardImp();
         squareBoard.setPiece(Square.e2, Piece.PAWN_WHITE);
 
-        colorBoard = new BitBoardDebug();
-        colorBoard.init(squareBoard);
+        bitBoard = new BitBoardDebug();
+        bitBoard.init(squareBoard);
 
         PiecePositioned origen = squareBoard.getPosition(Square.e2);
         PiecePositioned destino = squareBoard.getPosition(Square.e3);
@@ -74,7 +73,14 @@ public class SimplePawnMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveFactory = new MoveFactoryWhite();
+        chessPosition = new ChessPositionImp();
+        chessPosition.setSquareBoard(squareBoard);
+        chessPosition.setPositionState(positionState);
+        chessPosition.setBitBoard(bitBoard);
+        chessPosition.setMoveCache(moveCacheBoard);
+        chessPosition.setZobristHash(zobristHash);
+
+        moveFactory = new MoveFactoryWhite(gameImp);
 
         moveExecutor = moveFactory.createSimpleOneSquarePawnMove(origen, destino);
     }
@@ -91,26 +97,22 @@ public class SimplePawnMoveTest {
 
     @Test
     public void testZobristHash() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/4P3/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
@@ -158,18 +160,18 @@ public class SimplePawnMoveTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
 
         // asserts execute
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.e3));
-        assertTrue(colorBoard.isEmpty(Square.e2));
+        assertEquals(Color.WHITE, bitBoard.getColor(Square.e3));
+        assertTrue(bitBoard.isEmpty(Square.e2));
 
         // undos
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
 
         // asserts undos
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
-        assertTrue(colorBoard.isEmpty(Square.e3));
+        assertEquals(Color.WHITE, bitBoard.getColor(Square.e2));
+        assertTrue(bitBoard.isEmpty(Square.e3));
     }
 
     @Test
@@ -197,23 +199,23 @@ public class SimplePawnMoveTest {
         // execute
         moveExecutor.doMove(squareBoard);
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
         moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
 
         // undos
         moveExecutor.undoMove(squareBoard);
         moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
         moveExecutor.undoMove(moveCacheBoard);
 
 
         // asserts undos
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
     }

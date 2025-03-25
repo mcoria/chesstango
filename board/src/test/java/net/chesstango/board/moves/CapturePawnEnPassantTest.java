@@ -104,7 +104,7 @@ public class CapturePawnEnPassantTest {
         chessPositionImp.setPositionState(positionState);
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         assertEquals(PolyglotEncoder.getKey("8/8/P7/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -118,7 +118,7 @@ public class CapturePawnEnPassantTest {
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);

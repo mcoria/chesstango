@@ -67,7 +67,7 @@ public class MovePawnTwoSquares extends MoveImp {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -75,6 +75,8 @@ public class MovePawnTwoSquares extends MoveImp {
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.clearEnPassantSquare();
+
+        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 
         if (enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());

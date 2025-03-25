@@ -31,7 +31,7 @@ public interface MoveCommand extends Move {
     void doMove(KingSquareWriter kingSquareWriter);
     void undoMove(KingSquareWriter kingSquareWriter);
 
-    void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader);
+    void doMove(ZobristHashWriter hash);
     void undoMove(ZobristHashWriter hash);
 
     boolean isLegalMove(LegalMoveFilter filter);

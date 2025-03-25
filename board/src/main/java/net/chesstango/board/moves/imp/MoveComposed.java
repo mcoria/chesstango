@@ -59,8 +59,8 @@ public class MoveComposed extends MoveImp {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
-        fnDoZobrist.apply(from, to, hash, chessPositionReader);
+    public void doMove(ZobristHashWriter hash) {
+        fnDoZobrist.apply(from, to, hash, gameImp.getChessPosition());
     }
 
     private Cardinal calculateMoveDirection() {

@@ -1,9 +1,6 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
+import net.chesstango.board.*;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
@@ -28,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -39,15 +37,17 @@ public class CaptureMoveTest {
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;
     private PositionStateDebug positionState;
-    private BitBoardDebug colorBoard;
+    private BitBoardDebug bitBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
     @Mock
-    private ChessPosition chessPosition;
+    private GameImp gameImp;
 
     @Mock
     private LegalMoveFilter filter;
+
+    private ChessPositionImp chessPosition;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -60,8 +60,8 @@ public class CaptureMoveTest {
         squareBoard.setPiece(Square.e5, Piece.ROOK_WHITE);
         squareBoard.setPiece(Square.e7, Piece.PAWN_BLACK);
 
-        colorBoard = new BitBoardDebug();
-        colorBoard.init(squareBoard);
+        bitBoard = new BitBoardDebug();
+        bitBoard.init(squareBoard);
 
         PiecePositioned origen = squareBoard.getPosition(Square.e5);
         PiecePositioned destino = squareBoard.getPosition(Square.e7);
@@ -73,7 +73,14 @@ public class CaptureMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveFactory = new MoveFactoryWhite();
+        chessPosition = new ChessPositionImp();
+        chessPosition.setSquareBoard(squareBoard);
+        chessPosition.setPositionState(positionState);
+        chessPosition.setBitBoard(bitBoard);
+        chessPosition.setMoveCache(moveCacheBoard);
+        chessPosition.setZobristHash(zobristHash);
+
+        moveFactory = new MoveFactoryWhite(gameImp);
 
         moveExecutor = moveFactory.createCaptureKnightMove(origen, destino);
     }
@@ -90,26 +97,22 @@ public class CaptureMoveTest {
 
     @Test
     public void testZobristHash() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
@@ -157,18 +160,18 @@ public class CaptureMoveTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
 
         // asserts execute
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
-        assertTrue(colorBoard.isEmpty(Square.e5));
+        assertEquals(Color.WHITE, bitBoard.getColor(Square.e7));
+        assertTrue(bitBoard.isEmpty(Square.e5));
 
         // undos
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
 
         // asserts undos
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
-        assertEquals(Color.BLACK, colorBoard.getColor(Square.e7));
+        assertEquals(Color.WHITE, bitBoard.getColor(Square.e5));
+        assertEquals(Color.BLACK, bitBoard.getColor(Square.e7));
     }
 
     @Test
@@ -198,20 +201,20 @@ public class CaptureMoveTest {
     public void testIntegrated() {
         // execute
         moveExecutor.doMove(squareBoard);
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(moveCacheBoard);
 
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
 
         // undos
         moveExecutor.undoMove(squareBoard);
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
         moveExecutor.undoMove(positionState);
 
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
     }

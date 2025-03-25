@@ -38,7 +38,7 @@ public class MoveKingImp extends MoveComposed {
 
         doMove(kingSquare);
 
-        doMove(hash, gameImp.getChessPosition());
+        doMove(hash);
     }
 
     @Override

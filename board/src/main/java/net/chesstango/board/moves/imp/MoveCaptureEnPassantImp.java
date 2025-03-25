@@ -75,7 +75,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);

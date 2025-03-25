@@ -86,7 +86,7 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(moveCache);
 
-        doMove(hash, gameImp.getChessPosition());
+        doMove(hash);
     }
 
     @Override
@@ -163,7 +163,7 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(positionState);
 
-        doMove(hash, gameImp.getChessPosition());
+        doMove(hash);
 
         long zobristHash = hash.getZobristHash();
 
