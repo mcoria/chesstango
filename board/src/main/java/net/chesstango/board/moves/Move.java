@@ -48,6 +48,6 @@ public interface Move {
 
     boolean isQuiet();
 
-    long getZobristHash(ChessPositionWriter chessPosition);
+    long getZobristHash();
 
 }

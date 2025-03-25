@@ -155,8 +155,8 @@ public class GameStatisticsWrapper implements Game {
                 }
 
                 @Override
-                public long getZobristHash(ChessPositionWriter chessPosition) {
-                    return moveImp.getZobristHash(chessPosition);
+                public long getZobristHash() {
+                    return moveImp.getZobristHash();
                 }
 
                 @Override
@@ -209,8 +209,8 @@ public class GameStatisticsWrapper implements Game {
                 }
 
                 @Override
-                public long getZobristHash(ChessPositionWriter chessPosition) {
-                    return moveImp.getZobristHash(chessPosition);
+                public long getZobristHash() {
+                    return moveImp.getZobristHash();
                 }
 
                 @Override
@@ -269,8 +269,8 @@ public class GameStatisticsWrapper implements Game {
                 }
 
                 @Override
-                public long getZobristHash(ChessPositionWriter chessPosition) {
-                    return moveImp.getZobristHash(chessPosition);
+                public long getZobristHash() {
+                    return moveImp.getZobristHash();
                 }
 
                 @Override
@@ -318,8 +318,8 @@ public class GameStatisticsWrapper implements Game {
             }
 
             @Override
-            public long getZobristHash(ChessPositionWriter chessPosition) {
-                return moveImp.getZobristHash(chessPosition);
+            public long getZobristHash() {
+                return moveImp.getZobristHash();
             }
 
             @Override

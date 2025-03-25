@@ -19,6 +19,4 @@ public interface ChessPositionReader extends SquareBoardReader, BitBoardReader, 
 	Iterator<PiecePositioned> iteratorAllPieces();
 
 	void constructChessPositionRepresentation(ChessPositionBuilder<?> builder);
-
-	long getZobristHash(Move move);
 }

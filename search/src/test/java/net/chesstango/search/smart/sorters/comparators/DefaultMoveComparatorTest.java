@@ -157,25 +157,27 @@ public class DefaultMoveComparatorTest {
 
             @Override
             public void executeMove() {
+                throw new RuntimeException("Not meant for execution");
             }
 
             @Override
             public void undoMove() {
+                throw new RuntimeException("Not meant for execution");
             }
 
             @Override
             public Cardinal getMoveDirection() {
-                return null;
+                throw new RuntimeException("Not meant for execution");
             }
 
             @Override
             public boolean isQuiet() {
-                return false;
+                throw new RuntimeException("Not meant for execution");
             }
 
             @Override
-            public long getZobristHash(ChessPositionWriter chessPosition) {
-                return 0;
+            public long getZobristHash() {
+                throw new RuntimeException("Not meant for execution");
             }
         };
     }

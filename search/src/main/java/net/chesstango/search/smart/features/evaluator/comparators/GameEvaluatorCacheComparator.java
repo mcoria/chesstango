@@ -72,7 +72,7 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
     private long getZobristHashMove(Move move) {
         long hash = moveToZobrist.read(move);
         if (hash == 0) {
-            hash = game.getChessPosition().getZobristHash(move);
+            hash = move.getZobristHash();
             moveToZobrist.write(move, hash);
         }
         return hash;

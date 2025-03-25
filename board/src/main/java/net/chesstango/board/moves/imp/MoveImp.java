@@ -153,7 +153,8 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     @Override
-    public long getZobristHash(ChessPositionWriter chessPosition) {
+    public long getZobristHash() {
+        ChessPosition chessPosition = gameImp.getChessPosition();
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
         ZobristHash hash = chessPosition.getZobrist();

@@ -53,11 +53,6 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public long getZobristHash(Move move) {
-        return move.getZobristHash(this);
-    }
-
-    @Override
     public Color getCurrentTurn() {
         return this.positionState.getCurrentTurn();
     }
