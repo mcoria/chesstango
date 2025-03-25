@@ -10,7 +10,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 public interface GameStateReader {
     GameStatus getStatus();
 
-    MoveContainerReader getLegalMoves();
+    MoveContainerReader<Move> getLegalMoves();
 
     Move getSelectedMove();
 

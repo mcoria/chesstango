@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.GameImp;
+import net.chesstango.board.GameState;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -49,12 +50,31 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void executeMove() {
-        gameImp.executeMove(this);
+
+        GameState gameState = gameImp.getState();
+
+        gameState.setSelectedMove(this);
+
+        gameState.push();
+
+        ChessPosition chessPosition = gameImp.getChessPosition();
+
+        doMove(chessPosition);
+
+        // NO LLAMAR a updateGameState
+        // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
+        // this.analyzer.updateGameState();
     }
 
     @Override
     public void undoMove() {
-        gameImp.undoMove(this);
+        GameState gameState = gameImp.getState();
+
+        gameState.pop();
+
+        ChessPosition chessPosition = gameImp.getChessPosition();
+
+        undoMove(chessPosition);
     }
 
     @Override

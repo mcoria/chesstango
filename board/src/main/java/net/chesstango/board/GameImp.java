@@ -63,24 +63,6 @@ public class GameImp implements Game {
         return this;
     }
 
-    public void executeMove(MoveCommand move) {
-        gameState.setSelectedMove(move);
-
-        gameState.push();
-
-        move.doMove(chessPosition);
-
-        // NO LLAMAR a updateGameState
-        // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
-        // this.analyzer.updateGameState();
-    }
-
-    public void undoMove(MoveCommand move) {
-        gameState.pop();
-
-        move.undoMove(chessPosition);
-    }
-
     @Override
     public Game undoMove() {
 
@@ -130,7 +112,7 @@ public class GameImp implements Game {
     }
 
     @Override
-    public ChessPositionReader getChessPosition() {
+    public ChessPosition getChessPosition() {
         return chessPosition;
     }
 
