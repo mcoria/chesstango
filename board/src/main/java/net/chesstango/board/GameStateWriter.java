@@ -22,4 +22,8 @@ public interface GameStateWriter {
     void setPositionHash(long positionHash);
 
     void setRepetitionCounter(int repetitionCounter);
+
+    void push();
+
+    void pop();
 }

@@ -95,12 +95,14 @@ public class GameState implements GameStateReader, GameStateWriter {
         return currentGameState.previousGameState;
     }
 
+    @Override
     public void push() {
         GameStateData previousGameState = currentGameState;
         currentGameState = new GameStateData();
         currentGameState.previousGameState = previousGameState;
     }
 
+    @Override
     public void pop() {
         currentGameState = currentGameState.previousGameState;
     }

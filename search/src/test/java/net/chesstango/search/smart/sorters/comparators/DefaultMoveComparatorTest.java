@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.sorters.comparators;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
@@ -175,7 +174,7 @@ public class DefaultMoveComparatorTest {
             }
 
             @Override
-            public long getZobristHash(ChessPosition chessPosition) {
+            public long getZobristHash(ChessPositionWriter chessPosition) {
                 return 0;
             }
         };

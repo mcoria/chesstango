@@ -3,8 +3,7 @@ package net.chesstango.board.moves;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionWriter;
 
 /**
  * @author Mauricio Coria
@@ -49,6 +48,6 @@ public interface Move {
 
     boolean isQuiet();
 
-    long getZobristHash(ChessPosition chessPosition);
+    long getZobristHash(ChessPositionWriter chessPosition);
 
 }

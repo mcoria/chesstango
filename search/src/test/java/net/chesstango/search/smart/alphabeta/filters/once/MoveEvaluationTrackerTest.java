@@ -162,7 +162,7 @@ public class MoveEvaluationTrackerTest {
             }
 
             @Override
-            public long getZobristHash(ChessPosition chessPosition) {
+            public long getZobristHash(ChessPositionWriter chessPosition) {
                 return 0;
             }
         };

@@ -5,7 +5,7 @@ package net.chesstango.board.position;
  */
 public interface ChessPositionVisitor {
 
-    void visit(ChessPosition chessPosition);
+    void visit(ChessPositionWriter chessPosition);
 
     void visit(SquareBoardWriter squareBoard);
 

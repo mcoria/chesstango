@@ -5,9 +5,8 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorChessPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.ChessPositionWriter;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 

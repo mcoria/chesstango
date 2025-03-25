@@ -1,9 +1,6 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.GameImp;
-import net.chesstango.board.GameState;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -50,35 +47,31 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void executeMove() {
+        doMove(gameImp.getChessPosition());
 
-        GameState gameState = gameImp.getState();
-
-        gameState.setSelectedMove(this);
-
-        gameState.push();
-
-        ChessPosition chessPosition = gameImp.getChessPosition();
-
-        doMove(chessPosition);
-
-        // NO LLAMAR a updateGameState
-        // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
-        // this.analyzer.updateGameState();
+        doMove(gameImp.getState());
     }
 
     @Override
     public void undoMove() {
-        GameState gameState = gameImp.getState();
+        undoMove(gameImp.getState());
 
-        gameState.pop();
-
-        ChessPosition chessPosition = gameImp.getChessPosition();
-
-        undoMove(chessPosition);
+        undoMove(gameImp.getChessPosition());
     }
 
     @Override
-    public void doMove(ChessPosition chessPosition) {
+    public void doMove(GameStateWriter gameState) {
+        gameState.setSelectedMove(this);
+        gameState.push();
+    }
+
+    @Override
+    public void undoMove(GameStateWriter gameState) {
+        gameState.pop();
+    }
+
+    @Override
+    public void doMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -93,11 +86,11 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(moveCache);
 
-        doMove(hash, chessPosition);
+        doMove(hash, gameImp.getChessPosition());
     }
 
     @Override
-    public void undoMove(ChessPosition chessPosition) {
+    public void undoMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -160,7 +153,7 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     @Override
-    public long getZobristHash(ChessPosition chessPosition) {
+    public long getZobristHash(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
         ZobristHash hash = chessPosition.getZobrist();
@@ -169,7 +162,7 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(positionState);
 
-        doMove(hash, chessPosition);
+        doMove(hash, gameImp.getChessPosition());
 
         long zobristHash = hash.getZobristHash();
 

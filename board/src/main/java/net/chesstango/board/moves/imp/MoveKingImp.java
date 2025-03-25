@@ -3,7 +3,6 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
@@ -21,7 +20,7 @@ public class MoveKingImp extends MoveComposed {
     }
 
     @Override
-    public void doMove(ChessPosition chessPosition) {
+    public void doMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -39,11 +38,11 @@ public class MoveKingImp extends MoveComposed {
 
         doMove(kingSquare);
 
-        doMove(hash, chessPosition);
+        doMove(hash, gameImp.getChessPosition());
     }
 
     @Override
-    public void undoMove(ChessPosition chessPosition) {
+    public void undoMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
