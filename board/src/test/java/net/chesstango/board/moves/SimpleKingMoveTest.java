@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class SimpleKingMoveTest {
 
-    private MoveFactory moveFactory;
+    private MoveFactoryWhite moveFactory;
 
     private MoveKingImp moveExecutor;
     private SquareBoard squareBoard;

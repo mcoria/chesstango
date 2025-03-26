@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class CapturePawnEnPassantTest {
 
-    private MoveFactory moveFactory;
+    private MoveFactoryWhite moveFactory;
 
     private SquareBoard squareBoard;
 

@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class SimplePawnMoveTest {
 
-    private MoveFactory moveFactory;
+    private MoveFactoryWhite moveFactory;
 
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;

@@ -19,7 +19,7 @@ public class MoveContainerTest {
 
     private MoveContainer<Move> moveContainerImp;
 
-    private MoveFactory factory;
+    private MoveFactoryWhite factory;
 
     @BeforeEach
     public void setUp() throws Exception {

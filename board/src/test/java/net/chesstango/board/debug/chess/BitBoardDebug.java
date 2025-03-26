@@ -18,6 +18,12 @@ import net.chesstango.board.position.imp.BitBoardImp;
 public class BitBoardDebug extends BitBoardImp {
 
 	@Override
+	public void init(SquareBoardReader board) {
+		super.init(board);
+		validar(board);
+	}
+
+	@Override
 	public void swapPositions(Piece piece, Square remove, Square add) {
 		super.swapPositions(piece, remove, add);
 		validar();
@@ -33,12 +39,6 @@ public class BitBoardDebug extends BitBoardImp {
 	public void removePosition(PiecePositioned position) {
 		super.removePosition(position);
 		validar();
-	}
-
-	@Override
-	public void init(SquareBoardReader board) {
-		super.init(board);
-		validar(board);
 	}
 
 	public void validar() {

@@ -34,7 +34,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 	
 	private Collection<MoveCommand> moves;
 
-	private MovePair movePair;
+	private MovePair<MoveCommand> movePair;
 
 	private PositionState state;
 
@@ -95,7 +95,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 		assertTrue(movePair.contains( createCaptureBlackEnPassantMove(origen, Square.e6) ));
 	}
 
-	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
+	private MoveCommand createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
 				PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
 				Piece.PAWN_BLACK), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));

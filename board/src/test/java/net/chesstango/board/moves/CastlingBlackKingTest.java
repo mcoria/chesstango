@@ -7,6 +7,7 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
@@ -32,7 +33,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class CastlingBlackKingTest {
-    private MoveFactory moveFactory;
+    private MoveFactoryBlack moveFactory;
 
     private SquareBoard squareBoard;
 

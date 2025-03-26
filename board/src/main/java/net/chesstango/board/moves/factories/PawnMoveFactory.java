@@ -4,6 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.moves.imp.MovePromotionImp;
 
@@ -13,15 +14,15 @@ import net.chesstango.board.moves.imp.MovePromotionImp;
  */
 public interface PawnMoveFactory {
 
-    MoveImp createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to);
+    MoveCommand createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to);
 
-    MoveImp createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare);
+    MoveCommand createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare);
 
-    MoveImp createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+    MoveCommand createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    MoveImp createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal);
+    MoveCommand createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal);
 
-    MovePromotionImp createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece);
+    MoveCommand createSimplePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece);
 
-    MovePromotionImp createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal);
+    MoveCommand createCapturePromotionPawnMove(PiecePositioned from, PiecePositioned to, Piece piece, Cardinal cardinal);
 }

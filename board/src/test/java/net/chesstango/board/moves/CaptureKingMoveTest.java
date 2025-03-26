@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class CaptureKingMoveTest {
-    private MoveFactory moveFactory;
+    private MoveFactoryWhite moveFactory;
     private MoveKingImp moveExecutor;
     private SquareBoard squareBoard;
     private PositionStateDebug positionState;

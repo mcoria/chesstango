@@ -2,6 +2,7 @@ package net.chesstango.board.moves.factories;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.moves.imp.MoveImp;
 
 /**
@@ -9,7 +10,7 @@ import net.chesstango.board.moves.imp.MoveImp;
  *
  */
 public interface RookMoveFactory {
-    MoveImp createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
+    MoveCommand createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal);
 
-    MoveImp createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal);
+    MoveCommand createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal);
 }

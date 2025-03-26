@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class LoseCastlingWhiteAfterWhiteMovesTest {
 
-    private MoveFactory moveFactoryImp;
+    private MoveFactoryWhite moveFactoryImp;
 
     private MoveImp moveExecutor;
 

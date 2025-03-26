@@ -38,7 +38,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private Collection<MoveCommand> moves;
 	
-	private MovePair moveCastling;
+	private MovePair<MoveCommand> moveCastling;
 	
 	private PositionState state;
 	

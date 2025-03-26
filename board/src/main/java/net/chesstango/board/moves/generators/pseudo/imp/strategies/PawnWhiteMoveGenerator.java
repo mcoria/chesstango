@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.containers.MovePair;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.moves.imp.MoveImp;
 
 /**
@@ -57,9 +58,9 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 
 
 	@Override
-	public MovePair generateEnPassantPseudoMoves() {
+	public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
 		Square pawnPasanteSquare = positionState.getEnPassantSquare();
-		MovePair moveContainer = new MovePair();
+		MovePair<MoveCommand> moveContainer = new MovePair<>();
 		if (pawnPasanteSquare != null) {
 			PiecePositioned from = null;
 			PiecePositioned capture = null;
@@ -69,7 +70,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 				from = squareBoard.getPosition(casilleroPawnIzquirda);
 				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(from.getPiece())) {
-					MoveImp move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteEste);
+					MoveCommand move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteEste);
 					moveContainer.setFirst(move);
 				}
 			}
@@ -79,7 +80,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 				from = squareBoard.getPosition(casilleroPawnDerecha);
 				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(from.getPiece())) {
-					MoveImp move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteOeste);
+					MoveCommand move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteOeste);
 					moveContainer.setSecond(move);
 				}
 			}

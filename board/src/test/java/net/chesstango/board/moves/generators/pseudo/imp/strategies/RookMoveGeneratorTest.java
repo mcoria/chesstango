@@ -134,11 +134,11 @@ public class RookMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));		
 	}	
 
-	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+	private MoveCommand createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+	private MoveCommand createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
 		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}	
 	

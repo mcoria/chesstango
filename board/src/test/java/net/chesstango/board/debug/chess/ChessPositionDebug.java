@@ -6,7 +6,7 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.position.ChessPositionVisitor;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
@@ -19,6 +19,7 @@ public class ChessPositionDebug extends ChessPositionImp {
     private MoveGeneratorImp moveGeneratorImp;
 
 
+    // LLAMAR A ESTE METODO UNA VEZ QUE SE EJECUTO EL MOVIMIENTO
     public void validar() {
         ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
@@ -60,9 +61,9 @@ public class ChessPositionDebug extends ChessPositionImp {
     private void assertMoveGeneratorResults(MoveGeneratorResult expectedMoveGeneratorResults,
                                             MoveGeneratorResult cacheMoveGeneratorResult) {
 
-        MoveList expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
+        MoveList<MoveCommand> expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
 
-        MoveList cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
+        MoveList<MoveCommand> cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
 
         if (expectedPseudoMoves.size() != cachePseudoMoves.size()) {
             throw new RuntimeException("Hay inconsistencia en el cache de movimientos pseudo");

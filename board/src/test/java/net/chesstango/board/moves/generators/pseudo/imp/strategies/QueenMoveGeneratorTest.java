@@ -109,7 +109,7 @@ public class QueenMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));			
 	}
 	
-	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+	private MoveCommand createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	

@@ -12,6 +12,7 @@ import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -135,7 +136,7 @@ public class BishopMoveGeneratorTest {
 
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
-		MoveList moves = generatorResult.getPseudoMoves();
+		MoveList<MoveCommand> moves = generatorResult.getPseudoMoves();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -162,11 +163,11 @@ public class BishopMoveGeneratorTest {
 	}	
 
 	
-	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+	private MoveCommand createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+	private MoveCommand createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
 		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	

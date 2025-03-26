@@ -32,7 +32,6 @@ public class PawnWhiteMoveGeneratorTest {
 
     private Collection<MoveCommand> moves;
 
-
     private MoveFactory moveFactoryImp;
 
     @BeforeEach
@@ -223,23 +222,23 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(4, moves.size());
     }
 
-    private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
+    private MoveCommand createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
         return moveFactoryImp.createSimpleOneSquarePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
-    private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
+    private MoveCommand createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
         return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
     }
 
-    private Move createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
+    private MoveCommand createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
         return moveFactoryImp.createCapturePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), cardinal);
     }
 
-    private Move createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
+    private MoveCommand createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
         return moveFactoryImp.createSimplePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
     }
 
-    private Move createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion, Cardinal direction) {
+    private MoveCommand createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion, Cardinal direction) {
         return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, direction);
     }
 

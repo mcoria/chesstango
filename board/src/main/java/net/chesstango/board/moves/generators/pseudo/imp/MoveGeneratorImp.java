@@ -9,6 +9,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.*;
 
 /**
@@ -75,7 +76,7 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
     @Override
-    public MovePair generateEnPassantPseudoMoves() {
+    public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
         if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
             return pawnWhiteMoveGenerator.generateEnPassantPseudoMoves();
         } else {

@@ -44,12 +44,12 @@ public class AbstractCardinalMoveGeneratorSurTest {
         moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[]{Cardinal.Sur}) {
 
             @Override
-            protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+            protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
                 return moveFactoryImp.createSimpleKnightMove(from, to);
             }
 
             @Override
-            protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+            protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
                 return moveFactoryImp.createCaptureKnightMove(from, to);
             }
 

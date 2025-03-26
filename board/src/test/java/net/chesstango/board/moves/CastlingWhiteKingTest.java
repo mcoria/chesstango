@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class CastlingWhiteKingTest {
-    private MoveFactory moveFactory;
+    private MoveFactoryWhite moveFactory;
 
     private SquareBoard squareBoard;
 
