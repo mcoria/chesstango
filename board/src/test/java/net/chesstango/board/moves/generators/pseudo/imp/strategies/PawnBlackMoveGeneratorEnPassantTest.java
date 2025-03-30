@@ -10,7 +10,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
@@ -31,9 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PawnBlackMoveGeneratorEnPassantTest {
 	private PawnBlackMoveGenerator moveGenerator;
 	
-	private Collection<MoveCommand> moves;
+	private Collection<PseudoMove> moves;
 
-	private MovePair<MoveCommand> movePair;
+	private MovePair<PseudoMove> movePair;
 
 	private PositionState state;
 
@@ -94,7 +94,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 		assertTrue(movePair.contains( createCaptureWhiteEnPassantMove(origen, Square.d3) ));
 	}
 	
-	private MoveCommand createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
+	private PseudoMove createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}	
 	

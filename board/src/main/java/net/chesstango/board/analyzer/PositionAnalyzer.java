@@ -7,7 +7,7 @@ import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -41,7 +41,7 @@ public class PositionAnalyzer {
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
 
-        MoveContainerReader<MoveCommand> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+        MoveContainerReader<PseudoMove> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         boolean existsLegalMove = !legalMoves.isEmpty();
 

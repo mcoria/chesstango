@@ -10,7 +10,7 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class QueenMoveGeneratorTest {
 	private QueenMoveGenerator moveGenerator;
 	
-	private Collection<MoveCommand> moves;
+	private Collection<PseudoMove> moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -108,7 +108,7 @@ public class QueenMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));			
 	}
 	
-	private MoveCommand createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+	private PseudoMove createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	

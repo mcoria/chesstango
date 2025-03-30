@@ -9,7 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.PositionStateReader;
 
 /**
@@ -135,7 +135,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             result.addAffectedByPositions(squareSimpleJump);
             // Check if the square ahead is empty
             if (toPiecePositioned.getPiece() == null) {
-                MoveCommand moveSimpleJump = this.createSimplePawnMove(from, toPiecePositioned);
+                PseudoMove moveSimpleJump = this.createSimplePawnMove(from, toPiecePositioned);
 
                 // Check for pawn promotion when reaching the final rank
                 toRank = squareSimpleJump.getRank();
@@ -150,7 +150,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
                         result.addAffectedByPositions(squareDoubleJump);
                         // Check if the square two steps ahead is empty
                         if (toPiecePositioned.getPiece() == null) {
-                            MoveCommand moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, toPiecePositioned, squareSimpleJump);
+                            PseudoMove moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, toPiecePositioned, squareSimpleJump);
                             result.addPseudoMove(moveSaltoDoble);
                         }
                     }
@@ -167,7 +167,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             Piece piece = toPiecePositioned.getPiece();      // Check if there is a piece on the square
             // Is the square occupied by an opponent's piece?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                MoveCommand moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalLeftDirection());
+                PseudoMove moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalLeftDirection());
                 // Handle promotion if the capture move reaches the final rank
                 toRank = squareSimpleJump.getRank();
                 if (toRank == 0 || toRank == 7) { // Promotion scenario
@@ -186,7 +186,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             Piece piece = toPiecePositioned.getPiece();       // Check if there is a piece on the square
             // Is the square occupied by an opponent's piece?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-                MoveCommand moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalRightDirection());
+                PseudoMove moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalRightDirection());
                 // Handle promotion if the capture move reaches the final rank
                 toRank = squareSimpleJump.getRank();
                 if (toRank == 0 || toRank == 7) { // Promotion scenario
@@ -217,15 +217,15 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
         }
     }
 
-    protected MoveCommand createCapturePawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned, Cardinal direction) {
+    protected PseudoMove createCapturePawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned, Cardinal direction) {
         return this.moveFactory.createCapturePawnMove(origen, toPiecePositioned, direction);
     }
 
-    protected MoveCommand createSimplePawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned) {
+    protected PseudoMove createSimplePawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned) {
         return this.moveFactory.createSimpleOneSquarePawnMove(origen, toPiecePositioned);
     }
 
-    protected MoveCommand createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned, Square saltoSimpleCasillero) {
+    protected PseudoMove createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned toPiecePositioned, Square saltoSimpleCasillero) {
         return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, toPiecePositioned, saltoSimpleCasillero);
     }
 }

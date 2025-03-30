@@ -12,7 +12,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -33,7 +33,7 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
-	private Collection<MoveCommand> moves;
+	private Collection<PseudoMove> moves;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -43,12 +43,12 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.SurOeste}){
 
 			@Override
-			protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+			protected PseudoMove createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 				return moveFactoryImp.createSimpleKnightMove(from, to);
 			}
 
 			@Override
-			protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+			protected PseudoMove createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 				return moveFactoryImp.createCaptureKnightMove(from, to);
 			}
 			

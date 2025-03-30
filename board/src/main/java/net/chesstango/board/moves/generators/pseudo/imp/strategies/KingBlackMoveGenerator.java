@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 /**
  * @author Mauricio Coria
@@ -25,8 +25,8 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 	}
 
 	@Override
-	public MovePair<MoveCommand> generateCastlingPseudoMoves() {
-		MovePair<MoveCommand> moveContainer = new MovePair<>();
+	public MovePair<PseudoMove> generateCastlingPseudoMoves() {
+		MovePair<PseudoMove> moveContainer = new MovePair<>();
 		if (this.positionState.isCastlingBlackQueenAllowed()){
 			if(validateCastlingQueen(	kingSquare.getKingSquareBlack(),
 								PiecePositioned.KING_BLACK, 

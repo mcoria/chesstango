@@ -3,14 +3,14 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements MoveCommand, Command {
+public abstract class MoveImp implements PseudoMove, Command {
     protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;

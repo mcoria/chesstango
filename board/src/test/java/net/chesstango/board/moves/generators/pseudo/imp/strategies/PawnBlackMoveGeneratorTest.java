@@ -9,7 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ public class PawnBlackMoveGeneratorTest {
 
     private PawnBlackMoveGenerator moveGenerator;
 
-    private Collection<MoveCommand> moves;
+    private Collection<PseudoMove> moves;
 
     private MoveFactory moveFactoryImp;
 
@@ -128,23 +128,23 @@ public class PawnBlackMoveGeneratorTest {
         assertEquals(3, moves.size());
     }
 
-    private MoveCommand createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
+    private PseudoMove createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
         return moveFactoryImp.createSimpleOneSquarePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
-    private MoveCommand createSimpleTwoSquaresPawnMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
+    private PseudoMove createSimpleTwoSquaresPawnMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
         return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
     }
 
-    private MoveCommand createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
+    private PseudoMove createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
         return moveFactoryImp.createCapturePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), cardinal);
     }
 
-    private MoveCommand createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
+    private PseudoMove createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
         return moveFactoryImp.createSimplePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
     }
 
-    private MoveCommand createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion) {
+    private PseudoMove createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion) {
         return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, Cardinal.NorteEste);
     }
 

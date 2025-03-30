@@ -1,13 +1,13 @@
 package net.chesstango.board.moves.factories;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 /**
  * @author Mauricio Coria
  */
 public interface KnightMoveFactory {
-    MoveCommand createSimpleKnightMove(PiecePositioned from, PiecePositioned to);
+    PseudoMove createSimpleKnightMove(PiecePositioned from, PiecePositioned to);
 
-    MoveCommand createCaptureKnightMove(PiecePositioned from, PiecePositioned to);
+    PseudoMove createCaptureKnightMove(PiecePositioned from, PiecePositioned to);
 }

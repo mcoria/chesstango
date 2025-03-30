@@ -5,7 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.QueenMoveFactory;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 /**
  * @author Mauricio Coria
@@ -22,13 +22,13 @@ public class QueenMoveGenerator extends AbstractCardinalMoveGenerator {
     }
 
     @Override
-    protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    protected PseudoMove createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactory.createSimpleQueenMove(from, to, cardinal);
     }
 
 
     @Override
-    protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+    protected PseudoMove createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         return moveFactory.createCaptureQueenMove(from, to, cardinal);
     }
 

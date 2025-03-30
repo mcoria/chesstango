@@ -5,7 +5,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 /**
  * @author Mauricio Coria
  */
-public interface MoveCommand extends Move {
+public interface PseudoMove extends Move {
 
     boolean isLegalMove(LegalMoveFilter filter);
 }
