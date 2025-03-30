@@ -5,15 +5,15 @@ package net.chesstango.board.position;
  */
 public interface ChessPositionWriter {
 
-    SquareBoard getSquareBoard();
+    SquareBoardWriter getSquareBoardWriter();
 
-    BitBoard getBitBoard();
+    BitBoardWriter getBitBoardWriter();
 
-    KingSquare getKingSquare();
+    KingSquareWriter getKingSquareWriter();
 
-    MoveCacheBoard getMoveCache();
+    MoveCacheBoardWriter getMoveCacheWriter();
 
-    PositionState getPositionState();
+    PositionStateWriter getPositionStateWriter();
 
-    ZobristHash getZobrist();
+    ZobristHashWriter getZobristWriter();
 }

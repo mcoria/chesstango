@@ -77,11 +77,11 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void doMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         doMove(squareBoard);
 
@@ -96,11 +96,11 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void undoMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         undoMove(squareBoard);
 
@@ -160,9 +160,9 @@ public abstract class MoveImp implements MoveCommand {
     @Override
     public long getZobristHash() {
         ChessPosition chessPosition = gameImp.getChessPosition();
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        ZobristHash hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         doMove(squareBoard);
 
@@ -170,7 +170,7 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(hash);
 
-        long zobristHash = hash.getZobristHash();
+        long zobristHash = chessPosition.getZobristHash();
 
         undoMove(hash);
 

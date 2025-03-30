@@ -3,16 +3,9 @@ package net.chesstango.board.moves.generators.legal.imp.check;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
-import net.chesstango.board.moves.imp.MoveCastlingImp;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.moves.imp.MoveKingImp;
-import net.chesstango.board.position.BitBoard;
-import net.chesstango.board.position.KingSquare;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.*;
 
 /**
  * Este filtro se utiliza cuando el jugador actual SI se encuentra en jaque
@@ -36,7 +29,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(Move move, MoveCommand command) {
+    public boolean isLegalMove(Move move, Command command) {
         boolean result = false;
 
         final Color currentTurn = positionState.getCurrentTurn();
@@ -55,7 +48,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMoveKing(Move move, MoveCommand command) {
+    public boolean isLegalMoveKing(Move move, Command command) {
         command.doMove(this.kingCacheBoard);
 
         boolean result = isLegalMove(move, command);
@@ -66,7 +59,7 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMoveCastling(MoveCastling move, MoveCommand command) {
+    public boolean isLegalMoveCastling(MoveCastling move, Command command) {
         return false;
     }
 

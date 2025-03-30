@@ -21,12 +21,12 @@ public class MoveKingImp extends MoveComposed {
 
     @Override
     public void doMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        KingSquare kingSquare = chessPosition.getKingSquare();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         doMove(squareBoard);
 
@@ -43,12 +43,12 @@ public class MoveKingImp extends MoveComposed {
 
     @Override
     public void undoMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        KingSquare kingSquare = chessPosition.getKingSquare();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         undoMove(squareBoard);
 

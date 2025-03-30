@@ -3,14 +3,10 @@ package net.chesstango.board.moves.generators.legal.imp.nocheck;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.squarecapturers.CardinalSquareCaptured;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
-import net.chesstango.board.position.BitBoard;
-import net.chesstango.board.position.KingSquare;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.*;
 
 /**
  * Este filtro se utiliza cuando el jugador actual no se encuentra en jaque
@@ -44,7 +40,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
      *  Este metodo sirve para filtrar movimientos que no son de rey.
      *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
      */
-    public boolean isLegalMove(Move move, MoveCommand command) {
+    public boolean isLegalMove(Move move, Command command) {
         boolean result = false;
 
         final Color currentTurn = positionState.getCurrentTurn();
@@ -63,7 +59,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMoveKing(Move move, MoveCommand command) {
+    public boolean isLegalMoveKing(Move move, Command command) {
         boolean result = false;
         final Color currentTurn = positionState.getCurrentTurn();
 
@@ -85,7 +81,7 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     //TODO: este metodo esta consumiendo el 20% del procesamiento,
     // 		deberia crear CAPTURER especifico para validar castling
     @Override
-    public boolean isLegalMoveCastling(MoveCastling moveCastling, MoveCommand command) {
+    public boolean isLegalMoveCastling(MoveCastling moveCastling, Command command) {
         Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
         //assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					// El king no esta en jaque... lo asumimos
         return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare())            // El king no puede ser capturado en casillero intermedio
