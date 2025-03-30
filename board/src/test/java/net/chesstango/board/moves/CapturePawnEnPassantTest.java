@@ -213,7 +213,7 @@ public class CapturePawnEnPassantTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).isLegalMove(moveExecutor);
+        verify(filter).isLegalMove(moveExecutor, moveExecutor);
     }
 
     @Test

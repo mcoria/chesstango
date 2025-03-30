@@ -84,6 +84,6 @@ public class MoveKingImp extends MoveComposed {
 
     @Override
     public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMoveKing(this);
+        return filter.isLegalMoveKing(this, this);
     }
 }

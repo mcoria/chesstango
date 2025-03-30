@@ -1,6 +1,9 @@
 package net.chesstango.board.moves.generators.legal.imp.check;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
@@ -33,37 +36,37 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(MoveImp move) {
+    public boolean isLegalMove(Move move, MoveCommand command) {
         boolean result = false;
 
         final Color currentTurn = positionState.getCurrentTurn();
 
-        move.doMove(this.squareBoard);
-        move.doMove(this.bitBoard);
+        command.doMove(this.squareBoard);
+        command.doMove(this.bitBoard);
 
         if (!fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
             result = true;
         }
 
-        move.undoMove(this.bitBoard);
-        move.undoMove(this.squareBoard);
+        command.undoMove(this.bitBoard);
+        command.undoMove(this.squareBoard);
 
         return result;
     }
 
     @Override
-    public boolean isLegalMoveKing(MoveKingImp move) {
-        move.doMove(this.kingCacheBoard);
+    public boolean isLegalMoveKing(Move move, MoveCommand command) {
+        command.doMove(this.kingCacheBoard);
 
-        boolean result = isLegalMove(move);
+        boolean result = isLegalMove(move, command);
 
-        move.undoMove(this.kingCacheBoard);
+        command.undoMove(this.kingCacheBoard);
 
         return result;
     }
 
     @Override
-    public boolean isLegalMoveCastling(MoveCastlingImp moveCastling) {
+    public boolean isLegalMoveCastling(MoveCastling move, MoveCommand command) {
         return false;
     }
 

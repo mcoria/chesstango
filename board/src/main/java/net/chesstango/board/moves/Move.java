@@ -34,7 +34,7 @@ public interface Move {
      * rook       3
      * queen      4
      *
-     * @return
+     * @return short
      */
     default short binaryEncoding() {
         Square fromSquare = getFrom().getSquare();

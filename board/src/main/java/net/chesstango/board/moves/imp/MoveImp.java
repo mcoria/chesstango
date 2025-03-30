@@ -144,7 +144,7 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
+        return filter.isLegalMove(this, this);
     }
 
     @Override

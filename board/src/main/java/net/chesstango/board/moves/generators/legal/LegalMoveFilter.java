@@ -1,16 +1,16 @@
 package net.chesstango.board.moves.generators.legal;
 
-import net.chesstango.board.moves.imp.MoveCastlingImp;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.moves.imp.MoveKingImp;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * @author Mauricio Coria
  */
 public interface LegalMoveFilter {
-    boolean isLegalMove(MoveImp move);
+    boolean isLegalMove(Move move, MoveCommand command);
 
-    boolean isLegalMoveKing(MoveKingImp move);
+    boolean isLegalMoveKing(Move move, MoveCommand command);
 
-    boolean isLegalMoveCastling(MoveCastlingImp moveCastling);
+    boolean isLegalMoveCastling(MoveCastling moveCastling, MoveCommand command);
 }
