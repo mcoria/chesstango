@@ -22,19 +22,15 @@ public class DefaultChessPositionBuilder implements ChessPositionBuilder<ChessPo
 	private final ChessInjector chessInjector;
 	private ChessPosition chessPosition = null;
 
-	
-	public DefaultChessPositionBuilder(ChessInjector chessInjector) {
+
+	public DefaultChessPositionBuilder() {
+		this(new ChessInjector());
+	}
+
+	DefaultChessPositionBuilder(ChessInjector chessInjector) {
 		this.squareBoard = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
-	}
-	
-	public DefaultChessPositionBuilder() {
-		this(new ChessInjector());
-	}	
-	
-	public DefaultChessPositionBuilder(ChessFactory chessFactory) {
-		this(new ChessInjector(chessFactory));
 	}
 	
 	@Override
