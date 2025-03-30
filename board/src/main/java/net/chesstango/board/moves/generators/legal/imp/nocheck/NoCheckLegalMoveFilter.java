@@ -46,10 +46,6 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
      *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
      */
     public boolean isLegalMove(MoveImp move) {
-        if (!(move instanceof MoveCaptureEnPassantImp)) {
-            throw new RuntimeException("Solo deberiamos filtrar MovePawnCaptureEnPassant");
-        }
-
         boolean result = false;
 
         final Color currentTurn = positionState.getCurrentTurn();
