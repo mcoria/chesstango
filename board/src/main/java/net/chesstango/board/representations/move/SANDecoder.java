@@ -29,7 +29,7 @@ public class SANDecoder {
             ")[+#]?"
     );
 
-    public Move decode(String moveStr, Iterable<Move> possibleMoves) {
+    public Move decode(String moveStr, Iterable<? extends Move> possibleMoves) {
         final Matcher matcher = movePattern.matcher(moveStr);
         if (matcher.matches()) {
             if (matcher.group("piecemove") != null) {
@@ -47,7 +47,7 @@ public class SANDecoder {
         return null;
     }
 
-    private Move searchKingCastling(Iterable<Move> possibleMoves) {
+    private Move searchKingCastling(Iterable<? extends Move> possibleMoves) {
         for (Move move : possibleMoves) {
             if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 6) {
                 return move;
@@ -56,7 +56,7 @@ public class SANDecoder {
         return null;
     }
 
-    private Move searchQueenCastling(Iterable<Move> possibleMoves) {
+    private Move searchQueenCastling(Iterable<? extends Move> possibleMoves) {
         for (Move move : possibleMoves) {
             if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 2) {
                 return move;
@@ -65,7 +65,7 @@ public class SANDecoder {
         return null;
     }
 
-    private Move decodePawnPush(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePawnPush(Matcher matcher, Iterable<? extends Move> possibleMoves) {
         String pawnto = matcher.group("pawnto");
         String pawnpushpromotion = matcher.group("pawnpushpromotion");
 
@@ -109,7 +109,7 @@ public class SANDecoder {
         return null;
     }
 
-    private Move decodePawnCapture(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePawnCapture(Matcher matcher, Iterable<? extends Move> possibleMoves) {
         String pawncapturefile = matcher.group("pawncapturefile");
         String pawncaptureto = matcher.group("pawncaptureto");
         String pawncapturepromotion = matcher.group("pawncapturepromotion");
@@ -134,7 +134,7 @@ public class SANDecoder {
         return null;
     }
 
-    private Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePieceMove(Matcher matcher, Iterable<? extends Move> possibleMoves) {
         String piece = matcher.group("piece");
         String piecefrom = matcher.group("piecefrom");
         String pieceto = matcher.group("pieceto");

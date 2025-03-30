@@ -20,7 +20,7 @@ public class LANDecoder {
             "(?<pawnmove>(?<pawnfrom>[a-h][1-8])[-x](?<pawnto>[a-h][1-8])(?<promotionpiece>[RNBQK]))" +
             ")[+#]?");
 
-    public Move decode(String moveStr, Iterable<Move> possibleMoves) {
+    public Move decode(String moveStr, Iterable<? extends Move> possibleMoves) {
         final Matcher matcher = edpMovePattern.matcher(moveStr);
         if (matcher.matches()) {
             if (matcher.group("piecemove") != null) {
@@ -32,7 +32,7 @@ public class LANDecoder {
         return null;
     }
 
-    private Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePieceMove(Matcher matcher, Iterable<? extends Move> possibleMoves) {
         String pieceStr = matcher.group("piece");
         String fromStr = matcher.group("from");
         String fromFileStr = matcher.group("fromfile");
@@ -74,7 +74,7 @@ public class LANDecoder {
         return null;
     }
 
-    private Move decodePawnMove(Matcher matcher, Iterable<Move> possibleMoves) {
+    private Move decodePawnMove(Matcher matcher, Iterable<? extends Move> possibleMoves) {
         String promotionPieceStr = matcher.group("promotionpiece");
         String fromStr = matcher.group("pawnfrom");
         String toStr = matcher.group("pawnto");

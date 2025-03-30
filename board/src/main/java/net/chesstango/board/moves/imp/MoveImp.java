@@ -50,6 +50,8 @@ public abstract class MoveImp implements MoveCommand {
         doMove(gameImp.getChessPosition());
 
         doMove(gameImp.getState());
+
+        gameImp.notifyDoMove(this);
     }
 
     @Override
@@ -57,6 +59,8 @@ public abstract class MoveImp implements MoveCommand {
         undoMove(gameImp.getState());
 
         undoMove(gameImp.getChessPosition());
+
+        gameImp.notifyUndoMove(this);
     }
 
     @Override

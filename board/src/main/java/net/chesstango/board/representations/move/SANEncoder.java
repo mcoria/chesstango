@@ -18,7 +18,7 @@ import net.chesstango.board.moves.MovePromotion;
  */
 public class SANEncoder {
 
-    public String encodeAlgebraicNotation(Move move, Iterable<Move> possibleMoves) {
+    public String encodeAlgebraicNotation(Move move, Iterable<? extends Move> possibleMoves) {
         if(move instanceof MoveCastling moveCastling){
             return encodeMoveCastling(moveCastling);
         } else if(move.getFrom().getPiece().isPawn()){
@@ -27,7 +27,7 @@ public class SANEncoder {
         return encodePieceMove(move, possibleMoves);
     }
 
-    public String encodePieceMove(Move move, Iterable<Move>  possibleMoves) {
+    public String encodePieceMove(Move move, Iterable<? extends Move>  possibleMoves) {
         StringBuilder sb = new StringBuilder();
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
@@ -46,7 +46,7 @@ public class SANEncoder {
         return sb.toString();
     }
 
-    private String encodePawnMove(Move move, Iterable<Move> possibleMoves) {
+    private String encodePawnMove(Move move, Iterable<? extends Move> possibleMoves) {
         StringBuilder sb = new StringBuilder();
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
@@ -79,7 +79,7 @@ public class SANEncoder {
     }
 
 
-    private String solvePieceAmbiguityFrom(Move move, Iterable<Move>  possibleMoves) {
+    private String solvePieceAmbiguityFrom(Move move, Iterable<? extends Move>  possibleMoves) {
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
         Piece piece = from.getPiece();

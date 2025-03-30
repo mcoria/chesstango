@@ -56,13 +56,13 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     }
 
     @Override
-    public boolean contains(M move) {
-        if (moveList.contains(move)) {
+    public boolean contains(Object object) {
+        if (moveList.contains(object)) {
             return true;
         }
         for (MoveList<M> movelist :
                 moveLists) {
-            if (movelist.contains(move)) {
+            if (movelist.contains(object)) {
                 return true;
             }
         }

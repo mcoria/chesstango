@@ -97,9 +97,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     }
 
     protected void maximize(final int maxValue) {
-        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
-        while (moveIterator.hasNext()) {
-            Move move = moveIterator.next();
+        for (Move move : game.getPossibleMoves()) {
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
@@ -113,9 +111,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     }
 
     protected void minimize(final int minValue) {
-        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
-        while (moveIterator.hasNext()) {
-            Move move = moveIterator.next();
+        for (Move move : game.getPossibleMoves()) {
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);

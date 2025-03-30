@@ -12,7 +12,7 @@ public interface MoveContainerReader<M extends Move> extends Iterable<M> {
 
     boolean isEmpty();
 
-    boolean contains(M move);
+    boolean contains(Object object);
 
     M getMove(Square from, Square to);
 

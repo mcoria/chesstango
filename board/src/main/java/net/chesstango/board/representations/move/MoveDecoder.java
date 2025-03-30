@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
  */
 public class MoveDecoder {
 
-    public Move decode(String moveStr, Iterable<Move> possibleMoves) {
+    public Move decode(String moveStr, Iterable<? extends Move> possibleMoves) {
         SANDecoder sanDecoder = new SANDecoder();
         LANDecoder lanDecoder = new LANDecoder();
 

@@ -187,5 +187,4 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
         moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
-
 }

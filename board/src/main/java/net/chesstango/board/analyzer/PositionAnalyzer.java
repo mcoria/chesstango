@@ -4,9 +4,10 @@ import lombok.Setter;
 import net.chesstango.board.GameState;
 import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
-import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -40,7 +41,7 @@ public class PositionAnalyzer {
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
 
-        MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+        MoveContainerReader<MoveCommand> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         boolean existsLegalMove = !legalMoves.isEmpty();
 
@@ -79,7 +80,7 @@ public class PositionAnalyzer {
         gameState.setRepetitionCounter(repetitionCounter);
 
         if (gameStatus.isFinalStatus()) {
-            gameState.setLegalMoves(new MoveContainer());
+            gameState.setLegalMoves(new MoveContainer<>());
         } else {
             gameState.setLegalMoves(legalMoves);
         }

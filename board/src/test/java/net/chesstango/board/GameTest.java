@@ -753,6 +753,7 @@ public class GameTest {
         // Blanca pierde el enroque de rey
         // Rey establece los movimientos en cache (sin enroque de Torre Rey)
         // Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
+
         assertFalse(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");
 
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
@@ -777,7 +778,7 @@ public class GameTest {
 
     @Test
     public void testJuegoEnPassantUndo() {
-        MoveContainerReader legalMoves = null;
+        MoveContainerReader<? extends Move> legalMoves = null;
 
         Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
@@ -809,7 +810,7 @@ public class GameTest {
 
     @Test
     public void testJuegoEnPassant01() {
-        MoveContainerReader legalMoves = null;
+        MoveContainerReader<? extends Move> legalMoves = null;
 
         Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
@@ -843,7 +844,7 @@ public class GameTest {
 
     @Test
     public void testJuegoEnPassant02() {
-        MoveContainerReader legalMoves = null;
+        MoveContainerReader<? extends Move> legalMoves = null;
 
         Game game = getGame("rnbqkbnr/pppppppp/8/1P6/3P4/8/P1P1PPPP/RNBQKBNR b KQkq - 0 2");
 
@@ -876,7 +877,7 @@ public class GameTest {
         Game game = getGame("rnbqkbnr/pp1ppppp/8/8/1Pp5/3P4/P1PKPPPP/RNBQ1BNR b kq b3 0 3");
         game.executeMove(Square.d8, Square.a5);
 
-        MoveContainerReader legalMoves = game.getPossibleMoves();
+        MoveContainerReader<? extends Move> legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getZobristHash());
     }
@@ -885,7 +886,7 @@ public class GameTest {
     public void testLegalMove() {
         Game game = getGame("r1bq1rk1/ppp2ppp/3p1n2/3Np3/1bPnP3/5NP1/PP1P1PBP/R1BQ1RK1 b - - 2 8");
 
-        MoveContainerReader legalMoves = game.getPossibleMoves();
+        MoveContainerReader<? extends Move> legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.d4, Square.f3));
     }
 
@@ -909,7 +910,7 @@ public class GameTest {
         assertEquals(Cardinal.SurEste, move.getMoveDirection());
     }
 
-    protected boolean contieneMove(MoveContainerReader<Move> movimientos, Square from, Square to) {
+    protected boolean contieneMove(MoveContainerReader<? extends Move> movimientos, Square from, Square to) {
         for (Move move : movimientos) {
             if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
                 return true;

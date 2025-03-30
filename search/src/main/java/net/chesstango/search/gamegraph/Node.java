@@ -69,7 +69,7 @@ class Node {
             }
 
             @Override
-            public boolean contains(Move move) {
+            public boolean contains(Object move) {
                 throw new UnsupportedOperationException("Method not implemented yet");
                 //return links.stream().map(GameMockNodeLink::getMove).anyMatch(theMoveLink -> GameMockNode.testMoveEquality(theMoveLink, move));
                 //return false;
@@ -91,8 +91,7 @@ class Node {
             @Override
             public Move getMove(Square from, Square to, Piece promotionPiece) {
                 for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)) {
-                        MovePromotion movePromotion = (MovePromotion) move;
+                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion movePromotion)) {
                         if (movePromotion.getPromotion().equals(promotionPiece)) {
                             return move;
                         }

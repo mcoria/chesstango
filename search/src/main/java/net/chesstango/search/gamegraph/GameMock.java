@@ -41,8 +41,13 @@ public class GameMock implements Game {
     }
 
     @Override
-    public MoveContainerReader getPossibleMoves() {
+    public MoveContainerReader<Move> getPossibleMoves() {
         return currentMockNode.getPossibleMoves();
+    }
+
+    @Override
+    public void addGameListener(GameListener gameListener) {
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
@@ -100,7 +105,7 @@ public class GameMock implements Game {
         return null;
     }
 
-    public Node getNodeMock() {
+    Node getNodeMock() {
         return currentMockNode;
     }
 

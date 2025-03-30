@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.imp.MoveCommand;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
@@ -31,12 +32,12 @@ public class GameState implements GameStateReader, GameStateWriter {
     }
 
     @Override
-    public MoveContainerReader<Move> getLegalMoves() {
+    public MoveContainerReader<MoveCommand> getLegalMoves() {
         return currentGameState.legalMoves;
     }
 
     @Override
-    public void setLegalMoves(MoveContainerReader<Move> legalMoves) {
+    public void setLegalMoves(MoveContainerReader<MoveCommand> legalMoves) {
         currentGameState.legalMoves = legalMoves;
     }
 
@@ -109,7 +110,7 @@ public class GameState implements GameStateReader, GameStateWriter {
 
     private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
-        protected MoveContainerReader<Move> legalMoves;
+        protected MoveContainerReader<MoveCommand> legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected long zobristHash;
@@ -123,7 +124,7 @@ public class GameState implements GameStateReader, GameStateWriter {
         }
 
         @Override
-        public MoveContainerReader<Move> getLegalMoves() {
+        public MoveContainerReader<MoveCommand> getLegalMoves() {
             return legalMoves;
         }
 
