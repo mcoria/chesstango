@@ -97,7 +97,7 @@ public class ChessFactory {
 
 
 	public GameState createGameState() {
-		return new GameState();
+		return new GameStateImp();
 	}
 
 	public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {

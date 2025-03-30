@@ -1,6 +1,6 @@
 package net.chesstango.board.factory;
 
-import net.chesstango.board.*;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
@@ -14,7 +14,6 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.ChessPositionImp;
-import net.chesstango.board.position.imp.GameState;
 import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.MoveCacheBoardImp;
 

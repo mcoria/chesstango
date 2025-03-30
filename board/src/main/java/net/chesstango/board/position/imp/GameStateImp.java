@@ -2,8 +2,8 @@ package net.chesstango.board.position.imp;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.position.GameState;
 import net.chesstango.board.position.GameStateReader;
-import net.chesstango.board.position.GameStateWriter;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
@@ -16,7 +16,7 @@ import net.chesstango.board.representations.fen.FEN;
  * <p>
  * Almacena tanto el estado actual como estados anteriores.
  */
-public class GameState implements GameStateReader, GameStateWriter {
+public class GameStateImp implements GameState {
 
     private GameStateData currentGameState = new GameStateData();
 
