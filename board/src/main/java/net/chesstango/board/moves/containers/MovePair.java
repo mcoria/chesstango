@@ -3,16 +3,15 @@ package net.chesstango.board.moves.containers;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveImp;
 
 /**
  * @author Mauricio Coria
  */
 @Getter
 @Setter
-public class MovePair {
-    private MoveImp first;
-    private MoveImp second;
+public class MovePair<M extends Move> {
+    private M first;
+    private M second;
 
     public int size() {
         int result = 0;
@@ -25,7 +24,7 @@ public class MovePair {
         return result;
     }
 
-    public boolean contains(Move move) {
+    public boolean contains(M move) {
         return move.equals(first) || move.equals(second);
     }
 }

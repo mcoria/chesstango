@@ -12,26 +12,18 @@ import java.util.List;
  * @author Mauricio Coria
  *
  */
+@Setter
+@Getter
 public class AnalyzerResult {
 
-	@Setter
-	@Getter
 	private boolean isKingInCheck;
 
-	@Setter
-	@Getter
 	private long pinnedSquares;
 
-	@Setter
-	@Getter
 	private long capturedPositions;
 
-	@Setter
-	@Getter
 	private long safeKingPositions;
 
-	@Setter
-	@Getter
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 
 }

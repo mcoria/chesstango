@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.ChessPositionReader;

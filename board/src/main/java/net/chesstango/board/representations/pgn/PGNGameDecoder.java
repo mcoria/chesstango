@@ -2,12 +2,8 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.SANDecoder;
 import net.chesstango.board.representations.move.SANEncoder;
 
 import java.util.ArrayList;

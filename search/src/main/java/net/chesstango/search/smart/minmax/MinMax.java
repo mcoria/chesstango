@@ -39,7 +39,7 @@ public class MinMax implements SearchAlgorithm {
 
         expectedNodesCounters[0] += game.getPossibleMoves().size();
         for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
+            move.executeMove();
 
             int currentEvaluation = minMax(game, !minOrMax, maxPly - 1);
 
@@ -61,7 +61,7 @@ public class MinMax implements SearchAlgorithm {
                 }
             }
 
-            game.undoMove();
+            move.undoMove();
         }
 
         bestMoveEvaluation = new MoveEvaluation(MoveSelector.selectMove(currentTurn, bestMoves), betterEvaluation, MoveEvaluationType.EXACT);
@@ -76,7 +76,7 @@ public class MinMax implements SearchAlgorithm {
             betterEvaluation = evaluator.evaluate();
         } else {
             for (Move move : game.getPossibleMoves()) {
-                game = game.executeMove(move);
+                move.executeMove();
 
                 int currentEvaluation = minMax(game, !minOrMax, currentPly - 1);
                 if (minOrMax) {
@@ -89,7 +89,7 @@ public class MinMax implements SearchAlgorithm {
                     }
                 }
 
-                game = game.undoMove();
+                move.undoMove();
             }
         }
         return betterEvaluation;

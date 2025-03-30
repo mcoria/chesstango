@@ -3,7 +3,7 @@ package net.chesstango.search.smart.sorters.comparators;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;

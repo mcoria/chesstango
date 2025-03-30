@@ -68,7 +68,7 @@ public class TranspositionHeadMoveComparatorTest {
     private List<Move> getSortedMoves(Game game) {
         List<Move> movesList = new LinkedList<>();
 
-        MoveContainerReader moves = game.getPossibleMoves();
+        MoveContainerReader<? extends Move> moves = game.getPossibleMoves();
         moves.forEach(movesList::add);
 
         MoveToHashMap moveToZobrist = new MoveToHashMap();

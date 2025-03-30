@@ -5,8 +5,9 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.ChessPositionWriter;
 import net.chesstango.board.position.PositionState;
 
 

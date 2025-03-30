@@ -143,7 +143,7 @@ public class SearchTracker {
 
         for (Move move : game.getPossibleMoves()) {
             final String moveStr = simpleMoveEncoder.encode(move);
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final long zobristHashMove = move.getZobristHash();
 
             evalCacheReads.stream()
                     .filter(debugOperationEval -> zobristHashMove == debugOperationEval.getHashRequested())
@@ -157,7 +157,7 @@ public class SearchTracker {
         final long positionHash = game.getChessPosition().getZobristHash();
         for (Move move : game.getPossibleMoves()) {
             final String moveStr = simpleMoveEncoder.encode(move);
-            final long zobristHashMove = game.getChessPosition().getZobristHash(move);
+            final long zobristHashMove = move.getZobristHash();
             final short moveEncoded = move.binaryEncoding();
 
             // Transposition Head Access

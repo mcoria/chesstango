@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
@@ -12,8 +13,8 @@ import net.chesstango.board.position.*;
 public class MovePawnTwoSquares extends MoveImp {
     protected final Square enPassantSquare;
 
-    public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
-        super(from, to, direction);
+    public MovePawnTwoSquares(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
+        super(gameImp, from, to, direction);
         this.enPassantSquare = enPassantSquare;
     }
 
@@ -66,7 +67,7 @@ public class MovePawnTwoSquares extends MoveImp {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -74,6 +75,8 @@ public class MovePawnTwoSquares extends MoveImp {
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.clearEnPassantSquare();
+
+        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 
         if (enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
@@ -85,13 +88,5 @@ public class MovePawnTwoSquares extends MoveImp {
         }
 
         hash.xorTurn();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MovePawnTwoSquares theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
-        }
-        return false;
     }
 }

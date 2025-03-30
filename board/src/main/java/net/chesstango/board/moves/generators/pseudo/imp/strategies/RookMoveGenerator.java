@@ -5,7 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.RookMoveFactory;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * @author Mauricio Coria
@@ -23,13 +23,13 @@ public class RookMoveGenerator extends AbstractCardinalMoveGenerator {
 	}
 
 	@Override
-	protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+	protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 		return moveFactory.createSimpleRookMove(from, to, cardinal);
 	}
 	
 	
 	@Override
-	protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+	protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 		return moveFactory.createCaptureRookMove(from, to, cardinal);
 	}	
 	

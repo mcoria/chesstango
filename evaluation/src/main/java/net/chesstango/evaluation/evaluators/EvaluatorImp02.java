@@ -2,10 +2,12 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 
 import java.util.Iterator;
 
@@ -98,7 +100,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
 
             MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
 
-            MoveList pseudoMoves = generationResult.getPseudoMoves();
+            MoveList<MoveCommand> pseudoMoves = generationResult.getPseudoMoves();
 
             for (Move move : pseudoMoves) {
                 PiecePositioned fromPosition = move.getFrom();

@@ -3,9 +3,9 @@ package net.chesstango.board.moves.containers;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.imp.MoveImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class MoveContainerTest {
 
-    private MoveContainer moveContainerImp;
+    private MoveContainer<Move> moveContainerImp;
 
-    private MoveFactory factory;
+    private MoveFactoryWhite factory;
 
     @BeforeEach
     public void setUp() throws Exception {
-        moveContainerImp = new MoveContainer();
-        factory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        moveContainerImp = new MoveContainer<>();
+        factory = new MoveFactoryWhite();
     }
 
     @Test

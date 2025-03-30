@@ -1,33 +1,36 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements Move{
-
+public abstract class MoveImp implements MoveCommand {
+    protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
 
-    public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+    public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         /*
         if (direction != null && !direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()))) {
             throw new RuntimeException(String.format("Direccion %s however %s %s %s", direction, Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare()), from, to));
         }
          */
+        this.gameImp = gameImp;
         this.from = from;
         this.to = to;
         this.direction = direction;
         assert (direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
     }
 
-    public MoveImp(PiecePositioned from, PiecePositioned to) {
+    public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to) {
+        this.gameImp = gameImp;
         this.from = from;
         this.to = to;
         this.direction = calculateMoveDirection();
@@ -44,7 +47,36 @@ public abstract class MoveImp implements Move{
     }
 
     @Override
-    public void doMove(ChessPosition chessPosition) {
+    public void executeMove() {
+        doMove(gameImp.getChessPosition());
+
+        doMove(gameImp.getState());
+
+        gameImp.notifyDoMove(this);
+    }
+
+    @Override
+    public void undoMove() {
+        undoMove(gameImp.getState());
+
+        undoMove(gameImp.getChessPosition());
+
+        gameImp.notifyUndoMove(this);
+    }
+
+    @Override
+    public void doMove(GameStateWriter gameState) {
+        gameState.setSelectedMove(this);
+        gameState.push();
+    }
+
+    @Override
+    public void undoMove(GameStateWriter gameState) {
+        gameState.pop();
+    }
+
+    @Override
+    public void doMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -59,11 +91,11 @@ public abstract class MoveImp implements Move{
 
         doMove(moveCache);
 
-        doMove(hash, chessPosition);
+        doMove(hash);
     }
 
     @Override
-    public void undoMove(ChessPosition chessPosition) {
+    public void undoMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -82,8 +114,8 @@ public abstract class MoveImp implements Move{
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
+    public void undoMove(PositionStateWriter positionState) {
+        positionState.popState();
     }
 
     @Override
@@ -99,8 +131,20 @@ public abstract class MoveImp implements Move{
     }
 
     @Override
+    public void doMove(KingSquareWriter kingSquare) {
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
+    }
+
+    @Override
     public void undoMove(ZobristHashWriter hash) {
         hash.popState();
+    }
+
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMove(this);
     }
 
     @Override
@@ -114,7 +158,8 @@ public abstract class MoveImp implements Move{
     }
 
     @Override
-    public long getZobristHash(ChessPosition chessPosition) {
+    public long getZobristHash() {
+        ChessPosition chessPosition = gameImp.getChessPosition();
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
         ZobristHash hash = chessPosition.getZobrist();
@@ -123,7 +168,7 @@ public abstract class MoveImp implements Move{
 
         doMove(positionState);
 
-        doMove(hash, chessPosition);
+        doMove(hash);
 
         long zobristHash = hash.getZobristHash();
 
@@ -138,8 +183,8 @@ public abstract class MoveImp implements Move{
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MoveImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
+        if (obj instanceof Move theOther) {
+            return from.equals(theOther.getFrom()) && to.equals(theOther.getTo());
         }
         return false;
     }

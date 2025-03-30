@@ -3,13 +3,13 @@ package net.chesstango.board.moves.generators.pseudo.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.*;
 
 /**
@@ -37,34 +37,34 @@ public class MoveGeneratorImp implements MoveGenerator {
     private PositionStateReader positionStateReader;
     private KingSquareReader kingSquareReader;
 
-    public MoveGeneratorImp() {
-        pawnWhiteMoveGenerator = new PawnWhiteMoveGenerator();
+    public MoveGeneratorImp(MoveFactory moveFactoryWhite, MoveFactory moveFactoryBlack) {
+        this.moveFactoryWhite = moveFactoryWhite;
 
-        pawnBlackMoveGenerator = new PawnBlackMoveGenerator();
+        this.moveFactoryBlack = moveFactoryBlack;
 
-        rookWhiteMoveGenerator = new RookMoveGenerator(Color.WHITE);
+        this.pawnWhiteMoveGenerator = new PawnWhiteMoveGenerator();
 
-        rookBlackMoveGenerator = new RookMoveGenerator(Color.BLACK);
+        this.pawnBlackMoveGenerator = new PawnBlackMoveGenerator();
 
-        knightWhiteMoveGenerator = new KnightMoveGenerator(Color.WHITE);
+        this.rookWhiteMoveGenerator = new RookMoveGenerator(Color.WHITE);
 
-        knightBlackMoveGenerator = new KnightMoveGenerator(Color.BLACK);
+        this.rookBlackMoveGenerator = new RookMoveGenerator(Color.BLACK);
 
-        bishopWhiteMoveGenerator = new BishopMoveGenerator(Color.WHITE);
+        this.knightWhiteMoveGenerator = new KnightMoveGenerator(Color.WHITE);
 
-        bishopBlackMoveGenerator = new BishopMoveGenerator(Color.BLACK);
+        this.knightBlackMoveGenerator = new KnightMoveGenerator(Color.BLACK);
 
-        queenWhiteMoveGenerator = new QueenMoveGenerator(Color.WHITE);
+        this.bishopWhiteMoveGenerator = new BishopMoveGenerator(Color.WHITE);
 
-        queenBlackMoveGenerator = new QueenMoveGenerator(Color.BLACK);
+        this.bishopBlackMoveGenerator = new BishopMoveGenerator(Color.BLACK);
 
-        kingWhiteMoveGenerator = new KingWhiteMoveGenerator();
+        this.queenWhiteMoveGenerator = new QueenMoveGenerator(Color.WHITE);
 
-        kingBlackMoveGenerator = new KingBlackMoveGenerator();
+        this.queenBlackMoveGenerator = new QueenMoveGenerator(Color.BLACK);
 
-        moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+        this.kingWhiteMoveGenerator = new KingWhiteMoveGenerator();
 
-        moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+        this.kingBlackMoveGenerator = new KingBlackMoveGenerator();
     }
 
 
@@ -76,7 +76,7 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
     @Override
-    public MovePair generateEnPassantPseudoMoves() {
+    public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
         if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
             return pawnWhiteMoveGenerator.generateEnPassantPseudoMoves();
         } else {

@@ -8,6 +8,6 @@ import net.chesstango.board.position.ZobristHashWriter;
  * @author Mauricio Coria
  */
 @FunctionalInterface
-public interface ZobristExecutor {
+public interface MoveExecutorZobrist {
     void apply(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, ChessPositionReader chessPositionReader);
 }

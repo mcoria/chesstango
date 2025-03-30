@@ -2,7 +2,7 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
@@ -50,8 +50,8 @@ class Node {
         gameMock.currentMockNode = parentNode;
     }
 
-    MoveContainerReader getPossibleMoves() {
-        return new MoveContainerReader() {
+    MoveContainerReader<Move> getPossibleMoves() {
+        return new MoveContainerReader<>() {
 
             @Override
             public Iterator<Move> iterator() {
@@ -69,7 +69,7 @@ class Node {
             }
 
             @Override
-            public boolean contains(Move move) {
+            public boolean contains(Object move) {
                 throw new UnsupportedOperationException("Method not implemented yet");
                 //return links.stream().map(GameMockNodeLink::getMove).anyMatch(theMoveLink -> GameMockNode.testMoveEquality(theMoveLink, move));
                 //return false;
@@ -91,8 +91,7 @@ class Node {
             @Override
             public Move getMove(Square from, Square to, Piece promotionPiece) {
                 for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)) {
-                        MovePromotion movePromotion = (MovePromotion) move;
+                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion movePromotion)) {
                         if (movePromotion.getPromotion().equals(promotionPiece)) {
                             return move;
                         }

@@ -7,16 +7,17 @@ import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
-import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,8 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CapturePawnEnPassantTest {
+
+    private MoveFactoryWhite moveFactory;
 
     private SquareBoard squareBoard;
 
@@ -79,12 +82,14 @@ public class CapturePawnEnPassantTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(pawnWhite, pawnPasanteSquare, pawnBlack, Cardinal.NorteOeste);
+        moveFactory = new MoveFactoryWhite();
+
+        moveExecutor = moveFactory.createCaptureEnPassantPawnMove(pawnWhite, pawnPasanteSquare, pawnBlack, Cardinal.NorteOeste);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(squareBoard.getPosition(Square.b5), squareBoard.getPosition(Square.a6), squareBoard.getPosition(Square.a5), Cardinal.NorteOeste), moveExecutor);
+        assertEquals(moveFactory.createCaptureEnPassantPawnMove(squareBoard.getPosition(Square.b5), squareBoard.getPosition(Square.a6), squareBoard.getPosition(Square.a5), Cardinal.NorteOeste), moveExecutor);
     }
 
     @Test
@@ -99,7 +104,7 @@ public class CapturePawnEnPassantTest {
         chessPositionImp.setPositionState(positionState);
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         assertEquals(PolyglotEncoder.getKey("8/8/P7/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -113,7 +118,7 @@ public class CapturePawnEnPassantTest {
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);

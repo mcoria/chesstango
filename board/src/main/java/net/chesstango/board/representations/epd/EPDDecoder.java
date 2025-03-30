@@ -136,45 +136,7 @@ public class EPDDecoder {
             }
         }
 
-        Game game = FENDecoder.loadGame(epd.getFenWithoutClocks());
-        if (epd.getBestMovesStr() != null) {
-            epd.setBestMoves(movesStringToMoves(game, epd.getBestMovesStr()));
-        }
-        if (epd.getAvoidMovesStr() != null) {
-            epd.setAvoidMoves(movesStringToMoves(game, epd.getAvoidMovesStr()));
-        }
-        if (epd.getSuppliedMoveStr() != null) {
-            epd.setSuppliedMove(movesStringToMoves(game, epd.getSuppliedMoveStr()).getFirst());
-        }
-
         return epd;
-    }
-
-    private List<Move> movesStringToMoves(Game game, String movesString) {
-        String[] bestMoves = movesString.split(" ");
-        List<Move> moveList = new ArrayList<>(bestMoves.length);
-        for (int i = 0; i < bestMoves.length; i++) {
-            Move move = decodeMove(bestMoves[i], game.getPossibleMoves());
-            if (move != null) {
-                moveList.add(move);
-            } else {
-                throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
-            }
-        }
-        return moveList;
-    }
-
-    private Move decodeMove(String moveStr, Iterable<Move> possibleMoves) {
-        SANDecoder sanDecoder = new SANDecoder();
-        LANDecoder lanDecoder = new LANDecoder();
-
-        Move move = sanDecoder.decode(moveStr, possibleMoves);
-
-        if (move == null) {
-            move = lanDecoder.decode(moveStr, possibleMoves);
-        }
-
-        return move;
     }
 
 }

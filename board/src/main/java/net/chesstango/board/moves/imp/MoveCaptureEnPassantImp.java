@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
@@ -13,8 +14,8 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     protected final PiecePositioned capture;
 
 
-    public MoveCaptureEnPassantImp(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
-        super(from, to, direction);
+    public MoveCaptureEnPassantImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+        super(gameImp, from, to, direction);
         this.capture = capture;
     }
 
@@ -74,7 +75,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -97,15 +98,6 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     public boolean isQuiet() {
         return false;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MoveCaptureEnPassantImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to);
-        }
-        return false;
-    }
-
 
     @Override
     public PiecePositioned getCapture() {

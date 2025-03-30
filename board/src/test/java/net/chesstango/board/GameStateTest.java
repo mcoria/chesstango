@@ -17,12 +17,12 @@ public class GameStateTest {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         Move move = game.getMove(Square.e2, Square.e4);
-        game.executeMove(move);
+        move.executeMove();
 
         assertNotNull(game.getState().getPreviousState());
         assertEquals(move, game.getState().getPreviousState().getSelectedMove());
 
-        game.undoMove();
+        move.undoMove();
 
         assertNull(game.getState().getPreviousState());
     }
@@ -32,21 +32,21 @@ public class GameStateTest {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         Move move1 = game.getMove(Square.e2, Square.e4);
-        game.executeMove(move1);
+        move1.executeMove();
         assertNotNull(game.getState().getPreviousState());
         assertEquals(move1, game.getState().getPreviousState().getSelectedMove());
 
         Move move2 = game.getMove(Square.e7, Square.e6);
-        game.executeMove(move2);
+        move2.executeMove();
         assertNotNull(game.getState().getPreviousState());
         assertEquals(move2, game.getState().getPreviousState().getSelectedMove());
 
-        game.undoMove();
+        move2.undoMove();
         assertNotNull(game.getState().getPreviousState());
         assertEquals(move1, game.getState().getPreviousState().getSelectedMove());
 
 
-        game.undoMove();
+        move1.undoMove();
         assertNull(game.getState().getPreviousState());
     }
 

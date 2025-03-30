@@ -22,7 +22,6 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.game.SearchGameWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
@@ -294,13 +293,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
         } else {
             search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
-        }
-
-        if (withStatistics) {
-            SearchGameWrapper searchMoveGameWrapper = new SearchGameWrapper(search);
-            searchListenerMediator.add(searchMoveGameWrapper);
-
-            search = searchMoveGameWrapper;
         }
 
         if (withPrintChain) {

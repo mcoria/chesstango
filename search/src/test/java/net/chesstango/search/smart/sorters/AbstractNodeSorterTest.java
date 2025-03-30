@@ -1,9 +1,10 @@
 package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.position.*;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
@@ -21,8 +22,6 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public abstract class AbstractNodeSorterTest {
-    protected final MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-    protected final MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
     protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     protected SearchByCycleContext cycleContext;
     protected SearchByDepthContext depthContext;
@@ -34,10 +33,11 @@ public abstract class AbstractNodeSorterTest {
     protected TTable qMaxMap;
     protected TTable qMinMap;
     protected KillerMovesTable killerMovesTable;
+    protected Game game;
 
     @BeforeEach
     public void setup() {
-        Game game = createGame();
+        game = createGame();
 
         searchListenerMediator = new SearchListenerMediator();
 
@@ -71,5 +71,45 @@ public abstract class AbstractNodeSorterTest {
             sortedMovesStr.add(simpleMoveEncoder.encode(move));
         }
         return sortedMovesStr;
+    }
+
+
+    protected Move createMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal, boolean quiet) {
+        return new Move() {
+            @Override
+            public PiecePositioned getFrom() {
+                return from;
+            }
+
+            @Override
+            public PiecePositioned getTo() {
+                return to;
+            }
+
+            @Override
+            public void executeMove() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public void undoMove() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public Cardinal getMoveDirection() {
+                return cardinal;
+            }
+
+            @Override
+            public boolean isQuiet() {
+                return quiet;
+            }
+
+            @Override
+            public long getZobristHash() {
+                throw new RuntimeException("Not meant for execution");
+            }
+        };
     }
 }

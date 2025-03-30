@@ -34,6 +34,7 @@ Facade pattern is implemented by [GameImp](../board/src/main/java/net/chesstango
 Proxy pattern is implemented by ChessPositionReader as access control interface to underlying implementation classes. Game and ChessPosition implements this interface, Game forwards all requests to ChessPosition class for actual implementation.
 MoveGenaratorWithCacheProxy implements a cache proxy. Another example is MoveGeneratorWithCacheProxy.
 
+
 ## Behavioral Patterns
 - State
 - Template method

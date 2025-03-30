@@ -1,7 +1,7 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
@@ -45,7 +45,7 @@ public class GameDebugEncoder {
                 moves.forEach(move -> {
                     sb.append(".executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
 
-                    theGame.executeMove(move);
+                    move.executeMove();
                     FENEncoder fenEncoder = new FENEncoder();
                     ChessPositionReader theGamePositionReader = theGame.getChessPosition();
                     theGamePositionReader.constructChessPositionRepresentation(fenEncoder);

@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -19,6 +18,8 @@ import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
 
     protected void calculatePrincipalVariation(long moveAndValue) {
-        int pvMoveCounter = 0;
+        Deque<Move> moves = new LinkedList<>();
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
@@ -109,9 +110,9 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
             principalVariation.add(new PrincipalVariation(currentHash, currentMove));
 
-            game.executeMove(currentMove);
+            currentMove.executeMove();
 
-            pvMoveCounter++;
+            moves.push(currentMove);
 
             currentHash = game.getState().getZobristHash();
             currentMove = principalVariation.size() < maxPly
@@ -131,8 +132,9 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
             pvComplete = true;
         }
 
-        for (int i = 0; i < pvMoveCounter; i++) {
-            game.undoMove();
+        while (!moves.isEmpty()) {
+            Move move = moves.pop();
+            move.undoMove();
         }
     }
 

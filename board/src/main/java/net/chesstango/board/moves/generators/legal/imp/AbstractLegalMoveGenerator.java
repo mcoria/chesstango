@@ -2,7 +2,6 @@ package net.chesstango.board.moves.generators.legal.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
@@ -10,73 +9,73 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
- *
  */
 public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
-	protected final ChessPositionReader positionReader;
-	protected final MoveGenerator pseudoMovesGenerator;
-	
-	protected final LegalMoveFilter filter;
-	
-	public AbstractLegalMoveGenerator(ChessPositionReader positionReader,
-									  MoveGenerator strategy,
-									  LegalMoveFilter filter) {
-		this.positionReader = positionReader;
-		this.pseudoMovesGenerator = strategy;
-		this.filter = filter;
-	}
+    protected final ChessPositionReader positionReader;
+    protected final MoveGenerator pseudoMovesGenerator;
 
-	protected MoveList getPseudoMoves(PiecePositioned origen) {
-		MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
-		return generatorResult.getPseudoMoves();
-	}
+    protected final LegalMoveFilter filter;
 
-	protected MoveList getPseudoMoves(Square origenSquare) {
-		return getPseudoMoves(positionReader.getPosition(origenSquare));
-	}
+    public AbstractLegalMoveGenerator(ChessPositionReader positionReader,
+                                      MoveGenerator strategy,
+                                      LegalMoveFilter filter) {
+        this.positionReader = positionReader;
+        this.pseudoMovesGenerator = strategy;
+        this.filter = filter;
+    }
 
-	protected void getEnPassantMoves(MoveContainer moves) {
-		final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
-		filterMovePair(pseudoMoves, moves);
-	}
+    protected MoveList<MoveCommand> getPseudoMoves(PiecePositioned origen) {
+        MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
+        return generatorResult.getPseudoMoves();
+    }
 
-	protected void filterMovePair(MovePair movePairToFilter, MoveContainer collectionToAdd) {
-		if(movePairToFilter != null){
-			final Move first = movePairToFilter.getFirst();
-			final Move second = movePairToFilter.getSecond();
+    protected MoveList<MoveCommand> getPseudoMoves(Square origenSquare) {
+        return getPseudoMoves(positionReader.getPosition(origenSquare));
+    }
 
-			if(first != null) {
-				filter(first, collectionToAdd);
-			}
+    protected void getEnPassantMoves(MoveContainer<MoveCommand> moves) {
+        final MovePair<MoveCommand> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
+        filterMovePair(pseudoMoves, moves);
+    }
 
-			if(second != null) {
-				filter(second, collectionToAdd);
-			}
-		}
-	}
+    protected void filterMovePair(MovePair<MoveCommand> movePairToFilter, MoveContainer<MoveCommand> collectionToAdd) {
+        if (movePairToFilter != null) {
+            final MoveCommand first = movePairToFilter.getFirst();
+            final MoveCommand second = movePairToFilter.getSecond();
 
-	protected void filterMoveCollection(Iterable<Move> moveCollectionToFilter, MoveContainer collectionToAdd){
-		if(moveCollectionToFilter != null) {
-			for (Move move : moveCollectionToFilter) {
-				filter(move, collectionToAdd);
-			}
-		}
-	}
+            if (first != null) {
+                filter(first, collectionToAdd);
+            }
 
-	protected void filter(Move move, MoveContainer collectionToAdd) {
-		if(move.isLegalMove(filter)){
-			collectionToAdd.add(move);
-		}
-	}
+            if (second != null) {
+                filter(second, collectionToAdd);
+            }
+        }
+    }
+
+    protected void filterMoveCollection(Iterable<MoveCommand> moveCollectionToFilter, MoveContainer<MoveCommand> collectionToAdd) {
+        if (moveCollectionToFilter != null) {
+            for (MoveCommand move : moveCollectionToFilter) {
+                filter(move, collectionToAdd);
+            }
+        }
+    }
+
+    protected void filter(MoveCommand move, MoveContainer<MoveCommand> collectionToAdd) {
+        if (move.isLegalMove(filter)) {
+            collectionToAdd.add(move);
+        }
+    }
 
 
-	protected Square getCurrentKingSquare() {
-		return positionReader.getKingSquare(positionReader.getCurrentTurn());
-	}	
+    protected Square getCurrentKingSquare() {
+        return positionReader.getKingSquare(positionReader.getCurrentTurn());
+    }
 
 }

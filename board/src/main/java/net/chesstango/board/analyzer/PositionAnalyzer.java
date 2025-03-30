@@ -1,12 +1,13 @@
 package net.chesstango.board.analyzer;
 
 import lombok.Setter;
-import net.chesstango.board.GameState;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.imp.GameState;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
-import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
+import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -20,14 +21,19 @@ import net.chesstango.board.position.ChessPositionReader;
 public class PositionAnalyzer {
     @Setter
     private Analyzer pinnedAnalyzer;
+
     @Setter
     private Analyzer kingSafePositionsAnalyzer;
+
     @Setter
     private GameState gameState;
+
     @Setter
     private ChessPositionReader positionReader;
+
     @Setter
     private LegalMoveGenerator legalMoveGenerator;
+
     private boolean threefoldRepetitionRule;
     private boolean fiftyMovesRule;
 
@@ -35,7 +41,7 @@ public class PositionAnalyzer {
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
 
-        MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+        MoveContainerReader<MoveCommand> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         boolean existsLegalMove = !legalMoves.isEmpty();
 
@@ -74,7 +80,7 @@ public class PositionAnalyzer {
         gameState.setRepetitionCounter(repetitionCounter);
 
         if (gameStatus.isFinalStatus()) {
-            gameState.setLegalMoves(new MoveContainer());
+            gameState.setLegalMoves(new MoveContainer<>());
         } else {
             gameState.setLegalMoves(legalMoves);
         }

@@ -5,6 +5,7 @@ import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -18,7 +19,6 @@ public class GameMock implements Game {
 
     Node currentMockNode;
 
-    @Override
     public Game executeMove(Move move) {
         nodesVisited++;
         currentMockNode.executeMove(move, this);
@@ -42,8 +42,13 @@ public class GameMock implements Game {
     }
 
     @Override
-    public MoveContainerReader getPossibleMoves() {
+    public MoveContainerReader<Move> getPossibleMoves() {
         return currentMockNode.getPossibleMoves();
+    }
+
+    @Override
+    public void addGameListener(GameListener gameListener) {
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
@@ -101,7 +106,7 @@ public class GameMock implements Game {
         return null;
     }
 
-    public Node getNodeMock() {
+    Node getNodeMock() {
         return currentMockNode;
     }
 

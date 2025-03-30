@@ -1,21 +1,21 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
+import net.chesstango.board.*;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
-import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +25,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -34,6 +33,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 public class CastlingBlackKingTest {
+    private MoveFactoryBlack moveFactory;
 
     private SquareBoard squareBoard;
 
@@ -43,22 +43,22 @@ public class CastlingBlackKingTest {
 
     private KingSquareDebug kingCacheBoard;
 
-    private BitBoardDebug colorBoard;
+    private BitBoardDebug bitBoard;
 
     private MoveCacheBoardDebug moveCacheBoard;
 
     private ZobristHash zobristHash;
 
     @Mock
-    private ChessPosition chessPosition;
+    private GameImp gameImp;
 
     @Mock
     private LegalMoveFilter filter;
 
+    private ChessPositionImp chessPosition;
+
     @BeforeEach
     public void setUp() throws Exception {
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove();
-
         positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.BLACK);
         positionState.setCastlingBlackQueenAllowed(false);
@@ -73,20 +73,31 @@ public class CastlingBlackKingTest {
         kingCacheBoard = new KingSquareDebug();
         kingCacheBoard.init(squareBoard);
 
-        colorBoard = new BitBoardDebug();
-        colorBoard.init(squareBoard);
+        bitBoard = new BitBoardDebug();
+        bitBoard.init(squareBoard);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(moveExecutor.getFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getFrom()));
-        moveCacheBoard.setPseudoMoves(moveExecutor.getRookFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getRookFrom()));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.KING_BLACK.getSquare(), new MoveGeneratorResult(PiecePositioned.KING_BLACK));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.ROOK_BLACK_KING.getSquare(), new MoveGeneratorResult(PiecePositioned.ROOK_BLACK_KING));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
+
+        chessPosition = new ChessPositionImp();
+        chessPosition.setSquareBoard(squareBoard);
+        chessPosition.setPositionState(positionState);
+        chessPosition.setBitBoard(bitBoard);
+        chessPosition.setMoveCache(moveCacheBoard);
+        chessPosition.setZobristHash(zobristHash);
+
+        moveFactory = new MoveFactoryBlack(gameImp);
+
+        moveExecutor = moveFactory.createCastlingKingMove();
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove(), moveExecutor);
+        assertEquals(moveFactory.createCastlingKingMove(), moveExecutor);
     }
 
     @Test
@@ -96,27 +107,23 @@ public class CastlingBlackKingTest {
 
     @Test
     public void testZobristHash() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         moveExecutor.doMove(positionState);
 
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         assertEquals(PolyglotEncoder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
     public void testZobristHashUndo() {
-        ChessPositionImp chessPositionImp = new ChessPositionImp();
-        chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setPositionState(positionState);
+        when(gameImp.getChessPosition()).thenReturn(chessPosition);
 
         long initialHash = zobristHash.getZobristHash();
 
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(zobristHash, chessPositionImp);
+        moveExecutor.doMove(zobristHash);
 
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash);
@@ -168,25 +175,25 @@ public class CastlingBlackKingTest {
     @Test
     public void testColorBoard() {
         // execute
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
 
         // asserts execute
-        assertEquals(Color.BLACK, colorBoard.getColor(Square.g8));
-        assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
+        assertEquals(Color.BLACK, bitBoard.getColor(Square.g8));
+        assertEquals(Color.BLACK, bitBoard.getColor(Square.f8));
 
-        assertTrue(colorBoard.isEmpty(Square.e8));
-        assertTrue(colorBoard.isEmpty(Square.h8));
+        assertTrue(bitBoard.isEmpty(Square.e8));
+        assertTrue(bitBoard.isEmpty(Square.h8));
 
 
         // undos
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
 
         // asserts undos
-        assertEquals(Color.BLACK, colorBoard.getColor(Square.e8));
-        assertEquals(Color.BLACK, colorBoard.getColor(Square.h8));
+        assertEquals(Color.BLACK, bitBoard.getColor(Square.e8));
+        assertEquals(Color.BLACK, bitBoard.getColor(Square.h8));
 
-        assertTrue(colorBoard.isEmpty(Square.g8));
-        assertTrue(colorBoard.isEmpty(Square.f8));
+        assertTrue(bitBoard.isEmpty(Square.g8));
+        assertTrue(bitBoard.isEmpty(Square.f8));
     }
 
     @Test
@@ -238,12 +245,12 @@ public class CastlingBlackKingTest {
         // execute
         moveExecutor.doMove(squareBoard);
         moveExecutor.doMove(positionState);
-        moveExecutor.doMove(colorBoard);
+        moveExecutor.doMove(bitBoard);
         moveExecutor.doMove(kingCacheBoard);
         moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         kingCacheBoard.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
@@ -251,13 +258,13 @@ public class CastlingBlackKingTest {
         // undos
         moveExecutor.undoMove(squareBoard);
         moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(bitBoard);
         moveExecutor.undoMove(kingCacheBoard);
         moveExecutor.undoMove(moveCacheBoard);
 
 
         // asserts undos
-        colorBoard.validar(squareBoard);
+        bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         kingCacheBoard.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);

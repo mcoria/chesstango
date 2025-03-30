@@ -3,6 +3,7 @@ package net.chesstango.board;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
@@ -12,10 +13,6 @@ public interface Game extends GameVisitorAcceptor {
     FEN getInitialFEN();
 
     FEN getCurrentFEN();
-
-    Game executeMove(Move move);
-
-    Game undoMove();
 
     GameStateReader getState();
 
@@ -27,7 +24,9 @@ public interface Game extends GameVisitorAcceptor {
 
     void threefoldRepetitionRule(boolean flag);
 
-    MoveContainerReader getPossibleMoves();
+    MoveContainerReader<? extends Move> getPossibleMoves();
+
+    void addGameListener(GameListener gameListener);
 
     //******* FOR DEBUGGING
     Move getMove(Square from, Square to);
@@ -37,6 +36,8 @@ public interface Game extends GameVisitorAcceptor {
     Game executeMove(Square from, Square to);
 
     Game executeMove(Square from, Square to, Piece promotionPiece);
+
+    Game undoMove();
     //*******
 
     Game mirror();

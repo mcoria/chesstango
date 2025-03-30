@@ -10,7 +10,7 @@ public class SimpleMoveDecoder {
 
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-    public Move decode(MoveContainerReader possibleMoves, String moveStr) {
+    public Move decode(MoveContainerReader<? extends Move> possibleMoves, String moveStr) {
         for (Move move : possibleMoves) {
             String encodedMoveStr = simpleMoveEncoder.encode(move);
             if (encodedMoveStr.equals(moveStr.toLowerCase())) {

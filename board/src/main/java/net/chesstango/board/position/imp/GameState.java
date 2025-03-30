@@ -1,10 +1,14 @@
-package net.chesstango.board;
+package net.chesstango.board.position.imp;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.GameStateWriter;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
@@ -31,12 +35,12 @@ public class GameState implements GameStateReader, GameStateWriter {
     }
 
     @Override
-    public MoveContainerReader getLegalMoves() {
+    public MoveContainerReader<MoveCommand> getLegalMoves() {
         return currentGameState.legalMoves;
     }
 
     @Override
-    public void setLegalMoves(MoveContainerReader legalMoves) {
+    public void setLegalMoves(MoveContainerReader<MoveCommand> legalMoves) {
         currentGameState.legalMoves = legalMoves;
     }
 
@@ -95,19 +99,21 @@ public class GameState implements GameStateReader, GameStateWriter {
         return currentGameState.previousGameState;
     }
 
+    @Override
     public void push() {
         GameStateData previousGameState = currentGameState;
         currentGameState = new GameStateData();
         currentGameState.previousGameState = previousGameState;
     }
 
+    @Override
     public void pop() {
         currentGameState = currentGameState.previousGameState;
     }
 
     private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
-        protected MoveContainerReader legalMoves;
+        protected MoveContainerReader<MoveCommand> legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected long zobristHash;
@@ -121,7 +127,7 @@ public class GameState implements GameStateReader, GameStateWriter {
         }
 
         @Override
-        public MoveContainerReader getLegalMoves() {
+        public MoveContainerReader<MoveCommand> getLegalMoves() {
             return legalMoves;
         }
 

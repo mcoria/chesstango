@@ -24,7 +24,6 @@ import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationCom
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
-import net.chesstango.search.smart.features.statistics.game.SearchGameWrapper;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -45,21 +44,13 @@ import java.util.Objects;
  */
 public class ChainPrinter {
     public void printChain(Search search) {
-        if (search instanceof SearchGameWrapper searchMoveGameWrapper) {
-            printChainSearchMoveWrapper(searchMoveGameWrapper);
-        } else if (search instanceof NoIterativeDeepening noIterativeDeepening) {
+        if (search instanceof NoIterativeDeepening noIterativeDeepening) {
             printChainNoIterativeDeepening(noIterativeDeepening);
         } else if (search instanceof IterativeDeepening iterativeDeepening) {
             printChainIterativeDeepening(iterativeDeepening);
         } else {
             throw new RuntimeException(String.format("Unknown SearchMove class: %s", search.getClass()));
         }
-    }
-
-    private void printChainSearchMoveWrapper(SearchGameWrapper searchMoveGameWrapper) {
-        printNodeObjectText(searchMoveGameWrapper, 0);
-        printChainDownLine(0);
-        printChain(searchMoveGameWrapper.getImp());
     }
 
     private void printChainNoIterativeDeepening(NoIterativeDeepening noIterativeDeepening) {

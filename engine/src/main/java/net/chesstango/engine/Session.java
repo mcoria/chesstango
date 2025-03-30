@@ -34,7 +34,7 @@ public class Session {
                 if (move == null) {
                     throw new RuntimeException(String.format("No move found %s", moveStr));
                 }
-                game.executeMove(move);
+                move.executeMove();
             }
         }
     }

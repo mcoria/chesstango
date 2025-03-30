@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import net.chesstango.board.moves.factories.KingMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorCastling;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.KingSquareReader;
 import net.chesstango.board.position.PositionStateReader;
 
@@ -65,12 +65,12 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
     }
 
     @Override
-    protected MoveImp createSimpleMove(PiecePositioned from, PiecePositioned to) {
+    protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to) {
         return this.moveFactory.createSimpleKingMove(from, to);
     }
 
     @Override
-    protected MoveImp createCaptureMove(PiecePositioned from, PiecePositioned to) {
+    protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to) {
         return this.moveFactory.createCaptureKingMove(from, to);
     }
 

@@ -35,8 +35,7 @@ public class ChessFactoryDebug extends ChessFactory {
 	
 	@Override
 	public BitBoard createColorBoard() {
-		BitBoard bitBoard = new BitBoardDebug();
-		return bitBoard;
+        return new BitBoardDebug();
 	}	
 	
 	@Override

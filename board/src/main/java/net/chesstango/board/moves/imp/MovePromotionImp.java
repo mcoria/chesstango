@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -13,8 +14,8 @@ import net.chesstango.board.position.*;
 public class MovePromotionImp extends MoveImp implements MovePromotion {
     protected final Piece promotion;
 
-    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
-        super(from, to, direction);
+    public MovePromotionImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
+        super(gameImp, from, to, direction);
         this.promotion = promotion;
     }
 
@@ -73,11 +74,6 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     }
 
     @Override
-    public void undoMove(PositionStateWriter positionStateWriter) {
-        positionStateWriter.popState();
-    }
-
-    @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(from);
         // Captura
@@ -99,7 +95,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
 
     @Override
-    public void doMove(ZobristHashWriter hash, ChessPositionReader chessPositionReader) {
+    public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -109,6 +105,8 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
         }
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
+
+        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 
         PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
 
@@ -151,8 +149,8 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MovePromotionImp theOther) {
-            return from.equals(theOther.from) && to.equals(theOther.to) && promotion.equals(theOther.promotion);
+        if (obj instanceof MovePromotion theOther) {
+            return from.equals(theOther.getFrom()) && to.equals(theOther.getTo()) && promotion.equals(theOther.getPromotion());
         }
         return false;
     }

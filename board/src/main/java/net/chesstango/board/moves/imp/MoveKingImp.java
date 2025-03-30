@@ -1,26 +1,26 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public class MoveKingImp extends MoveComposed implements MoveKing {
+public class MoveKingImp extends MoveComposed {
 
-    public MoveKingImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
-        super(from, to, direction);
+    public MoveKingImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
+        super(gameImp, from, to, direction);
     }
 
-    public MoveKingImp(PiecePositioned from, PiecePositioned to) {
-        super(from, to);
+    public MoveKingImp(GameImp gameImp, PiecePositioned from, PiecePositioned to) {
+        super(gameImp, from, to);
     }
 
     @Override
-    public void doMove(ChessPosition chessPosition) {
+    public void doMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -38,11 +38,11 @@ public class MoveKingImp extends MoveComposed implements MoveKing {
 
         doMove(kingSquare);
 
-        doMove(hash, chessPosition);
+        doMove(hash);
     }
 
     @Override
-    public void undoMove(ChessPosition chessPosition) {
+    public void undoMove(ChessPositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
         BitBoardWriter bitBoard = chessPosition.getBitBoard();
         PositionStateWriter positionState = chessPosition.getPositionState();
@@ -65,13 +65,13 @@ public class MoveKingImp extends MoveComposed implements MoveKing {
 
 
     @Override
-    public void doMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
+    public void doMove(KingSquareWriter kingSquare) {
+        kingSquare.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
     }
 
     @Override
-    public void undoMove(KingSquareWriter kingSquareWriter) {
-        kingSquareWriter.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
+    public void undoMove(KingSquareWriter kingSquare) {
+        kingSquare.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
     }
 
     @Override
@@ -80,5 +80,10 @@ public class MoveKingImp extends MoveComposed implements MoveKing {
             return from.equals(theOther.from) && to.equals(theOther.to);
         }
         return false;
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMoveKing(this);
     }
 }

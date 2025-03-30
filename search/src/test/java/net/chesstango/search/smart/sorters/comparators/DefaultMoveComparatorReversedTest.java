@@ -3,10 +3,9 @@ package net.chesstango.search.smart.sorters.comparators;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.position.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +23,6 @@ public class DefaultMoveComparatorReversedTest {
 
     private DefaultMoveComparator defaultMoveComparator;
 
-    private final MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-
-    private final MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
-
     @BeforeEach
     public void setUp() {
         defaultMoveComparator = new DefaultMoveComparator();
@@ -39,22 +34,22 @@ public class DefaultMoveComparatorReversedTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
+        moveList.add(createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
         moveList.sort(defaultMoveComparator.reversed());
@@ -88,22 +83,22 @@ public class DefaultMoveComparatorReversedTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryWhite.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
+        moveList.add(createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPiecePositioned(Square.f3, Piece.QUEEN_BLACK), Cardinal.NorteEste));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
-        moveList.add(moveFactoryWhite.createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
+        moveList.add(createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_BLACK)));
 
         moveList.sort(defaultMoveComparator.reversed());
@@ -136,22 +131,22 @@ public class DefaultMoveComparatorReversedTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryBlack.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
+        moveList.add(createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryWhite.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
 
@@ -185,22 +180,22 @@ public class DefaultMoveComparatorReversedTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryBlack.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
+        moveList.add(createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
                 PiecePositioned.getPiecePositioned(Square.f6, Piece.QUEEN_WHITE), Cardinal.SurEste));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
                 PiecePositioned.getPosition(Square.e5)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
+        moveList.add(createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
-        moveList.add(moveFactoryBlack.createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
+        moveList.add(createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
                 PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
 
 
@@ -227,4 +222,61 @@ public class DefaultMoveComparatorReversedTest {
 
         assertFalse(movesSortedIt.hasNext());
     }
+
+    private Move createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+        return createMove(from, to);
+    }
+
+    private Move createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+        return createMove(from, to);
+    }
+
+    private Move createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        return createMove(from, to);
+    }
+
+    private Move createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+        return createMove(from, to);
+    }
+
+
+    private Move createMove(PiecePositioned from, PiecePositioned to) {
+        return new Move() {
+            @Override
+            public PiecePositioned getFrom() {
+                return from;
+            }
+
+            @Override
+            public PiecePositioned getTo() {
+                return to;
+            }
+
+            @Override
+            public void executeMove() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public void undoMove() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public Cardinal getMoveDirection() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public boolean isQuiet() {
+                throw new RuntimeException("Not meant for execution");
+            }
+
+            @Override
+            public long getZobristHash() {
+                throw new RuntimeException("Not meant for execution");
+            }
+        };
+    }
+
 }

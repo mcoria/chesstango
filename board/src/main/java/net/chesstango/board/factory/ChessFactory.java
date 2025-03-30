@@ -4,6 +4,9 @@ import net.chesstango.board.*;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
@@ -76,12 +79,12 @@ public class ChessFactory {
 		return new MoveGeneratorCache(moveGenerator, moveCacheBoard);
 	}
 
-	public MoveGeneratorImp createMoveGenerator() {
-		return new MoveGeneratorImp();
+	public MoveGeneratorImp createMoveGenerator(MoveFactory moveFactoryWhite, MoveFactory moveFactoryBlack) {
+		return new MoveGeneratorImp(moveFactoryWhite, moveFactoryBlack);
 	}
 
-	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor visitorAcceptor) {
-		return new GameImp(chessPosition, gameState, analyzer, visitorAcceptor);
+	public GameImp createGame(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor visitorAcceptor) {
+		return new GameImp(chessPosition, gameState, visitorAcceptor);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {
@@ -107,5 +110,13 @@ public class ChessFactory {
 
 	public ZobristHash createZobristHash() {
 		return new ZobristHashImp();
+	}
+
+	public MoveFactoryBlack createMoveFactoryBlack(GameImp gameImp) {
+		return new MoveFactoryBlack(gameImp);
+	}
+
+	public MoveFactoryWhite createMoveFactoryWhite(GameImp gameImp) {
+		return new MoveFactoryWhite(gameImp);
 	}
 }

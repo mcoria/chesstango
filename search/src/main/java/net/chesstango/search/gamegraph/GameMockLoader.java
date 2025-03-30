@@ -118,7 +118,7 @@ public class GameMockLoader {
 
                 nodeLink.move = selectedMove;
 
-                game.executeMove(selectedMove);
+                selectedMove.executeMove();
 
                 nodeLink.mockNode.position = game.getChessPosition();
                 nodeLink.mockNode.gameState = game.getState();

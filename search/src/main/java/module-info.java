@@ -14,7 +14,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.statistics.node;
     exports net.chesstango.search.smart.features.statistics.node.listeners;
     exports net.chesstango.search.smart.features.statistics.node.filters;
-    exports net.chesstango.search.smart.features.statistics.game;
     exports net.chesstango.search.smart.features.statistics.evaluation;
     exports net.chesstango.search.smart.features.pv.listeners;
     exports net.chesstango.search.smart.features.pv.filters;

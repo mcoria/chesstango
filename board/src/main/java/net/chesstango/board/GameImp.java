@@ -6,9 +6,12 @@ import net.chesstango.board.builders.MirrorChessPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.imp.GameState;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -16,17 +19,18 @@ import net.chesstango.board.representations.fen.FENEncoder;
 public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
-    private final PositionAnalyzer analyzer;
     private final GameVisitorAcceptor gameVisitorAcceptor;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, GameVisitorAcceptor gameVisitorAcceptor) {
+    private final List<GameListener> gameListenerList;
+
+    private PositionAnalyzer analyzer;
+
+    public GameImp(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor gameVisitorAcceptor) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
-        this.analyzer = analyzer;
         this.gameVisitorAcceptor = gameVisitorAcceptor;
+        this.gameListenerList = new ArrayList<>();
         this.chessPosition.init();
-        this.analyzer.threefoldRepetitionRule(true);
-        this.analyzer.fiftyMovesRule(true);
         saveInitialFEN();
     }
 
@@ -46,45 +50,30 @@ public class GameImp implements Game {
     public Game executeMove(Square from, Square to) {
         Move move = getMove(from, to);
         if (move != null) {
-            return executeMove(move);
+            move.executeMove();
         } else {
             throw new RuntimeException(String.format("Invalid move: %s%s", from, to));
         }
+        return this;
     }
 
     @Override
     public Game executeMove(Square from, Square to, Piece promotionPiece) {
         Move move = getMove(from, to, promotionPiece);
         if (move != null) {
-            return executeMove(move);
+            move.executeMove();
         } else {
             throw new RuntimeException(String.format("Invalid move: %s%s %s", from, to, promotionPiece));
         }
-    }
-
-    @Override
-    public Game executeMove(Move move) {
-        gameState.setSelectedMove(move);
-
-        gameState.push();
-
-        chessPosition.doMove(move);
-
-        // NO LLAMAR a updateGameState
-        // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
-        // this.analyzer.updateGameState();
-
         return this;
     }
 
-
     @Override
     public Game undoMove() {
-        gameState.pop();
 
-        Move lastMove = gameState.getSelectedMove();
+        Move lasMove = gameState.getPreviousState().getSelectedMove();
 
-        chessPosition.undoMove(lastMove);
+        lasMove.undoMove();
 
         return this;
     }
@@ -110,8 +99,13 @@ public class GameImp implements Game {
     }
 
     @Override
-    public MoveContainerReader getPossibleMoves() {
+    public MoveContainerReader<? extends Move> getPossibleMoves() {
         return getState().getLegalMoves();
+    }
+
+    @Override
+    public void addGameListener(GameListener gameListener) {
+        gameListenerList.add(gameListener);
     }
 
     @Override
@@ -128,11 +122,11 @@ public class GameImp implements Game {
     }
 
     @Override
-    public ChessPositionReader getChessPosition() {
+    public ChessPosition getChessPosition() {
         return chessPosition;
     }
-    
-	@Override
+
+    @Override
     public void accept(GameVisitor visitor) {
         gameVisitorAcceptor.accept(visitor);
     }
@@ -158,4 +152,25 @@ public class GameImp implements Game {
         gameState.setInitialFEN(encoder.getChessRepresentation());
     }
 
+    public void setAnalyzer(PositionAnalyzer analyzer) {
+        this.analyzer = analyzer;
+        this.analyzer.threefoldRepetitionRule(true);
+        this.analyzer.fiftyMovesRule(true);
+    }
+
+    public void notifyDoMove(Move move) {
+        if(!gameListenerList.isEmpty()){
+            for(GameListener gameListener : gameListenerList){
+                gameListener.notifyDoMove(move);
+            }
+        }
+    }
+
+    public void notifyUndoMove(Move move) {
+        if(!gameListenerList.isEmpty()){
+            for(GameListener gameListener : gameListenerList){
+                gameListener.notifyUndoMove(move);
+            }
+        }
+    }
 }

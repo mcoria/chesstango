@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.board.representations.move.MoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
@@ -52,11 +53,16 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         }
 
         EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
-        if (epd.getBestMoves() != null) {
-            this.targetMove = epd.getBestMoves().getFirst();
-        } else if (epd.getSuppliedMove() != null) {
-            this.targetMove = epd.getSuppliedMove();
-        } else {
+        MoveDecoder moveDecoder = new MoveDecoder();
+        if (epd.getBestMovesStr() != null) {
+            String[] bestMoves = epd.getBestMovesStr().split(" ");
+            String bestMoveStr = bestMoves[0];
+            this.targetMove = moveDecoder.decode(bestMoveStr, game.getPossibleMoves());
+        } else if (epd.getSuppliedMoveStr() != null) {
+            this.targetMove = moveDecoder.decode(epd.getSuppliedMoveStr(), game.getPossibleMoves());
+        }
+
+        if (this.targetMove == null) {
             throw new RuntimeException("ExpectedRootBestMove not present in EPD entry");
         }
 
@@ -83,41 +89,37 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     }
 
     protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
-        game = game.executeMove(targetMove);
+        targetMove.executeMove();
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
         int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        game = game.undoMove();
+        targetMove.undoMove();
         return currentValue;
     }
 
     protected void maximize(final int maxValue) {
-        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
-        while (moveIterator.hasNext()) {
-            Move move = moveIterator.next();
+        for (Move move : game.getPossibleMoves()) {
             if (!move.equals(targetMove)) {
-                game = game.executeMove(move);
+                move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
                 }
-                game = game.undoMove();
+                move.undoMove();
             }
         }
     }
 
     protected void minimize(final int minValue) {
-        Iterator<Move> moveIterator = game.getPossibleMoves().iterator();
-        while (moveIterator.hasNext()) {
-            Move move = moveIterator.next();
+        for (Move move : game.getPossibleMoves()) {
             if (!move.equals(targetMove)) {
-                game = game.executeMove(move);
+                move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
                 int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.bottomMoveCounter++;
                 }
-                game = game.undoMove();
+                move.undoMove();
             }
         }
     }
