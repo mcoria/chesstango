@@ -1,13 +1,13 @@
 package net.chesstango.board.analyzer;
 
 import lombok.Setter;
-import net.chesstango.board.GameState;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.imp.GameState;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**

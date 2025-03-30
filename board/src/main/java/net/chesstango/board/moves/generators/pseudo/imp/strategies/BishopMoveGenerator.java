@@ -5,8 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.BishopMoveFactory;
-import net.chesstango.board.moves.imp.MoveCommand;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 
 
 /**

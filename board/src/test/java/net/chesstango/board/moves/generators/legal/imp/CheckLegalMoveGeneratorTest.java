@@ -1,6 +1,6 @@
 package net.chesstango.board.moves.generators.legal.imp;
 
-import net.chesstango.board.GameState;
+import net.chesstango.board.position.imp.GameState;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.DefaultChessPositionBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;

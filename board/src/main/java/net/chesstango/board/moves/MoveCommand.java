@@ -1,7 +1,6 @@
-package net.chesstango.board.moves.imp;
+package net.chesstango.board.moves;
 
-import net.chesstango.board.GameStateWriter;
-import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.GameStateWriter;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 

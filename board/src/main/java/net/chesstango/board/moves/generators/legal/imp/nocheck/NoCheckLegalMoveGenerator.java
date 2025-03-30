@@ -12,7 +12,7 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;

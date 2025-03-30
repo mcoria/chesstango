@@ -6,8 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommand;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 
 import java.util.Iterator;
 

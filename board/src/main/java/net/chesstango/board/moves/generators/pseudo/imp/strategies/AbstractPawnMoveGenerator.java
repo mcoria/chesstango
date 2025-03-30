@@ -9,8 +9,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommand;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.PositionStateReader;
 
 /**

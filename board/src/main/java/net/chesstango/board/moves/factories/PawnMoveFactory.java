@@ -4,9 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.imp.MoveCommand;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.moves.imp.MovePromotionImp;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * @author Mauricio Coria

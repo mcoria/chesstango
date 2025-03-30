@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MoveList;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 
 
 /**

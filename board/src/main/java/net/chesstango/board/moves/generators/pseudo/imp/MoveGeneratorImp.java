@@ -9,7 +9,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.*;
 
 /**

@@ -7,8 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import net.chesstango.board.moves.factories.KingMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorCastling;
-import net.chesstango.board.moves.imp.MoveCommand;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.KingSquareReader;
 import net.chesstango.board.position.PositionStateReader;
 

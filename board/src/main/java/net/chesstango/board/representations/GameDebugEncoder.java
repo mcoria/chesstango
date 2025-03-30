@@ -1,7 +1,7 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;

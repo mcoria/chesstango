@@ -5,8 +5,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 
 import java.util.Iterator;
 

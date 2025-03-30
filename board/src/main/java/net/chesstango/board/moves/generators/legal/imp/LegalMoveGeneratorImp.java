@@ -4,7 +4,7 @@ import lombok.Setter;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * @author Mauricio Coria

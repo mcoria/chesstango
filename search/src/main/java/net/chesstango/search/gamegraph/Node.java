@@ -2,7 +2,7 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.chesstango.board.GameStateReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;

@@ -3,6 +3,7 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 

@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.generators.pseudo;
 
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * @author Mauricio Coria

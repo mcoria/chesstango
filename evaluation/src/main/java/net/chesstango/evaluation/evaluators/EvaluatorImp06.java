@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 
 import java.io.IOException;
 import java.io.InputStream;

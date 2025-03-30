@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.MoveCacheBoard;
 
 /**

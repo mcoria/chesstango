@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.generators.pseudo;
 
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.imp.MoveCommand;
+import net.chesstango.board.moves.MoveCommand;
 
 /**
  * This interface defines the contract for generating pseudo-legal En Passant moves

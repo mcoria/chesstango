@@ -5,8 +5,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.imp.*;
 
 import java.util.Objects;
 
