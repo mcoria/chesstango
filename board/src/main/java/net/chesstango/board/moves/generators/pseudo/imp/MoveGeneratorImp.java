@@ -69,10 +69,10 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 
     @Override
-    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned origen) {
-        Piece piece = origen.getPiece();
+    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+        Piece piece = from.getPiece();
         MoveGeneratorByPiece strategy = selectMoveGeneratorStrategy(piece);
-        return strategy.generatePseudoMoves(origen);
+        return strategy.generatePseudoMoves(from);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 
     @Override
-    public MovePair generateCastlingPseudoMoves() {
+    public MovePair<PseudoMove> generateCastlingPseudoMoves() {
         if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
             return kingWhiteMoveGenerator.generateCastlingPseudoMoves();
         } else {
