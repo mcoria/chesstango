@@ -5,7 +5,13 @@ import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.position.*;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.position.BitBoardWriter;
+import net.chesstango.board.position.PositionStateWriter;
+import net.chesstango.board.position.SquareBoardWriter;
+import net.chesstango.board.position.ZobristHashWriter;
+
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -24,6 +30,8 @@ public class MoveComposed extends MoveImp {
     private MoveExecutorLayer<BitBoardWriter> fnUndoColorBoard;
 
     private MoveExecutorZobrist fnDoZobrist;
+
+    private Predicate<LegalMoveFilter> fnLegalMoveFilter;
 
     public MoveComposed(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(gameImp, from, to, direction);
@@ -68,5 +76,10 @@ public class MoveComposed extends MoveImp {
         return Piece.KNIGHT_WHITE.equals(piece) ||
                 Piece.KNIGHT_BLACK.equals(piece)
                 ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return fnLegalMoveFilter.test(filter);
     }
 }

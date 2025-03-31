@@ -143,10 +143,6 @@ public abstract class MoveImp implements PseudoMove, Command {
         hash.popState();
     }
 
-    public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this, this);
-    }
-
     @Override
     public Cardinal getMoveDirection() {
         return direction;

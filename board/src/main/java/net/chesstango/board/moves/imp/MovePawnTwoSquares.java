@@ -5,6 +5,7 @@ import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -88,5 +89,10 @@ public class MovePawnTwoSquares extends MoveImp {
         }
 
         hash.xorTurn();
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMovePawn(this, this);
     }
 }

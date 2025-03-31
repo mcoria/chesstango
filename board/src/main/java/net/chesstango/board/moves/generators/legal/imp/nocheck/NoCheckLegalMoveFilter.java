@@ -33,29 +33,28 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    //TODO: deberiamos crear un filtro especifico para EnPassant?
-    //      solo movimientos EnPassant terminan siendo filtrados aca,
-    //      el resto de los movimiento notking son filtrados por el NoCheckLegalMoveGenerator
-    /**
-     *  Este metodo sirve para filtrar movimientos que no son de rey.
-     *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
-     */
-    public boolean isLegalMove(Move move, Command command) {
-        boolean result = false;
+    public boolean isLegalMovePawn(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        final Color currentTurn = positionState.getCurrentTurn();
+    @Override
+    public boolean isLegalMoveKnight(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        command.doMove(this.squareBoard);
-        command.doMove(this.bitBoard);
+    @Override
+    public boolean isLegalMoveBishop(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        if (!cardinalSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
-            result = true;
-        }
+    @Override
+    public boolean isLegalMoveRook(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        command.undoMove(this.bitBoard);
-        command.undoMove(this.squareBoard);
-
-        return result;
+    @Override
+    public boolean isLegalMoveQueen(Move move, Command command) {
+        return isLegalMove(move, command);
     }
 
     @Override
@@ -87,6 +86,24 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
         return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare())            // El king no puede ser capturado en casillero intermedio
                 && !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getTo().getSquare());            // El king no puede  ser capturado en casillero destino
 
+    }
+
+    protected boolean isLegalMove(Move move, Command command) {
+        boolean result = false;
+
+        final Color currentTurn = positionState.getCurrentTurn();
+
+        command.doMove(this.squareBoard);
+        command.doMove(this.bitBoard);
+
+        if (!cardinalSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
+            result = true;
+        }
+
+        command.undoMove(this.bitBoard);
+        command.undoMove(this.squareBoard);
+
+        return result;
     }
 
 }

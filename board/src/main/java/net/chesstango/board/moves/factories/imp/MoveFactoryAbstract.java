@@ -34,27 +34,33 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      *
      */
     @Override
-    public MoveImp createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
-        MoveComposed moveImp = new MoveComposed(gameImp, from, to);
-        addSimpleMoveExecutors(from, to, moveImp);
-        return moveImp;
+    public MoveComposed createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed move = new MoveComposed(gameImp, from, to);
+        addSimpleMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createSimpleMoveImp(from, to, cardinal);
+    public MoveComposed createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = createSimpleMoveImp(from, to, cardinal);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createSimpleMoveImp(from, to, cardinal);
+    public MoveComposed createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = createSimpleMoveImp(from, to, cardinal);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        MoveComposed moveImp = new MoveComposed(gameImp, from, to);
-        addSimpleMoveExecutors(from, to, moveImp);
-        return moveImp;
+    public MoveComposed createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = new MoveComposed(gameImp, from, to);
+        addSimpleMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
+        return move;
     }
 
     @Override
@@ -65,10 +71,11 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MoveImp createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
-        MoveComposed moveImp = new MoveComposed(gameImp, from, to, getPawnDirection());
-        addSimpleMoveExecutors(from, to, moveImp);
-        return moveImp;
+    public MoveComposed createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed move = new MoveComposed(gameImp, from, to, getPawnDirection());
+        addSimpleMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
+        return move;
     }
 
     @Override
@@ -87,45 +94,53 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      */
 
     @Override
-    public MoveImp createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
-        MoveComposed moveImp = new MoveComposed(gameImp, from, to);
-        addCaptureMoveExecutors(from, to, moveImp);
-        return moveImp;
+    public MoveComposed createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
+        MoveComposed move = new MoveComposed(gameImp, from, to);
+        addCaptureMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createCaptureMoveImp(from, to, cardinal);
+    public MoveComposed createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = createCaptureMoveImp(from, to, cardinal);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        return createCaptureMoveImp(from, to, cardinal);
+    public MoveComposed createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = createCaptureMoveImp(from, to, cardinal);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
-        MoveComposed moveImp = new MoveComposed(gameImp, from, to, cardinal);
-        addCaptureMoveExecutors(from, to, moveImp);
-        return moveImp;
+    public MoveComposed createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = new MoveComposed(gameImp, from, to, cardinal);
+        addCaptureMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
-        MoveComposed moveImp = new MoveComposed(gameImp, form, to, cardinal);
-        addCaptureMoveExecutors(form, to, moveImp);
-        return moveImp;
+    public MoveComposed createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
+        MoveComposed move = new MoveComposed(gameImp, form, to, cardinal);
+        addCaptureMoveExecutors(form, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
+        return move;
     }
 
     @Override
     public MoveKingImp createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
-        MoveKingImp moveImp = new MoveKingImp(gameImp, from, to);
-        addCaptureMoveExecutors(from, to, moveImp);
-        return moveImp;
+        MoveKingImp move = new MoveKingImp(gameImp, from, to);
+        addCaptureMoveExecutors(from, to, move);
+        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKing(move, move));
+        return move;
     }
 
     @Override
-    public MoveImp createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
+    public MoveCaptureEnPassantImp createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
         return new MoveCaptureEnPassantImp(gameImp, from, to, cardinal, enPassantPawn);
     }
 
@@ -141,13 +156,13 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
      *
      */
 
-    public MoveImp createSimpleMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+    public MoveComposed createSimpleMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         MoveComposed moveImp = new MoveComposed(gameImp, origen, destino, cardinal);
         addSimpleMoveExecutors(origen, destino, moveImp);
         return moveImp;
     }
 
-    protected MoveImp createCaptureMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+    protected MoveComposed createCaptureMoveImp(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         MoveComposed moveImp = new MoveComposed(gameImp, origen, destino, cardinal);
         addCaptureMoveExecutors(origen, destino, moveImp);
         return moveImp;

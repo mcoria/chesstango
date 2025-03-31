@@ -204,7 +204,7 @@ public class SimpleTwoSquaresPawnMoveTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).isLegalMove(moveExecutor, moveExecutor);
+        verify(filter).isLegalMovePawn(moveExecutor, moveExecutor);
     }
 
     @Test

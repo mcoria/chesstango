@@ -5,6 +5,7 @@ import net.chesstango.board.GameImp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -102,5 +103,10 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     @Override
     public PiecePositioned getCapture() {
         return capture;
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMovePawn(this, this);
     }
 }

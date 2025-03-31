@@ -29,22 +29,28 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(Move move, Command command) {
-        boolean result = false;
+    public boolean isLegalMovePawn(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        final Color currentTurn = positionState.getCurrentTurn();
+    @Override
+    public boolean isLegalMoveKnight(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        command.doMove(this.squareBoard);
-        command.doMove(this.bitBoard);
+    @Override
+    public boolean isLegalMoveBishop(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        if (!fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
-            result = true;
-        }
+    @Override
+    public boolean isLegalMoveRook(Move move, Command command) {
+        return isLegalMove(move, command);
+    }
 
-        command.undoMove(this.bitBoard);
-        command.undoMove(this.squareBoard);
-
-        return result;
+    @Override
+    public boolean isLegalMoveQueen(Move move, Command command) {
+        return isLegalMove(move, command);
     }
 
     @Override
@@ -61,6 +67,25 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     @Override
     public boolean isLegalMoveCastling(MoveCastling move, Command command) {
         return false;
+    }
+
+
+    protected boolean isLegalMove(Move move, Command command) {
+        boolean result = false;
+
+        final Color currentTurn = positionState.getCurrentTurn();
+
+        command.doMove(this.squareBoard);
+        command.doMove(this.bitBoard);
+
+        if (!fullScanSquareCapturer.isCaptured(currentTurn.oppositeColor(), kingCacheBoard.getKingSquare(currentTurn))) {
+            result = true;
+        }
+
+        command.undoMove(this.bitBoard);
+        command.undoMove(this.squareBoard);
+
+        return result;
     }
 
 }
