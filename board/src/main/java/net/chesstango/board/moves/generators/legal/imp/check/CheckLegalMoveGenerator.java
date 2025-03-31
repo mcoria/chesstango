@@ -28,14 +28,14 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     public MoveContainerReader<Move> getLegalMoves(AnalyzerResult analysis) {
         MoveContainer<Move> moves = new MoveContainer<>();
 
-        getBySquareMoves(moves);
+        collectBySquareMoves(moves);
 
-        getEnPassantMoves(moves);
+        collectEnPassantMoves(moves);
 
         return moves;
     }
 
-    protected void getBySquareMoves(MoveContainer<Move> moves) {
+    protected void collectBySquareMoves(MoveContainer<Move> moves) {
         for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext(); ) {
 
             Square origenSquare = iterator.next();
