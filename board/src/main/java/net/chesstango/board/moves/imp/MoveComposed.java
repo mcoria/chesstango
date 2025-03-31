@@ -6,10 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.position.BitBoardWriter;
-import net.chesstango.board.position.PositionStateWriter;
-import net.chesstango.board.position.SquareBoardWriter;
-import net.chesstango.board.position.ZobristHashWriter;
+import net.chesstango.board.position.*;
 
 import java.util.function.Predicate;
 
@@ -69,6 +66,14 @@ public class MoveComposed extends MoveImp {
     @Override
     public void doMove(ZobristHashWriter hash) {
         fnDoZobrist.apply(from, to, hash, gameImp.getChessPosition());
+    }
+
+    @Override
+    public void doMove(KingSquareWriter kingSquare) {
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
     }
 
     private Cardinal calculateMoveDirection() {

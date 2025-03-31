@@ -131,14 +131,6 @@ public abstract class MoveImp implements PseudoMove, Command {
     }
 
     @Override
-    public void doMove(KingSquareWriter kingSquare) {
-    }
-
-    @Override
-    public void undoMove(KingSquareWriter kingSquare) {
-    }
-
-    @Override
     public void undoMove(ZobristHashWriter hash) {
         hash.popState();
     }

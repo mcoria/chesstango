@@ -94,6 +94,16 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
         bitBoardWriter.addPosition(from);
     }
 
+    @Override
+    public void doMove(KingSquareWriter kingSquare) {
+
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
+
+    }
+
 
     @Override
     public void doMove(ZobristHashWriter hash) {

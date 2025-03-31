@@ -76,6 +76,16 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
+    public void doMove(KingSquareWriter kingSquare) {
+
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
+
+    }
+
+    @Override
     public void doMove(ZobristHashWriter hash) {
         hash.pushState();
 
