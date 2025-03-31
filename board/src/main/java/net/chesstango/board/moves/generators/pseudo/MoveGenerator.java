@@ -16,10 +16,11 @@ package net.chesstango.board.moves.generators.pseudo;
  * <p>
  * This interface is typically used in move-generation logic within the context of a chess engine.
  *
- * @author Mauricio Coria
  * @see MoveGeneratorEnPassant
  * @see MoveGeneratorByPiecePositioned
  * @see MoveGeneratorCastling
+ *
+ * @author Mauricio Coria
  */
 public interface MoveGenerator extends MoveGeneratorEnPassant, MoveGeneratorByPiecePositioned, MoveGeneratorCastling {
 }
