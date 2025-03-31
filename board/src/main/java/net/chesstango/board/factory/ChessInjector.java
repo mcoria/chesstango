@@ -13,8 +13,6 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.ChessPositionImp;
-import net.chesstango.board.position.imp.KingSquareImp;
-import net.chesstango.board.position.imp.MoveCacheBoardImp;
 
 /**
  * @author Mauricio Coria
@@ -29,9 +27,9 @@ public class ChessInjector {
 
     private BitBoard bitBoard = null;
 
-    private MoveCacheBoardImp moveCache = null;
+    private MoveCacheBoard moveCache = null;
 
-    private KingSquareImp kingCacheBoard = null;
+    private KingSquare kingCacheBoard = null;
 
     private ZobristHash zobristHash = null;
 
