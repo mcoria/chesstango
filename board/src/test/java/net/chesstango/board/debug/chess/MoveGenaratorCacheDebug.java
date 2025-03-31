@@ -23,7 +23,7 @@ public class MoveGenaratorCacheDebug extends MoveGeneratorCache {
 
 
 	@Override
-	public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+	public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
 		Square origenSquare = from.getSquare();
 		
 		MoveGeneratorByPieceResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
@@ -31,12 +31,12 @@ public class MoveGenaratorCacheDebug extends MoveGeneratorCache {
 		
 		if (generatorResult == null) {
 			
-			generatorResult = moveGenerator.generatePseudoMoves(from);
+			generatorResult = moveGenerator.generateByPiecePseudoMoves(from);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		} else {
 			
-			MoveGeneratorByPieceResult generatorResultActual = moveGenerator.generatePseudoMoves(from);
+			MoveGeneratorByPieceResult generatorResultActual = moveGenerator.generateByPiecePseudoMoves(from);
 
 			//comparar generatorResult vs generatorResultActual
 			if(generatorResultActual.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {

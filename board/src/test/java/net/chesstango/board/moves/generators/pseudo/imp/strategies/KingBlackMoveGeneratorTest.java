@@ -79,7 +79,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -121,7 +121,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -163,7 +163,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -211,7 +211,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -259,7 +259,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -308,7 +308,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -359,7 +359,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getSquare(), Piece.KING_BLACK);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -402,7 +402,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPiece(Square.g2));
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		long capturedPositions = generatorResult.getCapturedPositions();
 

@@ -52,7 +52,7 @@ public class CapturedPositionsAnalyzer implements Analyzer {
 
             Square origenSquare = iterator.next();
 
-            MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
+            MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generateByPiecePseudoMoves(positionReader.getPosition(origenSquare));
 
             posicionesCapturadas |= generatorResult.getCapturedPositions();
 

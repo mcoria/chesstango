@@ -59,7 +59,7 @@ public class BishopMoveGeneratorTest {
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
 		MoveList moves = generatorResult.getPseudoMoves();
 		
@@ -133,7 +133,7 @@ public class BishopMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
 		MoveList<PseudoMove> moves = generatorResult.getPseudoMoves();
 

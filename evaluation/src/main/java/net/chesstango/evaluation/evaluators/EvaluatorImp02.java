@@ -98,7 +98,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
         while (iteratorAllPieces.hasNext()) {
             PiecePositioned piecePositioned = iteratorAllPieces.next();
 
-            MoveGeneratorByPieceResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
+            MoveGeneratorByPieceResult generationResult = pseudoMovesGenerator.generateByPiecePseudoMoves(piecePositioned);
 
             MoveList<PseudoMove> pseudoMoves = generationResult.getPseudoMoves();
 

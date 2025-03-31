@@ -13,7 +13,7 @@ import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.PositionStateReader;
 
 /**
- * The AbstractPawnMoveGenerator class applies the Template Method design pattern
+ * The AbstractPawnMoveGenerator class applies the <b>Template Method</b> design pattern
  * by providing a structured algorithm for generating pawn moves, while allowing
  * subclasses to customize specific steps of the process, including the calculation
  * of square movements, attack directions, and promotion logic. Subclasses must
@@ -23,15 +23,16 @@ import net.chesstango.board.position.PositionStateReader;
  * based on the pawn's color or game context.
  * <p>
  * Template methods:
- * - generatePseudoMoves() provides the main algorithm framework.
+ * <br>- generatePseudoMoves() provides the main algorithm framework.
+ * <p>
  * Abstract methods to be implemented by subclasses:
- * - getSquareSimplePawnMove(Square square)
- * - getSquareSimpleTwoSquaresPawnMove(Square square)
- * - getSquareAttackLeft(Square square)
- * - getSquareAttackRight(Square square)
- * - getPromotionPieces()
- * - getLeftDirection()
- * - getRightDirection()
+ * <br>- getSquareSimplePawnMove(Square square)
+ * <br>- getSquareSimpleTwoSquaresPawnMove(Square square)
+ * <br>- getSquareAttackLeft(Square square)
+ * <br>- getSquareAttackRight(Square square)
+ * <br>- getPromotionPieces()
+ * <br>- getLeftDirection()
+ * <br>- getRightDirection()
  *
  * @author Mauricio Coria
  */
@@ -52,7 +53,6 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      * or null if the move is not valid.
      */
     protected abstract Square getOneSquareForward(Square square);
-
 
     /**
      * Determines the square two steps ahead for a pawn, based on its current position and movement logic.
@@ -75,7 +75,6 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      */
     protected abstract Square getAttackSquareLeft(Square square);
 
-
     /**
      * Determines the square reachable by a pawn to attack a piece to its right,
      * based on the pawn's current position and movement direction.
@@ -86,7 +85,6 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      */
     protected abstract Square getAttackSquareRight(Square square);
 
-
     /**
      * Determines the array of pieces that a pawn can promote to
      * upon reaching the promotion rank.
@@ -95,14 +93,26 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      */
     protected abstract Piece[] getPromotionPieces();
 
+    /**
+     * Retrieves the cardinal direction representing the diagonal left movement for a pawn.
+     * This direction is used to determine the target square for a pawn's diagonal left attack move.
+     *
+     * @return The cardinal direction for the pawn's diagonal left movement.
+     */
     protected abstract Cardinal getDiagonalLeftDirection();
 
+    /**
+     * Retrieves the cardinal direction representing the diagonal right movement for a pawn.
+     * This direction is used to determine the target square for a pawn's diagonal right attack move.
+     *
+     * @return The cardinal direction for the pawn's diagonal right movement.
+     */
     protected abstract Cardinal getDiagonalRightDirection();
+
 
     public AbstractPawnMoveGenerator(Color color) {
         super(color);
     }
-
 
     /**
      * Generates all pseudo-legal moves for a pawn based on its current position.
@@ -115,7 +125,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      * as well as metadata regarding affected and captured positions.
      */
     @Override
-    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+    public final MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
         MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
 
         int toRank = -1; //Just in case

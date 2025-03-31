@@ -52,7 +52,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -72,7 +72,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -94,7 +94,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -117,7 +117,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 

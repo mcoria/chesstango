@@ -26,14 +26,14 @@ public class MoveGeneratorCache implements MoveGenerator {
 
 
 	@Override
-	public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+	public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
 		Square origenSquare = from.getSquare();
 		
 		MoveGeneratorByPieceResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		
 		if (generatorResult == null) {
 			
-			generatorResult = moveGenerator.generatePseudoMoves(from);
+			generatorResult = moveGenerator.generateByPiecePseudoMoves(from);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		}

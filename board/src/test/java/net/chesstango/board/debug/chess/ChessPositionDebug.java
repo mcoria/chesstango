@@ -52,7 +52,7 @@ public class ChessPositionDebug extends ChessPositionImp {
             Square square = Square.getSquareByIdx(i);
             MoveGeneratorByPieceResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
             if (cacheMoveGeneratorResult != null) {
-                MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(squareBoard.getPosition(square));
+                MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generateByPiecePseudoMoves(squareBoard.getPosition(square));
                 assertMoveGeneratorResults(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
             }
         }

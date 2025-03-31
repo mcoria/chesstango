@@ -32,7 +32,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
     }
 
     protected MoveList<PseudoMove> getPseudoMoves(PiecePositioned origen) {
-        MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generateByPiecePseudoMoves(origen);
         return generatorResult.getPseudoMoves();
     }
 

@@ -60,7 +60,7 @@ public class KnightMoveGeneratorTest {
 	
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.KNIGHT_WHITE);
 		
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
