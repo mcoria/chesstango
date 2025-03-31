@@ -4,7 +4,7 @@ package net.chesstango.board.moves.generators.pseudo;
  * The MoveGenerator interface serves as a central contract for generating all types of pseudo-legal moves in chess.
  * It is designed to consolidate and extend the behavior defined in its parent interfaces:
  * - {@link MoveGeneratorEnPassant}: Responsible for generating en passant capture moves.
- * - {@link MoveGeneratorByPiecePositioned}: Provides logic to generate piece-specific pseudo-legal moves based on their position.
+ * - {@link MoveGeneratorByPiece}: Provides logic to generate piece-specific pseudo-legal moves based on their position.
  * - {@link MoveGeneratorCastling}: Handles the generation of castling moves for kings.
  * <p>
  * Implementations of this interface combine these behaviors to provide a comprehensive generator
@@ -17,10 +17,10 @@ package net.chesstango.board.moves.generators.pseudo;
  * This interface is typically used in move-generation logic within the context of a chess engine.
  *
  * @see MoveGeneratorEnPassant
- * @see MoveGeneratorByPiecePositioned
+ * @see MoveGeneratorByPiece
  * @see MoveGeneratorCastling
  *
  * @author Mauricio Coria
  */
-public interface MoveGenerator extends MoveGeneratorEnPassant, MoveGeneratorByPiecePositioned, MoveGeneratorCastling {
+public interface MoveGenerator extends MoveGeneratorByPiece, MoveGeneratorEnPassant, MoveGeneratorCastling {
 }

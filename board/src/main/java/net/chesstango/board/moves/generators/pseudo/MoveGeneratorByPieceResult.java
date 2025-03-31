@@ -18,7 +18,7 @@ import net.chesstango.board.moves.PseudoMove;
  * @author Mauricio Coria
  */
 @Getter
-public class MoveGeneratorResult {
+public class MoveGeneratorByPieceResult {
 
 	/**
 	 * This represents the piece for which pseudo-legal moves are being calculated.
@@ -49,7 +49,7 @@ public class MoveGeneratorResult {
 	 *
 	 * @param from The piece and its position for which pseudo-legal moves are generated.
 	 */
-	public MoveGeneratorResult(PiecePositioned from) {
+	public MoveGeneratorByPieceResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList<>();
 		this.from = from;
 		this.affectedByPositions = from.getSquare().getBitPosition();

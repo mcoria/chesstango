@@ -5,12 +5,10 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -72,8 +70,8 @@ public class SimpleTwoSquaresPawnMoveTest {
         PiecePositioned peonNegro = squareBoard.getPosition(Square.f4);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
-        MoveGeneratorResult mgr = new MoveGeneratorResult(peonNegro);
+        moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorByPieceResult(origen));
+        MoveGeneratorByPieceResult mgr = new MoveGeneratorByPieceResult(peonNegro);
         mgr.addAffectedByPositions(Square.e3);
         moveCacheBoard.setPseudoMoves(Square.f4, mgr);
 

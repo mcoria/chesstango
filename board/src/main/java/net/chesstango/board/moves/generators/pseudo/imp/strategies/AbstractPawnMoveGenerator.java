@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.PositionStateReader;
 
@@ -115,8 +115,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
      * as well as metadata regarding affected and captured positions.
      */
     @Override
-    public MoveGeneratorResult generatePseudoMoves(PiecePositioned from) {
-        MoveGeneratorResult result = new MoveGeneratorResult(from);
+    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+        MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
 
         int toRank = -1; //Just in case
         Square square = from.getSquare();
@@ -201,7 +201,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
     }
 
 
-    private void addSimpleJumpPromotion(MoveGeneratorResult result, PiecePositioned toPiecePositioned) {
+    private void addSimpleJumpPromotion(MoveGeneratorByPieceResult result, PiecePositioned toPiecePositioned) {
         PiecePositioned from = result.getFrom();
         Piece[] promotions = getPromotionPieces();
         for (Piece promotion : promotions) {
@@ -209,7 +209,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
         }
     }
 
-    private void addCapturePromotion(MoveGeneratorResult result, PiecePositioned toPiecePositioned, Cardinal direction) {
+    private void addCapturePromotion(MoveGeneratorByPieceResult result, PiecePositioned toPiecePositioned, Cardinal direction) {
         PiecePositioned from = result.getFrom();
         Piece[] promotions = getPromotionPieces();
         for (Piece promotion : promotions) {

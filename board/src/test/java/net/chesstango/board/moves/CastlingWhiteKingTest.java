@@ -5,10 +5,9 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.imp.MoveCastlingImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -77,8 +76,8 @@ public class CastlingWhiteKingTest {
         bitBoard.init(squareBoard);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(PiecePositioned.KING_WHITE.getSquare(), new MoveGeneratorResult(PiecePositioned.KING_WHITE));
-        moveCacheBoard.setPseudoMoves(PiecePositioned.ROOK_WHITE_KING.getSquare(), new MoveGeneratorResult(PiecePositioned.ROOK_WHITE_KING));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.KING_WHITE.getSquare(), new MoveGeneratorByPieceResult(PiecePositioned.KING_WHITE));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.ROOK_WHITE_KING.getSquare(), new MoveGeneratorByPieceResult(PiecePositioned.ROOK_WHITE_KING));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);

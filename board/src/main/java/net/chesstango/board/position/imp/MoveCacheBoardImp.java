@@ -1,7 +1,7 @@
 package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.MoveCacheBoard;
 
 import java.util.ArrayDeque;
@@ -14,8 +14,8 @@ import java.util.List;
  * TODO: LOS TESTS DE MOVIMIENTOS DEBERIAN PROBAR LOS AFFECTS
  */
 public class MoveCacheBoardImp implements MoveCacheBoard {
-    protected final MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
-    protected final Deque<List<MoveGeneratorResult>> removedPseudoMoves = new ArrayDeque<>();
+    protected final MoveGeneratorByPieceResult[] pseudoMoves = new MoveGeneratorByPieceResult[64];
+    protected final Deque<List<MoveGeneratorByPieceResult>> removedPseudoMoves = new ArrayDeque<>();
 
     /**
      * Aquellas posiciones pseudoMoves[] != null
@@ -33,12 +33,12 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     protected long possibleAffectedPseudoMovesPositions = 0;
 
     @Override
-    public MoveGeneratorResult getPseudoMovesResult(Square key) {
+    public MoveGeneratorByPieceResult getPseudoMovesResult(Square key) {
         return pseudoMoves[key.toIdx()];
     }
 
     @Override
-    public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
+    public void setPseudoMoves(Square key, MoveGeneratorByPieceResult generatorResult) {
         if (pseudoMoves[key.toIdx()] != null) {
             throw new RuntimeException("pseudoMoves[key.toIdx()]");
         }
@@ -82,7 +82,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     public void pop() {
         syncCache(false);
 
-        List<MoveGeneratorResult> currentRemovedPseudoMoves = removedPseudoMoves.pop();
+        List<MoveGeneratorByPieceResult> currentRemovedPseudoMoves = removedPseudoMoves.pop();
 
         currentRemovedPseudoMoves.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));
     }
@@ -95,7 +95,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        for (MoveGeneratorResult result : pseudoMoves) {
+        for (MoveGeneratorByPieceResult result : pseudoMoves) {
             if (result != null) {
                 buffer.append(result + "\n");
             }
@@ -106,7 +106,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
 
     protected void syncCache(final boolean trackRemoved) {
-        List<MoveGeneratorResult> currentRemovedPseudoMoves = null;
+        List<MoveGeneratorByPieceResult> currentRemovedPseudoMoves = null;
         if (trackRemoved) {
             currentRemovedPseudoMoves = new LinkedList<>();
         }
@@ -116,7 +116,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         while (allPositions != 0) {
             long posicionLng = Long.lowestOneBit(allPositions);
             int i = Long.numberOfTrailingZeros(posicionLng);
-            MoveGeneratorResult pseudoMove = pseudoMoves[i];
+            MoveGeneratorByPieceResult pseudoMove = pseudoMoves[i];
             if (pseudoMove != null) {
                 Square key = pseudoMove.getFrom().getSquare();
                 if ((pseudoMove.getAffectedByPositions() & affectedPositionsByMove) != 0) {

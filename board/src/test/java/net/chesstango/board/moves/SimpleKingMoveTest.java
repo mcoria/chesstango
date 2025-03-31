@@ -6,10 +6,9 @@ import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.imp.MoveKingImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.ChessPositionImp;
@@ -75,7 +74,7 @@ public class SimpleKingMoveTest {
         PiecePositioned destino = squareBoard.getPosition(Square.e2);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
+        moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorByPieceResult(origen));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);

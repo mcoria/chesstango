@@ -9,7 +9,7 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -32,7 +32,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
     }
 
     protected MoveList<PseudoMove> getPseudoMoves(PiecePositioned origen) {
-        MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
         return generatorResult.getPseudoMoves();
     }
 

@@ -8,7 +8,7 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -52,7 +52,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -72,7 +72,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -94,7 +94,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -117,7 +117,7 @@ public class PawnBlackMoveGeneratorTest {
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
-        MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 

@@ -5,10 +5,9 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
@@ -68,7 +67,7 @@ public class SimplePawnMoveTest {
         PiecePositioned destino = squareBoard.getPosition(Square.e3);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+        moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorByPieceResult(origen));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);

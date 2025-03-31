@@ -11,7 +11,7 @@ import net.chesstango.board.PiecePositioned;
  *
  * @author Mauricio Coria
  */
-public interface MoveGeneratorByPiecePositioned {
+public interface MoveGeneratorByPiece {
 
 
 	/**
@@ -22,6 +22,6 @@ public interface MoveGeneratorByPiecePositioned {
 	 * @param origen The position and type of the piece for which to generate moves.
 	 * @return All pseudo-legal moves for the specified piece.
 	 */
-	MoveGeneratorResult generatePseudoMoves(PiecePositioned origen);
+	MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned origen);
 
 }

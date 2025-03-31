@@ -10,7 +10,7 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
@@ -59,7 +59,7 @@ public class BishopMoveGeneratorTest {
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
 		
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
 		MoveList moves = generatorResult.getPseudoMoves();
 		
@@ -133,7 +133,7 @@ public class BishopMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
 		MoveList<PseudoMove> moves = generatorResult.getPseudoMoves();
 

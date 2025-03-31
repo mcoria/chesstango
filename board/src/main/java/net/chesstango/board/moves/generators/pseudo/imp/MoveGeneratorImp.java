@@ -6,8 +6,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiecePositioned;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiece;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.*;
@@ -69,9 +69,9 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 
     @Override
-    public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
+    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned origen) {
         Piece piece = origen.getPiece();
-        MoveGeneratorByPiecePositioned strategy = selectMoveGeneratorStrategy(piece);
+        MoveGeneratorByPiece strategy = selectMoveGeneratorStrategy(piece);
         return strategy.generatePseudoMoves(origen);
     }
 
@@ -173,7 +173,7 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
 
-    private MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(Piece piece) {
+    private MoveGeneratorByPiece selectMoveGeneratorStrategy(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
             case PAWN_BLACK -> this.pawnBlackMoveGenerator;

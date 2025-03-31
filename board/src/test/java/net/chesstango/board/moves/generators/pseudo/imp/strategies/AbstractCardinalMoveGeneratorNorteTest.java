@@ -11,7 +11,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
@@ -71,7 +71,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);		
 	
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -97,7 +97,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);	
 	
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -122,7 +122,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
 	
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
