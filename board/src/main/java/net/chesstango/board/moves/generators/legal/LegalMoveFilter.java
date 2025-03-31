@@ -10,7 +10,7 @@ import net.chesstango.board.position.Command;
  * This interface provides methods to check the legality of different types of moves
  * such as pawn moves, knight moves, bishop moves, rook moves, queen moves, king moves,
  * and castling moves.
- *
+ * <p>
  * Each method takes a move and a command as parameters and returns a boolean indicating
  * whether the move is legal according to the rules of chess.
  *

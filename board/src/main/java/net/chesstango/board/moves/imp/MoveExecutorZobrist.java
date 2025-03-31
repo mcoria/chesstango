@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ZobristHashWriter;
 
 /**
@@ -9,5 +9,5 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 @FunctionalInterface
 public interface MoveExecutorZobrist {
-    void apply(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, ChessPositionReader chessPositionReader);
+    void apply(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader chessPositionReader);
 }

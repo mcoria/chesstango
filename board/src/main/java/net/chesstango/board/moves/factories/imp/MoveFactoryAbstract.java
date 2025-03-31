@@ -37,21 +37,21 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
         MoveComposed move = new MoveComposed(gameImp, from, to);
         addSimpleMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
         return move;
     }
 
     @Override
     public MoveComposed createSimpleBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = createSimpleMoveImp(from, to, cardinal);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
         return move;
     }
 
     @Override
     public MoveComposed createSimpleQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = createSimpleMoveImp(from, to, cardinal);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
         return move;
     }
 
@@ -59,7 +59,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = new MoveComposed(gameImp, from, to);
         addSimpleMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
         return move;
     }
 
@@ -74,7 +74,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
         MoveComposed move = new MoveComposed(gameImp, from, to, getPawnDirection());
         addSimpleMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
         return move;
     }
 
@@ -97,21 +97,21 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
         MoveComposed move = new MoveComposed(gameImp, from, to);
         addCaptureMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveKnight(move, move));
         return move;
     }
 
     @Override
     public MoveComposed createCaptureBishopMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = createCaptureMoveImp(from, to, cardinal);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveBishop(move, move));
         return move;
     }
 
     @Override
     public MoveComposed createCaptureQueenMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = createCaptureMoveImp(from, to, cardinal);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveQueen(move, move));
         return move;
     }
 
@@ -119,7 +119,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = new MoveComposed(gameImp, from, to, cardinal);
         addCaptureMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMovePawn(move, move));
         return move;
     }
 
@@ -127,7 +127,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveComposed createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
         MoveComposed move = new MoveComposed(gameImp, form, to, cardinal);
         addCaptureMoveExecutors(form, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveRook(move, move));
         return move;
     }
 
@@ -135,7 +135,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     public MoveKingImp createCaptureKingMove(PiecePositioned from, PiecePositioned to) {
         MoveKingImp move = new MoveKingImp(gameImp, from, to);
         addCaptureMoveExecutors(from, to, move);
-        move.setFnLegalMoveFilter(legalMoveFilter -> legalMoveFilter.isLegalMoveKing(move, move));
+        move.setFnDoFilterMove(legalMoveFilter -> legalMoveFilter.isLegalMoveKing(move, move));
         return move;
     }
 
@@ -181,8 +181,8 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
         moveImp.setFnDoSquareBoard(algoSquareBoard::defaultFnDoMovePiecePlacement);
         moveImp.setFnUndoSquareBoard(algoSquareBoard::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(algoBitBoard::defaultFnDoBitBoard);
-        moveImp.setFnUndoColorBoard(algoBitBoard::defaultFnUndoBitBoard);
+        moveImp.setFnDoBitBoard(algoBitBoard::defaultFnDoBitBoard);
+        moveImp.setFnUndoBitBoard(algoBitBoard::defaultFnUndoBitBoard);
 
         moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
@@ -197,8 +197,8 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
         moveImp.setFnDoSquareBoard(algoSquareBoard::defaultFnDoMovePiecePlacement);
         moveImp.setFnUndoSquareBoard(algoSquareBoard::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(algoBitBoard::captureFnDoBitBoard);
-        moveImp.setFnUndoColorBoard(algoBitBoard::captureFnUndoBitBoard);
+        moveImp.setFnDoBitBoard(algoBitBoard::captureFnDoBitBoard);
+        moveImp.setFnUndoBitBoard(algoBitBoard::captureFnUndoBitBoard);
 
         moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
