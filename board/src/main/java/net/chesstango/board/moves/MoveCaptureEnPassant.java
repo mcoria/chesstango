@@ -10,5 +10,10 @@ import net.chesstango.board.PiecePositioned;
  * @author Mauricio Coria
  */
 public interface MoveCaptureEnPassant extends Move {
+    /**
+     * Gets the piece that is captured en passant.
+     *
+     * @return the captured piece
+     */
     PiecePositioned getCapture();
 }

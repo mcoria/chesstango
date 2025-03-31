@@ -115,9 +115,6 @@ public class GameImp implements Game {
 
     @Override
     public GameState getState() {
-        if (gameState.getStatus() == null) {
-            this.analyzer.updateGameState();
-        }
         return gameState;
     }
 
@@ -156,19 +153,21 @@ public class GameImp implements Game {
         this.analyzer = analyzer;
         this.analyzer.threefoldRepetitionRule(true);
         this.analyzer.fiftyMovesRule(true);
+        this.analyzer.updateGameState();
     }
 
     public void notifyDoMove(Move move) {
-        if(!gameListenerList.isEmpty()){
-            for(GameListener gameListener : gameListenerList){
+        analyzer.updateGameState();
+        if (!gameListenerList.isEmpty()) {
+            for (GameListener gameListener : gameListenerList) {
                 gameListener.notifyDoMove(move);
             }
         }
     }
 
     public void notifyUndoMove(Move move) {
-        if(!gameListenerList.isEmpty()){
-            for(GameListener gameListener : gameListenerList){
+        if (!gameListenerList.isEmpty()) {
+            for (GameListener gameListener : gameListenerList) {
                 gameListener.notifyUndoMove(move);
             }
         }
