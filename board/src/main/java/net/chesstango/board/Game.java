@@ -80,7 +80,7 @@ public interface Game extends GameVisitorAcceptor {
      *
      * @return a container of possible moves
      */
-    MoveContainerReader<? extends Move> getPossibleMoves();
+    MoveContainerReader<Move> getPossibleMoves();
 
     /**
      * Adds a game listener.

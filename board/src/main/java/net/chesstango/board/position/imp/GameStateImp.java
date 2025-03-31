@@ -35,12 +35,12 @@ public class GameStateImp implements GameState {
     }
 
     @Override
-    public MoveContainerReader<PseudoMove> getLegalMoves() {
+    public MoveContainerReader<Move> getLegalMoves() {
         return currentGameState.legalMoves;
     }
 
     @Override
-    public void setLegalMoves(MoveContainerReader<PseudoMove> legalMoves) {
+    public void setLegalMoves(MoveContainerReader<Move> legalMoves) {
         currentGameState.legalMoves = legalMoves;
     }
 
@@ -113,7 +113,7 @@ public class GameStateImp implements GameState {
 
     private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
-        protected MoveContainerReader<PseudoMove> legalMoves;
+        protected MoveContainerReader<Move> legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected long zobristHash;
@@ -127,7 +127,7 @@ public class GameStateImp implements GameState {
         }
 
         @Override
-        public MoveContainerReader<PseudoMove> getLegalMoves() {
+        public MoveContainerReader<Move> getLegalMoves() {
             return legalMoves;
         }
 

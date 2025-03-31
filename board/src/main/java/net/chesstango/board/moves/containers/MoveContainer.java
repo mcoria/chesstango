@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     private int size = 0;
-    private final List<MoveList<M>> moveLists;
+    private final List<MoveList<? extends M>> moveLists;
     private final List<M> moveList;
     private boolean hasQuietMoves = true;
 
@@ -29,7 +29,7 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
         this.moveList = new LinkedList<>();
     }
 
-    public void add(MoveList<M> moveList) {
+    public <ME extends M>void add(MoveList<ME> moveList) {
         if (!moveList.hasQuietMoves()) {
             hasQuietMoves = false;
         }
@@ -60,7 +60,7 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
         if (moveList.contains(object)) {
             return true;
         }
-        for (MoveList<M> movelist :
+        for (MoveList<? extends M> movelist :
                 moveLists) {
             if (movelist.contains(object)) {
                 return true;
@@ -105,9 +105,9 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     @Override
     public Iterator<M> iterator() {
         return new Iterator<>() {
-            private Iterator<M> currentIterator = moveList.iterator();
+            private Iterator<? extends M> currentIterator = moveList.iterator();
 
-            private final Iterator<MoveList<M>> currentMoveListIterator = moveLists.iterator();
+            private final Iterator<MoveList<? extends M>> currentMoveListIterator = moveLists.iterator();
 
             private M next = null;
 
@@ -139,7 +139,7 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
             private void computeNextIterator() {
                 currentIterator = null;
                 if (currentMoveListIterator.hasNext()) {
-                    MoveList<M> moveList = currentMoveListIterator.next();
+                    MoveList<? extends M> moveList = currentMoveListIterator.next();
                     currentIterator = moveList.iterator();
                 }
             }

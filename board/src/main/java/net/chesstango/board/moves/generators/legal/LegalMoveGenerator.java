@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.generators.legal;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.PseudoMove;
 
@@ -38,5 +39,5 @@ public interface LegalMoveGenerator {
 	 * @param analysis the analysis result used to determine the legal moves
 	 * @return a MoveContainerReader containing the legal pseudo moves
 	 */
-	MoveContainerReader<PseudoMove> getLegalMoves(AnalyzerResult analysis);
+	MoveContainerReader<Move> getLegalMoves(AnalyzerResult analysis);
 }

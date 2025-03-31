@@ -2,6 +2,7 @@ package net.chesstango.board.moves.generators.legal.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
@@ -39,12 +40,12 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         return getPseudoMoves(positionReader.getPosition(origenSquare));
     }
 
-    protected void getEnPassantMoves(MoveContainer<PseudoMove> moves) {
+    protected void getEnPassantMoves(MoveContainer<Move> moves) {
         final MovePair<PseudoMove> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
 
-    protected void filterMovePair(MovePair<PseudoMove> movePairToFilter, MoveContainer<PseudoMove> collectionToAdd) {
+    protected void filterMovePair(MovePair<PseudoMove> movePairToFilter, MoveContainer<Move> collectionToAdd) {
         if (movePairToFilter != null) {
             final PseudoMove first = movePairToFilter.getFirst();
             final PseudoMove second = movePairToFilter.getSecond();
@@ -59,7 +60,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         }
     }
 
-    protected void filterMoveCollection(Iterable<PseudoMove> moveCollectionToFilter, MoveContainer<PseudoMove> collectionToAdd) {
+    protected void filterMoveCollection(Iterable<PseudoMove> moveCollectionToFilter, MoveContainer<Move> collectionToAdd) {
         if (moveCollectionToFilter != null) {
             for (PseudoMove move : moveCollectionToFilter) {
                 filter(move, collectionToAdd);
@@ -67,7 +68,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
         }
     }
 
-    protected void filter(PseudoMove move, MoveContainer<PseudoMove> collectionToAdd) {
+    protected void filter(PseudoMove move, MoveContainer<Move> collectionToAdd) {
         if (move.isLegalMove(filter)) {
             collectionToAdd.add(move);
         }

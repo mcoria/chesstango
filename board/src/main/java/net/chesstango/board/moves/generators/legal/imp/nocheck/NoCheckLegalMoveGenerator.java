@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveList;
@@ -36,7 +37,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
     @Override
-    public MoveContainerReader<PseudoMove> getLegalMoves(AnalyzerResult analysis) {
+    public MoveContainerReader<Move> getLegalMoves(AnalyzerResult analysis) {
         final Square kingSquare = getCurrentKingSquare();
 
         final Color currentTurn = positionReader.getCurrentTurn();
@@ -51,7 +52,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
         final long safePositions = currentTurnPositions & ~pinnedSquares & ~kingPosition;
 
-        MoveContainer<PseudoMove> moves = new MoveContainer<>(Long.bitCount(safePositions));
+        MoveContainer<Move> moves = new MoveContainer<>(Long.bitCount(safePositions));
 
         getLegalMovesNotKingNotPinned(safePositions, moves);
 
@@ -67,7 +68,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
 
-    protected void getLegalMovesNotKingNotPinned(long safePositions, MoveContainer<PseudoMove> moves) {
+    protected void getLegalMovesNotKingNotPinned(long safePositions, MoveContainer<Move> moves) {
 
         for (Iterator<PiecePositioned> iterator = positionReader.iterator(safePositions); iterator.hasNext(); ) {
 
@@ -80,7 +81,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
     }
 
-    protected void getLegalMovesNotKingPinned(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals, MoveContainer<PseudoMove> moves) {
+    protected void getLegalMovesNotKingPinned(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals, MoveContainer<Move> moves) {
         for (AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal> pinnedPositionCardinal : pinnedPositionCardinals) {
             PiecePositioned from = pinnedPositionCardinal.getKey();
             MoveList<PseudoMove> pseudoMoves = getPseudoMoves(from);
@@ -93,7 +94,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
 
-    protected void getLegalMovesKing(long safeKingPositions, MoveContainer<PseudoMove> moves) {
+    protected void getLegalMovesKing(long safeKingPositions, MoveContainer<Move> moves) {
         Square kingSquare = getCurrentKingSquare();
 
         MoveList<PseudoMove> pseudoMovesKing = getPseudoMoves(kingSquare);
@@ -108,7 +109,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
 
-    protected void getCastlingMoves(MoveContainer<PseudoMove> moves) {
+    protected void getCastlingMoves(MoveContainer<Move> moves) {
         final MovePair<PseudoMove> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
