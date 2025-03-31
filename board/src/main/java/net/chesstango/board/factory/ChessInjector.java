@@ -9,7 +9,6 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;
@@ -52,7 +51,7 @@ public class ChessInjector {
 
     private LegalMoveGenerator noCheckLegalMoveGenerator = null;
 
-    private LegalMoveGeneratorImp legalMoveGenerator = null;
+    private LegalMoveGenerator legalMoveGenerator = null;
 
     private LegalMoveFilter checkLegalMoveFilter;
 
@@ -185,10 +184,7 @@ public class ChessInjector {
 
     private LegalMoveGenerator getLegalMoveGenerator() {
         if (this.legalMoveGenerator == null) {
-            this.legalMoveGenerator = chessFactory.createLegalMoveGenerator();
-            this.legalMoveGenerator.setCheckLegalMoveGenerator(getCheckLegalMoveGenerator());
-            this.legalMoveGenerator.setNoCheckLegalMoveGenerator(getNoCheckLegalMoveGenerator());
-
+            this.legalMoveGenerator = chessFactory.createLegalMoveGenerator(getCheckLegalMoveGenerator(), getNoCheckLegalMoveGenerator());
         }
         return this.legalMoveGenerator;
     }

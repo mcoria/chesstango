@@ -31,8 +31,8 @@ public class ChessFactory {
 		return new ChessPositionImp();
 	}
 
-	public LegalMoveGeneratorImp createLegalMoveGenerator() {
-		return new LegalMoveGeneratorImp();
+	public LegalMoveGenerator createLegalMoveGenerator(LegalMoveGenerator checkLegalMoveGenerator, LegalMoveGenerator noCheckLegalMoveGenerator) {
+		return new LegalMoveGeneratorImp(checkLegalMoveGenerator, noCheckLegalMoveGenerator);
 	}
 	
 	public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
