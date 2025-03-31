@@ -5,6 +5,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveList;
@@ -12,7 +14,6 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;
@@ -27,8 +28,6 @@ import java.util.List;
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
-    private static final int CAPACITY_MOVE_CONTAINER = 70;
-
     public NoCheckLegalMoveGenerator(ChessPositionReader positionReader,
                                      MoveGenerator strategy,
                                      LegalMoveFilter filter) {
@@ -36,7 +35,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
     @Override
-    public MoveContainerReader<MoveCommand> getLegalMoves(AnalyzerResult analysis) {
+    public MoveContainerReader<Move> getLegalMoves(AnalyzerResult analysis) {
         final Square kingSquare = getCurrentKingSquare();
 
         final Color currentTurn = positionReader.getCurrentTurn();
@@ -47,44 +46,40 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
         final long kingPosition = kingSquare.getBitPosition();
 
-        //final long capturedPositions = analysis.getCapturedPositions();
-
         final long safePositions = currentTurnPositions & ~pinnedSquares & ~kingPosition;
 
-        MoveContainer<MoveCommand> moves = new MoveContainer<>(Long.bitCount(safePositions));
+        MoveContainer<Move> moves = new MoveContainer<>(Long.bitCount(safePositions));
 
-        getLegalMovesNotKingNotPinned(safePositions, moves);
+        collectLegalMovesNotKingNotPinned(safePositions, moves);
 
-        getLegalMovesNotKingPinned(analysis.getPinnedPositionCardinals(), moves);
+        collectLegalMovesNotKingPinned(analysis.getPinnedPositionCardinals(), moves);
 
-        getLegalMovesKing(analysis.getSafeKingPositions(), moves);
+        collectLegalMovesKing(analysis.getSafeKingPositions(), moves);
 
-        getEnPassantMoves(moves);
+        collectEnPassantMoves(moves);
 
-        getCastlingMoves(moves);
+        collectCastlingMoves(moves);
 
         return moves;
     }
 
 
-    protected void getLegalMovesNotKingNotPinned(long safePositions, MoveContainer<MoveCommand> moves) {
-
+    protected void collectLegalMovesNotKingNotPinned(long safePositions, MoveContainer<Move> moves) {
         for (Iterator<PiecePositioned> iterator = positionReader.iterator(safePositions); iterator.hasNext(); ) {
 
             PiecePositioned origen = iterator.next();
 
-            MoveList<MoveCommand> pseudoMoves = getPseudoMoves(origen);
+            MoveList<PseudoMove> pseudoMoves = getPseudoMoves(origen);
 
             moves.add(pseudoMoves);
         }
-
     }
 
-    protected void getLegalMovesNotKingPinned(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals, MoveContainer<MoveCommand> moves) {
+    protected void collectLegalMovesNotKingPinned(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals, MoveContainer<Move> moves) {
         for (AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal> pinnedPositionCardinal : pinnedPositionCardinals) {
             PiecePositioned from = pinnedPositionCardinal.getKey();
-            MoveList<MoveCommand> pseudoMoves = getPseudoMoves(from);
-            for (MoveCommand pseudoMove : pseudoMoves) {
+            MoveList<PseudoMove> pseudoMoves = getPseudoMoves(from);
+            for (PseudoMove pseudoMove : pseudoMoves) {
                 if (NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(), pseudoMove.getMoveDirection())) {
                     moves.add(pseudoMove);
                 }
@@ -93,31 +88,28 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
     }
 
 
-    protected void getLegalMovesKing(long safeKingPositions, MoveContainer<MoveCommand> moves) {
+    protected void collectLegalMovesKing(long safeKingPositions, MoveContainer<Move> moves) {
         Square kingSquare = getCurrentKingSquare();
 
-        MoveList<MoveCommand> pseudoMovesKing = getPseudoMoves(kingSquare);
+        MoveList<PseudoMove> pseudoMovesKing = getPseudoMoves(kingSquare);
 
-        for (MoveCommand pseudoMove : pseudoMovesKing) {
+        for (PseudoMove pseudoMove : pseudoMovesKing) {
             Square toSquare = pseudoMove.getTo().getSquare();
             if ((toSquare.getBitPosition() & safeKingPositions) != 0) {
                 moves.add(pseudoMove);
             }
         }
-
     }
 
 
-    protected void getCastlingMoves(MoveContainer<MoveCommand> moves) {
-        final MovePair<MoveCommand> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
+    protected void collectCastlingMoves(MoveContainer<Move> moves) {
+        final MovePair<PseudoMove> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
         filterMovePair(pseudoMoves, moves);
     }
 
     public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
         if (moveDirection != null) {
-            if (threatDirection.equals(moveDirection) || threatDirection.equals(moveDirection.getOpposite())) {
-                return true;
-            }
+            return threatDirection.equals(moveDirection) || threatDirection.equals(moveDirection.getOpposite());
         }
         return false;
     }

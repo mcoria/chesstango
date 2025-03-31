@@ -4,8 +4,8 @@ import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
 
@@ -93,9 +93,9 @@ public class EvaluatorImp04 extends AbstractEvaluator {
         while (iteratorAllPieces.hasNext()) {
             PiecePositioned piecePositioned = iteratorAllPieces.next();
 
-            MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
+            MoveGeneratorByPieceResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
 
-            MoveList<MoveCommand> pseudoMoves = generationResult.getPseudoMoves();
+            MoveList<PseudoMove> pseudoMoves = generationResult.getPseudoMoves();
 
             for (Move move : pseudoMoves) {
                 PiecePositioned fromPosition = move.getFrom();

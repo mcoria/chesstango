@@ -13,5 +13,4 @@ public interface GameVisitor {
     void visit(GameStateReader gameState);
 
     void visit(MoveGenerator moveGenerator);
-
 }

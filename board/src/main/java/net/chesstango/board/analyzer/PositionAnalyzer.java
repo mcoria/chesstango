@@ -1,14 +1,14 @@
 package net.chesstango.board.analyzer;
 
 import lombok.Setter;
-import net.chesstango.board.position.GameState;
-import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.MoveCommand;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameState;
+import net.chesstango.board.position.GameStateReader;
 
 /**
  * @author Mauricio Coria
@@ -41,7 +41,7 @@ public class PositionAnalyzer {
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
 
-        MoveContainerReader<MoveCommand> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+        MoveContainerReader<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         boolean existsLegalMove = !legalMoves.isEmpty();
 

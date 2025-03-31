@@ -10,7 +10,7 @@ import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.MoveCacheBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ public class MoveCacheBoardImpTest {
 
 	@Test
 	public void test01() {
-		MoveGeneratorResult result = new MoveGeneratorResult(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE));
+		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE));
 		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null)));
 		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);

@@ -13,7 +13,7 @@ public interface GameStateReader {
 
     GameStatus getStatus();
 
-    MoveContainerReader<? extends Move> getLegalMoves();
+    MoveContainerReader<Move> getLegalMoves();
 
     Move getSelectedMove();
 

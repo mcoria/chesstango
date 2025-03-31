@@ -4,9 +4,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
@@ -50,20 +50,20 @@ public class ChessPositionDebug extends ChessPositionImp {
     private void validar(MoveGeneratorImp moveGeneratorImp) {
         for (int i = 0; i < 64; i++) {
             Square square = Square.getSquareByIdx(i);
-            MoveGeneratorResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
+            MoveGeneratorByPieceResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
             if (cacheMoveGeneratorResult != null) {
-                MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(squareBoard.getPosition(square));
+                MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(squareBoard.getPosition(square));
                 assertMoveGeneratorResults(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
             }
         }
     }
 
-    private void assertMoveGeneratorResults(MoveGeneratorResult expectedMoveGeneratorResults,
-                                            MoveGeneratorResult cacheMoveGeneratorResult) {
+    private void assertMoveGeneratorResults(MoveGeneratorByPieceResult expectedMoveGeneratorResults,
+                                            MoveGeneratorByPieceResult cacheMoveGeneratorResult) {
 
-        MoveList<MoveCommand> expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
+        MoveList<PseudoMove> expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
 
-        MoveList<MoveCommand> cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
+        MoveList<PseudoMove> cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
 
         if (expectedPseudoMoves.size() != cachePseudoMoves.size()) {
             throw new RuntimeException("Hay inconsistencia en el cache de movimientos pseudo");

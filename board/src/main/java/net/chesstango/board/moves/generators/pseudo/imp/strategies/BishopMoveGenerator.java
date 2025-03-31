@@ -5,7 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.BishopMoveFactory;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 
 /**
@@ -24,13 +24,13 @@ public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
 	}
 
 	@Override
-	protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+	protected PseudoMove createSimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 		return moveFactory.createSimpleBishopMove(from, to, cardinal);
 	}
 
 
 	@Override
-	protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+	protected PseudoMove createCaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
 		return moveFactory.createCaptureBishopMove(from, to, cardinal);
 	}
 }

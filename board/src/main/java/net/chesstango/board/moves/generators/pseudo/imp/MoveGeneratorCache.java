@@ -4,8 +4,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.MoveCacheBoard;
 
 /**
@@ -26,14 +26,14 @@ public class MoveGeneratorCache implements MoveGenerator {
 
 
 	@Override
-	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
-		Square origenSquare = origen.getSquare();
+	public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+		Square origenSquare = from.getSquare();
 		
-		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
+		MoveGeneratorByPieceResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		
 		if (generatorResult == null) {
 			
-			generatorResult = moveGenerator.generatePseudoMoves(origen);
+			generatorResult = moveGenerator.generatePseudoMoves(from);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		}
@@ -42,13 +42,13 @@ public class MoveGeneratorCache implements MoveGenerator {
 	}
 	
 	@Override
-	public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
+	public MovePair<PseudoMove> generateEnPassantPseudoMoves() {
 		return moveGenerator.generateEnPassantPseudoMoves();
 	}
 
 
 	@Override
-	public MovePair<MoveCommand> generateCastlingPseudoMoves() {
+	public MovePair<PseudoMove> generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();
 	}
 }

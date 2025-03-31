@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -52,7 +52,7 @@ public class CapturedPositionsAnalyzer implements Analyzer {
 
             Square origenSquare = iterator.next();
 
-            MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
+            MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
 
             posicionesCapturadas |= generatorResult.getCapturedPositions();
 

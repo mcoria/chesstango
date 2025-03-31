@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KnightPositionsSquareIterator;
 import net.chesstango.board.moves.factories.KnightMoveFactory;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 import java.util.Iterator;
 
@@ -24,13 +24,13 @@ public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
     }
 
     @Override
-    protected MoveCommand createSimpleMove(PiecePositioned from, PiecePositioned to) {
+    protected PseudoMove createSimpleMove(PiecePositioned from, PiecePositioned to) {
         return this.moveFactory.createSimpleKnightMove(from, to);
     }
 
 
     @Override
-    protected MoveCommand createCaptureMove(PiecePositioned from, PiecePositioned to) {
+    protected PseudoMove createCaptureMove(PiecePositioned from, PiecePositioned to) {
         return this.moveFactory.createCaptureKnightMove(from, to);
     }
 

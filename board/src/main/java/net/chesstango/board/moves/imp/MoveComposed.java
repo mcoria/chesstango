@@ -5,7 +5,10 @@ import net.chesstango.board.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
+
+import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
@@ -19,11 +22,13 @@ public class MoveComposed extends MoveImp {
 
     private MoveExecutorLayer<SquareBoardWriter> fnUndoSquareBoard;
 
-    private MoveExecutorLayer<BitBoardWriter> fnDoColorBoard;
+    private MoveExecutorLayer<BitBoardWriter> fnDoBitBoard;
 
-    private MoveExecutorLayer<BitBoardWriter> fnUndoColorBoard;
+    private MoveExecutorLayer<BitBoardWriter> fnUndoBitBoard;
 
     private MoveExecutorZobrist fnDoZobrist;
+
+    private Predicate<LegalMoveFilter> fnDoFilterMove;
 
     public MoveComposed(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(gameImp, from, to, direction);
@@ -50,12 +55,12 @@ public class MoveComposed extends MoveImp {
 
     @Override
     public void doMove(BitBoardWriter bitBoard) {
-        fnDoColorBoard.apply(from, to, bitBoard);
+        fnDoBitBoard.apply(from, to, bitBoard);
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoard) {
-        fnUndoColorBoard.apply(from, to, bitBoard);
+        fnUndoBitBoard.apply(from, to, bitBoard);
     }
 
     @Override
@@ -63,10 +68,23 @@ public class MoveComposed extends MoveImp {
         fnDoZobrist.apply(from, to, hash, gameImp.getChessPosition());
     }
 
+    @Override
+    public void doMove(KingSquareWriter kingSquare) {
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
+    }
+
     private Cardinal calculateMoveDirection() {
         Piece piece = getFrom().getPiece();
         return Piece.KNIGHT_WHITE.equals(piece) ||
                 Piece.KNIGHT_BLACK.equals(piece)
                 ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return fnDoFilterMove.test(filter);
     }
 }

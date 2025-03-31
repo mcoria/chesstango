@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 /**
  * @author Mauricio Coria
@@ -57,9 +57,9 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 
 
 	@Override
-	public MovePair<MoveCommand> generateEnPassantPseudoMoves() {
+	public MovePair<PseudoMove> generateEnPassantPseudoMoves() {
 		Square pawnPasanteSquare = positionState.getEnPassantSquare();
-		MovePair<MoveCommand> moveContainer = new MovePair<>();
+		MovePair<PseudoMove> moveContainer = new MovePair<>();
 		if (pawnPasanteSquare != null) {
 			PiecePositioned from = null;
 			PiecePositioned capture = null;
@@ -69,7 +69,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 				from = squareBoard.getPosition(casilleroPawnIzquirda);
 				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(from.getPiece())) {
-					MoveCommand move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteEste);
+					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteEste);
 					moveContainer.setFirst(move);
 				}
 			}
@@ -79,7 +79,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 				from = squareBoard.getPosition(casilleroPawnDerecha);
 				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(from.getPiece())) {
-					MoveCommand move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteOeste);
+					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.NorteOeste);
 					moveContainer.setSecond(move);
 				}
 			}

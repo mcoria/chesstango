@@ -6,6 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -93,6 +94,16 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
         bitBoardWriter.addPosition(from);
     }
 
+    @Override
+    public void doMove(KingSquareWriter kingSquare) {
+
+    }
+
+    @Override
+    public void undoMove(KingSquareWriter kingSquare) {
+
+    }
+
 
     @Override
     public void doMove(ZobristHashWriter hash) {
@@ -166,5 +177,10 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
             default -> throw new RuntimeException("Invalid promotion");
         };
         return (short) (pieceEncoded << 12 | fromToEncoded);
+    }
+
+    @Override
+    public boolean isLegalMove(LegalMoveFilter filter) {
+        return filter.isLegalMovePawn(this, this);
     }
 }

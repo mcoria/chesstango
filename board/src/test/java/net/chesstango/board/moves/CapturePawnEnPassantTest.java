@@ -8,10 +8,9 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.SquareBoard;
@@ -76,8 +75,8 @@ public class CapturePawnEnPassantTest {
         PiecePositioned pawnPasanteSquare = squareBoard.getPosition(Square.a6);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(Square.b5, new MoveGeneratorResult(pawnWhite));
-        moveCacheBoard.setPseudoMoves(Square.a5, new MoveGeneratorResult(pawnBlack));
+        moveCacheBoard.setPseudoMoves(Square.b5, new MoveGeneratorByPieceResult(pawnWhite));
+        moveCacheBoard.setPseudoMoves(Square.a5, new MoveGeneratorByPieceResult(pawnBlack));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
@@ -213,7 +212,7 @@ public class CapturePawnEnPassantTest {
         moveExecutor.isLegalMove(filter);
 
         // asserts execute
-        verify(filter).isLegalMove(moveExecutor);
+        verify(filter).isLegalMovePawn(moveExecutor, moveExecutor);
     }
 
     @Test

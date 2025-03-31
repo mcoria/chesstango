@@ -1,12 +1,8 @@
 package net.chesstango.board.debug.chess;
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
-import net.chesstango.board.moves.imp.MoveImp;
-import net.chesstango.board.moves.imp.MoveKingImp;
-import net.chesstango.board.position.BitBoard;
-import net.chesstango.board.position.KingSquare;
-import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
@@ -23,7 +19,7 @@ public class NoCheckLegalMoveFilterDebug extends NoCheckLegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMove(MoveImp move) {
+    public boolean isLegalMove(Move move, Command command) {
         try {
             boolean reportError = false;
 
@@ -33,7 +29,7 @@ public class NoCheckLegalMoveFilterDebug extends NoCheckLegalMoveFilter {
 
             PositionStateImp boardStateInicial = ((PositionStateImp) positionState).clone();
 
-            boolean result = super.isLegalMove(move);
+            boolean result = super.isLegalMove(move, command);
 
             if (!super.positionState.equals(boardStateInicial)) {
                 System.out.println("El estado fu� modificado");
@@ -68,13 +64,13 @@ public class NoCheckLegalMoveFilterDebug extends NoCheckLegalMoveFilter {
     }
 
     @Override
-    public boolean isLegalMoveKing(MoveKingImp move) {
+    public boolean isLegalMoveKing(Move move, Command command) {
         try {
             boolean reportError = false;
 
             KingSquareImp kingCacheBoardInicial = ((KingSquareImp)super.kingCacheBoard).clone();
 
-            boolean result = super.isLegalMoveKing(move);
+            boolean result = super.isLegalMoveKing(move, command);
 
             if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
                 System.out.println("El cache de king fu� modificado");

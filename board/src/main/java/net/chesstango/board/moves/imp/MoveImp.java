@@ -3,14 +3,14 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.*;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
-public abstract class MoveImp implements MoveCommand {
+public abstract class MoveImp implements PseudoMove, Command {
     protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;
@@ -77,11 +77,11 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void doMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         doMove(squareBoard);
 
@@ -96,11 +96,11 @@ public abstract class MoveImp implements MoveCommand {
 
     @Override
     public void undoMove(ChessPositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        BitBoardWriter bitBoard = chessPosition.getBitBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCache();
-        ZobristHashWriter hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         undoMove(squareBoard);
 
@@ -131,20 +131,8 @@ public abstract class MoveImp implements MoveCommand {
     }
 
     @Override
-    public void doMove(KingSquareWriter kingSquare) {
-    }
-
-    @Override
-    public void undoMove(KingSquareWriter kingSquare) {
-    }
-
-    @Override
     public void undoMove(ZobristHashWriter hash) {
         hash.popState();
-    }
-
-    public boolean isLegalMove(LegalMoveFilter filter) {
-        return filter.isLegalMove(this);
     }
 
     @Override
@@ -160,9 +148,9 @@ public abstract class MoveImp implements MoveCommand {
     @Override
     public long getZobristHash() {
         ChessPosition chessPosition = gameImp.getChessPosition();
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoard();
-        PositionStateWriter positionState = chessPosition.getPositionState();
-        ZobristHash hash = chessPosition.getZobrist();
+        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        ZobristHashWriter hash = chessPosition.getZobristWriter();
 
         doMove(squareBoard);
 
@@ -170,7 +158,7 @@ public abstract class MoveImp implements MoveCommand {
 
         doMove(hash);
 
-        long zobristHash = hash.getZobristHash();
+        long zobristHash = chessPosition.getZobristHash();
 
         undoMove(hash);
 

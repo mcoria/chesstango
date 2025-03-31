@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.generators.pseudo;
 
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 /**
  * This interface defines the contract for generating pseudo-legal En Passant moves
@@ -19,5 +19,5 @@ public interface MoveGeneratorEnPassant {
      * It is necessary to validate an EnPassant move as there is a possibility of check
      * even if the pawn covering the king is not in a pinned position.
      */
-    MovePair<MoveCommand> generateEnPassantPseudoMoves();
+    MovePair<PseudoMove> generateEnPassantPseudoMoves();
 }

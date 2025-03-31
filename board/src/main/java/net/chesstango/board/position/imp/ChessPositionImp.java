@@ -7,7 +7,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -209,32 +208,32 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public SquareBoard getSquareBoard() {
+    public SquareBoardWriter getSquareBoardWriter() {
         return squareBoard;
     }
 
     @Override
-    public BitBoard getBitBoard() {
+    public BitBoardWriter getBitBoardWriter() {
         return bitBoard;
     }
 
     @Override
-    public KingSquare getKingSquare() {
+    public KingSquareWriter getKingSquareWriter() {
         return kingSquare;
     }
 
     @Override
-    public MoveCacheBoard getMoveCache() {
+    public MoveCacheBoardWriter getMoveCacheWriter() {
         return moveCache;
     }
 
     @Override
-    public PositionState getPositionState() {
+    public PositionStateWriter getPositionStateWriter() {
         return positionState;
     }
 
     @Override
-    public ZobristHash getZobrist() {
+    public ZobristHashWriter getZobristWriter() {
         return zobristHash;
     }
 

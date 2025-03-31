@@ -10,8 +10,8 @@ import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -59,7 +59,7 @@ public class BishopMoveGeneratorTest {
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
 		
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
 		MoveList moves = generatorResult.getPseudoMoves();
 		
@@ -133,9 +133,9 @@ public class BishopMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
-		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 
-		MoveList<MoveCommand> moves = generatorResult.getPseudoMoves();
+		MoveList<PseudoMove> moves = generatorResult.getPseudoMoves();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -162,11 +162,11 @@ public class BishopMoveGeneratorTest {
 	}	
 
 	
-	private MoveCommand createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+	private PseudoMove createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
-	private MoveCommand createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+	private PseudoMove createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
 		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	

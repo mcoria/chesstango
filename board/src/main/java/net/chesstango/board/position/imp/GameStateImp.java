@@ -8,7 +8,7 @@ import net.chesstango.board.GameStatus;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
@@ -35,12 +35,12 @@ public class GameStateImp implements GameState {
     }
 
     @Override
-    public MoveContainerReader<MoveCommand> getLegalMoves() {
+    public MoveContainerReader<Move> getLegalMoves() {
         return currentGameState.legalMoves;
     }
 
     @Override
-    public void setLegalMoves(MoveContainerReader<MoveCommand> legalMoves) {
+    public void setLegalMoves(MoveContainerReader<Move> legalMoves) {
         currentGameState.legalMoves = legalMoves;
     }
 
@@ -113,7 +113,7 @@ public class GameStateImp implements GameState {
 
     private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
-        protected MoveContainerReader<MoveCommand> legalMoves;
+        protected MoveContainerReader<Move> legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected long zobristHash;
@@ -127,7 +127,7 @@ public class GameStateImp implements GameState {
         }
 
         @Override
-        public MoveContainerReader<MoveCommand> getLegalMoves() {
+        public MoveContainerReader<Move> getLegalMoves() {
             return legalMoves;
         }
 

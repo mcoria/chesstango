@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MoveList;
-import net.chesstango.board.moves.MoveCommand;
+import net.chesstango.board.moves.PseudoMove;
 
 
 /**
@@ -18,7 +18,7 @@ import net.chesstango.board.moves.MoveCommand;
  * @author Mauricio Coria
  */
 @Getter
-public class MoveGeneratorResult {
+public class MoveGeneratorByPieceResult {
 
 	/**
 	 * This represents the piece for which pseudo-legal moves are being calculated.
@@ -29,7 +29,7 @@ public class MoveGeneratorResult {
 	 * A dynamically generated list of pseudo-legal moves for the piece located at the position.
 	 * This list is initialized as empty and populated as moves are added.
 	 */
-	private final MoveList<MoveCommand> pseudoMoves;
+	private final MoveList<PseudoMove> pseudoMoves;
 
 	/**
 	 * A bitboard representation indicating all squares whose positions influence the moves 
@@ -49,7 +49,7 @@ public class MoveGeneratorResult {
 	 *
 	 * @param from The piece and its position for which pseudo-legal moves are generated.
 	 */
-	public MoveGeneratorResult(PiecePositioned from) {
+	public MoveGeneratorByPieceResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList<>();
 		this.from = from;
 		this.affectedByPositions = from.getSquare().getBitPosition();
@@ -61,7 +61,7 @@ public class MoveGeneratorResult {
 	 *
 	 * @param move The pseudo-legal move to add.
 	 */
-	public void addPseudoMove(MoveCommand move) {
+	public void addPseudoMove(PseudoMove move) {
 		pseudoMoves.add(move);
 	}
 
