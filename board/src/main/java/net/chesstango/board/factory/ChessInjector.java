@@ -5,6 +5,7 @@ import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
+import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -59,9 +60,9 @@ public class ChessInjector {
 
     private GameImp game = null;
 
-    private MoveFactoryBlack moveFactoryBlack;
+    private MoveFactory moveFactoryBlack;
 
-    private MoveFactoryWhite moveFactoryWhite;
+    private MoveFactory moveFactoryWhite;
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
@@ -219,14 +220,14 @@ public class ChessInjector {
         return moveGeneratorImp;
     }
 
-    private MoveFactoryBlack getMoveFactoryBlack() {
+    private MoveFactory getMoveFactoryBlack() {
         if (moveFactoryBlack == null) {
             moveFactoryBlack = chessFactory.createMoveFactoryBlack(getGame());
         }
         return moveFactoryBlack;
     }
 
-    private MoveFactoryWhite getMoveFactoryWhite() {
+    private MoveFactory getMoveFactoryWhite() {
         if (moveFactoryWhite == null) {
             moveFactoryWhite = chessFactory.createMoveFactoryWhite(getGame());
         }

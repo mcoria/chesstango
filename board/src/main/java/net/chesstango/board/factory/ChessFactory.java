@@ -57,12 +57,12 @@ public class ChessFactory {
         return new MoveCacheBoardImp();
     }
 
-    public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+    public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                                       PositionState positionState) {
         return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
 
-    public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+    public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                                           PositionState positionState) {
         return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
@@ -91,11 +91,6 @@ public class ChessFactory {
         return new PositionAnalyzer();
     }
 
-    public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
-        return new FullScanSquareCaptured(squareBoardReader, bitBoardReader);
-    }
-
-
     public GameState createGameState() {
         return new GameStateImp();
     }
@@ -112,11 +107,11 @@ public class ChessFactory {
         return new ZobristHashImp();
     }
 
-    public MoveFactoryBlack createMoveFactoryBlack(GameImp gameImp) {
+    public MoveFactory createMoveFactoryBlack(GameImp gameImp) {
         return new MoveFactoryBlack(gameImp);
     }
 
-    public MoveFactoryWhite createMoveFactoryWhite(GameImp gameImp) {
+    public MoveFactory createMoveFactoryWhite(GameImp gameImp) {
         return new MoveFactoryWhite(gameImp);
     }
 }
