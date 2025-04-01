@@ -241,7 +241,6 @@ public class ChessInjector {
         return checkLegalMoveFilter;
     }
 
-
     private LegalMoveFilter getNoCheckMoveFilter() {
         if (noCheckLegalMoveFilter == null) {
             noCheckLegalMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());

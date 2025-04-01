@@ -57,22 +57,26 @@ public class ChessFactory {
         return new MoveCacheBoardImp();
     }
 
-    public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                      PositionState positionState) {
-        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-    }
-
-    public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                          PositionState positionState) {
-        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-    }
-
     public SquareBoard createPiecePlacement() {
         return new SquareBoardImp();
     }
 
     public PositionState createPositionState() {
         return new PositionStateImp();
+    }
+
+    public ZobristHash createZobristHash() {
+        return new ZobristHashImp();
+    }
+
+    public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+                                                 PositionState positionState) {
+        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+    }
+
+    public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+                                                   PositionState positionState) {
+        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
 
     public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
@@ -101,10 +105,6 @@ public class ChessFactory {
 
     public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
         return new KingSafePositionsAnalyzer(positionReader);
-    }
-
-    public ZobristHash createZobristHash() {
-        return new ZobristHashImp();
     }
 
     public MoveFactory createMoveFactoryBlack(GameImp gameImp) {

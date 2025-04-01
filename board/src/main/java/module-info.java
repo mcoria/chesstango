@@ -1,6 +1,5 @@
 module net.chesstango.board {
     exports net.chesstango.board;
-    exports net.chesstango.board.factory;
     exports net.chesstango.board.representations;
     exports net.chesstango.board.representations.polyglot;
     exports net.chesstango.board.representations.pgn;
