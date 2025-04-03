@@ -58,7 +58,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	
 	@Test
 	public void testNorteOeste() {
-		SquareBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getSquareBoard("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
@@ -85,7 +85,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	
 	@Test
 	public void testNorteOeste01() {
-		SquareBoard tablero =  getTablero("1R6/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getSquareBoard("1R6/8/8/4B3/8/8/8/8");
 		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
@@ -111,7 +111,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	
 	@Test
 	public void testNorteOeste02() {
-		SquareBoard tablero =  getTablero("1r6/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getSquareBoard("1r6/8/8/4B3/8/8/8/8");
 		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
@@ -143,7 +143,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.of(destinoSquare, destinoPieza));
 	}
 	
-	private SquareBoard getTablero(String string) {
+	private SquareBoard getSquareBoard(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
