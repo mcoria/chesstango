@@ -1,11 +1,10 @@
 package net.chesstango.board;
 
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
@@ -921,7 +920,7 @@ public class GameTest {
 
 
     private Game getGame(String string) {
-        GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
+        GameBuilder builder = new GameBuilderDebug();
 
         FENDecoder parser = new FENDecoder(builder);
 

@@ -3,12 +3,14 @@ package net.chesstango.board.analyzer;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.MoveCacheBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
@@ -24,7 +26,7 @@ public class KingSafePositionsAnalyzerTest {
         game.getStatus();
 
         // El king se encuentra en Jaque, e8 no es una posicion safe
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e8.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e8.getBitPosition()) == 0);
     }
 
     @Test
@@ -34,13 +36,13 @@ public class KingSafePositionsAnalyzerTest {
         game.getStatus();
 
         // El king se encuentra en Jaque, e1 no es una posicion safe
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
 
     }
 
@@ -50,18 +52,18 @@ public class KingSafePositionsAnalyzerTest {
 
         game.getStatus();
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) != 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) == 0);
 
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) != 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d3.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e3.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f3.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d3.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e3.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f3.getBitPosition()) != 0);
     }
 
     @Test
@@ -70,17 +72,17 @@ public class KingSafePositionsAnalyzerTest {
 
         game.getStatus();
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) == 0);
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()));
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()));
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) != 0);
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()));
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()));
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) != 0);
     }
 
     private Game getGame(String string) {
-        GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
+        GameBuilder builder = new GameBuilderDebug(new ChessFactoryDebug() {
 
             public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
                 return new KingSafePositionsAnalyzer(positionReader){

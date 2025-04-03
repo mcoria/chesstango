@@ -220,14 +220,14 @@ public class ChessInjector {
         return moveGeneratorImp;
     }
 
-    private MoveFactory getMoveFactoryBlack() {
+    public MoveFactory getMoveFactoryBlack() {
         if (moveFactoryBlack == null) {
             moveFactoryBlack = chessFactory.createMoveFactoryBlack(getGame());
         }
         return moveFactoryBlack;
     }
 
-    private MoveFactory getMoveFactoryWhite() {
+    public MoveFactory getMoveFactoryWhite() {
         if (moveFactoryWhite == null) {
             moveFactoryWhite = chessFactory.createMoveFactoryWhite(getGame());
         }

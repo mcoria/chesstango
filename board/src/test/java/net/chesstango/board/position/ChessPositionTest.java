@@ -4,18 +4,15 @@ import net.chesstango.board.*;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,32 +27,17 @@ public class ChessPositionTest {
 
     private MoveFactory moveFactoryBlack;
 
-    private ChessFactory factory;
-
-    private ChessInjector injector;
-
     private PositionAnalyzer analyzer;
 
     private ChessPosition chessPosition;
 
     private GameState gameState;
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        moveFactoryWhite = new MoveFactoryWhite();
-
-        moveFactoryBlack = new MoveFactoryBlack();
-
-        factory = new ChessFactoryDebug();
-
-        injector = new ChessInjector(factory);
-    }
-
     @Test
     public void testDefaultPosition() {
         setupWithDefaultBoard();
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertTrue(moves.contains(createSimplePawnMove(Square.a2, Piece.PAWN_WHITE, Square.a3)));
         assertTrue(moves.contains(createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3)));
@@ -101,7 +83,7 @@ public class ChessPositionTest {
     public void testKingInCheck01() {
         setupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertEquals(Color.BLACK, chessPosition.getCurrentTurn());
         assertEquals(GameStatus.CHECK, gameState.getStatus());
@@ -122,7 +104,7 @@ public class ChessPositionTest {
         assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
         assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
@@ -143,7 +125,7 @@ public class ChessPositionTest {
         assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d1)));
         assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d2)));
@@ -161,7 +143,7 @@ public class ChessPositionTest {
     public void testJuegoPawnPromocion() {
         setupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
                 Piece.ROOK_BLACK, Cardinal.SurOeste)));
@@ -192,7 +174,7 @@ public class ChessPositionTest {
     public void testKingNoPuedeMoverAJaque() {
         setupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
         assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
@@ -206,7 +188,7 @@ public class ChessPositionTest {
     public void testMovimientoEnPassantNoAllowed() {
         setupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         assertFalse(moves.contains(createCaptureEnPassantMoveBlack(Square.f4, Square.g3)));
 
@@ -219,7 +201,7 @@ public class ChessPositionTest {
     public void testGetZobristHashMove() {
         setupWithDefaultBoard();
 
-        MoveContainerReader<? extends Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = gameState.getLegalMoves();
 
         long initialZobristHash = chessPosition.getZobristHash();
 
@@ -276,22 +258,27 @@ public class ChessPositionTest {
     private void setupWithDefaultBoard() {
         setupWithBoard(FENDecoder.INITIAL_FEN);
     }
+    
 
     private void setupWithBoard(String string) {
-        GameBuilder builder = new GameBuilder(injector);
+        ChessInjector injector = new ChessInjector(new ChessFactoryDebug());
+
+        GameBuilder builder = new GameBuilderDebug(injector);
 
         FENDecoder parser = new FENDecoder(builder);
         parser.parseFEN(string);
 
         Game game = builder.getChessRepresentation();
 
+        moveFactoryWhite = injector.getMoveFactoryWhite();
+
+        moveFactoryBlack = injector.getMoveFactoryBlack();
+
         chessPosition = injector.getChessPosition();
 
         gameState = injector.getGameState();
 
         analyzer = injector.getAnalyzer();
-
-        analyzer.updateGameState();
     }
 
 

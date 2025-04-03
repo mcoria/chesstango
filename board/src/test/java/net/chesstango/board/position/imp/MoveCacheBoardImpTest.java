@@ -5,8 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
@@ -63,22 +62,13 @@ public class MoveCacheBoardImpTest {
 	}
 
 	private Game getGame(String string) {
-		GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
-			@Override
-			public MoveCacheBoardImp createMoveCacheBoard() {
-				return new MoveCacheBoardForTest();
-			}
-		});
+		GameBuilder builder = new GameBuilderDebug();
 
 		FENDecoder parser = new FENDecoder(builder);
 
 		parser.parseFEN(string);
 
 		return builder.getChessRepresentation();
-	}
-
-	private class MoveCacheBoardForTest extends MoveCacheBoardDebug{
-
 	}
 
 }

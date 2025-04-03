@@ -4,10 +4,9 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
-import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.SquareBoard;
 
 
 /**
@@ -15,7 +14,6 @@ import net.chesstango.board.position.PositionState;
  *
  */
 public class GameBuilder implements ChessPositionBuilder<Game> {
-	
 	private final SquareBoard squareBoard;
 	private final PositionState positionState;
 	private final ChessInjector chessInjector;
@@ -26,11 +24,7 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 		this(new ChessInjector());
 	}
 
-	public GameBuilder(ChessFactory chessFactory) {
-		this(new ChessInjector(chessFactory));
-	}
-	
-	public GameBuilder(ChessInjector chessInjector) {
+	GameBuilder(ChessInjector chessInjector) {
 		this.squareBoard = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
