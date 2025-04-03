@@ -22,12 +22,12 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 	
 	private Game game = null;
 
-	public GameBuilder(ChessFactory chessFactory) {
-		this(new ChessInjector(chessFactory));
-	}
-
 	public GameBuilder() {
 		this(new ChessInjector());
+	}
+
+	public GameBuilder(ChessFactory chessFactory) {
+		this(new ChessInjector(chessFactory));
 	}
 	
 	public GameBuilder(ChessInjector chessInjector) {

@@ -150,8 +150,7 @@ public class GameMockLoader {
 
     public static String encode(Move move) {
         String promotionStr = "";
-        if (move instanceof MovePromotion) {
-            MovePromotion movePromotion = (MovePromotion) move;
+        if (move instanceof MovePromotion movePromotion) {
             switch (movePromotion.getPromotion()) {
                 case ROOK_WHITE:
                 case ROOK_BLACK:

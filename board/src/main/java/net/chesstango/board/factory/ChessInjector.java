@@ -6,8 +6,6 @@ import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
@@ -211,11 +209,13 @@ public class ChessInjector {
 
     protected MoveGenerator getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
-            moveGeneratorImp = chessFactory.createMoveGenerator(getMoveFactoryWhite(), getMoveFactoryBlack());
+            moveGeneratorImp = chessFactory.createMoveGenerator();
             moveGeneratorImp.setSquareBoardReader(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setBitBoardReader(getBitBoard());
             moveGeneratorImp.setKingSquareReader(getKingCacheBoard());
+            moveGeneratorImp.setMoveFactoryWhite(getMoveFactoryWhite());
+            moveGeneratorImp.setMoveFactoryBlack(getMoveFactoryBlack());
         }
         return moveGeneratorImp;
     }

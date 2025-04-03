@@ -76,10 +76,12 @@ public class ChessPositionDebug extends ChessPositionImp {
 
     private MoveGeneratorImp getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
-            moveGeneratorImp = new MoveGeneratorImp(new MoveFactoryWhite(), new MoveFactoryBlack());
+            moveGeneratorImp = new MoveGeneratorImp();
             moveGeneratorImp.setSquareBoardReader(this.squareBoard);
             moveGeneratorImp.setBoardState(this.positionState);
             moveGeneratorImp.setBitBoardReader(this.bitBoard);
+            moveGeneratorImp.setMoveFactoryWhite(new MoveFactoryWhite());
+            moveGeneratorImp.setMoveFactoryBlack(new MoveFactoryBlack());
         }
         return moveGeneratorImp;
     }

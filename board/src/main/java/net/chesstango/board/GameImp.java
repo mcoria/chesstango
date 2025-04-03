@@ -70,7 +70,6 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-
         Move lasMove = gameState.getPreviousState().getSelectedMove();
 
         lasMove.undoMove();

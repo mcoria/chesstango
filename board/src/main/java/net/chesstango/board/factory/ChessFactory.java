@@ -83,8 +83,8 @@ public class ChessFactory {
         return new MoveGeneratorCache(moveGenerator, moveCacheBoard);
     }
 
-    public MoveGeneratorImp createMoveGenerator(MoveFactory moveFactoryWhite, MoveFactory moveFactoryBlack) {
-        return new MoveGeneratorImp(moveFactoryWhite, moveFactoryBlack);
+    public MoveGeneratorImp createMoveGenerator() {
+        return new MoveGeneratorImp();
     }
 
     public GameImp createGame(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor visitorAcceptor) {
