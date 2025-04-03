@@ -113,7 +113,7 @@ public class QueenMoveGeneratorTest {
 	}
 	
 	private SquareBoard getTablero(String string) {
-		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		SquareBoardBuilder builder = new SquareBoardBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

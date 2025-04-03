@@ -99,7 +99,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	}	
 	
 	private SquareBoard getSquareBoard(String string) {
-		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		SquareBoardBuilder builder = new SquareBoardBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

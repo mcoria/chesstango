@@ -59,9 +59,7 @@ public class CardinalSquareCapturedTest {
 
 
     private SquareBoard getSquareBoard(String string) {
-        ChessFactory chessFactory = new ChessFactoryDebug();
-
-        SquareBoardBuilder builder = new SquareBoardBuilder(chessFactory);
+        SquareBoardBuilder builder = new SquareBoardBuilder();
 
         FENDecoder parser = new FENDecoder(builder);
 

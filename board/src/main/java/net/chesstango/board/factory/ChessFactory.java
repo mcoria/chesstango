@@ -15,7 +15,6 @@ import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilte
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
@@ -57,7 +56,7 @@ public class ChessFactory {
         return new MoveCacheBoardImp();
     }
 
-    public SquareBoard createPiecePlacement() {
+    public SquareBoard createSquareBoard() {
         return new SquareBoardImp();
     }
 

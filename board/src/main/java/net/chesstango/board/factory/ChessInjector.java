@@ -32,7 +32,7 @@ public class ChessInjector {
 
     private ZobristHash zobristHash = null;
 
-    private ChessPosition chessPosition = null;
+    private ChessPositionImp chessPosition = null;
 
     private MoveGenerator moveGenerator = null;
 
@@ -70,30 +70,28 @@ public class ChessInjector {
         this.chessFactory = chessFactory;
     }
 
-    public ChessPosition getChessPosition() {
+    public ChessPositionImp getChessPosition() {
         if (chessPosition == null) {
-            ChessPositionImp chessPositionImp = chessFactory.createChessPosition();
+            chessPosition = chessFactory.createChessPosition();
 
-            chessPositionImp.setSquareBoard(getPiecePlacement());
+            chessPosition.setSquareBoard(getSquareBoard());
 
-            chessPositionImp.setPositionState(getPositionState());
+            chessPosition.setPositionState(getPositionState());
 
-            chessPositionImp.setKingSquare(getKingCacheBoard());
+            chessPosition.setKingSquare(getKingCacheBoard());
 
-            chessPositionImp.setBitBoard(getBitBoard());
+            chessPosition.setBitBoard(getBitBoard());
 
-            chessPositionImp.setMoveCache(getMoveCacheBoard());
+            chessPosition.setMoveCache(getMoveCacheBoard());
 
-            chessPositionImp.setZobristHash(getZobristHash());
-
-            chessPosition = chessPositionImp;
+            chessPosition.setZobristHash(getZobristHash());
         }
         return chessPosition;
     }
 
-    public SquareBoard getPiecePlacement() {
+    public SquareBoard getSquareBoard() {
         if (squareBoard == null) {
-            squareBoard = chessFactory.createPiecePlacement();
+            squareBoard = chessFactory.createSquareBoard();
         }
         return squareBoard;
     }
@@ -210,7 +208,7 @@ public class ChessInjector {
     protected MoveGenerator getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = chessFactory.createMoveGenerator();
-            moveGeneratorImp.setSquareBoardReader(getPiecePlacement());
+            moveGeneratorImp.setSquareBoardReader(getSquareBoard());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setBitBoardReader(getBitBoard());
             moveGeneratorImp.setKingSquareReader(getKingCacheBoard());
@@ -236,14 +234,14 @@ public class ChessInjector {
 
     private LegalMoveFilter getCheckMoveFilter() {
         if (checkLegalMoveFilter == null) {
-            checkLegalMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
+            checkLegalMoveFilter = chessFactory.createCheckMoveFilter(getSquareBoard(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
         return checkLegalMoveFilter;
     }
 
     private LegalMoveFilter getNoCheckMoveFilter() {
         if (noCheckLegalMoveFilter == null) {
-            noCheckLegalMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
+            noCheckLegalMoveFilter = chessFactory.createNoCheckMoveFilter(getSquareBoard(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
         return noCheckLegalMoveFilter;
     }

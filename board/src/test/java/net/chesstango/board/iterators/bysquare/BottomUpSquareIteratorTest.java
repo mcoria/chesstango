@@ -27,7 +27,7 @@ public class BottomUpSquareIteratorTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		builder = new SquareBoardBuilder();
 		parser = new FENDecoder(builder);
 	}
 

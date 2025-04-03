@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.imp.SquareBoardImp;
 
 
 /**
@@ -17,11 +18,11 @@ public class SquareBoardBuilder implements ChessPositionBuilder<SquareBoard> {
 	private final SquareBoard squareBoard;
 	
 	public SquareBoardBuilder() {
-		this(new ChessFactory());
+		this(new SquareBoardImp());
 	}
 	
-	public SquareBoardBuilder(ChessFactory chessFactory) {
-		this.squareBoard = chessFactory.createPiecePlacement();
+	SquareBoardBuilder(SquareBoard squareBoard) {
+		this.squareBoard = squareBoard;
 	}	
 	
 	@Override
