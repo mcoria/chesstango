@@ -22,7 +22,6 @@ public class ChessPositionBuilder implements PositionBuilder<ChessPosition> {
 
     public ChessPositionBuilder() {
         this(new ChessPositionImp(), new SquareBoardImp(), new PositionStateImp());
-
         chessPosition.setSquareBoard(squareBoard);
         chessPosition.setPositionState(positionState);
     }

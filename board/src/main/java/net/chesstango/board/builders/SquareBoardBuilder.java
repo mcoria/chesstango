@@ -6,12 +6,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.SquareBoardImp;
 
-
 /**
  * @author Mauricio Coria
  *
  */
-
 public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 	
 	private final SquareBoard squareBoard;
@@ -34,12 +32,10 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 		return this;
 	}
 
-
 	@Override
 	public PositionBuilder<SquareBoard> withEnPassantSquare(Square enPassantSquare) {
 		return this;
 	}
-
 
 	@Override
 	public PositionBuilder<SquareBoard> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
@@ -71,10 +67,9 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 		return this;
 	}
 
+	@Override
 	public PositionBuilder<SquareBoard> withPiece(Square square, Piece piece) {
 		squareBoard.setPiece(square, piece);
 		return this;
 	}
-
-
 }

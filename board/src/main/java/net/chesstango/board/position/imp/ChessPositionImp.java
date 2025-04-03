@@ -21,10 +21,11 @@ public class ChessPositionImp implements ChessPosition {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
     protected SquareBoard squareBoard = null;
+    protected PositionState positionState = null;
+
     protected BitBoard bitBoard = null;
     protected KingSquare kingSquare = null;
     protected MoveCacheBoard moveCache = null;
-    protected PositionState positionState = null;
     protected ZobristHash zobristHash = null;
 
     @Override

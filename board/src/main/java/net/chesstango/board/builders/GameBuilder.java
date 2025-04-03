@@ -22,7 +22,11 @@ public class GameBuilder implements PositionBuilder<Game> {
 
     GameBuilder(ChessInjector chessInjector) {
         this.chessInjector = chessInjector;
-        this.chessPositionBuilder = new ChessPositionBuilder(chessInjector.getChessPosition(), chessInjector.getSquareBoard(), chessInjector.getPositionState());
+        this.chessPositionBuilder = new ChessPositionBuilder(
+                chessInjector.getChessPosition(),
+                chessInjector.getSquareBoard(),
+                chessInjector.getPositionState()
+        );
     }
 
     @Override
