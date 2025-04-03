@@ -5,7 +5,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,22 +24,22 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testMoveByPiece() {
-        Move moveQueen = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
+        Move moveQueen = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.QUEEN_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-        Move moveKnight = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_WHITE),
+        Move moveKnight = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KNIGHT_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-        Move moveBishop = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
+        Move moveBishop = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-        Move moveRook = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE),
+        Move moveRook = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.ROOK_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-        Move movePawn = createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
+        Move movePawn = createSimpleOneSquarePawnMove(PiecePositioned.of(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
-        Move moveKing = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.KING_WHITE),
+        Move moveKing = createSimpleKnightMove(PiecePositioned.of(Square.e2, Piece.KING_WHITE),
                 PiecePositioned.getPosition(Square.e3));
 
         assertTrue(defaultMoveComparator.compare(moveQueen, moveKnight) > 0);
@@ -68,8 +67,8 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testPawnMove() {
-        Move move1 = createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a3));
-        Move move2 = createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);
+        Move move1 = createSimpleOneSquarePawnMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a3));
+        Move move2 = createSimpleTwoSquaresPawnMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);
 
         assertTrue(defaultMoveComparator.compare(move1, move2) < 0);
 
@@ -79,9 +78,9 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testPawnAndKnightMove() {
-        Move move1 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.b1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.a3));
+        Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.b1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.a3));
 
-        Move move2 = createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);
+        Move move2 = createSimpleTwoSquaresPawnMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);
 
         assertTrue(defaultMoveComparator.compare(move1, move2) > 0);
 
@@ -90,9 +89,9 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testKnightMove() {
-        Move move1 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.g1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.f3));
+        Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.g1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.f3));
 
-        Move move2 = createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.g1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h3));
+        Move move2 = createCaptureKnightMove(PiecePositioned.of(Square.g1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h3));
 
 
         assertTrue(defaultMoveComparator.compare(move1, move2) < 0);
@@ -102,9 +101,9 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testCapture01() {
-        Move move1 = createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e4, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.f5, Piece.QUEEN_BLACK), Cardinal.NorteEste);
+        Move move1 = createCapturePawnMove(PiecePositioned.of(Square.e4, Piece.PAWN_WHITE), PiecePositioned.of(Square.f5, Piece.QUEEN_BLACK), Cardinal.NorteEste);
 
-        Move move2 = createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.h4, Piece.KNIGHT_WHITE), PiecePositioned.getPiecePositioned(Square.f5, Piece.QUEEN_BLACK));
+        Move move2 = createCaptureKnightMove(PiecePositioned.of(Square.h4, Piece.KNIGHT_WHITE), PiecePositioned.of(Square.f5, Piece.QUEEN_BLACK));
 
         assertTrue(defaultMoveComparator.compare(move1, move2) > 0);
 
@@ -114,9 +113,9 @@ public class DefaultMoveComparatorTest {
 
     @Test
     public void testCapture01_Black() {
-        Move move1 = createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e5, Piece.PAWN_BLACK), PiecePositioned.getPiecePositioned(Square.f4, Piece.QUEEN_WHITE), Cardinal.SurEste);
+        Move move1 = createCapturePawnMove(PiecePositioned.of(Square.e5, Piece.PAWN_BLACK), PiecePositioned.of(Square.f4, Piece.QUEEN_WHITE), Cardinal.SurEste);
 
-        Move move2 = createCaptureKnightMove(PiecePositioned.getPiecePositioned(Square.h5, Piece.KNIGHT_BLACK), PiecePositioned.getPiecePositioned(Square.f4, Piece.QUEEN_WHITE));
+        Move move2 = createCaptureKnightMove(PiecePositioned.of(Square.h5, Piece.KNIGHT_BLACK), PiecePositioned.of(Square.f4, Piece.QUEEN_WHITE));
 
         assertTrue(defaultMoveComparator.compare(move1, move2) > 0);
 

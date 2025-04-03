@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.PositionState;
@@ -43,8 +42,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g7, Piece.KING_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.g7, Piece.KING_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.h8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
@@ -69,8 +68,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b7, Piece.KING_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.b7, Piece.KING_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
@@ -95,8 +94,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g7, Piece.QUEEN_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.g7, Piece.QUEEN_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.h8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
@@ -121,8 +120,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b7, Piece.QUEEN_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.b7, Piece.QUEEN_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureKnightMove(origen, destino);
 
@@ -147,8 +146,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g7, Piece.PAWN_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.g7, Piece.PAWN_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.h8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_WHITE, Cardinal.NorteEste);
 
@@ -173,8 +172,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b7, Piece.PAWN_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.b7, Piece.PAWN_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_WHITE, Cardinal.NorteOeste);
 
@@ -200,8 +199,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setFullMoveClock(5);
 
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.a1, Piece.ROOK_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Norte);
 
@@ -228,8 +227,8 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
         positionState.setFullMoveClock(5);
 
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+        PiecePositioned origen = PiecePositioned.of(Square.h1, Piece.ROOK_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.h8, Piece.ROOK_BLACK);
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Norte);
 

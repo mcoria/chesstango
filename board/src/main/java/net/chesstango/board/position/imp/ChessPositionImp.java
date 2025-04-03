@@ -30,7 +30,6 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public void init() {
-        bitBoard.init(squareBoard);
         kingSquare.init(squareBoard);
         zobristHash.init(squareBoard, positionState);
     }
@@ -47,8 +46,10 @@ public class ChessPositionImp implements ChessPosition {
                 .withHalfMoveClock(positionState.getHalfMoveClock())
                 .withFullMoveClock(positionState.getFullMoveClock());
 
-        for (PiecePositioned pieza : squareBoard) {
-            builder.withPiece(pieza.getSquare(), pieza.getPiece());
+        for (PiecePositioned piecePositioned : squareBoard) {
+            if (piecePositioned.getPiece() != null) {
+                builder.withPiece(piecePositioned.getSquare(), piecePositioned.getPiece());
+            }
         }
     }
 

@@ -13,11 +13,11 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 public class MoveCastlingBlackQueen extends MoveCastlingImp {
 
-    public static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
-    public static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.c8, null);
+    public static final PiecePositioned KING_FROM = PiecePositioned.of(Square.e8, Piece.KING_BLACK);
+    public static final PiecePositioned KING_TO = PiecePositioned.of(Square.c8, null);
 
-    public static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
-    public static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.d8, null);
+    public static final PiecePositioned ROOK_FROM = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
+    public static final PiecePositioned ROOK_TO = PiecePositioned.of(Square.d8, null);
 
 
     public MoveCastlingBlackQueen(GameImp gameImp) {

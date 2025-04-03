@@ -67,10 +67,10 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         hash.pushState();
 
         hash.xorPosition(from);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
         hash.xorPosition(rookFrom);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
+        hash.xorPosition(PiecePositioned.of(rookTo.getSquare(), rookFrom.getPiece()));
 
         ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 

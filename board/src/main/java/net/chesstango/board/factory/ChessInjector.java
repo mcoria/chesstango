@@ -103,14 +103,14 @@ public class ChessInjector {
         return positionState;
     }
 
-    protected KingSquare getKingCacheBoard() {
+    public KingSquare getKingCacheBoard() {
         if (kingCacheBoard == null) {
             kingCacheBoard = chessFactory.createKingCacheBoard();
         }
         return kingCacheBoard;
     }
 
-    protected BitBoard getBitBoard() {
+    public BitBoard getBitBoard() {
         if (bitBoard == null) {
             bitBoard = chessFactory.createColorBoard();
         }

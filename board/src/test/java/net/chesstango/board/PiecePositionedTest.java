@@ -12,7 +12,7 @@ public class PiecePositionedTest {
 
     @Test
     public void toStringTest(){
-        PiecePositioned e5_ROOK_WHITE = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
+        PiecePositioned e5_ROOK_WHITE = PiecePositioned.of(Square.e5, Piece.ROOK_WHITE);
         assertEquals("e5=ROOK_WHITE", e5_ROOK_WHITE.toString());
     }
 

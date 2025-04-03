@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
@@ -69,7 +68,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);		
+		PiecePositioned origen = PiecePositioned.of(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
@@ -95,7 +94,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(Square.e8));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);	
+		PiecePositioned origen = PiecePositioned.of(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
@@ -120,7 +119,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.e8));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
+		PiecePositioned origen = PiecePositioned.of(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
@@ -134,11 +133,11 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.of(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.of(destinoSquare, destinoPieza));
 	}
 	
 	private SquareBoard getTablero(String string) {

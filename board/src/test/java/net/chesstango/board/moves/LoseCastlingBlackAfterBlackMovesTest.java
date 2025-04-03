@@ -7,7 +7,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.imp.MoveImp;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.PositionStateImp;
@@ -46,8 +45,8 @@ public class LoseCastlingBlackAfterBlackMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
+        PiecePositioned origen = PiecePositioned.of(Square.e8, Piece.KING_BLACK);
+        PiecePositioned destino = PiecePositioned.of(Square.e7, null);
 
         moveExecutor = moveFactoryImp.createSimpleKingMove(origen, destino);
 
@@ -72,8 +71,8 @@ public class LoseCastlingBlackAfterBlackMovesTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_WHITE);
+        PiecePositioned origen = PiecePositioned.of(Square.e8, Piece.KING_BLACK);
+        PiecePositioned destino = PiecePositioned.of(Square.e7, Piece.KNIGHT_WHITE);
 
         moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
@@ -99,8 +98,8 @@ public class LoseCastlingBlackAfterBlackMovesTest {
         positionState.setFullMoveClock(5);
 
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a7, null);
+        PiecePositioned origen = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned destino = PiecePositioned.of(Square.a7, null);
 
         moveExecutor = moveFactoryImp.createSimpleRookMove(origen, destino, Cardinal.Sur);
 
@@ -126,8 +125,8 @@ public class LoseCastlingBlackAfterBlackMovesTest {
         positionState.setFullMoveClock(5);
 
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a7, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(Square.a8, Piece.ROOK_BLACK);
+        PiecePositioned destino = PiecePositioned.of(Square.a7, Piece.PAWN_WHITE);
 
         moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 

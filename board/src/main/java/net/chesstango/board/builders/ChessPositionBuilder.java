@@ -2,10 +2,13 @@ package net.chesstango.board.builders;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.imp.BitBoardImp;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.position.imp.SquareBoardImp;
@@ -18,18 +21,21 @@ public class ChessPositionBuilder implements PositionBuilder<ChessPosition> {
     private final ChessPositionImp chessPosition;
     private final SquareBoard squareBoard;
     private final PositionState positionState;
+    private final BitBoard bitBoard;
 
 
     public ChessPositionBuilder() {
-        this(new ChessPositionImp(), new SquareBoardImp(), new PositionStateImp());
+        this(new ChessPositionImp(), new SquareBoardImp(), new PositionStateImp(), new BitBoardImp());
         chessPosition.setSquareBoard(squareBoard);
         chessPosition.setPositionState(positionState);
+        chessPosition.setBitBoard(bitBoard);
     }
 
-    ChessPositionBuilder(ChessPositionImp chessPosition, SquareBoard squareBoard, PositionState positionState) {
+    ChessPositionBuilder(ChessPositionImp chessPosition, SquareBoard squareBoard, PositionState positionState, BitBoard bitBoard) {
         this.chessPosition = chessPosition;
         this.squareBoard = squareBoard;
         this.positionState = positionState;
+        this.bitBoard = bitBoard;
     }
 
     @Override
@@ -89,9 +95,11 @@ public class ChessPositionBuilder implements PositionBuilder<ChessPosition> {
     }
 
     public PositionBuilder<ChessPosition> withPiece(Square square, Piece piece) {
+        if (piece == null) {
+            throw new RuntimeException("piece is null");
+        }
         squareBoard.setPiece(square, piece);
+        bitBoard.addPosition(PiecePositioned.of(square, piece));
         return this;
     }
-
-
 }

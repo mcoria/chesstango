@@ -25,7 +25,7 @@ public class PiecePositioned {
         this.piece = piece;
     }
 
-    public static PiecePositioned getPiecePositioned(Square square, Piece piece) {
+    public static PiecePositioned of(Square square, Piece piece) {
         return PiecePositionedCache.getInstance().getPiecePositioned(square, piece);
     }
 
@@ -56,7 +56,7 @@ public class PiecePositioned {
         if(piece == null){
             return getPosition(square.getMirrorSquare());
         }
-        return getPiecePositioned(square.getMirrorSquare(), piece.getOpposite());
+        return of(square.getMirrorSquare(), piece.getOpposite());
     }
 
     private static class PiecePositionedCache {

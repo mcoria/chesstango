@@ -81,7 +81,7 @@ public class MovePawnTwoSquares extends MoveImp {
 
         hash.xorPosition(from);
 
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
         hash.clearEnPassantSquare();
 

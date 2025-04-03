@@ -1,7 +1,6 @@
 package net.chesstango.board.moves.factories.imp;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ZobristHashWriter;
 
@@ -19,7 +18,7 @@ public class AlgoZobrist {
             hash.xorPosition(to);
         }
 
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
         PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
 

@@ -6,7 +6,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
@@ -40,13 +39,13 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.beforeSearch(new SearchByCycleContext(null));
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
-        final Move move1 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
+        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.EXACT));
 
-        final Move move2 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.b3, null));
+        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move2, 2000, MoveEvaluationType.EXACT));
 
-        final Move move3 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.c2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, null));
+        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move3, 3000, MoveEvaluationType.EXACT));
 
 
@@ -72,13 +71,13 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.beforeSearch(new SearchByCycleContext(null));
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
-        final Move move1 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
+        final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.LOWER_BOUND));
 
-        final Move move2 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.b3, null));
+        final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move2, 1000, MoveEvaluationType.EXACT));
 
-        final Move move3 = createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.c2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, null));
+        final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move3, 1000, MoveEvaluationType.UPPER_BOUND));
 
 

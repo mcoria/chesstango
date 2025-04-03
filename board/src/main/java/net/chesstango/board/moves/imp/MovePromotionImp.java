@@ -115,7 +115,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
             hash.xorPosition(to);
         }
 
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
+        hash.xorPosition(PiecePositioned.of(to.getSquare(), promotion));
 
         ChessPositionReader chessPositionReader = gameImp.getChessPosition();
 

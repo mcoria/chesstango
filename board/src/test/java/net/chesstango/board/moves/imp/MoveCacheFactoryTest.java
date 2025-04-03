@@ -26,7 +26,7 @@ public class MoveCacheFactoryTest {
 
     @Test
     public void testComputeKey(){
-        PiecePositioned fromPosition = PiecePositioned.getPiecePositioned(Square.b2, Piece.KNIGHT_WHITE);
+        PiecePositioned fromPosition = PiecePositioned.of(Square.b2, Piece.KNIGHT_WHITE);
         PiecePositioned toPosition = PiecePositioned.getPosition(Square.c3);
         Integer key = moveFactoryCache.computeKey(fromPosition, toPosition);
     }

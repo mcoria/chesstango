@@ -56,13 +56,13 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public void setPiece(Square square, Piece piece) {
-        tablero[square.toIdx()] = PiecePositioned.getPiecePositioned(square, piece);
+        tablero[square.toIdx()] = PiecePositioned.of(square, piece);
     }
 
 
     @Override
     public void setEmptySquare(Square square) {
-        tablero[square.toIdx()] = PiecePositioned.getPiecePositioned(square, null);
+        tablero[square.toIdx()] = PiecePositioned.of(square, null);
     }
 
     @Override

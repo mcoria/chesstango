@@ -34,9 +34,9 @@ public class MoveCacheBoardImpTest {
 
 	@Test
 	public void test01() {
-		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE));
-		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null)));
-		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a4, null)));
+		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE));
+		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null)));
+		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);
 
 		assertNotNull(cache.getPseudoMovesResult(Square.a2));

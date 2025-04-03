@@ -27,7 +27,7 @@ public class MoveToHashMapTest {
 
     @Test
     public void test01() {
-        Move move = factory.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null));
+        Move move = factory.createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
 
         moveToHashMap.write(move, 1000L);
 
@@ -40,8 +40,8 @@ public class MoveToHashMapTest {
 
     @Test
     public void test02() {
-        Move move1 = factory.createSimplePromotionPawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.e8, null), Piece.QUEEN_WHITE);
-        Move move2 = factory.createSimplePromotionPawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.e8, null), Piece.KNIGHT_WHITE);
+        Move move1 = factory.createSimplePromotionPawnMove(PiecePositioned.of(Square.e7, Piece.PAWN_WHITE), PiecePositioned.of(Square.e8, null), Piece.QUEEN_WHITE);
+        Move move2 = factory.createSimplePromotionPawnMove(PiecePositioned.of(Square.e7, Piece.PAWN_WHITE), PiecePositioned.of(Square.e8, null), Piece.KNIGHT_WHITE);
 
         moveToHashMap.write(move1, 1000L);
         moveToHashMap.write(move2, 2000L);

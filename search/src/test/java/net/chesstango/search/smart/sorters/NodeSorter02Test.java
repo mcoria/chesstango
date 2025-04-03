@@ -89,7 +89,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
     private void loadKillerMoveTables() {
         //g2=KNIGHT_WHITE h4=null - MoveImp]
-        killerMovesTable.trackKillerMove(createMove(PiecePositioned.getPiecePositioned(Square.g2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h4), null, true), 2);
+        killerMovesTable.trackKillerMove(createMove(PiecePositioned.of(Square.g2, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.h4), null, true), 2);
     }
 
 }

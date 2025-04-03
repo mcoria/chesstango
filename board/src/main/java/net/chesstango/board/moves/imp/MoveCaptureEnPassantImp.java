@@ -93,7 +93,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
 
         hash.xorPosition(capture);
 
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
         hash.clearEnPassantSquare();
 
