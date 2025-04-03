@@ -3,7 +3,6 @@ package net.chesstango.board.builders;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.SquareBoardImp;
 
@@ -13,7 +12,7 @@ import net.chesstango.board.position.imp.SquareBoardImp;
  *
  */
 
-public class SquareBoardBuilder implements ChessPositionBuilder<SquareBoard> {
+public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 	
 	private final SquareBoard squareBoard;
 	
@@ -31,48 +30,48 @@ public class SquareBoardBuilder implements ChessPositionBuilder<SquareBoard> {
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withTurn(Color turn) {
+	public PositionBuilder<SquareBoard> withTurn(Color turn) {
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withEnPassantSquare(Square enPassantSquare) {
+	public PositionBuilder<SquareBoard> withEnPassantSquare(Square enPassantSquare) {
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public PositionBuilder<SquareBoard> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public PositionBuilder<SquareBoard> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public PositionBuilder<SquareBoard> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public PositionBuilder<SquareBoard> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withHalfMoveClock(int halfMoveClock) {
+	public PositionBuilder<SquareBoard> withHalfMoveClock(int halfMoveClock) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<SquareBoard> withFullMoveClock(int fullMoveClock) {
+	public PositionBuilder<SquareBoard> withFullMoveClock(int fullMoveClock) {
 		return this;
 	}
 
-	public ChessPositionBuilder<SquareBoard> withPiece(Square square, Piece piece) {
+	public PositionBuilder<SquareBoard> withPiece(Square square, Piece piece) {
 		squareBoard.setPiece(square, piece);
 		return this;
 	}

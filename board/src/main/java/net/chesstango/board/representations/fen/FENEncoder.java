@@ -2,12 +2,12 @@ package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.AbstractChessPositionBuilder;
+import net.chesstango.board.builders.AbstractPositionBuilder;
 
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractChessPositionBuilder<FEN> {
+public class FENEncoder extends AbstractPositionBuilder<FEN> {
 
     @Override
     public FEN getChessRepresentation() {

@@ -10,8 +10,8 @@ import net.chesstango.board.factory.ChessInjector;
 /**
  * @author Mauricio Coria
  */
-public class GameBuilder implements ChessPositionBuilder<Game> {
-    private final DefaultChessPositionBuilder chessPositionBuilder;
+public class GameBuilder implements PositionBuilder<Game> {
+    private final ChessPositionBuilder chessPositionBuilder;
     private final ChessInjector chessInjector;
 
     private Game game = null;
@@ -22,7 +22,7 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 
     GameBuilder(ChessInjector chessInjector) {
         this.chessInjector = chessInjector;
-        this.chessPositionBuilder = new DefaultChessPositionBuilder(chessInjector.getChessPosition(), chessInjector.getSquareBoard(), chessInjector.getPositionState());
+        this.chessPositionBuilder = new ChessPositionBuilder(chessInjector.getChessPosition(), chessInjector.getSquareBoard(), chessInjector.getPositionState());
     }
 
     @Override
@@ -34,58 +34,58 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
     }
 
     @Override
-    public ChessPositionBuilder<Game> withTurn(Color turn) {
+    public PositionBuilder<Game> withTurn(Color turn) {
         chessPositionBuilder.withTurn(turn);
         return this;
     }
 
 
     @Override
-    public ChessPositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
+    public PositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
         chessPositionBuilder.withEnPassantSquare(enPassantSquare);
         return this;
     }
 
 
     @Override
-    public ChessPositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+    public PositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         chessPositionBuilder.withCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
-    public ChessPositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+    public PositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         chessPositionBuilder.withCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
 
     @Override
-    public ChessPositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+    public PositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         chessPositionBuilder.withCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
 
     @Override
-    public ChessPositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+    public PositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         chessPositionBuilder.withCastlingBlackKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
-    public ChessPositionBuilder<Game> withPiece(Square square, Piece piece) {
+    public PositionBuilder<Game> withPiece(Square square, Piece piece) {
         chessPositionBuilder.withPiece(square, piece);
         return this;
     }
 
     @Override
-    public ChessPositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
+    public PositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
         chessPositionBuilder.withHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
-    public ChessPositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
+    public PositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
         chessPositionBuilder.withFullMoveClock(fullMoveClock);
         return this;
     }
