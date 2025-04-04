@@ -151,26 +151,13 @@ public class GameMockLoader {
     public static String encode(Move move) {
         String promotionStr = "";
         if (move instanceof MovePromotion movePromotion) {
-            switch (movePromotion.getPromotion()) {
-                case ROOK_WHITE:
-                case ROOK_BLACK:
-                    promotionStr = "r";
-                    break;
-                case KNIGHT_WHITE:
-                case KNIGHT_BLACK:
-                    promotionStr = "n";
-                    break;
-                case BISHOP_WHITE:
-                case BISHOP_BLACK:
-                    promotionStr = "b";
-                    break;
-                case QUEEN_WHITE:
-                case QUEEN_BLACK:
-                    promotionStr = "q";
-                    break;
-                default:
-                    throw new RuntimeException("Invalid promotion " + move);
-            }
+            promotionStr = switch (movePromotion.getPromotion()) {
+                case ROOK_WHITE, ROOK_BLACK -> "r";
+                case KNIGHT_WHITE, KNIGHT_BLACK -> "n";
+                case BISHOP_WHITE, BISHOP_BLACK -> "b";
+                case QUEEN_WHITE, QUEEN_BLACK -> "q";
+                default -> throw new RuntimeException("Invalid promotion " + move);
+            };
         }
         return move.getFrom().getSquare().toString() + move.getTo().getSquare().toString() + promotionStr;
     }
