@@ -1,10 +1,9 @@
 package net.chesstango.board.position;
 
 /**
+ * Square centric board representation
+ *
  * @author Mauricio Coria
- *
- *  Square centric board representation
- *
  */
 public interface SquareBoard extends SquareBoardReader, SquareBoardWriter {
 

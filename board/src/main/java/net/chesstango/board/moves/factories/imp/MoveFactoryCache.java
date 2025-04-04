@@ -13,6 +13,7 @@ import java.util.Objects;
 /**
  * EL problema es que no funciona bien en ambientes multithreadsl.
  * Ademas no observo mejoras significativas
+ *
  * @author Mauricio Coria
  */
 public class MoveFactoryCache implements MoveFactory {
@@ -33,7 +34,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createSimpleOneSquarePawnMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createSimpleOneSquarePawnMove(from, to);
         }
         return regularMoves[idx];
@@ -44,7 +45,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createSimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createSimpleTwoSquaresPawnMove(from, to, enPassantSquare);
         }
         return regularMoves[idx];
@@ -54,7 +55,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createCapturePawnMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createCapturePawnMove(from, to, cardinal);
         }
         return regularMoves[idx];
@@ -64,7 +65,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createCaptureEnPassantPawnMove(PiecePositioned from, PiecePositioned to, PiecePositioned enPassantPawn, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createCaptureEnPassantPawnMove(from, to, enPassantPawn, cardinal);
         }
         return regularMoves[idx];
@@ -74,7 +75,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createSimpleKnightMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createSimpleKnightMove(from, to);
         }
         return regularMoves[idx];
@@ -96,29 +97,17 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createCaptureKnightMove(PiecePositioned from, PiecePositioned to) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createCaptureKnightMove(from, to);
         }
         return regularMoves[idx];
     }
 
-    /*
-    @Override
-    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        int idx = Math.abs(computeKey(origen, destino) % CACHE_SIZE);
-        Move move = regularMoves[idx];
-        if(move == null || move!=null && !(Objects.equals(origen, move.getFrom()) && Objects.equals(destino, move.getTo())) ){
-            regularMoves[idx] = moveFactoryImp.createCaptureMove(origen, destino, cardinal);
-        }
-        return regularMoves[idx];
-    }
-     */
-
     @Override
     public PseudoMove createSimpleRookMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(from, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(from, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createSimpleRookMove(from, to, cardinal);
         }
         return regularMoves[idx];
@@ -128,7 +117,7 @@ public class MoveFactoryCache implements MoveFactory {
     public PseudoMove createCaptureRookMove(PiecePositioned form, PiecePositioned to, Cardinal cardinal) {
         int idx = Math.abs(computeKey(form, to) % CACHE_SIZE);
         Move move = regularMoves[idx];
-        if(move == null || !(Objects.equals(form, move.getFrom()) && Objects.equals(to, move.getTo()))){
+        if (move == null || !(Objects.equals(form, move.getFrom()) && Objects.equals(to, move.getTo()))) {
             regularMoves[idx] = moveFactoryImp.createCaptureRookMove(form, to, cardinal);
         }
         return regularMoves[idx];

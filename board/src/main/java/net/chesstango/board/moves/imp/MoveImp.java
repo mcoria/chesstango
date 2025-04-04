@@ -1,10 +1,11 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.*;
+import net.chesstango.board.GameImp;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.position.*;
 
 /**
@@ -26,7 +27,6 @@ public abstract class MoveImp implements PseudoMove, Command {
         this.from = from;
         this.to = to;
         this.direction = direction;
-        assert (direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
     }
 
     public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to) {

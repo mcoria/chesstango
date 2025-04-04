@@ -54,7 +54,7 @@ public class EPDDecoder {
 
         System.out.println("Reading suite " + filePath);
 
-        try (InputStream in = new FileInputStream(filePath.toFile());) {
+        try (InputStream in = new FileInputStream(filePath.toFile())) {
             return readEdpInputStream(in);
         } catch (IOException e) {
             throw new RuntimeException(e);

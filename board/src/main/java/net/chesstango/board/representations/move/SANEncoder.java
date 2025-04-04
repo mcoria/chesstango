@@ -101,7 +101,7 @@ public class SANEncoder {
                     rankAmb = true;
                 }
             }
-        };
+        }
 
         if(solveAmb){
             if(!fileAmb){

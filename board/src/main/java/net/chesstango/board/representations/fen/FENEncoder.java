@@ -105,7 +105,7 @@ public class FENEncoder extends AbstractPositionBuilder<FEN> {
     }
 
     private char getCode(Piece piece) {
-        char result = switch (piece) {
+        return switch (piece) {
             case ROOK_BLACK -> 'r';
             case KNIGHT_BLACK -> 'n';
             case QUEEN_BLACK -> 'q';
@@ -120,7 +120,6 @@ public class FENEncoder extends AbstractPositionBuilder<FEN> {
             case BISHOP_WHITE -> 'B';
             default -> throw new RuntimeException("Falta pieza");
         };
-        return result;
     }
 
 }

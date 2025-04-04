@@ -28,7 +28,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     // Bitboard podria ser mas rapido? Un word por tipo de ficha
     // Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
     //
-    protected PiecePositioned[] tablero = new PiecePositioned[64];
+    protected final PiecePositioned[] tablero = new PiecePositioned[64];
 
 
     @Override

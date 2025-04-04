@@ -21,7 +21,7 @@ public class PGNStringDecoder {
 
     public Stream<PGN> decodePGNs(InputStream inputStream) {
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+             BufferedReader bufferReader = new BufferedReader(inputStreamReader)
         ) {
             return decodePGNs(bufferReader);
         } catch (IOException e) {

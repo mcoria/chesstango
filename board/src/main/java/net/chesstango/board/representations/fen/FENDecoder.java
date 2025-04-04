@@ -176,12 +176,11 @@ public class FENDecoder {
 
     protected Color parseTurn(String activeColor) {
         char colorChar = activeColor.charAt(0);
-        Color turno = switch (colorChar) {
+        return switch (colorChar) {
             case 'w' -> Color.WHITE;
             case 'b' -> Color.BLACK;
             default -> throw new RuntimeException("Unknown FEN code " + activeColor);
         };
-        return turno;
     }
 
     protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds) {

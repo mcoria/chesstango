@@ -21,7 +21,7 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
 	protected int halfMoveClock;
 	protected int fullMoveClock;
 
-	protected Piece[][] board = new Piece[8][8];
+	protected final Piece[][] board = new Piece[8][8];
 
 	@Override
 	public PositionBuilder<T> withPiece(Square square, Piece piece) {
