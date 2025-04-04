@@ -1,4 +1,4 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MoveList;
@@ -7,7 +7,6 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
 
@@ -52,7 +51,7 @@ public class ChessPositionDebug extends ChessPositionImp {
             Square square = Square.getSquareByIdx(i);
             MoveGeneratorByPieceResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
             if (cacheMoveGeneratorResult != null) {
-                MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(squareBoard.getPosition(square));
+                MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generateByPiecePseudoMoves(squareBoard.getPosition(square));
                 assertMoveGeneratorResults(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
             }
         }
@@ -76,10 +75,12 @@ public class ChessPositionDebug extends ChessPositionImp {
 
     private MoveGeneratorImp getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
-            moveGeneratorImp = new MoveGeneratorImp(new MoveFactoryWhite(), new MoveFactoryBlack());
+            moveGeneratorImp = new MoveGeneratorImp();
             moveGeneratorImp.setSquareBoardReader(this.squareBoard);
             moveGeneratorImp.setBoardState(this.positionState);
             moveGeneratorImp.setBitBoardReader(this.bitBoard);
+            moveGeneratorImp.setMoveFactoryWhite(new MoveFactoryWhite());
+            moveGeneratorImp.setMoveFactoryBlack(new MoveFactoryBlack());
         }
         return moveGeneratorImp;
     }

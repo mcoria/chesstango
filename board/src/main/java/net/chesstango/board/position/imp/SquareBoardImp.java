@@ -28,7 +28,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     // Bitboard podria ser mas rapido? Un word por tipo de ficha
     // Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
     //
-    protected PiecePositioned[] tablero = new PiecePositioned[64];
+    protected final PiecePositioned[] tablero = new PiecePositioned[64];
 
 
     @Override
@@ -56,13 +56,13 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public void setPiece(Square square, Piece piece) {
-        tablero[square.toIdx()] = PiecePositioned.getPiecePositioned(square, piece);
+        tablero[square.toIdx()] = PiecePositioned.of(square, piece);
     }
 
 
     @Override
     public void setEmptySquare(Square square) {
-        tablero[square.toIdx()] = PiecePositioned.getPiecePositioned(square, null);
+        tablero[square.toIdx()] = PiecePositioned.of(square, null);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator(SquareIterator squareIterator) {
-        return new Iterator<PiecePositioned>() {
+        return new Iterator<>() {
 
             @Override
             public boolean hasNext() {
@@ -96,7 +96,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator(long positions) {
-        return new BitIterator(this, positions);
+        return new BitIterator<>(this, positions);
     }
 
     @Override
@@ -122,9 +122,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     @Override
     public SquareBoardImp clone() throws CloneNotSupportedException {
         SquareBoardImp clone = new SquareBoardImp();
-        for (int i = 0; i < 64; i++) {
-            clone.tablero[i] = this.tablero[i];
-        }
+        System.arraycopy(this.tablero, 0, clone.tablero, 0, 64);
         return clone;
     }
 
@@ -144,7 +142,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator() {
-        return new Iterator<PiecePositioned>() {
+        return new Iterator<>() {
 
             private int idx = 0;
 

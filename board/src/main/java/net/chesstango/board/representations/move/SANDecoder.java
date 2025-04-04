@@ -70,25 +70,11 @@ public class SANDecoder {
         String pawnpushpromotion = matcher.group("pawnpushpromotion");
 
         if (pawnpushpromotion.equals("")) {
-            switch (pawnto) {
-                case "a1":
-                case "b1":
-                case "c1":
-                case "d1":
-                case "e1":
-                case "f1":
-                case "g1":
-                case "h1":
-                case "a8":
-                case "b8":
-                case "c8":
-                case "d8":
-                case "e8":
-                case "f8":
-                case "g8":
-                case "h8":
-                    pawnpushpromotion = "Q";
-            }
+            pawnpushpromotion = switch (pawnto) {
+                case "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1", "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8" ->
+                        "Q";
+                default -> pawnpushpromotion;
+            };
         }
 
         for (Move move : possibleMoves) {
@@ -143,7 +129,7 @@ public class SANDecoder {
             if (!PAWN_WHITE.equals(thePiece) && !PAWN_BLACK.equals(thePiece) && piece.equals(getPieceCode(move.getFrom().getPiece()))) {
                 Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
-                if (piecefrom == null || piecefrom != null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
+                if (piecefrom == null || piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString())) {
                     if (pieceto.equals(toSquare.toString())) {
                         return move;
                     }
@@ -154,27 +140,14 @@ public class SANDecoder {
     }
 
     private String getPieceCode(Piece piece) {
-        switch (piece) {
-            case PAWN_WHITE:
-            case PAWN_BLACK:
-                throw new RuntimeException("You should not call this method with pawn");
-            case ROOK_WHITE:
-            case ROOK_BLACK:
-                return "R";
-            case KNIGHT_WHITE:
-            case KNIGHT_BLACK:
-                return "N";
-            case BISHOP_WHITE:
-            case BISHOP_BLACK:
-                return "B";
-            case QUEEN_WHITE:
-            case QUEEN_BLACK:
-                return "Q";
-            case KING_WHITE:
-            case KING_BLACK:
-                return "K";
-            default:
-                throw new RuntimeException("Falta pieza");
-        }
+        return switch (piece) {
+            case PAWN_WHITE, PAWN_BLACK -> throw new RuntimeException("You should not call this method with pawn");
+            case ROOK_WHITE, ROOK_BLACK -> "R";
+            case KNIGHT_WHITE, KNIGHT_BLACK -> "N";
+            case BISHOP_WHITE, BISHOP_BLACK -> "B";
+            case QUEEN_WHITE, QUEEN_BLACK -> "Q";
+            case KING_WHITE, KING_BLACK -> "K";
+            default -> throw new RuntimeException("Falta pieza");
+        };
     }
 }

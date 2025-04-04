@@ -1,8 +1,11 @@
 package net.chesstango.board;
 
+import lombok.Getter;
+
 /**
  * @author Mauricio Coria
  */
+@Getter
 public enum Piece {
     PAWN_WHITE(Color.WHITE, 1),
     PAWN_BLACK(Color.BLACK, 2),
@@ -32,10 +35,6 @@ public enum Piece {
         this.binaryEncodedTo = (short) binaryEncodedFrom;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public boolean isPawn(){
         return PAWN_WHITE.equals(this) || PAWN_BLACK.equals(this);
     }
@@ -44,78 +43,52 @@ public enum Piece {
         return KING_WHITE.equals(this) || KING_BLACK.equals(this);
     }
 
-    public short getBinaryEncodedTo() {
-        return binaryEncodedTo;
-    }
-
-    public short getBinaryEncodedFrom() {
-        return binaryEncodedFrom;
-    }
-
     public static Piece getKing(Color color) {
-        switch (color) {
-            case WHITE:
-                return KING_WHITE;
-            case BLACK:
-                return KING_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> KING_WHITE;
+            case BLACK -> KING_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public static Piece getQueen(Color color) {
-        switch (color) {
-            case WHITE:
-                return QUEEN_WHITE;
-            case BLACK:
-                return QUEEN_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> QUEEN_WHITE;
+            case BLACK -> QUEEN_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public static Piece getBishop(Color color) {
-        switch (color) {
-            case WHITE:
-                return BISHOP_WHITE;
-            case BLACK:
-                return BISHOP_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> BISHOP_WHITE;
+            case BLACK -> BISHOP_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public static Piece getRook(Color color) {
-        switch (color) {
-            case WHITE:
-                return ROOK_WHITE;
-            case BLACK:
-                return ROOK_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> ROOK_WHITE;
+            case BLACK -> ROOK_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public static Piece getKnight(Color color) {
-        switch (color) {
-            case WHITE:
-                return KNIGHT_WHITE;
-            case BLACK:
-                return KNIGHT_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> KNIGHT_WHITE;
+            case BLACK -> KNIGHT_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public static Piece getPawn(Color color) {
-        switch (color) {
-            case WHITE:
-                return PAWN_WHITE;
-            case BLACK:
-                return PAWN_BLACK;
-            default:
-                throw new RuntimeException("Invalid color");
-        }
+        return switch (color) {
+            case WHITE -> PAWN_WHITE;
+            case BLACK -> PAWN_BLACK;
+            default -> throw new RuntimeException("Invalid color");
+        };
     }
 
     public Piece getOpposite() {

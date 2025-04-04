@@ -1,10 +1,5 @@
-/**
- * 
- */
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.analyzer;
 
-import net.chesstango.board.analyzer.AnalyzerResult;
-import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 

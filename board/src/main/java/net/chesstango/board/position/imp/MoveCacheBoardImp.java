@@ -94,10 +94,10 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (MoveGeneratorByPieceResult result : pseudoMoves) {
             if (result != null) {
-                buffer.append(result + "\n");
+                buffer.append(result).append("\n");
             }
         }
 

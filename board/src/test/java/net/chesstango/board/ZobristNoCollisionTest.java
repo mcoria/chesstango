@@ -1,7 +1,7 @@
 package net.chesstango.board;
 
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +64,7 @@ public class ZobristNoCollisionTest {
 
 
     private Game getGame(String string) {
-        GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
+        GameBuilder builder = new GameBuilderDebug();
 
         FENDecoder parser = new FENDecoder(builder);
 

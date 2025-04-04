@@ -9,7 +9,7 @@ import net.chesstango.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * Esta clase no se utiliza por el momento
  */
 public class CapturedPositionsAnalyzer implements Analyzer {
@@ -27,32 +27,18 @@ public class CapturedPositionsAnalyzer implements Analyzer {
         result.setCapturedPositions(getCapturedPositionsOponente());
     }
 
-    //TODO: Esta complicado este metodo, se pierde demasiada performance
-	/*
-	protected void getCastlingMoves(Collection<Move> moves) {
-		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		long capturedPositionsOponente = this.getCapturedPositionsOponente();
-		for (MoveCastling move : pseudoMoves) {
-			long posicionesRey = (move.getRookMove().getTo().getKey().getPosicion())
-					| (move.getTo().getKey().getPosicion());
-			if ((capturedPositionsOponente & posicionesRey) == 0) {
-				moves.add(move);
-			}
-		}
-	}
-	 */
 
     //TODO: este metodo no tien buena performance
-    protected long getCapturedPositionsOponente(){
+    protected long getCapturedPositionsOponente() {
         final Color turnoActual = this.positionReader.getCurrentTurn();
 
         long posicionesCapturadas = 0;
 
-        for (SquareIterator iterator = positionReader.iteratorSquare( turnoActual.oppositeColor() ); iterator.hasNext();) {
+        for (SquareIterator iterator = positionReader.iteratorSquare(turnoActual.oppositeColor()); iterator.hasNext(); ) {
 
             Square origenSquare = iterator.next();
 
-            MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
+            MoveGeneratorByPieceResult generatorResult = pseudoMovesGenerator.generateByPiecePseudoMoves(positionReader.getPosition(origenSquare));
 
             posicionesCapturadas |= generatorResult.getCapturedPositions();
 

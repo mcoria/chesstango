@@ -5,8 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
+import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
@@ -35,9 +34,9 @@ public class MoveCacheBoardImpTest {
 
 	@Test
 	public void test01() {
-		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE));
-		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null)));
-		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a4, null)));
+		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE));
+		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null)));
+		result.addPseudoMove(moveFactoryImp.createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);
 
 		assertNotNull(cache.getPseudoMovesResult(Square.a2));
@@ -63,22 +62,13 @@ public class MoveCacheBoardImpTest {
 	}
 
 	private Game getGame(String string) {
-		GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
-			@Override
-			public MoveCacheBoardImp createMoveCacheBoard() {
-				return new MoveCacheBoardForTest();
-			}
-		});
+		GameBuilder builder = new GameBuilderDebug();
 
 		FENDecoder parser = new FENDecoder(builder);
 
 		parser.parseFEN(string);
 
 		return builder.getChessRepresentation();
-	}
-
-	private class MoveCacheBoardForTest extends MoveCacheBoardDebug{
-
 	}
 
 }

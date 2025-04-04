@@ -3,22 +3,19 @@ package net.chesstango.board.moves.generators.pseudo.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPiece;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
-import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
  */
 public class MoveGeneratorImp implements MoveGenerator {
-    private final MoveFactory moveFactoryWhite;
-    private final MoveFactory moveFactoryBlack;
-
     private final PawnWhiteMoveGenerator pawnWhiteMoveGenerator;
     private final PawnBlackMoveGenerator pawnBlackMoveGenerator;
     private final RookMoveGenerator rookWhiteMoveGenerator;
@@ -32,16 +29,14 @@ public class MoveGeneratorImp implements MoveGenerator {
     private final KingWhiteMoveGenerator kingWhiteMoveGenerator;
     private final KingBlackMoveGenerator kingBlackMoveGenerator;
 
+    private MoveFactory moveFactoryWhite;
+    private MoveFactory moveFactoryBlack;
     private SquareBoardReader squareBoardReader;
     private BitBoardReader bitBoardReader;
     private PositionStateReader positionStateReader;
     private KingSquareReader kingSquareReader;
 
-    public MoveGeneratorImp(MoveFactory moveFactoryWhite, MoveFactory moveFactoryBlack) {
-        this.moveFactoryWhite = moveFactoryWhite;
-
-        this.moveFactoryBlack = moveFactoryBlack;
-
+    public MoveGeneratorImp() {
         this.pawnWhiteMoveGenerator = new PawnWhiteMoveGenerator();
 
         this.pawnBlackMoveGenerator = new PawnBlackMoveGenerator();
@@ -69,10 +64,10 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 
     @Override
-    public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+    public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
         Piece piece = from.getPiece();
         MoveGeneratorByPiece strategy = selectMoveGeneratorStrategy(piece);
-        return strategy.generatePseudoMoves(from);
+        return strategy.generateByPiecePseudoMoves(from);
     }
 
     @Override
@@ -114,30 +109,43 @@ public class MoveGeneratorImp implements MoveGenerator {
         setupMoveGenerators();
     }
 
+    public void setMoveFactoryWhite(MoveFactory moveFactoryWhite) {
+        this.moveFactoryWhite = moveFactoryWhite;
+        setupMoveGenerators();
+    }
+
+    public void setMoveFactoryBlack(MoveFactory moveFactoryBlack) {
+        this.moveFactoryBlack = moveFactoryBlack;
+        setupMoveGenerators();
+    }
+
+
     private void setupMoveGenerators() {
-        setupMoveGenerator(pawnWhiteMoveGenerator, moveFactoryWhite);
+        if (moveFactoryWhite != null && moveFactoryBlack != null) {
+            setupMoveGenerator(pawnWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(pawnBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(pawnBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(rookWhiteMoveGenerator, moveFactoryWhite);
+            setupMoveGenerator(rookWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(rookBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(rookBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(knightWhiteMoveGenerator, moveFactoryWhite);
+            setupMoveGenerator(knightWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(knightBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(knightBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(bishopWhiteMoveGenerator, moveFactoryWhite);
+            setupMoveGenerator(bishopWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(bishopBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(bishopBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(queenWhiteMoveGenerator, moveFactoryWhite);
+            setupMoveGenerator(queenWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(queenBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(queenBlackMoveGenerator, moveFactoryBlack);
 
-        setupMoveGenerator(kingWhiteMoveGenerator, moveFactoryWhite);
+            setupMoveGenerator(kingWhiteMoveGenerator, moveFactoryWhite);
 
-        setupMoveGenerator(kingBlackMoveGenerator, moveFactoryBlack);
+            setupMoveGenerator(kingBlackMoveGenerator, moveFactoryBlack);
+        }
     }
 
     private void setupMoveGenerator(AbstractMoveGenerator abstractMoveGenerator, MoveFactory moveFactory) {

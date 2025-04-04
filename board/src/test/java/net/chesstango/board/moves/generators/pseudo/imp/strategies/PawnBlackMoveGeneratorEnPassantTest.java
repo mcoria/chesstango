@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
@@ -63,7 +62,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
 		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(Square.e4));
 
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
+		PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_BLACK);
 
 		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
@@ -85,7 +84,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
 		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(Square.d4));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
+		PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_BLACK);
 
 		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
@@ -95,11 +94,11 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	}
 	
 	private PseudoMove createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
+		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.of(destinoSquare, null), PiecePositioned.of(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}	
 	
 	private SquareBoard getSquareBoard(String string) {
-		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		SquareBoardBuilder builder = new SquareBoardBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

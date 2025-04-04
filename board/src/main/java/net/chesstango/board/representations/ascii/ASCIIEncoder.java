@@ -2,7 +2,7 @@ package net.chesstango.board.representations.ascii;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.AbstractChessPositionBuilder;
+import net.chesstango.board.builders.AbstractPositionBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 
@@ -13,7 +13,7 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  *
  */
-public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
+public class ASCIIEncoder extends AbstractPositionBuilder<String> {
 	
 
 	@Override
@@ -64,47 +64,21 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 	private char getChar(Piece piece) {
 		char result = ' ';
 		if(piece != null){
-			switch (piece) {
-			case PAWN_WHITE:
-				result = 'P';
-				break;
-			case PAWN_BLACK:
-				result = 'p';
-				break;		
-			case ROOK_WHITE:
-				result = 'R';
-				break;				
-			case ROOK_BLACK:
-				result = 'r';
-				break;
-			case KNIGHT_WHITE:
-				result = 'N';
-				break;				
-			case KNIGHT_BLACK:
-				result = 'n';
-				break;
-			case BISHOP_WHITE:
-				result = 'B';
-				break;				
-			case BISHOP_BLACK:
-				result = 'b';
-				break;
-			case QUEEN_WHITE:
-				result = 'Q';
-				break;				
-			case QUEEN_BLACK:
-				result = 'q';
-				break;	
-			case KING_WHITE:
-				result = 'K';
-				break;				
-			case KING_BLACK:
-				result = 'k';
-				break;				
-			default:
-				result = '?';
-				break;
-			}
+            result = switch (piece) {
+                case PAWN_WHITE -> 'P';
+                case PAWN_BLACK -> 'p';
+                case ROOK_WHITE -> 'R';
+                case ROOK_BLACK -> 'r';
+                case KNIGHT_WHITE -> 'N';
+                case KNIGHT_BLACK -> 'n';
+                case BISHOP_WHITE -> 'B';
+                case BISHOP_BLACK -> 'b';
+                case QUEEN_WHITE -> 'Q';
+                case QUEEN_BLACK -> 'q';
+                case KING_WHITE -> 'K';
+                case KING_BLACK -> 'k';
+                default -> '?';
+            };
 		}
 		return result;
 	}	

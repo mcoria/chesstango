@@ -11,7 +11,7 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBuilder<T> {
+public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
 	protected Color turn;
 	protected Square enPassantSquare;
 	protected boolean castlingBlackKingAllowed;
@@ -21,58 +21,58 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	protected int halfMoveClock;
 	protected int fullMoveClock;
 
-	protected Piece[][] board = new Piece[8][8];
+	protected final Piece[][] board = new Piece[8][8];
 
 	@Override
-	public ChessPositionBuilder<T> withPiece(Square square, Piece piece) {
+	public PositionBuilder<T> withPiece(Square square, Piece piece) {
 		this.board[square.getRank()][square.getFile()] = piece;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withTurn(Color turn) {
+	public PositionBuilder<T> withTurn(Color turn) {
 		this.turn = turn;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
+	public PositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
 		this.enPassantSquare = enPassantSquare;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public PositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		this.castlingBlackKingAllowed = castlingBlackKingAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public PositionBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		this.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public PositionBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		this.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public PositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withHalfMoveClock(int halfMoveClock){
+	public PositionBuilder<T> withHalfMoveClock(int halfMoveClock){
 		this.halfMoveClock = halfMoveClock;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withFullMoveClock(int fullMoveClock){
+	public PositionBuilder<T> withFullMoveClock(int fullMoveClock){
 		this.fullMoveClock = fullMoveClock;
 		return this;
 	}

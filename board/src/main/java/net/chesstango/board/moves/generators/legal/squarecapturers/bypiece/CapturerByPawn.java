@@ -17,13 +17,11 @@ import java.util.function.Function;
 public class CapturerByPawn implements CapturerByPiece {
 
     private final SquareBoardReader squareBoardReader;
-    private final Color color;
     private final Piece pawn;
     private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 
     public CapturerByPawn(SquareBoardReader squareBoardReader, Color color) {
         this.squareBoardReader = squareBoardReader;
-        this.color = color;
         this.pawn = Piece.getPawn(color);
         this.createPawnJumpsIterator = Color.WHITE.equals(color) ? this::createPawnWhiteIterator : this::createPawnBlackIterator;
     }

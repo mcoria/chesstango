@@ -3,9 +3,8 @@ package net.chesstango.board.analyzer;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.MoveCacheBoard;
+import net.chesstango.board.builders.GameBuilderDebug;
+import net.chesstango.board.factory.ChessFactoryDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -52,7 +51,7 @@ public class PositionAnalyzerTest {
     }
 
     private Game getGame(String string) {
-        GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
+        GameBuilder builder = new GameBuilderDebug(new ChessFactoryDebug() {
 
             public PositionAnalyzer createPositionAnalyzer() {
                 return  new PositionAnalyzer(){

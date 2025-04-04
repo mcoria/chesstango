@@ -44,12 +44,12 @@ public class ChessPositionImpTest {
         }
 
 
-        assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE)));
-        assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.b7, Piece.PAWN_BLACK)));
-        assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.b8, Piece.KNIGHT_BLACK)));
-        assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE)));
-        assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK)));
-        assertFalse(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.e3, null)));
+        assertTrue(posicionesList.contains(PiecePositioned.of(Square.a1, Piece.ROOK_WHITE)));
+        assertTrue(posicionesList.contains(PiecePositioned.of(Square.b7, Piece.PAWN_BLACK)));
+        assertTrue(posicionesList.contains(PiecePositioned.of(Square.b8, Piece.KNIGHT_BLACK)));
+        assertTrue(posicionesList.contains(PiecePositioned.of(Square.e1, Piece.KING_WHITE)));
+        assertTrue(posicionesList.contains(PiecePositioned.of(Square.e8, Piece.KING_BLACK)));
+        assertFalse(posicionesList.contains(PiecePositioned.of(Square.e3, null)));
         assertEquals(5, posicionesList.size());
     }
 

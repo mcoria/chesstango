@@ -1,122 +1,116 @@
 package net.chesstango.board.factory;
 
-import net.chesstango.board.*;
+import net.chesstango.board.GameImp;
+import net.chesstango.board.GameVisitorAcceptor;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.moves.generators.legal.squarecapturers.FullScanSquareCaptured;
+import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
+import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class ChessFactory {
 
-	public ChessPositionImp createChessPosition() {
-		return new ChessPositionImp();
-	}
+    public ChessPositionImp createChessPosition() {
+        return new ChessPositionImp();
+    }
 
-	public LegalMoveGeneratorImp createLegalMoveGenerator() {
-		return new LegalMoveGeneratorImp();
-	}
-	
-	public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
-															MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
-		return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
-	}
+    public LegalMoveGenerator createLegalMoveGenerator(LegalMoveGenerator checkLegalMoveGenerator, LegalMoveGenerator noCheckLegalMoveGenerator) {
+        return new LegalMoveGeneratorImp(checkLegalMoveGenerator, noCheckLegalMoveGenerator);
+    }
 
-	public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,
-			MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
-		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
-	}
+    public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
+                                                            MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+        return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
+    }
 
-	public BitBoard createColorBoard() {
-		return new BitBoardImp();
-	}
+    public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,
+                                                              MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+        return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
+    }
 
-	public KingSquareImp createKingCacheBoard() {
-		return new KingSquareImp();
-	}
+    public BitBoard createColorBoard() {
+        return new BitBoardImp();
+    }
 
-	public MoveCacheBoardImp createMoveCacheBoard() {
-		return new MoveCacheBoardImp();
-	}
+    public KingSquare createKingCacheBoard() {
+        return new KingSquareImp();
+    }
 
-	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                      PositionState positionState) {
-		return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-	}
-	
-	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                          PositionState positionState) {
-		return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-	}	
+    public MoveCacheBoard createMoveCacheBoard() {
+        return new MoveCacheBoardImp();
+    }
 
-	public SquareBoard createPiecePlacement() {
-		return new SquareBoardImp();
-	}
+    public SquareBoard createSquareBoard() {
+        return new SquareBoardImp();
+    }
 
-	public PositionState createPositionState() {
-		return new PositionStateImp();
-	}
+    public PositionState createPositionState() {
+        return new PositionStateImp();
+    }
 
-	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGeneratorCache(moveGenerator, moveCacheBoard);
-	}
+    public ZobristHash createZobristHash() {
+        return new ZobristHashImp();
+    }
 
-	public MoveGeneratorImp createMoveGenerator(MoveFactory moveFactoryWhite, MoveFactory moveFactoryBlack) {
-		return new MoveGeneratorImp(moveFactoryWhite, moveFactoryBlack);
-	}
+    public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+                                                 PositionState positionState) {
+        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+    }
 
-	public GameImp createGame(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor visitorAcceptor) {
-		return new GameImp(chessPosition, gameState, visitorAcceptor);
-	}
+    public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+                                                   PositionState positionState) {
+        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+    }
 
-	public PositionAnalyzer createPositionAnalyzer() {
-		return  new PositionAnalyzer();
-	}
+    public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+        return new MoveGeneratorCache(moveGenerator, moveCacheBoard);
+    }
 
-	public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
-		return new FullScanSquareCaptured(squareBoardReader, bitBoardReader);
-	}
+    public MoveGeneratorImp createMoveGenerator() {
+        return new MoveGeneratorImp();
+    }
 
+    public GameImp createGame(ChessPosition chessPosition, GameState gameState, GameVisitorAcceptor visitorAcceptor) {
+        return new GameImp(chessPosition, gameState, visitorAcceptor);
+    }
 
-	public GameState createGameState() {
-		return new GameStateImp();
-	}
+    public PositionAnalyzer createPositionAnalyzer() {
+        return new PositionAnalyzer();
+    }
 
-	public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {
-		return new PinnedAnalyzer(chessPosition);
-	}
+    public GameState createGameState() {
+        return new GameStateImp();
+    }
 
-	public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
-		return new KingSafePositionsAnalyzer(positionReader);
-	}
+    public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {
+        return new PinnedAnalyzer(chessPosition);
+    }
 
-	public ZobristHash createZobristHash() {
-		return new ZobristHashImp();
-	}
+    public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
+        return new KingSafePositionsAnalyzer(positionReader);
+    }
 
-	public MoveFactoryBlack createMoveFactoryBlack(GameImp gameImp) {
-		return new MoveFactoryBlack(gameImp);
-	}
+    public MoveFactory createMoveFactoryBlack(GameImp gameImp) {
+        return new MoveFactoryBlack(gameImp);
+    }
 
-	public MoveFactoryWhite createMoveFactoryWhite(GameImp gameImp) {
-		return new MoveFactoryWhite(gameImp);
-	}
+    public MoveFactory createMoveFactoryWhite(GameImp gameImp) {
+        return new MoveFactoryWhite(gameImp);
+    }
 }

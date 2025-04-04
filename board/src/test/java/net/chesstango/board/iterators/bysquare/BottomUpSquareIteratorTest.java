@@ -4,7 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +26,7 @@ public class BottomUpSquareIteratorTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		builder = new SquareBoardBuilder();
 		parser = new FENDecoder(builder);
 	}
 

@@ -5,8 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.BitBoardDebug;
+import net.chesstango.board.position.imp.BitBoardDebug;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
@@ -57,9 +56,9 @@ public class RookMoveGeneratorTest {
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
+		PiecePositioned origen = PiecePositioned.of(from, Piece.ROOK_WHITE);
 	
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -103,9 +102,9 @@ public class RookMoveGeneratorTest {
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.e7));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
+		PiecePositioned origen = PiecePositioned.of(from, Piece.ROOK_WHITE);
 	
-		MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -134,15 +133,15 @@ public class RookMoveGeneratorTest {
 	}	
 
 	private PseudoMove createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKnightMove(origen, PiecePositioned.of(destinoSquare, null));
 	}
 	
 	private PseudoMove createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureKnightMove(origen, PiecePositioned.of(destinoSquare, destinoPieza));
 	}	
 	
 	private SquareBoard getTablero(String string) {
-		SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
+		SquareBoardBuilder builder = new SquareBoardBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

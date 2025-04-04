@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.builders.PositionBuilder;
 import net.chesstango.board.builders.GameBuilder;
 
 /**
@@ -13,10 +13,10 @@ import net.chesstango.board.builders.GameBuilder;
 public class FENDecoder {
     public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    private final ChessPositionBuilder<?> chessPositionBuilder;
+    private final PositionBuilder<?> positionBuilder;
 
-    public FENDecoder(ChessPositionBuilder<?> chessPositionBuilder) {
-        this.chessPositionBuilder = chessPositionBuilder;
+    public FENDecoder(PositionBuilder<?> positionBuilder) {
+        this.positionBuilder = positionBuilder;
     }
 
     public void parseFEN(String fenString) {
@@ -26,29 +26,29 @@ public class FENDecoder {
     public void parseFEN(FEN fen) {
         parsePiecePlacement(fen.getPiecePlacement());
 
-        chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
+        positionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
 
-        chessPositionBuilder.withTurn(parseTurn(fen.getActiveColor()));
+        positionBuilder.withTurn(parseTurn(fen.getActiveColor()));
 
         if (isCastlingWhiteQueenAllowed(fen.getCastingsAllowed())) {
-            chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
+            positionBuilder.withCastlingWhiteQueenAllowed(true);
         }
 
         if (isCastlingWhiteKingAllowed(fen.getCastingsAllowed())) {
-            chessPositionBuilder.withCastlingWhiteKingAllowed(true);
+            positionBuilder.withCastlingWhiteKingAllowed(true);
         }
 
         if (isCastlingBlackQueenAllowed(fen.getCastingsAllowed())) {
-            chessPositionBuilder.withCastlingBlackQueenAllowed(true);
+            positionBuilder.withCastlingBlackQueenAllowed(true);
         }
 
         if (isCastlingBlackKingAllowed(fen.getCastingsAllowed())) {
-            chessPositionBuilder.withCastlingBlackKingAllowed(true);
+            positionBuilder.withCastlingBlackKingAllowed(true);
         }
 
-        chessPositionBuilder.withHalfMoveClock(fen.getHalfMoveClock() == null ? 0 : Integer.parseInt(fen.getHalfMoveClock()));
+        positionBuilder.withHalfMoveClock(fen.getHalfMoveClock() == null ? 0 : Integer.parseInt(fen.getHalfMoveClock()));
 
-        chessPositionBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
+        positionBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
     }
 
     public void parsePiecePlacement(String piecePlacement) {
@@ -58,7 +58,7 @@ public class FENDecoder {
                 Square square = Square.getSquare(file, rank);
                 Piece piece = piezas[rank][file];
                 if (piece != null) {
-                    chessPositionBuilder.withPiece(square, piece);
+                    positionBuilder.withPiece(square, piece);
                 }
             }
         }
@@ -70,9 +70,7 @@ public class FENDecoder {
         int currentRank = 7;
         for (int i = 0; i < 8; i++) {
             Piece[] rankPiezas = parseRank(ranks[i]);
-            for (int j = 0; j < 8; j++) {
-                tablero[currentRank][j] = rankPiezas[j];
-            }
+            System.arraycopy(rankPiezas, 0, tablero[currentRank], 0, 8);
             currentRank--;
         }
         return tablero;
@@ -160,34 +158,17 @@ public class FENDecoder {
             char rank = pawnPasante.charAt(1);
             int fileNumber = -1;
             int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-            switch (file) {
-                case 'a':
-                    fileNumber = 0;
-                    break;
-                case 'b':
-                    fileNumber = 1;
-                    break;
-                case 'c':
-                    fileNumber = 2;
-                    break;
-                case 'd':
-                    fileNumber = 3;
-                    break;
-                case 'e':
-                    fileNumber = 4;
-                    break;
-                case 'f':
-                    fileNumber = 5;
-                    break;
-                case 'g':
-                    fileNumber = 6;
-                    break;
-                case 'h':
-                    fileNumber = 7;
-                    break;
-                default:
-                    throw new RuntimeException("Invalid FEV code");
-            }
+            fileNumber = switch (file) {
+                case 'a' -> 0;
+                case 'b' -> 1;
+                case 'c' -> 2;
+                case 'd' -> 3;
+                case 'e' -> 4;
+                case 'f' -> 5;
+                case 'g' -> 6;
+                case 'h' -> 7;
+                default -> throw new RuntimeException("Invalid FEV code");
+            };
             result = Square.getSquare(fileNumber, rankNumber);
         }
         return result;
@@ -195,18 +176,11 @@ public class FENDecoder {
 
     protected Color parseTurn(String activeColor) {
         char colorChar = activeColor.charAt(0);
-        Color turno = null;
-        switch (colorChar) {
-            case 'w':
-                turno = Color.WHITE;
-                break;
-            case 'b':
-                turno = Color.BLACK;
-                break;
-            default:
-                throw new RuntimeException("Unknown FEN code " + activeColor);
-        }
-        return turno;
+        return switch (colorChar) {
+            case 'w' -> Color.WHITE;
+            case 'b' -> Color.BLACK;
+            default -> throw new RuntimeException("Unknown FEN code " + activeColor);
+        };
     }
 
     protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds) {

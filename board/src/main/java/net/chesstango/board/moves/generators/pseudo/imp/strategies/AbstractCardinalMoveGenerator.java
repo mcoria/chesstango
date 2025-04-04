@@ -34,9 +34,8 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 		this.directions = directions;
 	}
 
-	//TODO: explorar streams
 	@Override
-	public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from){
+	public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from){
 		MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
 		for (Cardinal cardinal : this.directions) {
 			getPseudoMoves(result, cardinal);

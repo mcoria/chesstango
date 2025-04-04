@@ -4,7 +4,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
@@ -51,9 +50,9 @@ public class PawnWhiteMoveGeneratorTest {
         Square from = Square.a3;
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -71,9 +70,9 @@ public class PawnWhiteMoveGeneratorTest {
         Square from = Square.a2;
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -92,9 +91,9 @@ public class PawnWhiteMoveGeneratorTest {
         Square from = Square.a2;
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -113,9 +112,9 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.d3));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -136,9 +135,9 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
         assertEquals(Piece.QUEEN_BLACK, tablero.getPiece(Square.a5));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.QUEEN_BLACK);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.QUEEN_BLACK);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -159,9 +158,9 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.f3));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -182,9 +181,9 @@ public class PawnWhiteMoveGeneratorTest {
 
         assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -207,9 +206,9 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.c8));
         assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.d8));
 
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+        PiecePositioned origen = PiecePositioned.of(from, Piece.PAWN_WHITE);
 
-        MoveGeneratorByPieceResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+        MoveGeneratorByPieceResult generatorResult = moveGenerator.generateByPiecePseudoMoves(origen);
 
         moves = generatorResult.getPseudoMoves();
 
@@ -222,27 +221,27 @@ public class PawnWhiteMoveGeneratorTest {
     }
 
     private PseudoMove createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
-        return moveFactoryImp.createSimpleOneSquarePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
+        return moveFactoryImp.createSimpleOneSquarePawnMove(origen, PiecePositioned.of(destinoSquare, null));
     }
 
     private PseudoMove createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-        return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
+        return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.of(destinoSquare, null), squarePasante);
     }
 
     private PseudoMove createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
-        return moveFactoryImp.createCapturePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), cardinal);
+        return moveFactoryImp.createCapturePawnMove(origen, PiecePositioned.of(destinoSquare, destinoPieza), cardinal);
     }
 
     private PseudoMove createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
-        return moveFactoryImp.createSimplePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
+        return moveFactoryImp.createSimplePromotionPawnMove(origen, PiecePositioned.of(destinoSquare, null), promocion);
     }
 
     private PseudoMove createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion, Cardinal direction) {
-        return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, direction);
+        return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.of(destinoSquare, destinoPieza), promocion, direction);
     }
 
     private SquareBoard getTablero(String string) {
-        SquareBoardBuilder builder = new SquareBoardBuilder(new ChessFactoryDebug());
+        SquareBoardBuilder builder = new SquareBoardBuilder();
 
         FENDecoder parser = new FENDecoder(builder);
 

@@ -14,9 +14,9 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
+@Setter
 public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 
-    @Setter
     private KnightMoveFactory moveFactory;
 
     public KnightMoveGenerator(Color color) {

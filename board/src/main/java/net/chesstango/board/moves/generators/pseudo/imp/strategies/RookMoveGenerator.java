@@ -11,9 +11,9 @@ import net.chesstango.board.moves.PseudoMove;
  * @author Mauricio Coria
  *
  */
+@Setter
 public class RookMoveGenerator extends AbstractCardinalMoveGenerator {
 
-	@Setter
 	private RookMoveFactory moveFactory;
 
 	public final static Cardinal[] ROOK_CARDINAL = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};

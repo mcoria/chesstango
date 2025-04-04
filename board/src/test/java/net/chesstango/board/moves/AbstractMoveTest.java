@@ -26,8 +26,8 @@ public class AbstractMoveTest {
 
     @Test
     public void testEquals01() {
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
+        PiecePositioned origen = PiecePositioned.of(Square.e5, Piece.ROOK_WHITE);
+        PiecePositioned destino = PiecePositioned.of(Square.e7, null);
 
         assertEquals(moveFactory.createSimpleKnightMove(origen, destino), moveFactory.createSimpleKnightMove(origen, destino));
     }

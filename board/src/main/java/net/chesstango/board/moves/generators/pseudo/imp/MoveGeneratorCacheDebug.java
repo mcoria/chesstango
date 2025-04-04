@@ -1,29 +1,25 @@
-/**
- * 
- */
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.moves.generators.pseudo.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
 import net.chesstango.board.position.MoveCacheBoard;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorCacheDebug extends MoveGeneratorCache {
+public class MoveGeneratorCacheDebug extends MoveGeneratorCache {
 
 
-	public MoveGenaratorCacheDebug(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGeneratorCacheDebug(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		super(moveGenerator, moveCacheBoard);
 	}
 
 
 	@Override
-	public MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+	public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
 		Square origenSquare = from.getSquare();
 		
 		MoveGeneratorByPieceResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
@@ -31,12 +27,12 @@ public class MoveGenaratorCacheDebug extends MoveGeneratorCache {
 		
 		if (generatorResult == null) {
 			
-			generatorResult = moveGenerator.generatePseudoMoves(from);
+			generatorResult = moveGenerator.generateByPiecePseudoMoves(from);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		} else {
 			
-			MoveGeneratorByPieceResult generatorResultActual = moveGenerator.generatePseudoMoves(from);
+			MoveGeneratorByPieceResult generatorResultActual = moveGenerator.generateByPiecePseudoMoves(from);
 
 			//comparar generatorResult vs generatorResultActual
 			if(generatorResultActual.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {

@@ -1,10 +1,13 @@
 package net.chesstango.board;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
+@Getter
 public class PiecePositioned {
     private final Square square;
     private final Piece piece;
@@ -22,7 +25,7 @@ public class PiecePositioned {
         this.piece = piece;
     }
 
-    public static PiecePositioned getPiecePositioned(Square square, Piece piece) {
+    public static PiecePositioned of(Square square, Piece piece) {
         return PiecePositionedCache.getInstance().getPiecePositioned(square, piece);
     }
 
@@ -30,15 +33,6 @@ public class PiecePositioned {
         return PiecePositionedCache.getInstance().getPosition(square);
     }
 
-
-    public Square getSquare() {
-        return square;
-    }
-
-
-    public Piece getPiece() {
-        return piece;
-    }
 
     @Override
     public String toString() {
@@ -62,7 +56,7 @@ public class PiecePositioned {
         if(piece == null){
             return getPosition(square.getMirrorSquare());
         }
-        return getPiecePositioned(square.getMirrorSquare(), piece.getOpposite());
+        return of(square.getMirrorSquare(), piece.getOpposite());
     }
 
     private static class PiecePositionedCache {

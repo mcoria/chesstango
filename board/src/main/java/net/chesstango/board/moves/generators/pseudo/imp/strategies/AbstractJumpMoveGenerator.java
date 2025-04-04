@@ -49,7 +49,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
      * @return a result object containing the generated pseudo-moves
      */
     @Override
-    public final MoveGeneratorByPieceResult generatePseudoMoves(PiecePositioned from) {
+    public final MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
         MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
         Square fromSquare = from.getSquare();
         Iterator<Square> iterator = getSquareIterator(fromSquare);
@@ -65,9 +65,6 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
                 PseudoMove move = createCaptureMove(from, squareBoard.getPosition(to));
                 result.addPseudoMove(move);
             }
-            // else if(color.equals(pieza.getColor())){
-            // continue;
-            // }
         }
         return result;
     }
