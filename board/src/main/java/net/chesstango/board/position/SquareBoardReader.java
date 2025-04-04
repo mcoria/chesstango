@@ -3,7 +3,8 @@ package net.chesstango.board.position;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.byposition.GetElementByIndex;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 
 import java.util.Iterator;
 

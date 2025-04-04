@@ -2,7 +2,7 @@ package net.chesstango.board.analyzer;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.ChessPositionReader;

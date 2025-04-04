@@ -3,7 +3,7 @@ package net.chesstango.board.internal.position;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;

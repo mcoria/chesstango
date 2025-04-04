@@ -3,7 +3,7 @@ package net.chesstango.board.representations.ascii;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.AbstractPositionBuilder;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 
 import java.io.ByteArrayOutputStream;

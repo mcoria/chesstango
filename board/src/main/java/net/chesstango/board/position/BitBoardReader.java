@@ -2,7 +2,7 @@ package net.chesstango.board.position;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 
 /**
  * @author Mauricio Coria

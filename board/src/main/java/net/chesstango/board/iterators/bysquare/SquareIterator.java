@@ -1,4 +1,4 @@
-package net.chesstango.board.iterators;
+package net.chesstango.board.iterators.bysquare;
 
 import net.chesstango.board.Square;
 

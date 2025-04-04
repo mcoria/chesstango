@@ -2,7 +2,6 @@ package net.chesstango.board.iterators.bysquare;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.iterators.SquareIterator;
 
 /**
  * @author Mauricio Coria

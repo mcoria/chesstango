@@ -1,7 +1,6 @@
 package net.chesstango.board.iterators.bysquare;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

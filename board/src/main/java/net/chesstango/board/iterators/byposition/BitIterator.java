@@ -1,7 +1,5 @@
 package net.chesstango.board.iterators.byposition;
 
-import net.chesstango.board.position.GetElementByIndex;
-
 import java.util.Iterator;
 
 

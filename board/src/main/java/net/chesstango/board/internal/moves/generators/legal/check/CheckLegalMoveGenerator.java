@@ -2,7 +2,7 @@ package net.chesstango.board.internal.moves.generators.legal.check;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
-import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;

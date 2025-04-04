@@ -2,7 +2,7 @@ package net.chesstango.board.iterators.byposition.bypiece;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.byposition.BitIterator;
-import net.chesstango.board.position.GetElementByIndex;
+import net.chesstango.board.iterators.byposition.GetElementByIndex;
 
 /**
  * @author Mauricio Coria

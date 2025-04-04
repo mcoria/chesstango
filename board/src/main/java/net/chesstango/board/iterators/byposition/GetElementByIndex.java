@@ -1,4 +1,4 @@
-package net.chesstango.board.position;
+package net.chesstango.board.iterators.byposition;
 
 /**
  * @author Mauricio Coria

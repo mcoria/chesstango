@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 @Getter
-public class PiecePositioned {
+public final class PiecePositioned {
     private final Square square;
     private final Piece piece;
 
