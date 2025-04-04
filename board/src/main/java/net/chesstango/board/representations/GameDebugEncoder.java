@@ -1,11 +1,11 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -23,7 +23,9 @@ public class GameDebugEncoder {
 
         String initialFEN = game.getInitialFEN().toString();
         Game theGame = FENDecoder.loadGame(initialFEN);
-        sb.append("Game game = getGame(\"" + initialFEN + "\")\n");
+        sb.append("Game game = getGame(\"")
+                .append(initialFEN)
+                .append("\")\n");
 
         game.accept(new GameVisitor() {
 

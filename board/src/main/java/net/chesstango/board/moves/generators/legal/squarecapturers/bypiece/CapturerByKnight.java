@@ -15,12 +15,10 @@ import java.util.Iterator;
 public class CapturerByKnight implements CapturerByPiece {
 
     private final SquareBoardReader squareBoardReader;
-    private final Color color;
     private final Piece knight;
 
     public CapturerByKnight(SquareBoardReader squareBoardReader, Color color) {
         this.squareBoardReader = squareBoardReader;
-        this.color = color;
         this.knight = Piece.getKnight(color);
     }
 

@@ -143,7 +143,7 @@ public class SANDecoder {
             if (!PAWN_WHITE.equals(thePiece) && !PAWN_BLACK.equals(thePiece) && piece.equals(getPieceCode(move.getFrom().getPiece()))) {
                 Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
-                if (piecefrom == null || piecefrom != null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
+                if (piecefrom == null || piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString())) {
                     if (pieceto.equals(toSquare.toString())) {
                         return move;
                     }

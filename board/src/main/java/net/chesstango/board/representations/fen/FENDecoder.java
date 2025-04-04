@@ -70,9 +70,7 @@ public class FENDecoder {
         int currentRank = 7;
         for (int i = 0; i < 8; i++) {
             Piece[] rankPiezas = parseRank(ranks[i]);
-            for (int j = 0; j < 8; j++) {
-                tablero[currentRank][j] = rankPiezas[j];
-            }
+            System.arraycopy(rankPiezas, 0, tablero[currentRank], 0, 8);
             currentRank--;
         }
         return tablero;

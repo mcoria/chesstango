@@ -122,9 +122,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     @Override
     public SquareBoardImp clone() throws CloneNotSupportedException {
         SquareBoardImp clone = new SquareBoardImp();
-        for (int i = 0; i < 64; i++) {
-            clone.tablero[i] = this.tablero[i];
-        }
+        System.arraycopy(this.tablero, 0, clone.tablero, 0, 64);
         return clone;
     }
 

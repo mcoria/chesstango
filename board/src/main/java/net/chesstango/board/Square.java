@@ -1,5 +1,7 @@
 package net.chesstango.board;
 
+import lombok.Getter;
+
 /**
  * @author Mauricio Coria
  */
@@ -13,14 +15,27 @@ public enum Square {
     a2(0, 1), b2(1, 1), c2(2, 1), d2(3, 1), e2(4, 1), f2(5, 1), g2(6, 1), h2(7, 1),
     a1(0, 0), b1(1, 0), c1(2, 0), d1(3, 0), e1(4, 0), f1(5, 0), g1(6, 0), h1(7, 0);
 
+    @Getter
     private final int file;
+
+    @Getter
     private final int rank;
+
+    @Getter
     private final long bitPosition;
+
     private final int idx;
+
+    @Getter
     private final String fileChar;
+
+    @Getter
     private final String rankChar;
 
+    @Getter
     private final short binaryEncodedTo;
+
+    @Getter
     private final short binaryEncodedFrom;
 
     Square(int file, int rank) {
@@ -56,26 +71,6 @@ public enum Square {
         this.binaryEncodedFrom = (short) ((file << 6 )| (rank << 9));
     }
 
-    public int getRank() {
-        return rank;
-    }
-
-    public int getFile() {
-        return file;
-    }
-
-    public String getFileChar() {
-        return fileChar;
-    }
-
-    public String getRankChar() {
-        return rankChar;
-    }
-
-    public long getBitPosition() {
-        return bitPosition;
-    }
-
     public int toIdx() {
         return idx;
     }
@@ -98,19 +93,6 @@ public enum Square {
 
     public Square getMirrorSquare() {
         return getSquare(file, 7 - rank);
-    }
-
-    public short getBinaryEncodedTo() {
-        return binaryEncodedTo;
-    }
-
-    public short getBinaryEncodedFrom() {
-        return binaryEncodedFrom;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 
     private static final Square[] array = {

@@ -15,18 +15,16 @@ import java.util.Iterator;
 public class CapturerByKing implements CapturerByPiece {
 
     private final SquareBoardReader squareBoardReader;
-    private final Color color;
     private final Piece king;
 
     public CapturerByKing(SquareBoardReader squareBoardReader, Color color) {
         this.squareBoardReader = squareBoardReader;
-        this.color = color;
         this.king = Piece.getKing(color);
     }
 
     @Override
     public boolean positionCaptured(Square square, long possibleThreats) {
-        Iterator<PiecePositioned> iterator = new KingBitIterator<PiecePositioned>(squareBoardReader, square);
+        Iterator<PiecePositioned> iterator = new KingBitIterator<>(squareBoardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
             if (king.equals(destino.getPiece())) {
