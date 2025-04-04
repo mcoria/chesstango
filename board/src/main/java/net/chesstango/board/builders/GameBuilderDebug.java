@@ -1,6 +1,6 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
+import net.chesstango.board.factory.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 

@@ -1,11 +1,8 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.moves.generators.legal.imp.check;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.KingSquareImp;
-import net.chesstango.board.position.imp.PositionStateImp;
-import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.position.imp.*;
 
 
 /**

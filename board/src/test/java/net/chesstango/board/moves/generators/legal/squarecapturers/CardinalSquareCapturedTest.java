@@ -3,8 +3,6 @@ package net.chesstango.board.moves.generators.legal.squarecapturers;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.BitBoardImp;

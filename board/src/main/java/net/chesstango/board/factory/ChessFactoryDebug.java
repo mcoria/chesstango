@@ -1,13 +1,16 @@
-package net.chesstango.board.debug.builder;
+package net.chesstango.board.factory;
 
-import net.chesstango.board.debug.chess.*;
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilterDebug;
+import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGeneratorDebug;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilterDebug;
 import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
+import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGeneratorDebug;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCacheDebug;
 import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
@@ -25,7 +28,7 @@ public class ChessFactoryDebug extends ChessFactory {
 	
 	@Override
 	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
-		return new DefaultLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
+		return new CheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
@@ -66,7 +69,7 @@ public class ChessFactoryDebug extends ChessFactory {
 	
 	@Override
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGenaratorCacheDebug(moveGenerator, moveCacheBoard);
+		return new MoveGeneratorCacheDebug(moveGenerator, moveCacheBoard);
 	}
 
 	@Override

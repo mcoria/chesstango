@@ -1,9 +1,8 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.position.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.MoveCacheBoardImp;
 
 
 /**

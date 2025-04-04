@@ -1,4 +1,4 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.containers.MoveList;
@@ -7,7 +7,6 @@ import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
 

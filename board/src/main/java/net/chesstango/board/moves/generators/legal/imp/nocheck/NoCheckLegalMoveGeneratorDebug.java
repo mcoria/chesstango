@@ -1,7 +1,6 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.moves.generators.legal.imp.nocheck;
 
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 

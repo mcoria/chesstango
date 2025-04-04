@@ -1,7 +1,6 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.moves.generators.legal.imp.check;
 
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -10,9 +9,9 @@ import net.chesstango.board.position.ChessPositionReader;
  * @author Mauricio Coria
  *
  */
-public class DefaultLegalMoveGeneratorDebug extends CheckLegalMoveGenerator {
+public class CheckLegalMoveGeneratorDebug extends CheckLegalMoveGenerator {
 
-	public DefaultLegalMoveGeneratorDebug(ChessPositionReader positionReader, MoveGenerator strategy, LegalMoveFilter filter) {
+	public CheckLegalMoveGeneratorDebug(ChessPositionReader positionReader, MoveGenerator strategy, LegalMoveFilter filter) {
 		super(positionReader, strategy, filter);
 	}
 	

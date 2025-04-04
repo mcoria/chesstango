@@ -1,23 +1,19 @@
-/**
- * 
- */
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.moves.generators.pseudo.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
 import net.chesstango.board.position.MoveCacheBoard;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorCacheDebug extends MoveGeneratorCache {
+public class MoveGeneratorCacheDebug extends MoveGeneratorCache {
 
 
-	public MoveGenaratorCacheDebug(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGeneratorCacheDebug(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		super(moveGenerator, moveCacheBoard);
 	}
 

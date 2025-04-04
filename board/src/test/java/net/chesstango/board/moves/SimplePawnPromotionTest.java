@@ -1,9 +1,9 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.*;
-import net.chesstango.board.debug.chess.BitBoardDebug;
-import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
-import net.chesstango.board.debug.chess.PositionStateDebug;
+import net.chesstango.board.position.imp.BitBoardDebug;
+import net.chesstango.board.position.imp.MoveCacheBoardDebug;
+import net.chesstango.board.position.imp.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;

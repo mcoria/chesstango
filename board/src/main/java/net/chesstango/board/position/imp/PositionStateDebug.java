@@ -1,10 +1,9 @@
-package net.chesstango.board.debug.chess;
+package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.PositionStateImp;
 
 
 /**
