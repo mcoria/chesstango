@@ -8,6 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameState;
+import net.chesstango.board.GameListener;
 import net.chesstango.board.position.GameStateReader;
 
 /**
@@ -18,7 +19,7 @@ import net.chesstango.board.position.GameStateReader;
  * TODO: La generacion de movimientos dummy debiera ser en base al layer de color.
  * Me imagino un tablero con X y O para representar los distintos colores.
  */
-public class PositionAnalyzer {
+public class PositionAnalyzer implements GameListener {
     @Setter
     private Analyzer pinnedAnalyzer;
 
@@ -37,6 +38,15 @@ public class PositionAnalyzer {
     private boolean threefoldRepetitionRule;
     private boolean fiftyMovesRule;
 
+    @Override
+    public void notifyDoMove(Move move) {
+        updateGameState();
+    }
+
+    @Override
+    public void notifyUndoMove(Move move) {
+
+    }
 
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
