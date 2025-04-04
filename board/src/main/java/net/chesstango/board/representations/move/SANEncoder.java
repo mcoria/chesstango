@@ -118,28 +118,15 @@ public class SANEncoder {
 
 
     private char getPieceCode(Piece piece) {
-        switch (piece) {
-            case PAWN_WHITE:
-            case PAWN_BLACK:
-                throw new RuntimeException("You should not call this method with pawn");
-            case ROOK_WHITE:
-            case ROOK_BLACK:
-                return 'R';
-            case KNIGHT_WHITE:
-            case KNIGHT_BLACK:
-                return 'N';
-            case BISHOP_WHITE:
-            case BISHOP_BLACK:
-                return 'B';
-            case QUEEN_WHITE:
-            case QUEEN_BLACK:
-                return 'Q';
-            case KING_WHITE:
-            case KING_BLACK:
-                return 'K';
-            default:
-                throw new RuntimeException("Falta pieza");
-        }
+        return switch (piece) {
+            case PAWN_WHITE, PAWN_BLACK -> throw new RuntimeException("You should not call this method with pawn");
+            case ROOK_WHITE, ROOK_BLACK -> 'R';
+            case KNIGHT_WHITE, KNIGHT_BLACK -> 'N';
+            case BISHOP_WHITE, BISHOP_BLACK -> 'B';
+            case QUEEN_WHITE, QUEEN_BLACK -> 'Q';
+            case KING_WHITE, KING_BLACK -> 'K';
+            default -> throw new RuntimeException("Falta pieza");
+        };
     }
 
 }

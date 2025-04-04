@@ -158,34 +158,17 @@ public class FENDecoder {
             char rank = pawnPasante.charAt(1);
             int fileNumber = -1;
             int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-            switch (file) {
-                case 'a':
-                    fileNumber = 0;
-                    break;
-                case 'b':
-                    fileNumber = 1;
-                    break;
-                case 'c':
-                    fileNumber = 2;
-                    break;
-                case 'd':
-                    fileNumber = 3;
-                    break;
-                case 'e':
-                    fileNumber = 4;
-                    break;
-                case 'f':
-                    fileNumber = 5;
-                    break;
-                case 'g':
-                    fileNumber = 6;
-                    break;
-                case 'h':
-                    fileNumber = 7;
-                    break;
-                default:
-                    throw new RuntimeException("Invalid FEV code");
-            }
+            fileNumber = switch (file) {
+                case 'a' -> 0;
+                case 'b' -> 1;
+                case 'c' -> 2;
+                case 'd' -> 3;
+                case 'e' -> 4;
+                case 'f' -> 5;
+                case 'g' -> 6;
+                case 'h' -> 7;
+                default -> throw new RuntimeException("Invalid FEV code");
+            };
             result = Square.getSquare(fileNumber, rankNumber);
         }
         return result;
@@ -193,17 +176,11 @@ public class FENDecoder {
 
     protected Color parseTurn(String activeColor) {
         char colorChar = activeColor.charAt(0);
-        Color turno = null;
-        switch (colorChar) {
-            case 'w':
-                turno = Color.WHITE;
-                break;
-            case 'b':
-                turno = Color.BLACK;
-                break;
-            default:
-                throw new RuntimeException("Unknown FEN code " + activeColor);
-        }
+        Color turno = switch (colorChar) {
+            case 'w' -> Color.WHITE;
+            case 'b' -> Color.BLACK;
+            default -> throw new RuntimeException("Unknown FEN code " + activeColor);
+        };
         return turno;
     }
 

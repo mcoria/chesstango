@@ -108,47 +108,21 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
     }
 
     private char getCode(Piece piece) {
-        char result;
-        switch (piece) {
-            case ROOK_BLACK:
-                result = 'r';
-                break;
-            case KNIGHT_BLACK:
-                result = 'n';
-                break;
-            case QUEEN_BLACK:
-                result = 'q';
-                break;
-            case KING_BLACK:
-                result = 'k';
-                break;
-            case PAWN_BLACK:
-                result = 'p';
-                break;
-            case BISHOP_BLACK:
-                result = 'b';
-                break;
-            case ROOK_WHITE:
-                result = 'R';
-                break;
-            case KNIGHT_WHITE:
-                result = 'N';
-                break;
-            case QUEEN_WHITE:
-                result = 'Q';
-                break;
-            case KING_WHITE:
-                result = 'K';
-                break;
-            case PAWN_WHITE:
-                result = 'P';
-                break;
-            case BISHOP_WHITE:
-                result = 'B';
-                break;
-            default:
-                throw new RuntimeException("Falta pieza");
-        }
+        char result = switch (piece) {
+            case ROOK_BLACK -> 'r';
+            case KNIGHT_BLACK -> 'n';
+            case QUEEN_BLACK -> 'q';
+            case KING_BLACK -> 'k';
+            case PAWN_BLACK -> 'p';
+            case BISHOP_BLACK -> 'b';
+            case ROOK_WHITE -> 'R';
+            case KNIGHT_WHITE -> 'N';
+            case QUEEN_WHITE -> 'Q';
+            case KING_WHITE -> 'K';
+            case PAWN_WHITE -> 'P';
+            case BISHOP_WHITE -> 'B';
+            default -> throw new RuntimeException("Falta pieza");
+        };
         return result;
     }
 

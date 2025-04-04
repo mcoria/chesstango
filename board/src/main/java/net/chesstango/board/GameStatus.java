@@ -1,8 +1,11 @@
 package net.chesstango.board;
 
+import lombok.Getter;
+
 /**
  * @author Mauricio Coria
  */
+@Getter
 public enum GameStatus {
     NO_CHECK(true),
     CHECK(true),
@@ -15,10 +18,6 @@ public enum GameStatus {
 
     GameStatus(boolean inProgress) {
         this.inProgress = inProgress;
-    }
-
-    public boolean isInProgress() {
-        return inProgress;
     }
 
     public boolean isFinalStatus() {

@@ -12,9 +12,9 @@ import net.chesstango.board.moves.PseudoMove;
  * @author Mauricio Coria
  *
  */
+@Setter
 public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
 
-	@Setter
 	private BishopMoveFactory moveFactory;
 	
 	public final static Cardinal[] BISHOP_CARDINAL = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
