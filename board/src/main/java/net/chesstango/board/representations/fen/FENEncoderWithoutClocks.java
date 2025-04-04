@@ -74,15 +74,15 @@ public class FENEncoderWithoutClocks extends AbstractPositionBuilder<String> {
 
     protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
         int vacios = 0;
-        for (int i = 0; i < piezas.length; i++) {
-            if (piezas[i] == null) {
+        for (Piece pieza : piezas) {
+            if (pieza == null) {
                 vacios++;
             } else {
                 if (vacios > 0) {
                     stringBuilder.append(vacios);
                     vacios = 0;
                 }
-                stringBuilder.append(getCode(piezas[i]));
+                stringBuilder.append(getCode(pieza));
             }
         }
 

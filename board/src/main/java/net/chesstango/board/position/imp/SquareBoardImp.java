@@ -79,7 +79,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator(SquareIterator squareIterator) {
-        return new Iterator<PiecePositioned>() {
+        return new Iterator<>() {
 
             @Override
             public boolean hasNext() {
@@ -96,7 +96,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator(long positions) {
-        return new BitIterator(this, positions);
+        return new BitIterator<>(this, positions);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public Iterator<PiecePositioned> iterator() {
-        return new Iterator<PiecePositioned>() {
+        return new Iterator<>() {
 
             private int idx = 0;
 

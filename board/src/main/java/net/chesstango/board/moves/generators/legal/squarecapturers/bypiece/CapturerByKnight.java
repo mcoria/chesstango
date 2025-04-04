@@ -24,7 +24,7 @@ public class CapturerByKnight implements CapturerByPiece {
 
     @Override
     public boolean positionCaptured(Square square, long possibleThreats) {
-        Iterator<PiecePositioned> iterator = new KnightBitIterator<PiecePositioned>(squareBoardReader, square);
+        Iterator<PiecePositioned> iterator = new KnightBitIterator<>(squareBoardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
             if (knight.equals(destino.getPiece())) {

@@ -60,7 +60,7 @@ public class PGN {
         int lastClock = 0;
 
         for (String moveStr : getMoveList()) {
-            MoveContainerReader legalMoves = game.getPossibleMoves();
+            MoveContainerReader<Move> legalMoves = game.getPossibleMoves();
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
 
             if (legalMoveToExecute != null) {

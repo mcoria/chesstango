@@ -104,9 +104,9 @@ public class SANEncoder {
         };
 
         if(solveAmb){
-            if(fileAmb == false){
+            if(!fileAmb){
                 return from.getSquare().getFileChar();
-            } else if(rankAmb == false){
+            } else if(!rankAmb){
                 return from.getSquare().getRankChar();
             } else{
                 return from.getSquare().toString();

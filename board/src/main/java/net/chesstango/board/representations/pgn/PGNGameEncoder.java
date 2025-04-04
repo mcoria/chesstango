@@ -15,7 +15,7 @@ public class PGNGameEncoder {
         Game game = FENDecoder.loadGame(pgn.getFen() == null ? FENDecoder.INITIAL_FEN : pgn.getFen());
         SANDecoder sanDecoder = new SANDecoder();
         pgn.getMoveList().forEach(moveStr -> {
-            MoveContainerReader legalMoves = game.getPossibleMoves();
+            MoveContainerReader<Move> legalMoves = game.getPossibleMoves();
             Move legalMoveToExecute = sanDecoder.decode(moveStr, legalMoves);
             if (legalMoveToExecute != null) {
                 legalMoveToExecute.executeMove();
