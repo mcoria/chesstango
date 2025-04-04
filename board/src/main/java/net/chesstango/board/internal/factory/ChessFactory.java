@@ -11,14 +11,14 @@ import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
+import net.chesstango.board.internal.moves.generators.legal.LegalMoveGeneratorImp;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilter;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGenerator;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilter;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCache;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorCache;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.position.*;
 
 /**

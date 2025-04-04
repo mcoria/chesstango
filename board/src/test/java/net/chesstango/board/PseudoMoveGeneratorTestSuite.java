@@ -1,6 +1,6 @@
 package net.chesstango.board;
 
-import net.chesstango.board.moves.generators.pseudo.imp.strategies.*;
+import net.chesstango.board.internal.moves.generators.pseudo.strategies.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

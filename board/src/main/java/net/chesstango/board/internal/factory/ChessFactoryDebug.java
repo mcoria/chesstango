@@ -2,16 +2,16 @@ package net.chesstango.board.internal.factory;
 
 import net.chesstango.board.internal.position.*;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveFilterDebug;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGeneratorDebug;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.imp.check.CheckLegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveFilterDebug;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGenerator;
-import net.chesstango.board.moves.generators.legal.imp.nocheck.NoCheckLegalMoveGeneratorDebug;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilter;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilterDebug;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGeneratorDebug;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilter;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGenerator;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilterDebug;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGenerator;
+import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGeneratorDebug;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorCacheDebug;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorCacheDebug;
 import net.chesstango.board.position.*;
 
 

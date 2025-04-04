@@ -5,7 +5,7 @@ import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 

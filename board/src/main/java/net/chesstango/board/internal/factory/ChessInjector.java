@@ -9,7 +9,7 @@ import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.position.*;
 import net.chesstango.board.internal.position.ChessPositionImp;
 
