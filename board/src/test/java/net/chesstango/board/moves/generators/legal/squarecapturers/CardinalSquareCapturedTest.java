@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.BitBoardImp;
+import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 

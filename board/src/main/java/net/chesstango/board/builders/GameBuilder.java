@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.ChessInjector;
+import net.chesstango.board.internal.factory.ChessInjector;
 
 
 /**

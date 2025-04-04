@@ -5,10 +5,10 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.factories.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.internal.moves.MoveImp;
 import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.imp.PositionStateImp;
+import net.chesstango.board.internal.position.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

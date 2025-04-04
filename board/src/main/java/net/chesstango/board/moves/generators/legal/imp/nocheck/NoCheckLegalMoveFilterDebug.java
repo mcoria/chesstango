@@ -1,8 +1,8 @@
 package net.chesstango.board.moves.generators.legal.imp.nocheck;
 
+import net.chesstango.board.internal.position.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.*;
 
 
 /**

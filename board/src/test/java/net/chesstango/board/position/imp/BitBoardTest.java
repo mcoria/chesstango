@@ -3,6 +3,8 @@ package net.chesstango.board.position.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.SquareBoardBuilder;
+import net.chesstango.board.internal.position.BitBoardDebug;
+import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;

@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
-import net.chesstango.board.factory.ChessFactoryDebug;
+import net.chesstango.board.internal.factory.ChessFactoryDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

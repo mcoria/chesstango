@@ -1,7 +1,9 @@
 package net.chesstango.board.analyzer;
 
+import net.chesstango.board.internal.position.KingSquareImp;
+import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.*;
 
 /**
  * @author Mauricio Coria

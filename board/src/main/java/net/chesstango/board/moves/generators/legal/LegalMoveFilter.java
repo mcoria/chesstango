@@ -2,7 +2,7 @@ package net.chesstango.board.moves.generators.legal;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.imp.MoveComposed;
+import net.chesstango.board.internal.moves.MoveComposed;
 import net.chesstango.board.position.Command;
 
 /**

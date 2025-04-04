@@ -3,6 +3,7 @@ package net.chesstango.board.position.imp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.internal.position.ZobristHashImp;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.representations.fen.FEN;

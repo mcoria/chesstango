@@ -5,13 +5,13 @@ import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
-import net.chesstango.board.factory.ChessFactoryDebug;
-import net.chesstango.board.factory.ChessInjector;
+import net.chesstango.board.internal.factory.ChessFactoryDebug;
+import net.chesstango.board.internal.factory.ChessInjector;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.imp.MoveImp;
+import net.chesstango.board.internal.moves.MoveImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 

@@ -8,10 +8,10 @@ import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.BitBoardImp;
-import net.chesstango.board.position.imp.ChessPositionImp;
-import net.chesstango.board.position.imp.PositionStateImp;
-import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.internal.position.BitBoardImp;
+import net.chesstango.board.internal.position.ChessPositionImp;
+import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.SquareBoardImp;
 
 
 /**

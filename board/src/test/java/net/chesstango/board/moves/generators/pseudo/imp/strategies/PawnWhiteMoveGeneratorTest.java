@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.factories.imp.MoveFactoryWhite;
+import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;

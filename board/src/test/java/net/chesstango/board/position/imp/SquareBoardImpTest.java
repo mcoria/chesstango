@@ -3,6 +3,7 @@ package net.chesstango.board.position.imp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.iterators.byposition.BitIterator;
 import org.junit.jupiter.api.Test;
 

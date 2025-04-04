@@ -1,8 +1,8 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.factory.ChessFactoryDebug;
-import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.factory.ChessInjector;
+import net.chesstango.board.internal.factory.ChessFactoryDebug;
+import net.chesstango.board.internal.factory.ChessFactory;
+import net.chesstango.board.internal.factory.ChessInjector;
 
 /**
  * @author Mauricio Coria
