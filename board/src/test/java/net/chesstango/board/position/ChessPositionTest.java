@@ -268,7 +268,7 @@ public class ChessPositionTest {
         FENDecoder parser = new FENDecoder(builder);
         parser.parseFEN(string);
 
-        Game game = builder.getChessRepresentation();
+        builder.getChessRepresentation();
 
         moveFactoryWhite = injector.getMoveFactoryWhite();
 

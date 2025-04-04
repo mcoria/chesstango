@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.position.*;
