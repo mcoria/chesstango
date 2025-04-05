@@ -57,7 +57,7 @@ import java.util.List;
 public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
-    private final List<GameListener> gameListeners;
+    private final List<GameListener> gameListeners = new ArrayList<>();
 
     private PositionAnalyzer analyzer;
 
@@ -67,7 +67,6 @@ public class GameImp implements Game {
     public GameImp(ChessPosition chessPosition, GameState gameState) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
-        this.gameListeners = new ArrayList<>();
         this.chessPosition.init();
         saveInitialFEN();
     }

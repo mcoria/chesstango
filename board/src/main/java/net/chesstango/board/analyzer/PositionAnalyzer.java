@@ -45,11 +45,18 @@ public class PositionAnalyzer implements GameListener {
 
     @Override
     public void notifyDoMove(Move move) {
+        gameState.setSelectedMove(move);
+
+        gameState.push();
+
         updateGameState();
     }
 
     @Override
     public void notifyUndoMove(Move move) {
+        gameState.pop();
+
+        gameState.setSelectedMove(null);
     }
 
     public void updateGameState() {

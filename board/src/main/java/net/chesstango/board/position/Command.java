@@ -2,26 +2,12 @@ package net.chesstango.board.position;
 
 /**
  * Interface representing a command that can be executed and undone on various components of a chess game.
- * This interface provides methods to perform and revert moves on different writers, such as game state,
- * chess position, square board, position state, bit board, move cache, king square, and Zobrist hash.
+ * This interface provides methods to perform and revert moves on different writers, such as chess position,
+ * square board, position state, bit board, move cache, king square, and Zobrist hash.
  *
  * @author Mauricio Coria
  */
 public interface Command {
-    /**
-     * Executes a move on the game state.
-     *
-     * @param gameState the game state writer
-     */
-    void doMove(GameStateWriter gameState);
-
-    /**
-     * Undoes a move on the game state.
-     *
-     * @param gameState the game state writer
-     */
-    void undoMove(GameStateWriter gameState);
-
     /**
      * Executes a move on the chess position.
      *

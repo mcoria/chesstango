@@ -32,7 +32,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 
 			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 
-			AnalyzerResult result = analyze();
+			AnalyzerResult result = super.analyze();
 			
 			if (!this.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fue modificado");

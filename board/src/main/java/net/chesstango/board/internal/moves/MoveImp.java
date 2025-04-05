@@ -1,8 +1,8 @@
 package net.chesstango.board.internal.moves;
 
-import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
@@ -50,29 +50,15 @@ public abstract class MoveImp implements PseudoMove, Command {
     public void executeMove() {
         doMove(gameImp.getChessPosition());
 
-        doMove(gameImp.getState());
-
         gameImp.notifyDoMove(this);
     }
 
     @Override
     public void undoMove() {
-        undoMove(gameImp.getState());
 
         undoMove(gameImp.getChessPosition());
 
         gameImp.notifyUndoMove(this);
-    }
-
-    @Override
-    public void doMove(GameStateWriter gameState) {
-        gameState.setSelectedMove(this);
-        gameState.push();
-    }
-
-    @Override
-    public void undoMove(GameStateWriter gameState) {
-        gameState.pop();
     }
 
     @Override
