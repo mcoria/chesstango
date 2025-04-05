@@ -218,21 +218,7 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        game.accept(new GameVisitor() {
-            @Override
-            public void visit(ChessPositionReader chessPositionReader) {
-                positionReader = chessPositionReader;
-            }
-
-            @Override
-            public void visit(GameStateReader gameState) {
-            }
-
-            @Override
-            public void visit(MoveGenerator moveGenerator) {
-            }
-
-        });
+        this.positionReader = game.getChessPosition();
     }
 
     protected int evaluateByMaterial() {

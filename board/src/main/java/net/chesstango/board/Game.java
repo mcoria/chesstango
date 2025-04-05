@@ -1,6 +1,7 @@
 package net.chesstango.board;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
@@ -12,7 +13,7 @@ import net.chesstango.board.representations.fen.FEN;
  * the game state, the chess position, and the game status. It also includes methods to handle
  * the fifty-move rule, the threefold repetition rule, possible moves and game listeners.
  *
- * @see GameVisitorAcceptor
+ * @author Mauricio Coria
  * @see FEN
  * @see GameStateReader
  * @see ChessPositionReader
@@ -22,10 +23,8 @@ import net.chesstango.board.representations.fen.FEN;
  * @see Square
  * @see Piece
  * @see GameListener
- *
- * @author Mauricio Coria
  */
-public interface Game extends GameVisitorAcceptor {
+public interface Game {
     /**
      * Gets the initial FEN of the game.
      *
@@ -76,11 +75,18 @@ public interface Game extends GameVisitorAcceptor {
     void threefoldRepetitionRule(boolean flag);
 
     /**
-     * Gets the possible moves in the current position.
+     * Gets the possible legal moves in the current position.
      *
      * @return a container of possible moves
      */
     MoveContainerReader<Move> getPossibleMoves();
+
+    /**
+     * Gets the possible pseudo moves in the current position.
+     *
+     * @return a container of possible moves
+     */
+    MoveContainerReader<PseudoMove> getPseudoMoves();
 
     /**
      * Adds a game listener.
@@ -93,7 +99,7 @@ public interface Game extends GameVisitorAcceptor {
      * Gets a move from the specified starting and ending squares.
      *
      * @param from the starting square
-     * @param to the ending square
+     * @param to   the ending square
      * @return the move
      */
     Move getMove(Square from, Square to);
@@ -101,8 +107,8 @@ public interface Game extends GameVisitorAcceptor {
     /**
      * Gets a move from the specified starting and ending squares with a promotion piece.
      *
-     * @param from the starting square
-     * @param to the ending square
+     * @param from           the starting square
+     * @param to             the ending square
      * @param promotionPiece the promotion piece
      * @return the move
      */
@@ -112,7 +118,7 @@ public interface Game extends GameVisitorAcceptor {
      * Executes a move from the specified starting and ending squares.
      *
      * @param from the starting square
-     * @param to the ending square
+     * @param to   the ending square
      * @return the game after the move is executed
      */
     Game executeMove(Square from, Square to);
@@ -120,8 +126,8 @@ public interface Game extends GameVisitorAcceptor {
     /**
      * Executes a move from the specified starting and ending squares with a promotion piece.
      *
-     * @param from the starting square
-     * @param to the ending square
+     * @param from           the starting square
+     * @param to             the ending square
      * @param promotionPiece the promotion piece
      * @return the game after the move is executed
      */

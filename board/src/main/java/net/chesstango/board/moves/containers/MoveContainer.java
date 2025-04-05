@@ -29,12 +29,22 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
         this.moveList = new LinkedList<>();
     }
 
-    public <ME extends M>void add(MoveList<ME> moveList) {
+    public <ME extends M> void add(MoveList<ME> moveList) {
         if (!moveList.hasQuietMoves()) {
             hasQuietMoves = false;
         }
         size += moveList.size();
         moveLists.add(moveList);
+    }
+
+    public <ME extends M> void add(MovePair<ME> pseudoMoveMovePair) {
+        if (pseudoMoveMovePair.getFirst() != null) {
+            add(pseudoMoveMovePair.getFirst());
+        }
+
+        if (pseudoMoveMovePair.getSecond() != null) {
+            add(pseudoMoveMovePair.getSecond());
+        }
     }
 
     public void add(M move) {

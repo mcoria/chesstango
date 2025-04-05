@@ -50,9 +50,6 @@ public class EvaluatorImp04 extends AbstractEvaluator {
     private final int expansion;
     private final int attack;
 
-    private ChessPositionReader positionReader;
-    private MoveGenerator pseudoMovesGenerator;
-
     public EvaluatorImp04() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATTACK_DEFAULT);
     }
@@ -88,29 +85,19 @@ public class EvaluatorImp04 extends AbstractEvaluator {
 
         int evaluationByAttack = 0;
 
-        Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
+        for (Move move : game.getPseudoMoves()) {
+            PiecePositioned fromPosition = move.getFrom();
+            PiecePositioned toPosition = move.getTo();
+            Piece piece = fromPosition.getPiece();
 
-        while (iteratorAllPieces.hasNext()) {
-            PiecePositioned piecePositioned = iteratorAllPieces.next();
-
-            MoveGeneratorByPieceResult generationResult = pseudoMovesGenerator.generateByPiecePseudoMoves(piecePositioned);
-
-            MoveList<PseudoMove> pseudoMoves = generationResult.getPseudoMoves();
-
-            for (Move move : pseudoMoves) {
-                PiecePositioned fromPosition = move.getFrom();
-                PiecePositioned toPosition = move.getTo();
-                Piece piece = fromPosition.getPiece();
-
-                if (toPosition.getPiece() == null) {
-                    Square toSquare = toPosition.getSquare();
-                    int[] positionValues = getPositionValues(piece);
-                    evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
-                } else {
-                    evaluationByAttack -= getPieceValue(toPosition.getPiece());
-                }
-
+            if (toPosition.getPiece() == null) {
+                Square toSquare = toPosition.getSquare();
+                int[] positionValues = getPositionValues(piece);
+                evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
+            } else {
+                evaluationByAttack -= getPieceValue(toPosition.getPiece());
             }
+
         }
 
         // From white point of view
@@ -289,22 +276,6 @@ public class EvaluatorImp04 extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        game.accept(new GameVisitor() {
-            @Override
-            public void visit(ChessPositionReader chessPositionReader) {
-                positionReader = chessPositionReader;
-            }
-
-            @Override
-            public void visit(GameStateReader gameState) {
-            }
-
-            @Override
-            public void visit(MoveGenerator moveGenerator) {
-                pseudoMovesGenerator = moveGenerator;
-            }
-
-        });
     }
 
 

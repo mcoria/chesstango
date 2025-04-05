@@ -136,11 +136,7 @@ public class ChessInjector {
 
     public GameImp getGame() {
         if (game == null) {
-            game = chessFactory.createGame(getChessPosition(), getGameState(), visitor -> {
-                visitor.visit(chessPosition);
-                visitor.visit(gameState);
-                visitor.visit(moveGenerator);
-            });
+            game = chessFactory.createGame(getChessPosition(), getGameState());
 
             // Validation should be executed before the position is analyzed
             if (chessFactory instanceof ChessFactoryDebug) {
@@ -160,6 +156,7 @@ public class ChessInjector {
             }
 
             game.setAnalyzer(getAnalyzer());
+            game.setPseudoMovesGenerator(getPseudoMoveGenerator());
         }
         return game;
     }
@@ -207,7 +204,7 @@ public class ChessInjector {
 
     public MoveGenerator getPseudoMoveGenerator() {
         if (moveGenerator == null) {
-            moveGenerator = chessFactory.createMoveGeneratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
+            moveGenerator = chessFactory.createMoveGeneratorWithCacheProxy(getMoveGenerator(), getMoveCacheBoard());
         }
         return moveGenerator;
     }
@@ -226,7 +223,7 @@ public class ChessInjector {
         return noCheckLegalMoveGenerator;
     }
 
-    protected MoveGenerator getMoveGeneratorImp() {
+    protected MoveGenerator getMoveGenerator() {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = chessFactory.createMoveGenerator();
             moveGeneratorImp.setSquareBoardReader(getSquareBoard());

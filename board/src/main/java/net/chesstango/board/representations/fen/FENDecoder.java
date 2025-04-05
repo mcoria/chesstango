@@ -183,20 +183,20 @@ public class FENDecoder {
         };
     }
 
-    protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds) {
-        return castlingsAlloweds.contains("Q");
+    protected boolean isCastlingWhiteQueenAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("Q");
     }
 
-    protected boolean isCastlingWhiteKingAllowed(String castlingsAlloweds) {
-        return castlingsAlloweds.contains("K");
+    protected boolean isCastlingWhiteKingAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("K");
     }
 
-    protected boolean isCastlingBlackQueenAllowed(String castlingsAlloweds) {
-        return castlingsAlloweds.contains("q");
+    protected boolean isCastlingBlackQueenAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("q");
     }
 
-    protected boolean isCastlingBlackKingAllowed(String castlingsAlloweds) {
-        return castlingsAlloweds.contains("k");
+    protected boolean isCastlingBlackKingAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("k");
     }
 
 

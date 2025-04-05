@@ -1,17 +1,13 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.GameVisitor;
+import net.chesstango.board.iterators.state.FirstToLast;
+import net.chesstango.board.iterators.state.StateIterator;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -27,40 +23,30 @@ public class GameDebugEncoder {
                 .append(initialFEN)
                 .append("\")\n");
 
-        game.accept(new GameVisitor() {
+        StateIterator stateIterator = new FirstToLast(game.getState());
+        while (stateIterator.hasNext()) {
+            GameStateReader gameState = stateIterator.next();
 
-            @Override
-            public void visit(ChessPositionReader chessPositionReader) {
+            Move move = gameState.getSelectedMove();
 
-            }
 
-            @Override
-            public void visit(GameStateReader gameState) {
-                List<Move> moves = new LinkedList<>();
-                GameStateReader currentGameState = gameState.getPreviousState();
-                while (currentGameState != null) {
-                    moves.add(currentGameState.getSelectedMove());
-                    currentGameState = currentGameState.getPreviousState();
-                }
-                Collections.reverse(moves);
+            sb.append(".executeMove(Square.")
+                    .append(move.getFrom().getSquare().toString())
+                    .append(", Square.")
+                    .append(move.getTo().getSquare().toString()).append(")");
 
-                moves.forEach(move -> {
-                    sb.append(".executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
+            // Execute move
+            move.executeMove();
 
-                    move.executeMove();
-                    FENEncoder fenEncoder = new FENEncoder();
-                    ChessPositionReader theGamePositionReader = theGame.getChessPosition();
-                    theGamePositionReader.constructChessPositionRepresentation(fenEncoder);
+            FENEncoder fenEncoder = new FENEncoder();
+            ChessPositionReader theGamePositionReader = theGame.getChessPosition();
+            theGamePositionReader.constructChessPositionRepresentation(fenEncoder);
 
-                    sb.append(" // " + fenEncoder.getChessRepresentation() + "\n");
-                });
-            }
-
-            @Override
-            public void visit(MoveGenerator moveGenerator) {
-
-            }
-        });
+            sb.append(" // ")
+                    .append(fenEncoder.getChessRepresentation())
+                    .append("\n");
+        }
+        ;
 
 
         return sb.toString();

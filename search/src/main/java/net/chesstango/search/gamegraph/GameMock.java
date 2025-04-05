@@ -3,6 +3,7 @@ package net.chesstango.search.gamegraph;
 import lombok.Getter;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
@@ -47,6 +48,11 @@ public class GameMock implements Game {
     }
 
     @Override
+    public MoveContainerReader<PseudoMove> getPseudoMoves() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
     public void addGameListener(GameListener gameListener) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
@@ -68,11 +74,6 @@ public class GameMock implements Game {
 
     @Override
     public Game executeMove(Square from, Square to, Piece promotionPiece) {
-        throw new UnsupportedOperationException("Method not implemented yet");
-    }
-
-    @Override
-    public void accept(GameVisitor visitor) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
