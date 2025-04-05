@@ -9,9 +9,14 @@ import net.chesstango.board.moves.PseudoMove;
 import java.util.Iterator;
 
 /**
+ * Abstract class for generating pseudo-moves based on jump moves.
+ * This class extends the AbstractMoveGenerator and provides a framework
+ * for generating moves where pieces can jump to non-adjacent squares.
+ * Subclasses must implement the abstract methods to create specific types of moves
+ * and to define the iteration over possible destination squares.
+ *
  * @author Mauricio Coria
  */
-//TODO: En vez de computar los saltos podriamos ya tenerlos precargados para usar un iterador de bits
 public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 
     /**
@@ -24,8 +29,14 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
      */
     protected abstract PseudoMove createCaptureMove(PiecePositioned from, PiecePositioned to);
 
+
     protected abstract Iterator<Square> getSquareIterator(Square fromSquare);
 
+    /**
+     * Constructor for AbstractJumpMoveGenerator.
+     *
+     * @param color the color of the piece
+     */
     public AbstractJumpMoveGenerator(Color color) {
         super(color);
     }

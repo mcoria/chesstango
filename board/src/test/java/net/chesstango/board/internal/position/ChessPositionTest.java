@@ -2,18 +2,10 @@ package net.chesstango.board.internal.position;
 
 import net.chesstango.board.*;
 import net.chesstango.board.analyzer.AnalyzerResult;
-import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
-import net.chesstango.board.internal.factory.ChessFactoryDebug;
-import net.chesstango.board.internal.factory.ChessInjector;
-import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.internal.moves.MoveImp;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.GameState;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 
@@ -25,74 +17,66 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ChessPositionTest {
 
-    private MoveFactory moveFactoryWhite;
-
-    private MoveFactory moveFactoryBlack;
-
-    private PositionAnalyzer analyzer;
-
-    private ChessPosition chessPosition;
-
-    private GameState gameState;
+    private Game game;
 
     @Test
     public void testDefaultPosition() {
         setupWithDefaultBoard();
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.a2, Piece.PAWN_WHITE, Square.a3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3)));
+        assertNotNull(game.getMove(Square.a2, Square.a3));
+        assertNotNull(game.getMove(Square.a2, Square.a4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.b2, Piece.PAWN_WHITE, Square.b3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
+        assertNotNull(game.getMove(Square.b2, Square.b3));
+        assertNotNull(game.getMove(Square.b2, Square.b4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.c2, Piece.PAWN_WHITE, Square.c3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.c2, Piece.PAWN_WHITE, Square.c4, Square.c3)));
+        assertNotNull(game.getMove(Square.c2, Square.c3));
+        assertNotNull(game.getMove(Square.c2, Square.c4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.d2, Piece.PAWN_WHITE, Square.d3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.d2, Piece.PAWN_WHITE, Square.d4, Square.d3)));
+        assertNotNull(game.getMove(Square.d2, Square.d3));
+        assertNotNull(game.getMove(Square.d2, Square.d4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.e2, Piece.PAWN_WHITE, Square.e3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.e2, Piece.PAWN_WHITE, Square.e4, Square.e3)));
+        assertNotNull(game.getMove(Square.e2, Square.e3));
+        assertNotNull(game.getMove(Square.e2, Square.e4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.f2, Piece.PAWN_WHITE, Square.f3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.f2, Piece.PAWN_WHITE, Square.f4, Square.f3)));
+        assertNotNull(game.getMove(Square.f2, Square.f3));
+        assertNotNull(game.getMove(Square.f2, Square.f4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.g2, Piece.PAWN_WHITE, Square.g3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.g2, Piece.PAWN_WHITE, Square.g4, Square.g3)));
+        assertNotNull(game.getMove(Square.g2, Square.g3));
+        assertNotNull(game.getMove(Square.g2, Square.g4));
 
-        assertTrue(moves.contains(createSimplePawnMove(Square.h2, Piece.PAWN_WHITE, Square.h3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.h2, Piece.PAWN_WHITE, Square.h4, Square.h3)));
+        assertNotNull(game.getMove(Square.h2, Square.h3));
+        assertNotNull(game.getMove(Square.h2, Square.h4));
 
-        //CapturerByKnight Kingna
-        assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.a3)));
-        assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
+        //Knights
+        assertNotNull(game.getMove(Square.b1, Square.a3));
+        assertNotNull(game.getMove(Square.b1, Square.c3));
 
-        //CapturerByKnight King
-        assertTrue(moves.contains(createSimpleMove(Square.g1, Piece.KNIGHT_WHITE, Square.f3)));
-        assertTrue(moves.contains(createSimpleMove(Square.g1, Piece.KNIGHT_WHITE, Square.h3)));
+        //Knights
+        assertNotNull(game.getMove(Square.g1, Square.f3));
+        assertNotNull(game.getMove(Square.g1, Square.h3));
 
         //Debe haber 20 movimientos
         assertEquals(20, moves.size());
 
         //State
-        assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
-        assertNull(chessPosition.getEnPassantSquare());
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertNull(game.getChessPosition().getEnPassantSquare());
     }
 
     @Test
     public void testKingInCheck01() {
         setupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertEquals(Color.BLACK, chessPosition.getCurrentTurn());
-        assertEquals(GameStatus.CHECK, gameState.getStatus());
+        assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.CHECK, game.getStatus());
 
-        assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
-        assertFalse(moves.contains(createSimpleMove(Square.e8, Piece.KING_BLACK, Square.e7)));
-        assertFalse(moves.contains(createCaptureMove(Square.e8, Piece.KING_BLACK, Square.f7, Piece.QUEEN_WHITE)));
+        assertNotNull(game.getMove(Square.h6, Square.f7));
+        assertNull(game.getMove(Square.e8, Square.e7));
+        assertNull(game.getMove(Square.e8, Square.f7));
 
         assertEquals(1, moves.size());
     }
@@ -101,19 +85,19 @@ public class ChessPositionTest {
     public void testKingInCheck02() {
         setupWithBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
-        AnalyzerResult result = analyzer.analyze();
+        AnalyzerResult result = game.getState().getAnalyzerResult();
 
-        assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
-        assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
-        assertTrue(moves.contains(createSimplePawnMove(Square.c2, Piece.PAWN_WHITE, Square.c3)));
-        assertTrue(moves.contains(createSimpleMove(Square.d2, Piece.KING_WHITE, Square.e3)));
+        assertNotNull(game.getMove(Square.b1, Square.c3));
+        assertNotNull(game.getMove(Square.b2, Square.b4));
+        assertNotNull(game.getMove(Square.c2, Square.c3));
+        assertNotNull(game.getMove(Square.d2, Square.e3));
 
-        assertFalse(moves.contains(createSimpleMove(Square.d2, Piece.KING_WHITE, Square.e1)));
+        assertNull(game.getMove(Square.d2, Square.e1));
 
         assertEquals(4, moves.size());
     }
@@ -122,21 +106,21 @@ public class ChessPositionTest {
     public void testJuegoCastlingWhiteJaque() {
         setupWithBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
-        AnalyzerResult result = analyzer.analyze();
+        AnalyzerResult result = game.getState().getAnalyzerResult();
 
-        assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
+        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d1)));
-        assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d2)));
-        assertFalse(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.e2)));
-        assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f2)));
-        assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f1)));
+        assertNotNull(game.getMove(Square.e1, Square.d1));
+        assertNotNull(game.getMove(Square.e1, Square.d2));
+        assertNull(game.getMove(Square.e1, Square.e2));
+        assertNotNull(game.getMove(Square.e1, Square.f2));
+        assertNotNull(game.getMove(Square.e1, Square.f1));
 
-        assertFalse(moves.contains(moveFactoryWhite.createCastlingKingMove()));
-        assertFalse(moves.contains(moveFactoryWhite.createCastlingQueenMove()));
+        //assertFalse(game.getMove(moveFactoryWhite.createCastlingKingMove()));
+        //assertFalse(game.getMove(moveFactoryWhite.createCastlingQueenMove()));
 
         assertEquals(4, moves.size());
     }
@@ -145,16 +129,16 @@ public class ChessPositionTest {
     public void testJuegoPawnPromocion() {
         setupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.ROOK_BLACK, Cardinal.SurOeste)));
-        assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.KNIGHT_BLACK, Cardinal.SurOeste)));
-        assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.BISHOP_BLACK, Cardinal.SurOeste)));
-        assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
-                Piece.QUEEN_BLACK, Cardinal.SurOeste)));
+        assertNotNull(game.getMove(Square.g2, Square.f1,
+                Piece.ROOK_BLACK));
+        assertNotNull(game.getMove(Square.g2, Square.f1,
+                Piece.KNIGHT_BLACK));
+        assertNotNull(game.getMove(Square.g2, Square.f1,
+                Piece.BISHOP_BLACK));
+        assertNotNull(game.getMove(Square.g2, Square.f1,
+                Piece.QUEEN_BLACK));
 
         assertEquals(46, moves.size());
     }
@@ -164,11 +148,11 @@ public class ChessPositionTest {
     public void testJauqeMate() {
         setupWithBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-        AnalyzerResult result = analyzer.analyze();
+        AnalyzerResult result = game.getState().getAnalyzerResult();
 
         assertTrue(result.isKingInCheck());
-        assertTrue(gameState.getLegalMoves().isEmpty());
-        assertEquals(GameStatus.MATE, gameState.getStatus());
+        assertTrue(game.getPossibleMoves().isEmpty());
+        assertEquals(GameStatus.MATE, game.getStatus());
 
     }
 
@@ -176,11 +160,11 @@ public class ChessPositionTest {
     public void testKingNoPuedeMoverAJaque() {
         setupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
-        assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
-        assertFalse(moves.contains(moveFactoryWhite.createCastlingKingMove()));
+        assertNull(game.getMove(Square.e1, Square.f2));
+        assertNull(game.getMove(Square.e1, Square.f1));
+        assertNull(game.getMove(Square.e1, Square.g1));
 
         assertEquals(12, moves.size());
 
@@ -190,9 +174,9 @@ public class ChessPositionTest {
     public void testMovimientoEnPassantNoAllowed() {
         setupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertFalse(moves.contains(createCaptureEnPassantMoveBlack(Square.f4, Square.g3)));
+        assertNull(game.getMove(Square.f4, Square.g3));
 
         assertEquals(17, moves.size());
 
@@ -203,84 +187,37 @@ public class ChessPositionTest {
     public void testGetZobristHashMove() {
         setupWithDefaultBoard();
 
-        MoveContainerReader<Move> moves = gameState.getLegalMoves();
+        MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        long initialZobristHash = chessPosition.getZobristHash();
+        long initialZobristHash = game.getChessPosition().getZobristHash();
 
         for (Move theMove : moves) {
 
-            MoveImp move = (MoveImp) theMove;
+            long zobristHash = theMove.getZobristHash();
 
-            long zobristHash = move.getZobristHash();
+            theMove.executeMove();
 
-            move.doMove(chessPosition);
+            assertEquals(zobristHash, game.getChessPosition().getZobristHash());
 
-            assertEquals(zobristHash, chessPosition.getZobristHash());
-
-            move.undoMove(chessPosition);
+            theMove.undoMove();
         }
 
-        assertEquals(initialZobristHash, chessPosition.getZobristHash());
+        assertEquals(initialZobristHash, game.getChessPosition().getZobristHash());
     }
 
-
-    private Move createSimpleMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-        return moveFactoryWhite.createSimpleKnightMove(PiecePositioned.of(origenSquare, origenPieza), PiecePositioned.of(destinoSquare, null));
-    }
-
-    private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
-        return moveFactoryWhite.createCaptureKnightMove(PiecePositioned.of(origenSquare, origenPieza), PiecePositioned.of(destinoSquare, destinoPieza));
-    }
-
-
-    private Move createSimplePawnMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-        return moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.of(origenSquare, origenPieza), PiecePositioned.of(destinoSquare, null));
-    }
-
-    private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-        return moveFactoryWhite.createSimpleTwoSquaresPawnMove(PiecePositioned.of(origen, piece), PiecePositioned.of(destinoSquare, null), squarePasante);
-    }
-
-    private Move createCapturePawnPromocionBlack(Square origenSquare, Piece origenPieza, Square destinoSquare,
-                                                 Piece destinoPieza, Piece promocion, Cardinal cardinal) {
-        return moveFactoryBlack.createCapturePromotionPawnMove(PiecePositioned.of(origenSquare, origenPieza),
-                PiecePositioned.of(destinoSquare, destinoPieza), promocion, cardinal);
-    }
-
-    private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
-        return moveFactoryWhite.createCaptureEnPassantPawnMove(PiecePositioned.of(origen, Piece.PAWN_BLACK),
-                PiecePositioned.of(destinoSquare, null), PiecePositioned.of(
-                        Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen, destinoSquare));
-    }
-
-    private Move createSimpleKingMoveWhite(Square origen, Square destino) {
-        return moveFactoryWhite.createSimpleKingMove(PiecePositioned.of(origen, Piece.KING_WHITE), PiecePositioned.of(destino, null));
-    }
 
     private void setupWithDefaultBoard() {
         setupWithBoard(FENDecoder.INITIAL_FEN);
     }
-    
+
 
     private void setupWithBoard(String string) {
-        ChessInjector injector = new ChessInjector(new ChessFactoryDebug());
-
-        GameBuilder builder = new GameBuilderDebug(injector);
+        GameBuilder builder = new GameBuilderDebug();
 
         FENDecoder parser = new FENDecoder(builder);
         parser.parseFEN(string);
 
-        builder.getChessRepresentation();
-
-        moveFactoryWhite = injector.getMoveFactoryWhite();
-
-        moveFactoryBlack = injector.getMoveFactoryBlack();
-
-        chessPosition = injector.getChessPosition();
-
-        gameState = injector.getGameState();
-
-        analyzer = injector.getAnalyzer();
+        game = builder.getChessRepresentation();
     }
 
 

@@ -10,7 +10,7 @@ import net.chesstango.board.representations.fen.FEN;
  * Interface representing a chess game.
  * This interface provides methods to get the initial and current FEN (Forsyth-Edwards Notation),
  * the game state, the chess position, and the game status. It also includes methods to handle
- * the fifty-move rule, the threefold repetition rule, possible moves, game listeners, and debugging.
+ * the fifty-move rule, the threefold repetition rule, possible moves and game listeners.
  *
  * @see GameVisitorAcceptor
  * @see FEN
@@ -89,8 +89,6 @@ public interface Game extends GameVisitorAcceptor {
      */
     void addGameListener(GameListener gameListener);
 
-    //******* FOR DEBUGGING
-
     /**
      * Gets a move from the specified starting and ending squares.
      *
@@ -135,7 +133,7 @@ public interface Game extends GameVisitorAcceptor {
      * @return the game after the move is undone
      */
     Game undoMove();
-    //*******
+
 
     /**
      * Mirrors the current game position.

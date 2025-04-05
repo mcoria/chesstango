@@ -154,10 +154,10 @@ public class GameImp implements Game {
         this.analyzer.threefoldRepetitionRule(true);
         this.analyzer.fiftyMovesRule(true);
         this.analyzer.updateGameState();
+        this.gameListenerList.add(this.analyzer);
     }
 
     public void notifyDoMove(Move move) {
-        analyzer.updateGameState();
         if (!gameListenerList.isEmpty()) {
             for (GameListener gameListener : gameListenerList) {
                 gameListener.notifyDoMove(move);

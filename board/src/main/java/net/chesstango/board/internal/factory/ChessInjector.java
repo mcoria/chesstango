@@ -1,17 +1,20 @@
 package net.chesstango.board.internal.factory;
 
-import net.chesstango.board.internal.GameImp;
+import net.chesstango.board.GameListener;
 import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
+import net.chesstango.board.internal.GameImp;
+import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
+import net.chesstango.board.internal.position.ChessPositionDebug;
+import net.chesstango.board.internal.position.ChessPositionImp;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.position.*;
-import net.chesstango.board.internal.position.ChessPositionImp;
 
 /**
  * @author Mauricio Coria
@@ -138,6 +141,24 @@ public class ChessInjector {
                 visitor.visit(gameState);
                 visitor.visit(moveGenerator);
             });
+
+            // Validation should be executed before the position is analyzed
+            if (chessFactory instanceof ChessFactoryDebug) {
+                ChessPositionDebug chessPositionDebug = (ChessPositionDebug) getChessPosition();
+                game.addGameListener(new GameListener() {
+                                         @Override
+                                         public void notifyDoMove(Move move) {
+                                             chessPositionDebug.validar();
+                                         }
+
+                                         @Override
+                                         public void notifyUndoMove(Move move) {
+                                             chessPositionDebug.validar();
+                                         }
+                                     }
+                );
+            }
+
             game.setAnalyzer(getAnalyzer());
         }
         return game;

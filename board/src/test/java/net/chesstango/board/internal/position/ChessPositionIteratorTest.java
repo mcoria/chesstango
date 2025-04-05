@@ -14,10 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class ChessPositionImpTest {
-
+public class ChessPositionIteratorTest {
 
     @Test
     public void test_iterator() {
@@ -39,7 +37,7 @@ public class ChessPositionImpTest {
 
         List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
 
-        for (Iterator<PiecePositioned> iterator = chessPosition.iteratorAllPieces() ; iterator.hasNext();) {
+        for (Iterator<PiecePositioned> iterator = chessPosition.iteratorAllPieces(); iterator.hasNext(); ) {
             posicionesList.add(iterator.next());
         }
 
@@ -52,5 +50,4 @@ public class ChessPositionImpTest {
         assertFalse(posicionesList.contains(PiecePositioned.of(Square.e3, null)));
         assertEquals(5, posicionesList.size());
     }
-
 }

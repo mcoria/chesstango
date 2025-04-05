@@ -1,12 +1,12 @@
 package net.chesstango.board.internal.position;
 
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
+import net.chesstango.board.moves.containers.MoveList;
+import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
 
@@ -16,6 +16,20 @@ import net.chesstango.board.representations.ascii.ASCIIEncoder;
 public class ChessPositionDebug extends ChessPositionImp {
 
     private MoveGeneratorImp moveGeneratorImp;
+
+    @Override
+    public void init() {
+        super.init();
+        validar();
+    }
+
+    @Override
+    public String toString() {
+        ASCIIEncoder asciiEncoder = new ASCIIEncoder();
+        constructChessPositionRepresentation(asciiEncoder);
+
+        return super.toString() + "\n" + asciiEncoder.getChessRepresentation();
+    }
 
 
     // LLAMAR A ESTE METODO UNA VEZ QUE SE EJECUTO EL MOVIMIENTO
@@ -27,24 +41,6 @@ public class ChessPositionDebug extends ChessPositionImp {
         ((ZobristHashDebug) zobristHash).validar(this);
         validar(getMoveGeneratorImp());
     }
-
-    @Override
-    public void init() {
-        super.init();
-        ((PositionStateDebug) positionState).validar(this.squareBoard);
-        ((BitBoardDebug) bitBoard).validar(this.squareBoard);
-        ((KingSquareDebug) kingSquare).validar(this.squareBoard);
-        ((MoveCacheBoardDebug) moveCache).validar(this.squareBoard);
-    }
-
-    @Override
-    public String toString() {
-        ASCIIEncoder asciiEncoder = new ASCIIEncoder();
-        constructChessPositionRepresentation(asciiEncoder);
-
-        return super.toString() + "\n" + asciiEncoder.getChessRepresentation();
-    }
-
 
     private void validar(MoveGeneratorImp moveGeneratorImp) {
         for (int i = 0; i < 64; i++) {
@@ -70,6 +66,10 @@ public class ChessPositionDebug extends ChessPositionImp {
 
         if (expectedMoveGeneratorResults.getAffectedByPositions() != cacheMoveGeneratorResult.getAffectedByPositions()) {
             throw new RuntimeException("AffectedBy no coinciden");
+        }
+
+        if (expectedMoveGeneratorResults.getCapturedPositions() != cacheMoveGeneratorResult.getCapturedPositions()) {
+            throw new RuntimeException("CapturedPositions no coinciden");
         }
     }
 

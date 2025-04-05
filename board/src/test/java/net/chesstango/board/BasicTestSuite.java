@@ -17,7 +17,7 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({ PieceTest.class, SquareTest.class, PiecePositionedTest.class, GameTest.class, FullScanSquareCapturedTest.class,
 		ChessPositionTest.class, MoveCacheBoardImpTest.class, BitBoardTest.class, SquareBoardImpTest.class,
-		ChessPositionImpTest.class, MoveContainerTest.class,
+		ChessPositionIteratorTest.class, MoveContainerTest.class,
 		ZobristNoCollisionTest.class, PositionAnalyzerTest.class, KingSafePositionsAnalyzerTest.class})
 public class BasicTestSuite {
 
