@@ -13,6 +13,14 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.*;
 
 /**
+ * Implementation of the MoveGenerator interface.
+ * This class provides methods to generate pseudo-moves for different pieces
+ * and handles special moves like en passant and castling.
+ * It uses various move generator strategies for different piece types.
+ * The `MoveGeneratorImp` class implements the Strategy design pattern by encapsulating various move
+ * generation algorithms for different chess pieces and selecting the appropriate algorithm at runtime
+ * based on the piece type.
+ *
  * @author Mauricio Coria
  */
 public class MoveGeneratorImp implements MoveGenerator {
@@ -181,6 +189,15 @@ public class MoveGeneratorImp implements MoveGenerator {
     }
 
 
+    /**
+     * Selects the appropriate move generator strategy based on the given piece.
+     * This method uses a switch expression to return the corresponding move generator
+     * for the specified piece type. If the piece type is not recognized, it throws a RuntimeException.
+     *
+     * @param piece the piece for which to select the move generator strategy
+     * @return the move generator strategy for the specified piece
+     * @throws RuntimeException if the piece type is not recognized
+     */
     private MoveGeneratorByPiece selectMoveGeneratorStrategy(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> this.pawnWhiteMoveGenerator;
