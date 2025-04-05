@@ -2,13 +2,13 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.iterators.state.FirstToLast;
+import net.chesstango.board.iterators.state.StateIterator;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.move.SANEncoder;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,17 +24,10 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        GameStateReader currentState = game.getState();
-        LinkedList<GameStateReader> gameStateList = new LinkedList<>();
-        do {
-            gameStateList.add(currentState);
-            currentState = currentState.getPreviousState();
-        } while (currentState != null);
-
         String moveStrTmp = "";
-        Iterator<GameStateReader> listIt = gameStateList.descendingIterator();
-        while (listIt.hasNext()) {
-            GameStateReader gameState = listIt.next();
+        StateIterator stateIterator = new FirstToLast(game.getState());
+        while (stateIterator.hasNext()) {
+            GameStateReader gameState = stateIterator.next();
             if (!"".equals(moveStrTmp)) {
                 moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
                 moveList.add(moveStrTmp);

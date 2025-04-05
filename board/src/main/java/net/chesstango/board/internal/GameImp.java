@@ -26,18 +26,18 @@ import java.util.List;
  * retrieve the current and initial FEN (Forsyth-Edwards Notation) representation of the game,
  * and manage game listeners.
  * It also supports rules like threefold repetition and fifty-move rule.
- *
+ * <p>
  * The class uses a ChessPosition to represent the current state of the chessboard,
  * and a GameState to manage the state of the game.
- *
+ * <p>
  * It also allows for the generation of pseudo-moves and legal moves.
- *
+ * <p>
  * The class is designed to notify listeners of moves being executed or undone.
- *
+ * <p>
  * This class implements the Facade design pattern to provide a simplified interface
  * to the complex subsystem of chess game management, including move execution, state management,
  * and rule enforcement.
- *
+ * <p>
  * Dependencies:
  * - ChessPosition
  * - GameState
@@ -57,9 +57,7 @@ import java.util.List;
 public class GameImp implements Game {
     private final ChessPosition chessPosition;
     private final GameState gameState;
-
-
-    private final List<GameListener> gameListenerList;
+    private final List<GameListener> gameListeners;
 
     private PositionAnalyzer analyzer;
 
@@ -69,7 +67,7 @@ public class GameImp implements Game {
     public GameImp(ChessPosition chessPosition, GameState gameState) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
-        this.gameListenerList = new ArrayList<>();
+        this.gameListeners = new ArrayList<>();
         this.chessPosition.init();
         saveInitialFEN();
     }
@@ -129,12 +127,12 @@ public class GameImp implements Game {
 
     @Override
     public void threefoldRepetitionRule(boolean flag) {
-        this.analyzer.threefoldRepetitionRule(flag);
+        this.analyzer.setThreefoldRepetitionRule(flag);
     }
 
     @Override
     public void fiftyMovesRule(boolean flag) {
-        this.analyzer.fiftyMovesRule(flag);
+        this.analyzer.setFiftyMovesRule(flag);
     }
 
     @Override
@@ -165,7 +163,7 @@ public class GameImp implements Game {
 
     @Override
     public void addGameListener(GameListener gameListener) {
-        gameListenerList.add(gameListener);
+        gameListeners.add(gameListener);
     }
 
     @Override
@@ -205,23 +203,23 @@ public class GameImp implements Game {
 
     public void setAnalyzer(PositionAnalyzer analyzer) {
         this.analyzer = analyzer;
-        this.analyzer.threefoldRepetitionRule(true);
-        this.analyzer.fiftyMovesRule(true);
+        this.analyzer.setThreefoldRepetitionRule(true);
+        this.analyzer.setFiftyMovesRule(true);
         this.analyzer.updateGameState();
-        this.gameListenerList.add(this.analyzer);
+        this.gameListeners.add(this.analyzer);
     }
 
     public void notifyDoMove(Move move) {
-        if (!gameListenerList.isEmpty()) {
-            for (GameListener gameListener : gameListenerList) {
+        if (!gameListeners.isEmpty()) {
+            for (GameListener gameListener : gameListeners) {
                 gameListener.notifyDoMove(move);
             }
         }
     }
 
     public void notifyUndoMove(Move move) {
-        if (!gameListenerList.isEmpty()) {
-            for (GameListener gameListener : gameListenerList) {
+        if (!gameListeners.isEmpty()) {
+            for (GameListener gameListener : gameListeners) {
                 gameListener.notifyUndoMove(move);
             }
         }

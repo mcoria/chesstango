@@ -1,14 +1,16 @@
 package net.chesstango.board.analyzer;
 
 import lombok.Setter;
+import net.chesstango.board.GameListener;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.iterators.state.LastToFirst;
+import net.chesstango.board.iterators.state.StateIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameState;
-import net.chesstango.board.GameListener;
 import net.chesstango.board.position.GameStateReader;
 
 /**
@@ -35,7 +37,10 @@ public class PositionAnalyzer implements GameListener {
     @Setter
     private LegalMoveGenerator legalMoveGenerator;
 
+    @Setter
     private boolean threefoldRepetitionRule;
+
+    @Setter
     private boolean fiftyMovesRule;
 
     @Override
@@ -45,7 +50,6 @@ public class PositionAnalyzer implements GameListener {
 
     @Override
     public void notifyUndoMove(Move move) {
-
     }
 
     public void updateGameState() {
@@ -53,48 +57,16 @@ public class PositionAnalyzer implements GameListener {
 
         MoveContainerReader<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
-        boolean existsLegalMove = !legalMoves.isEmpty();
-
-        GameStatus gameStatus = null;
-
-        int repetitionCounter = getRepetitionCounter();
-
-        if (existsLegalMove) {
-            if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
-                gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
-            } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
-                if (repetitionCounter > 2) {
-                    gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
-                }
-            }
-
-            if (gameStatus == null) {
-                if (analysis.isKingInCheck()) {
-                    gameStatus = GameStatus.CHECK;
-                } else {
-                    gameStatus = GameStatus.NO_CHECK;
-                }
-            }
-        } else {
-            if (analysis.isKingInCheck()) {
-                gameStatus = GameStatus.MATE;
-            } else {
-                gameStatus = GameStatus.STALEMATE;
-            }
-        }
+        int repetitionCounter = calculateRepetitionCounter();
+        GameStatus gameStatus = calculateGameStatus(analysis, legalMoves, repetitionCounter);
 
         gameState.setStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
         gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
         gameState.setRepetitionCounter(repetitionCounter);
-
-        if (gameStatus.isFinalStatus()) {
-            gameState.setLegalMoves(new MoveContainer<>());
-        } else {
-            gameState.setLegalMoves(legalMoves);
-        }
-
+        gameState.setLegalMoves(legalMoves);
+        gameState.setLegalMoves(gameStatus.isInProgress() ? legalMoves : new MoveContainer<>());
     }
 
     public AnalyzerResult analyze() {
@@ -108,42 +80,63 @@ public class PositionAnalyzer implements GameListener {
         return result;
     }
 
-    public void threefoldRepetitionRule(boolean flag) {
-        this.threefoldRepetitionRule = flag;
+    private GameStatus calculateGameStatus(AnalyzerResult analysis, MoveContainerReader<Move> legalMoves, int repetitionCounter) {
+        if (!legalMoves.isEmpty()) {
+            if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
+                return GameStatus.DRAW_BY_FIFTY_RULE;
+            } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
+                if (repetitionCounter > 2) {
+                    return GameStatus.DRAW_BY_FOLD_REPETITION;
+                }
+            }
+            return analysis.isKingInCheck() ? GameStatus.CHECK : GameStatus.NO_CHECK;
+        }
+        return analysis.isKingInCheck() ? GameStatus.MATE : GameStatus.STALEMATE;
     }
 
-    public void fiftyMovesRule(boolean flag) {
-        this.fiftyMovesRule = flag;
-    }
-
-
-    private int getRepetitionCounter() {
+    private int calculateRepetitionCounter() {
         final long zobristHash = positionReader.getZobristHash();
         final long positionHash = positionReader.getAllPositions();
 
         int repetitionCounter = 1;
-
-        GameStateReader currentState = gameState.getPreviousState();
-        if (currentState != null) {
-            currentState = currentState.getPreviousState();
-        }
-
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
-        halfMoveClockCounter -= 2;
 
-        while (currentState != null && halfMoveClockCounter >= 0) {
 
-            if (zobristHash == currentState.getZobristHash() && positionHash == currentState.getPositionHash()) {
-                repetitionCounter = currentState.getRepetitionCounter() + 1;
-                break;
+        StateIterator gameStateIterator = new LastToFirst(gameState);
+
+        // Skip the first state, initial position
+        if (gameStateIterator.hasNext()) {
+            // Skip the current state, my turn
+            gameStateIterator.next();
+            halfMoveClockCounter--;
+
+
+            if (gameStateIterator.hasNext()) {
+                // Skip next state, opponent turn
+                gameStateIterator.next();
+                halfMoveClockCounter--;
+
+                // Start iterating
+                while (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
+
+                    // Get the current state
+                    GameStateReader currentState = gameStateIterator.next();
+                    halfMoveClockCounter--;
+
+                    if (currentState.getZobristHash() == zobristHash && currentState.getPositionHash() == positionHash) {
+                        repetitionCounter = currentState.getRepetitionCounter() + 1;
+                        break;
+                    }
+
+                    // Skip next state, opponent turn
+                    if (gameStateIterator.hasNext()) {
+                        gameStateIterator.next();
+                        halfMoveClockCounter -= 1;
+                    }
+                }
             }
-
-            currentState = currentState.getPreviousState();
-            if (currentState != null) {
-                currentState = currentState.getPreviousState();
-            }
-            halfMoveClockCounter -= 2;
         }
+
 
         return repetitionCounter;
     }
