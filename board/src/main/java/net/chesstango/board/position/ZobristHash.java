@@ -6,8 +6,8 @@ package net.chesstango.board.position;
  */
 public interface ZobristHash extends ZobristHashReader, ZobristHashWriter {
 
-    void init(ChessPositionReader chessPositionReader);
+    void init(PositionReader positionReader);
 
-    void init(SquareBoardReader piecePlacement, PositionStateReader positionState);
+    void init(SquareBoardReader piecePlacement, StateReader positionState);
 
 }

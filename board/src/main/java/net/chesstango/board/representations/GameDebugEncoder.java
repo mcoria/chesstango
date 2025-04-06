@@ -2,7 +2,7 @@ package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -32,7 +32,7 @@ public class GameDebugEncoder {
             move.executeMove();
 
             FENEncoder fenEncoder = new FENEncoder();
-            ChessPositionReader theGamePositionReader = theGame.getPosition();
+            PositionReader theGamePositionReader = theGame.getPosition();
             theGamePositionReader.constructChessPositionRepresentation(fenEncoder);
 
             sb.append(" // ")

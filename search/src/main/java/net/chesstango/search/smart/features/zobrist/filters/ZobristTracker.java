@@ -3,7 +3,7 @@ package net.chesstango.search.smart.features.zobrist.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FENEncoderZobrist;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -50,7 +50,7 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     protected void findCollision(Map<Long, String> theMap) {
         FENEncoderZobrist encoder = new FENEncoderZobrist();
 
-        ChessPositionReader chessPosition = game.getPosition();
+        PositionReader chessPosition = game.getPosition();
 
         chessPosition.constructChessPositionRepresentation(encoder);
 

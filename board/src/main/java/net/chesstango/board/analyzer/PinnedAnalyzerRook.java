@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.internal.moves.generators.pseudo.strategies.RookMoveGenerator;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 /**
  * @author Mauricio Coria
@@ -13,7 +13,7 @@ import net.chesstango.board.position.ChessPositionReader;
  */
 class PinnedAnalyzerRook extends PinnedAnalyzerCardinal {
 
-    PinnedAnalyzerRook(ChessPositionReader positionReader, Color color) {
+    PinnedAnalyzerRook(PositionReader positionReader, Color color) {
         super(positionReader, color, RookMoveGenerator.ROOK_CARDINAL, Piece.getRook(color));
     }
 

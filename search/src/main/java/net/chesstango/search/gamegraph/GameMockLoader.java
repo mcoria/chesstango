@@ -5,8 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.Position;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -89,7 +89,7 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                ChessPosition position = FEN.of(node.fen).toChessPosition();
+                Position position = FEN.of(node.fen).toChessPosition();
                 Game game = loadGame(position);
                 node.position = game.getPosition();
                 node.gameState = game.getState();
@@ -110,7 +110,7 @@ public class GameMockLoader {
         public void visit(NodeLink nodeLink) {
             Matcher moveMatcher = movePattern.matcher(nodeLink.moveStr);
             if (moveMatcher.matches()) {
-                ChessPositionReader position = nodeLink.parent.position;
+                PositionReader position = nodeLink.parent.position;
 
                 Game game = loadGame(position);
 
@@ -138,7 +138,7 @@ public class GameMockLoader {
             throw new RuntimeException(String.format("Move %s not found", moveStr));
         }
 
-        private Game loadGame(ChessPositionReader position) {
+        private Game loadGame(PositionReader position) {
             GameBuilder gameBuilder = new GameBuilder();
 
             position.constructChessPositionRepresentation(gameBuilder);

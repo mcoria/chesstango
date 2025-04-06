@@ -3,7 +3,7 @@ package net.chesstango.evaluation.evaluators;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.Iterator;
 
@@ -58,7 +58,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
 
     protected int evaluateByColor() {
         int evaluation = 0;
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             evaluation += Color.WHITE.equals(piecePlacement.getPiece().getColor()) ? +1 : -1;
@@ -88,7 +88,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

@@ -20,10 +20,10 @@ public class MoveKingImp extends MoveComposed {
     }
 
     @Override
-    public void doMove(ChessPositionWriter chessPosition) {
+    public void doMove(PositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
         BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        StateWriter positionState = chessPosition.getPositionStateWriter();
         MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
         KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
         ZobristHashWriter hash = chessPosition.getZobristWriter();
@@ -42,10 +42,10 @@ public class MoveKingImp extends MoveComposed {
     }
 
     @Override
-    public void undoMove(ChessPositionWriter chessPosition) {
+    public void undoMove(PositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
         BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
+        StateWriter positionState = chessPosition.getPositionStateWriter();
         MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
         KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
         ZobristHashWriter hash = chessPosition.getZobristWriter();

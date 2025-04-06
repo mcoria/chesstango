@@ -13,14 +13,14 @@ public interface Command {
      *
      * @param chessPosition the chess position writer
      */
-    void doMove(ChessPositionWriter chessPosition);
+    void doMove(PositionWriter chessPosition);
 
     /**
      * Undoes a move on the chess position.
      *
      * @param chessPosition the chess position writer
      */
-    void undoMove(ChessPositionWriter chessPosition);
+    void undoMove(PositionWriter chessPosition);
 
     /**
      * Executes a move on the square board.
@@ -41,14 +41,14 @@ public interface Command {
      *
      * @param positionState the position state writer
      */
-    void doMove(PositionStateWriter positionState);
+    void doMove(StateWriter positionState);
 
     /**
      * Undoes a move on the position state.
      *
      * @param positionState the position state writer
      */
-    void undoMove(PositionStateWriter positionState);
+    void undoMove(StateWriter positionState);
 
     /**
      * Executes a move on the bit board.

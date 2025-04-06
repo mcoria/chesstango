@@ -4,8 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.PositionReader;
+import net.chesstango.board.position.StateReader;
 import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.ZobristHash;
 
@@ -34,12 +34,12 @@ public class ZobristHashImp implements ZobristHash {
     }
 
     @Override
-    public void init(ChessPositionReader chessPositionReader) {
-        init(chessPositionReader, chessPositionReader);
+    public void init(PositionReader positionReader) {
+        init(positionReader, positionReader);
     }
 
     @Override
-    public void init(SquareBoardReader piecePlacement, PositionStateReader positionState) {
+    public void init(SquareBoardReader piecePlacement, StateReader positionState) {
         for (PiecePositioned piecePositioned : piecePlacement) {
             if (piecePositioned.getPiece() != null) {
                 xorPosition(piecePositioned);
@@ -360,7 +360,7 @@ public class ZobristHashImp implements ZobristHash {
         };
     }
 
-    private boolean isEnPassantActive(SquareBoardReader piecePlacement, PositionStateReader positionState) {
+    private boolean isEnPassantActive(SquareBoardReader piecePlacement, StateReader positionState) {
         Square enPassantSquare = positionState.getEnPassantSquare();
         if (positionState.getEnPassantSquare() != null) {
             if (Color.WHITE.equals(positionState.getCurrentTurn())) {

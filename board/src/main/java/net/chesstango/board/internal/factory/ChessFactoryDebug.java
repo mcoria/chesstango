@@ -22,17 +22,17 @@ import net.chesstango.board.position.*;
 public class ChessFactoryDebug extends ChessFactory {
 
 	@Override
-	public ChessPositionImp createChessPosition() {
-		return new ChessPositionDebug();
+	public PositionImp createChessPosition() {
+		return new PositionDebug();
 	}	
 	
 	@Override
-	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new CheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
-	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
 		return new NoCheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
@@ -52,19 +52,19 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
-		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, State state) {
+		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, state);
 	}
 
 	@Override
 	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                          PositionState positionState) {
-		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+                                                          State state) {
+		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, state);
 	}		
 	
 	@Override
-	public PositionState createPositionState() {
-		return new PositionStateDebug();
+	public State createPositionState() {
+		return new StateDebug();
 	}
 	
 	@Override

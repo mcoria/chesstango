@@ -2,7 +2,7 @@ package net.chesstango.lichess;
 
 import chariot.model.*;
 import net.chesstango.board.Color;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -154,7 +154,7 @@ public class LichessTango implements Runnable {
     private void play(GameStateEvent.State state) {
         tango.setPosition(FEN.of(fenPosition), state.moveList());
 
-        ChessPositionReader currentChessPosition = tango
+        PositionReader currentChessPosition = tango
                 .getCurrentSession()
                 .getGame()
                 .getPosition();

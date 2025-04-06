@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 /**
  * @author Mauricio Coria
@@ -53,7 +53,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     private final int expansion;
     private final int ataque;
 
-    private ChessPositionReader positionReader;
+    private PositionReader positionReader;
 
     public EvaluatorImp02() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
@@ -130,7 +130,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

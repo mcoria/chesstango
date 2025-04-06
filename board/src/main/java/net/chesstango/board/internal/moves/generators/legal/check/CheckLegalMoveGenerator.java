@@ -11,14 +11,14 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.internal.moves.generators.legal.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 /**
  * @author Mauricio Coria
  */
 public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
-    public CheckLegalMoveGenerator(ChessPositionReader positionReader,
+    public CheckLegalMoveGenerator(PositionReader positionReader,
                                    MoveGenerator strategy,
                                    LegalMoveFilter filter) {
         super(positionReader, strategy, filter);

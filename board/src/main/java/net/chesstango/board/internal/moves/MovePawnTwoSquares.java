@@ -31,7 +31,7 @@ public class MovePawnTwoSquares extends MoveImp {
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
+    public void doMove(StateWriter positionState) {
         positionState.pushState();
 
         positionState.setEnPassantSquare(enPassantSquare);
@@ -85,13 +85,13 @@ public class MovePawnTwoSquares extends MoveImp {
 
         hash.clearEnPassantSquare();
 
-        ChessPositionReader chessPositionReader = gameImp.getPosition();
+        PositionReader positionReader = gameImp.getPosition();
 
-        if (enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
+        if (enPassantSquare.equals(positionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
             Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
-            if (leftSquare != null && from.getPiece().getOpposite().equals(chessPositionReader.getPiece(leftSquare)) ||
-                    rightSquare != null && from.getPiece().getOpposite().equals(chessPositionReader.getPiece(rightSquare))) {
+            if (leftSquare != null && from.getPiece().getOpposite().equals(positionReader.getPiece(leftSquare)) ||
+                    rightSquare != null && from.getPiece().getOpposite().equals(positionReader.getPiece(rightSquare))) {
                 hash.xorEnPassantSquare(enPassantSquare);
             }
         }

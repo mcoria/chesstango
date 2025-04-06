@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface PositionStateWriter {
+public interface StateWriter {
     void setEnPassantSquare(Square enPassantSquare);
 
     void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed);

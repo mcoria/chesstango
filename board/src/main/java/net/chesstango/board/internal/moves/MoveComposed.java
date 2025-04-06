@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 @Setter
 public class MoveComposed extends MoveImp {
 
-    private MoveExecutorLayer<PositionStateWriter> fnDoPositionState;
+    private MoveExecutorLayer<StateWriter> fnDoPositionState;
 
     private MoveExecutorLayer<SquareBoardWriter> fnDoSquareBoard;
 
@@ -49,7 +49,7 @@ public class MoveComposed extends MoveImp {
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
+    public void doMove(StateWriter positionState) {
         fnDoPositionState.apply(from, to, positionState);
     }
 

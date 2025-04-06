@@ -2,7 +2,7 @@ package net.chesstango.board.representations.fen;
 
 import lombok.Getter;
 import net.chesstango.board.builders.ChessPositionBuilder;
-import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.Position;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -85,7 +85,7 @@ public final class FEN {
         return Objects.equals(fen, fen1.fen);
     }
 
-    public ChessPosition toChessPosition() {
+    public Position toChessPosition() {
         ChessPositionBuilder builder = new ChessPositionBuilder();
 
         FENDecoder parser = new FENDecoder(builder);

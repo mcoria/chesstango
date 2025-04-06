@@ -9,7 +9,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +27,7 @@ class Node {
     @JsonManagedReference
     List<NodeLink> links;
 
-    ChessPositionReader position;
+    PositionReader position;
 
     Node parentNode;
 
@@ -113,7 +113,7 @@ class Node {
         links.forEach(link -> link.accept(visitor));
     }
 
-    ChessPositionReader getChessPosition() {
+    PositionReader getChessPosition() {
         return position;
     }
 

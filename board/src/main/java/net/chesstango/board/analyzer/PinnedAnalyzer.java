@@ -2,7 +2,7 @@ package net.chesstango.board.analyzer;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ import java.util.ArrayList;
  */
 public class PinnedAnalyzer implements Analyzer {
 
-    private final ChessPositionReader positionReader;
+    private final PositionReader positionReader;
     private final PinnedAnalyzerByColor analyzerWhite;
     private final PinnedAnalyzerByColor analyzerBlack;
 
-    public PinnedAnalyzer(ChessPositionReader chessPosition) {
+    public PinnedAnalyzer(PositionReader chessPosition) {
         positionReader = chessPosition;
         analyzerWhite = new PinnedAnalyzerByColor(chessPosition, Color.WHITE);
         analyzerBlack = new PinnedAnalyzerByColor(chessPosition, Color.BLACK);
@@ -37,7 +37,7 @@ public class PinnedAnalyzer implements Analyzer {
         private final PinnedAnalyzerRook analyzerRook;
         private final PinnedAnalyzerBishop analyzerBishop;
 
-        public PinnedAnalyzerByColor(ChessPositionReader chessPosition, Color color) {
+        public PinnedAnalyzerByColor(PositionReader chessPosition, Color color) {
             this.color = color;
             this.analyzerRook = new PinnedAnalyzerRook(chessPosition, color.oppositeColor());
             this.analyzerBishop = new PinnedAnalyzerBishop(chessPosition, color.oppositeColor());

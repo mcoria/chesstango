@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.Iterator;
 
@@ -14,11 +14,11 @@ import java.util.Iterator;
  */
 public class KingSafePositionsAnalyzer implements Analyzer {
 
-    private final ChessPositionReader positionReader;
+    private final PositionReader positionReader;
     private final KingSafePositionsAnalyzerByColor analyzerWhite;
     private final KingSafePositionsAnalyzerByColor analyzerBlack;
 
-    public KingSafePositionsAnalyzer(ChessPositionReader positionReader) {
+    public KingSafePositionsAnalyzer(PositionReader positionReader) {
         this.positionReader = positionReader;
         this.analyzerWhite = new KingSafePositionsAnalyzerByColor(Color.WHITE);
         this.analyzerBlack = new KingSafePositionsAnalyzerByColor(Color.BLACK);

@@ -5,13 +5,13 @@ import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.internal.position.KingSquareDebug;
 import net.chesstango.board.internal.position.MoveCacheBoardDebug;
-import net.chesstango.board.internal.position.PositionStateDebug;
+import net.chesstango.board.internal.position.StateDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.ChessPositionImp;
+import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.internal.position.ZobristHashImp;
@@ -38,7 +38,7 @@ public class SimpleKingMoveTest {
     private MoveKingImp moveExecutor;
     private SquareBoard squareBoard;
 
-    private PositionStateDebug positionState;
+    private StateDebug positionState;
     private BitBoardDebug bitBoard;
     private KingSquareDebug kingCacheBoard;
     private MoveCacheBoardDebug moveCacheBoard;
@@ -50,11 +50,11 @@ public class SimpleKingMoveTest {
     @Mock
     private LegalMoveFilter filter;
 
-    private ChessPositionImp chessPosition;
+    private PositionImp chessPosition;
 
     @BeforeEach
     public void setUp() throws Exception {
-        positionState = new PositionStateDebug();
+        positionState = new StateDebug();
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(true);
         positionState.setCastlingWhiteQueenAllowed(true);
@@ -79,9 +79,9 @@ public class SimpleKingMoveTest {
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
 
-        chessPosition = new ChessPositionImp();
+        chessPosition = new PositionImp();
         chessPosition.setSquareBoard(squareBoard);
-        chessPosition.setPositionState(positionState);
+        chessPosition.setState(positionState);
         chessPosition.setBitBoard(bitBoard);
         chessPosition.setMoveCache(moveCacheBoard);
         chessPosition.setZobristHash(zobristHash);

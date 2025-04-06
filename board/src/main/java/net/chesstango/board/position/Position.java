@@ -18,7 +18,7 @@ package net.chesstango.board.position;
  *
  * @author Mauricio Coria
  */
-public interface ChessPosition extends ChessPositionReader, ChessPositionWriter {
+public interface Position extends PositionReader, PositionWriter {
     /**
      * Initializes the chess position.
      * This method should set up the initial state of the chess position,

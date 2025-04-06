@@ -3,7 +3,7 @@ package net.chesstango.evaluation.extractors;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.util.Map;
@@ -15,7 +15,7 @@ public class ExtractorByMaterial implements GameFeatures {
 
     @Override
     public void extractFeatures(final Game game, Map<String, Integer> featuresMap) {
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

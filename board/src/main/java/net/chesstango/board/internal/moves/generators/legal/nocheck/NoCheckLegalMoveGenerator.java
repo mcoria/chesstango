@@ -14,7 +14,7 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.internal.moves.generators.legal.AbstractLegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.AbstractMap;
 import java.util.Iterator;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
-    public NoCheckLegalMoveGenerator(ChessPositionReader positionReader,
+    public NoCheckLegalMoveGenerator(PositionReader positionReader,
                                      MoveGenerator strategy,
                                      LegalMoveFilter filter) {
         super(positionReader, strategy, filter);

@@ -72,9 +72,9 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.of(rookTo.getSquare(), rookFrom.getPiece()));
 
-        ChessPositionReader chessPositionReader = gameImp.getPosition();
+        PositionReader positionReader = gameImp.getPosition();
 
-        xorCastling(hash, chessPositionReader.getPreviousPositionState(), chessPositionReader);
+        xorCastling(hash, positionReader.getPreviousPositionState(), positionReader);
 
         hash.clearEnPassantSquare();
 
@@ -96,5 +96,5 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         return null;
     }
 
-    protected abstract void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
+    protected abstract void xorCastling(ZobristHashWriter hash, StateReader oldPositionState, StateReader newPositionState);
 }

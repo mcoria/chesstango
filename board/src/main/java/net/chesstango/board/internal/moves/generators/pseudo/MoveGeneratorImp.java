@@ -41,7 +41,7 @@ public class MoveGeneratorImp implements MoveGenerator {
     private MoveFactory moveFactoryBlack;
     private SquareBoardReader squareBoardReader;
     private BitBoardReader bitBoardReader;
-    private PositionStateReader positionStateReader;
+    private StateReader stateReader;
     private KingSquareReader kingSquareReader;
 
     public MoveGeneratorImp() {
@@ -80,7 +80,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
     @Override
     public MovePair<PseudoMove> generateEnPassantPseudoMoves() {
-        if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
+        if (Color.WHITE.equals(stateReader.getCurrentTurn())) {
             return pawnWhiteMoveGenerator.generateEnPassantPseudoMoves();
         } else {
             return pawnBlackMoveGenerator.generateEnPassantPseudoMoves();
@@ -90,7 +90,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
     @Override
     public MovePair<PseudoMove> generateCastlingPseudoMoves() {
-        if (Color.WHITE.equals(positionStateReader.getCurrentTurn())) {
+        if (Color.WHITE.equals(stateReader.getCurrentTurn())) {
             return kingWhiteMoveGenerator.generateCastlingPseudoMoves();
         } else {
             return kingBlackMoveGenerator.generateCastlingPseudoMoves();
@@ -107,8 +107,8 @@ public class MoveGeneratorImp implements MoveGenerator {
         setupMoveGenerators();
     }
 
-    public void setBoardState(PositionStateReader positionState) {
-        this.positionStateReader = positionState;
+    public void setBoardState(StateReader positionState) {
+        this.stateReader = positionState;
         setupMoveGenerators();
     }
 
@@ -162,12 +162,12 @@ public class MoveGeneratorImp implements MoveGenerator {
 
         if (abstractMoveGenerator instanceof AbstractPawnMoveGenerator abstractPawnMoveGenerator) {
             abstractPawnMoveGenerator.setMoveFactory(moveFactory);
-            abstractPawnMoveGenerator.setPositionState(positionStateReader);
+            abstractPawnMoveGenerator.setPositionState(stateReader);
         }
 
         if (abstractMoveGenerator instanceof AbstractKingMoveGenerator abstractKingMoveGenerator) {
             abstractKingMoveGenerator.setMoveFactory(moveFactory);
-            abstractKingMoveGenerator.setPositionState(positionStateReader);
+            abstractKingMoveGenerator.setPositionState(stateReader);
             abstractKingMoveGenerator.setKingSquare(kingSquareReader);
         }
 

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
-public class ChessPositionTest {
+public class PositionTest {
 
     private Game game;
 

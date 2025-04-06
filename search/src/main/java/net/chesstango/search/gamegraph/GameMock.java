@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.CareTakerReader;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -34,7 +34,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public ChessPositionReader getPosition() {
+    public PositionReader getPosition() {
         return currentMockNode.getChessPosition();
     }
 

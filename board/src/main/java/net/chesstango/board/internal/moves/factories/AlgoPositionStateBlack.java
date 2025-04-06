@@ -5,7 +5,7 @@ import net.chesstango.board.internal.moves.MoveCastlingBlackKing;
 import net.chesstango.board.internal.moves.MoveCastlingBlackQueen;
 import net.chesstango.board.internal.moves.MoveCastlingWhiteKing;
 import net.chesstango.board.internal.moves.MoveCastlingWhiteQueen;
-import net.chesstango.board.position.PositionStateWriter;
+import net.chesstango.board.position.StateWriter;
 
 /**
  * @author Mauricio Coria
@@ -13,87 +13,87 @@ import net.chesstango.board.position.PositionStateWriter;
 public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
-    public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
-        positionStateWriter.resetHalfMoveClock();
-        positionStateWriter.setEnPassantSquare(null);
-        positionStateWriter.incrementFullMoveClock();
-        positionStateWriter.rollTurn();
+    public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, StateWriter stateWriter) {
+        stateWriter.pushState();
+        stateWriter.resetHalfMoveClock();
+        stateWriter.setEnPassantSquare(null);
+        stateWriter.incrementFullMoveClock();
+        stateWriter.rollTurn();
     }
 
     @Override
-    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
-        positionStateWriter.incrementHalfMoveClock();
-        positionStateWriter.setEnPassantSquare(null);
+    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, StateWriter stateWriter) {
+        stateWriter.pushState();
+        stateWriter.incrementHalfMoveClock();
+        stateWriter.setEnPassantSquare(null);
 
         if(MoveCastlingBlackKing.ROOK_FROM.equals(from)){
-            positionStateWriter.setCastlingBlackKingAllowed(false);
+            stateWriter.setCastlingBlackKingAllowed(false);
         }
 
         if(MoveCastlingBlackQueen.ROOK_FROM.equals(from)){
-            positionStateWriter.setCastlingBlackQueenAllowed(false);
+            stateWriter.setCastlingBlackQueenAllowed(false);
         }
 
-        positionStateWriter.incrementFullMoveClock();
-        positionStateWriter.rollTurn();
+        stateWriter.incrementFullMoveClock();
+        stateWriter.rollTurn();
     }
 
     @Override
-    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
-        positionStateWriter.incrementHalfMoveClock();
-        positionStateWriter.setEnPassantSquare(null);
-        positionStateWriter.setCastlingBlackKingAllowed(false);
-        positionStateWriter.setCastlingBlackQueenAllowed(false);
-        positionStateWriter.incrementFullMoveClock();
-        positionStateWriter.rollTurn();
+    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, StateWriter stateWriter) {
+        stateWriter.pushState();
+        stateWriter.incrementHalfMoveClock();
+        stateWriter.setEnPassantSquare(null);
+        stateWriter.setCastlingBlackKingAllowed(false);
+        stateWriter.setCastlingBlackQueenAllowed(false);
+        stateWriter.incrementFullMoveClock();
+        stateWriter.rollTurn();
     }
 
     @Override
-    public void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
-        positionStateWriter.resetHalfMoveClock();
-        positionStateWriter.setEnPassantSquare(null);
+    public void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, StateWriter stateWriter) {
+        stateWriter.pushState();
+        stateWriter.resetHalfMoveClock();
+        stateWriter.setEnPassantSquare(null);
 
         if(MoveCastlingBlackKing.ROOK_FROM.equals(from)){
-            positionStateWriter.setCastlingBlackKingAllowed(false);
+            stateWriter.setCastlingBlackKingAllowed(false);
         }
 
         if(MoveCastlingBlackQueen.ROOK_FROM.equals(from)){
-            positionStateWriter.setCastlingBlackQueenAllowed(false);
+            stateWriter.setCastlingBlackQueenAllowed(false);
         }
 
         if(MoveCastlingWhiteKing.ROOK_FROM.equals(to)){
-            positionStateWriter.setCastlingWhiteKingAllowed(false);
+            stateWriter.setCastlingWhiteKingAllowed(false);
         }
 
         if(MoveCastlingWhiteQueen.ROOK_FROM.equals(to)){
-            positionStateWriter.setCastlingWhiteQueenAllowed(false);
+            stateWriter.setCastlingWhiteQueenAllowed(false);
         }
 
-        positionStateWriter.incrementFullMoveClock();
-        positionStateWriter.rollTurn();
+        stateWriter.incrementFullMoveClock();
+        stateWriter.rollTurn();
     }
 
     @Override
-    public void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
-        positionStateWriter.resetHalfMoveClock();
-        positionStateWriter.setEnPassantSquare(null);
+    public void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, StateWriter stateWriter) {
+        stateWriter.pushState();
+        stateWriter.resetHalfMoveClock();
+        stateWriter.setEnPassantSquare(null);
 
-        positionStateWriter.setCastlingBlackKingAllowed(false);
-        positionStateWriter.setCastlingBlackQueenAllowed(false);
+        stateWriter.setCastlingBlackKingAllowed(false);
+        stateWriter.setCastlingBlackQueenAllowed(false);
 
         if(MoveCastlingWhiteKing.ROOK_FROM.equals(to)){
-            positionStateWriter.setCastlingWhiteKingAllowed(false);
+            stateWriter.setCastlingWhiteKingAllowed(false);
         }
 
         if(MoveCastlingWhiteQueen.ROOK_FROM.equals(to)){
-            positionStateWriter.setCastlingWhiteQueenAllowed(false);
+            stateWriter.setCastlingWhiteQueenAllowed(false);
         }
 
-        positionStateWriter.incrementFullMoveClock();
-        positionStateWriter.rollTurn();
+        stateWriter.incrementFullMoveClock();
+        stateWriter.rollTurn();
     }
 }

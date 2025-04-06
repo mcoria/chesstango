@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface PositionStateReader {
+public interface StateReader {
     Square getEnPassantSquare();
 
     boolean isCastlingWhiteQueenAllowed();
@@ -24,5 +24,5 @@ public interface PositionStateReader {
 
     int getFullMoveClock();
 
-    PositionStateReader getPreviousPositionState();
+    StateReader getPreviousPositionState();
 }

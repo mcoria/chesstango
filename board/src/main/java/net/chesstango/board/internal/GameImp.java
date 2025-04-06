@@ -54,7 +54,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class GameImp implements Game {
-    private final ChessPosition chessPosition;
+    private final Position position;
 
     private final GameState gameState;
 
@@ -67,11 +67,11 @@ public class GameImp implements Game {
     @Setter
     private MoveGenerator pseudoMovesGenerator;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState, CareTaker careTaker) {
-        this.chessPosition = chessPosition;
+    public GameImp(Position position, GameState gameState, CareTaker careTaker) {
+        this.position = position;
         this.gameState = gameState;
         this.careTaker = careTaker;
-        this.chessPosition.init();
+        this.position.init();
         saveInitialFEN();
     }
 
@@ -149,7 +149,7 @@ public class GameImp implements Game {
     public MoveContainerReader<PseudoMove> getPseudoMoves() {
         MoveContainer<PseudoMove> pseudoMoves = new MoveContainer<>();
 
-        Iterator<PiecePositioned> iteratorAllPieces = chessPosition.iteratorAllPieces();
+        Iterator<PiecePositioned> iteratorAllPieces = position.iteratorAllPieces();
 
         while (iteratorAllPieces.hasNext()) {
             PiecePositioned piecePositioned = iteratorAllPieces.next();
@@ -187,8 +187,8 @@ public class GameImp implements Game {
     }
 
     @Override
-    public ChessPosition getPosition() {
-        return chessPosition;
+    public Position getPosition() {
+        return position;
     }
 
     @Override
@@ -200,13 +200,13 @@ public class GameImp implements Game {
 
     @Override
     public String toString() {
-        return chessPosition.toString();
+        return position.toString();
     }
 
     private void saveInitialFEN() {
         FENEncoder encoder = new FENEncoder();
 
-        chessPosition.constructChessPositionRepresentation(encoder);
+        position.constructChessPositionRepresentation(encoder);
 
         gameState.setInitialFEN(encoder.getChessRepresentation());
     }

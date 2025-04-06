@@ -17,11 +17,11 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 @Setter
-public class ChessPositionImp implements ChessPosition {
+public class PositionImp implements Position {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
     protected SquareBoard squareBoard = null;
-    protected PositionState positionState = null;
+    protected State state = null;
 
     protected BitBoard bitBoard = null;
     protected KingSquare kingSquare = null;
@@ -31,20 +31,20 @@ public class ChessPositionImp implements ChessPosition {
     @Override
     public void init() {
         kingSquare.init(squareBoard);
-        zobristHash.init(squareBoard, positionState);
+        zobristHash.init(squareBoard, state);
     }
 
 
     @Override
     public void constructChessPositionRepresentation(PositionBuilder<?> builder) {
-        builder.withTurn(positionState.getCurrentTurn())
-                .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
-                .withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
-                .withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
-                .withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
-                .withEnPassantSquare(positionState.getEnPassantSquare())
-                .withHalfMoveClock(positionState.getHalfMoveClock())
-                .withFullMoveClock(positionState.getFullMoveClock());
+        builder.withTurn(state.getCurrentTurn())
+                .withCastlingWhiteQueenAllowed(state.isCastlingWhiteQueenAllowed())
+                .withCastlingWhiteKingAllowed(state.isCastlingWhiteKingAllowed())
+                .withCastlingBlackQueenAllowed(state.isCastlingBlackQueenAllowed())
+                .withCastlingBlackKingAllowed(state.isCastlingBlackKingAllowed())
+                .withEnPassantSquare(state.getEnPassantSquare())
+                .withHalfMoveClock(state.getHalfMoveClock())
+                .withFullMoveClock(state.getFullMoveClock());
 
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {
@@ -55,47 +55,47 @@ public class ChessPositionImp implements ChessPosition {
 
     @Override
     public Color getCurrentTurn() {
-        return this.positionState.getCurrentTurn();
+        return this.state.getCurrentTurn();
     }
 
     @Override
     public Square getEnPassantSquare() {
-        return this.positionState.getEnPassantSquare();
+        return this.state.getEnPassantSquare();
     }
 
     @Override
     public boolean isCastlingWhiteQueenAllowed() {
-        return this.positionState.isCastlingWhiteQueenAllowed();
+        return this.state.isCastlingWhiteQueenAllowed();
     }
 
     @Override
     public boolean isCastlingWhiteKingAllowed() {
-        return this.positionState.isCastlingWhiteKingAllowed();
+        return this.state.isCastlingWhiteKingAllowed();
     }
 
     @Override
     public boolean isCastlingBlackQueenAllowed() {
-        return this.positionState.isCastlingBlackQueenAllowed();
+        return this.state.isCastlingBlackQueenAllowed();
     }
 
     @Override
     public boolean isCastlingBlackKingAllowed() {
-        return this.positionState.isCastlingBlackKingAllowed();
+        return this.state.isCastlingBlackKingAllowed();
     }
 
     @Override
     public int getHalfMoveClock() {
-        return this.positionState.getHalfMoveClock();
+        return this.state.getHalfMoveClock();
     }
 
     @Override
     public int getFullMoveClock() {
-        return this.positionState.getFullMoveClock();
+        return this.state.getFullMoveClock();
     }
 
     @Override
-    public PositionStateReader getPreviousPositionState() {
-        return this.positionState.getPreviousPositionState();
+    public StateReader getPreviousPositionState() {
+        return this.state.getPreviousPositionState();
     }
 
     @Override
@@ -230,8 +230,8 @@ public class ChessPositionImp implements ChessPosition {
     }
 
     @Override
-    public PositionStateWriter getPositionStateWriter() {
-        return positionState;
+    public StateWriter getPositionStateWriter() {
+        return state;
     }
 
     @Override

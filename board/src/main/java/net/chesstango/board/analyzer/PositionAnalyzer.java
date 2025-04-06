@@ -32,7 +32,7 @@ public class PositionAnalyzer implements GameListener {
 
     private GameState gameState;
 
-    private ChessPositionReader positionReader;
+    private PositionReader positionReader;
 
     private LegalMoveGenerator legalMoveGenerator;
 

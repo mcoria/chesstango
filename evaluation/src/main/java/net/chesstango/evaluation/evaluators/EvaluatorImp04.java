@@ -2,7 +2,7 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.Iterator;
 
@@ -64,7 +64,7 @@ public class EvaluatorImp04 extends AbstractEvaluator {
 
     protected int evaluateByPosition() {
         int evaluation = 0;
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
@@ -277,7 +277,7 @@ public class EvaluatorImp04 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

@@ -7,8 +7,8 @@ import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
-import net.chesstango.board.internal.position.ChessPositionDebug;
-import net.chesstango.board.internal.position.ChessPositionImp;
+import net.chesstango.board.internal.position.PositionDebug;
+import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -25,7 +25,7 @@ public class ChessInjector {
 
     private SquareBoard squareBoard = null;
 
-    private PositionState positionState = null;
+    private State state = null;
 
     private BitBoard bitBoard = null;
 
@@ -35,7 +35,7 @@ public class ChessInjector {
 
     private ZobristHash zobristHash = null;
 
-    private ChessPositionImp chessPosition = null;
+    private PositionImp chessPosition = null;
 
     private MoveGenerator moveGenerator = null;
 
@@ -75,13 +75,13 @@ public class ChessInjector {
         this.chessFactory = chessFactory;
     }
 
-    public ChessPositionImp getChessPosition() {
+    public PositionImp getChessPosition() {
         if (chessPosition == null) {
             chessPosition = chessFactory.createChessPosition();
 
             chessPosition.setSquareBoard(getSquareBoard());
 
-            chessPosition.setPositionState(getPositionState());
+            chessPosition.setState(getPositionState());
 
             chessPosition.setKingSquare(getKingCacheBoard());
 
@@ -101,11 +101,11 @@ public class ChessInjector {
         return squareBoard;
     }
 
-    public PositionState getPositionState() {
-        if (positionState == null) {
-            positionState = chessFactory.createPositionState();
+    public State getPositionState() {
+        if (state == null) {
+            state = chessFactory.createPositionState();
         }
-        return positionState;
+        return state;
     }
 
     public KingSquare getKingCacheBoard() {
@@ -142,7 +142,7 @@ public class ChessInjector {
 
             // Validation should be executed before the position is analyzed
             if (chessFactory instanceof ChessFactoryDebug) {
-                ChessPositionDebug chessPositionDebug = (ChessPositionDebug) getChessPosition();
+                PositionDebug chessPositionDebug = (PositionDebug) getChessPosition();
                 game.addGameListener(new GameListener() {
                                          @Override
                                          public void notifyDoMove(Move move) {

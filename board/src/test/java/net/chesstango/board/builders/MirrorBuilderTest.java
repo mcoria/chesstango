@@ -3,7 +3,7 @@ package net.chesstango.board.builders;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.Position;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -18,28 +18,28 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition() {
-        MirrorPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
+        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
         mirrorChessPositionBuilder.withTurn(Color.WHITE);
         mirrorChessPositionBuilder.withPiece(Square.a1, Piece.ROOK_WHITE);
         mirrorChessPositionBuilder.withPiece(Square.e1, Piece.KING_WHITE);
         mirrorChessPositionBuilder.withPiece(Square.e8, Piece.KING_BLACK);
-        ChessPosition mirrorChessPosition = mirrorChessPositionBuilder.getChessRepresentation();
+        Position mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
 
-        assertEquals(Color.BLACK, mirrorChessPosition.getCurrentTurn());
-        assertEquals(Piece.ROOK_BLACK, mirrorChessPosition.getPiece(Square.a8));
-        assertEquals(Piece.KING_BLACK, mirrorChessPosition.getPiece(Square.e8));
-        assertEquals(Piece.KING_WHITE, mirrorChessPosition.getPiece(Square.e1));
+        assertEquals(Color.BLACK, mirrorPosition.getCurrentTurn());
+        assertEquals(Piece.ROOK_BLACK, mirrorPosition.getPiece(Square.a8));
+        assertEquals(Piece.KING_BLACK, mirrorPosition.getPiece(Square.e8));
+        assertEquals(Piece.KING_WHITE, mirrorPosition.getPiece(Square.e1));
     }
 
     @Test
     public void mirrorChessPosition01() {
-        ChessPosition position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
 
-        MirrorPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
+        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
 
         position.constructChessPositionRepresentation(mirrorChessPositionBuilder);
 
-        ChessPosition mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
+        Position mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -53,13 +53,13 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition02() {
-        ChessPosition position = FEN.of("4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20").toChessPosition();
+        Position position = FEN.of("4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20").toChessPosition();
 
-        MirrorPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
+        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
 
         position.constructChessPositionRepresentation(mirrorChessPositionBuilder);
 
-        ChessPosition mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
+        Position mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -72,13 +72,13 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition03() {
-        ChessPosition position = FEN.of("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7").toChessPosition();
+        Position position = FEN.of("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7").toChessPosition();
 
-        MirrorPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
+        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
 
         position.constructChessPositionRepresentation(mirrorChessPositionBuilder);
 
-        ChessPosition mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
+        Position mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -91,13 +91,13 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition04() {
-        ChessPosition position = FEN.of("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5").toChessPosition();
+        Position position = FEN.of("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5").toChessPosition();
 
-        MirrorPositionBuilder<ChessPosition> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
+        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
 
         position.constructChessPositionRepresentation(mirrorChessPositionBuilder);
 
-        ChessPosition mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
+        Position mirrorPosition = mirrorChessPositionBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 

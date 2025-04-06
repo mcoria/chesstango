@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.Assertions;
@@ -727,7 +727,7 @@ public class GameTest {
 
         game.executeMove(Square.g2, Square.h1, Piece.QUEEN_BLACK);
 
-        ChessPositionReader reader = game.getPosition();
+        PositionReader reader = game.getPosition();
 
         assertFalse(reader.isCastlingWhiteKingAllowed());
 

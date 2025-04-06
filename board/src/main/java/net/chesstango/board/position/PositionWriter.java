@@ -3,7 +3,7 @@ package net.chesstango.board.position;
 /**
  * @author Mauricio Coria
  */
-public interface ChessPositionWriter {
+public interface PositionWriter {
 
     SquareBoardWriter getSquareBoardWriter();
 
@@ -13,7 +13,7 @@ public interface ChessPositionWriter {
 
     MoveCacheBoardWriter getMoveCacheWriter();
 
-    PositionStateWriter getPositionStateWriter();
+    StateWriter getPositionStateWriter();
 
     ZobristHashWriter getZobristWriter();
 }

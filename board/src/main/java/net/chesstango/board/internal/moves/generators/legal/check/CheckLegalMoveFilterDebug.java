@@ -11,8 +11,8 @@ import net.chesstango.board.position.*;
 public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 
     public CheckLegalMoveFilterDebug(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                     PositionState positionState) {
-        super(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+                                     State state) {
+        super(dummySquareBoard, kingCacheBoard, bitBoard, state);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
 
             KingSquareImp kingCacheBoardInicial = ((KingSquareImp) super.kingCacheBoard).clone();
 
-            PositionStateImp boardStateInicial = ((PositionStateImp) positionState).clone();
+            StateImp boardStateInicial = ((StateImp) positionState).clone();
 
             boolean result = super.isLegalMove(move, command);
 
@@ -51,7 +51,7 @@ public class CheckLegalMoveFilterDebug extends CheckLegalMoveFilter {
                 throw new RuntimeException("Hubo modificaciones ! ! !");
             }
 
-            ((PositionStateDebug) positionState).validar(this.squareBoard);
+            ((StateDebug) positionState).validar(this.squareBoard);
             ((BitBoardDebug) bitBoard).validar(this.squareBoard);
 
             return result;

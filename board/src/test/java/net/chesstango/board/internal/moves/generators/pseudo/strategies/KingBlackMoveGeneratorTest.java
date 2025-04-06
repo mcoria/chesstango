@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.KingBlackMoveGenerator;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MovePair;
@@ -15,11 +14,11 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.KingSquare;
-import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.State;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.internal.position.KingSquareImp;
-import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.StateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	private MovePair<PseudoMove> moveCastling;
 	
-	private PositionState state;
+	private State state;
 	
 	private BitBoard bitBoard;
 	
@@ -53,7 +52,7 @@ public class KingBlackMoveGeneratorTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
-		state = new PositionStateImp();
+		state = new StateImp();
 		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();

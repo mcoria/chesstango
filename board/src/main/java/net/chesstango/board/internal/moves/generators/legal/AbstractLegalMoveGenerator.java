@@ -11,19 +11,19 @@ import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 /**
  * @author Mauricio Coria
  */
 public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
-    protected final ChessPositionReader positionReader;
+    protected final PositionReader positionReader;
     protected final MoveGenerator pseudoMovesGenerator;
 
     protected final LegalMoveFilter filter;
 
-    public AbstractLegalMoveGenerator(ChessPositionReader positionReader,
+    public AbstractLegalMoveGenerator(PositionReader positionReader,
                                       MoveGenerator strategy,
                                       LegalMoveFilter filter) {
         this.positionReader = positionReader;

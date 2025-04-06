@@ -1,7 +1,7 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.Iterator;
 
@@ -66,7 +66,7 @@ public class EvaluatorImp05 extends AbstractEvaluator {
 
     private final int wgEndGame;
 
-    private ChessPositionReader positionReader;
+    private PositionReader positionReader;
 
     public EvaluatorImp05() {
         this(new int[]{WEIGH_MATERIAL_DEFAULT, WEIGH_MG_DEFAULT, WEIGH_EG_DEFAULT});
@@ -87,7 +87,7 @@ public class EvaluatorImp05 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

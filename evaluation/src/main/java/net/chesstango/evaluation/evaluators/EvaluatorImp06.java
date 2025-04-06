@@ -2,7 +2,7 @@ package net.chesstango.evaluation.evaluators;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.*;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +41,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     private final int[] egQueenTbl;
     private final int[] egKingTbl;
 
-    private ChessPositionReader positionReader;
+    private PositionReader positionReader;
 
     public EvaluatorImp06() {
         this(readDefaultValues());
@@ -106,7 +106,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

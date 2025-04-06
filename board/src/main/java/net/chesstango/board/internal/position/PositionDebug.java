@@ -13,7 +13,7 @@ import net.chesstango.board.representations.ascii.ASCIIEncoder;
 /**
  * @author Mauricio Coria
  */
-public class ChessPositionDebug extends ChessPositionImp {
+public class PositionDebug extends PositionImp {
 
     private MoveGeneratorImp moveGeneratorImp;
 
@@ -34,7 +34,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 
     // LLAMAR A ESTE METODO UNA VEZ QUE SE EJECUTO EL MOVIMIENTO
     public void validar() {
-        ((PositionStateDebug) positionState).validar(this.squareBoard);
+        ((StateDebug) state).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
         ((KingSquareDebug) kingSquare).validar(this.squareBoard);
         ((MoveCacheBoardDebug) moveCache).validar(this.squareBoard);
@@ -77,7 +77,7 @@ public class ChessPositionDebug extends ChessPositionImp {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = new MoveGeneratorImp();
             moveGeneratorImp.setSquareBoardReader(this.squareBoard);
-            moveGeneratorImp.setBoardState(this.positionState);
+            moveGeneratorImp.setBoardState(this.state);
             moveGeneratorImp.setBitBoardReader(this.bitBoard);
             moveGeneratorImp.setMoveFactoryWhite(new MoveFactoryWhite());
             moveGeneratorImp.setMoveFactoryBlack(new MoveFactoryBlack());

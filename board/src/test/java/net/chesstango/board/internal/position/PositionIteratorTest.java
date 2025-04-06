@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
-public class ChessPositionIteratorTest {
+public class PositionIteratorTest {
 
     @Test
     public void test_iterator() {
-        ChessPositionImp chessPosition = new ChessPositionImp();
+        PositionImp chessPosition = new PositionImp();
 
         SquareBoardImp squareBoardImp = new SquareBoardImp();
 

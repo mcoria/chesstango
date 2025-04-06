@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 /**
  * @author Mauricio Coria
@@ -13,11 +13,11 @@ import net.chesstango.board.position.ChessPositionReader;
  * Esta clase no se utiliza por el momento
  */
 public class CapturedPositionsAnalyzer implements Analyzer {
-    private final ChessPositionReader positionReader;
+    private final PositionReader positionReader;
 
     protected final MoveGenerator pseudoMovesGenerator;
 
-    public CapturedPositionsAnalyzer(ChessPositionReader positionReader, MoveGenerator pseudoMovesGenerator) {
+    public CapturedPositionsAnalyzer(PositionReader positionReader, MoveGenerator pseudoMovesGenerator) {
         this.positionReader = positionReader;
         this.pseudoMovesGenerator = pseudoMovesGenerator;
     }

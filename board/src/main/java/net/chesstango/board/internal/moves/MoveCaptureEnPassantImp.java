@@ -34,7 +34,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
+    public void doMove(StateWriter positionState) {
         positionState.pushState();
 
         positionState.setEnPassantSquare(null);

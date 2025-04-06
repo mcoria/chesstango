@@ -2,15 +2,15 @@ package net.chesstango.board.internal.position;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.State;
+import net.chesstango.board.position.StateReader;
 
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-public class PositionStateImp implements PositionState {
+public class StateImp implements State {
     private PositionStateData currentPositionState = new PositionStateData();
 
     @Override
@@ -106,7 +106,7 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
-    public PositionStateReader getPreviousPositionState() {
+    public StateReader getPreviousPositionState() {
         return currentPositionState.getPreviousPositionState();
     }
 
@@ -146,8 +146,8 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
-    public PositionStateImp clone() throws CloneNotSupportedException {
-        PositionStateImp clone = new PositionStateImp();
+    public StateImp clone() throws CloneNotSupportedException {
+        StateImp clone = new StateImp();
         clone.currentPositionState.enPassantSquare = currentPositionState.enPassantSquare;
         clone.currentPositionState.castlingWhiteQueenAllowed = currentPositionState.castlingWhiteQueenAllowed;
         clone.currentPositionState.castlingWhiteKingAllowed = currentPositionState.castlingWhiteKingAllowed;
@@ -161,7 +161,7 @@ public class PositionStateImp implements PositionState {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PositionStateImp theInstance) {
+        if (obj instanceof StateImp theInstance) {
             return Objects.equals(currentPositionState.currentTurn, theInstance.currentPositionState.currentTurn) && Objects.equals(currentPositionState.enPassantSquare, theInstance.currentPositionState.enPassantSquare) && currentPositionState.castlingWhiteQueenAllowed == theInstance.currentPositionState.castlingWhiteQueenAllowed && currentPositionState.castlingWhiteKingAllowed == theInstance.currentPositionState.castlingWhiteKingAllowed && currentPositionState.castlingBlackQueenAllowed == theInstance.currentPositionState.castlingBlackQueenAllowed && currentPositionState.castlingBlackKingAllowed == theInstance.currentPositionState.castlingBlackKingAllowed && currentPositionState.halfMoveClock == theInstance.currentPositionState.halfMoveClock && currentPositionState.fullMoveClock == theInstance.currentPositionState.fullMoveClock;
         }
         return false;
@@ -173,7 +173,7 @@ public class PositionStateImp implements PositionState {
     }
 
 
-    private static class PositionStateData implements PositionStateReader {
+    private static class PositionStateData implements StateReader {
         private Color currentTurn;
         private Square enPassantSquare;
         private boolean castlingWhiteQueenAllowed;
@@ -225,7 +225,7 @@ public class PositionStateImp implements PositionState {
         }
 
         @Override
-        public PositionStateReader getPreviousPositionState() {
+        public StateReader getPreviousPositionState() {
             return previousPositionState;
         }
     }

@@ -25,20 +25,20 @@ import net.chesstango.board.position.*;
  */
 public class ChessFactory {
 
-    public ChessPositionImp createChessPosition() {
-        return new ChessPositionImp();
+    public PositionImp createChessPosition() {
+        return new PositionImp();
     }
 
     public LegalMoveGenerator createLegalMoveGenerator(LegalMoveGenerator checkLegalMoveGenerator, LegalMoveGenerator noCheckLegalMoveGenerator) {
         return new LegalMoveGeneratorImp(checkLegalMoveGenerator, noCheckLegalMoveGenerator);
     }
 
-    public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
+    public LegalMoveGenerator createCheckLegalMoveGenerator(PositionReader positionReader,
                                                             MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
         return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
     }
 
-    public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,
+    public LegalMoveGenerator createNoCheckLegalMoveGenerator(PositionReader positionReader,
                                                               MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
         return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
     }
@@ -59,8 +59,8 @@ public class ChessFactory {
         return new SquareBoardImp();
     }
 
-    public PositionState createPositionState() {
-        return new PositionStateImp();
+    public State createPositionState() {
+        return new StateImp();
     }
 
     public ZobristHash createZobristHash() {
@@ -68,13 +68,13 @@ public class ChessFactory {
     }
 
     public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                 PositionState positionState) {
-        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+                                                 State state) {
+        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, state);
     }
 
     public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                   PositionState positionState) {
-        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+                                                   State state) {
+        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, state);
     }
 
     public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
@@ -85,8 +85,8 @@ public class ChessFactory {
         return new MoveGeneratorImp();
     }
 
-    public GameImp createGame(ChessPosition chessPosition, GameState gameState, CareTaker careTaker) {
-        return new GameImp(chessPosition, gameState, careTaker);
+    public GameImp createGame(Position position, GameState gameState, CareTaker careTaker) {
+        return new GameImp(position, gameState, careTaker);
     }
 
     public PositionAnalyzer createPositionAnalyzer() {
@@ -97,11 +97,11 @@ public class ChessFactory {
         return new GameStateImp();
     }
 
-    public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {
-        return new PinnedAnalyzer(chessPosition);
+    public PinnedAnalyzer createPinnedAnalyzer(Position position) {
+        return new PinnedAnalyzer(position);
     }
 
-    public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
+    public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(PositionReader positionReader) {
         return new KingSafePositionsAnalyzer(positionReader);
     }
 

@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 import java.util.AbstractMap;
 import java.util.Iterator;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 abstract class PinnedAnalyzerCardinal {
-    protected final ChessPositionReader positionReader;
+    protected final PositionReader positionReader;
 
     protected final Color color;
     protected final Piece queen;
@@ -25,7 +25,7 @@ abstract class PinnedAnalyzerCardinal {
 
     protected abstract long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal);
 
-    PinnedAnalyzerCardinal(ChessPositionReader positionReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
+    PinnedAnalyzerCardinal(PositionReader positionReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.positionReader = positionReader;
         this.color = color;
         this.queen = Piece.getQueen(color);

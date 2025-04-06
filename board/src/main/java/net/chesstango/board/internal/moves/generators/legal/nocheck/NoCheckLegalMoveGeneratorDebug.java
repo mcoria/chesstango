@@ -2,7 +2,7 @@ package net.chesstango.board.internal.moves.generators.legal.nocheck;
 
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 
 
 /**
@@ -11,7 +11,7 @@ import net.chesstango.board.position.ChessPositionReader;
  */
 public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 
-	public NoCheckLegalMoveGeneratorDebug(ChessPositionReader positionReader, MoveGenerator strategy, LegalMoveFilter filter) {
+	public NoCheckLegalMoveGeneratorDebug(PositionReader positionReader, MoveGenerator strategy, LegalMoveFilter filter) {
 		super(positionReader, strategy, filter);
 	}
 	

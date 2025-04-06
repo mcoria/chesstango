@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.AbstractPositionBuilder;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
@@ -289,7 +289,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
 
 
     public static Long getKey(String fenString) {
-        ChessPositionReader position = FEN.of(fenString).toChessPosition();
+        PositionReader position = FEN.of(fenString).toChessPosition();
         return getKey(position);
     }
 
@@ -297,7 +297,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
         return getKey(game.getPosition());
     }
 
-    public static Long getKey(ChessPositionReader position) {
+    public static Long getKey(PositionReader position) {
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructChessPositionRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();

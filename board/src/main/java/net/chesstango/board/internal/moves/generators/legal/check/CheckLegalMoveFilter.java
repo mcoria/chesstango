@@ -17,10 +17,10 @@ public class CheckLegalMoveFilter implements LegalMoveFilter {
     protected final SquareBoard squareBoard;
     protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
-    protected final PositionStateReader positionState;
+    protected final StateReader positionState;
     protected final FullScanSquareCaptured fullScanSquareCapturer;
 
-    public CheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+    public CheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, StateReader positionState) {
         this.squareBoard = squareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;

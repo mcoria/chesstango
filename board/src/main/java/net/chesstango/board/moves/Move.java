@@ -3,6 +3,7 @@ package net.chesstango.board.moves;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.position.PositionWriter;
 
 
 /**
@@ -16,7 +17,7 @@ import net.chesstango.board.iterators.Cardinal;
  * @see net.chesstango.board.PiecePositioned
  * @see net.chesstango.board.Square
  * @see net.chesstango.board.iterators.Cardinal
- * @see net.chesstango.board.position.ChessPositionWriter
+ * @see PositionWriter
  *
  * @author Mauricio Coria
  */

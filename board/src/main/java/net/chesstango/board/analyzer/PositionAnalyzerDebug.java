@@ -1,7 +1,7 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.internal.position.KingSquareImp;
-import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.StateImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.*;
 
@@ -15,7 +15,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	protected BitBoardReader colorBoard = null;
 	protected KingSquareImp kingCacheBoard = null;
 	protected MoveCacheBoardWriter moveCache = null;
-	protected PositionState positionState = null;
+	protected State state = null;
 
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
@@ -30,13 +30,13 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 			
 			KingSquareImp kingCacheBoardInicial = this.kingCacheBoard.clone();
 
-			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
+			StateImp boardStateInicial = ((StateImp) state).clone();
 
 			AnalyzerResult result = super.analyze();
 			
-			if (!this.positionState.equals(boardStateInicial)) {
+			if (!this.state.equals(boardStateInicial)) {
 				System.out.println("El estado fue modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + this.positionState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + this.state.toString() + "]\n");
 				reportError = true;				
 			}			
 			
@@ -80,12 +80,12 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	}
 
 
-	public PositionState getBoardState() {
-		return positionState;
+	public State getBoardState() {
+		return state;
 	}
 
 
-	public void setBoardState(PositionStateImp positionStateWriter) {
-		this.positionState = positionStateWriter;
+	public void setBoardState(StateImp positionStateWriter) {
+		this.state = positionStateWriter;
 	}	
 }

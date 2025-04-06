@@ -5,15 +5,14 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.PawnWhiteMoveGenerator;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.State;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.StateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 
 	private MovePair<PseudoMove> movePair;
 
-	private PositionState state;
+	private State state;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -43,7 +42,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
 		moves = new ArrayList<>();
-		state = new PositionStateImp();
+		state = new StateImp();
 		
 		moveGenerator = new PawnWhiteMoveGenerator();
 		moveGenerator.setPositionState(state);

@@ -43,7 +43,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
+    public void doMove(StateWriter positionState) {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -117,24 +117,24 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
         hash.xorPosition(PiecePositioned.of(to.getSquare(), promotion));
 
-        ChessPositionReader chessPositionReader = gameImp.getPosition();
+        PositionReader positionReader = gameImp.getPosition();
 
-        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
+        StateReader oldPositionState = positionReader.getPreviousPositionState();
 
-        if (oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()) {
+        if (oldPositionState.isCastlingWhiteKingAllowed() != positionReader.isCastlingWhiteKingAllowed()) {
             hash.xorCastleWhiteKing();
         }
 
-        if (oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()) {
+        if (oldPositionState.isCastlingWhiteQueenAllowed() != positionReader.isCastlingWhiteQueenAllowed()) {
             hash.xorCastleWhiteQueen();
         }
 
 
-        if (oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()) {
+        if (oldPositionState.isCastlingBlackKingAllowed() != positionReader.isCastlingBlackKingAllowed()) {
             hash.xorCastleBlackKing();
         }
 
-        if (oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()) {
+        if (oldPositionState.isCastlingBlackQueenAllowed() != positionReader.isCastlingBlackQueenAllowed()) {
             hash.xorCastleBlackQueen();
         }
 
