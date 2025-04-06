@@ -6,13 +6,13 @@ package net.chesstango.board.position;
  * This interface extends both ChessPositionReader and ChessPositionWriter,
  * indicating that it provides methods for reading and writing chess positions.
  *
- *
- * Chess position representation:
+ * Chess position consists of:
  * <ul>
  * <li>Piece placement on the Board Representation</li>
  * <li>Side to move</li>
  * <li>Castling Rights</li>
  * <li>En passant target square</li>
+ * <li>FullMoveClock</li>
  * <li>Halfmove Clock</li>
  * </ul>
  *

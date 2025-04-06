@@ -72,7 +72,7 @@ public class PositionTest {
         MoveContainerReader<Move> moves = game.getPossibleMoves();
 
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.CHECK, game.getStatus());
+        assertEquals(Status.CHECK, game.getStatus());
 
         assertNotNull(game.getMove(Square.h6, Square.f7));
         assertNull(game.getMove(Square.e8, Square.e7));
@@ -152,7 +152,7 @@ public class PositionTest {
 
         assertTrue(result.isKingInCheck());
         assertTrue(game.getPossibleMoves().isEmpty());
-        assertEquals(GameStatus.MATE, game.getStatus());
+        assertEquals(Status.MATE, game.getStatus());
 
     }
 

@@ -34,7 +34,7 @@ public class GameTest {
         assertEquals(0, game.getPosition().getHalfMoveClock());
         assertEquals(1, game.getPosition().getFullMoveClock());
 
-        Assertions.assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        Assertions.assertEquals(Status.NO_CHECK, game.getStatus());
         assertEquals(20, game.getPossibleMoves().size());
     }
 
@@ -53,7 +53,7 @@ public class GameTest {
                 .executeMove(Square.f3, Square.f7);
 
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.MATE, game.getStatus());
+        assertEquals(Status.MATE, game.getStatus());
         assertTrue(game.getPossibleMoves().isEmpty());
         assertEquals(0, game.getPosition().getHalfMoveClock());
         assertEquals(4, game.getPosition().getFullMoveClock());
@@ -75,7 +75,7 @@ public class GameTest {
                 .executeMove(Square.f3, Square.f7);
 
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.MATE, game.getStatus());
+        assertEquals(Status.MATE, game.getStatus());
         assertTrue(game.getPossibleMoves().isEmpty());
         assertEquals(0, game.getPosition().getHalfMoveClock());
         assertEquals(4, game.getPosition().getFullMoveClock());
@@ -136,7 +136,7 @@ public class GameTest {
 
         game.executeMove(Square.f3, Square.f7);
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.CHECK, game.getStatus());
+        assertEquals(Status.CHECK, game.getStatus());
         assertEquals(1, game.getPossibleMoves().size());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getPosition().getZobristHash());
     }
@@ -152,7 +152,7 @@ public class GameTest {
         game.executeMove(Square.h7, Square.c7);
 
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.STALEMATE, game.getStatus());
+        assertEquals(Status.STALEMATE, game.getStatus());
         assertEquals(0, game.getPossibleMoves().size());
         assertEquals(1, game.getPosition().getHalfMoveClock());
         assertEquals(1, game.getPosition().getFullMoveClock());
@@ -170,7 +170,7 @@ public class GameTest {
         game.executeMove(Square.f5, Square.e4);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.DRAW_BY_FIFTY_RULE, game.getStatus());
+        assertEquals(Status.DRAW_BY_FIFTY_RULE, game.getStatus());
         assertEquals(0, game.getPossibleMoves().size());
         assertEquals(100, game.getPosition().getHalfMoveClock());
         assertEquals(126, game.getPosition().getFullMoveClock());
@@ -183,7 +183,7 @@ public class GameTest {
         Game game = getGame(FENDecoder.INITIAL_FEN);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getPosition().isCastlingBlackQueenAllowed());
@@ -204,7 +204,7 @@ public class GameTest {
                 .executeMove(Square.c6, Square.b8);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.DRAW_BY_FOLD_REPETITION, game.getStatus());
+        assertEquals(Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getPosition().isCastlingBlackQueenAllowed());
@@ -221,7 +221,7 @@ public class GameTest {
         Game game = getGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 8 4");
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getPosition().isCastlingBlackQueenAllowed());
@@ -242,7 +242,7 @@ public class GameTest {
                 .executeMove(Square.c6, Square.b8);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.DRAW_BY_FOLD_REPETITION, game.getStatus());
+        assertEquals(Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getPosition().isCastlingBlackQueenAllowed());
@@ -259,7 +259,7 @@ public class GameTest {
         Game game = getGame(FENDecoder.INITIAL_FEN);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
         assertTrue(game.getPosition().isCastlingBlackQueenAllowed());
@@ -275,7 +275,7 @@ public class GameTest {
                 .executeMove(Square.c6, Square.b8);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
         assertEquals(2, game.getState().getRepetitionCounter());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
         assertTrue(game.getPosition().isCastlingWhiteKingAllowed());
@@ -292,7 +292,7 @@ public class GameTest {
         Game game = getGame("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - 0 1");
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
 
         game
                 .executeMove(Square.a1, Square.a7)
@@ -302,7 +302,7 @@ public class GameTest {
                 .executeMove(Square.d6, Square.d1);
 
         assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
-        assertEquals(GameStatus.NO_CHECK, game.getStatus());
+        assertEquals(Status.NO_CHECK, game.getStatus());
         assertEquals(2, game.getState().getRepetitionCounter());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getPosition().getZobristHash());
     }

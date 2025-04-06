@@ -2,7 +2,7 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStatus;
+import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.position.GameStateReader;
@@ -59,11 +59,11 @@ public class PGNGameDecoder {
         GameStateReader pastState = careTakerRecord.gameState();
 
         return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
-                + encodeGameStatusAtMove(currentState.getGameStatus());
+                + encodeGameStatusAtMove(currentState.getStatus());
     }
 
-    private String encodeGameStatusAtMove(GameStatus gameStatus) {
-        return switch (gameStatus) {
+    private String encodeGameStatusAtMove(Status status) {
+        return switch (status) {
             case NO_CHECK, STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "";
             case CHECK -> "+";
             case MATE -> "#";

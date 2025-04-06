@@ -18,7 +18,7 @@ import net.chesstango.board.representations.fen.FEN;
  * @see FEN
  * @see GameStateReader
  * @see PositionReader
- * @see GameStatus
+ * @see Status
  * @see MoveContainerReader
  * @see Move
  * @see Square
@@ -67,7 +67,7 @@ public interface Game {
      *
      * @return the game status
      */
-    GameStatus getStatus();
+    Status getStatus();
 
     /**
      * Sets the fifty-move rule flag.

@@ -172,8 +172,8 @@ public class GameImp implements Game {
     }
 
     @Override
-    public GameStatus getStatus() {
-        return getState().getGameStatus();
+    public Status getStatus() {
+        return getState().getStatus();
     }
 
     @Override

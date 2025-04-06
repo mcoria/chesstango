@@ -39,7 +39,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public GameStatus getStatus() {
+    public Status getStatus() {
         return currentMockNode.getStatus();
     }
 

@@ -2,7 +2,7 @@ package net.chesstango.board.internal.position;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.GameStatus;
+import net.chesstango.board.Status;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
@@ -26,7 +26,7 @@ public class GameStateImp implements GameState, Cloneable {
 
     private AnalyzerResult analyzerResult;
     private MoveContainerReader<Move> legalMoves;
-    private GameStatus gameStatus;
+    private Status status;
     private long zobristHash;
     private long positionHash;
     private int repetitionCounter;
@@ -42,7 +42,7 @@ public class GameStateImp implements GameState, Cloneable {
     public void restoreSnapshot(GameStateReader snapshot) {
         this.analyzerResult = snapshot.getAnalyzerResult();
         this.legalMoves = snapshot.getLegalMoves();
-        this.gameStatus = snapshot.getGameStatus();
+        this.status = snapshot.getStatus();
         this.zobristHash = snapshot.getZobristHash();
         this.positionHash = snapshot.getPositionHash();
         this.repetitionCounter = snapshot.getRepetitionCounter();
@@ -54,7 +54,7 @@ public class GameStateImp implements GameState, Cloneable {
         GameStateImp gameState = new GameStateImp();
         gameState.setAnalyzerResult(this.analyzerResult);
         gameState.setLegalMoves(this.legalMoves);
-        gameState.setGameStatus(this.gameStatus);
+        gameState.setStatus(this.status);
         gameState.setZobristHash(this.zobristHash);
         gameState.setPositionHash(this.positionHash);
         gameState.setRepetitionCounter(this.repetitionCounter);

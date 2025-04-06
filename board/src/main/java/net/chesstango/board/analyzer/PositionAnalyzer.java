@@ -2,7 +2,7 @@ package net.chesstango.board.analyzer;
 
 import lombok.Setter;
 import net.chesstango.board.GameListener;
-import net.chesstango.board.GameStatus;
+import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
@@ -46,15 +46,15 @@ public class PositionAnalyzer implements GameListener {
         MoveContainerReader<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         int repetitionCounter = calculateRepetitionCounter();
-        GameStatus gameStatus = calculateGameStatus(analysis, legalMoves, repetitionCounter);
+        Status status = calculateGameStatus(analysis, legalMoves, repetitionCounter);
 
-        gameState.setGameStatus(gameStatus);
+        gameState.setStatus(status);
         gameState.setAnalyzerResult(analysis);
         gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
         gameState.setRepetitionCounter(repetitionCounter);
         gameState.setLegalMoves(legalMoves);
-        gameState.setLegalMoves(gameStatus.isInProgress() ? legalMoves : new MoveContainer<>());
+        gameState.setLegalMoves(status.isInProgress() ? legalMoves : new MoveContainer<>());
     }
 
     @Override
@@ -84,18 +84,18 @@ public class PositionAnalyzer implements GameListener {
         return result;
     }
 
-    private GameStatus calculateGameStatus(AnalyzerResult analysis, MoveContainerReader<Move> legalMoves, int repetitionCounter) {
+    private Status calculateGameStatus(AnalyzerResult analysis, MoveContainerReader<Move> legalMoves, int repetitionCounter) {
         if (!legalMoves.isEmpty()) {
             if (fiftyMovesRule && positionReader.getHalfMoveClock() >= 100) {
-                return GameStatus.DRAW_BY_FIFTY_RULE;
+                return Status.DRAW_BY_FIFTY_RULE;
             } else if (threefoldRepetitionRule && positionReader.getHalfMoveClock() >= 8) {
                 if (repetitionCounter > 2) {
-                    return GameStatus.DRAW_BY_FOLD_REPETITION;
+                    return Status.DRAW_BY_FOLD_REPETITION;
                 }
             }
-            return analysis.isKingInCheck() ? GameStatus.CHECK : GameStatus.NO_CHECK;
+            return analysis.isKingInCheck() ? Status.CHECK : Status.NO_CHECK;
         }
-        return analysis.isKingInCheck() ? GameStatus.MATE : GameStatus.STALEMATE;
+        return analysis.isKingInCheck() ? Status.MATE : Status.STALEMATE;
     }
 
     private int calculateRepetitionCounter() {
