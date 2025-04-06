@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class GameStateTest {
 
@@ -21,12 +20,12 @@ public class GameStateTest {
         Move move = game.getMove(Square.e2, Square.e4);
         move.executeMove();
 
-        assertNotNull(game.getPreviousState());
-        assertEquals(move, game.getPreviousState().playedMove());
+        assertNotNull(game.getHistory().peekLastRecord());
+        assertEquals(move, game.getHistory().peekLastRecord().playedMove());
 
         move.undoMove();
 
-        assertNull(game.getPreviousState());
+        assertNull(game.getHistory().peekLastRecord());
     }
 
     @Test
@@ -35,21 +34,21 @@ public class GameStateTest {
 
         Move move1 = game.getMove(Square.e2, Square.e4);
         move1.executeMove();
-        assertNotNull(game.getPreviousState());
-        assertEquals(move1, game.getPreviousState().playedMove());
+        assertNotNull(game.getHistory().peekLastRecord());
+        assertEquals(move1, game.getHistory().peekLastRecord().playedMove());
 
         Move move2 = game.getMove(Square.e7, Square.e6);
         move2.executeMove();
-        assertNotNull(game.getPreviousState());
-        assertEquals(move2, game.getPreviousState().playedMove());
+        assertNotNull(game.getHistory().peekLastRecord());
+        assertEquals(move2, game.getHistory().peekLastRecord().playedMove());
 
         move2.undoMove();
-        assertNotNull(game.getPreviousState());
-        assertEquals(move1, game.getPreviousState().playedMove());
+        assertNotNull(game.getHistory().peekLastRecord());
+        assertEquals(move1, game.getHistory().peekLastRecord().playedMove());
 
 
         move1.undoMove();
-        assertNull(game.getPreviousState());
+        assertNull(game.getHistory().peekLastRecord());
     }
 
 }

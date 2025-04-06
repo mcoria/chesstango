@@ -59,7 +59,7 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     }
 
     private void updatePVTable(int currentPly) {
-        short bestMove = game.getPreviousState().playedMove().binaryEncoding();
+        short bestMove = game.getHistory().peekLastRecord().playedMove().binaryEncoding();
 
         final short[] workingArray = trianglePV[currentPly - 1];
         final short[] nextWorkingArray = trianglePV[currentPly];

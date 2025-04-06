@@ -25,7 +25,7 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        Iterator<CareTakerRecord> careTakerRecordIterator = game.getGameHistory().iteratorReverse();
+        Iterator<CareTakerRecord> careTakerRecordIterator = game.getHistory().iteratorReverse();
 
         CareTakerRecord careTakerRecord = null;
 

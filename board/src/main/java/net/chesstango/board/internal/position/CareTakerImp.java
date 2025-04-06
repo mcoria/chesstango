@@ -33,6 +33,11 @@ public class CareTakerImp implements CareTaker {
     }
 
     @Override
+    public boolean isEmpty() {
+        return previousStates.isEmpty();
+    }
+
+    @Override
     public void push(CareTakerRecord careTakerRecord) {
         previousStates.push(careTakerRecord);
     }

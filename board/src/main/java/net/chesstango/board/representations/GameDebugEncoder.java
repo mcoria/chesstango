@@ -21,7 +21,7 @@ public class GameDebugEncoder {
                 .append("\")\n");
 
 
-        game.getGameHistory().iteratorReverse().forEachRemaining(careTakerRecord -> {
+        game.getHistory().iteratorReverse().forEachRemaining(careTakerRecord -> {
             Move move = careTakerRecord.playedMove();
             sb.append(".executeMove(Square.")
                     .append(move.getFrom().getSquare().toString())

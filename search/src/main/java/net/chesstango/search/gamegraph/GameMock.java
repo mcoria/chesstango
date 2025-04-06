@@ -87,12 +87,7 @@ public class GameMock implements Game {
     }
 
     @Override
-    public CareTakerReader getGameHistory() {
-        throw new UnsupportedOperationException("Method not implemented yet");
-    }
-
-    @Override
-    public CareTakerRecord getPreviousState() {
+    public CareTakerReader getHistory() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

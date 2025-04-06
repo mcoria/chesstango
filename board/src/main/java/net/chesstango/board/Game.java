@@ -4,12 +4,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.CareTakerReader;
-import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
-
-import java.util.Iterator;
 
 /**
  * Interface representing a chess game.
@@ -56,14 +53,7 @@ public interface Game {
      *
      * @return the game history
      */
-    CareTakerReader getGameHistory();
-
-    /**
-     * Gets the previous state of the game.
-     *
-     * @return the game state
-     */
-    CareTakerRecord getPreviousState();
+    CareTakerReader getHistory();
 
     /**
      * Gets the current chess position.

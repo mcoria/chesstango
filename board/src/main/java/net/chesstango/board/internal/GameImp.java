@@ -111,7 +111,7 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-        CareTakerRecord previousState = getPreviousState();
+        CareTakerRecord previousState = careTaker.peekLastRecord();
 
         Move lasMove = previousState.playedMove();
 
@@ -182,13 +182,8 @@ public class GameImp implements Game {
     }
 
     @Override
-    public CareTaker getGameHistory() {
+    public CareTaker getHistory() {
         return careTaker;
-    }
-
-    @Override
-    public CareTakerRecord getPreviousState() {
-        return careTaker.peekLastRecord();
     }
 
     @Override

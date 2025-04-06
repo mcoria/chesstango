@@ -11,4 +11,6 @@ public interface CareTakerReader {
     Iterator<CareTakerRecord> iteratorReverse();
 
     CareTakerRecord peekLastRecord();
+
+    boolean isEmpty();
 }

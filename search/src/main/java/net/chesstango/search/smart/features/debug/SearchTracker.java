@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
@@ -43,8 +44,9 @@ public class SearchTracker {
         }
 
         newNode.setZobristHash(game.getChessPosition().getZobristHash());
-        if (game.getPreviousState() != null) {
-            newNode.setSelectedMove(game.getPreviousState().playedMove());
+        if (game.getHistory().peekLastRecord() != null) {
+            CareTakerRecord careTakerRecord = game.getHistory().peekLastRecord();
+            newNode.setSelectedMove(careTakerRecord.playedMove());
         }
 
         currentNode = newNode;
