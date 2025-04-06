@@ -25,25 +25,25 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        Iterator<CareTakerRecord> stateIterator = game.stateIteratorReverse();
+        Iterator<CareTakerRecord> careTakerRecordIterator = game.getGameHistory().iteratorReverse();
 
-        CareTakerRecord stateHistory = null;
+        CareTakerRecord careTakerRecord = null;
 
-        while (stateIterator.hasNext()) {
-            CareTakerRecord currentStateHistory = stateIterator.next();
+        while (careTakerRecordIterator.hasNext()) {
+            CareTakerRecord currentStateHistory = careTakerRecordIterator.next();
 
             // Encode previous move + current iterated state
-            if (stateHistory != null) {
-                String moveStrTmp = encodeMove(stateHistory, currentStateHistory.gameState());
+            if (careTakerRecord != null) {
+                String moveStrTmp = encodeMove(careTakerRecord, currentStateHistory.gameState());
                 moveList.add(moveStrTmp);
             }
 
-            stateHistory = currentStateHistory;
+            careTakerRecord = currentStateHistory;
         }
 
         // Encode previous move + current state
-        if (stateHistory != null) {
-            String moveStrTmp = encodeMove(stateHistory, game.getState());
+        if (careTakerRecord != null) {
+            String moveStrTmp = encodeMove(careTakerRecord, game.getState());
 
             moveList.add(moveStrTmp);
         }
@@ -54,9 +54,9 @@ public class PGNGameDecoder {
         return pgn;
     }
 
-    private String encodeMove(CareTakerRecord previousStateHistory, GameStateReader currentState) {
-        Move playedMove = previousStateHistory.playedMove();
-        GameStateReader pastState = previousStateHistory.gameState();
+    private String encodeMove(CareTakerRecord careTakerRecord, GameStateReader currentState) {
+        Move playedMove = careTakerRecord.playedMove();
+        GameStateReader pastState = careTakerRecord.gameState();
 
         return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
                 + encodeGameStatusAtMove(currentState.getGameStatus());

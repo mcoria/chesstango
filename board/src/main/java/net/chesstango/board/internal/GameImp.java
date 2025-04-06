@@ -182,18 +182,13 @@ public class GameImp implements Game {
     }
 
     @Override
+    public CareTaker getGameHistory() {
+        return careTaker;
+    }
+
+    @Override
     public CareTakerRecord getPreviousState() {
         return careTaker.peekLastRecord();
-    }
-
-    @Override
-    public Iterator<CareTakerRecord> stateIterator() {
-        return careTaker.iterator();
-    }
-
-    @Override
-    public Iterator<CareTakerRecord> stateIteratorReverse() {
-        return careTaker.iteratorReverse();
     }
 
     @Override

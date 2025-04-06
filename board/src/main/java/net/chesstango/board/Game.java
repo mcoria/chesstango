@@ -3,8 +3,9 @@ package net.chesstango.board;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.CareTakerReader;
 import net.chesstango.board.position.CareTakerRecord;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 
@@ -51,25 +52,18 @@ public interface Game {
 
 
     /**
+     * Gets the game history.
+     *
+     * @return the game history
+     */
+    CareTakerReader getGameHistory();
+
+    /**
      * Gets the previous state of the game.
      *
      * @return the game state
      */
     CareTakerRecord getPreviousState();
-
-    /**
-     * Gets an iterator over the game states.
-     *
-     * @return an iterator over the game states
-     */
-    Iterator<CareTakerRecord> stateIterator();
-
-    /**
-     * Gets an iterator over the game states in reverse order.
-     *
-     * @return an iterator over the game states
-     */
-    Iterator<CareTakerRecord> stateIteratorReverse();
 
     /**
      * Gets the current chess position.
