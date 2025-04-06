@@ -17,7 +17,6 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import static net.chesstango.search.SearchParameter.EPD_PARAMS;
@@ -80,7 +79,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     @Override
     public void search() {
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
         if (Color.WHITE.equals(currentTurn)) {
             maximize(targetMoveEvaluation(alphaBetaFilter::minimize));
         } else {

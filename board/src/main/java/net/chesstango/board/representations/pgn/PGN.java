@@ -68,7 +68,7 @@ public class PGN {
 
                 epd.setFenWithoutClocks(game.getCurrentFEN());
 
-                epd.setId(String.format("%s", Long.toHexString(game.getChessPosition().getZobristHash())));
+                epd.setId(String.format("%s", Long.toHexString(game.getPosition().getZobristHash())));
 
                 if (event != null) {
                     epd.setC0(String.format("event='%s'", event));
@@ -89,7 +89,7 @@ public class PGN {
                     epd.setC5(String.format("result='%s'", result));
                 }
 
-                lastClock = game.getChessPosition().getFullMoveClock();
+                lastClock = game.getPosition().getFullMoveClock();
 
                 epd.setC6(String.format("clock=%d", lastClock));
 

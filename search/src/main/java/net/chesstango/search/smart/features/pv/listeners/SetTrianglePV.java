@@ -65,7 +65,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
         do {
             move = readMove(pvMoves[pvMoveCounter]);
-            hash = game.getChessPosition().getZobristHash();
+            hash = game.getPosition().getZobristHash();
 
             principalVariation.add(new PrincipalVariation(hash, move));
 

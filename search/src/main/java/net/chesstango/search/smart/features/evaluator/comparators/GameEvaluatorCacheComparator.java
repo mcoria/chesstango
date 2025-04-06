@@ -39,7 +39,7 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
 
-        this.currentTurn = game.getChessPosition().getCurrentTurn();
+        this.currentTurn = game.getPosition().getCurrentTurn();
 
         next.beforeSort(currentPly, moveToZobrist);
     }

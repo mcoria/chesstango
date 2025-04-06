@@ -38,7 +38,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycl
     public long maximize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
         if (maxMap.read(hash) == null) {
             maxMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
         }
@@ -53,7 +53,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycl
     public long minimize(int currentPly, int alpha, int beta) {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
         if (minMap.read(hash) == null) {
             minMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
         }

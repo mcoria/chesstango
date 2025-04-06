@@ -127,7 +127,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
 
     public static String encodeGame(Game game) {
         FENEncoderZobrist encoder = new FENEncoderZobrist();
-        game.getChessPosition().constructChessPositionRepresentation(encoder);
+        game.getPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();
     }
 

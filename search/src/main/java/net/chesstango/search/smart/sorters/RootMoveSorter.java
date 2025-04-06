@@ -37,7 +37,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     public void beforeSearch(SearchByCycleContext context) {
         Game game = context.getGame();
         this.nodeMoveSorter.beforeSearch(context);
-        this.maximize = Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
+        this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
     }
 

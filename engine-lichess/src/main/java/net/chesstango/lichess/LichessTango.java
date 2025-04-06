@@ -157,7 +157,7 @@ public class LichessTango implements Runnable {
         ChessPositionReader currentChessPosition = tango
                 .getCurrentSession()
                 .getGame()
-                .getChessPosition();
+                .getPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
             long wTime = state.wtime().toMillis();

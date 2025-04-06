@@ -15,7 +15,7 @@ public class ExtractorByMaterial implements GameFeatures {
 
     @Override
     public void extractFeatures(final Game game, Map<String, Integer> featuresMap) {
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

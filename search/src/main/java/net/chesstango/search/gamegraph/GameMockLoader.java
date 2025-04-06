@@ -91,7 +91,7 @@ public class GameMockLoader {
             if (node.position == null) {
                 ChessPosition position = FEN.of(node.fen).toChessPosition();
                 Game game = loadGame(position);
-                node.position = game.getChessPosition();
+                node.position = game.getPosition();
                 node.gameState = game.getState();
             }
 
@@ -120,7 +120,7 @@ public class GameMockLoader {
 
                 selectedMove.executeMove();
 
-                nodeLink.mockNode.position = game.getChessPosition();
+                nodeLink.mockNode.position = game.getPosition();
                 nodeLink.mockNode.gameState = game.getState();
 
             } else {

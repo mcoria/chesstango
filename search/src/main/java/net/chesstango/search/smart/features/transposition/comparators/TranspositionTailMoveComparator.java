@@ -47,7 +47,7 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
-        this.currentTurn = game.getChessPosition().getCurrentTurn();
+        this.currentTurn = game.getPosition().getCurrentTurn();
         this.currentMap = Color.WHITE.equals(currentTurn) ? minMap : maxMap;
 
         next.beforeSort(currentPly, moveToZobrist);

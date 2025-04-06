@@ -10,10 +10,10 @@ import net.chesstango.search.SearchResultByDepth;
 public class Material implements TimeMgmt {
     @Override
     public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
-        int numberOfPieces = Long.bitCount(game.getChessPosition().getAllPositions());
+        int numberOfPieces = Long.bitCount(game.getPosition().getAllPositions());
 
         int time = 0;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+        if (Color.WHITE.equals(game.getPosition().getCurrentTurn())) {
             time = calculateTime(wTime, wInc, numberOfPieces);
         } else {
             time = calculateTime(bTime, bInc, numberOfPieces);

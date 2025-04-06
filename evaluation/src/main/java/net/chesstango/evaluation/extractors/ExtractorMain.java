@@ -52,7 +52,7 @@ public class ExtractorMain {
                 extractor.extractFeatures(game, features);
             }
             Game game = FENDecoder.loadGame(epdEntry.getFenWithoutClocks());
-            featuresList.add(convertToLine(game.getChessPosition().toString(), features, gameResultString));
+            featuresList.add(convertToLine(game.getPosition().toString(), features, gameResultString));
         });
     }
 

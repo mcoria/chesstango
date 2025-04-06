@@ -105,7 +105,7 @@ public class CastlingBlackQueenTest {
 
     @Test
     public void testZobristHash() {
-        when(gameImp.getChessPosition()).thenReturn(chessPosition);
+        when(gameImp.getPosition()).thenReturn(chessPosition);
 
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(zobristHash);
@@ -115,7 +115,7 @@ public class CastlingBlackQueenTest {
 
     @Test
     public void testZobristHashUndo() {
-        when(gameImp.getChessPosition()).thenReturn(chessPosition);
+        when(gameImp.getPosition()).thenReturn(chessPosition);
 
         long initialHash = zobristHash.getZobristHash();
 

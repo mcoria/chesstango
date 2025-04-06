@@ -60,7 +60,7 @@ public interface Game {
      *
      * @return the chess position
      */
-    ChessPositionReader getChessPosition();
+    ChessPositionReader getPosition();
 
     /**
      * Gets the current status of the game.

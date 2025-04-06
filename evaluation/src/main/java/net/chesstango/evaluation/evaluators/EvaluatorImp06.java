@@ -94,7 +94,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        this.positionReader = game.getChessPosition();
+        this.positionReader = game.getPosition();
     }
 
 
@@ -106,7 +106,7 @@ public class EvaluatorImp06 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

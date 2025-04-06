@@ -13,8 +13,8 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
 
 
     protected int evaluateByMaterial() {
-        long whitePositions = game.getChessPosition().getPositions(Color.WHITE);
-        long blackPositions = game.getChessPosition().getPositions(Color.BLACK);
+        long whitePositions = game.getPosition().getPositions(Color.WHITE);
+        long blackPositions = game.getPosition().getPositions(Color.BLACK);
         return Long.bitCount(whitePositions) - Long.bitCount(blackPositions);
     }
 

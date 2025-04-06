@@ -48,7 +48,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void executeMove() {
-        doMove(gameImp.getChessPosition());
+        doMove(gameImp.getPosition());
 
         gameImp.notifyDoMove(this);
     }
@@ -56,7 +56,7 @@ public abstract class MoveImp implements PseudoMove, Command {
     @Override
     public void undoMove() {
 
-        undoMove(gameImp.getChessPosition());
+        undoMove(gameImp.getPosition());
 
         gameImp.notifyUndoMove(this);
     }
@@ -133,7 +133,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public long getZobristHash() {
-        ChessPosition chessPosition = gameImp.getChessPosition();
+        ChessPosition chessPosition = gameImp.getPosition();
         SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
         PositionStateWriter positionState = chessPosition.getPositionStateWriter();
         ZobristHashWriter hash = chessPosition.getZobristWriter();

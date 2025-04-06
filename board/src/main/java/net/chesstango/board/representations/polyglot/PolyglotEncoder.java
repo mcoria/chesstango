@@ -294,7 +294,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     }
 
     public static Long getKey(Game game) {
-        return getKey(game.getChessPosition());
+        return getKey(game.getPosition());
     }
 
     public static Long getKey(ChessPositionReader position) {

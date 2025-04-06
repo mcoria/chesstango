@@ -5,12 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.moves.containers.MoveList;
-import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
@@ -80,7 +75,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
                 break;
             case CHECK:
                 // If white is on check then evaluation starts at -1
-                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
+                evaluation = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
                 evaluation += material * 10 * evaluateByMaterial();
                 evaluation += evaluateByMoveAndByAttack();
@@ -128,14 +123,14 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        this.positionReader = game.getChessPosition();
+        this.positionReader = game.getPosition();
     }
 
 
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

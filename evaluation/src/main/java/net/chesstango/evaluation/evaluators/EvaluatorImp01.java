@@ -38,7 +38,7 @@ public class EvaluatorImp01 extends AbstractEvaluator {
         switch (game.getStatus()) {
             case CHECK:
                 // If white is on check then evaluation starts at -1
-                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
+                evaluation = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
                 evaluation += material * 10 * evaluateByMaterial();
                 evaluation += evaluateByMoves();
@@ -70,7 +70,7 @@ public class EvaluatorImp01 extends AbstractEvaluator {
 
         evaluation = origenes.size() + expansion * territorioExpansion.size() + ataque * territorioAtaque.size() + posiblesCapturasValor;
 
-        return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? +evaluation : -evaluation;
+        return (Color.WHITE.equals(game.getPosition().getCurrentTurn())) ? +evaluation : -evaluation;
     }
 
 
@@ -95,7 +95,7 @@ public class EvaluatorImp01 extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

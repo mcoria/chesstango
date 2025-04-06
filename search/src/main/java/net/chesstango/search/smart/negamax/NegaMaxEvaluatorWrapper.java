@@ -20,7 +20,7 @@ public class NegaMaxEvaluatorWrapper implements Evaluator {
 
     @Override
     public int evaluate() {
-        return Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? imp.evaluate() : -imp.evaluate();
+        return Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? imp.evaluate() : -imp.evaluate();
     }
 
     @Override

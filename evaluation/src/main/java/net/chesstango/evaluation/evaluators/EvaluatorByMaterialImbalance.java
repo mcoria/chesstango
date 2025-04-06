@@ -32,7 +32,7 @@ public class EvaluatorByMaterialImbalance extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

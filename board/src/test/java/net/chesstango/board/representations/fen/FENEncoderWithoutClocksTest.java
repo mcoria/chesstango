@@ -25,7 +25,7 @@ public class FENEncoderWithoutClocksTest {
     public void test_encode_without_clocks(){
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        game.getChessPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().constructChessPositionRepresentation(coder);
 
         String fenWithoutClocks = coder.getChessRepresentation();
 

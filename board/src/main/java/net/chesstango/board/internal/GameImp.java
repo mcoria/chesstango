@@ -83,7 +83,7 @@ public class GameImp implements Game {
     @Override
     public FEN getCurrentFEN() {
         FENEncoder encoder = new FENEncoder();
-        getChessPosition().constructChessPositionRepresentation(encoder);
+        getPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();
     }
 
@@ -187,14 +187,14 @@ public class GameImp implements Game {
     }
 
     @Override
-    public ChessPosition getChessPosition() {
+    public ChessPosition getPosition() {
         return chessPosition;
     }
 
     @Override
     public Game mirror() {
         MirrorPositionBuilder<Game> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new GameBuilder());
-        getChessPosition().constructChessPositionRepresentation(mirrorChessPositionBuilder);
+        getPosition().constructChessPositionRepresentation(mirrorChessPositionBuilder);
         return mirrorChessPositionBuilder.getChessRepresentation();
     }
 

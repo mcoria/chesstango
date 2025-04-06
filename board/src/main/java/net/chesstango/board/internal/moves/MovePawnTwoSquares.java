@@ -85,7 +85,7 @@ public class MovePawnTwoSquares extends MoveImp {
 
         hash.clearEnPassantSquare();
 
-        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
+        ChessPositionReader chessPositionReader = gameImp.getPosition();
 
         if (enPassantSquare.equals(chessPositionReader.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());

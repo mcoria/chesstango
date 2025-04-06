@@ -141,8 +141,8 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     private Move readMoveFromTT(TTable maxMap, TTable minMap) {
         Move result = null;
         if (maxMap != null && minMap != null) {
-            long hash = game.getChessPosition().getZobristHash();
-            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
+            long hash = game.getPosition().getZobristHash();
+            TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
             if (entry != null && TranspositionBound.EXACT.equals(entry.transpositionBound)) {
                 short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
                 result = getMove(bestMoveEncoded);

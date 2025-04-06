@@ -26,7 +26,7 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
     public int evaluateNonFinalStatus() {
         int evaluation = 0;
         evaluation += material * evaluateByMaterial();
-        evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
+        evaluation += legalmoves * (Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
         return evaluation;
     }
 
@@ -51,7 +51,7 @@ public class EvaluatorByMaterialAndMoves extends AbstractEvaluator {
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

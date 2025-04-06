@@ -43,7 +43,7 @@ public class SearchTracker {
             currentNode.getChildNodes().add(newNode);
         }
 
-        newNode.setZobristHash(game.getChessPosition().getZobristHash());
+        newNode.setZobristHash(game.getPosition().getZobristHash());
         if (game.getHistory().peekLastRecord() != null) {
             CareTakerRecord careTakerRecord = game.getHistory().peekLastRecord();
             newNode.setSelectedMove(careTakerRecord.playedMove());
@@ -60,7 +60,7 @@ public class SearchTracker {
         DebugNode newNode = new DebugNode();
         newNode.setTopology(DebugNode.NodeTopology.ROOT);
         newNode.setPly(0);
-        newNode.setFen(game.getChessPosition().toString());
+        newNode.setFen(game.getPosition().toString());
         return newNode;
     }
 
@@ -156,7 +156,7 @@ public class SearchTracker {
     public void trackComparatorsTranspositionReads() {
         List<DebugOperationTT> sorterReads = currentNode.getSorterReads();
 
-        final long positionHash = game.getChessPosition().getZobristHash();
+        final long positionHash = game.getPosition().getZobristHash();
         for (Move move : game.getPossibleMoves()) {
             final String moveStr = simpleMoveEncoder.encode(move);
             final long zobristHashMove = move.getZobristHash();

@@ -30,7 +30,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
 
     @Override
     public void search() {
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
 
         final long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                 alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :

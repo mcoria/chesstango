@@ -50,7 +50,7 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     protected void findCollision(Map<Long, String> theMap) {
         FENEncoderZobrist encoder = new FENEncoderZobrist();
 
-        ChessPositionReader chessPosition = game.getChessPosition();
+        ChessPositionReader chessPosition = game.getPosition();
 
         chessPosition.constructChessPositionRepresentation(encoder);
 

@@ -7,7 +7,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class NegaMax implements SearchAlgorithm {
     @Override
     public void search() {
         final List<Move> bestMoves = new ArrayList<Move>();
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
 
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         int betterEvaluation = Evaluator.INFINITE_NEGATIVE;

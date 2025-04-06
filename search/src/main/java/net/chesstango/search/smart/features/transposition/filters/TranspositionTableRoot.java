@@ -42,7 +42,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     public long maximize(final int currentPly, final int alpha, final int beta) {
         long moveAndValue = next.maximize(currentPly, alpha, beta);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         updateEntry(maxMap, hash, maxPly, alpha, beta, moveAndValue);
 
@@ -53,7 +53,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     public long minimize(final int currentPly, final int alpha, final int beta) {
         long moveAndValue = next.minimize(currentPly, alpha, beta);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         updateEntry(minMap, hash, maxPly, alpha, beta, moveAndValue);
 

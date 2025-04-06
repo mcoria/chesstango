@@ -72,7 +72,7 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         hash.xorPosition(rookFrom);
         hash.xorPosition(PiecePositioned.of(rookTo.getSquare(), rookFrom.getPiece()));
 
-        ChessPositionReader chessPositionReader = gameImp.getChessPosition();
+        ChessPositionReader chessPositionReader = gameImp.getPosition();
 
         xorCastling(hash, chessPositionReader.getPreviousPositionState(), chessPositionReader);
 

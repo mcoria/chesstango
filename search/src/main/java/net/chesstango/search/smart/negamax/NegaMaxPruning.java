@@ -7,7 +7,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
@@ -35,9 +34,9 @@ public class NegaMaxPruning implements SearchAlgorithm {
     public void search() {
         this.visitedNodesCounter = new int[30];
 
-        final boolean minOrMax = !Color.WHITE.equals(game.getChessPosition().getCurrentTurn());
+        final boolean minOrMax = !Color.WHITE.equals(game.getPosition().getCurrentTurn());
         final List<Move> bestMoves = new ArrayList<Move>();
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
 
         int bestValue = Evaluator.INFINITE_NEGATIVE;
         boolean search = true;

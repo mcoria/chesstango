@@ -56,7 +56,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     }
 
     private long process(int currentPly, int alpha, int beta, AlphaBetaFunction fn, boolean maximize) {
-        final long startHash = game.getChessPosition().getZobristHash();
+        final long startHash = game.getPosition().getZobristHash();
 
         try {
             return fn.search(currentPly, alpha, beta);
@@ -85,10 +85,10 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     }
 
     private void undoMoves(long startHash) {
-        long currentHash = game.getChessPosition().getZobristHash();
+        long currentHash = game.getPosition().getZobristHash();
         while (currentHash != startHash) {
             game.undoMove();
-            currentHash = game.getChessPosition().getZobristHash();
+            currentHash = game.getPosition().getZobristHash();
         }
     }
 }

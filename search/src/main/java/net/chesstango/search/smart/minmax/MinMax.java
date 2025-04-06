@@ -7,7 +7,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -31,7 +30,7 @@ public class MinMax implements SearchAlgorithm {
 
     @Override
     public void search() {
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
         final List<Move> bestMoves = new ArrayList<Move>();
 

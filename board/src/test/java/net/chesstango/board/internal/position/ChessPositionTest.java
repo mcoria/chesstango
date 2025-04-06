@@ -61,8 +61,8 @@ public class ChessPositionTest {
         assertEquals(20, moves.size());
 
         //State
-        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-        assertNull(game.getChessPosition().getEnPassantSquare());
+        assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
+        assertNull(game.getPosition().getEnPassantSquare());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ChessPositionTest {
 
         MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        assertEquals(Color.BLACK, game.getPosition().getCurrentTurn());
         assertEquals(GameStatus.CHECK, game.getStatus());
 
         assertNotNull(game.getMove(Square.h6, Square.f7));
@@ -87,7 +87,7 @@ public class ChessPositionTest {
 
         AnalyzerResult result = game.getState().getAnalyzerResult();
 
-        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
         MoveContainerReader<Move> moves = game.getPossibleMoves();
@@ -108,7 +108,7 @@ public class ChessPositionTest {
 
         AnalyzerResult result = game.getState().getAnalyzerResult();
 
-        assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+        assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertTrue(result.isKingInCheck());
 
         MoveContainerReader<Move> moves = game.getPossibleMoves();
@@ -189,7 +189,7 @@ public class ChessPositionTest {
 
         MoveContainerReader<Move> moves = game.getPossibleMoves();
 
-        long initialZobristHash = game.getChessPosition().getZobristHash();
+        long initialZobristHash = game.getPosition().getZobristHash();
 
         for (Move theMove : moves) {
 
@@ -197,12 +197,12 @@ public class ChessPositionTest {
 
             theMove.executeMove();
 
-            assertEquals(zobristHash, game.getChessPosition().getZobristHash());
+            assertEquals(zobristHash, game.getPosition().getZobristHash());
 
             theMove.undoMove();
         }
 
-        assertEquals(initialZobristHash, game.getChessPosition().getZobristHash());
+        assertEquals(initialZobristHash, game.getPosition().getZobristHash());
     }
 
 

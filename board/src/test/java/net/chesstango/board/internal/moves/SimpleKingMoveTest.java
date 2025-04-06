@@ -103,7 +103,7 @@ public class SimpleKingMoveTest {
 
     @Test
     public void testZobristHash() {
-        when(gameImp.getChessPosition()).thenReturn(chessPosition);
+        when(gameImp.getPosition()).thenReturn(chessPosition);
 
         moveExecutor.doMove(squareBoard);
         moveExecutor.doMove(positionState);
@@ -114,7 +114,7 @@ public class SimpleKingMoveTest {
 
     @Test
     public void testZobristHashUndo() {
-        when(gameImp.getChessPosition()).thenReturn(chessPosition);
+        when(gameImp.getPosition()).thenReturn(chessPosition);
 
         long initialHash = zobristHash.getZobristHash();
 

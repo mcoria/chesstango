@@ -38,7 +38,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     @Override
     public int evaluate() {
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 

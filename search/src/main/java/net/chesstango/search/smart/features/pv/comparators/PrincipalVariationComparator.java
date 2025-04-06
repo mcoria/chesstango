@@ -43,7 +43,7 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByCyc
         this.next.beforeSort(currentPly, moveToZobrist);
         if (lastPrincipalVariation != null) {
             if (lastPrincipalVariation.size() > currentPly) {
-                long hash = game.getChessPosition().getZobristHash();
+                long hash = game.getPosition().getZobristHash();
                 PrincipalVariation principalVariation = lastPrincipalVariation.get(currentPly);
                 if (principalVariation.hash() == hash) {
                     pvMove = principalVariation.move();

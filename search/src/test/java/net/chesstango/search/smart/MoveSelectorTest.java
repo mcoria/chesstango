@@ -29,7 +29,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(game.getPosition().getCurrentTurn(), moves);
 
         assertEquals(Square.d3, selectedMove.getFrom().getSquare());
         assertEquals(Square.b1, selectedMove.getTo().getSquare());
@@ -47,7 +47,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(gameMirror.getPosition().getCurrentTurn(), moves);
 
         assertEquals(Square.d6, selectedMove.getFrom().getSquare());
         assertEquals(Square.b8, selectedMove.getTo().getSquare());
@@ -64,7 +64,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(game.getPosition().getCurrentTurn(), moves);
 
         assertEquals(Square.b2, selectedMove.getFrom().getSquare());
         assertEquals(Square.a1, selectedMove.getTo().getSquare());
@@ -85,7 +85,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(gameMirror.getPosition().getCurrentTurn(), moves);
 
         assertEquals(Square.b7, selectedMove.getFrom().getSquare());
         assertEquals(Square.a8, selectedMove.getTo().getSquare());

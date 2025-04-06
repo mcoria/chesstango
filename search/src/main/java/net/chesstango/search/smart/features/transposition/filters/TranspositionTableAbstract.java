@@ -41,7 +41,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     public long maximize(final int currentPly, final int alpha, final int beta) {
         int searchDepth = Math.abs(maxPly - currentPly);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         TranspositionEntry entry = maxMap.read(hash);
 
@@ -72,7 +72,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
     public long minimize(final int currentPly, final int alpha, final int beta) {
         int searchDepth = Math.abs(maxPly - currentPly);
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         TranspositionEntry entry = minMap.read(hash);
 

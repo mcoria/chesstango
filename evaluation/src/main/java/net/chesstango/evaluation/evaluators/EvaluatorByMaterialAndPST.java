@@ -1,9 +1,7 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.*;
-import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.GameStateReader;
 
 import java.util.Iterator;
 
@@ -218,13 +216,13 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        this.positionReader = game.getChessPosition();
+        this.positionReader = game.getPosition();
     }
 
     protected int evaluateByMaterial() {
         int evaluation = 0;
 
-        ChessPositionReader positionReader = game.getChessPosition();
+        ChessPositionReader positionReader = game.getPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
 

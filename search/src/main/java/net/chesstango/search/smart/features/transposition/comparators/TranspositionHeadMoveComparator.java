@@ -45,9 +45,9 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
 
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
-        final Color currentTurn = game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getPosition().getCurrentTurn();
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
                 maxMap.read(hash) : minMap.read(hash);

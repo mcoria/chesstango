@@ -48,7 +48,7 @@ public class TranspositionHeadMoveComparatorTest {
             }
         }
 
-        long hash = game.getChessPosition().getZobristHash();
+        long hash = game.getPosition().getZobristHash();
 
         long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
 

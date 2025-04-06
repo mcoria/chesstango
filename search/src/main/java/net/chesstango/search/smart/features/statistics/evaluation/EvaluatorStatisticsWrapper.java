@@ -41,7 +41,7 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
         evaluationsCounter++;
         int evaluation = imp.evaluate();
         if (trackEvaluations) {
-            long hash = game.getChessPosition().getZobristHash();
+            long hash = game.getPosition().getZobristHash();
             evaluations.add(new EvaluationEntry(hash, evaluation));
         }
         return evaluation;
