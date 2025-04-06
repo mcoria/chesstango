@@ -18,12 +18,12 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     protected final SquareBoard squareBoard;
     protected final KingSquare kingCacheBoard;
     protected final BitBoard bitBoard;
-    protected final StateReader positionState;
+    protected final PositionStateReader positionState;
 
     protected final FullScanSquareCaptured fullScanSquareCapturer;
     protected final CardinalSquareCaptured cardinalSquareCapturer;
 
-    public NoCheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, StateReader positionState) {
+    public NoCheckLegalMoveFilter(SquareBoard squareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
         this.squareBoard = squareBoard;
         this.kingCacheBoard = kingCacheBoard;
         this.bitBoard = bitBoard;

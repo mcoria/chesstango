@@ -21,7 +21,7 @@ public class PositionImp implements Position {
 
     // PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
     protected SquareBoard squareBoard = null;
-    protected State state = null;
+    protected PositionState positionState = null;
 
     protected BitBoard bitBoard = null;
     protected KingSquare kingSquare = null;
@@ -31,20 +31,20 @@ public class PositionImp implements Position {
     @Override
     public void init() {
         kingSquare.init(squareBoard);
-        zobristHash.init(squareBoard, state);
+        zobristHash.init(squareBoard, positionState);
     }
 
 
     @Override
     public void constructChessPositionRepresentation(PositionBuilder<?> builder) {
-        builder.withTurn(state.getCurrentTurn())
-                .withCastlingWhiteQueenAllowed(state.isCastlingWhiteQueenAllowed())
-                .withCastlingWhiteKingAllowed(state.isCastlingWhiteKingAllowed())
-                .withCastlingBlackQueenAllowed(state.isCastlingBlackQueenAllowed())
-                .withCastlingBlackKingAllowed(state.isCastlingBlackKingAllowed())
-                .withEnPassantSquare(state.getEnPassantSquare())
-                .withHalfMoveClock(state.getHalfMoveClock())
-                .withFullMoveClock(state.getFullMoveClock());
+        builder.withTurn(positionState.getCurrentTurn())
+                .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
+                .withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
+                .withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
+                .withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
+                .withEnPassantSquare(positionState.getEnPassantSquare())
+                .withHalfMoveClock(positionState.getHalfMoveClock())
+                .withFullMoveClock(positionState.getFullMoveClock());
 
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {
@@ -55,47 +55,47 @@ public class PositionImp implements Position {
 
     @Override
     public Color getCurrentTurn() {
-        return this.state.getCurrentTurn();
+        return this.positionState.getCurrentTurn();
     }
 
     @Override
     public Square getEnPassantSquare() {
-        return this.state.getEnPassantSquare();
+        return this.positionState.getEnPassantSquare();
     }
 
     @Override
     public boolean isCastlingWhiteQueenAllowed() {
-        return this.state.isCastlingWhiteQueenAllowed();
+        return this.positionState.isCastlingWhiteQueenAllowed();
     }
 
     @Override
     public boolean isCastlingWhiteKingAllowed() {
-        return this.state.isCastlingWhiteKingAllowed();
+        return this.positionState.isCastlingWhiteKingAllowed();
     }
 
     @Override
     public boolean isCastlingBlackQueenAllowed() {
-        return this.state.isCastlingBlackQueenAllowed();
+        return this.positionState.isCastlingBlackQueenAllowed();
     }
 
     @Override
     public boolean isCastlingBlackKingAllowed() {
-        return this.state.isCastlingBlackKingAllowed();
+        return this.positionState.isCastlingBlackKingAllowed();
     }
 
     @Override
     public int getHalfMoveClock() {
-        return this.state.getHalfMoveClock();
+        return this.positionState.getHalfMoveClock();
     }
 
     @Override
     public int getFullMoveClock() {
-        return this.state.getFullMoveClock();
+        return this.positionState.getFullMoveClock();
     }
 
     @Override
-    public StateReader getPreviousPositionState() {
-        return this.state.getPreviousPositionState();
+    public PositionStateReader getPreviousPositionState() {
+        return this.positionState.getPreviousPositionState();
     }
 
     @Override
@@ -230,8 +230,8 @@ public class PositionImp implements Position {
     }
 
     @Override
-    public StateWriter getPositionStateWriter() {
-        return state;
+    public PositionStateWriter getPositionStateWriter() {
+        return positionState;
     }
 
     @Override

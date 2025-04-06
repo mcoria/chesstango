@@ -4,13 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.internal.position.PositionStateImp;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.Position;
-import net.chesstango.board.position.State;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.internal.position.PositionImp;
-import net.chesstango.board.internal.position.StateImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
 
 
@@ -20,21 +20,21 @@ import net.chesstango.board.internal.position.SquareBoardImp;
 public class ChessPositionBuilder implements PositionBuilder<Position> {
     private final PositionImp chessPosition;
     private final SquareBoard squareBoard;
-    private final State state;
+    private final PositionState positionState;
     private final BitBoard bitBoard;
 
 
     public ChessPositionBuilder() {
-        this(new PositionImp(), new SquareBoardImp(), new StateImp(), new BitBoardImp());
+        this(new PositionImp(), new SquareBoardImp(), new PositionStateImp(), new BitBoardImp());
         chessPosition.setSquareBoard(squareBoard);
-        chessPosition.setState(state);
+        chessPosition.setPositionState(positionState);
         chessPosition.setBitBoard(bitBoard);
     }
 
-    ChessPositionBuilder(PositionImp chessPosition, SquareBoard squareBoard, State state, BitBoard bitBoard) {
+    ChessPositionBuilder(PositionImp chessPosition, SquareBoard squareBoard, PositionState positionState, BitBoard bitBoard) {
         this.chessPosition = chessPosition;
         this.squareBoard = squareBoard;
-        this.state = state;
+        this.positionState = positionState;
         this.bitBoard = bitBoard;
     }
 
@@ -45,52 +45,52 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
 
     @Override
     public PositionBuilder<Position> withTurn(Color turn) {
-        state.setCurrentTurn(turn);
+        positionState.setCurrentTurn(turn);
         return this;
     }
 
 
     @Override
     public PositionBuilder<Position> withEnPassantSquare(Square enPassantSquare) {
-        state.setEnPassantSquare(enPassantSquare);
+        positionState.setEnPassantSquare(enPassantSquare);
         return this;
     }
 
 
     @Override
     public PositionBuilder<Position> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
-        state.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
+        positionState.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
     public PositionBuilder<Position> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
-        state.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
+        positionState.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
 
     @Override
     public PositionBuilder<Position> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
-        state.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
+        positionState.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
     @Override
     public PositionBuilder<Position> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
-        state.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
+        positionState.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
     @Override
     public PositionBuilder<Position> withHalfMoveClock(int halfMoveClock) {
-        state.setHalfMoveClock(halfMoveClock);
+        positionState.setHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
     public PositionBuilder<Position> withFullMoveClock(int fullMoveClock) {
-        state.setFullMoveClock(fullMoveClock);
+        positionState.setFullMoveClock(fullMoveClock);
         return this;
     }
 

@@ -4,7 +4,7 @@ import net.chesstango.board.*;
 import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.internal.position.MoveCacheBoardDebug;
-import net.chesstango.board.internal.position.StateDebug;
+import net.chesstango.board.internal.position.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -37,7 +37,7 @@ public class SimpleMoveTest {
     private MoveImp moveExecutor;
     private SquareBoard squareBoard;
 
-    private StateDebug positionState;
+    private PositionStateDebug positionState;
     private BitBoardDebug bitBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
@@ -52,7 +52,7 @@ public class SimpleMoveTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        positionState = new StateDebug();
+        positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
@@ -74,7 +74,7 @@ public class SimpleMoveTest {
 
         chessPosition = new PositionImp();
         chessPosition.setSquareBoard(squareBoard);
-        chessPosition.setState(positionState);
+        chessPosition.setPositionState(positionState);
         chessPosition.setBitBoard(bitBoard);
         chessPosition.setMoveCache(moveCacheBoard);
         chessPosition.setZobristHash(zobristHash);

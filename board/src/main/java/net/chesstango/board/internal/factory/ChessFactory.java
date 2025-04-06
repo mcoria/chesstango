@@ -59,8 +59,8 @@ public class ChessFactory {
         return new SquareBoardImp();
     }
 
-    public State createPositionState() {
-        return new StateImp();
+    public PositionState createPositionState() {
+        return new PositionStateImp();
     }
 
     public ZobristHash createZobristHash() {
@@ -68,13 +68,13 @@ public class ChessFactory {
     }
 
     public LegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                 State state) {
-        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, state);
+                                                 PositionState positionState) {
+        return new CheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
 
     public LegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                   State state) {
-        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, state);
+                                                   PositionState positionState) {
+        return new NoCheckLegalMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
     }
 
     public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {

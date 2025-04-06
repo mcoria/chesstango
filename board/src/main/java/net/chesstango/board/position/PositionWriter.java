@@ -13,7 +13,7 @@ public interface PositionWriter {
 
     MoveCacheBoardWriter getMoveCacheWriter();
 
-    StateWriter getPositionStateWriter();
+    PositionStateWriter getPositionStateWriter();
 
     ZobristHashWriter getZobristWriter();
 }

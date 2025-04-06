@@ -11,7 +11,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public interface PositionReader extends SquareBoardReader, BitBoardReader, StateReader, ZobristHashReader, KingSquareReader {
+public interface PositionReader extends SquareBoardReader, BitBoardReader, PositionStateReader, ZobristHashReader, KingSquareReader {
 
 	Color getColor(Square square);
 

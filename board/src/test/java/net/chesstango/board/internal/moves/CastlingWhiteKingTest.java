@@ -2,18 +2,13 @@ package net.chesstango.board.internal.moves;
 
 import net.chesstango.board.*;
 import net.chesstango.board.internal.GameImp;
-import net.chesstango.board.internal.position.BitBoardDebug;
-import net.chesstango.board.internal.position.KingSquareDebug;
-import net.chesstango.board.internal.position.MoveCacheBoardDebug;
-import net.chesstango.board.internal.position.StateDebug;
+import net.chesstango.board.internal.position.*;
+import net.chesstango.board.internal.position.PositionStateDebug;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.PositionImp;
-import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
-import net.chesstango.board.internal.position.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +30,7 @@ public class CastlingWhiteKingTest {
 
     private SquareBoard squareBoard;
 
-    private StateDebug positionState;
+    private PositionStateDebug positionState;
 
     private MoveCastlingImp moveExecutor;
 
@@ -58,7 +53,7 @@ public class CastlingWhiteKingTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        positionState = new StateDebug();
+        positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteQueenAllowed(false);
         positionState.setCastlingWhiteKingAllowed(true);
@@ -84,7 +79,7 @@ public class CastlingWhiteKingTest {
 
         chessPosition = new PositionImp();
         chessPosition.setSquareBoard(squareBoard);
-        chessPosition.setState(positionState);
+        chessPosition.setPositionState(positionState);
         chessPosition.setBitBoard(bitBoard);
         chessPosition.setMoveCache(moveCacheBoard);
         chessPosition.setZobristHash(zobristHash);

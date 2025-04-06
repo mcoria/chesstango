@@ -52,19 +52,19 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, State state) {
-		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, state);
+	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
+		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 
 	@Override
 	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
-                                                          State state) {
-		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, state);
+                                                          PositionState positionState) {
+		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}		
 	
 	@Override
-	public State createPositionState() {
-		return new StateDebug();
+	public PositionState createPositionState() {
+		return new PositionStateDebug();
 	}
 	
 	@Override

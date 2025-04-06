@@ -41,14 +41,14 @@ public interface Command {
      *
      * @param positionState the position state writer
      */
-    void doMove(StateWriter positionState);
+    void doMove(PositionStateWriter positionState);
 
     /**
      * Undoes a move on the position state.
      *
      * @param positionState the position state writer
      */
-    void undoMove(StateWriter positionState);
+    void undoMove(PositionStateWriter positionState);
 
     /**
      * Executes a move on the bit board.

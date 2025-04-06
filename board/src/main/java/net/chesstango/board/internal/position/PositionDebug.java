@@ -34,7 +34,7 @@ public class PositionDebug extends PositionImp {
 
     // LLAMAR A ESTE METODO UNA VEZ QUE SE EJECUTO EL MOVIMIENTO
     public void validar() {
-        ((StateDebug) state).validar(this.squareBoard);
+        ((PositionStateDebug) positionState).validar(this.squareBoard);
         ((BitBoardDebug) bitBoard).validar(this.squareBoard);
         ((KingSquareDebug) kingSquare).validar(this.squareBoard);
         ((MoveCacheBoardDebug) moveCache).validar(this.squareBoard);
@@ -77,7 +77,7 @@ public class PositionDebug extends PositionImp {
         if (moveGeneratorImp == null) {
             moveGeneratorImp = new MoveGeneratorImp();
             moveGeneratorImp.setSquareBoardReader(this.squareBoard);
-            moveGeneratorImp.setBoardState(this.state);
+            moveGeneratorImp.setBoardState(this.positionState);
             moveGeneratorImp.setBitBoardReader(this.bitBoard);
             moveGeneratorImp.setMoveFactoryWhite(new MoveFactoryWhite());
             moveGeneratorImp.setMoveFactoryBlack(new MoveFactoryBlack());

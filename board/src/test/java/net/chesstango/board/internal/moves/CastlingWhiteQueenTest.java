@@ -5,7 +5,7 @@ import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.internal.position.KingSquareDebug;
 import net.chesstango.board.internal.position.MoveCacheBoardDebug;
-import net.chesstango.board.internal.position.StateDebug;
+import net.chesstango.board.internal.position.PositionStateDebug;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
@@ -35,7 +35,7 @@ public class CastlingWhiteQueenTest {
 
     private SquareBoard squareBoard;
 
-    private StateDebug positionState;
+    private PositionStateDebug positionState;
 
     private MoveCastlingImp moveExecutor;
 
@@ -57,7 +57,7 @@ public class CastlingWhiteQueenTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        positionState = new StateDebug();
+        positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteQueenAllowed(true);
         positionState.setCastlingWhiteKingAllowed(false);
@@ -83,7 +83,7 @@ public class CastlingWhiteQueenTest {
 
         chessPosition = new PositionImp();
         chessPosition.setSquareBoard(squareBoard);
-        chessPosition.setState(positionState);
+        chessPosition.setPositionState(positionState);
         chessPosition.setBitBoard(bitBoard);
         chessPosition.setMoveCache(moveCacheBoard);
         chessPosition.setZobristHash(zobristHash);

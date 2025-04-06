@@ -23,7 +23,7 @@ public class MoveKingImp extends MoveComposed {
     public void doMove(PositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
         BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        StateWriter positionState = chessPosition.getPositionStateWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
         MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
         KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
         ZobristHashWriter hash = chessPosition.getZobristWriter();
@@ -45,7 +45,7 @@ public class MoveKingImp extends MoveComposed {
     public void undoMove(PositionWriter chessPosition) {
         SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
         BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        StateWriter positionState = chessPosition.getPositionStateWriter();
+        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
         MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
         KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
         ZobristHashWriter hash = chessPosition.getZobristWriter();

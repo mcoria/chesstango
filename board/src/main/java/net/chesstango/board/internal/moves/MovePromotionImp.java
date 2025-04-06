@@ -43,7 +43,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     }
 
     @Override
-    public void doMove(StateWriter positionState) {
+    public void doMove(PositionStateWriter positionState) {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -119,7 +119,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
         PositionReader positionReader = gameImp.getPosition();
 
-        StateReader oldPositionState = positionReader.getPreviousPositionState();
+        PositionStateReader oldPositionState = positionReader.getPreviousPositionState();
 
         if (oldPositionState.isCastlingWhiteKingAllowed() != positionReader.isCastlingWhiteKingAllowed()) {
             hash.xorCastleWhiteKing();

@@ -9,7 +9,7 @@ import net.chesstango.board.moves.factories.KingMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorCastling;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.KingSquareReader;
-import net.chesstango.board.position.StateReader;
+import net.chesstango.board.position.PositionStateReader;
 
 import java.util.Iterator;
 
@@ -22,7 +22,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 
     protected KingMoveFactory moveFactory;
 
-    protected StateReader positionState;
+    protected PositionStateReader positionState;
 
     protected KingSquareReader kingSquare;
 

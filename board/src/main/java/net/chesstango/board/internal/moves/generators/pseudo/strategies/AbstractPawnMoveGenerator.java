@@ -10,7 +10,7 @@ import net.chesstango.board.moves.factories.PawnMoveFactory;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorEnPassant;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.StateReader;
+import net.chesstango.board.position.PositionStateReader;
 
 /**
  * The AbstractPawnMoveGenerator class applies the <b>Template Method</b> design pattern
@@ -41,7 +41,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
 
     protected PawnMoveFactory moveFactory;
 
-    protected StateReader positionState;
+    protected PositionStateReader positionState;
 
     /**
      * Determines the next square ahead for a pawn's simple forward move

@@ -10,9 +10,9 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.moves.PseudoMove;
-import net.chesstango.board.position.State;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.StateImp;
+import net.chesstango.board.internal.position.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 
 	private MovePair<PseudoMove> movePair;
 
-	private State state;
+	private PositionState positionState;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -42,10 +42,10 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryBlack();
 		moves = new ArrayList<>();
-		state = new StateImp();
+		positionState = new PositionStateImp();
 		
 		moveGenerator = new PawnBlackMoveGenerator();
-		moveGenerator.setPositionState(state);
+		moveGenerator.setPositionState(positionState);
 		moveGenerator.setMoveFactory(moveFactoryImp);
 	}
 
@@ -53,8 +53,8 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	public void testPawnBlackPasanteDerecha() {
 		SquareBoard tablero = getSquareBoard("8/8/8/8/3pP3/8/8/8");
 		
-		state.setEnPassantSquare(Square.e3);
-		state.setCurrentTurn(Color.BLACK);
+		positionState.setEnPassantSquare(Square.e3);
+		positionState.setCurrentTurn(Color.BLACK);
 
 		moveGenerator.setSquareBoard(tablero);
 		
@@ -75,8 +75,8 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	public void testPawnBlackPasanteIzquierda() {
 		SquareBoard tablero = getSquareBoard("8/8/8/8/3Pp3/8/8/8");
 		
-		state.setEnPassantSquare(Square.d3);
-		state.setCurrentTurn(Color.BLACK);
+		positionState.setEnPassantSquare(Square.d3);
+		positionState.setCurrentTurn(Color.BLACK);
 
 		moveGenerator.setSquareBoard(tablero);
 		

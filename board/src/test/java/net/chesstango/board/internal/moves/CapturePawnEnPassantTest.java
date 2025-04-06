@@ -4,9 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.internal.position.BitBoardDebug;
-import net.chesstango.board.internal.position.MoveCacheBoardDebug;
-import net.chesstango.board.internal.position.StateDebug;
+import net.chesstango.board.internal.position.*;
+import net.chesstango.board.internal.position.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -14,9 +13,6 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
-import net.chesstango.board.internal.position.PositionImp;
-import net.chesstango.board.internal.position.SquareBoardImp;
-import net.chesstango.board.internal.position.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +34,7 @@ public class CapturePawnEnPassantTest {
 
     private SquareBoard squareBoard;
 
-    private StateDebug positionState;
+    private PositionStateDebug positionState;
 
     private MoveImp moveExecutor;
 
@@ -56,7 +52,7 @@ public class CapturePawnEnPassantTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        positionState = new StateDebug();
+        positionState = new PositionStateDebug();
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setEnPassantSquare(Square.a6);
         positionState.setHalfMoveClock(2);
@@ -99,7 +95,7 @@ public class CapturePawnEnPassantTest {
     public void testZobristHash() {
         PositionImp chessPositionImp = new PositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(zobristHash);
@@ -111,7 +107,7 @@ public class CapturePawnEnPassantTest {
     public void testZobristHashUndo() {
         PositionImp chessPositionImp = new PositionImp();
         chessPositionImp.setZobristHash(zobristHash);
-        chessPositionImp.setState(positionState);
+        chessPositionImp.setPositionState(positionState);
 
         long initialHash = zobristHash.getZobristHash();
 

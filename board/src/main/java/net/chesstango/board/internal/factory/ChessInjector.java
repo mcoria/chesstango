@@ -25,7 +25,7 @@ public class ChessInjector {
 
     private SquareBoard squareBoard = null;
 
-    private State state = null;
+    private PositionState positionState = null;
 
     private BitBoard bitBoard = null;
 
@@ -81,7 +81,7 @@ public class ChessInjector {
 
             chessPosition.setSquareBoard(getSquareBoard());
 
-            chessPosition.setState(getPositionState());
+            chessPosition.setPositionState(getPositionState());
 
             chessPosition.setKingSquare(getKingCacheBoard());
 
@@ -101,11 +101,11 @@ public class ChessInjector {
         return squareBoard;
     }
 
-    public State getPositionState() {
-        if (state == null) {
-            state = chessFactory.createPositionState();
+    public PositionState getPositionState() {
+        if (positionState == null) {
+            positionState = chessFactory.createPositionState();
         }
-        return state;
+        return positionState;
     }
 
     public KingSquare getKingCacheBoard() {

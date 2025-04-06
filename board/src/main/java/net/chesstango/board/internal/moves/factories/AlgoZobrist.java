@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.moves.factories;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.StateReader;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ZobristHashWriter;
 
 /**
@@ -9,7 +9,7 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 public class AlgoZobrist {
 
-    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, StateReader chessPositionReader) {
+    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader chessPositionReader) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -20,7 +20,7 @@ public class AlgoZobrist {
 
         hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
-        StateReader oldPositionState = chessPositionReader.getPreviousPositionState();
+        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
 
         if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();

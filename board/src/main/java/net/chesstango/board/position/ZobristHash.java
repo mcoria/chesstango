@@ -8,6 +8,6 @@ public interface ZobristHash extends ZobristHashReader, ZobristHashWriter {
 
     void init(PositionReader positionReader);
 
-    void init(SquareBoardReader piecePlacement, StateReader positionState);
+    void init(SquareBoardReader piecePlacement, PositionStateReader positionState);
 
 }

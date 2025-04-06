@@ -9,7 +9,7 @@ import net.chesstango.board.position.SquareBoard;
 /**
  * @author Mauricio Coria
  */
-public class StateDebug extends StateImp {
+public class PositionStateDebug extends PositionStateImp {
 
     public void validar() {
         if (this.getCurrentTurn() == null) {

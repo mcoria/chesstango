@@ -96,5 +96,5 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         return null;
     }
 
-    protected abstract void xorCastling(ZobristHashWriter hash, StateReader oldPositionState, StateReader newPositionState);
+    protected abstract void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
 }
