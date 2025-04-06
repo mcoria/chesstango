@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.GameStateHistory;
+import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -86,17 +86,17 @@ public class GameMock implements Game {
     }
 
     @Override
-    public GameStateHistory getPreviousState() {
+    public CareTakerRecord getPreviousState() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
-    public Iterator<GameStateHistory> stateIterator() {
+    public Iterator<CareTakerRecord> stateIterator() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
-    public Iterator<GameStateHistory> stateIteratorReverse() {
+    public Iterator<CareTakerRecord> stateIteratorReverse() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

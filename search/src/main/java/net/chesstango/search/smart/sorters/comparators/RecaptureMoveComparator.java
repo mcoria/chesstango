@@ -3,8 +3,7 @@ package net.chesstango.search.smart.sorters.comparators;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.position.GameStateHistory;
-import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
@@ -32,7 +31,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
 
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
-        GameStateHistory stateHistory = this.game.getPreviousState();
+        CareTakerRecord stateHistory = this.game.getPreviousState();
         Move previousMove = stateHistory.move();
         if (previousMove != null && !previousMove.isQuiet()) {
             previousMoveToSquare = previousMove.getTo().getSquare();

@@ -6,13 +6,13 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public interface CareTaker {
-    Iterator<GameStateHistory> stateIterator();
+    Iterator<CareTakerRecord> iterator();
 
-    Iterator<GameStateHistory> stateIteratorReverse();
+    Iterator<CareTakerRecord> iteratorReverse();
 
-    GameStateHistory peekLastState();
+    CareTakerRecord peekLastState();
 
-    void storeHistory(GameStateHistory gameStateHistory);
+    void push(CareTakerRecord careTakerRecord);
 
-    GameStateHistory popHistory();
+    CareTakerRecord pop();
 }

@@ -61,14 +61,14 @@ public class PositionAnalyzer implements GameListener {
     public void notifyDoMove(Move move) {
         GameStateReader stateSnapshot = gameState.takeSnapshot();
 
-        careTaker.storeHistory(new GameStateHistory(stateSnapshot, move));
+        careTaker.push(new CareTakerRecord(stateSnapshot, move));
 
         updateGameState();
     }
 
     @Override
     public void notifyUndoMove(Move move) {
-        GameStateHistory lastStateHistory = careTaker.popHistory();
+        CareTakerRecord lastStateHistory = careTaker.pop();
 
         gameState.restoreSnapshot(lastStateHistory.state());
     }
@@ -106,7 +106,7 @@ public class PositionAnalyzer implements GameListener {
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
 
 
-        Iterator<GameStateHistory> gameStateHistoryIterator = careTaker.stateIterator();
+        Iterator<CareTakerRecord> gameStateHistoryIterator = careTaker.iterator();
 
         // Start iterating
         while (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
@@ -117,7 +117,7 @@ public class PositionAnalyzer implements GameListener {
 
             if (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
                 // Get next state, my turn
-                GameStateHistory stateHistory = gameStateHistoryIterator.next();
+                CareTakerRecord stateHistory = gameStateHistoryIterator.next();
                 halfMoveClockCounter--;
 
 

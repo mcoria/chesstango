@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.position;
 
 import net.chesstango.board.position.CareTaker;
-import net.chesstango.board.position.GameStateHistory;
+import net.chesstango.board.position.CareTakerRecord;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,30 +15,30 @@ public class CareTakerImp implements CareTaker {
     /**
      * Stack to hold previous game states.
      */
-    private final Deque<GameStateHistory> previousStates = new ArrayDeque<>();
+    private final Deque<CareTakerRecord> previousStates = new ArrayDeque<>();
 
     @Override
-    public Iterator<GameStateHistory> stateIterator() {
+    public Iterator<CareTakerRecord> iterator() {
         return previousStates.iterator();
     }
 
     @Override
-    public Iterator<GameStateHistory> stateIteratorReverse() {
+    public Iterator<CareTakerRecord> iteratorReverse() {
         return previousStates.descendingIterator();
     }
 
     @Override
-    public GameStateHistory peekLastState() {
+    public CareTakerRecord peekLastState() {
         return previousStates.peek();
     }
 
     @Override
-    public void storeHistory(GameStateHistory gameStateHistory) {
-        previousStates.push(gameStateHistory);
+    public void push(CareTakerRecord careTakerRecord) {
+        previousStates.push(careTakerRecord);
     }
 
     @Override
-    public GameStateHistory popHistory() {
+    public CareTakerRecord pop() {
         return previousStates.pop();
     }
 }

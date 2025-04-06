@@ -111,7 +111,7 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-        GameStateHistory previousState = getPreviousState();
+        CareTakerRecord previousState = getPreviousState();
 
         Move lasMove = previousState.move();
 
@@ -182,18 +182,18 @@ public class GameImp implements Game {
     }
 
     @Override
-    public GameStateHistory getPreviousState() {
+    public CareTakerRecord getPreviousState() {
         return careTaker.peekLastState();
     }
 
     @Override
-    public Iterator<GameStateHistory> stateIterator() {
-        return careTaker.stateIterator();
+    public Iterator<CareTakerRecord> stateIterator() {
+        return careTaker.iterator();
     }
 
     @Override
-    public Iterator<GameStateHistory> stateIteratorReverse() {
-        return careTaker.stateIteratorReverse();
+    public Iterator<CareTakerRecord> stateIteratorReverse() {
+        return careTaker.iteratorReverse();
     }
 
     @Override

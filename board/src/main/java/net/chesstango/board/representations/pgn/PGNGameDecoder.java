@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.GameStateHistory;
+import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.move.SANEncoder;
 
@@ -25,12 +25,12 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        Iterator<GameStateHistory> stateIterator = game.stateIteratorReverse();
+        Iterator<CareTakerRecord> stateIterator = game.stateIteratorReverse();
 
-        GameStateHistory stateHistory = null;
+        CareTakerRecord stateHistory = null;
 
         while (stateIterator.hasNext()) {
-            GameStateHistory currentStateHistory = stateIterator.next();
+            CareTakerRecord currentStateHistory = stateIterator.next();
 
             // Encode previous move + current iterated state
             if (stateHistory != null) {
@@ -54,7 +54,7 @@ public class PGNGameDecoder {
         return pgn;
     }
 
-    private String encodeMove(GameStateHistory previousStateHistory, GameStateReader currentState) {
+    private String encodeMove(CareTakerRecord previousStateHistory, GameStateReader currentState) {
         Move playedMove = previousStateHistory.move();
         GameStateReader pastState = previousStateHistory.state();
 
