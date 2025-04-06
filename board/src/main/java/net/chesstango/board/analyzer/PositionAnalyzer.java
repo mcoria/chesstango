@@ -70,7 +70,7 @@ public class PositionAnalyzer implements GameListener {
     public void notifyUndoMove(Move move) {
         CareTakerRecord lastStateHistory = careTaker.pop();
 
-        gameState.restoreSnapshot(lastStateHistory.state());
+        gameState.restoreSnapshot(lastStateHistory.gameState());
     }
 
     protected AnalyzerResult analyze() {
@@ -121,7 +121,7 @@ public class PositionAnalyzer implements GameListener {
                 halfMoveClockCounter--;
 
 
-                GameStateReader state = stateHistory.state();
+                GameStateReader state = stateHistory.gameState();
 
                 if (state.getZobristHash() == zobristHash && state.getPositionHash() == positionHash) {
                     repetitionCounter = state.getRepetitionCounter() + 1;

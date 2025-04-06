@@ -34,7 +34,7 @@ public class PGNGameDecoder {
 
             // Encode previous move + current iterated state
             if (stateHistory != null) {
-                String moveStrTmp = encodeMove(stateHistory, currentStateHistory.state());
+                String moveStrTmp = encodeMove(stateHistory, currentStateHistory.gameState());
                 moveList.add(moveStrTmp);
             }
 
@@ -56,7 +56,7 @@ public class PGNGameDecoder {
 
     private String encodeMove(CareTakerRecord previousStateHistory, GameStateReader currentState) {
         Move playedMove = previousStateHistory.playedMove();
-        GameStateReader pastState = previousStateHistory.state();
+        GameStateReader pastState = previousStateHistory.gameState();
 
         return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
                 + encodeGameStatusAtMove(currentState.getGameStatus());
