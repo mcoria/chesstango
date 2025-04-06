@@ -55,7 +55,7 @@ public class PGNGameDecoder {
     }
 
     private String encodeMove(CareTakerRecord previousStateHistory, GameStateReader currentState) {
-        Move playedMove = previousStateHistory.move();
+        Move playedMove = previousStateHistory.playedMove();
         GameStateReader pastState = previousStateHistory.state();
 
         return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())

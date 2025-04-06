@@ -10,5 +10,5 @@ public interface CareTakerReader {
 
     Iterator<CareTakerRecord> iteratorReverse();
 
-    CareTakerRecord peekLastState();
+    CareTakerRecord peekLastRecord();
 }

@@ -22,7 +22,7 @@ public class GameDebugEncoder {
 
 
         game.stateIteratorReverse().forEachRemaining(gameStateHistory -> {
-            Move move = gameStateHistory.move();
+            Move move = gameStateHistory.playedMove();
             sb.append(".executeMove(Square.")
                     .append(move.getFrom().getSquare().toString())
                     .append(", Square.")

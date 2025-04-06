@@ -28,7 +28,7 @@ public class CareTakerImp implements CareTaker {
     }
 
     @Override
-    public CareTakerRecord peekLastState() {
+    public CareTakerRecord peekLastRecord() {
         return previousStates.peek();
     }
 

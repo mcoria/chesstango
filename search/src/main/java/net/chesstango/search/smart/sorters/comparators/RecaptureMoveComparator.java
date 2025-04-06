@@ -32,7 +32,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         CareTakerRecord stateHistory = this.game.getPreviousState();
-        Move previousMove = stateHistory.move();
+        Move previousMove = stateHistory.playedMove();
         if (previousMove != null && !previousMove.isQuiet()) {
             previousMoveToSquare = previousMove.getTo().getSquare();
         } else {
