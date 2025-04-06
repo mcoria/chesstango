@@ -3,12 +3,11 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
-import net.chesstango.board.iterators.state.FirstToLast;
-import net.chesstango.board.iterators.state.StateIterator;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.move.SANEncoder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,19 +23,31 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        String moveStrTmp = "";
-        StateIterator stateIterator = new FirstToLast(game.getState());
+        Iterator<GameStateReader> stateIterator = game.stateIteratorReverse();
+
+        GameStateReader previousState = null;
+
         while (stateIterator.hasNext()) {
             GameStateReader gameState = stateIterator.next();
-            if (!"".equals(moveStrTmp)) {
-                moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
+
+            // Encode previous move + current iterated state
+            if (previousState != null) {
+                String moveStrTmp = sanEncoder.encodeAlgebraicNotation(previousState.getSelectedMove(), previousState.getLegalMoves())
+                        + encodeGameStatusAtMove(gameState.getStatus());
                 moveList.add(moveStrTmp);
-                moveStrTmp = "";
             }
-            if (gameState.getSelectedMove() != null) {
-                moveStrTmp = sanEncoder.encodeAlgebraicNotation(gameState.getSelectedMove(), gameState.getLegalMoves());
-            }
+
+            previousState = gameState;
         }
+
+        // Encode previous move + current state
+        if (previousState != null) {
+            String moveStrTmp = sanEncoder.encodeAlgebraicNotation(previousState.getSelectedMove(), previousState.getLegalMoves())
+                    + encodeGameStatusAtMove(game.getStatus());
+            moveList.add(moveStrTmp);
+        }
+
+
         pgn.setMoveList(moveList);
 
         return pgn;

@@ -13,6 +13,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.GameState;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -56,7 +57,9 @@ import java.util.List;
  */
 public class GameImp implements Game {
     private final ChessPosition chessPosition;
+
     private final GameState gameState;
+
     private final List<GameListener> gameListeners = new ArrayList<>();
 
     private PositionAnalyzer analyzer;
@@ -107,7 +110,9 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-        Move lasMove = gameState.getPreviousState().getSelectedMove();
+        GameStateReader previousState = getPreviousState();
+
+        Move lasMove = previousState.getSelectedMove();
 
         lasMove.undoMove();
 
@@ -173,6 +178,21 @@ public class GameImp implements Game {
     @Override
     public GameState getState() {
         return gameState;
+    }
+
+    @Override
+    public GameStateReader getPreviousState() {
+        return gameState.peekLastState();
+    }
+
+    @Override
+    public Iterator<GameStateReader> stateIterator() {
+        return gameState.stateIterator();
+    }
+
+    @Override
+    public Iterator<GameStateReader> stateIteratorReverse() {
+        return gameState.stateIteratorReverse();
     }
 
     @Override

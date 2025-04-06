@@ -61,7 +61,7 @@ public class GameTest {
     }
 
     @Test
-    public void test_mateAndUndo() {
+    public void testMateAndUndo() {
         Game game = getGame(FENDecoder.INITIAL_FEN);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());

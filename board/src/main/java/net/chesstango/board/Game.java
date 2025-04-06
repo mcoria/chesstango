@@ -7,6 +7,8 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 
+import java.util.Iterator;
+
 /**
  * Interface representing a chess game.
  * This interface provides methods to get the initial and current FEN (Forsyth-Edwards Notation),
@@ -45,6 +47,28 @@ public interface Game {
      * @return the game state
      */
     GameStateReader getState();
+
+
+    /**
+     * Gets the previous state of the game.
+     *
+     * @return the game state
+     */
+    GameStateReader getPreviousState();
+
+    /**
+     * Gets an iterator over the game states.
+     *
+     * @return an iterator over the game states
+     */
+    Iterator<GameStateReader> stateIterator();
+
+    /**
+     * Gets an iterator over the game states in reverse order.
+     *
+     * @return an iterator over the game states
+     */
+    Iterator<GameStateReader> stateIteratorReverse();
 
     /**
      * Gets the current chess position.

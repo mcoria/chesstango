@@ -16,7 +16,6 @@ module net.chesstango.board {
     exports net.chesstango.board.iterators;
     exports net.chesstango.board.iterators.bysquare;
     exports net.chesstango.board.iterators.byposition;
-    exports net.chesstango.board.iterators.state;
     exports net.chesstango.board.builders;
 
     requires static lombok;

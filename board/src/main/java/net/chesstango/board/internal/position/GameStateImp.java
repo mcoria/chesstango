@@ -2,26 +2,38 @@ package net.chesstango.board.internal.position;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.position.GameState;
-import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.position.GameState;
+import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
 
 /**
  * Implementation of the GameState interface that manages the state of a chess game.
  * This class provides methods to get and set various game state attributes such as
  * game status, legal moves, selected move, analyzer result, and hash values.
  * It also supports pushing and popping game states to handle state changes.
- *
+ * <p>
  * The GameStateData inner class holds the actual state data.
  *
  * @author Mauricio Coria
  */
 public class GameStateImp implements GameState {
 
+    /**
+     * Stack to hold previous game states.
+     */
+    private final Deque<GameStateData> previousStates = new ArrayDeque<>();
+
+    /**
+     * The current game state data.
+     */
     private GameStateData currentGameState = new GameStateData();
 
     @Setter
@@ -168,14 +180,40 @@ public class GameStateImp implements GameState {
         currentGameState.repetitionCounter = repetitionCounter;
     }
 
-    /**
-     * Gets the previous game state.
-     *
-     * @return the previous game state
-     */
+
     @Override
-    public GameStateReader getPreviousState() {
-        return currentGameState.previousGameState;
+    public Iterator<GameStateReader> stateIterator() {
+        Iterator<GameStateData> iterator = previousStates.iterator();
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+            @Override
+            public GameStateReader next() {
+                return iterator.next();
+            }
+        };
+    }
+
+    @Override
+    public Iterator<GameStateReader> stateIteratorReverse() {
+        Iterator<GameStateData> iterator = previousStates.descendingIterator();
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+            @Override
+            public GameStateReader next() {
+                return iterator.next();
+            }
+        };
+    }
+
+    @Override
+    public GameStateReader peekLastState() {
+        return previousStates.peek();
     }
 
     /**
@@ -183,9 +221,8 @@ public class GameStateImp implements GameState {
      */
     @Override
     public void push() {
-        GameStateData previousGameState = currentGameState;
+        previousStates.push(currentGameState);
         currentGameState = new GameStateData();
-        currentGameState.previousGameState = previousGameState;
     }
 
     /**
@@ -193,7 +230,7 @@ public class GameStateImp implements GameState {
      */
     @Override
     public void pop() {
-        currentGameState = currentGameState.previousGameState;
+        currentGameState = previousStates.pop();
     }
 
     /**
@@ -207,7 +244,6 @@ public class GameStateImp implements GameState {
         protected long zobristHash;
         protected long positionHash;
         protected int repetitionCounter;
-        protected GameStateData previousGameState = null;
 
         @Override
         public GameStatus getStatus() {
@@ -242,11 +278,6 @@ public class GameStateImp implements GameState {
         @Override
         public int getRepetitionCounter() {
             return repetitionCounter;
-        }
-
-        @Override
-        public GameStateData getPreviousState() {
-            return previousGameState;
         }
     }
 }

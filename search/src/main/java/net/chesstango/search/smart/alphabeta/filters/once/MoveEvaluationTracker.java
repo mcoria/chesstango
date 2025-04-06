@@ -87,7 +87,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
 
     protected long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
-        Move currentMove = game.getState().getPreviousState().getSelectedMove();
+        Move currentMove = game.getPreviousState().getSelectedMove();
 
         for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {

@@ -43,8 +43,8 @@ public class SearchTracker {
         }
 
         newNode.setZobristHash(game.getChessPosition().getZobristHash());
-        if (game.getState().getPreviousState() != null) {
-            newNode.setSelectedMove(game.getState().getPreviousState().getSelectedMove());
+        if (game.getPreviousState() != null) {
+            newNode.setSelectedMove(game.getPreviousState().getSelectedMove());
         }
 
         currentNode = newNode;

@@ -1,11 +1,8 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.iterators.state.FirstToLast;
-import net.chesstango.board.iterators.state.StateIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -23,13 +20,9 @@ public class GameDebugEncoder {
                 .append(initialFEN)
                 .append("\")\n");
 
-        StateIterator stateIterator = new FirstToLast(game.getState());
-        while (stateIterator.hasNext()) {
-            GameStateReader gameState = stateIterator.next();
 
+        game.stateIteratorReverse().forEachRemaining(gameState -> {
             Move move = gameState.getSelectedMove();
-
-
             sb.append(".executeMove(Square.")
                     .append(move.getFrom().getSquare().toString())
                     .append(", Square.")
@@ -45,8 +38,7 @@ public class GameDebugEncoder {
             sb.append(" // ")
                     .append(fenEncoder.getChessRepresentation())
                     .append("\n");
-        }
-        ;
+        });
 
 
         return sb.toString();

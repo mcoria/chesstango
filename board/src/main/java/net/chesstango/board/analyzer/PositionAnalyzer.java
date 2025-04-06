@@ -3,8 +3,6 @@ package net.chesstango.board.analyzer;
 import lombok.Setter;
 import net.chesstango.board.GameListener;
 import net.chesstango.board.GameStatus;
-import net.chesstango.board.iterators.state.LastToFirst;
-import net.chesstango.board.iterators.state.StateIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
@@ -13,51 +11,34 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.GameState;
 import net.chesstango.board.position.GameStateReader;
 
+import java.util.Iterator;
+
 /**
+ * PositionAnalyzer is responsible for analyzing the current state of a chess game,
+ * updating the game state, and notifying listeners of moves being executed or undone.
+ * <p>
+ * This class uses various analyzers to determine the state of the game,
+ * such as pinned pieces and king safety. It also supports rules like
+ * threefold repetition and the fifty-move rule. It implements the GameListener
+ * to update the GameState ofter a move execution.
+ *
  * @author Mauricio Coria
- * <p>
- * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
- * <p>
- * TODO: La generacion de movimientos dummy debiera ser en base al layer de color.
- * Me imagino un tablero con X y O para representar los distintos colores.
  */
+@Setter
 public class PositionAnalyzer implements GameListener {
-    @Setter
     private Analyzer pinnedAnalyzer;
 
-    @Setter
     private Analyzer kingSafePositionsAnalyzer;
 
-    @Setter
     private GameState gameState;
 
-    @Setter
     private ChessPositionReader positionReader;
 
-    @Setter
     private LegalMoveGenerator legalMoveGenerator;
 
-    @Setter
     private boolean threefoldRepetitionRule;
 
-    @Setter
     private boolean fiftyMovesRule;
-
-    @Override
-    public void notifyDoMove(Move move) {
-        gameState.setSelectedMove(move);
-
-        gameState.push();
-
-        updateGameState();
-    }
-
-    @Override
-    public void notifyUndoMove(Move move) {
-        gameState.pop();
-
-        gameState.setSelectedMove(null);
-    }
 
     public void updateGameState() {
         AnalyzerResult analysis = analyze();
@@ -76,7 +57,23 @@ public class PositionAnalyzer implements GameListener {
         gameState.setLegalMoves(gameStatus.isInProgress() ? legalMoves : new MoveContainer<>());
     }
 
-    public AnalyzerResult analyze() {
+    @Override
+    public void notifyDoMove(Move move) {
+        gameState.setSelectedMove(move);
+
+        gameState.push();
+
+        updateGameState();
+    }
+
+    @Override
+    public void notifyUndoMove(Move move) {
+        gameState.pop();
+
+        gameState.setSelectedMove(null);
+    }
+
+    protected AnalyzerResult analyze() {
 
         AnalyzerResult result = new AnalyzerResult();
 
@@ -109,41 +106,26 @@ public class PositionAnalyzer implements GameListener {
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
 
 
-        StateIterator gameStateIterator = new LastToFirst(gameState);
+        Iterator<GameStateReader> gameStateIterator = gameState.stateIterator();
 
-        // Skip the first state, initial position
-        if (gameStateIterator.hasNext()) {
-            // Skip the current state, my turn
+        // Start iterating
+        while (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
+            // Skip next state, opponent turn
             gameStateIterator.next();
             halfMoveClockCounter--;
 
 
-            if (gameStateIterator.hasNext()) {
-                // Skip next state, opponent turn
-                gameStateIterator.next();
+            if (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
+                // Get next state, my turn
+                GameStateReader currentState = gameStateIterator.next();
                 halfMoveClockCounter--;
 
-                // Start iterating
-                while (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
-
-                    // Get the current state
-                    GameStateReader currentState = gameStateIterator.next();
-                    halfMoveClockCounter--;
-
-                    if (currentState.getZobristHash() == zobristHash && currentState.getPositionHash() == positionHash) {
-                        repetitionCounter = currentState.getRepetitionCounter() + 1;
-                        break;
-                    }
-
-                    // Skip next state, opponent turn
-                    if (gameStateIterator.hasNext()) {
-                        gameStateIterator.next();
-                        halfMoveClockCounter -= 1;
-                    }
+                if (currentState.getZobristHash() == zobristHash && currentState.getPositionHash() == positionHash) {
+                    repetitionCounter = currentState.getRepetitionCounter() + 1;
+                    break;
                 }
             }
         }
-
 
         return repetitionCounter;
     }

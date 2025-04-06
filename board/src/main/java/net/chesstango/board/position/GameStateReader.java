@@ -10,7 +10,6 @@ import net.chesstango.board.representations.fen.FEN;
  * @author Mauricio Coria
  */
 public interface GameStateReader {
-
     GameStatus getStatus();
 
     MoveContainerReader<Move> getLegalMoves();
@@ -24,6 +23,4 @@ public interface GameStateReader {
     long getPositionHash();
 
     int getRepetitionCounter();
-
-    GameStateReader getPreviousState();
 }

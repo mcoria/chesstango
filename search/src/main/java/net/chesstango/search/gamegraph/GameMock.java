@@ -10,6 +10,8 @@ import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
+import java.util.Iterator;
+
 /**
  * @author Mauricio Coria
  */
@@ -80,6 +82,21 @@ public class GameMock implements Game {
     @Override
     public GameStateReader getState() {
         return currentMockNode.getState();
+    }
+
+    @Override
+    public GameStateReader getPreviousState() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
+    public Iterator<GameStateReader> stateIterator() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
+    public Iterator<GameStateReader> stateIteratorReverse() {
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
