@@ -3,6 +3,8 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.GameStateHistory;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.move.SANEncoder;
 
@@ -14,36 +16,35 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PGNGameDecoder {
+    private SANEncoder sanEncoder = new SANEncoder();
 
     public PGN decode(Game game) {
-        SANEncoder sanEncoder = new SANEncoder();
         PGN pgn = new PGN();
         pgn.setResult(encodeGameResult(game));
         pgn.setFen(game.getInitialFEN().toString());
 
         List<String> moveList = new ArrayList<>();
 
-        Iterator<GameStateReader> stateIterator = game.stateIteratorReverse();
+        Iterator<GameStateHistory> stateIterator = game.stateIteratorReverse();
 
-        GameStateReader previousState = null;
+        GameStateHistory stateHistory = null;
 
         while (stateIterator.hasNext()) {
-            GameStateReader gameState = stateIterator.next();
+            GameStateHistory currentStateHistory = stateIterator.next();
 
             // Encode previous move + current iterated state
-            if (previousState != null) {
-                String moveStrTmp = sanEncoder.encodeAlgebraicNotation(previousState.getSelectedMove(), previousState.getLegalMoves())
-                        + encodeGameStatusAtMove(gameState.getStatus());
+            if (stateHistory != null) {
+                String moveStrTmp = encodeMove(stateHistory, currentStateHistory.state());
                 moveList.add(moveStrTmp);
             }
 
-            previousState = gameState;
+            stateHistory = currentStateHistory;
         }
 
         // Encode previous move + current state
-        if (previousState != null) {
-            String moveStrTmp = sanEncoder.encodeAlgebraicNotation(previousState.getSelectedMove(), previousState.getLegalMoves())
-                    + encodeGameStatusAtMove(game.getStatus());
+        if (stateHistory != null) {
+            String moveStrTmp = encodeMove(stateHistory, game.getState());
+
             moveList.add(moveStrTmp);
         }
 
@@ -51,6 +52,14 @@ public class PGNGameDecoder {
         pgn.setMoveList(moveList);
 
         return pgn;
+    }
+
+    private String encodeMove(GameStateHistory previousStateHistory, GameStateReader currentState) {
+        Move playedMove = previousStateHistory.move();
+        GameStateReader pastState = previousStateHistory.state();
+
+        return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
+                + encodeGameStatusAtMove(currentState.getGameStatus());
     }
 
     private String encodeGameStatusAtMove(GameStatus gameStatus) {

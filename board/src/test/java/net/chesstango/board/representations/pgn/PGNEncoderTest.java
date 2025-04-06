@@ -16,7 +16,7 @@ public class PGNEncoderTest {
     private PGNStringEncoder encoder;
 
     @BeforeEach
-    public void settup() {
+    public void setup() {
         encoder = new PGNStringEncoder();
     }
 

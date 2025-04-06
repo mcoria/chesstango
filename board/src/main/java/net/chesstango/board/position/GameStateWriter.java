@@ -11,11 +11,9 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
  */
 public interface GameStateWriter {
 
-    void setStatus(GameStatus gameStatus);
+    void setGameStatus(GameStatus gameStatus);
 
     void setLegalMoves(MoveContainerReader<Move> legalMoves);
-
-    void setSelectedMove(Move selectedMove);
 
     void setAnalyzerResult(AnalyzerResult analyzerResult);
 
@@ -24,8 +22,4 @@ public interface GameStateWriter {
     void setPositionHash(long positionHash);
 
     void setRepetitionCounter(int repetitionCounter);
-
-    void push();
-
-    void pop();
 }

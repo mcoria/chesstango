@@ -65,6 +65,8 @@ public class ChessInjector {
 
     private MoveFactory moveFactoryWhite;
 
+    private CareTaker careTaker;
+
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
     }
@@ -136,7 +138,7 @@ public class ChessInjector {
 
     public GameImp getGame() {
         if (game == null) {
-            game = chessFactory.createGame(getChessPosition(), getGameState());
+            game = chessFactory.createGame(getChessPosition(), getGameState(), getCareTaker());
 
             // Validation should be executed before the position is analyzed
             if (chessFactory instanceof ChessFactoryDebug) {
@@ -161,6 +163,13 @@ public class ChessInjector {
         return game;
     }
 
+    private CareTaker getCareTaker() {
+        if(careTaker == null){
+            careTaker = chessFactory.createCareTaker();
+        }
+        return careTaker;
+    }
+
 
     public GameState getGameState() {
         if (gameState == null) {
@@ -177,6 +186,7 @@ public class ChessInjector {
             positionAnalyzer.setPositionReader(getChessPosition());
             positionAnalyzer.setPinnedAnalyzer(getPinnedAnalyzer());
             positionAnalyzer.setKingSafePositionsAnalyzer(getKingSafePositionsAnalyzer());
+            positionAnalyzer.setCareTaker(getCareTaker());
         }
         return positionAnalyzer;
     }

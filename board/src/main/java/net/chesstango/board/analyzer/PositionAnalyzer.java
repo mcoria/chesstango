@@ -7,9 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.GameState;
-import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.*;
 
 import java.util.Iterator;
 
@@ -30,6 +28,8 @@ public class PositionAnalyzer implements GameListener {
 
     private Analyzer kingSafePositionsAnalyzer;
 
+    private CareTaker careTaker;
+
     private GameState gameState;
 
     private ChessPositionReader positionReader;
@@ -48,7 +48,7 @@ public class PositionAnalyzer implements GameListener {
         int repetitionCounter = calculateRepetitionCounter();
         GameStatus gameStatus = calculateGameStatus(analysis, legalMoves, repetitionCounter);
 
-        gameState.setStatus(gameStatus);
+        gameState.setGameStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
         gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
@@ -59,18 +59,18 @@ public class PositionAnalyzer implements GameListener {
 
     @Override
     public void notifyDoMove(Move move) {
-        gameState.setSelectedMove(move);
+        GameStateReader stateSnapshot = gameState.takeSnapshot();
 
-        gameState.push();
+        careTaker.storeHistory(new GameStateHistory(stateSnapshot, move));
 
         updateGameState();
     }
 
     @Override
     public void notifyUndoMove(Move move) {
-        gameState.pop();
+        GameStateHistory lastStateHistory = careTaker.popHistory();
 
-        gameState.setSelectedMove(null);
+        gameState.restoreSnapshot(lastStateHistory.state());
     }
 
     protected AnalyzerResult analyze() {
@@ -106,22 +106,25 @@ public class PositionAnalyzer implements GameListener {
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
 
 
-        Iterator<GameStateReader> gameStateIterator = gameState.stateIterator();
+        Iterator<GameStateHistory> gameStateHistoryIterator = careTaker.stateIterator();
 
         // Start iterating
-        while (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
+        while (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
             // Skip next state, opponent turn
-            gameStateIterator.next();
+            gameStateHistoryIterator.next();
             halfMoveClockCounter--;
 
 
-            if (gameStateIterator.hasNext() && halfMoveClockCounter >= 0) {
+            if (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
                 // Get next state, my turn
-                GameStateReader currentState = gameStateIterator.next();
+                GameStateHistory stateHistory = gameStateHistoryIterator.next();
                 halfMoveClockCounter--;
 
-                if (currentState.getZobristHash() == zobristHash && currentState.getPositionHash() == positionHash) {
-                    repetitionCounter = currentState.getRepetitionCounter() + 1;
+
+                GameStateReader state = stateHistory.state();
+
+                if (state.getZobristHash() == zobristHash && state.getPositionHash() == positionHash) {
+                    repetitionCounter = state.getRepetitionCounter() + 1;
                     break;
                 }
             }

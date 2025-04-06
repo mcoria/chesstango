@@ -96,8 +96,8 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        final long lastHash = game.getPreviousState().getZobristHash();
-        final Move lastMove = game.getPreviousState().getSelectedMove();
+        final long lastHash = game.getPreviousState().state().getZobristHash();
+        final Move lastMove = game.getPreviousState().move();
         principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
         final int bestValue = TranspositionEntry.decodeValue(moveAndValue);

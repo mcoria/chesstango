@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Mauricio Coria
  */
 public class PGNTest {
-
     @Test
     public void testToEpd() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);

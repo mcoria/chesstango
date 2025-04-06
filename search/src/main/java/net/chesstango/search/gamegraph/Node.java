@@ -120,7 +120,7 @@ class Node {
     GameStateReader gameState;
 
     GameStatus getStatus() {
-        return gameState.getStatus();
+        return gameState.getGameStatus();
     }
 
     GameStateReader getState() {

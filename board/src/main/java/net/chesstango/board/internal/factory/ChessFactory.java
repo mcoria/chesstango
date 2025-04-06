@@ -1,23 +1,23 @@
 package net.chesstango.board.internal.factory;
 
-import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.internal.position.*;
-import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
-import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
-import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
 import net.chesstango.board.internal.moves.generators.legal.LegalMoveGeneratorImp;
 import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilter;
 import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGenerator;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilter;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGenerator;
-import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorCache;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
+import net.chesstango.board.internal.position.*;
+import net.chesstango.board.moves.factories.MoveFactory;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.*;
 
 /**
@@ -85,8 +85,8 @@ public class ChessFactory {
         return new MoveGeneratorImp();
     }
 
-    public GameImp createGame(ChessPosition chessPosition, GameState gameState) {
-        return new GameImp(chessPosition, gameState);
+    public GameImp createGame(ChessPosition chessPosition, GameState gameState, CareTaker careTaker) {
+        return new GameImp(chessPosition, gameState, careTaker);
     }
 
     public PositionAnalyzer createPositionAnalyzer() {
@@ -111,5 +111,9 @@ public class ChessFactory {
 
     public MoveFactory createMoveFactoryWhite(GameImp gameImp) {
         return new MoveFactoryWhite(gameImp);
+    }
+
+    public CareTaker createCareTaker() {
+        return new CareTakerImp();
     }
 }

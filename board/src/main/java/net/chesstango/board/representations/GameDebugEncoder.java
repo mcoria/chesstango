@@ -21,8 +21,8 @@ public class GameDebugEncoder {
                 .append("\")\n");
 
 
-        game.stateIteratorReverse().forEachRemaining(gameState -> {
-            Move move = gameState.getSelectedMove();
+        game.stateIteratorReverse().forEachRemaining(gameStateHistory -> {
+            Move move = gameStateHistory.move();
             sb.append(".executeMove(Square.")
                     .append(move.getFrom().getSquare().toString())
                     .append(", Square.")

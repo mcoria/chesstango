@@ -11,9 +11,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.GameState;
-import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -60,6 +58,8 @@ public class GameImp implements Game {
 
     private final GameState gameState;
 
+    private final CareTaker careTaker;
+
     private final List<GameListener> gameListeners = new ArrayList<>();
 
     private PositionAnalyzer analyzer;
@@ -67,9 +67,10 @@ public class GameImp implements Game {
     @Setter
     private MoveGenerator pseudoMovesGenerator;
 
-    public GameImp(ChessPosition chessPosition, GameState gameState) {
+    public GameImp(ChessPosition chessPosition, GameState gameState, CareTaker careTaker) {
         this.chessPosition = chessPosition;
         this.gameState = gameState;
+        this.careTaker = careTaker;
         this.chessPosition.init();
         saveInitialFEN();
     }
@@ -110,9 +111,9 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-        GameStateReader previousState = getPreviousState();
+        GameStateHistory previousState = getPreviousState();
 
-        Move lasMove = previousState.getSelectedMove();
+        Move lasMove = previousState.move();
 
         lasMove.undoMove();
 
@@ -172,7 +173,7 @@ public class GameImp implements Game {
 
     @Override
     public GameStatus getStatus() {
-        return getState().getStatus();
+        return getState().getGameStatus();
     }
 
     @Override
@@ -181,18 +182,18 @@ public class GameImp implements Game {
     }
 
     @Override
-    public GameStateReader getPreviousState() {
-        return gameState.peekLastState();
+    public GameStateHistory getPreviousState() {
+        return careTaker.peekLastState();
     }
 
     @Override
-    public Iterator<GameStateReader> stateIterator() {
-        return gameState.stateIterator();
+    public Iterator<GameStateHistory> stateIterator() {
+        return careTaker.stateIterator();
     }
 
     @Override
-    public Iterator<GameStateReader> stateIteratorReverse() {
-        return gameState.stateIteratorReverse();
+    public Iterator<GameStateHistory> stateIteratorReverse() {
+        return careTaker.stateIteratorReverse();
     }
 
     @Override

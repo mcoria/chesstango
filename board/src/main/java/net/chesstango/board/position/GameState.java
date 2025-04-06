@@ -2,8 +2,6 @@ package net.chesstango.board.position;
 
 import net.chesstango.board.representations.fen.FEN;
 
-import java.util.Iterator;
-
 /**
  * @author Mauricio Coria
  */
@@ -12,9 +10,7 @@ public interface GameState extends GameStateReader, GameStateWriter {
 
     FEN getInitialFEN();
 
-    Iterator<GameStateReader> stateIterator();
+    GameStateReader takeSnapshot();
 
-    Iterator<GameStateReader> stateIteratorReverse();
-
-    GameStateReader peekLastState();
+    void restoreSnapshot(GameStateReader snapshot);
 }
