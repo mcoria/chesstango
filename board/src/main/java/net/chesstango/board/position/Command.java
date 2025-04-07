@@ -8,6 +8,21 @@ package net.chesstango.board.position;
  * @author Mauricio Coria
  */
 public interface Command {
+
+    /**
+     * Executes a move on the CareTakerWriter.
+     *
+     * @param careTakerWriter the writer responsible for managing the state of the game
+     */
+    void doMove(CareTakerWriter careTakerWriter);
+
+    /**
+     * Undoes a move on the CareTakerWriter.
+     *
+     * @param careTakerWriter the writer responsible for managing the state of the game
+     */
+    void undoMove(CareTakerWriter careTakerWriter);
+
     /**
      * Executes a move on the chess position.
      *

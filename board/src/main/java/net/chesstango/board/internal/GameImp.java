@@ -229,7 +229,7 @@ public class GameImp implements Game {
 
     public void notifyUndoMove(Move move) {
         if (!gameListeners.isEmpty()) {
-            for (GameListener gameListener : gameListeners) {
+            for (GameListener gameListener : gameListeners.reversed()) {
                 gameListener.notifyUndoMove(move);
             }
         }

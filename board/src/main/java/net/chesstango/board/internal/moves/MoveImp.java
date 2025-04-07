@@ -48,6 +48,8 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void executeMove() {
+        doMove(gameImp.getHistory());
+
         doMove(gameImp.getPosition());
 
         gameImp.notifyDoMove(this);
@@ -55,10 +57,29 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void undoMove() {
+        undoMove(gameImp.getHistory());
 
         undoMove(gameImp.getPosition());
 
         gameImp.notifyUndoMove(this);
+    }
+
+    @Override
+    public void doMove(CareTakerWriter careTakerWriter) {
+        GameState gameState = gameImp.getState();
+                
+        GameStateReader stateSnapshot = gameState.takeSnapshot();
+
+        careTakerWriter.push(new CareTakerRecord(stateSnapshot, this));
+    }
+
+    @Override
+    public void undoMove(CareTakerWriter careTakerWriter) {
+        GameState gameState = gameImp.getState();
+
+        CareTakerRecord lastStateHistory = careTakerWriter.pop();
+
+        gameState.restoreSnapshot(lastStateHistory.gameState());
     }
 
     @Override

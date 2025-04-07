@@ -28,7 +28,7 @@ public class PositionAnalyzer implements GameListener {
 
     private Analyzer kingSafePositionsAnalyzer;
 
-    private CareTaker careTaker;
+    private CareTakerReader careTaker;
 
     private GameState gameState;
 
@@ -41,15 +41,15 @@ public class PositionAnalyzer implements GameListener {
     private boolean fiftyMovesRule;
 
     public void updateGameState() {
-        AnalyzerResult analysis = analyze();
+        AnalyzerResult analyzerResult = analyze();
 
-        MoveContainerReader<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+        MoveContainerReader<Move> legalMoves = legalMoveGenerator.getLegalMoves(analyzerResult);
 
         int repetitionCounter = calculateRepetitionCounter();
-        Status status = calculateGameStatus(analysis, legalMoves, repetitionCounter);
+        Status status = calculateGameStatus(analyzerResult, legalMoves, repetitionCounter);
 
         gameState.setStatus(status);
-        gameState.setAnalyzerResult(analysis);
+        gameState.setAnalyzerResult(analyzerResult);
         gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
         gameState.setRepetitionCounter(repetitionCounter);
@@ -59,29 +59,21 @@ public class PositionAnalyzer implements GameListener {
 
     @Override
     public void notifyDoMove(Move move) {
-        GameStateReader stateSnapshot = gameState.takeSnapshot();
-
-        careTaker.push(new CareTakerRecord(stateSnapshot, move));
-
         updateGameState();
     }
 
     @Override
     public void notifyUndoMove(Move move) {
-        CareTakerRecord lastStateHistory = careTaker.pop();
-
-        gameState.restoreSnapshot(lastStateHistory.gameState());
     }
 
     protected AnalyzerResult analyze() {
+        AnalyzerResult analyzerResult = new AnalyzerResult();
 
-        AnalyzerResult result = new AnalyzerResult();
+        pinnedAnalyzer.analyze(analyzerResult);
 
-        pinnedAnalyzer.analyze(result);
+        kingSafePositionsAnalyzer.analyze(analyzerResult);
 
-        kingSafePositionsAnalyzer.analyze(result);
-
-        return result;
+        return analyzerResult;
     }
 
     private Status calculateGameStatus(AnalyzerResult analysis, MoveContainerReader<Move> legalMoves, int repetitionCounter) {
