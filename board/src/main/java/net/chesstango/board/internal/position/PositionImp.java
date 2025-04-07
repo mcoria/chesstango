@@ -94,11 +94,6 @@ public class PositionImp implements Position {
     }
 
     @Override
-    public PositionStateReader getPreviousPositionState() {
-        return this.positionState.getPreviousPositionState();
-    }
-
-    @Override
     public PiecePositioned getPosition(Square square) {
         return squareBoard.getPosition(square);
     }
@@ -210,32 +205,32 @@ public class PositionImp implements Position {
     }
 
     @Override
-    public SquareBoardWriter getSquareBoardWriter() {
+    public SquareBoard getSquareBoard() {
         return squareBoard;
     }
 
     @Override
-    public BitBoardWriter getBitBoardWriter() {
+    public BitBoard getBitBoard() {
         return bitBoard;
     }
 
     @Override
-    public KingSquareWriter getKingSquareWriter() {
+    public KingSquare getKingSquare() {
         return kingSquare;
     }
 
     @Override
-    public MoveCacheBoardWriter getMoveCacheWriter() {
+    public MoveCacheBoard getMoveCache() {
         return moveCache;
     }
 
     @Override
-    public PositionStateWriter getPositionStateWriter() {
+    public PositionState getPositionState() {
         return positionState;
     }
 
     @Override
-    public ZobristHashWriter getZobristWriter() {
+    public ZobristHash getZobrist() {
         return zobristHash;
     }
 

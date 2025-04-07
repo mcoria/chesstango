@@ -20,13 +20,13 @@ public class MoveKingImp extends MoveComposed {
     }
 
     @Override
-    public void doMove(PositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
-        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
-        KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
-        ZobristHashWriter hash = chessPosition.getZobristWriter();
+    public void doMove(Position chessPosition) {
+        SquareBoard squareBoard = chessPosition.getSquareBoard();
+        BitBoard bitBoard = chessPosition.getBitBoard();
+        PositionState positionState = chessPosition.getPositionState();
+        MoveCacheBoard moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHash hash = chessPosition.getZobrist();
 
         doMove(squareBoard);
 
@@ -42,13 +42,13 @@ public class MoveKingImp extends MoveComposed {
     }
 
     @Override
-    public void undoMove(PositionWriter chessPosition) {
-        SquareBoardWriter squareBoard = chessPosition.getSquareBoardWriter();
-        BitBoardWriter bitBoard = chessPosition.getBitBoardWriter();
-        PositionStateWriter positionState = chessPosition.getPositionStateWriter();
-        MoveCacheBoardWriter moveCache = chessPosition.getMoveCacheWriter();
-        KingSquareWriter kingSquare = chessPosition.getKingSquareWriter();
-        ZobristHashWriter hash = chessPosition.getZobristWriter();
+    public void undoMove(Position chessPosition) {
+        SquareBoard squareBoard = chessPosition.getSquareBoard();
+        BitBoard bitBoard = chessPosition.getBitBoard();
+        PositionState positionState = chessPosition.getPositionState();
+        MoveCacheBoard moveCache = chessPosition.getMoveCache();
+        KingSquare kingSquare = chessPosition.getKingSquare();
+        ZobristHash hash = chessPosition.getZobrist();
 
         undoMove(squareBoard);
 

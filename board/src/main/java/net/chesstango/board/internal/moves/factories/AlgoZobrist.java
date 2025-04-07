@@ -9,7 +9,7 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 public class AlgoZobrist {
 
-    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader chessPositionReader) {
+    public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader currentPositionReader, PositionStateReader previousPositionState) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -20,21 +20,19 @@ public class AlgoZobrist {
 
         hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
 
-        PositionStateReader oldPositionState = chessPositionReader.getPreviousPositionState();
-
-        if(oldPositionState.isCastlingWhiteKingAllowed() != chessPositionReader.isCastlingWhiteKingAllowed()){
+        if(previousPositionState.isCastlingWhiteKingAllowed() != currentPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();
         }
 
-        if(oldPositionState.isCastlingWhiteQueenAllowed() != chessPositionReader.isCastlingWhiteQueenAllowed()){
+        if(previousPositionState.isCastlingWhiteQueenAllowed() != currentPositionReader.isCastlingWhiteQueenAllowed()){
             hash.xorCastleWhiteQueen();
         }
 
-        if(oldPositionState.isCastlingBlackKingAllowed() != chessPositionReader.isCastlingBlackKingAllowed()){
+        if(previousPositionState.isCastlingBlackKingAllowed() != currentPositionReader.isCastlingBlackKingAllowed()){
             hash.xorCastleBlackKing();
         }
 
-        if(oldPositionState.isCastlingBlackQueenAllowed() != chessPositionReader.isCastlingBlackQueenAllowed()){
+        if(previousPositionState.isCastlingBlackQueenAllowed() != currentPositionReader.isCastlingBlackQueenAllowed()){
             hash.xorCastleBlackQueen();
         }
 

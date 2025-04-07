@@ -31,7 +31,9 @@ public class MovePawnTwoSquares extends MoveImp {
     }
 
     @Override
-    public void doMove(PositionStateWriter positionState) {
+    public void doMove(PositionState positionState) {
+        positionStateSnapshot = positionState.takeSnapshot();
+
         positionState.pushState();
 
         positionState.setEnPassantSquare(enPassantSquare);

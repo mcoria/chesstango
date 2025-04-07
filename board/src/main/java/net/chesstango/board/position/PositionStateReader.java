@@ -23,6 +23,4 @@ public interface PositionStateReader {
     int getHalfMoveClock();
 
     int getFullMoveClock();
-
-    PositionStateReader getPreviousPositionState();
 }

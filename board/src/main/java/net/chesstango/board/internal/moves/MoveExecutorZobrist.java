@@ -9,5 +9,5 @@ import net.chesstango.board.position.ZobristHashWriter;
  */
 @FunctionalInterface
 public interface MoveExecutorZobrist {
-    void apply(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader chessPositionReader);
+    void apply(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader currentPositionReader, PositionStateReader previousPositionState);
 }

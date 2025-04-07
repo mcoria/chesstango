@@ -24,4 +24,16 @@ public interface Position extends PositionReader, PositionWriter {
      * This method should set up the initial state of the chess position,
      */
     void init();
+
+    SquareBoard getSquareBoard();
+
+    BitBoard getBitBoard();
+
+    KingSquare getKingSquare();
+
+    MoveCacheBoard getMoveCache();
+
+    PositionState getPositionState();
+
+    ZobristHash getZobrist();
 }

@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.moves;
 
-import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
@@ -74,7 +74,7 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
 
         PositionReader positionReader = gameImp.getPosition();
 
-        xorCastling(hash, positionReader.getPreviousPositionState(), positionReader);
+        xorCastling(hash, positionStateSnapshot, positionReader);
 
         hash.clearEnPassantSquare();
 
