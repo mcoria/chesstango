@@ -27,7 +27,6 @@ public class MoveCastlingWhiteKing extends MoveCastlingImp {
     @Override
     public void doMove(PositionState positionState) {
         positionStateSnapshot = positionState.takeSnapshot();
-        positionState.pushState();
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
         positionState.setEnPassantSquare(null);

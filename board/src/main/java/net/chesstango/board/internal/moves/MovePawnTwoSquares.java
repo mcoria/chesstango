@@ -34,8 +34,6 @@ public class MovePawnTwoSquares extends MoveImp {
     public void doMove(PositionState positionState) {
         positionStateSnapshot = positionState.takeSnapshot();
 
-        positionState.pushState();
-
         positionState.setEnPassantSquare(enPassantSquare);
 
         positionState.resetHalfMoveClock();

@@ -31,8 +31,4 @@ public interface PositionStateWriter {
     void setFullMoveClock(int fullMoveClock);
 
     void incrementFullMoveClock();
-
-    void pushState();
-
-    void popState();
 }

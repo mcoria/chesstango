@@ -14,7 +14,6 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
         positionStateWriter.resetHalfMoveClock();
         positionStateWriter.setEnPassantSquare(null);
         positionStateWriter.incrementFullMoveClock();
@@ -23,7 +22,6 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
         positionStateWriter.incrementHalfMoveClock();
         positionStateWriter.setEnPassantSquare(null);
 
@@ -41,7 +39,6 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
         positionStateWriter.incrementHalfMoveClock();
         positionStateWriter.setEnPassantSquare(null);
         positionStateWriter.setCastlingBlackKingAllowed(false);
@@ -52,7 +49,6 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
         positionStateWriter.resetHalfMoveClock();
         positionStateWriter.setEnPassantSquare(null);
 
@@ -78,7 +74,6 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
 
     @Override
     public void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
-        positionStateWriter.pushState();
         positionStateWriter.resetHalfMoveClock();
         positionStateWriter.setEnPassantSquare(null);
 

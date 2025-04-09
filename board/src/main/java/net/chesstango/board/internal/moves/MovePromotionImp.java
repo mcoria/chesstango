@@ -46,8 +46,6 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     public void doMove(PositionState positionState) {
         positionStateSnapshot = positionState.takeSnapshot();
 
-        positionState.pushState();
-
         positionState.resetHalfMoveClock();
 
         positionState.setEnPassantSquare(null);

@@ -1,18 +1,19 @@
 package net.chesstango.board.internal.position;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.CareTakerRecord;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.PositionStateReader;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class PositionStateImp implements PositionState, Cloneable {
     private Color currentTurn;
     private Square enPassantSquare;
@@ -20,85 +21,13 @@ public class PositionStateImp implements PositionState, Cloneable {
     private boolean castlingWhiteKingAllowed;
     private boolean castlingBlackQueenAllowed;
     private boolean castlingBlackKingAllowed;
+
     private int halfMoveClock;
     private int fullMoveClock;
-
-    private final Deque<PositionStateImp> previousStates = new ArrayDeque<>();
-
-    @Override
-    public Square getEnPassantSquare() {
-        return enPassantSquare;
-    }
-
-    @Override
-    public void setEnPassantSquare(Square enPassantSquare) {
-        this.enPassantSquare = enPassantSquare;
-    }
-
-    @Override
-    public boolean isCastlingWhiteQueenAllowed() {
-        return castlingWhiteQueenAllowed;
-    }
-
-    @Override
-    public void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
-        this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
-    }
-
-    @Override
-    public boolean isCastlingWhiteKingAllowed() {
-        return castlingWhiteKingAllowed;
-    }
-
-    @Override
-    public void setCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
-        this.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
-    }
-
-    @Override
-    public boolean isCastlingBlackQueenAllowed() {
-        return castlingBlackQueenAllowed;
-    }
-
-    @Override
-    public void setCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
-        this.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
-    }
-
-    @Override
-    public boolean isCastlingBlackKingAllowed() {
-        return castlingBlackKingAllowed;
-    }
-
-    @Override
-    public void setCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
-        this.castlingBlackKingAllowed = castlingBlackKingAllowed;
-    }
-
-    @Override
-    public Color getCurrentTurn() {
-        return currentTurn;
-    }
-
-    @Override
-    public void setCurrentTurn(Color turn) {
-        currentTurn = turn;
-    }
 
     @Override
     public void rollTurn() {
         currentTurn = currentTurn.oppositeColor();
-    }
-
-
-    @Override
-    public int getHalfMoveClock() {
-        return halfMoveClock;
-    }
-
-    @Override
-    public void setHalfMoveClock(int halfMoveClock) {
-        this.halfMoveClock = halfMoveClock;
     }
 
     @Override
@@ -111,17 +40,6 @@ public class PositionStateImp implements PositionState, Cloneable {
         this.halfMoveClock = 0;
     }
 
-
-    @Override
-    public int getFullMoveClock() {
-        return fullMoveClock;
-    }
-
-    @Override
-    public void setFullMoveClock(int fullMoveClock) {
-        this.fullMoveClock = fullMoveClock;
-    }
-
     @Override
     public void incrementFullMoveClock() {
         if (Color.BLACK.equals(currentTurn)) {
@@ -129,24 +47,21 @@ public class PositionStateImp implements PositionState, Cloneable {
         }
     }
 
-
     @Override
-    public void pushState() {
-        PositionStateImp positionStateImp = clone();
-        previousStates.push(positionStateImp);
+    public PositionStateReader takeSnapshot() {
+        return clone();
     }
 
     @Override
-    public void popState() {
-        PositionStateImp positionStateImp = previousStates.pop();
-        this.enPassantSquare = positionStateImp.enPassantSquare;
-        this.castlingWhiteQueenAllowed = positionStateImp.castlingWhiteQueenAllowed;
-        this.castlingWhiteKingAllowed = positionStateImp.castlingWhiteKingAllowed;
-        this.castlingBlackKingAllowed = positionStateImp.castlingBlackKingAllowed;
-        this.castlingBlackQueenAllowed = positionStateImp.castlingBlackQueenAllowed;
-        this.currentTurn = positionStateImp.currentTurn;
-        this.halfMoveClock = positionStateImp.halfMoveClock;
-        this.fullMoveClock = positionStateImp.fullMoveClock;
+    public void restoreSnapshot(PositionStateReader snapshot) {
+        this.enPassantSquare = snapshot.getEnPassantSquare();
+        this.castlingWhiteQueenAllowed = snapshot.isCastlingWhiteQueenAllowed();
+        this.castlingWhiteKingAllowed = snapshot.isCastlingWhiteKingAllowed();
+        this.castlingBlackQueenAllowed = snapshot.isCastlingBlackQueenAllowed();
+        this.castlingBlackKingAllowed = snapshot.isCastlingBlackKingAllowed();
+        this.currentTurn = snapshot.getCurrentTurn();
+        this.halfMoveClock = snapshot.getHalfMoveClock();
+        this.fullMoveClock = snapshot.getFullMoveClock();
     }
 
     @Override
@@ -160,11 +75,6 @@ public class PositionStateImp implements PositionState, Cloneable {
     @Override
     public String toString() {
         return "Turno Actual: " + String.format("%-6s", currentTurn.toString()) + ", pawnPasanteSquare: " + (enPassantSquare == null ? "- " : enPassantSquare.toString()) + ", castlingWhiteQueenAllowed: " + castlingWhiteQueenAllowed + ", castlingWhiteKingAllowed: " + castlingWhiteKingAllowed + ", castlingBlackQueenAllowed: " + castlingBlackQueenAllowed + ", castlingBlackKingAllowed: " + castlingBlackKingAllowed + ", halfMoveClock: " + halfMoveClock + ", fullMoveClock: " + fullMoveClock;
-    }
-
-    @Override
-    public PositionStateReader takeSnapshot() {
-        return clone();
     }
 
     @Override

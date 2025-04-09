@@ -15,4 +15,6 @@ package net.chesstango.board.position;
 public interface PositionState extends PositionStateReader, PositionStateWriter {
 
     PositionStateReader takeSnapshot();
+
+    void restoreSnapshot(PositionStateReader snapshot);
 }

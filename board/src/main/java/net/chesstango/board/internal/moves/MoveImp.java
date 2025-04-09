@@ -124,7 +124,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void undoMove(PositionState positionState) {
-        positionState.popState();
+        positionState.restoreSnapshot(positionStateSnapshot);
     }
 
     @Override
@@ -163,6 +163,8 @@ public abstract class MoveImp implements PseudoMove, Command {
 
         doMove(squareBoard);
 
+        positionStateSnapshot = positionState.takeSnapshot();
+
         doMove(positionState);
 
         doMove(hash);
@@ -172,6 +174,8 @@ public abstract class MoveImp implements PseudoMove, Command {
         undoMove(hash);
 
         undoMove(positionState);
+
+        positionStateSnapshot = null;
 
         undoMove(squareBoard);
 

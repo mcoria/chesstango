@@ -37,10 +37,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
     public void doMove(PositionState positionState) {
         positionStateSnapshot = positionState.takeSnapshot();
 
-        positionState.pushState();
-
         positionState.setEnPassantSquare(null);
-
 
         positionState.resetHalfMoveClock();
 
