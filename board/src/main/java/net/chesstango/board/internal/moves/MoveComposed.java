@@ -66,7 +66,8 @@ public class MoveComposed extends MoveImp {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash) {
+    public void doMove(ZobristHash hash) {
+        zobristHashSnapshot = hash.takeSnapshot();
         fnDoZobrist.apply(from, to, hash, gameImp.getPosition(), positionStateSnapshot);
     }
 

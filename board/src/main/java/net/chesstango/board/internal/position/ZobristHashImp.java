@@ -1,37 +1,30 @@
 package net.chesstango.board.internal.position;
 
+import lombok.Getter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.SquareBoardReader;
-import net.chesstango.board.position.ZobristHash;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
+import net.chesstango.board.position.*;
 
 /**
  * This implementation is based on http://hgm.nubati.net/book_format.html
  *
  * @author Mauricio Coria
  */
-public class ZobristHashImp implements ZobristHash {
+public class ZobristHashImp implements ZobristHash, Cloneable {
     public static final int CASTLE_WHITE_KING_OFFSET = 768;
     public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
     public static final int CASTLE_BLACK_KING_OFFSET = 770;
     public static final int CASTLE_BLACK_QUEEN_OFFSET = 771;
     public static final int EN_PASSANT_OFFSET = 772;
     public static final int TURN_OFFSET = 780;
-    private final Deque<ZobristHashData> stackZobristHistory = new ArrayDeque<>();
-    private long zobristHash;
-    private long zobristEnPassantSquare;
 
-    @Override
-    public long getZobristHash() {
-        return zobristHash;
-    }
+    @Getter
+    private long zobristHash;
+
+    @Getter
+    private long zobristEnPassantSquare;
 
     @Override
     public void init(PositionReader positionReader) {
@@ -125,18 +118,58 @@ public class ZobristHashImp implements ZobristHash {
     }
 
     @Override
-    public void pushState() {
-        ZobristHashData node = new ZobristHashData(zobristHash, zobristEnPassantSquare);
-
-        stackZobristHistory.push(node);
+    public ZobristHashReader takeSnapshot() {
+        return clone();
     }
 
     @Override
-    public void popState() {
-        ZobristHashData lastState = stackZobristHistory.pop();
+    public void restoreSnapshot(ZobristHashReader zobristHashSnapshot) {
+        zobristHash = zobristHashSnapshot.getZobristHash();
+        zobristEnPassantSquare = zobristHashSnapshot.getZobristEnPassantSquare();
+    }
 
-        zobristHash = lastState.zobristHash;
-        zobristEnPassantSquare = lastState.zobristEnPassantSquare;
+    @Override
+    public ZobristHashImp clone() {
+        ZobristHashImp clone = new ZobristHashImp();
+        clone.zobristHash = zobristHash;
+        clone.zobristEnPassantSquare = zobristEnPassantSquare;
+        return clone;
+    }
+
+    private int getKindOfPiece(Piece piece) {
+        return switch (piece) {
+            case PAWN_BLACK -> 0;
+            case PAWN_WHITE -> 1;
+
+            case KNIGHT_BLACK -> 2;
+            case KNIGHT_WHITE -> 3;
+
+            case BISHOP_BLACK -> 4;
+            case BISHOP_WHITE -> 5;
+
+            case ROOK_BLACK -> 6;
+            case ROOK_WHITE -> 7;
+
+            case QUEEN_BLACK -> 8;
+            case QUEEN_WHITE -> 9;
+
+            case KING_BLACK -> 10;
+            case KING_WHITE -> 11;
+        };
+    }
+
+    private boolean isEnPassantActive(SquareBoardReader piecePlacement, PositionStateReader positionState) {
+        Square enPassantSquare = positionState.getEnPassantSquare();
+        if (positionState.getEnPassantSquare() != null) {
+            if (Color.WHITE.equals(positionState.getCurrentTurn())) {
+                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE;
+            } else {
+                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 3)) == Piece.PAWN_BLACK
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 3)) == Piece.PAWN_BLACK;
+            }
+        }
+        return false;
     }
 
     private final static long[] KEYS = {
@@ -337,43 +370,4 @@ public class ZobristHashImp implements ZobristHash {
             0xCF3145DE0ADD4289L, 0xD0E4427A5514FB72L, 0x77C621CC9FB3A483L, 0x67A34DAC4356550BL,
             0xF8D626AAAF278509L
     };
-
-    private int getKindOfPiece(Piece piece) {
-        return switch (piece) {
-            case PAWN_BLACK -> 0;
-            case PAWN_WHITE -> 1;
-
-            case KNIGHT_BLACK -> 2;
-            case KNIGHT_WHITE -> 3;
-
-            case BISHOP_BLACK -> 4;
-            case BISHOP_WHITE -> 5;
-
-            case ROOK_BLACK -> 6;
-            case ROOK_WHITE -> 7;
-
-            case QUEEN_BLACK -> 8;
-            case QUEEN_WHITE -> 9;
-
-            case KING_BLACK -> 10;
-            case KING_WHITE -> 11;
-        };
-    }
-
-    private boolean isEnPassantActive(SquareBoardReader piecePlacement, PositionStateReader positionState) {
-        Square enPassantSquare = positionState.getEnPassantSquare();
-        if (positionState.getEnPassantSquare() != null) {
-            if (Color.WHITE.equals(positionState.getCurrentTurn())) {
-                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
-                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE;
-            } else {
-                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 3)) == Piece.PAWN_BLACK
-                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 3)) == Piece.PAWN_BLACK;
-            }
-        }
-        return false;
-    }
-
-    private record ZobristHashData(long zobristHash, long zobristEnPassantSquare) {
-    }
 }

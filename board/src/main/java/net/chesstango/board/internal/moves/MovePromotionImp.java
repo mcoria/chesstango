@@ -108,8 +108,8 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
 
     @Override
-    public void doMove(ZobristHashWriter hash) {
-        hash.pushState();
+    public void doMove(ZobristHash hash) {
+        zobristHashSnapshot = hash.takeSnapshot();
 
         hash.xorPosition(from);
 

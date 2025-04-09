@@ -169,6 +169,11 @@ public class PositionImp implements Position {
     }
 
     @Override
+    public long getZobristEnPassantSquare() {
+        return zobristHash.getZobristEnPassantSquare();
+    }
+
+    @Override
     public Color getColor(Square square) {
         return bitBoard.getColor(square);
     }

@@ -63,8 +63,8 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash) {
-        hash.pushState();
+    public void doMove(ZobristHash hash) {
+        zobristHashSnapshot = hash.takeSnapshot();
 
         hash.xorPosition(from);
         hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));

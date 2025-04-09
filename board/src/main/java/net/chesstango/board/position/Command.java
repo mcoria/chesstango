@@ -112,12 +112,12 @@ public interface Command {
      *
      * @param hash the Zobrist hash writer
      */
-    void doMove(ZobristHashWriter hash);
+    void doMove(ZobristHash hash);
 
     /**
      * Undoes a move on the Zobrist hash.
      *
      * @param hash the Zobrist hash writer
      */
-    void undoMove(ZobristHashWriter hash);
+    void undoMove(ZobristHash hash);
 }

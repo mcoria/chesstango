@@ -6,4 +6,5 @@ package net.chesstango.board.position;
  */
 public interface ZobristHashReader {
     long getZobristHash();
+    long getZobristEnPassantSquare();
 }

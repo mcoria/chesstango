@@ -76,8 +76,8 @@ public class MovePawnTwoSquares extends MoveImp {
     }
 
     @Override
-    public void doMove(ZobristHashWriter hash) {
-        hash.pushState();
+    public void doMove(ZobristHash hash) {
+        zobristHashSnapshot = hash.takeSnapshot();
 
         hash.xorPosition(from);
 

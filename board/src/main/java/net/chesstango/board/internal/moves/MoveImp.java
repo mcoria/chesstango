@@ -18,6 +18,7 @@ public abstract class MoveImp implements PseudoMove, Command {
     protected final Cardinal direction;
 
     protected PositionStateReader positionStateSnapshot;
+    protected ZobristHashReader zobristHashSnapshot;
 
     public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         /*
@@ -140,8 +141,8 @@ public abstract class MoveImp implements PseudoMove, Command {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash) {
-        hash.popState();
+    public void undoMove(ZobristHash hash) {
+        hash.restoreSnapshot(zobristHashSnapshot);
     }
 
     @Override
@@ -163,8 +164,6 @@ public abstract class MoveImp implements PseudoMove, Command {
 
         doMove(squareBoard);
 
-        positionStateSnapshot = positionState.takeSnapshot();
-
         doMove(positionState);
 
         doMove(hash);
@@ -174,8 +173,6 @@ public abstract class MoveImp implements PseudoMove, Command {
         undoMove(hash);
 
         undoMove(positionState);
-
-        positionStateSnapshot = null;
 
         undoMove(squareBoard);
 
