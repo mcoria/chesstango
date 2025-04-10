@@ -9,19 +9,9 @@ package net.chesstango.board.position;
  */
 public interface Command {
 
-    /**
-     * Executes a move on the CareTakerWriter.
-     *
-     * @param careTakerWriter the writer responsible for managing the state of the game
-     */
-    void doMove(CareTakerWriter careTakerWriter);
+    void doMove(GameState gameState);
 
-    /**
-     * Undoes a move on the CareTakerWriter.
-     *
-     * @param careTakerWriter the writer responsible for managing the state of the game
-     */
-    void undoMove(CareTakerWriter careTakerWriter);
+    void undoMove(GameState gameState);
 
     /**
      * Executes a move on the chess position.
@@ -120,4 +110,19 @@ public interface Command {
      * @param hash the Zobrist hash writer
      */
     void undoMove(ZobristHash hash);
+
+
+    /**
+     * Executes a move on the CareTakerWriter.
+     *
+     * @param gameHistoryWriter the writer responsible for managing the state of the game
+     */
+    void doMove(GameHistoryWriter gameHistoryWriter);
+
+    /**
+     * Undoes a move on the CareTakerWriter.
+     *
+     * @param gameHistoryWriter the writer responsible for managing the state of the game
+     */
+    void undoMove(GameHistoryWriter gameHistoryWriter);
 }

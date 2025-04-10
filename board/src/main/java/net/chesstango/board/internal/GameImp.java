@@ -58,7 +58,7 @@ public class GameImp implements Game {
 
     private final GameState gameState;
 
-    private final CareTaker careTaker;
+    private final GameHistory gameHistory;
 
     private final List<GameListener> gameListeners = new ArrayList<>();
 
@@ -67,10 +67,10 @@ public class GameImp implements Game {
     @Setter
     private MoveGenerator pseudoMovesGenerator;
 
-    public GameImp(Position position, GameState gameState, CareTaker careTaker) {
+    public GameImp(Position position, GameState gameState, GameHistory gameHistory) {
         this.position = position;
         this.gameState = gameState;
-        this.careTaker = careTaker;
+        this.gameHistory = gameHistory;
         this.position.init();
         saveInitialFEN();
     }
@@ -111,7 +111,7 @@ public class GameImp implements Game {
 
     @Override
     public Game undoMove() {
-        CareTakerRecord previousState = careTaker.peekLastRecord();
+        GameHistoryRecord previousState = gameHistory.peekLastRecord();
 
         Move lasMove = previousState.playedMove();
 
@@ -182,8 +182,8 @@ public class GameImp implements Game {
     }
 
     @Override
-    public CareTaker getHistory() {
-        return careTaker;
+    public GameHistory getHistory() {
+        return gameHistory;
     }
 
     @Override

@@ -19,6 +19,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     protected PositionStateReader positionStateSnapshot;
     protected ZobristHashReader zobristHashSnapshot;
+    protected GameStateReader gameStateSnapshot;
 
     public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         /*
@@ -51,9 +52,11 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void executeMove() {
-        doMove(gameImp.getHistory());
+        doMove(gameImp.getState());
 
         doMove(gameImp.getPosition());
+
+        doMove(gameImp.getHistory());
 
         gameImp.notifyDoMove(this);
     }
@@ -64,25 +67,19 @@ public abstract class MoveImp implements PseudoMove, Command {
 
         undoMove(gameImp.getPosition());
 
+        undoMove(gameImp.getState());
+
         gameImp.notifyUndoMove(this);
     }
 
     @Override
-    public void doMove(CareTakerWriter careTakerWriter) {
-        GameState gameState = gameImp.getState();
-
-        GameStateReader stateSnapshot = gameState.takeSnapshot();
-
-        careTakerWriter.push(new CareTakerRecord(stateSnapshot, this));
+    public void doMove(GameState gameState) {
+        gameStateSnapshot = gameState.takeSnapshot();
     }
 
     @Override
-    public void undoMove(CareTakerWriter careTakerWriter) {
-        GameState gameState = gameImp.getState();
-
-        CareTakerRecord lastStateHistory = careTakerWriter.pop();
-
-        gameState.restoreSnapshot(lastStateHistory.gameState());
+    public void undoMove(GameState gameState) {
+        gameState.restoreSnapshot(gameStateSnapshot);
     }
 
     @Override
@@ -143,6 +140,16 @@ public abstract class MoveImp implements PseudoMove, Command {
     @Override
     public void undoMove(ZobristHash hash) {
         hash.restoreSnapshot(zobristHashSnapshot);
+    }
+
+    @Override
+    public void doMove(GameHistoryWriter gameHistoryWriter) {
+        gameHistoryWriter.push(new GameHistoryRecord(gameStateSnapshot, this));
+    }
+
+    @Override
+    public void undoMove(GameHistoryWriter gameHistoryWriter) {
+        gameHistoryWriter.pop();
     }
 
     @Override

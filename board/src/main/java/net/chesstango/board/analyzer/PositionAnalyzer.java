@@ -28,7 +28,7 @@ public class PositionAnalyzer implements GameListener {
 
     private Analyzer kingSafePositionsAnalyzer;
 
-    private CareTakerReader careTaker;
+    private GameHistoryReader careTaker;
 
     private GameState gameState;
 
@@ -98,7 +98,7 @@ public class PositionAnalyzer implements GameListener {
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
 
 
-        Iterator<CareTakerRecord> gameStateHistoryIterator = careTaker.iterator();
+        Iterator<GameHistoryRecord> gameStateHistoryIterator = careTaker.iterator();
 
         // Start iterating
         while (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
@@ -109,7 +109,7 @@ public class PositionAnalyzer implements GameListener {
 
             if (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
                 // Get next state, my turn
-                CareTakerRecord stateHistory = gameStateHistoryIterator.next();
+                GameHistoryRecord stateHistory = gameStateHistoryIterator.next();
                 halfMoveClockCounter--;
 
 

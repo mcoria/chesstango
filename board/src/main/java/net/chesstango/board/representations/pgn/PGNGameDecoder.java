@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.CareTakerRecord;
+import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.move.SANEncoder;
 
@@ -25,25 +25,25 @@ public class PGNGameDecoder {
 
         List<String> moveList = new ArrayList<>();
 
-        Iterator<CareTakerRecord> careTakerRecordIterator = game.getHistory().iteratorReverse();
+        Iterator<GameHistoryRecord> careTakerRecordIterator = game.getHistory().iteratorReverse();
 
-        CareTakerRecord careTakerRecord = null;
+        GameHistoryRecord gameHistoryRecord = null;
 
         while (careTakerRecordIterator.hasNext()) {
-            CareTakerRecord currentStateHistory = careTakerRecordIterator.next();
+            GameHistoryRecord currentStateHistory = careTakerRecordIterator.next();
 
             // Encode previous move + current iterated state
-            if (careTakerRecord != null) {
-                String moveStrTmp = encodeMove(careTakerRecord, currentStateHistory.gameState());
+            if (gameHistoryRecord != null) {
+                String moveStrTmp = encodeMove(gameHistoryRecord, currentStateHistory.gameState());
                 moveList.add(moveStrTmp);
             }
 
-            careTakerRecord = currentStateHistory;
+            gameHistoryRecord = currentStateHistory;
         }
 
         // Encode previous move + current state
-        if (careTakerRecord != null) {
-            String moveStrTmp = encodeMove(careTakerRecord, game.getState());
+        if (gameHistoryRecord != null) {
+            String moveStrTmp = encodeMove(gameHistoryRecord, game.getState());
 
             moveList.add(moveStrTmp);
         }
@@ -54,9 +54,9 @@ public class PGNGameDecoder {
         return pgn;
     }
 
-    private String encodeMove(CareTakerRecord careTakerRecord, GameStateReader currentState) {
-        Move playedMove = careTakerRecord.playedMove();
-        GameStateReader pastState = careTakerRecord.gameState();
+    private String encodeMove(GameHistoryRecord gameHistoryRecord, GameStateReader currentState) {
+        Move playedMove = gameHistoryRecord.playedMove();
+        GameStateReader pastState = gameHistoryRecord.gameState();
 
         return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
                 + encodeGameStatusAtMove(currentState.getStatus());

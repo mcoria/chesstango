@@ -3,7 +3,7 @@ package net.chesstango.board;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.position.CareTakerReader;
+import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
@@ -53,7 +53,7 @@ public interface Game {
      *
      * @return the game history
      */
-    CareTakerReader getHistory();
+    GameHistoryReader getHistory();
 
     /**
      * Gets the current chess position.

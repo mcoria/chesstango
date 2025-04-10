@@ -85,8 +85,8 @@ public class ChessFactory {
         return new MoveGeneratorImp();
     }
 
-    public GameImp createGame(Position position, GameState gameState, CareTaker careTaker) {
-        return new GameImp(position, gameState, careTaker);
+    public GameImp createGame(Position position, GameState gameState, GameHistory gameHistory) {
+        return new GameImp(position, gameState, gameHistory);
     }
 
     public PositionAnalyzer createPositionAnalyzer() {
@@ -113,7 +113,7 @@ public class ChessFactory {
         return new MoveFactoryWhite(gameImp);
     }
 
-    public CareTaker createCareTaker() {
-        return new CareTakerImp();
+    public GameHistory createCareTaker() {
+        return new GameHistoryImp();
     }
 }

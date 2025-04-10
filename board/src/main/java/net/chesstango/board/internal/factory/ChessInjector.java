@@ -65,7 +65,7 @@ public class ChessInjector {
 
     private MoveFactory moveFactoryWhite;
 
-    private CareTaker careTaker;
+    private GameHistory gameHistory;
 
     public ChessInjector() {
         this.chessFactory = new ChessFactory();
@@ -163,11 +163,11 @@ public class ChessInjector {
         return game;
     }
 
-    private CareTaker getCareTaker() {
-        if(careTaker == null){
-            careTaker = chessFactory.createCareTaker();
+    private GameHistory getCareTaker() {
+        if(gameHistory == null){
+            gameHistory = chessFactory.createCareTaker();
         }
-        return careTaker;
+        return gameHistory;
     }
 
 

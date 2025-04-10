@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.position;
 
-import net.chesstango.board.position.CareTaker;
-import net.chesstango.board.position.CareTakerRecord;
+import net.chesstango.board.position.GameHistory;
+import net.chesstango.board.position.GameHistoryRecord;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -10,25 +10,25 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class CareTakerImp implements CareTaker {
+public class GameHistoryImp implements GameHistory {
 
     /**
      * Stack to hold previous game states.
      */
-    private final Deque<CareTakerRecord> previousStates = new ArrayDeque<>();
+    private final Deque<GameHistoryRecord> previousStates = new ArrayDeque<>();
 
     @Override
-    public Iterator<CareTakerRecord> iterator() {
+    public Iterator<GameHistoryRecord> iterator() {
         return previousStates.iterator();
     }
 
     @Override
-    public Iterator<CareTakerRecord> iteratorReverse() {
+    public Iterator<GameHistoryRecord> iteratorReverse() {
         return previousStates.descendingIterator();
     }
 
     @Override
-    public CareTakerRecord peekLastRecord() {
+    public GameHistoryRecord peekLastRecord() {
         return previousStates.peek();
     }
 
@@ -38,12 +38,12 @@ public class CareTakerImp implements CareTaker {
     }
 
     @Override
-    public void push(CareTakerRecord careTakerRecord) {
-        previousStates.push(careTakerRecord);
+    public void push(GameHistoryRecord gameHistoryRecord) {
+        previousStates.push(gameHistoryRecord);
     }
 
     @Override
-    public CareTakerRecord pop() {
+    public GameHistoryRecord pop() {
         return previousStates.pop();
     }
 }

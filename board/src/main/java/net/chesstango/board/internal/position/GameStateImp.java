@@ -40,24 +40,24 @@ public class GameStateImp implements GameState, Cloneable {
 
     @Override
     public void restoreSnapshot(GameStateReader snapshot) {
-        this.analyzerResult = snapshot.getAnalyzerResult();
-        this.legalMoves = snapshot.getLegalMoves();
-        this.status = snapshot.getStatus();
-        this.zobristHash = snapshot.getZobristHash();
-        this.positionHash = snapshot.getPositionHash();
-        this.repetitionCounter = snapshot.getRepetitionCounter();
+        analyzerResult = snapshot.getAnalyzerResult();
+        legalMoves = snapshot.getLegalMoves();
+        status = snapshot.getStatus();
+        zobristHash = snapshot.getZobristHash();
+        positionHash = snapshot.getPositionHash();
+        repetitionCounter = snapshot.getRepetitionCounter();
     }
 
 
     @Override
     public GameStateImp clone() {
         GameStateImp gameState = new GameStateImp();
-        gameState.setAnalyzerResult(this.analyzerResult);
-        gameState.setLegalMoves(this.legalMoves);
-        gameState.setStatus(this.status);
-        gameState.setZobristHash(this.zobristHash);
-        gameState.setPositionHash(this.positionHash);
-        gameState.setRepetitionCounter(this.repetitionCounter);
+        gameState.setAnalyzerResult(analyzerResult);
+        gameState.setLegalMoves(legalMoves);
+        gameState.setStatus(status);
+        gameState.setZobristHash(zobristHash);
+        gameState.setPositionHash(positionHash);
+        gameState.setRepetitionCounter(repetitionCounter);
         return gameState;
     }
 }
