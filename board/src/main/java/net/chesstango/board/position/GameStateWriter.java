@@ -16,9 +16,9 @@ public interface GameStateWriter {
 
     void setAnalyzerResult(AnalyzerResult analyzerResult);
 
-    void setZobristHash(long zobristHash);
-
     void setPositionHash(long positionHash);
 
     void setRepetitionCounter(int repetitionCounter);
+
+    void reset();
 }

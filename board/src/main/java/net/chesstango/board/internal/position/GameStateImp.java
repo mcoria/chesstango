@@ -23,15 +23,23 @@ import net.chesstango.board.representations.fen.FEN;
 @Setter
 @Getter
 public class GameStateImp implements GameState, Cloneable {
+    private FEN initialFEN;
 
     private AnalyzerResult analyzerResult;
     private MoveContainerReader<Move> legalMoves;
     private Status status;
-    private long zobristHash;
     private long positionHash;
     private int repetitionCounter;
-    private FEN initialFEN;
 
+
+    @Override
+    public void reset() {
+        analyzerResult = null;
+        legalMoves = null;
+        status = null;
+        positionHash = 0L;
+        repetitionCounter = 0;
+    }
 
     @Override
     public GameStateReader takeSnapshot() {
@@ -43,7 +51,6 @@ public class GameStateImp implements GameState, Cloneable {
         analyzerResult = snapshot.getAnalyzerResult();
         legalMoves = snapshot.getLegalMoves();
         status = snapshot.getStatus();
-        zobristHash = snapshot.getZobristHash();
         positionHash = snapshot.getPositionHash();
         repetitionCounter = snapshot.getRepetitionCounter();
     }
@@ -55,7 +62,6 @@ public class GameStateImp implements GameState, Cloneable {
         gameState.setAnalyzerResult(analyzerResult);
         gameState.setLegalMoves(legalMoves);
         gameState.setStatus(status);
-        gameState.setZobristHash(zobristHash);
         gameState.setPositionHash(positionHash);
         gameState.setRepetitionCounter(repetitionCounter);
         return gameState;

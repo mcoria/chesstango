@@ -75,6 +75,7 @@ public abstract class MoveImp implements PseudoMove, Command {
     @Override
     public void doMove(GameState gameState) {
         gameStateSnapshot = gameState.takeSnapshot();
+        gameState.reset();
     }
 
     @Override
@@ -144,7 +145,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void doMove(GameHistoryWriter gameHistoryWriter) {
-        gameHistoryWriter.push(new GameHistoryRecord(gameStateSnapshot, this));
+        gameHistoryWriter.push(new GameHistoryRecord(gameStateSnapshot, zobristHashSnapshot, this));
     }
 
     @Override

@@ -15,8 +15,6 @@ public interface GameStateReader {
 
     AnalyzerResult getAnalyzerResult();
 
-    long getZobristHash();
-
     long getPositionHash();
 
     int getRepetitionCounter();

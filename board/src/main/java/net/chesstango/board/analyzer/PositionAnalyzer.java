@@ -50,7 +50,6 @@ public class PositionAnalyzer implements GameListener {
 
         gameState.setStatus(status);
         gameState.setAnalyzerResult(analyzerResult);
-        gameState.setZobristHash(positionReader.getZobristHash());
         gameState.setPositionHash(positionReader.getAllPositions());
         gameState.setRepetitionCounter(repetitionCounter);
         gameState.setLegalMoves(legalMoves);
@@ -97,7 +96,6 @@ public class PositionAnalyzer implements GameListener {
         int repetitionCounter = 1;
         int halfMoveClockCounter = positionReader.getHalfMoveClock();
 
-
         Iterator<GameHistoryRecord> gameStateHistoryIterator = careTaker.iterator();
 
         // Start iterating
@@ -109,14 +107,14 @@ public class PositionAnalyzer implements GameListener {
 
             if (gameStateHistoryIterator.hasNext() && halfMoveClockCounter >= 0) {
                 // Get next state, my turn
-                GameHistoryRecord stateHistory = gameStateHistoryIterator.next();
+                GameHistoryRecord gameHistoryRecord = gameStateHistoryIterator.next();
                 halfMoveClockCounter--;
 
+                GameStateReader pastState = gameHistoryRecord.gameState();
+                long pastZobristHash = gameHistoryRecord.zobristHash().getZobristHash();
 
-                GameStateReader state = stateHistory.gameState();
-
-                if (state.getZobristHash() == zobristHash && state.getPositionHash() == positionHash) {
-                    repetitionCounter = state.getRepetitionCounter() + 1;
+                if (pastZobristHash == zobristHash && pastState.getPositionHash() == positionHash) {
+                    repetitionCounter = pastState.getRepetitionCounter() + 1;
                     break;
                 }
             }

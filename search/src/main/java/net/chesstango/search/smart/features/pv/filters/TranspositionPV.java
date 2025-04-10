@@ -96,7 +96,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        final long lastHash = game.getHistory().peekLastRecord().gameState().getZobristHash();
+        final long lastHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
         final Move lastMove = game.getHistory().peekLastRecord().playedMove();
         principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
@@ -104,7 +104,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
         final short bestMoveEncoded = TranspositionEntry.decodeBestMove(moveAndValue);
 
 
-        long currentHash = game.getState().getZobristHash();
+        long currentHash = game.getPosition().getZobristHash();
         Move currentMove = getMove(bestMoveEncoded);
         while (currentMove != null) {
 
@@ -114,7 +114,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
             moves.push(currentMove);
 
-            currentHash = game.getState().getZobristHash();
+            currentHash = game.getPosition().getZobristHash();
             currentMove = principalVariation.size() < maxPly
                     ? readMoveFromTT(maxMap, minMap)
                     : readMoveFromTT(qMaxMap, qMinMap);
