@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -20,7 +21,9 @@ import java.util.List;
 public class NegaMaxPruning implements SearchAlgorithm {
     private final NegaQuiescence negaQuiescence;
     private Game game;
+    @Setter
     private MoveSorter moveSorter;
+    @Setter
     private int[] visitedNodesCounter;
     private int maxPly;
     private MoveEvaluation bestMoveEvaluation;
@@ -131,11 +134,4 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
 
-    public void setVisitedNodesCounter(int[] visitedNodesCounter) {
-        this.visitedNodesCounter = visitedNodesCounter;
-    }
-
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
-    }
 }

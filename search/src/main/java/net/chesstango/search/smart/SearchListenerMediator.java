@@ -10,21 +10,17 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Getter
 public class SearchListenerMediator {
 
-    @Getter
     private final List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
-    @Getter
     private final List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
-    @Getter
     private final List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
 
-    @Getter
     private final List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
-    @Getter
     private final List<ResetListener> resetListeners = new LinkedList<>();
 
 

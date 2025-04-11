@@ -9,13 +9,11 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class QuietComparator implements MoveComparator {
-    @Getter
-    @Setter
     private MoveComparator noQuietNext;
 
-    @Getter
-    @Setter
     private MoveComparator quietNext;
 
     @Override

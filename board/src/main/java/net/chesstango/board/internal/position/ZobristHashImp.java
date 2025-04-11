@@ -12,6 +12,7 @@ import net.chesstango.board.position.*;
  *
  * @author Mauricio Coria
  */
+@Getter
 public class ZobristHashImp implements ZobristHash, Cloneable {
     public static final int CASTLE_WHITE_KING_OFFSET = 768;
     public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
@@ -20,10 +21,8 @@ public class ZobristHashImp implements ZobristHash, Cloneable {
     public static final int EN_PASSANT_OFFSET = 772;
     public static final int TURN_OFFSET = 780;
 
-    @Getter
     private long zobristHash;
 
-    @Getter
     private long zobristEnPassantSquare;
 
     @Override
@@ -63,9 +62,9 @@ public class ZobristHashImp implements ZobristHash, Cloneable {
          * en passant
          * If the opponent has performed a double pawn push and there is now a pawn next to it belonging to the player to move then "enpassant" is the entry from RandomEnPassant
          * whose offset is the file of the pushed pawn (counted from 0(=a) to 7(=h)). If this does not apply then enpassant=0.
-         *
+         * <p>
          * Note that this is different from the FEN standard. In the FEN standard the presence of an "en passant target square" after a double pawn push is unconditional.
-         *
+         * <p>
          * Also note that it is irrelevant if the potential en passant capturing move is legal or not (examples where it would not be legal are when the capturing pawn is
          * pinned or when the double pawn push was a discovered check).
          */

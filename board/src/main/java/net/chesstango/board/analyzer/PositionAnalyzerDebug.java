@@ -1,5 +1,6 @@
 package net.chesstango.board.analyzer;
 
+import lombok.Setter;
 import net.chesstango.board.internal.position.KingSquareImp;
 import net.chesstango.board.internal.position.PositionStateImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
@@ -12,9 +13,12 @@ import net.chesstango.board.position.*;
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
 	protected SquareBoardReader squareBoardReader = null;
-	protected BitBoardReader colorBoard = null;
-	protected KingSquareImp kingCacheBoard = null;
-	protected MoveCacheBoardWriter moveCache = null;
+	@Setter
+    protected BitBoardReader colorBoard = null;
+	@Setter
+    protected KingSquareImp kingCacheBoard = null;
+	@Setter
+    protected MoveCacheBoardWriter moveCache = null;
 	protected PositionState positionState = null;
 
 	@Override
@@ -66,21 +70,8 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		this.squareBoardReader = dummyBoard;
 	}
 
-	public void setColorBoard(BitBoardReader colorBoard) {
-		this.colorBoard = colorBoard;
-	}
 
-	public void setKingCacheBoard(KingSquareImp kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
-	}
-
-
-	public void setMoveCache(MoveCacheBoardWriter moveCache) {
-		this.moveCache = moveCache;
-	}
-
-
-	public PositionState getBoardState() {
+    public PositionState getBoardState() {
 		return positionState;
 	}
 

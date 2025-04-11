@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
@@ -12,6 +13,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public class NegaQuiescence {
+    @Setter
     private MoveSorter moveSorter;
 
     private Evaluator evaluator;
@@ -50,10 +52,6 @@ public class NegaQuiescence {
 
     public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
-    }
-
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
     }
 
     public void setupGameEvaluator(Game game) {

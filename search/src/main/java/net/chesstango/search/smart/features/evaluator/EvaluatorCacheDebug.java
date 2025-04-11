@@ -15,14 +15,12 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 
+@Setter
+@Getter
 public class EvaluatorCacheDebug implements EvaluatorCacheRead, SearchByCycleListener {
 
-    @Getter
-    @Setter
     private SearchTracker searchTracker;
 
-    @Getter
-    @Setter
     private EvaluatorCacheRead evaluatorCacheRead;
 
     @Override

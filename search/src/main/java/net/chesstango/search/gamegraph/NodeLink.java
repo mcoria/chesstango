@@ -2,6 +2,7 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import net.chesstango.board.moves.Move;
 
 /**
@@ -17,6 +18,7 @@ class NodeLink {
     @JsonProperty("node")
     Node mockNode;
 
+    @Getter
     Move move;
 
     void accept(NodeVisitor visitor) {
@@ -25,7 +27,4 @@ class NodeLink {
     }
 
 
-    public Move getMove() {
-        return move;
-    }
 }

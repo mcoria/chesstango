@@ -11,10 +11,10 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class PromotionComparator implements MoveComparator {
 
-    @Setter
-    @Getter
     private MoveComparator next;
 
     @Override

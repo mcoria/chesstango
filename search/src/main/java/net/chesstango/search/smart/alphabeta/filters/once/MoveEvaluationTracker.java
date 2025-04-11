@@ -64,10 +64,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
 
     @Override
-    public void afterSearch(SearchResult result) {
-    }
-
-    @Override
     public long maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize);
     }

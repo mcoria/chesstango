@@ -5,7 +5,7 @@ package net.chesstango.board.position;
  * Interface representing a chess position.
  * This interface extends both ChessPositionReader and ChessPositionWriter,
  * indicating that it provides methods for reading and writing chess positions.
- *
+ * <p>
  * Chess position consists of:
  * <ul>
  * <li>Piece placement on the Board Representation</li>

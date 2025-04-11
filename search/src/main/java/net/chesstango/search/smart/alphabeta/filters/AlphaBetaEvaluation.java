@@ -8,9 +8,9 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class AlphaBetaEvaluation implements AlphaBetaFilter {
-    @Setter
-    @Getter
     private Evaluator evaluator;
 
     @Override

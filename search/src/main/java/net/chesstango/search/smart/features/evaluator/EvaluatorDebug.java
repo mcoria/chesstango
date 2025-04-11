@@ -13,14 +13,12 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
  * @author Mauricio Coria
  */
 
+@Setter
+@Getter
 public class EvaluatorDebug implements Evaluator, SearchByCycleListener {
 
-    @Getter
-    @Setter
     private SearchTracker searchTracker;
 
-    @Getter
-    @Setter
     private Evaluator evaluator;
 
     @Override

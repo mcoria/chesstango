@@ -150,7 +150,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     /*******************************************************************************
-     *
+     * <p>
      * WIRING
      *
      *

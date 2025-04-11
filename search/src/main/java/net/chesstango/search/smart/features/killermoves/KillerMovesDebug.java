@@ -13,14 +13,12 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
 
-    @Getter
-    @Setter
     private SearchTracker searchTracker;
 
-    @Setter
-    @Getter
     private KillerMoves killerMovesImp;
 
     @Override

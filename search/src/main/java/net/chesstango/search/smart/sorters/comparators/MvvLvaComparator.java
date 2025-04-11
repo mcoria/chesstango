@@ -11,10 +11,10 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class MvvLvaComparator implements MoveComparator {
 
-    @Setter
-    @Getter
     private MoveComparator next;
 
     // MVV_VLA[victim][attacker]

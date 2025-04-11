@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * TODO: Que pasa si deshabilitamos el filtrado de movimientos validos?
  * De cualquier forma durante la busqueda encontrariamos que el rey puede ser capturado
  * dado que la ulltima busqueda Quiescence explara todos los movimientos de captura posible.

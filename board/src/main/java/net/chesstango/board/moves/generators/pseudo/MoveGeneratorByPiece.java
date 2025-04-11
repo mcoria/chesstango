@@ -8,7 +8,7 @@ import net.chesstango.board.PiecePositioned;
  * This interface defines the contract for generating pseudo-legal moves for specific chess
  * pieces based on their position. Pseudo-legal moves are valid for the piece but may leave
  * the king in check, so additional validation is required to determine legality.
- *
+ * <p>
  * Castling and En Passant moves are not generated.
  *
  * @author Mauricio Coria
