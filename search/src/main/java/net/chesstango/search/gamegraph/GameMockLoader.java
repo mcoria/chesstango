@@ -84,7 +84,7 @@ public class GameMockLoader {
     }
 
     private static class CreatePositions implements NodeVisitor {
-        private Pattern movePattern = Pattern.compile("[a-h][1-8][a-h][1-8][rnbq]?");
+        private final Pattern movePattern = Pattern.compile("[a-h][1-8][a-h][1-8][rnbq]?");
 
         @Override
         public void visit(Node node) {

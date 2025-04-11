@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class TTableMap implements TTable {
 
-    private Map<Long, TranspositionEntry> table = new HashMap<>();
+    private final Map<Long, TranspositionEntry> table = new HashMap<>();
 
     @Override
     public TranspositionEntry read(long hash) {

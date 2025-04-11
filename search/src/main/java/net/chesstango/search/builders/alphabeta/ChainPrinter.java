@@ -118,7 +118,7 @@ public class ChainPrinter {
         printChainAlphaBetaFilter(bottomMoveCounterFacade.getAlphaBetaFilter(), 0);
     }
 
-    private List<AlphaBetaFilter> printedAlphaBetaFilter = new LinkedList<>();
+    private final List<AlphaBetaFilter> printedAlphaBetaFilter = new LinkedList<>();
 
 
     private void printChainAlphaBetaFilter(AlphaBetaFilter alphaBetaFilter, int nestedChain) {

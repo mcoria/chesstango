@@ -1,8 +1,5 @@
 package net.chesstango.search;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Mauricio Coria
  */

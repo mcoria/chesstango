@@ -16,7 +16,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PGNGameDecoder {
-    private SANEncoder sanEncoder = new SANEncoder();
+    private final SANEncoder sanEncoder = new SANEncoder();
 
     public PGN decode(Game game) {
         PGN pgn = new PGN();

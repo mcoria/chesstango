@@ -78,7 +78,7 @@ public final class SearchManagerByBook implements SearchManagerChain {
     private SearchResult searchByBook(Game game) {
         List<PolyglotEntry> bookSearchResult = book.search(game.getPosition().getZobristHash());
         if (bookSearchResult != null) {
-            MoveContainerReader possibleMoves = game.getPossibleMoves();
+            MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
             for (PolyglotEntry polyglotEntry : bookSearchResult) {
                 Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
                 if (move != null) {

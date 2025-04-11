@@ -9,14 +9,10 @@ import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
-import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria

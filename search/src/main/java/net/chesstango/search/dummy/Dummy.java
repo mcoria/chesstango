@@ -18,7 +18,7 @@ public class Dummy implements Search {
     public SearchResult search(Game game) {
         Iterable<? extends Move> moves = game.getPossibleMoves();
 
-        Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
+        Map<PiecePositioned, List<Move>> moveMap = new HashMap<>();
 
         moves.forEach(move ->
                 moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<>()).add(move)

@@ -32,7 +32,7 @@ public class MinMax implements SearchAlgorithm {
     public void search() {
         final Color currentTurn = game.getPosition().getCurrentTurn();
         final boolean minOrMax = !Color.WHITE.equals(currentTurn);
-        final List<Move> bestMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<>();
 
         int betterEvaluation = minOrMax ? Evaluator.INFINITE_POSITIVE : Evaluator.INFINITE_NEGATIVE;
 

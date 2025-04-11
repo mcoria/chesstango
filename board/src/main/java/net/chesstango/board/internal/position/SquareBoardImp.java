@@ -110,9 +110,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIEncoder output = new ASCIIEncoder();
-            this.forEach(posicionPieza -> {
-                output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece());
-            });
+            this.forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece()));
             output.getPiecePlacement(ps);
         }
         return baos.toString();
@@ -128,8 +126,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof SquareBoardImp) {
-            SquareBoardImp theInstance = (SquareBoardImp) obj;
+        if (obj instanceof SquareBoardImp theInstance) {
             for (int i = 0; i < 64; i++) {
                 if (!this.tablero[i].equals(theInstance.tablero[i])) {
                     return false;

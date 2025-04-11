@@ -35,23 +35,18 @@ public class EvaluatorByCondition implements Evaluator {
             if(evaluationResult != null ) break;
         }
 
-        return evaluationResult == null ? defaultValue : evaluationResult.intValue();
+        return evaluationResult == null ? defaultValue : evaluationResult;
     }
 
     protected int evaluateFinalStatus(final Game game) {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
+        int evaluation = switch (game.getStatus()) {
+            case MATE ->
                 // If white is on mate then evaluation is INFINITE_NEGATIVE
-                evaluation = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-                break;
-            case STALEMATE:
-                evaluation = 0;
-                break;
-            case CHECK:
-            case NO_CHECK:
-                throw new RuntimeException("Game is still in progress");
-        }
+                    Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
+            case STALEMATE -> 0;
+            case CHECK, NO_CHECK -> throw new RuntimeException("Game is still in progress");
+            default -> 0;
+        };
         return evaluation;
     }
 

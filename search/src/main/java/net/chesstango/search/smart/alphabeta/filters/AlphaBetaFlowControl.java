@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.*;
@@ -103,7 +104,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     private boolean isCurrentPositionQuiet() {
-        MoveContainerReader possibleMoves = game.getPossibleMoves();
+        MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
         return possibleMoves.hasQuietMoves();
     }
 }

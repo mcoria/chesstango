@@ -1,18 +1,11 @@
 package net.chesstango.board.representations.epd;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.move.LANDecoder;
-import net.chesstango.board.representations.move.SANDecoder;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;

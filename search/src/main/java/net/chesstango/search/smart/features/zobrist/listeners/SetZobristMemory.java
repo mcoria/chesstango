@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class SetZobristMemory implements SearchByCycleListener, ResetListener {
 
-    private Map<Long, String> zobristMaxMap = new HashMap<>();
-    private Map<Long, String> zobristMinMap = new HashMap<>();
-    private List<String> zobristCollisions = new LinkedList<>();
+    private final Map<Long, String> zobristMaxMap = new HashMap<>();
+    private final Map<Long, String> zobristMinMap = new HashMap<>();
+    private final List<String> zobristCollisions = new LinkedList<>();
 
 
     @Override

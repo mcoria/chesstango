@@ -11,7 +11,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
  */
 public class SetKillerMoveTables implements SearchByCycleListener {
 
-    private KillerMoves killerMoves;
+    private final KillerMoves killerMoves;
 
     public SetKillerMoveTables(){
         killerMoves = new KillerMovesTable();

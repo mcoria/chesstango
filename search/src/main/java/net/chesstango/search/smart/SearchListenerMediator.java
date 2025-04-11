@@ -13,19 +13,19 @@ import java.util.List;
 public class SearchListenerMediator {
 
     @Getter
-    private List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
+    private final List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
     @Getter
-    private List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
+    private final List<SearchByDepthListener> searchByDepthListeners = new LinkedList<>();
 
     @Getter
-    private List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
+    private final List<SearchByWindowsListener> searchByWindowsListeners = new LinkedList<>();
 
     @Getter
-    private List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
+    private final List<StopSearchingListener> stopSearchingListeners = new LinkedList<>();
 
     @Getter
-    private List<ResetListener> resetListeners = new LinkedList<>();
+    private final List<ResetListener> resetListeners = new LinkedList<>();
 
 
     public void triggerBeforeSearch(SearchByCycleContext context) {

@@ -18,7 +18,7 @@ public class MvvLvaComparator implements MoveComparator {
     private MoveComparator next;
 
     // MVV_VLA[victim][attacker]
-    private static int[][] MVVLVA_MATRIX = {
+    private static final int[][] MVVLVA_MATRIX = {
             {
                     0, 0, 0, 0, 0, 0, 0
             }, // victim K, attacker K, Q, R, B, N, P, None

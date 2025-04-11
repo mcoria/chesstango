@@ -5,5 +5,5 @@ import net.chesstango.board.moves.Move;
 /**
  * @author Mauricio Coria
  */
-public record GameHistoryRecord(GameStateReader gameState, ZobristHashReader zobristHash,  Move playedMove) {
+public record GameHistoryRecord(GameStateReader gameState, ZobristHashReader zobristHash, Move playedMove) {
 }

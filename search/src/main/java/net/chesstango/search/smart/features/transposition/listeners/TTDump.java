@@ -98,10 +98,7 @@ public class TTDump implements SearchByCycleListener, SearchByDepthListener {
             bos.close();
             fos.close();
 
-            System.out.println(String.format("Done file %s, entries %d", fileName, counter));
-        } catch (IOException ioe) {
-            ioe.printStackTrace(System.err);
-            throw new RuntimeException(ioe);
+            System.out.printf("Done file %s, entries %d%n", fileName, counter);
         } catch (Exception e){
             e.printStackTrace(System.err);
             throw new RuntimeException(e);

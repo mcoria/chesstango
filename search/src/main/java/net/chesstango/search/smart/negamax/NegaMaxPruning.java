@@ -35,7 +35,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
         this.visitedNodesCounter = new int[30];
 
         final boolean minOrMax = !Color.WHITE.equals(game.getPosition().getCurrentTurn());
-        final List<Move> bestMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<>();
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         int bestValue = Evaluator.INFINITE_NEGATIVE;

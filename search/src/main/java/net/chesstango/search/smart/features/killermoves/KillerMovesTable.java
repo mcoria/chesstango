@@ -8,8 +8,8 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class KillerMovesTable implements KillerMoves {
-    private Move[] killerMovesTableA;
-    private Move[] killerMovesTableB;
+    private final Move[] killerMovesTableA;
+    private final Move[] killerMovesTableB;
 
     public KillerMovesTable() {
         this.killerMovesTableA = new Move[50];

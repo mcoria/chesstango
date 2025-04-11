@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class EvaluatorByFEN implements Evaluator {
     private int defaultValue;
-    private Map<String, Integer> evaluations = new HashMap<>();
+    private final Map<String, Integer> evaluations = new HashMap<>();
 
     private Game game;
 
@@ -37,7 +37,7 @@ public class EvaluatorByFEN implements Evaluator {
 
         Integer evaluation = evaluations.get(fen);
 
-        return evaluation == null ? defaultValue : evaluation.intValue();
+        return evaluation == null ? defaultValue : evaluation;
     }
 
     protected int evaluateFinalStatus() {

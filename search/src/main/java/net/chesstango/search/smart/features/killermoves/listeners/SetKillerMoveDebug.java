@@ -12,7 +12,7 @@ import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 public class SetKillerMoveDebug implements SearchByCycleListener {
 
     @Getter
-    private KillerMovesDebug killerMovesDebug;
+    private final KillerMovesDebug killerMovesDebug;
 
     public SetKillerMoveDebug() {
         KillerMovesTable killerMovesTable = new KillerMovesTable();

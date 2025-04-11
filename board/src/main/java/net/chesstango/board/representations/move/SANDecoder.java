@@ -81,8 +81,7 @@ public class SANDecoder {
             if (PAWN_WHITE.equals(move.getFrom().getPiece()) || PAWN_BLACK.equals(move.getFrom().getPiece())) {
                 Square toSquare = move.getTo().getSquare();
                 if (pawnto.equals(toSquare.toString())) {
-                    if (!pawnpushpromotion.equals("") && move instanceof MovePromotion) {
-                        MovePromotion movePromotion = (MovePromotion) move;
+                    if (!pawnpushpromotion.isEmpty() && move instanceof MovePromotion movePromotion) {
                         if (pawnpushpromotion.equals(getPieceCode(movePromotion.getPromotion()))) {
                             return movePromotion;
                         }
@@ -105,8 +104,7 @@ public class SANDecoder {
                 Square toSquare = move.getTo().getSquare();
                 if (pawncapturefile.equals(fromSquare.getFileChar())) {
                     if (pawncaptureto.equals(toSquare.toString())) {
-                        if (!pawncapturepromotion.equals("") && move instanceof MovePromotion) {
-                            MovePromotion movePromotion = (MovePromotion) move;
+                        if (!pawncapturepromotion.equals("") && move instanceof MovePromotion movePromotion) {
                             if (pawncapturepromotion.equals(getPieceCode(movePromotion.getPromotion()))) {
                                 return movePromotion;
                             }

@@ -25,7 +25,7 @@ public class NegaMax implements SearchAlgorithm {
 
     @Override
     public void search() {
-        final List<Move> bestMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<>();
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;

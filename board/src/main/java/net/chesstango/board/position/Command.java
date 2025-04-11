@@ -9,8 +9,18 @@ package net.chesstango.board.position;
  */
 public interface Command {
 
+    /**
+     * Executes a move on the game state.
+     *
+     * @param gameState the game state writer responsible for managing the current state of the game
+     */
     void doMove(GameState gameState);
 
+    /**
+     * Undoes a move on the game state.
+     *
+     * @param gameState the game state writer responsible for managing the current state of the game
+     */
     void undoMove(GameState gameState);
 
     /**
@@ -110,7 +120,6 @@ public interface Command {
      * @param hash the Zobrist hash writer
      */
     void undoMove(ZobristHash hash);
-
 
     /**
      * Executes a move on the CareTakerWriter.
