@@ -9,7 +9,6 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;

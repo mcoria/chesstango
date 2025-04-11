@@ -89,18 +89,16 @@ public class LoopChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof LoopEvaluation) {
-
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker tracker -> zobristTracker.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case LoopEvaluation evaluation -> {
+                }
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 
 }

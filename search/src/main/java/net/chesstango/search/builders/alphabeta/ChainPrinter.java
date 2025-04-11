@@ -125,52 +125,44 @@ public class ChainPrinter {
 
         if (!printedAlphaBetaFilter.contains(alphaBetaFilter)) {
             printedAlphaBetaFilter.add(alphaBetaFilter);
-            if (alphaBetaFilter instanceof TranspositionTableRoot transpositionTableRoot) {
-                printChainTranspositionTableRoot(transpositionTableRoot, nestedChain);
-            } else if (alphaBetaFilter instanceof AspirationWindows aspirationWindows) {
-                printChainAspirationWindows(aspirationWindows, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
-                printChainAlphaBetaStatisticsExpected(alphaBetaStatisticsExpected, nestedChain);
-            } else if (alphaBetaFilter instanceof MoveEvaluationTracker moveEvaluationTracker) {
-                printChainMoveEvaluationTracker(moveEvaluationTracker, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
-                printChainAlphaBetaStatisticsVisited(alphaBetaStatisticsVisited, nestedChain);
-            } else if (alphaBetaFilter instanceof TranspositionTable transpositionTable) {
-                printChainTranspositionTable(transpositionTable, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBeta alphaBeta) {
-                printChainAlphaBeta(alphaBeta, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaFlowControl alphaBetaFlowControl) {
-                printChainAlphaBetaFlowControl(alphaBetaFlowControl, nestedChain);
-            } else if (alphaBetaFilter instanceof AlphaBetaEvaluation alphaBetaEvaluation) {
-                printChainAlphaBetaTerminal(alphaBetaEvaluation, nestedChain);
-            } else if (alphaBetaFilter instanceof TranspositionTableQ transpositionTableQ) {
-                printChainTranspositionTable(transpositionTableQ, nestedChain);
-            } else if (alphaBetaFilter instanceof QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-                printChainQuiescenceStatisticsExpected(quiescenceStatisticsExpected, nestedChain);
-            } else if (alphaBetaFilter instanceof Quiescence quiescence) {
-                printChainQuiescence(quiescence, nestedChain);
-            } else if (alphaBetaFilter instanceof QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
-                printChainQuiescenceStatisticsVisited(quiescenceStatisticsVisited, nestedChain);
-            } else if (alphaBetaFilter instanceof TriangularPV triangularPV) {
-                printTriangularPV(triangularPV, nestedChain);
-            } else if (alphaBetaFilter instanceof ExtensionFlowControl extensionFlowControl) {
-                printChainQuiescenceFlowControl(extensionFlowControl, nestedChain);
-            } else if (alphaBetaFilter instanceof ZobristTracker zobristTracker) {
-                printChainZobristTracker(zobristTracker, nestedChain);
-            } else if (alphaBetaFilter instanceof DebugFilter debugFilter) {
-                printChainDebugTree(debugFilter, nestedChain);
-            } else if (alphaBetaFilter instanceof LoopEvaluation loopEvaluation) {
-                printChainLoopEvaluation(loopEvaluation, nestedChain);
-            } else if (alphaBetaFilter instanceof StopProcessingCatch stopProcessingCatch) {
-                printChainStopProcessingCatch(stopProcessingCatch, nestedChain);
-            } else if (alphaBetaFilter instanceof KillerMoveTracker killerMoveTracker) {
-                printChainKillerMoveTracker(killerMoveTracker, nestedChain);
-            } else if (alphaBetaFilter instanceof TranspositionTableTerminal transpositionTableTerminal) {
-                printChainTranspositionTableTerminal(transpositionTableTerminal, nestedChain);
-            } else if (alphaBetaFilter instanceof TranspositionPV transpositionPV) {
-                printChainTranspositionPV(transpositionPV, nestedChain);
-            } else {
-                throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
+            switch (alphaBetaFilter) {
+                case TranspositionTableRoot transpositionTableRoot ->
+                        printChainTranspositionTableRoot(transpositionTableRoot, nestedChain);
+                case AspirationWindows aspirationWindows -> printChainAspirationWindows(aspirationWindows, nestedChain);
+                case AlphaBetaStatisticsExpected alphaBetaStatisticsExpected ->
+                        printChainAlphaBetaStatisticsExpected(alphaBetaStatisticsExpected, nestedChain);
+                case MoveEvaluationTracker moveEvaluationTracker ->
+                        printChainMoveEvaluationTracker(moveEvaluationTracker, nestedChain);
+                case AlphaBetaStatisticsVisited alphaBetaStatisticsVisited ->
+                        printChainAlphaBetaStatisticsVisited(alphaBetaStatisticsVisited, nestedChain);
+                case TranspositionTable transpositionTable ->
+                        printChainTranspositionTable(transpositionTable, nestedChain);
+                case AlphaBeta alphaBeta -> printChainAlphaBeta(alphaBeta, nestedChain);
+                case AlphaBetaFlowControl alphaBetaFlowControl ->
+                        printChainAlphaBetaFlowControl(alphaBetaFlowControl, nestedChain);
+                case AlphaBetaEvaluation alphaBetaEvaluation ->
+                        printChainAlphaBetaTerminal(alphaBetaEvaluation, nestedChain);
+                case TranspositionTableQ transpositionTableQ ->
+                        printChainTranspositionTable(transpositionTableQ, nestedChain);
+                case QuiescenceStatisticsExpected quiescenceStatisticsExpected ->
+                        printChainQuiescenceStatisticsExpected(quiescenceStatisticsExpected, nestedChain);
+                case Quiescence quiescence -> printChainQuiescence(quiescence, nestedChain);
+                case QuiescenceStatisticsVisited quiescenceStatisticsVisited ->
+                        printChainQuiescenceStatisticsVisited(quiescenceStatisticsVisited, nestedChain);
+                case TriangularPV triangularPV -> printTriangularPV(triangularPV, nestedChain);
+                case ExtensionFlowControl extensionFlowControl ->
+                        printChainQuiescenceFlowControl(extensionFlowControl, nestedChain);
+                case ZobristTracker zobristTracker -> printChainZobristTracker(zobristTracker, nestedChain);
+                case DebugFilter debugFilter -> printChainDebugTree(debugFilter, nestedChain);
+                case LoopEvaluation loopEvaluation -> printChainLoopEvaluation(loopEvaluation, nestedChain);
+                case StopProcessingCatch stopProcessingCatch ->
+                        printChainStopProcessingCatch(stopProcessingCatch, nestedChain);
+                case KillerMoveTracker killerMoveTracker -> printChainKillerMoveTracker(killerMoveTracker, nestedChain);
+                case TranspositionTableTerminal transpositionTableTerminal ->
+                        printChainTranspositionTableTerminal(transpositionTableTerminal, nestedChain);
+                case TranspositionPV transpositionPV -> printChainTranspositionPV(transpositionPV, nestedChain);
+                case null, default ->
+                        throw new RuntimeException(String.format("Unknown AlphaBetaFilter class: %s", alphaBetaFilter.getClass()));
             }
         } else {
             printChainText(String.format("%s @%s -> LOOP", alphaBetaFilter.getClass().getSimpleName(), Integer.toHexString(alphaBetaFilter.hashCode())), nestedChain);

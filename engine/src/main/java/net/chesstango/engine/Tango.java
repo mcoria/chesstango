@@ -116,7 +116,7 @@ public class Tango {
 
     private static Properties loadProperties() {
         Properties properties;
-        try (InputStream inputStream = Tango.class.getResourceAsStream("/chesstango.properties");) {
+        try (InputStream inputStream = Tango.class.getResourceAsStream("/chesstango.properties")) {
             // create Properties class object
             properties = new Properties();
             // load properties file into it

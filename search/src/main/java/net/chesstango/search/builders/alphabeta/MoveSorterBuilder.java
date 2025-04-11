@@ -271,30 +271,25 @@ public class MoveSorterBuilder {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
 
-            if (currentComparator instanceof TranspositionHeadMoveComparator && currentComparator == transpositionHeadMoveComparator) {
-                transpositionHeadMoveComparator.setNext(next);
-            } else if (currentComparator instanceof TranspositionTailMoveComparator && currentComparator == transpositionTailMoveComparator) {
-                transpositionTailMoveComparator.setNext(next);
-            } else if (currentComparator instanceof TranspositionHeadMoveComparator && currentComparator == transpositionHeadMoveComparatorQ) {
-                transpositionHeadMoveComparatorQ.setNext(next);
-            } else if (currentComparator instanceof TranspositionTailMoveComparator && currentComparator == transpositionTailMoveComparatorQ) {
-                transpositionTailMoveComparatorQ.setNext(next);
-            } else if (currentComparator instanceof RecaptureMoveComparator) {
-                recaptureMoveComparator.setNext(next);
-            } else if (currentComparator instanceof GameEvaluatorCacheComparator) {
-                gameEvaluatorCacheComparator.setNext(next);
-            } else if (currentComparator instanceof KillerMoveComparator) {
-                killerMoveComparator.setNext(next);
-            } else if (currentComparator instanceof MvvLvaComparator) {
-                mvvLvaComparator.setNext(next);
-            } else if (currentComparator instanceof PromotionComparator) {
-                promotionComparator.setNext(next);
-            } else if (currentComparator instanceof PrincipalVariationComparator) {
-                principalVariationComparator.setNext(next);
-            } else {
-                throw new RuntimeException("Unknow MoveComparator");
+            switch (currentComparator) {
+                case TranspositionHeadMoveComparator headMoveComparator when currentComparator == transpositionHeadMoveComparator ->
+                        transpositionHeadMoveComparator.setNext(next);
+                case TranspositionTailMoveComparator tailMoveComparator when currentComparator == transpositionTailMoveComparator ->
+                        transpositionTailMoveComparator.setNext(next);
+                case TranspositionHeadMoveComparator headMoveComparator when currentComparator == transpositionHeadMoveComparatorQ ->
+                        transpositionHeadMoveComparatorQ.setNext(next);
+                case TranspositionTailMoveComparator tailMoveComparator when currentComparator == transpositionTailMoveComparatorQ ->
+                        transpositionTailMoveComparatorQ.setNext(next);
+                case RecaptureMoveComparator moveComparator -> recaptureMoveComparator.setNext(next);
+                case GameEvaluatorCacheComparator evaluatorCacheComparator ->
+                        gameEvaluatorCacheComparator.setNext(next);
+                case KillerMoveComparator moveComparator -> killerMoveComparator.setNext(next);
+                case MvvLvaComparator lvaComparator -> mvvLvaComparator.setNext(next);
+                case PromotionComparator comparator -> promotionComparator.setNext(next);
+                case PrincipalVariationComparator variationComparator -> principalVariationComparator.setNext(next);
+                case null, default -> throw new RuntimeException("Unknow MoveComparator");
             }
         }
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

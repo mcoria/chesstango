@@ -207,27 +207,19 @@ public class AlphaBetaInteriorChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTable) {
-                transpositionTable.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaStatisticsExpected) {
-                alphaBetaStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof AlphaBeta) {
-                alphaBeta.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
-                alphaBetaStatisticsVisited.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof TriangularPV) {
-                triangularPV.setNext(next);
-            } else if (currentFilter instanceof KillerMoveTracker) {
-                killerMoveTracker.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker tracker -> zobristTracker.setNext(next);
+                case TranspositionTable table -> transpositionTable.setNext(next);
+                case AlphaBetaStatisticsExpected betaStatisticsExpected -> alphaBetaStatisticsExpected.setNext(next);
+                case AlphaBeta beta -> alphaBeta.setNext(next);
+                case AlphaBetaStatisticsVisited betaStatisticsVisited -> alphaBetaStatisticsVisited.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case TriangularPV pv -> triangularPV.setNext(next);
+                case KillerMoveTracker moveTracker -> killerMoveTracker.setNext(next);
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

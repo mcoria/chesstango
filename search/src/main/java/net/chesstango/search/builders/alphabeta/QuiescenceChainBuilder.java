@@ -216,25 +216,18 @@ public class QuiescenceChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristQTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableQ) {
-                transpositionTableQ.setNext(next);
-            } else if (currentFilter instanceof QuiescenceStatisticsExpected) {
-                quiescenceStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof Quiescence) {
-                quiescence.setNext(next);
-            } else if (currentFilter instanceof QuiescenceStatisticsVisited) {
-                quiescenceStatisticsVisited.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof TriangularPV) {
-                triangularPV.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker zobristTracker -> zobristQTracker.setNext(next);
+                case TranspositionTableQ tableQ -> transpositionTableQ.setNext(next);
+                case QuiescenceStatisticsExpected statisticsExpected -> quiescenceStatisticsExpected.setNext(next);
+                case Quiescence quiescence1 -> quiescence.setNext(next);
+                case QuiescenceStatisticsVisited statisticsVisited -> quiescenceStatisticsVisited.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case TriangularPV pv -> triangularPV.setNext(next);
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

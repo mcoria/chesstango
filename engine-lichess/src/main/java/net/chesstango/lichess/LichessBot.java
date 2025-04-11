@@ -105,7 +105,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
             lichessChallenger.challengeUser(user, challengeType);
         } else {
-            logger.info("Scheduler Busy");
+            logger.info("challengeUser: Scheduler Busy");
         }
     }
 
@@ -116,7 +116,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
             logger.info("Challenging random bot");
             lichessChallenger.challengeRandomBot();
         } else {
-            logger.info("Scheduler Busy");
+            logger.info("challengeRandomBot: Scheduler Busy");
         }
     }
 

@@ -259,30 +259,19 @@ public class AlphaBetaRootChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof StopProcessingCatch) {
-                stopProcessingCatch.setNext(next);
-            } else if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableRoot) {
-                transpositionTableRoot.setNext(next);
-            } else if (currentFilter instanceof AspirationWindows) {
-                aspirationWindows.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaStatisticsExpected) {
-                alphaBetaStatisticsExpected.setNext(next);
-            } else if (currentFilter instanceof AlphaBeta) {
-                alphaBeta.setNext(next);
-            } else if (currentFilter instanceof MoveEvaluationTracker) {
-                moveEvaluationTracker.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaStatisticsVisited) {
-                alphaBetaStatisticsVisited.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof TriangularPV) {
-                triangularPV.setNext(next);
-            } else if (currentFilter instanceof TranspositionPV) {
-                transpositionPV.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case StopProcessingCatch processingCatch -> stopProcessingCatch.setNext(next);
+                case ZobristTracker tracker -> zobristTracker.setNext(next);
+                case TranspositionTableRoot tableRoot -> transpositionTableRoot.setNext(next);
+                case AspirationWindows windows -> aspirationWindows.setNext(next);
+                case AlphaBetaStatisticsExpected betaStatisticsExpected -> alphaBetaStatisticsExpected.setNext(next);
+                case AlphaBeta beta -> alphaBeta.setNext(next);
+                case MoveEvaluationTracker evaluationTracker -> moveEvaluationTracker.setNext(next);
+                case AlphaBetaStatisticsVisited betaStatisticsVisited -> alphaBetaStatisticsVisited.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case TriangularPV pv -> triangularPV.setNext(next);
+                case TranspositionPV pv -> transpositionPV.setNext(next);
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 

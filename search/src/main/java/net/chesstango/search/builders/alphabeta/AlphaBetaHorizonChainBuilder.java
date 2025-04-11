@@ -117,17 +117,14 @@ public class AlphaBetaHorizonChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof TranspositionTable) {
-                transpositionTable.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker tracker -> zobristTracker.setNext(next);
+                case TranspositionTable table -> transpositionTable.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

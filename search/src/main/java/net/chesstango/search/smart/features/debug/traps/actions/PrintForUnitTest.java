@@ -94,7 +94,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
 
         Collections.reverse(tree);
 
-        printStream.printf("game = FENDecoder.loadGame(\"" + tree.get(0).getFen() + "\")");
+        printStream.printf("game = FENDecoder.loadGame(\"" + tree.getFirst().getFen() + "\")");
         tree.forEach(node -> {
             Move move = node.getSelectedMove();
             if (move != null) {

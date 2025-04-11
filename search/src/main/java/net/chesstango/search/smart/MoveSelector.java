@@ -42,7 +42,7 @@ public class MoveSelector {
         if (moves.isEmpty()) {
             throw new RuntimeException("There is no move to select");
         } else if (moves.size() == 1) {
-            return moves.get(0);
+            return moves.getFirst();
         }
 
         /*
@@ -85,7 +85,7 @@ public class MoveSelector {
 
         // Resolvemos promocion priorizando promicion a QUEEN
         return movesToSquare.size() == 1 ?
-                movesToSquare.get(0) :
+                movesToSquare.getFirst() :
                 movesToSquare.stream()
                         .map(move -> (MovePromotion) move)
                         .filter(movePromotion -> Piece.QUEEN_WHITE.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion()))

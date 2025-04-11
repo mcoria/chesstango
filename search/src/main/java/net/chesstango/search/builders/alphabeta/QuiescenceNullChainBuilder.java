@@ -91,6 +91,6 @@ public class QuiescenceNullChainBuilder {
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

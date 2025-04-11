@@ -171,11 +171,11 @@ public class LichessTango implements Runnable {
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {
-        logger.info("[{}] Chat: [{}] -> {}", gameId, chat.username(), chat.text());
+        logger.info("[{}] Chat: [{}] << {}", gameId, chat.username(), chat.text());
     }
 
     private void sendChatMessage(String message) {
-        logger.info("[{}] Chat: [{}] -> {}", gameId, "chesstango", message);
+        logger.info("[{}] Chat: [{}] >> {}", gameId, "chesstango", message);
         client.gameChat(gameId, message);
     }
 

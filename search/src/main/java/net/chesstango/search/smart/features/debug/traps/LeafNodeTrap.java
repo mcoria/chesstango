@@ -20,7 +20,7 @@ public class LeafNodeTrap implements DebugNodeTrap, SearchByDepthListener {
                     .stream()
                     .filter(childNode -> DebugNode.NodeTopology.HORIZON.equals(childNode.getTopology()))
                     .filter(childNode -> !childNode.getChildNodes().isEmpty()) // HORIZON siempre tiene un solo nodo asociado
-                    .map(childNode -> childNode.getChildNodes().get(0))
+                    .map(childNode -> childNode.getChildNodes().getFirst())
                     .filter(childNode -> DebugNode.NodeTopology.LEAF.equals(childNode.getTopology()))
                     .map(DebugNode::getType)
                     .distinct()

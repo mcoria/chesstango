@@ -119,19 +119,17 @@ public class TerminalChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristTracker.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugFilter.setNext(next);
-            } else if (currentFilter instanceof TranspositionTableTerminal) {
-                transpositionTableTerminal.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaEvaluation) {
-                //alphaBetaEvaluation.setNext(next);
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker tracker -> zobristTracker.setNext(next);
+                case DebugFilter filter -> debugFilter.setNext(next);
+                case TranspositionTableTerminal tableTerminal -> transpositionTableTerminal.setNext(next);
+                case AlphaBetaEvaluation betaEvaluation -> {
+                    //alphaBetaEvaluation.setNext(next);
+                }
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

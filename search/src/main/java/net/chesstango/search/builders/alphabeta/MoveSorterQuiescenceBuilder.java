@@ -192,26 +192,22 @@ public class MoveSorterQuiescenceBuilder {
             MoveComparator currentComparator = chain.get(i);
             MoveComparator next = chain.get(i + 1);
 
-            if (currentComparator instanceof TranspositionHeadMoveComparator) {
-                transpositionHeadMoveComparator.setNext(next);
-            } else if (currentComparator instanceof TranspositionTailMoveComparator) {
-                transpositionTailMoveComparator.setNext(next);
-            } else if (currentComparator instanceof RecaptureMoveComparator) {
-                recaptureMoveComparator.setNext(next);
-            } else if (currentComparator instanceof GameEvaluatorCacheComparator) {
-                gameEvaluatorCacheComparator.setNext(next);
-            } else if (currentComparator instanceof MvvLvaComparator) {
-                mvvLvaComparator.setNext(next);
-            } else if (currentComparator instanceof PromotionComparator) {
-                promotionComparator.setNext(next);
-            } else if (currentComparator instanceof PrincipalVariationComparator) {
-                principalVariationComparator.setNext(next);
-            } else {
-                throw new RuntimeException("Unknow MoveComparator");
+            switch (currentComparator) {
+                case TranspositionHeadMoveComparator headMoveComparator ->
+                        transpositionHeadMoveComparator.setNext(next);
+                case TranspositionTailMoveComparator tailMoveComparator ->
+                        transpositionTailMoveComparator.setNext(next);
+                case RecaptureMoveComparator moveComparator -> recaptureMoveComparator.setNext(next);
+                case GameEvaluatorCacheComparator evaluatorCacheComparator ->
+                        gameEvaluatorCacheComparator.setNext(next);
+                case MvvLvaComparator lvaComparator -> mvvLvaComparator.setNext(next);
+                case PromotionComparator comparator -> promotionComparator.setNext(next);
+                case PrincipalVariationComparator variationComparator -> principalVariationComparator.setNext(next);
+                case null, default -> throw new RuntimeException("Unknow MoveComparator");
             }
         }
 
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }

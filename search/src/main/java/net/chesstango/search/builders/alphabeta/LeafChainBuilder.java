@@ -97,17 +97,16 @@ public class LeafChainBuilder {
             AlphaBetaFilter currentFilter = chain.get(i);
             AlphaBetaFilter next = chain.get(i + 1);
 
-            if (currentFilter instanceof ZobristTracker) {
-                zobristQTracker.setNext(next);
-            } else if (currentFilter instanceof DebugFilter) {
-                debugSearchTree.setNext(next);
-            } else if (currentFilter instanceof AlphaBetaEvaluation) {
-                //leaf
-            } else {
-                throw new RuntimeException("filter not found");
+            switch (currentFilter) {
+                case ZobristTracker zobristTracker -> zobristQTracker.setNext(next);
+                case DebugFilter debugFilter -> debugSearchTree.setNext(next);
+                case AlphaBetaEvaluation alphaBetaEvaluation -> {
+                    //leaf
+                }
+                case null, default -> throw new RuntimeException("filter not found");
             }
         }
 
-        return chain.get(0);
+        return chain.getFirst();
     }
 }
