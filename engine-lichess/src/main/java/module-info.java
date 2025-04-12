@@ -6,6 +6,5 @@ module net.chesstango.lichess.engine {
     requires net.chesstango.engine;
     requires net.chesstango.search;
     requires net.chesstango.board;
-    requires static lombok;
     requires java.management;
 }

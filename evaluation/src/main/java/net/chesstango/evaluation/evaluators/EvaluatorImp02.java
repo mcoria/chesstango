@@ -53,8 +53,6 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     private final int expansion;
     private final int ataque;
 
-    private PositionReader positionReader;
-
     public EvaluatorImp02() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
@@ -123,7 +121,7 @@ public class EvaluatorImp02 extends AbstractEvaluator {
     @Override
     public void setGame(Game game) {
         super.setGame(game);
-        this.positionReader = game.getPosition();
+        PositionReader positionReader = game.getPosition();
     }
 
 

@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class AlphaBetaHorizonChainBuilder {
     private SearchListenerMediator searchListenerMediator;
-    private Evaluator evaluator;
     private AlphaBetaFilter quiescence;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
@@ -45,7 +44,6 @@ public class AlphaBetaHorizonChainBuilder {
     }
 
     public AlphaBetaHorizonChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
         return this;
     }
 

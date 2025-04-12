@@ -85,7 +85,7 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
             bis.close();
             fis.close();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            ioe.printStackTrace(System.err);
             throw new RuntimeException(ioe);
         }
     }

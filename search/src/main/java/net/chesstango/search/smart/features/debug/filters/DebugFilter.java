@@ -17,8 +17,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     private SearchTracker searchTracker;
 
-    private Game game;
-
     @Setter
     @Getter
     private AlphaBetaFilter next;
@@ -31,7 +29,7 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+        Game game = context.getGame();
         this.searchTracker = context.getSearchTracker();
     }
 

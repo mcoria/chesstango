@@ -10,7 +10,6 @@ import java.util.Objects;
  */
 public final class SearchManagerChainBuilder {
     private Search search;
-    private SearchListener listenerClient;
     private boolean searchByBookEnabled;
 
     public SearchManagerChainBuilder withSearchByBookEnabled(boolean searchByBookEnabled) {
@@ -24,7 +23,6 @@ public final class SearchManagerChainBuilder {
     }
 
     public SearchManagerChainBuilder withSearchListener(SearchListener listenerClient) {
-        this.listenerClient = listenerClient;
         return this;
     }
 

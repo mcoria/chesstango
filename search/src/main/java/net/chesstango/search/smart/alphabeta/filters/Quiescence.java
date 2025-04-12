@@ -27,11 +27,10 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     @Setter
     @Getter
     private Evaluator evaluator;
-    private Game game;
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+        Game game = context.getGame();
     }
 
     @Override

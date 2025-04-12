@@ -22,7 +22,6 @@ public class CheckResolverChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
-    private Evaluator evaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -43,7 +42,6 @@ public class CheckResolverChainBuilder {
     }
 
     public CheckResolverChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
         return this;
     }
 

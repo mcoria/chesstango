@@ -41,11 +41,9 @@ module net.chesstango.search {
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
 
-    requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
 
     requires static lombok;
-    requires org.slf4j;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
 }
