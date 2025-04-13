@@ -124,6 +124,11 @@ public class BitBoardImp implements BitBoard {
 	}
 
 	@Override
+	public long getKingPositions() {
+		return kings;
+	}
+
+	@Override
 	public long getBishopPositions() {
 		return bishops;
 	}

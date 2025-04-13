@@ -17,6 +17,8 @@ public interface BitBoardReader {
 
     long getEmptyPositions();
 
+    long getKingPositions();
+
     long getBishopPositions();
 
     long getRookPositions();
@@ -30,5 +32,4 @@ public interface BitBoardReader {
     boolean isEmpty(Square square);
 
     Color getColor(Square square);
-
 }
