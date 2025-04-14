@@ -55,6 +55,25 @@ public class SyzygyTest {
         assertEquals(1, syzygy.numWdl);
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
+
+        Syzygy.BaseEntry baseEntry = syzygy.pieceEntry[0].be;
+        assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
+        assertEquals(3, baseEntry.num);
+        assertFalse(baseEntry.symmetric);
+        assertFalse(baseEntry.hasPawns);
+        assertFalse(baseEntry.hasDtm);
+        assertTrue(baseEntry.hasDtz);
+
+
+        Syzygy.TbHashEntry tbHash = null;
+
+        tbHash = syzygy.tbHash[2622];
+        assertEquals(0xa3ec1abc71e90863L, tbHash.key);
+        assertSame(tbHash.ptr, baseEntry);
+
+        tbHash = syzygy.tbHash[3438];
+        assertEquals( 0xd6e4e47d24962951L, tbHash.key);
+        assertSame(tbHash.ptr, baseEntry);
     }
 
     @Test

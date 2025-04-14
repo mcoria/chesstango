@@ -162,8 +162,23 @@ public class Syzygy {
         if (be.hasDtm && be.num > TB_MaxCardinalityDTM) {
             TB_MaxCardinalityDTM = be.num;
         }
+
+        add_to_hash(be, key);
+        if (key != key2) {
+            add_to_hash(be, key2);
+        }
     }
 
+    void add_to_hash(BaseEntry ptr, long key) {
+        int idx = (int) (key >>> (64 - TB_HASHBITS));
+        while (tbHash[idx].ptr != null) {
+            idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
+        }
+
+        tbHash[idx].key = key;
+        tbHash[idx].ptr = ptr;
+        tbHash[idx].error = false;
+    }
 
     int[] toPcsArray(String tbName) {
         char[] tbNameChars = tbName.toCharArray();
@@ -279,6 +294,7 @@ public class Syzygy {
     class TbHashEntry {
         long key;
         BaseEntry ptr;
+        boolean error;
     }
 
     class PieceEntry {
