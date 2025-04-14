@@ -24,9 +24,19 @@ public class Syzygy {
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
 
     static final int TB_PIECES = 7;
+
+
+    static final int TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
+    static final int TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
+    static final int TB_MAX_SYMS = 4096;
+
     static final int TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
 
+
     TbHashEntry[] tbHash = new TbHashEntry[1 << TB_HASHBITS];
+    PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
+    PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
+
 
     public void probeTable(Position chessPosition) {
         BitPosition bitPosition = toPosition(chessPosition);
@@ -34,6 +44,10 @@ public class Syzygy {
         int idx = (int) (key >>> (64 - TB_HASHBITS));
 
         System.out.println(idx);
+    }
+
+    public void tb_init(String path) {
+
     }
 
     void init_tb(String tbName) {
@@ -117,6 +131,12 @@ public class Syzygy {
     }
 
     record TbHashEntry(long key) {
+    }
+
+    record PieceEntry(long key) {
+    }
+
+    record PawnEntry(long key) {
     }
 
 

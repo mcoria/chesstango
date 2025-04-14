@@ -21,7 +21,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void testProbeTable() {
+    public void test_probeTable() {
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
 
         Position chessPosition = fen.toChessPosition();
@@ -30,18 +30,27 @@ public class SyzygyTest {
     }
 
     @Test
-    public void testInit_tb() {
+    public void test_tb_init() {
+        syzygy.tb_init("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+
+        assertEquals(650, syzygy.pieceEntry.length);
+        assertEquals(861, syzygy.pawnEntry.length);
+        assertEquals(4096, syzygy.tbHash.length);
+    }
+
+    @Test
+    public void test_init_tb() {
         syzygy.init_tb("KQvK");
     }
 
     @Test
-    public void testToPcsArray() {
+    public void test_toPcsArray() {
         int[] pcs = syzygy.toPcsArray("KQvK");
         assertArrayEquals(new int[]{0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0}, pcs);
     }
 
     @Test
-    public void testToPosition() {
+    public void test_toPosition() {
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
 
@@ -61,7 +70,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void testCalcKey() {
+    public void test_calcKey() {
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
 
         Position chessPosition = fen.toChessPosition();
