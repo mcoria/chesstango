@@ -1,10 +1,14 @@
 package net.chesstango.board.representations.syzygy;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionState;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author Mauricio Coria
@@ -22,6 +26,7 @@ public class Syzygy {
     static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
+    static final String[] tbSuffix = {".rtbw", ".rtbm", ".rtbz"};
 
     static final int TB_PIECES = 7;
 
@@ -61,9 +66,15 @@ public class Syzygy {
 
     int tbNumPiece;
     int tbNumPawn;
+    int numWdl;
+    int numDtm;
+    int numDtz;
     int TB_MaxCardinality;
     int TB_MaxCardinalityDTM;
     int TB_LARGEST;
+
+    @Setter
+    String path;
 
     public Syzygy() {
         /*
@@ -98,10 +109,14 @@ public class Syzygy {
     public void tb_init(String path) {
         tbNumPiece = 0;
         tbNumPawn = 0;
+        numWdl = 0;
+        numDtm = 0;
+        numDtz = 0;
         TB_MaxCardinality = 0;
         TB_MaxCardinalityDTM = 0;
         TB_LARGEST = 0;
 
+        setPath(path);
 
         for (int i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", pchr(i));
@@ -126,6 +141,16 @@ public class Syzygy {
             be.num += pcs[i];
         }
 
+        numWdl++;
+        if (test_tb(tbName, tbSuffix[Suffix.DTM.ordinal()])) {
+            numDtm++;
+            be.hasDtm = true;
+        }
+
+        if (test_tb(tbName, tbSuffix[Suffix.DTZ.ordinal()])) {
+            numDtz++;
+            be.hasDtz = true;
+        }
 
         if (be.num > TB_MaxCardinality) {
             TB_MaxCardinality = be.num;
@@ -209,6 +234,15 @@ public class Syzygy {
                 Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
     }
 
+    boolean test_tb(String fileName, String suffix) {
+        Path path = Paths.get(this.path, String.format("%s%s", fileName, suffix));
+        if (!path.toFile().exists()) {
+            //System.out.println("File not found: " + path);
+            return false;
+        }
+        return true;
+    }
+
     private char pchr(int i) {
         return piece_to_char[PieceType.QUEEN.value - (i)];
     }
@@ -227,6 +261,8 @@ public class Syzygy {
     }
 
     class BaseEntry {
+        public boolean hasDtm;
+        public boolean hasDtz;
         long key;
         boolean hasPawns;
         boolean symmetric;
@@ -281,5 +317,9 @@ public class Syzygy {
             this.value = value;
         }
     }
+
+    enum Suffix {WDL, DTM, DTZ}
+
+    ;
 
 }

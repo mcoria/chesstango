@@ -37,17 +37,25 @@ public class SyzygyTest {
         assertEquals(861, syzygy.pawnEntry.length);
         assertEquals(4096, syzygy.tbHash.length);
 
-        ///assertEquals(3, syzygy.TB_LARGEST);
-        //assertEquals(3, syzygy.TB_MaxCardinality);
-        //assertEquals(0, syzygy.TB_MaxCardinalityDTM);
+        assertEquals(3, syzygy.TB_LARGEST);
+        assertEquals(3, syzygy.TB_MaxCardinality);
+        assertEquals(0, syzygy.TB_MaxCardinalityDTM);
         assertEquals(4, syzygy.tbNumPiece);
         assertEquals(1, syzygy.tbNumPawn);
+        assertEquals(5, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(5, syzygy.numDtz);
     }
 
     @Test
     public void test_init_tb() {
         syzygy.init_tb("KQvK");
+    }
 
+    @Test
+    public void test_test_tb() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        assertFalse(syzygy.test_tb("KQvK", ".rtbm"));
     }
 
     @Test
