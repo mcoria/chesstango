@@ -59,6 +59,33 @@ public class Syzygy {
     PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
     PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
 
+    int tbNumPiece;
+    int tbNumPawn;
+    int TB_MaxCardinality;
+    int TB_MaxCardinalityDTM;
+    int TB_LARGEST;
+
+    public Syzygy() {
+        /*
+         * Initialize the hash tables
+         */
+        for (int i = 0; i < (1 << TB_HASHBITS); i++) {
+            tbHash[i] = new TbHashEntry();
+            tbHash[i].key = 0;
+            tbHash[i].ptr = null;
+        }
+
+        for (int i = 0; i < TB_MAX_PIECE; i++) {
+            pieceEntry[i] = new PieceEntry();
+            pieceEntry[i].be = new BaseEntry();
+        }
+
+        for (int i = 0; i < TB_MAX_PAWN; i++) {
+            pawnEntry[i] = new PawnEntry();
+            pawnEntry[i].be = new BaseEntry();
+        }
+    }
+
 
     public void probeTable(Position chessPosition) {
         BitPosition bitPosition = toPosition(chessPosition);
@@ -69,12 +96,12 @@ public class Syzygy {
     }
 
     public void tb_init(String path) {
-        //zero tbHash[4096]
-        for (int i = 0; i < (1 << TB_HASHBITS); i++) {
-            tbHash[i] = new TbHashEntry();
-            tbHash[i].key = 0;
-            tbHash[i].ptr = null;
-        }
+        tbNumPiece = 0;
+        tbNumPawn = 0;
+        TB_MaxCardinality = 0;
+        TB_MaxCardinalityDTM = 0;
+        TB_LARGEST = 0;
+
 
         for (int i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", pchr(i));
@@ -86,6 +113,23 @@ public class Syzygy {
         int[] pcs = toPcsArray(tbName);
         long key = calc_key_from_pcs(pcs, false);
         long key2 = calc_key_from_pcs(pcs, true);
+
+        boolean hasPawns = (pcs[Piece.W_PAWN.value] | pcs[Piece.B_PAWN.value]) != 0;
+
+        BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++].be : pieceEntry[tbNumPiece++].be;
+
+        be.hasPawns = hasPawns;
+        be.key = key;
+        be.symmetric = key == key2;
+        be.num = 0;
+        for (int i = 0; i < 16; i++) {
+            be.num += pcs[i];
+        }
+
+
+        if (be.num > TB_MaxCardinality) {
+            TB_MaxCardinality = be.num;
+        }
     }
 
 
@@ -184,7 +228,9 @@ public class Syzygy {
 
     class BaseEntry {
         long key;
-        int ptr;
+        boolean hasPawns;
+        boolean symmetric;
+        int num;
     }
 
     class TbHashEntry {
@@ -193,11 +239,11 @@ public class Syzygy {
     }
 
     class PieceEntry {
-        BaseEntry ben;
+        BaseEntry be;
     }
 
     class PawnEntry {
-        BaseEntry ben;
+        BaseEntry be;
     }
 
 

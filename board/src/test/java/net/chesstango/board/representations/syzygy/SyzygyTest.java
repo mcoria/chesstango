@@ -36,11 +36,18 @@ public class SyzygyTest {
         assertEquals(650, syzygy.pieceEntry.length);
         assertEquals(861, syzygy.pawnEntry.length);
         assertEquals(4096, syzygy.tbHash.length);
+
+        ///assertEquals(3, syzygy.TB_LARGEST);
+        //assertEquals(3, syzygy.TB_MaxCardinality);
+        //assertEquals(0, syzygy.TB_MaxCardinalityDTM);
+        assertEquals(4, syzygy.tbNumPiece);
+        assertEquals(1, syzygy.tbNumPawn);
     }
 
     @Test
     public void test_init_tb() {
         syzygy.init_tb("KQvK");
+
     }
 
     @Test
