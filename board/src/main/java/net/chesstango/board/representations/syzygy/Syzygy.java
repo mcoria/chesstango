@@ -141,7 +141,7 @@ public class Syzygy {
         be.symmetric = key == key2;
         be.num = 0;
         for (int i = 0; i < 16; i++) {
-            be.num += pcs[i];
+            be.num += (char) pcs[i];
         }
 
         numWdl++;
@@ -149,18 +149,30 @@ public class Syzygy {
             numDtm++;
             be.hasDtm = true;
         }
-
         if (test_tb(tbName, tbSuffix[Suffix.DTZ.ordinal()])) {
             numDtz++;
             be.hasDtz = true;
         }
-
         if (be.num > TB_MaxCardinality) {
             TB_MaxCardinality = be.num;
         }
-
         if (be.hasDtm && be.num > TB_MaxCardinalityDTM) {
             TB_MaxCardinalityDTM = be.num;
+        }
+
+        if (!be.hasPawns) {
+            int j = 0;
+            for (int i = 0; i < 16; i++)
+                if (pcs[i] == 1) j++;
+            be.kk_enc = j == 2;
+        } else {
+            be.pawns[0] = (char) pcs[Piece.W_PAWN.value];
+            be.pawns[1] = (char) pcs[Piece.B_PAWN.value];
+            if (pcs[Piece.B_PAWN.value] != 0 && (pcs[Piece.W_PAWN.value] != 0 || (pcs[Piece.W_PAWN.value] > pcs[Piece.B_PAWN.value]))) {
+                char tmp = be.pawns[0];
+                be.pawns[0] = be.pawns[1];
+                be.pawns[1] = tmp;
+            }
         }
 
         add_to_hash(be, key);
@@ -283,12 +295,18 @@ public class Syzygy {
     }
 
     class BaseEntry {
-        public boolean hasDtm;
-        public boolean hasDtz;
         long key;
-        boolean hasPawns;
+        char num;
+        boolean[] ready = new boolean[3];
         boolean symmetric;
-        int num;
+        boolean hasPawns;
+        boolean hasDtm;
+        boolean hasDtz;
+
+        boolean kk_enc;
+        char[] pawns = new char[2];
+
+        boolean dtmLossOnly;
     }
 
     class TbHashEntry {

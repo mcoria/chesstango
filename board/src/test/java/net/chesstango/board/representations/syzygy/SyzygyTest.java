@@ -48,7 +48,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_init_tb() {
+    public void test_init_tb_KQvK() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         syzygy.init_tb("KQvK");
 
@@ -63,7 +63,7 @@ public class SyzygyTest {
         assertFalse(baseEntry.hasPawns);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);
-
+        assertFalse(baseEntry.kk_enc);
 
         Syzygy.TbHashEntry tbHash = null;
 
@@ -72,7 +72,38 @@ public class SyzygyTest {
         assertSame(tbHash.ptr, baseEntry);
 
         tbHash = syzygy.tbHash[3438];
-        assertEquals( 0xd6e4e47d24962951L, tbHash.key);
+        assertEquals(0xd6e4e47d24962951L, tbHash.key);
+        assertSame(tbHash.ptr, baseEntry);
+    }
+
+    @Test
+    public void test_init_tb_KPvK() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        syzygy.init_tb("KPvK");
+
+        assertEquals(1, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(1, syzygy.numDtz);
+
+        Syzygy.BaseEntry baseEntry = syzygy.pawnEntry[0].be;
+        assertEquals(0xec0ade190c0f6003L, baseEntry.key);
+        assertEquals(3, baseEntry.num);
+        assertFalse(baseEntry.symmetric);
+        assertTrue(baseEntry.hasPawns);
+        assertFalse(baseEntry.hasDtm);
+        assertTrue(baseEntry.hasDtz);
+        assertFalse(baseEntry.kk_enc);
+        assertEquals(1, baseEntry.pawns[0]);
+        assertEquals(0, baseEntry.pawns[1]);
+
+        Syzygy.TbHashEntry tbHash = null;
+
+        tbHash = syzygy.tbHash[3776];
+        assertEquals(0xec0ade190c0f6003L, tbHash.key);
+        assertSame(tbHash.ptr, baseEntry);
+
+        tbHash = syzygy.tbHash[2596];
+        assertEquals(0xa24f0f571bb202e7L, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
     }
 
