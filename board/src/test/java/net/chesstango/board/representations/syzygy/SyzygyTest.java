@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.board.representations.syzygy.Syzygy.TB_HASHBITS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,5 +41,26 @@ public class SyzygyTest {
         assertTrue(bitPosition.turn());
     }
 
+    @Test
+    public void testCalcKey() {
+        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
+
+        Position chessPosition = fen.toChessPosition();
+
+        Syzygy.BitPosition bitPosition = syzygy.toPosition(chessPosition);
+
+        assertEquals(0xa3ec1abc71e90863L, syzygy.calcKey(bitPosition));
+
+        assertEquals(2622, 0xa3ec1abc71e90863L >>> (64 - TB_HASHBITS));
+    }
+
+    @Test
+    public void testProbeTable() {
+        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
+
+        Position chessPosition = fen.toChessPosition();
+
+        syzygy.probeTable(chessPosition);
+    }
 }
 
