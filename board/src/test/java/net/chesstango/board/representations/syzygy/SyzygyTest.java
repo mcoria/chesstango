@@ -49,7 +49,12 @@ public class SyzygyTest {
 
     @Test
     public void test_init_tb() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         syzygy.init_tb("KQvK");
+
+        assertEquals(1, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(1, syzygy.numDtz);
     }
 
     @Test

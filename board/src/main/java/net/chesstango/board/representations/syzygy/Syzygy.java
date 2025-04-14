@@ -102,8 +102,6 @@ public class Syzygy {
         BitPosition bitPosition = toPosition(chessPosition);
         long key = calcKey(bitPosition);
         int idx = (int) (key >>> (64 - TB_HASHBITS));
-
-        System.out.println(idx);
     }
 
     public void tb_init(String path) {
@@ -121,6 +119,11 @@ public class Syzygy {
         for (int i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", pchr(i));
             init_tb(tableName);
+        }
+
+        TB_LARGEST = TB_MaxCardinality;
+        if (TB_MaxCardinalityDTM > TB_LARGEST) {
+            TB_LARGEST = TB_MaxCardinalityDTM;
         }
     }
 
@@ -154,6 +157,10 @@ public class Syzygy {
 
         if (be.num > TB_MaxCardinality) {
             TB_MaxCardinality = be.num;
+        }
+
+        if (be.hasDtm && be.num > TB_MaxCardinalityDTM) {
+            TB_MaxCardinalityDTM = be.num;
         }
     }
 
