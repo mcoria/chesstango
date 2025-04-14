@@ -25,6 +25,28 @@ public class Syzygy {
 
     static final int TB_PIECES = 7;
 
+    static final int TB_PAWN = 1;
+    static final int TB_KNIGHT = 2;
+    static final int TB_BISHOP = 3;
+    static final int TB_ROOK = 4;
+    static final int TB_QUEEN = 5;
+    static final int TB_KING = 6;
+
+    static final int TB_WPAWN = TB_PAWN;
+    static final int TB_BPAWN = (TB_PAWN | 8);
+
+    static final int WHITE_KING = (TB_WPAWN + 5);
+    static final int WHITE_QUEEN = (TB_WPAWN + 4);
+    static final int WHITE_ROOK = (TB_WPAWN + 3);
+    static final int WHITE_BISHOP = (TB_WPAWN + 2);
+    static final int WHITE_KNIGHT = (TB_WPAWN + 1);
+    static final int WHITE_PAWN = TB_WPAWN;
+    static final int BLACK_KING = (TB_BPAWN + 5);
+    static final int BLACK_QUEEN = (TB_BPAWN + 4);
+    static final int BLACK_ROOK = (TB_BPAWN + 3);
+    static final int BLACK_BISHOP = (TB_BPAWN + 2);
+    static final int BLACK_KNIGHT = (TB_BPAWN + 1);
+    static final int BLACK_PAWN = TB_BPAWN;
 
     static final int TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
     static final int TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
@@ -47,12 +69,25 @@ public class Syzygy {
     }
 
     public void tb_init(String path) {
+        //zero tbHash[4096]
+        for (int i = 0; i < (1 << TB_HASHBITS); i++) {
+            tbHash[i] = new TbHashEntry();
+            tbHash[i].key = 0;
+            tbHash[i].ptr = null;
+        }
 
+        for (int i = 0; i < 5; i++) {
+            String tableName = String.format("K%cvK", pchr(i));
+            init_tb(tableName);
+        }
     }
 
     void init_tb(String tbName) {
         int[] pcs = toPcsArray(tbName);
+        long key = calc_key_from_pcs(pcs, false);
+        long key2 = calc_key_from_pcs(pcs, true);
     }
+
 
     int[] toPcsArray(String tbName) {
         char[] tbNameChars = tbName.toCharArray();
@@ -103,6 +138,20 @@ public class Syzygy {
                 turn);
     }
 
+    long calc_key_from_pcs(int[] pcs, boolean mirror) {
+        int theMirror = (mirror ? 8 : 0);
+        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
+                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
+                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
+                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
+                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
+                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
+                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
+                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
+                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
+                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
+    }
+
     long calcKey(BitPosition bitPosition) {
         return Long.bitCount(bitPosition.white & bitPosition.queens) * PRIME_WHITE_QUEEN +
                 Long.bitCount(bitPosition.white & bitPosition.rooks) * PRIME_WHITE_ROOK +
@@ -116,6 +165,9 @@ public class Syzygy {
                 Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
     }
 
+    private char pchr(int i) {
+        return piece_to_char[PieceType.QUEEN.value - (i)];
+    }
 
     record BitPosition(long white,
                        long black,
@@ -130,13 +182,22 @@ public class Syzygy {
                        boolean turn) {
     }
 
-    record TbHashEntry(long key) {
+    class BaseEntry {
+        long key;
+        int ptr;
     }
 
-    record PieceEntry(long key) {
+    class TbHashEntry {
+        long key;
+        BaseEntry ptr;
     }
 
-    record PawnEntry(long key) {
+    class PieceEntry {
+        BaseEntry ben;
+    }
+
+    class PawnEntry {
+        BaseEntry ben;
     }
 
 

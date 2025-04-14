@@ -50,6 +50,15 @@ public class SyzygyTest {
     }
 
     @Test
+    public void test_calc_key_from_pcs() {
+        int[] pcs = syzygy.toPcsArray("KQvK");
+        long key = syzygy.calc_key_from_pcs(pcs, false);
+        long key2 = syzygy.calc_key_from_pcs(pcs, true);
+        assertEquals(0xa3ec1abc71e90863L, key);
+        assertEquals(0xd6e4e47d24962951L, key2);
+    }
+
+    @Test
     public void test_toPosition() {
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
