@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.syzygy;
 
-import lombok.Getter;
 import lombok.Setter;
 
 import java.nio.file.Path;
@@ -66,12 +65,6 @@ public class Syzygy {
         }
     }
 
-
-    public void probeTable(BitPosition bitPosition) {
-        long key = calcKey(bitPosition);
-        int idx = (int) (key >>> (64 - TB_HASHBITS));
-    }
-
     public void tb_init(String path) {
         tbNumPiece = 0;
         tbNumPawn = 0;
@@ -85,7 +78,7 @@ public class Syzygy {
         setPath(path);
 
         for (int i = 0; i < 5; i++) {
-            String tableName = String.format("K%cvK", pchr(i));
+            String tableName = String.format("K%cvK", SyzygyConstants.pchr(i));
             init_tb(tableName);
         }
 
@@ -95,12 +88,19 @@ public class Syzygy {
         }
     }
 
+    public void probeTable(BitPosition bitPosition) {
+        long key = calcKey(bitPosition);
+        int idx = (int) (key >>> (64 - TB_HASHBITS));
+    }
+
     void init_tb(String tbName) {
-        int[] pcs = toPcsArray(tbName);
+        int[] pcs = tableName_to_pcs(tbName);
+
         long key = calc_key_from_pcs(pcs, false);
+
         long key2 = calc_key_from_pcs(pcs, true);
 
-        boolean hasPawns = (pcs[Piece.W_PAWN.value] | pcs[Piece.B_PAWN.value]) != 0;
+        boolean hasPawns = (pcs[Piece.W_PAWN.getValue()] | pcs[Piece.B_PAWN.getValue()]) != 0;
 
         BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++].be : pieceEntry[tbNumPiece++].be;
 
@@ -134,9 +134,9 @@ public class Syzygy {
                 if (pcs[i] == 1) j++;
             be.kk_enc = j == 2;
         } else {
-            be.pawns[0] = (char) pcs[Piece.W_PAWN.value];
-            be.pawns[1] = (char) pcs[Piece.B_PAWN.value];
-            if (pcs[Piece.B_PAWN.value] != 0 && (pcs[Piece.W_PAWN.value] != 0 || (pcs[Piece.W_PAWN.value] > pcs[Piece.B_PAWN.value]))) {
+            be.pawns[0] = (char) pcs[Piece.W_PAWN.getValue()];
+            be.pawns[1] = (char) pcs[Piece.B_PAWN.getValue()];
+            if (pcs[Piece.B_PAWN.getValue()] != 0 && (pcs[Piece.W_PAWN.getValue()] != 0 || (pcs[Piece.W_PAWN.getValue()] > pcs[Piece.B_PAWN.getValue()]))) {
                 char tmp = be.pawns[0];
                 be.pawns[0] = be.pawns[1];
                 be.pawns[1] = tmp;
@@ -154,54 +154,9 @@ public class Syzygy {
         while (tbHash[idx].ptr != null) {
             idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
         }
-
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
-    }
-
-    int[] toPcsArray(String tbName) {
-        char[] tbNameChars = tbName.toCharArray();
-        int[] pcs = new int[16];
-        int color = 0;
-        for (char c : tbNameChars) {
-            if (c == 'v') {
-                color = 8;
-            } else {
-                PieceType piece_type = PieceType.char_to_piece_type(c);
-                assert ((piece_type.value | color) < 16);
-                pcs[piece_type.value | color]++;
-            }
-        }
-        return pcs;
-    }
-
-
-    long calc_key_from_pcs(int[] pcs, boolean mirror) {
-        int theMirror = (mirror ? 8 : 0);
-        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
-                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
-                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
-                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
-                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
-                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
-                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
-                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
-                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
-                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
-    }
-
-    long calcKey(BitPosition bitPosition) {
-        return Long.bitCount(bitPosition.white() & bitPosition.queens()) * PRIME_WHITE_QUEEN +
-                Long.bitCount(bitPosition.white() & bitPosition.rooks()) * PRIME_WHITE_ROOK +
-                Long.bitCount(bitPosition.white() & bitPosition.bishops()) * PRIME_WHITE_BISHOP +
-                Long.bitCount(bitPosition.white() & bitPosition.knights()) * PRIME_WHITE_KNIGHT +
-                Long.bitCount(bitPosition.white() & bitPosition.pawns()) * PRIME_WHITE_PAWN +
-                Long.bitCount(bitPosition.black() & bitPosition.queens()) * PRIME_BLACK_QUEEN +
-                Long.bitCount(bitPosition.black() & bitPosition.rooks()) * PRIME_BLACK_ROOK +
-                Long.bitCount(bitPosition.black() & bitPosition.bishops()) * PRIME_BLACK_BISHOP +
-                Long.bitCount(bitPosition.black() & bitPosition.knights()) * PRIME_BLACK_KNIGHT +
-                Long.bitCount(bitPosition.black() & bitPosition.pawns()) * PRIME_BLACK_PAWN;
     }
 
     boolean test_tb(String fileName, String suffix) {
@@ -211,56 +166,5 @@ public class Syzygy {
             return false;
         }
         return true;
-    }
-
-    char pchr(int i) {
-        return piece_to_char[PieceType.QUEEN.value - (i)];
-    }
-
-
-    @Getter
-    enum PieceType {
-        PAWN(1), KNIGHT(2), BISHOP(3), ROOK(4), QUEEN(5), KING(6);
-
-        private final int value;
-
-        PieceType(int value) {
-            this.value = value;
-        }
-
-        static PieceType char_to_piece_type(char c) {
-            return switch (c) {
-                case 'P', 'p' -> PAWN;
-                case 'N', 'n' -> KNIGHT;
-                case 'B', 'b' -> BISHOP;
-                case 'R', 'r' -> ROOK;
-                case 'Q', 'q' -> QUEEN;
-                case 'K', 'k' -> KING;
-                default -> throw new IllegalArgumentException("Invalid piece type: " + c);
-            };
-        }
-    }
-
-    @Getter
-    enum Piece {
-        W_PAWN(1), W_KNIGHT(2), W_BISHOP(3), W_ROOK(4), W_QUEEN(5), W_KING(6),
-        B_PAWN(9), B_KNIGHT(10), B_BISHOP(11), B_ROOK(12), B_QUEEN(13), B_KING(14);
-
-        private final int value;
-
-        Piece(int value) {
-            this.value = value;
-        }
-    }
-
-    @Getter
-    enum Suffix {
-        WDL(".rtbw"), DTM(".rtbm"), DTZ(".rtbz");
-
-        private final String suffix;
-
-        Suffix(String suffix) {
-            this.suffix = suffix;
-        }
     }
 }

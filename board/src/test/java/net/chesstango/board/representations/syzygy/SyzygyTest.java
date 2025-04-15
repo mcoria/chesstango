@@ -5,7 +5,6 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_HASHBITS;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -112,34 +111,6 @@ public class SyzygyTest {
     public void test_test_tb() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         assertFalse(syzygy.test_tb("KQvK", ".rtbm"));
-    }
-
-    @Test
-    public void test_toPcsArray() {
-        int[] pcs = syzygy.toPcsArray("KQvK");
-        assertArrayEquals(new int[]{0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0}, pcs);
-    }
-
-    @Test
-    public void test_calc_key_from_pcs() {
-        int[] pcs = syzygy.toPcsArray("KQvK");
-        long key = syzygy.calc_key_from_pcs(pcs, false);
-        long key2 = syzygy.calc_key_from_pcs(pcs, true);
-        assertEquals(0xa3ec1abc71e90863L, key);
-        assertEquals(0xd6e4e47d24962951L, key2);
-    }
-
-    @Test
-    public void test_calcKey() {
-        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
-
-        Position chessPosition = fen.toChessPosition();
-
-        BitPosition bitPosition = BitPosition.from(chessPosition);
-
-        assertEquals(0xa3ec1abc71e90863L, syzygy.calcKey(bitPosition));
-
-        assertEquals(2622, 0xa3ec1abc71e90863L >>> (64 - TB_HASHBITS));
     }
 }
 

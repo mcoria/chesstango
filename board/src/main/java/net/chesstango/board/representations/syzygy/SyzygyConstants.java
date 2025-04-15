@@ -1,5 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
+import lombok.Getter;
+
 /**
  * @author Mauricio Coria
  */
@@ -47,4 +49,99 @@ class SyzygyConstants {
     static final int TB_MAX_SYMS = 4096;
 
     static final int TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
+
+    @Getter
+    enum PieceType {
+        PAWN(1), KNIGHT(2), BISHOP(3), ROOK(4), QUEEN(5), KING(6);
+
+        private final int value;
+
+        PieceType(int value) {
+            this.value = value;
+        }
+
+        static PieceType char_to_piece_type(char c) {
+            return switch (c) {
+                case 'P', 'p' -> PAWN;
+                case 'N', 'n' -> KNIGHT;
+                case 'B', 'b' -> BISHOP;
+                case 'R', 'r' -> ROOK;
+                case 'Q', 'q' -> QUEEN;
+                case 'K', 'k' -> KING;
+                default -> throw new IllegalArgumentException("Invalid piece type: " + c);
+            };
+        }
+    }
+
+    @Getter
+    enum Piece {
+        W_PAWN(1), W_KNIGHT(2), W_BISHOP(3), W_ROOK(4), W_QUEEN(5), W_KING(6),
+        B_PAWN(9), B_KNIGHT(10), B_BISHOP(11), B_ROOK(12), B_QUEEN(13), B_KING(14);
+
+        private final int value;
+
+        Piece(int value) {
+            this.value = value;
+        }
+    }
+
+    @Getter
+    enum Suffix {
+        WDL(".rtbw"), DTM(".rtbm"), DTZ(".rtbz");
+
+        private final String suffix;
+
+        Suffix(String suffix) {
+            this.suffix = suffix;
+        }
+    }
+
+
+    static char pchr(int i) {
+        return piece_to_char[PieceType.QUEEN.getValue() - i];
+    }
+
+    static int[] tableName_to_pcs(String tbName) {
+        char[] tbNameChars = tbName.toCharArray();
+        int[] pcs = new int[16];
+        int color = 0;
+        for (char c : tbNameChars) {
+            if (c == 'v') {
+                color = 8;
+            } else {
+                PieceType piece_type = PieceType.char_to_piece_type(c);
+                assert ((piece_type.getValue() | color) < 16);
+                pcs[piece_type.getValue() | color]++;
+            }
+        }
+        return pcs;
+    }
+
+
+    static long calc_key_from_pcs(int[] pcs, boolean mirror) {
+        int theMirror = (mirror ? 8 : 0);
+        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
+                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
+                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
+                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
+                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
+                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
+                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
+                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
+                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
+                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
+    }
+
+    static long calcKey(BitPosition bitPosition) {
+        return Long.bitCount(bitPosition.white() & bitPosition.queens()) * PRIME_WHITE_QUEEN +
+                Long.bitCount(bitPosition.white() & bitPosition.rooks()) * PRIME_WHITE_ROOK +
+                Long.bitCount(bitPosition.white() & bitPosition.bishops()) * PRIME_WHITE_BISHOP +
+                Long.bitCount(bitPosition.white() & bitPosition.knights()) * PRIME_WHITE_KNIGHT +
+                Long.bitCount(bitPosition.white() & bitPosition.pawns()) * PRIME_WHITE_PAWN +
+                Long.bitCount(bitPosition.black() & bitPosition.queens()) * PRIME_BLACK_QUEEN +
+                Long.bitCount(bitPosition.black() & bitPosition.rooks()) * PRIME_BLACK_ROOK +
+                Long.bitCount(bitPosition.black() & bitPosition.bishops()) * PRIME_BLACK_BISHOP +
+                Long.bitCount(bitPosition.black() & bitPosition.knights()) * PRIME_BLACK_KNIGHT +
+                Long.bitCount(bitPosition.black() & bitPosition.pawns()) * PRIME_BLACK_PAWN;
+    }
 }
