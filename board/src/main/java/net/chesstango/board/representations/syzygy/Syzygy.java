@@ -11,6 +11,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * Syzygy Bases consist of two sets of files,
+ * - WDL files (extension .rtbw) storing win/draw/loss information considering the fifty-move rule for access during search
+ * - DTZ files (extension .rtbz) with distance-to-zero information for access at the root.
+ *
+ *
+ * DTZ measures the shortest distance to zero the position (zeroing = pawn move, capture or checkmate),
+ * without compromising the Win/Draw/Loss status. If White only has just sufficient material to mate,
+ * then any zeroing is likely to be useful, but if White has way more material than is necessary,
+ * White may try to sacrifice its own unit, and Black may try to refuse the sacrifice
+ *
+ * WDL has full data for two sides but DTZ50 omitted data of one side to save space. Each endgame has a pair of those types.
+ *
+ * Syzygy WDL is double-sided, DTZ is single-sided.
+ * So to know whether a 7-piece position is winning, losing or drawn (or cursed), the engine needs to do only a single probe of a 7-piece WDL table. (It may in addition have to do some probes of 6-piece WDL tables if any direct captures are available.)
+ * If the engine needs to know the DTZ value (which is only necessary when a TB root position has been reached), the probing code may have to do a 1-ply search to get to the "right" side of the DTZ table.
+ *
+ *
  * @author Mauricio Coria
  */
 public class Syzygy {
@@ -98,8 +115,7 @@ public class Syzygy {
     }
 
 
-    public void probeTable(Position chessPosition) {
-        BitPosition bitPosition = toPosition(chessPosition);
+    public void probeTable(BitPosition bitPosition) {
         long key = calcKey(bitPosition);
         int idx = (int) (key >>> (64 - TB_HASHBITS));
     }
@@ -209,38 +225,6 @@ public class Syzygy {
     }
 
 
-    BitPosition toPosition(Position chessPosition) {
-        BitBoard bitBoard = chessPosition.getBitBoard();
-        PositionState positionState = chessPosition.getPositionState();
-        long white = bitBoard.getPositions(Color.WHITE);
-        long black = bitBoard.getPositions(Color.BLACK);
-        long kings = bitBoard.getKingPositions();
-        long queens = bitBoard.getQueenPositions();
-        long rooks = bitBoard.getRookPositions();
-        long bishops = bitBoard.getBishopPositions();
-        long knights = bitBoard.getKnightPositions();
-        long pawns = bitBoard.getPawnPositions();
-
-        byte rule50 = 0;
-        byte ep = 0;
-        if (positionState.getEnPassantSquare() != null) {
-            ep = (byte) positionState.getEnPassantSquare().toIdx();
-        }
-        boolean turn = positionState.getCurrentTurn() == Color.WHITE;
-
-        return new BitPosition(white,
-                black,
-                kings,
-                queens,
-                rooks,
-                bishops,
-                knights,
-                pawns,
-                rule50,
-                ep,
-                turn);
-    }
-
     long calc_key_from_pcs(int[] pcs, boolean mirror) {
         int theMirror = (mirror ? 8 : 0);
         return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
@@ -256,16 +240,16 @@ public class Syzygy {
     }
 
     long calcKey(BitPosition bitPosition) {
-        return Long.bitCount(bitPosition.white & bitPosition.queens) * PRIME_WHITE_QUEEN +
-                Long.bitCount(bitPosition.white & bitPosition.rooks) * PRIME_WHITE_ROOK +
-                Long.bitCount(bitPosition.white & bitPosition.bishops) * PRIME_WHITE_BISHOP +
-                Long.bitCount(bitPosition.white & bitPosition.knights) * PRIME_WHITE_KNIGHT +
-                Long.bitCount(bitPosition.white & bitPosition.pawns) * PRIME_WHITE_PAWN +
-                Long.bitCount(bitPosition.black & bitPosition.queens) * PRIME_BLACK_QUEEN +
-                Long.bitCount(bitPosition.black & bitPosition.rooks) * PRIME_BLACK_ROOK +
-                Long.bitCount(bitPosition.black & bitPosition.bishops) * PRIME_BLACK_BISHOP +
-                Long.bitCount(bitPosition.black & bitPosition.knights) * PRIME_BLACK_KNIGHT +
-                Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
+        return Long.bitCount(bitPosition.white() & bitPosition.queens()) * PRIME_WHITE_QUEEN +
+                Long.bitCount(bitPosition.white() & bitPosition.rooks()) * PRIME_WHITE_ROOK +
+                Long.bitCount(bitPosition.white() & bitPosition.bishops()) * PRIME_WHITE_BISHOP +
+                Long.bitCount(bitPosition.white() & bitPosition.knights()) * PRIME_WHITE_KNIGHT +
+                Long.bitCount(bitPosition.white() & bitPosition.pawns()) * PRIME_WHITE_PAWN +
+                Long.bitCount(bitPosition.black() & bitPosition.queens()) * PRIME_BLACK_QUEEN +
+                Long.bitCount(bitPosition.black() & bitPosition.rooks()) * PRIME_BLACK_ROOK +
+                Long.bitCount(bitPosition.black() & bitPosition.bishops()) * PRIME_BLACK_BISHOP +
+                Long.bitCount(bitPosition.black() & bitPosition.knights()) * PRIME_BLACK_KNIGHT +
+                Long.bitCount(bitPosition.black() & bitPosition.pawns()) * PRIME_BLACK_PAWN;
     }
 
     boolean test_tb(String fileName, String suffix) {
@@ -279,19 +263,6 @@ public class Syzygy {
 
     private char pchr(int i) {
         return piece_to_char[PieceType.QUEEN.value - (i)];
-    }
-
-    record BitPosition(long white,
-                       long black,
-                       long kings,
-                       long queens,
-                       long rooks,
-                       long bishops,
-                       long knights,
-                       long pawns,
-                       byte rule50,
-                       byte ep,
-                       boolean turn) {
     }
 
     class BaseEntry {
