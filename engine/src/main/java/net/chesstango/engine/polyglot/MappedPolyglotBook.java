@@ -109,11 +109,9 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
 
         if (middleKey == key) {
             return middleIdx;
-        } else if (isMiddleKeyGreater(key, middleKey)) {
-            return findIndex(key, lowerBoundIdx, middleIdx);
-        } else {
-            return findIndex(key, middleIdx, upperBoundIdx);
         }
+
+        return isMiddleKeyGreater(key, middleKey) ? findIndex(key, lowerBoundIdx, middleIdx) : findIndex(key, middleIdx, upperBoundIdx);
     }
 
     private long getKey(int idx) {
@@ -124,19 +122,12 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
         while (key != 0 && otherKey != 0) {
             long highKeyBit = Long.highestOneBit(key);
             long highOtherKeyBit = Long.highestOneBit(otherKey);
-
             if (highKeyBit != highOtherKeyBit) {
-                if (Long.numberOfTrailingZeros(highOtherKeyBit) > Long.numberOfTrailingZeros(highKeyBit)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return Long.numberOfTrailingZeros(highOtherKeyBit) > Long.numberOfTrailingZeros(highKeyBit);
             }
-
             key &= ~highKeyBit;
             otherKey &= ~highOtherKeyBit;
         }
-
         return false;
     }
 
