@@ -5,7 +5,7 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.board.representations.syzygy.Syzygy.TB_HASHBITS;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_HASHBITS;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

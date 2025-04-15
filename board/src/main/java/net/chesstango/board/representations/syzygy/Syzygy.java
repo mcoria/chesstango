@@ -2,80 +2,32 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Color;
-import net.chesstango.board.position.BitBoard;
-import net.chesstango.board.position.Position;
-import net.chesstango.board.position.PositionState;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
  * Syzygy Bases consist of two sets of files,
  * - WDL files (extension .rtbw) storing win/draw/loss information considering the fifty-move rule for access during search
  * - DTZ files (extension .rtbz) with distance-to-zero information for access at the root.
- *
- *
+ * <p>
+ * <p>
  * DTZ measures the shortest distance to zero the position (zeroing = pawn move, capture or checkmate),
  * without compromising the Win/Draw/Loss status. If White only has just sufficient material to mate,
  * then any zeroing is likely to be useful, but if White has way more material than is necessary,
  * White may try to sacrifice its own unit, and Black may try to refuse the sacrifice
- *
+ * <p>
  * WDL has full data for two sides but DTZ50 omitted data of one side to save space. Each endgame has a pair of those types.
- *
+ * <p>
  * Syzygy WDL is double-sided, DTZ is single-sided.
  * So to know whether a 7-piece position is winning, losing or drawn (or cursed), the engine needs to do only a single probe of a 7-piece WDL table. (It may in addition have to do some probes of 6-piece WDL tables if any direct captures are available.)
  * If the engine needs to know the DTZ value (which is only necessary when a TB root position has been reached), the probing code may have to do a 1-ply search to get to the "right" side of the DTZ table.
  *
- *
  * @author Mauricio Coria
  */
 public class Syzygy {
-    static final long PRIME_WHITE_QUEEN = Long.parseUnsignedLong("11811845319353239651");
-    static final long PRIME_WHITE_ROOK = Long.parseUnsignedLong("10979190538029446137");
-    static final long PRIME_WHITE_BISHOP = Long.parseUnsignedLong("12311744257139811149");
-    static final long PRIME_WHITE_KNIGHT = Long.parseUnsignedLong("15202887380319082783");
-    static final long PRIME_WHITE_PAWN = Long.parseUnsignedLong("17008651141875982339");
-    static final long PRIME_BLACK_QUEEN = Long.parseUnsignedLong("15484752644942473553");
-    static final long PRIME_BLACK_ROOK = Long.parseUnsignedLong("18264461213049635989");
-    static final long PRIME_BLACK_BISHOP = Long.parseUnsignedLong("15394650811035483107");
-    static final long PRIME_BLACK_KNIGHT = Long.parseUnsignedLong("13469005675588064321");
-    static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
-
-    static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
-    static final String[] tbSuffix = {".rtbw", ".rtbm", ".rtbz"};
-
-    static final int TB_PIECES = 7;
-
-    static final int TB_PAWN = 1;
-    static final int TB_KNIGHT = 2;
-    static final int TB_BISHOP = 3;
-    static final int TB_ROOK = 4;
-    static final int TB_QUEEN = 5;
-    static final int TB_KING = 6;
-
-    static final int TB_WPAWN = TB_PAWN;
-    static final int TB_BPAWN = (TB_PAWN | 8);
-
-    static final int WHITE_KING = (TB_WPAWN + 5);
-    static final int WHITE_QUEEN = (TB_WPAWN + 4);
-    static final int WHITE_ROOK = (TB_WPAWN + 3);
-    static final int WHITE_BISHOP = (TB_WPAWN + 2);
-    static final int WHITE_KNIGHT = (TB_WPAWN + 1);
-    static final int WHITE_PAWN = TB_WPAWN;
-    static final int BLACK_KING = (TB_BPAWN + 5);
-    static final int BLACK_QUEEN = (TB_BPAWN + 4);
-    static final int BLACK_ROOK = (TB_BPAWN + 3);
-    static final int BLACK_BISHOP = (TB_BPAWN + 2);
-    static final int BLACK_KNIGHT = (TB_BPAWN + 1);
-    static final int BLACK_PAWN = TB_BPAWN;
-
-    static final int TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
-    static final int TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
-    static final int TB_MAX_SYMS = 4096;
-
-    static final int TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
-
 
     TbHashEntry[] tbHash = new TbHashEntry[1 << TB_HASHBITS];
     PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
@@ -331,7 +283,4 @@ public class Syzygy {
     }
 
     enum Suffix {WDL, DTM, DTZ}
-
-    ;
-
 }
