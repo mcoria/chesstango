@@ -113,11 +113,11 @@ public class Syzygy {
         }
 
         numWdl++;
-        if (test_tb(tbName, tbSuffix[Suffix.DTM.ordinal()])) {
+        if (test_tb(tbName, Suffix.DTM.getSuffix())) {
             numDtm++;
             be.hasDtm = true;
         }
-        if (test_tb(tbName, tbSuffix[Suffix.DTZ.ordinal()])) {
+        if (test_tb(tbName, Suffix.DTZ.getSuffix())) {
             numDtz++;
             be.hasDtz = true;
         }
@@ -213,44 +213,15 @@ public class Syzygy {
         return true;
     }
 
-    private char pchr(int i) {
+    char pchr(int i) {
         return piece_to_char[PieceType.QUEEN.value - (i)];
     }
 
-    class BaseEntry {
-        long key;
-        char num;
-        boolean[] ready = new boolean[3];
-        boolean symmetric;
-        boolean hasPawns;
-        boolean hasDtm;
-        boolean hasDtz;
 
-        boolean kk_enc;
-        char[] pawns = new char[2];
-
-        boolean dtmLossOnly;
-    }
-
-    class TbHashEntry {
-        long key;
-        BaseEntry ptr;
-        boolean error;
-    }
-
-    class PieceEntry {
-        BaseEntry be;
-    }
-
-    class PawnEntry {
-        BaseEntry be;
-    }
-
-
+    @Getter
     enum PieceType {
         PAWN(1), KNIGHT(2), BISHOP(3), ROOK(4), QUEEN(5), KING(6);
 
-        @Getter
         private final int value;
 
         PieceType(int value) {
@@ -270,11 +241,11 @@ public class Syzygy {
         }
     }
 
+    @Getter
     enum Piece {
         W_PAWN(1), W_KNIGHT(2), W_BISHOP(3), W_ROOK(4), W_QUEEN(5), W_KING(6),
         B_PAWN(9), B_KNIGHT(10), B_BISHOP(11), B_ROOK(12), B_QUEEN(13), B_KING(14);
 
-        @Getter
         private final int value;
 
         Piece(int value) {
@@ -282,5 +253,14 @@ public class Syzygy {
         }
     }
 
-    enum Suffix {WDL, DTM, DTZ}
+    @Getter
+    enum Suffix {
+        WDL(".rtbw"), DTM(".rtbm"), DTZ(".rtbz");
+
+        private final String suffix;
+
+        Suffix(String suffix) {
+            this.suffix = suffix;
+        }
+    }
 }

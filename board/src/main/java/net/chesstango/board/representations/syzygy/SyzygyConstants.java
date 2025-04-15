@@ -16,7 +16,6 @@ class SyzygyConstants {
     static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
-    static final String[] tbSuffix = {".rtbw", ".rtbm", ".rtbz"};
 
     static final int TB_PIECES = 7;
 
