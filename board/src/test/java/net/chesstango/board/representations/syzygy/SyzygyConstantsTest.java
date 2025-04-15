@@ -44,4 +44,15 @@ public class SyzygyConstantsTest {
     public void test_test_tb() {
         assertFalse(test_tb("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5", "KQvK", ".rtbm"));
     }
+
+    @Test
+    public void test_prt_str() {
+        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
+
+        Position chessPosition = fen.toChessPosition();
+
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        assertEquals("KQvK", prt_str(bitPosition, false));
+    }
 }

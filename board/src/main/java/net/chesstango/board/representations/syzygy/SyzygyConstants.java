@@ -89,12 +89,12 @@ class SyzygyConstants {
     }
 
     @Getter
-    enum Suffix {
+    enum Table {
         WDL(".rtbw"), DTM(".rtbm"), DTZ(".rtbz");
 
         private final String suffix;
 
-        Suffix(String suffix) {
+        Table(String suffix) {
             this.suffix = suffix;
         }
     }
@@ -155,5 +155,38 @@ class SyzygyConstants {
             return false;
         }
         return true;
+    }
+
+
+    // Given a position, produce a text string of the form KQPvKRP, where
+    // "KQP" represents the white pieces if flip == false and the black pieces
+    // if flip == true.
+    static String prt_str(BitPosition bitPosition, boolean flip) {
+        var whiteKings = Long.bitCount(bitPosition.white() & bitPosition.kings());
+        var whiteQueens = Long.bitCount(bitPosition.white() & bitPosition.queens());
+        var whiteRooks = Long.bitCount(bitPosition.white() & bitPosition.rooks());
+        var whiteBishops = Long.bitCount(bitPosition.white() & bitPosition.bishops());
+        var whiteKnights = Long.bitCount(bitPosition.white() & bitPosition.knights());
+        var whitePawns = Long.bitCount(bitPosition.white() & bitPosition.pawns());
+        var whiteStr = piecesToString(whiteKings, whiteQueens, whiteRooks, whiteBishops, whiteKnights, whitePawns);
+
+        var blackKings = Long.bitCount(bitPosition.black() & bitPosition.kings());
+        var blackQueens = Long.bitCount(bitPosition.black() & bitPosition.queens());
+        var blackRooks = Long.bitCount(bitPosition.black() & bitPosition.rooks());
+        var blackBishops = Long.bitCount(bitPosition.black() & bitPosition.bishops());
+        var blackKnights = Long.bitCount(bitPosition.black() & bitPosition.knights());
+        var blackPawns = Long.bitCount(bitPosition.black() & bitPosition.pawns());
+        var blackStr = piecesToString(blackKings, blackQueens, blackRooks, blackBishops, blackKnights, blackPawns);
+
+        return flip ? blackStr + "v" + whiteStr : whiteStr + "v" + blackStr;
+    }
+
+    private static String piecesToString(int kings, int queens, int rooks, int bishops, int knights, int pawns) {
+        return "K".repeat(kings) +
+                "Q".repeat(queens) +
+                "R".repeat(rooks) +
+                "B".repeat(bishops) +
+                "N".repeat(knights) +
+                "P".repeat(pawns);
     }
 }

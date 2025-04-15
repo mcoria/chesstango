@@ -3,6 +3,8 @@ package net.chesstango.board.representations.syzygy;
 import lombok.Setter;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTM;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTZ;
 
 /**
  * Syzygy Bases consist of two sets of files,
@@ -98,10 +100,39 @@ public class Syzygy {
         }
     }
 
-    public void probeTable(BitPosition bitPosition) {
+
+    int probe_table(BitPosition bitPosition, Table type) {
         long key = calcKey(bitPosition);
-        int idx = (int) (key >>> (64 - TB_HASHBITS));
+
+        int hashIdx = (int) (key >> (64 - TB_HASHBITS));
+
+        while (tbHash[hashIdx].key != 0 && tbHash[hashIdx].key != key)
+            hashIdx = (hashIdx + 1) & ((1 << TB_HASHBITS) - 1);
+
+        if (tbHash[hashIdx].ptr == null) {
+            return 0;
+        }
+
+        BaseEntry be = tbHash[hashIdx].ptr;
+        if (type == DTM && !be.hasDtm || type == DTZ && !be.hasDtz) {
+            return 0;
+        }
+
+        if (!be.ready[type.ordinal()]) {
+            String table = prt_str(bitPosition, be.key != key);
+            if (!init_table(be, table, type)) {
+                return 0;
+            }
+            be.ready[type.ordinal()] = true;
+        }
+
+        return 0;
     }
+
+    boolean init_table(BaseEntry be, String table, Table type) {
+        return false;
+    }
+
 
     /**
      * Initializes a tablebase entry for the given table name.
@@ -137,11 +168,11 @@ public class Syzygy {
 
         // Update global counters for WDL, DTM, and DTZ tablebases
         numWdl++;
-        if (test_tb(path, tbName, Suffix.DTM.getSuffix())) {
+        if (test_tb(path, tbName, DTM.getSuffix())) {
             numDtm++;
             be.hasDtm = true;
         }
-        if (test_tb(path, tbName, Suffix.DTZ.getSuffix())) {
+        if (test_tb(path, tbName, DTZ.getSuffix())) {
             numDtz++;
             be.hasDtz = true;
         }

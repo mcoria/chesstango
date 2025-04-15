@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
  * @author Mauricio Coria
@@ -26,7 +27,7 @@ public class SyzygyTest {
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
-        syzygy.probeTable(bitPosition);
+        syzygy.probe_table(bitPosition, Table.WDL);
     }
 
     @Test
