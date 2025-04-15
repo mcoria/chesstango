@@ -2,6 +2,9 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Getter;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * @author Mauricio Coria
  */
@@ -143,5 +146,14 @@ class SyzygyConstants {
                 Long.bitCount(bitPosition.black() & bitPosition.bishops()) * PRIME_BLACK_BISHOP +
                 Long.bitCount(bitPosition.black() & bitPosition.knights()) * PRIME_BLACK_KNIGHT +
                 Long.bitCount(bitPosition.black() & bitPosition.pawns()) * PRIME_BLACK_PAWN;
+    }
+
+    static boolean test_tb(String basePath, String fileName, String suffix) {
+        Path path = Paths.get(basePath, String.format("%s%s", fileName, suffix));
+        if (!path.toFile().exists()) {
+            //System.out.println("File not found: " + path);
+            return false;
+        }
+        return true;
     }
 }

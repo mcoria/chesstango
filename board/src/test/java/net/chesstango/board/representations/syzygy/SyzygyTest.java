@@ -106,11 +106,5 @@ public class SyzygyTest {
         assertEquals(0xa24f0f571bb202e7L, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
     }
-
-    @Test
-    public void test_test_tb() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
-        assertFalse(syzygy.test_tb("KQvK", ".rtbm"));
-    }
 }
 

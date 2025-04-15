@@ -2,9 +2,6 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Setter;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
@@ -65,7 +62,17 @@ public class Syzygy {
         }
     }
 
+    /**
+     * Initializes the tablebase system with the specified path.
+     * This method resets all counters and properties related to the tablebase,
+     * sets the path for the tablebase files, and initializes the first five
+     * tablebases using predefined table names. It also updates the largest
+     * cardinality values based on the initialized tablebases.
+     *
+     * @param path the file path to the tablebase directory
+     */
     public void tb_init(String path) {
+        // Reset counters and properties
         tbNumPiece = 0;
         tbNumPawn = 0;
         numWdl = 0;
@@ -75,13 +82,16 @@ public class Syzygy {
         TB_MaxCardinalityDTM = 0;
         TB_LARGEST = 0;
 
+        // Set the path for the tablebase files
         setPath(path);
 
+        // Initialize the first five tablebases with predefined table names starting with QUEEN (IMPORTANT TO KEEP THE ORDER for testing)
         for (int i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", SyzygyConstants.pchr(i));
             init_tb(tableName);
         }
 
+        // Update the largest cardinality values
         TB_LARGEST = TB_MaxCardinality;
         if (TB_MaxCardinalityDTM > TB_LARGEST) {
             TB_LARGEST = TB_MaxCardinalityDTM;
@@ -93,17 +103,30 @@ public class Syzygy {
         int idx = (int) (key >>> (64 - TB_HASHBITS));
     }
 
+    /**
+     * Initializes a tablebase entry for the given table name.
+     * This method processes the table name to determine the pieces involved,
+     * calculates unique keys for the tablebase, and sets up the corresponding
+     * `BaseEntry` object with relevant attributes. It also updates global counters
+     * and properties related to the tablebase.
+     *
+     * @param tbName the name of the tablebase to initialize
+     */
     void init_tb(String tbName) {
+        // Convert the table name into an array of piece counts
         int[] pcs = tableName_to_pcs(tbName);
 
+        // Calculate unique keys for the tablebase
         long key = calc_key_from_pcs(pcs, false);
-
         long key2 = calc_key_from_pcs(pcs, true);
 
+        // Determine if the tablebase involves pawns
         boolean hasPawns = (pcs[Piece.W_PAWN.getValue()] | pcs[Piece.B_PAWN.getValue()]) != 0;
 
+        // Select the appropriate entry type (pawn or piece) and initialize it
         BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++].be : pieceEntry[tbNumPiece++].be;
 
+        // Set attributes for the BaseEntry
         be.hasPawns = hasPawns;
         be.key = key;
         be.symmetric = key == key2;
@@ -112,15 +135,18 @@ public class Syzygy {
             be.num += (char) pcs[i];
         }
 
+        // Update global counters for WDL, DTM, and DTZ tablebases
         numWdl++;
-        if (test_tb(tbName, Suffix.DTM.getSuffix())) {
+        if (test_tb(path, tbName, Suffix.DTM.getSuffix())) {
             numDtm++;
             be.hasDtm = true;
         }
-        if (test_tb(tbName, Suffix.DTZ.getSuffix())) {
+        if (test_tb(path, tbName, Suffix.DTZ.getSuffix())) {
             numDtz++;
             be.hasDtz = true;
         }
+
+        // Update maximum cardinality values
         if (be.num > TB_MaxCardinality) {
             TB_MaxCardinality = be.num;
         }
@@ -128,12 +154,14 @@ public class Syzygy {
             TB_MaxCardinalityDTM = be.num;
         }
 
+        // Handle encoding for entries without pawns
         if (!be.hasPawns) {
             int j = 0;
             for (int i = 0; i < 16; i++)
                 if (pcs[i] == 1) j++;
             be.kk_enc = j == 2;
         } else {
+            // Handle pawn-specific attributes
             be.pawns[0] = (char) pcs[Piece.W_PAWN.getValue()];
             be.pawns[1] = (char) pcs[Piece.B_PAWN.getValue()];
             if (pcs[Piece.B_PAWN.getValue()] != 0 && (pcs[Piece.W_PAWN.getValue()] != 0 || (pcs[Piece.W_PAWN.getValue()] > pcs[Piece.B_PAWN.getValue()]))) {
@@ -143,12 +171,21 @@ public class Syzygy {
             }
         }
 
+        // Add the entry to the hash table using the calculated keys
         add_to_hash(be, key);
         if (key != key2) {
             add_to_hash(be, key2);
         }
     }
 
+    /**
+     * Adds a `BaseEntry` object to the hash table using the provided key.
+     * This method calculates the index in the hash table based on the key
+     * and resolves collisions using linear probing.
+     *
+     * @param ptr the `BaseEntry` object to be added to the hash table
+     * @param key the unique key used to identify the entry in the hash table
+     */
     void add_to_hash(BaseEntry ptr, long key) {
         int idx = (int) (key >>> (64 - TB_HASHBITS));
         while (tbHash[idx].ptr != null) {
@@ -157,14 +194,5 @@ public class Syzygy {
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
-    }
-
-    boolean test_tb(String fileName, String suffix) {
-        Path path = Paths.get(this.path, String.format("%s%s", fileName, suffix));
-        if (!path.toFile().exists()) {
-            //System.out.println("File not found: " + path);
-            return false;
-        }
-        return true;
     }
 }

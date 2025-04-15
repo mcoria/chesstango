@@ -5,8 +5,7 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.Test;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -39,5 +38,10 @@ public class SyzygyConstantsTest {
         assertEquals(0xa3ec1abc71e90863L, calcKey(bitPosition));
 
         assertEquals(2622, 0xa3ec1abc71e90863L >>> (64 - TB_HASHBITS));
+    }
+
+    @Test
+    public void test_test_tb() {
+        assertFalse(test_tb("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5", "KQvK", ".rtbm"));
     }
 }
