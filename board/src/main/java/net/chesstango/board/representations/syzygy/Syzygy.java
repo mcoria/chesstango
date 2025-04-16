@@ -65,12 +65,10 @@ public class Syzygy {
 
         for (int i = 0; i < TB_MAX_PIECE; i++) {
             pieceEntry[i] = new PieceEntry();
-            pieceEntry[i].be = new BaseEntry();
         }
 
         for (int i = 0; i < TB_MAX_PAWN; i++) {
             pawnEntry[i] = new PawnEntry();
-            pawnEntry[i].be = new BaseEntry();
         }
     }
 
@@ -218,7 +216,7 @@ public class Syzygy {
         boolean hasPawns = (pcs[Piece.W_PAWN.getValue()] | pcs[Piece.B_PAWN.getValue()]) != 0;
 
         // Select the appropriate entry type (pawn or piece) and initialize it
-        BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++].be : pieceEntry[tbNumPiece++].be;
+        BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++] : pieceEntry[tbNumPiece++];
 
         // Set attributes for the BaseEntry
         be.hasPawns = hasPawns;

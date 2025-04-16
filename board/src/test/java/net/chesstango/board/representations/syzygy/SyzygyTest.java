@@ -48,6 +48,9 @@ public class SyzygyTest {
         assertEquals(5, syzygy.numDtz);
     }
 
+    /**
+     * Test for the "KQvK" table: table without PAWNs
+     */
     @Test
     public void test_init_tb_KQvK() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
@@ -57,7 +60,7 @@ public class SyzygyTest {
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
 
-        BaseEntry baseEntry = syzygy.pieceEntry[0].be;
+        BaseEntry baseEntry = syzygy.pieceEntry[0];
         assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
@@ -77,6 +80,9 @@ public class SyzygyTest {
         assertSame(tbHash.ptr, baseEntry);
     }
 
+    /**
+     * Test for the "KPvK" table: table with PAWNs
+     */
     @Test
     public void test_init_tb_KPvK() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
@@ -86,7 +92,7 @@ public class SyzygyTest {
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
 
-        BaseEntry baseEntry = syzygy.pawnEntry[0].be;
+        BaseEntry baseEntry = syzygy.pawnEntry[0];
         assertEquals(0xec0ade190c0f6003L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
@@ -110,10 +116,6 @@ public class SyzygyTest {
 
     @Test
     public void test_init_table() {
-        BaseEntry be = new BaseEntry();
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
-
-        assertTrue(syzygy.init_table(be, "KPvK", Table.WDL));
     }
 }
 

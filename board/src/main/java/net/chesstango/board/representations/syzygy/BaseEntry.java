@@ -8,7 +8,7 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.
 /**
  * @author Mauricio Coria
  */
-class BaseEntry {
+abstract class BaseEntry {
     long key;
     char num;
     TableData[] data = new TableData[3];
