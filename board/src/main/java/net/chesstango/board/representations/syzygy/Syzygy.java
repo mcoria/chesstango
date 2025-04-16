@@ -13,6 +13,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Encoding.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTM;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTZ;
 
@@ -162,10 +163,24 @@ public class Syzygy {
             long dataPtr = 0;
             be.data[type.ordinal()] = data;
 
+            boolean split = type != DTZ && ((data.read_uint8_t(4) & 0x01) != 0);
+
             dataPtr += 5;
+            int[][] tb_size = new int[6][2];
             int num = be.num_tables(type);
 
             BaseEntry.EncInfo ei = be.first_ei(type);
+
+            Encoding enc = !be.hasPawns() ? PIECE_ENC : type != DTM ? FILE_ENC : RANK_ENC;
+
+            /*
+            for (int t = 0; t < num; t++) {
+                tb_size[t][0] = init_enc_info( & ei[t], be, data, 0, t, enc);
+                if (split)
+                    tb_size[t][1] = init_enc_info( & ei[num + t], be, data, 4, t, enc);
+                data += be -> num + 1 + (be -> hasPawns && be -> pawns[1]);
+            }
+             */
 
             return true;
         }

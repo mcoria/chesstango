@@ -24,6 +24,10 @@ abstract class BaseEntry {
         int read_le_u32() {
             return buffer.getInt();
         }
+
+        public byte read_uint8_t(int idx) {
+            return buffer.get(idx);
+        }
     }
 
     abstract boolean hasPawns();

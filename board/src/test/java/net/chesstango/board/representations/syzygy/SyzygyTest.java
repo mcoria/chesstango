@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
@@ -119,6 +118,17 @@ public class SyzygyTest {
 
     @Test
     public void test_init_table() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+
+        PieceEntry pieceEntry = new PieceEntry();
+        pieceEntry.num = 3;
+        pieceEntry.symmetric = false;
+        pieceEntry.hasDtm = false;
+        pieceEntry.hasDtz = true;
+        pieceEntry.kk_enc = false;
+
+        syzygy.init_table(pieceEntry, "KQvK", Table.WDL);
+
     }
 }
 

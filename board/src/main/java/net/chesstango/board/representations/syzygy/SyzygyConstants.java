@@ -101,6 +101,9 @@ class SyzygyConstants {
         }
     }
 
+    enum Encoding {PIECE_ENC, FILE_ENC, RANK_ENC}
+
+
 
     static char pchr(int i) {
         return piece_to_char[PieceType.QUEEN.getValue() - i];
