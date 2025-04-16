@@ -214,7 +214,6 @@ public class Syzygy {
         BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++] : pieceEntry[tbNumPiece++];
 
         // Set attributes for the BaseEntry
-        be.hasPawns = hasPawns;
         be.key = key;
         be.symmetric = key == key2;
         be.num = 0;
@@ -242,7 +241,7 @@ public class Syzygy {
         }
 
         // Handle encoding for entries without pawns
-        if (!be.hasPawns) {
+        if (!be.hasPawns()) {
             int j = 0;
             for (int i = 0; i < 16; i++)
                 if (pcs[i] == 1) j++;

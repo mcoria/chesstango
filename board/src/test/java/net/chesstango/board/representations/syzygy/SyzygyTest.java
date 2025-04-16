@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
@@ -64,7 +65,8 @@ public class SyzygyTest {
         assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
-        assertFalse(baseEntry.hasPawns);
+        assertFalse(baseEntry.hasPawns());
+        assertInstanceOf(PieceEntry.class, baseEntry);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);
         assertFalse(baseEntry.kk_enc);
@@ -96,7 +98,8 @@ public class SyzygyTest {
         assertEquals(0xec0ade190c0f6003L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
-        assertTrue(baseEntry.hasPawns);
+        assertTrue(baseEntry.hasPawns());
+        assertInstanceOf(PawnEntry.class, baseEntry);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);
         assertFalse(baseEntry.kk_enc);

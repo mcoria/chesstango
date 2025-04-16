@@ -10,6 +10,11 @@ class PieceEntry extends BaseEntry{
     EncInfo[] ei = new EncInfo[5]; // 2 + 2 + 1
 
     @Override
+    boolean hasPawns() {
+        return false;
+    }
+
+    @Override
     int num_tables(SyzygyConstants.Table type) {
         return 1;
     }
