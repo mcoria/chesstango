@@ -165,17 +165,12 @@ public class Syzygy {
             dataPtr += 5;
             int num = be.num_tables(type);
 
-            EncInfo ei = first_ei(be, type);
+            BaseEntry.EncInfo ei = be.first_ei(type);
 
             return true;
         }
 
         return false;
-    }
-
-    private EncInfo first_ei(BaseEntry be, Table type) {
-
-        return null;
     }
 
     Optional<BaseEntry.TableData> map_tb(String tableName, String suffix) {
@@ -286,8 +281,5 @@ public class Syzygy {
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
-    }
-
-    private class EncInfo {
     }
 }

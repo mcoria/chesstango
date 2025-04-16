@@ -29,7 +29,9 @@ abstract class BaseEntry {
         }
     }
 
-    int num_tables(SyzygyConstants.Table type) {
-        return hasPawns ? type == DTM ? 6 : 4 : 1;
-    }
+    abstract int num_tables(SyzygyConstants.Table type);
+
+    abstract EncInfo first_ei(SyzygyConstants.Table type);
+
+    static class EncInfo{}
 }
