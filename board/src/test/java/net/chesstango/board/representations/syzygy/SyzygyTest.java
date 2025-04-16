@@ -5,8 +5,8 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table;
 import static org.junit.jupiter.api.Assertions.*;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
  * @author Mauricio Coria
@@ -106,6 +106,14 @@ public class SyzygyTest {
         tbHash = syzygy.tbHash[2596];
         assertEquals(0xa24f0f571bb202e7L, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
+    }
+
+    @Test
+    public void test_init_table() {
+        BaseEntry be = new BaseEntry();
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+
+        assertTrue(syzygy.init_table(be, "KPvK", Table.WDL));
     }
 }
 

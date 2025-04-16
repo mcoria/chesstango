@@ -22,6 +22,8 @@ class SyzygyConstants {
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
 
+    static final int[] tbMagic = {0x5d23e871, 0x88ac504b, 0xa50c66d7};
+
     static final int TB_PIECES = 7;
 
     static final int TB_PAWN = 1;

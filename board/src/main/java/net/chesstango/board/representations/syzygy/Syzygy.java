@@ -2,6 +2,16 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Setter;
 
+import java.io.IOException;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.EnumSet;
+import java.util.Optional;
+
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTM;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTZ;
@@ -104,7 +114,7 @@ public class Syzygy {
     int probe_table(BitPosition bitPosition, Table type) {
         long key = calcKey(bitPosition);
 
-        int hashIdx = (int) (key >> (64 - TB_HASHBITS));
+        int hashIdx = (int) (key >>> (64 - TB_HASHBITS));
 
         while (tbHash[hashIdx].key != 0 && tbHash[hashIdx].key != key)
             hashIdx = (hashIdx + 1) & ((1 << TB_HASHBITS) - 1);
@@ -114,7 +124,7 @@ public class Syzygy {
         }
 
         BaseEntry be = tbHash[hashIdx].ptr;
-        if (type == DTM && !be.hasDtm || type == DTZ && !be.hasDtz) {
+        if (DTM.equals(type) && !be.hasDtm || DTZ.equals(type) && !be.hasDtz) {
             return 0;
         }
 
@@ -129,8 +139,61 @@ public class Syzygy {
         return 0;
     }
 
-    boolean init_table(BaseEntry be, String table, Table type) {
+    boolean init_table(BaseEntry be, String tableName, Table type) {
+        Optional<BaseEntry.TableData> opData = map_tb(tableName, type.getSuffix());
+
+        if (opData.isPresent()) {
+            BaseEntry.TableData data = opData.get();
+
+            /**
+             * The main header of the tablebases file:
+             * bytes 0-3: magic number
+             * byte 4:
+             *      bit 0 is set for a non-symmetric table, i.e. separate wtm and btm.
+             *      bit 1 is set for a pawnful table.
+             *      bits 4-7: number of pieces N (N=5 for KRPvKR)
+             */
+
+            int magicNumber = data.read_le_u32();
+
+            if (magicNumber != tbMagic[type.ordinal()]) {
+                throw new RuntimeException("Corrupted file");
+                // handle close
+            }
+
+            long dataPtr = 0;
+            be.data[type.ordinal()] = data;
+
+            dataPtr += 5;
+            int num = be.num_tables(type);
+
+            EncInfo ei = first_ei(be, type);
+
+            return true;
+        }
+
         return false;
+    }
+
+    private EncInfo first_ei(BaseEntry be, Table type) {
+
+        return null;
+    }
+
+    Optional<BaseEntry.TableData> map_tb(String tableName, String suffix) {
+        Path pathToRead = Path.of(path, String.format("%s%s", tableName, suffix));
+        try {
+
+            FileChannel channel = (FileChannel) Files.newByteChannel(pathToRead, EnumSet.of(StandardOpenOption.READ));
+
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            return Optional.of(new BaseEntry.TableData(channel, buffer));
+        } catch (IOException e) {
+            return Optional.empty();
+        }
     }
 
 
@@ -225,5 +288,8 @@ public class Syzygy {
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
+    }
+
+    private class EncInfo {
     }
 }
