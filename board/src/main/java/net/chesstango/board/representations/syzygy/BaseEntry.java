@@ -9,8 +9,10 @@ import java.nio.channels.FileChannel;
 abstract class BaseEntry {
     long key;
     char num;
+
     TableData[] data = new TableData[3];
     boolean[] ready = new boolean[3];
+
     boolean symmetric;
     boolean hasDtm;
     boolean hasDtz;

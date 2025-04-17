@@ -24,36 +24,35 @@ class SyzygyConstants {
 
     static final int[] tbMagic = {0x5d23e871, 0x88ac504b, 0xa50c66d7};
 
-    static final int TB_PIECES = 7;
 
-    static final int TB_PAWN = 1;
-    static final int TB_KNIGHT = 2;
-    static final int TB_BISHOP = 3;
-    static final int TB_ROOK = 4;
-    static final int TB_QUEEN = 5;
-    static final int TB_KING = 6;
+    static final byte TB_PAWN = 1;
+    static final byte TB_KNIGHT = 2;
+    static final byte TB_BISHOP = 3;
+    static final byte TB_ROOK = 4;
+    static final byte TB_QUEEN = 5;
+    static final byte TB_KING = 6;
 
-    static final int TB_WPAWN = TB_PAWN;
-    static final int TB_BPAWN = (TB_PAWN | 8);
+    static final byte TB_WPAWN = TB_PAWN;
+    static final byte TB_BPAWN = (TB_PAWN | 8);
 
-    static final int WHITE_KING = (TB_WPAWN + 5);
-    static final int WHITE_QUEEN = (TB_WPAWN + 4);
-    static final int WHITE_ROOK = (TB_WPAWN + 3);
-    static final int WHITE_BISHOP = (TB_WPAWN + 2);
-    static final int WHITE_KNIGHT = (TB_WPAWN + 1);
-    static final int WHITE_PAWN = TB_WPAWN;
-    static final int BLACK_KING = (TB_BPAWN + 5);
-    static final int BLACK_QUEEN = (TB_BPAWN + 4);
-    static final int BLACK_ROOK = (TB_BPAWN + 3);
-    static final int BLACK_BISHOP = (TB_BPAWN + 2);
-    static final int BLACK_KNIGHT = (TB_BPAWN + 1);
-    static final int BLACK_PAWN = TB_BPAWN;
+    static final byte WHITE_KING = (TB_WPAWN + 5);
+    static final byte WHITE_QUEEN = (TB_WPAWN + 4);
+    static final byte WHITE_ROOK = (TB_WPAWN + 3);
+    static final byte WHITE_BISHOP = (TB_WPAWN + 2);
+    static final byte WHITE_KNIGHT = (TB_WPAWN + 1);
+    static final byte WHITE_PAWN = TB_WPAWN;
+    static final byte BLACK_KING = (TB_BPAWN + 5);
+    static final byte BLACK_QUEEN = (TB_BPAWN + 4);
+    static final byte BLACK_ROOK = (TB_BPAWN + 3);
+    static final byte BLACK_BISHOP = (TB_BPAWN + 2);
+    static final byte BLACK_KNIGHT = (TB_BPAWN + 1);
+    static final byte BLACK_PAWN = TB_BPAWN;
 
-    static final int TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
-    static final int TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
-    static final int TB_MAX_SYMS = 4096;
-
-    static final int TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
+    static final char TB_PIECES = 7;
+    static final char TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
+    static final char TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
+    static final char TB_MAX_SYMS = 4096;
+    static final char TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
 
     @Getter
     enum PieceType {
