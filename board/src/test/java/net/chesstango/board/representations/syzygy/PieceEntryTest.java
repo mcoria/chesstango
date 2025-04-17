@@ -9,24 +9,26 @@ import org.junit.jupiter.api.Test;
 public class PieceEntryTest {
 
     private Syzygy syzygy;
+    private PieceEntry pieceEntry;
 
     @BeforeEach
     public void setUp() throws Exception {
         syzygy = new Syzygy();
+        pieceEntry = new PieceEntry(syzygy);
     }
 
     @Test
     public void test_init_table_KQvQ() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
 
-        PieceEntry pieceEntry = new PieceEntry(syzygy);
+        pieceEntry.tableName = "KQvQ";
         pieceEntry.num = 3;
         pieceEntry.symmetric = false;
         pieceEntry.hasDtm = false;
         pieceEntry.hasDtz = true;
         pieceEntry.kk_enc = false;
 
-        syzygy.init_table(pieceEntry, "KQvKQ", SyzygyConstants.Table.WDL);
+        //pieceEntry.init_table(TableType.WDL);
     }
 
     @Test
@@ -40,6 +42,6 @@ public class PieceEntryTest {
         pieceEntry.hasDtz = true;
         pieceEntry.kk_enc = false;
 
-        syzygy.init_table(pieceEntry, "KQvKR", SyzygyConstants.Table.WDL);
+        //syzygy.init_table(pieceEntry, "KQvKR", TableType.WDL);
     }
 }

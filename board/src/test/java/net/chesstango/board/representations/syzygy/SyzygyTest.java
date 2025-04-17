@@ -5,7 +5,6 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,7 +26,7 @@ public class SyzygyTest {
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
-        syzygy.probe_table(bitPosition, Table.WDL);
+        syzygy.probe_table(bitPosition, TableType.WDL);
     }
 
     @Test
@@ -60,7 +59,7 @@ public class SyzygyTest {
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
 
-        BaseEntry baseEntry = syzygy.pieceEntry[0];
+        PieceEntry baseEntry = syzygy.pieceEntry[0];
         assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
@@ -93,7 +92,7 @@ public class SyzygyTest {
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
 
-        BaseEntry baseEntry = syzygy.pawnEntry[0];
+        PawnEntry baseEntry = syzygy.pawnEntry[0];
         assertEquals(0xec0ade190c0f6003L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
@@ -101,7 +100,6 @@ public class SyzygyTest {
         assertInstanceOf(PawnEntry.class, baseEntry);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);
-        assertFalse(baseEntry.kk_enc);
         assertEquals(1, baseEntry.pawns[0]);
         assertEquals(0, baseEntry.pawns[1]);
 

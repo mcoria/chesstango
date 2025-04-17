@@ -1,6 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTM;
+import static net.chesstango.board.representations.syzygy.TableType.DTM;
 
 /**
  * @author Mauricio Coria
@@ -9,6 +9,7 @@ class PawnEntry extends BaseEntry {
     EncInfo[] eiWDL = new EncInfo[8];
     EncInfo[] eiDTM = new EncInfo[12];
     EncInfo[] eiDTZ = new EncInfo[4];
+    char[] pawns = new char[2];
 
     PawnEntry(Syzygy syzygy) {
         super(syzygy);
@@ -33,12 +34,12 @@ class PawnEntry extends BaseEntry {
     }
 
     @Override
-    int num_tables(SyzygyConstants.Table type) {
+    int num_tables(TableType type) {
         return DTM.equals(type) ? 6 : 4;
     }
 
     @Override
-    EncInfo[] first_ei(SyzygyConstants.Table type) {
+    EncInfo[] first_ei(TableType type) {
         return switch (type) {
             case WDL -> eiWDL;
             case DTM -> eiDTM;

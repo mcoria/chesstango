@@ -22,8 +22,6 @@ class SyzygyConstants {
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
 
-    static final int[] tbMagic = {0x5d23e871, 0x88ac504b, 0xa50c66d7};
-
 
     static final byte TB_PAWN = 1;
     static final byte TB_KNIGHT = 2;
@@ -86,17 +84,6 @@ class SyzygyConstants {
 
         Piece(int value) {
             this.value = value;
-        }
-    }
-
-    @Getter
-    enum Table {
-        WDL(".rtbw"), DTM(".rtbm"), DTZ(".rtbz");
-
-        private final String suffix;
-
-        Table(String suffix) {
-            this.suffix = suffix;
         }
     }
 
