@@ -1,8 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
-import static net.chesstango.board.representations.syzygy.TableType.DTM;
-import static net.chesstango.board.representations.syzygy.TableType.DTZ;
+import static net.chesstango.board.representations.syzygy.TableType.*;
 
 /**
  * @author Mauricio Coria
@@ -31,9 +30,10 @@ abstract class BaseEntry {
         this.syzygy = syzygy;
     }
 
+    protected abstract TableData createTable(TableType tableType);
+
     protected abstract void init_tb(int[] pcs);
 
-    abstract boolean hasPawns();
 
     abstract int num_tables(TableType type);
 
@@ -60,7 +60,7 @@ abstract class BaseEntry {
 
         // Update global counters for WDL, DTM, and DTZ tablebases
         this.syzygy.numWdl++;
-        this.wdl = new TableData(this, TableType.WDL);
+        this.wdl = createTable(WDL);
         if (test_tb(this.syzygy.path, tbName, DTM.getSuffix())) {
             this.syzygy.numDtm++;
             this.hasDtm = true;

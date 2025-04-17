@@ -63,7 +63,6 @@ public class SyzygyTest {
         assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
-        assertFalse(baseEntry.hasPawns());
         assertInstanceOf(PieceEntry.class, baseEntry);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);
@@ -96,7 +95,6 @@ public class SyzygyTest {
         assertEquals(0xec0ade190c0f6003L, baseEntry.key);
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
-        assertTrue(baseEntry.hasPawns());
         assertInstanceOf(PawnEntry.class, baseEntry);
         assertFalse(baseEntry.hasDtm);
         assertTrue(baseEntry.hasDtz);

@@ -16,6 +16,11 @@ class PawnEntry extends BaseEntry {
     }
 
     @Override
+    protected TableData createTable(TableType tableType) {
+        return null;
+    }
+
+    @Override
     protected void init_tb(int[] pcs) {
         syzygy.pawnEntry[syzygy.tbNumPawn++] = this;
         // Handle pawn-specific attributes
@@ -26,11 +31,6 @@ class PawnEntry extends BaseEntry {
             this.pawns[0] = this.pawns[1];
             this.pawns[1] = tmp;
         }
-    }
-
-    @Override
-    boolean hasPawns() {
-        return true;
     }
 
     @Override

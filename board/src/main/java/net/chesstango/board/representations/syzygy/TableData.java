@@ -1,16 +1,14 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.Encoding.*;
-import static net.chesstango.board.representations.syzygy.TableType.DTM;
-import static net.chesstango.board.representations.syzygy.TableType.DTZ;
-
-class TableData {
+abstract class TableData {
     final BaseEntry baseEntry;
     final TableType table;
     final TableFile tableFile;
 
     boolean ready;
     boolean error;
+
+    abstract boolean init_table_imp();
 
     public TableData(BaseEntry baseEntry, TableType table) {
         this.baseEntry = baseEntry;
@@ -42,9 +40,6 @@ class TableData {
                 return false;
             }
 
-            long dataPtr = 0;
-
-
             /**
              * byte 4:
              *      bit 0 is set for a non-symmetric table, i.e. separate wtm and btm.
@@ -57,32 +52,18 @@ class TableData {
             boolean pawnfulTable = (byte4 & 0b00000010) != 0; //bit 1 is set for a pawnful table.
             int numPieces = byte4 >>> 4;
 
-            boolean split = table != DTZ && nonSymmetric;
+            assert baseEntry.symmetric == !nonSymmetric : "baseEntry.symmetric: " + baseEntry.symmetric + " != nonSymmetric: " + nonSymmetric;
+            assert baseEntry.num == numPieces : "baseEntry.num: " + baseEntry.num + " != numPieces: " + numPieces;
+            assert baseEntry instanceof PawnEntry && pawnfulTable : "baseEntry: " + baseEntry + " != pawnfulTable: " + pawnfulTable;
 
-            dataPtr += 5;
-            int[][] tb_size = new int[6][2];
-            int num = baseEntry.num_tables(table);
-
-            BaseEntry.EncInfo[] ei = baseEntry.first_ei(table);
-
-            SyzygyConstants.Encoding enc = !baseEntry.hasPawns() ? PIECE_ENC : table != DTM ? FILE_ENC : RANK_ENC;
-
-
-            for (int t = 0; t < num; t++) {
-                tb_size[t][0] = init_enc_info(ei[t], dataPtr, 0, t, enc);
-                if (split)
-                    tb_size[t][1] = init_enc_info(ei[num + t], dataPtr, 4, t, enc);
-
-                //dataPtr += be.num + 1 + (be.hasPawns() && be.pawns[1] != 0);
-            }
-
-            return true;
+            return init_table_imp();
         }
 
         return false;
     }
 
-    private int init_enc_info(BaseEntry.EncInfo encInfo, long dataPtr, int i, int t, SyzygyConstants.Encoding enc) {
+    int init_enc_info(BaseEntry.EncInfo encInfo, long dataPtr, int i, int t, SyzygyConstants.Encoding enc) {
         return 0;
     }
+
 }
