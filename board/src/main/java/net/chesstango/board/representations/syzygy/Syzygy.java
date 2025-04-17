@@ -54,25 +54,6 @@ public class Syzygy {
     @Setter
     String path;
 
-    public Syzygy() {
-        /*
-         * Initialize the hash tables
-         */
-        for (int i = 0; i < (1 << TB_HASHBITS); i++) {
-            tbHash[i] = new TbHashEntry();
-            tbHash[i].key = 0;
-            tbHash[i].ptr = null;
-        }
-
-        for (int i = 0; i < TB_MAX_PIECE; i++) {
-            pieceEntry[i] = new PieceEntry();
-        }
-
-        for (int i = 0; i < TB_MAX_PAWN; i++) {
-            pawnEntry[i] = new PawnEntry();
-        }
-    }
-
     /**
      * Initializes the tablebase system with the specified path.
      * This method resets all counters and properties related to the tablebase,
@@ -114,12 +95,13 @@ public class Syzygy {
         long key = calcKey(bitPosition);
 
         int hashIdx = (int) (key >>> (64 - TB_HASHBITS));
+        final int hashIdxStart = hashIdx;
 
-        while (tbHash[hashIdx].key != 0 && tbHash[hashIdx].key != key)
+        while (tbHash[hashIdx] == null || tbHash[hashIdx].key != key) {
             hashIdx = (hashIdx + 1) & ((1 << TB_HASHBITS) - 1);
-
-        if (tbHash[hashIdx].ptr == null) {
-            return 0;
+            if(hashIdx == hashIdxStart) {
+                return 0;
+            }
         }
 
         BaseEntry be = tbHash[hashIdx].ptr;
@@ -228,68 +210,13 @@ public class Syzygy {
      * @param tbName the name of the tablebase to initialize
      */
     void init_tb(String tbName) {
-        // Convert the table name into an array of piece counts
-        int[] pcs = tableName_to_pcs(tbName);
-
-        // Calculate unique keys for the tablebase
-        long key = calc_key_from_pcs(pcs, false);
-        long key2 = calc_key_from_pcs(pcs, true);
-
-        // Determine if the tablebase involves pawns
-        boolean hasPawns = (pcs[Piece.W_PAWN.getValue()] | pcs[Piece.B_PAWN.getValue()]) != 0;
-
-        // Select the appropriate entry type (pawn or piece) and initialize it
-        BaseEntry be = hasPawns ? pawnEntry[tbNumPawn++] : pieceEntry[tbNumPiece++];
-
-        // Set attributes for the BaseEntry
-        be.key = key;
-        be.symmetric = key == key2;
-        be.num = 0;
-        for (int i = 0; i < 16; i++) {
-            be.num += (char) pcs[i];
-        }
-
-        // Update global counters for WDL, DTM, and DTZ tablebases
-        numWdl++;
-        if (test_tb(path, tbName, DTM.getSuffix())) {
-            numDtm++;
-            be.hasDtm = true;
-        }
-        if (test_tb(path, tbName, DTZ.getSuffix())) {
-            numDtz++;
-            be.hasDtz = true;
-        }
-
-        // Update maximum cardinality values
-        if (be.num > TB_MaxCardinality) {
-            TB_MaxCardinality = be.num;
-        }
-        if (be.hasDtm && be.num > TB_MaxCardinalityDTM) {
-            TB_MaxCardinalityDTM = be.num;
-        }
-
-        // Handle encoding for entries without pawns
-        if (!be.hasPawns()) {
-            int j = 0;
-            for (int i = 0; i < 16; i++)
-                if (pcs[i] == 1) j++;
-            be.kk_enc = j == 2;
+        BaseEntry baseEntry = null;
+        if (tbName.toUpperCase().contains("P")) {
+            baseEntry = new PawnEntry(this);
         } else {
-            // Handle pawn-specific attributes
-            be.pawns[0] = (char) pcs[Piece.W_PAWN.getValue()];
-            be.pawns[1] = (char) pcs[Piece.B_PAWN.getValue()];
-            if (pcs[Piece.B_PAWN.getValue()] != 0 && (pcs[Piece.W_PAWN.getValue()] != 0 || (pcs[Piece.W_PAWN.getValue()] > pcs[Piece.B_PAWN.getValue()]))) {
-                char tmp = be.pawns[0];
-                be.pawns[0] = be.pawns[1];
-                be.pawns[1] = tmp;
-            }
+            baseEntry = new PieceEntry(this);
         }
-
-        // Add the entry to the hash table using the calculated keys
-        add_to_hash(be, key);
-        if (key != key2) {
-            add_to_hash(be, key2);
-        }
+        baseEntry.init_tb(tbName);
     }
 
     /**
@@ -301,10 +228,14 @@ public class Syzygy {
      * @param key the unique key used to identify the entry in the hash table
      */
     void add_to_hash(BaseEntry ptr, long key) {
+
         int idx = (int) (key >>> (64 - TB_HASHBITS));
-        while (tbHash[idx].ptr != null) {
+
+        while (tbHash[idx] != null) {
             idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
         }
+
+        tbHash[idx] = new TbHashEntry();
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
