@@ -1,14 +1,9 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.TableType.DTM;
-
 /**
  * @author Mauricio Coria
  */
 class PawnEntry extends BaseEntry {
-    EncInfo[] eiWDL = new EncInfo[8];
-    EncInfo[] eiDTM = new EncInfo[12];
-    EncInfo[] eiDTZ = new EncInfo[4];
     char[] pawns = new char[2];
 
     PawnEntry(Syzygy syzygy) {
@@ -16,7 +11,7 @@ class PawnEntry extends BaseEntry {
     }
 
     @Override
-    protected TableData createTable(TableType tableType) {
+    protected TableBase createTable(TableType tableType) {
         return null;
     }
 
@@ -31,20 +26,5 @@ class PawnEntry extends BaseEntry {
             this.pawns[0] = this.pawns[1];
             this.pawns[1] = tmp;
         }
-    }
-
-    @Override
-    int num_tables(TableType type) {
-        return DTM.equals(type) ? 6 : 4;
-    }
-
-    @Override
-    EncInfo[] first_ei(TableType type) {
-        return switch (type) {
-            case WDL -> eiWDL;
-            case DTM -> eiDTM;
-            case DTZ -> eiDTZ;
-            default -> throw new IllegalArgumentException("Unexpected value: " + type);
-        };
     }
 }

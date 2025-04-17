@@ -68,7 +68,7 @@ public class SyzygyTest {
         assertTrue(baseEntry.hasDtz);
         assertFalse(baseEntry.kk_enc);
 
-        TbHashEntry tbHash = null;
+        HashEntry tbHash = null;
 
         tbHash = syzygy.tbHash[2622];
         assertEquals(0xa3ec1abc71e90863L, tbHash.key);
@@ -101,7 +101,7 @@ public class SyzygyTest {
         assertEquals(1, baseEntry.pawns[0]);
         assertEquals(0, baseEntry.pawns[1]);
 
-        TbHashEntry tbHash = null;
+        HashEntry tbHash = null;
 
         tbHash = syzygy.tbHash[3776];
         assertEquals(0xec0ade190c0f6003L, tbHash.key);

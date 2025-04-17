@@ -12,7 +12,7 @@ import java.util.EnumSet;
 /**
  * @author Mauricio Coria
  */
-class TableFile {
+class MappedFile {
     FileChannel channel;
     MappedByteBuffer buffer;
 

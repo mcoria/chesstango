@@ -3,7 +3,7 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-class TbHashEntry {
+class HashEntry {
     long key;
     BaseEntry ptr;
     boolean error;

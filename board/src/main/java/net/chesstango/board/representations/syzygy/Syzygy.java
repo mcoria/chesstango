@@ -25,7 +25,7 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
  */
 public class Syzygy {
 
-    TbHashEntry[] tbHash = new TbHashEntry[1 << TB_HASHBITS];
+    HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
     PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
     PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
 
@@ -133,7 +133,7 @@ public class Syzygy {
             idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
         }
 
-        tbHash[idx] = new TbHashEntry();
+        tbHash[idx] = new HashEntry();
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;

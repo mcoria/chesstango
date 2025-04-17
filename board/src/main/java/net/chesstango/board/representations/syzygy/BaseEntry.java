@@ -12,13 +12,11 @@ abstract class BaseEntry {
     String tableName;
 
     long key;
-
     char num;
 
-    TableData wdl;
-    TableData dtm;
-    TableData dtz;
-
+    TableBase wdl;
+    TableBase dtm;
+    TableBase dtz;
 
     boolean symmetric;
     boolean hasDtm;
@@ -30,15 +28,9 @@ abstract class BaseEntry {
         this.syzygy = syzygy;
     }
 
-    protected abstract TableData createTable(TableType tableType);
+    abstract TableBase createTable(TableType tableType);
 
-    protected abstract void init_tb(int[] pcs);
-
-
-    abstract int num_tables(TableType type);
-
-    abstract EncInfo[] first_ei(TableType type);
-
+    abstract void init_tb(int[] pcs);
 
     void init_tb(String tbName) {
         this.tableName = tbName;
@@ -63,11 +55,13 @@ abstract class BaseEntry {
         this.wdl = createTable(WDL);
         if (test_tb(this.syzygy.path, tbName, DTM.getSuffix())) {
             this.syzygy.numDtm++;
+            this.dtm = createTable(DTM);
             this.hasDtm = true;
         }
 
         if (test_tb(syzygy.path, tbName, DTZ.getSuffix())) {
             this.syzygy.numDtz++;
+            this.dtz = createTable(DTZ);
             this.hasDtz = true;
         }
 
@@ -94,14 +88,9 @@ abstract class BaseEntry {
         }
         return switch (type) {
             case WDL -> wdl.probe_table(key);
-            case DTM -> 0;
-            case DTZ -> 0;
+            case DTM, DTZ -> 0;
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         };
     }
 
-
-
-    static class EncInfo {
-    }
 }
