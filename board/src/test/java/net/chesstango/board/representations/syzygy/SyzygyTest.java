@@ -117,7 +117,22 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_init_table() {
+    public void test_init_table_KQvQ() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+
+        PieceEntry pieceEntry = new PieceEntry();
+        pieceEntry.num = 3;
+        pieceEntry.symmetric = false;
+        pieceEntry.hasDtm = false;
+        pieceEntry.hasDtz = true;
+        pieceEntry.kk_enc = false;
+
+        syzygy.init_table(pieceEntry, "KQvKQ", Table.WDL);
+
+    }
+
+    @Test
+    public void test_init_table_KQvK() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
 
         PieceEntry pieceEntry = new PieceEntry();
@@ -128,6 +143,21 @@ public class SyzygyTest {
         pieceEntry.kk_enc = false;
 
         syzygy.init_table(pieceEntry, "KQvK", Table.WDL);
+
+    }
+
+    @Test
+    public void test_init_table_KQvKR() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+
+        PieceEntry pieceEntry = new PieceEntry();
+        pieceEntry.num = 3;
+        pieceEntry.symmetric = false;
+        pieceEntry.hasDtm = false;
+        pieceEntry.hasDtz = true;
+        pieceEntry.kk_enc = false;
+
+        syzygy.init_table(pieceEntry, "KQvKR", Table.WDL);
 
     }
 }

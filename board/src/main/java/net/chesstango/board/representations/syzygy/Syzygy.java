@@ -147,12 +147,7 @@ public class Syzygy {
             /**
              * The main header of the tablebases file:
              * bytes 0-3: magic number
-             * byte 4:
-             *      bit 0 is set for a non-symmetric table, i.e. separate wtm and btm.
-             *      bit 1 is set for a pawnful table.
-             *      bits 4-7: number of pieces N (N=5 for KRPvKR)
              */
-
             int magicNumber = data.read_le_u32();
 
             if (magicNumber != tbMagic[type.ordinal()]) {
@@ -163,29 +158,47 @@ public class Syzygy {
             long dataPtr = 0;
             be.data[type.ordinal()] = data;
 
-            boolean split = type != DTZ && ((data.read_uint8_t(4) & 0x01) != 0);
+
+            /**
+             * byte 4:
+             *      bit 0 is set for a non-symmetric table, i.e. separate wtm and btm.
+             *      bit 1 is set for a pawnful table.
+             *      bits 4-7: number of pieces N (N=5 for KRPvKR)
+             */
+            byte byte4 = data.read_uint8_t(4);
+
+            boolean nonSymmetric = (byte4 & 0b00000001) != 0; //bit 0 is set for a non-symmetric table, i.e. separate wtm and btm.
+            boolean pawnfulTable = (byte4 & 0b00000010) != 0; //bit 1 is set for a pawnful table.
+            int numPieces = byte4 >>> 4;
+
+            boolean split = type != DTZ && nonSymmetric;
 
             dataPtr += 5;
             int[][] tb_size = new int[6][2];
             int num = be.num_tables(type);
 
-            BaseEntry.EncInfo ei = be.first_ei(type);
+            BaseEntry.EncInfo[] ei = be.first_ei(type);
 
             Encoding enc = !be.hasPawns() ? PIECE_ENC : type != DTM ? FILE_ENC : RANK_ENC;
 
-            /*
+
             for (int t = 0; t < num; t++) {
-                tb_size[t][0] = init_enc_info( & ei[t], be, data, 0, t, enc);
+                tb_size[t][0] = init_enc_info(ei[t], be, dataPtr, 0, t, enc);
                 if (split)
-                    tb_size[t][1] = init_enc_info( & ei[num + t], be, data, 4, t, enc);
-                data += be -> num + 1 + (be -> hasPawns && be -> pawns[1]);
+                    tb_size[t][1] = init_enc_info(ei[num + t], be, dataPtr, 4, t, enc);
+
+                //dataPtr += be.num + 1 + (be.hasPawns() && be.pawns[1] != 0);
             }
-             */
+
 
             return true;
         }
 
         return false;
+    }
+
+    private int init_enc_info(BaseEntry.EncInfo encInfo, BaseEntry be, long dataPtr, int i, int t, Encoding enc) {
+        return 0;
     }
 
     Optional<BaseEntry.TableData> map_tb(String tableName, String suffix) {

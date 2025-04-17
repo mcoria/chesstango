@@ -34,7 +34,7 @@ abstract class BaseEntry {
 
     abstract int num_tables(SyzygyConstants.Table type);
 
-    abstract EncInfo first_ei(SyzygyConstants.Table type);
+    abstract EncInfo[] first_ei(SyzygyConstants.Table type);
 
     static class EncInfo{}
 }

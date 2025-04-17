@@ -1,14 +1,14 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.DTM;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.Table.WDL;
 
 /**
  * @author Mauricio Coria
  */
 class PawnEntry extends BaseEntry {
-
-    EncInfo[] ei = new EncInfo[24]; // 4 * 2 + 6 * 2 + 4
+    EncInfo[] eiWDL = new EncInfo[8];
+    EncInfo[] eiDTM = new EncInfo[12];
+    EncInfo[] eiDTZ = new EncInfo[4];
 
     @Override
     boolean hasPawns() {
@@ -21,7 +21,12 @@ class PawnEntry extends BaseEntry {
     }
 
     @Override
-    EncInfo first_ei(SyzygyConstants.Table type) {
-        return ei[WDL.equals(type) ? 0 : DTM.equals(type) ? 8 : 20];
+    EncInfo[] first_ei(SyzygyConstants.Table type) {
+        return switch (type) {
+            case WDL -> eiWDL;
+            case DTM -> eiDTM;
+            case DTZ -> eiDTZ;
+            default -> throw new IllegalArgumentException("Unexpected value: " + type);
+        };
     }
 }
