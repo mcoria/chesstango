@@ -57,7 +57,7 @@ abstract class TableBase {
 
             assert baseEntry.symmetric == !nonSymmetric : "baseEntry.symmetric: " + baseEntry.symmetric + " != nonSymmetric: " + nonSymmetric;
             assert baseEntry.num == numPieces : "baseEntry.num: " + baseEntry.num + " != numPieces: " + numPieces;
-            assert baseEntry instanceof PawnEntry && pawnfulTable : "baseEntry: " + baseEntry + " != pawnfulTable: " + pawnfulTable;
+            assert baseEntry instanceof PawnEntry && pawnfulTable || baseEntry instanceof PieceEntry && !pawnfulTable : "File name doesn't match header description";
 
             return init_table_imp();
         }

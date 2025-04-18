@@ -19,8 +19,6 @@ abstract class BaseEntry {
     TableBase dtz;
 
     boolean symmetric;
-    boolean hasDtm;
-    boolean hasDtz;
 
     boolean dtmLossOnly;
 
@@ -50,30 +48,36 @@ abstract class BaseEntry {
             this.num += (char) pcs[i];
         }
 
-        // Update global counters for WDL, DTM, and DTZ tablebases
-        this.syzygy.numWdl++;
-        this.wdl = createTable(WDL);
-        if (test_tb(this.syzygy.path, tbName, DTM.getSuffix())) {
-            this.syzygy.numDtm++;
-            this.dtm = createTable(DTM);
-            this.hasDtm = true;
-        }
-
-        if (test_tb(syzygy.path, tbName, DTZ.getSuffix())) {
-            this.syzygy.numDtz++;
-            this.dtz = createTable(DTZ);
-            this.hasDtz = true;
-        }
+        init_tb(pcs);
 
         // Update maximum cardinality values
         if (this.num > syzygy.TB_MaxCardinality) {
             this.syzygy.TB_MaxCardinality = this.num;
         }
-        if (this.hasDtm && this.num > syzygy.TB_MaxCardinalityDTM) {
-            this.syzygy.TB_MaxCardinalityDTM = this.num;
+
+        if (test_tb(this.syzygy.path, tbName, WDL.getSuffix())) {
+            this.wdl = createTable(WDL);
+            if(this.wdl.init_table()){
+                this.syzygy.numWdl++;
+            }
         }
 
-        init_tb(pcs);
+        if (test_tb(this.syzygy.path, tbName, DTM.getSuffix())) {
+            this.dtm = createTable(DTM);
+            if(this.dtm.init_table()){
+                this.syzygy.numDtm++;
+                if (this.num > syzygy.TB_MaxCardinalityDTM) {
+                    this.syzygy.TB_MaxCardinalityDTM = this.num;
+                }
+            }
+        }
+
+        if (test_tb(syzygy.path, tbName, DTZ.getSuffix())) {
+            this.dtz = createTable(DTZ);
+            if(this.dtz.init_table()){
+                this.syzygy.numDtz++;
+            }
+        }
 
         // Add the entry to the hash table using the calculated keys
         this.syzygy.add_to_hash(this, key);
@@ -83,9 +87,6 @@ abstract class BaseEntry {
     }
 
     int probe_table(long key, TableType type) {
-        if (DTM == type && !hasDtm || DTZ == type && !hasDtz) {
-            return 0;
-        }
         return switch (type) {
             case WDL -> wdl.probe_table(key);
             case DTM, DTZ -> 0;

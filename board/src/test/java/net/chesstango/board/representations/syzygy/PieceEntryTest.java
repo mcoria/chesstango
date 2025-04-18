@@ -24,8 +24,6 @@ public class PieceEntryTest {
         pieceEntry.tableName = "KQvQ";
         pieceEntry.num = 3;
         pieceEntry.symmetric = false;
-        pieceEntry.hasDtm = false;
-        pieceEntry.hasDtz = true;
         pieceEntry.kk_enc = false;
 
         //pieceEntry.init_table(TableType.WDL);
@@ -38,8 +36,6 @@ public class PieceEntryTest {
         PieceEntry pieceEntry = new PieceEntry(syzygy);
         pieceEntry.num = 3;
         pieceEntry.symmetric = false;
-        pieceEntry.hasDtm = false;
-        pieceEntry.hasDtz = true;
         pieceEntry.kk_enc = false;
 
         //syzygy.init_table(pieceEntry, "KQvKR", TableType.WDL);

@@ -20,6 +20,12 @@ public class SyzygyTest {
     }
 
     @Test
+    public void test_init() {
+        syzygy.tb_init("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+    }
+
+
+    @Test
     public void test_probeTable() {
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
 
@@ -64,8 +70,6 @@ public class SyzygyTest {
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
         assertInstanceOf(PieceEntry.class, baseEntry);
-        assertFalse(baseEntry.hasDtm);
-        assertTrue(baseEntry.hasDtz);
         assertFalse(baseEntry.kk_enc);
 
         Syzygy.HashEntry tbHash = null;
@@ -96,8 +100,6 @@ public class SyzygyTest {
         assertEquals(3, baseEntry.num);
         assertFalse(baseEntry.symmetric);
         assertInstanceOf(PawnEntry.class, baseEntry);
-        assertFalse(baseEntry.hasDtm);
-        assertTrue(baseEntry.hasDtz);
         assertEquals(1, baseEntry.pawns[0]);
         assertEquals(0, baseEntry.pawns[1]);
 
