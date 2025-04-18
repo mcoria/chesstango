@@ -138,4 +138,13 @@ public class Syzygy {
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
     }
+
+    /**
+     * @author Mauricio Coria
+     */
+    static class HashEntry {
+        long key;
+        BaseEntry ptr;
+        boolean error;
+    }
 }

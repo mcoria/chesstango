@@ -82,7 +82,7 @@ abstract class BaseEntry {
         }
     }
 
-    public int probe_table(long key, TableType type) {
+    int probe_table(long key, TableType type) {
         if (DTM == type && !hasDtm || DTZ == type && !hasDtz) {
             return 0;
         }

@@ -3,8 +3,8 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-class PawnlessSymmetric extends TableBase {
-    public PawnlessSymmetric(PieceEntry pieceEntry, TableType tableType) {
+class PieceSymmetric extends TableBase {
+    public PieceSymmetric(PieceEntry pieceEntry, TableType tableType) {
         super(pieceEntry, tableType);
     }
 

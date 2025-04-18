@@ -12,7 +12,7 @@ class PieceEntry extends BaseEntry {
 
     @Override
     protected TableBase createTable(TableType tableType) {
-        return this.symmetric ? new PawnlessSymmetric(this, tableType) : new PawnlessAsymmetric(this, tableType);
+        return this.symmetric ? new PieceSymmetric(this, tableType) : new PieceAsymmetric(this, tableType);
     }
 
     @Override

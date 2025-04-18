@@ -5,17 +5,16 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.Encodi
 /**
  * @author Mauricio Coria
  */
-class PawnlessAsymmetric extends TableBase {
+class PieceAsymmetric extends TableBase {
     final EncInfo[] ei;
 
-    public PawnlessAsymmetric(PieceEntry pieceEntry, TableType tableType) {
+    public PieceAsymmetric(PieceEntry pieceEntry, TableType tableType) {
         super(pieceEntry, tableType);
         this.ei = new EncInfo[tableType.getEcInfoSizePawnless()];
     }
 
     @Override
     boolean init_table_imp() {
-
         int dataPtr = 5;
 
         int[][] tb_size = new int[6][2];
@@ -27,7 +26,6 @@ class PawnlessAsymmetric extends TableBase {
         for (int t = 0; t < num; t++) {
             tb_size[t][0] = init_enc_info(ei[t], dataPtr, 0, t, enc);
         }
-
         return true;
     }
 }
