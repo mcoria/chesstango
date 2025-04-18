@@ -10,6 +10,6 @@ class PawnAsymmetric extends TableBase {
 
     @Override
     boolean init_table_imp() {
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
