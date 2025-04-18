@@ -18,8 +18,8 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
  * WDL has full data for two sides but DTZ50 omitted data of one side to save space. Each endgame has a pair of those types.
  * <p>
  * Syzygy WDL is double-sided, DTZ is single-sided.
- * So to know whether a 7-piece position is winning, losing or drawn (or cursed), the engine needs to do only a single probe of a 7-piece WDL table. (It may in addition have to do some probes of 6-piece WDL tables if any direct captures are available.)
- * If the engine needs to know the DTZ value (which is only necessary when a TB root position has been reached), the probing code may have to do a 1-ply search to get to the "right" side of the DTZ table.
+ * So to know whether a 7-piece position is winning, losing or drawn (or cursed), the engine needs to do only a single probe of a 7-piece WDL tableType. (It may in addition have to do some probes of 6-piece WDL tables if any direct captures are available.)
+ * If the engine needs to know the DTZ value (which is only necessary when a TB root position has been reached), the probing code may have to do a 1-ply search to get to the "right" side of the DTZ tableType.
  *
  * @author Mauricio Coria
  */
@@ -45,7 +45,7 @@ public class Syzygy {
      * Initializes the tablebase system with the specified path.
      * This method resets all counters and properties related to the tablebase,
      * sets the path for the tablebase files, and initializes the first five
-     * tablebases using predefined table names. It also updates the largest
+     * tablebases using predefined tableType names. It also updates the largest
      * cardinality values based on the initialized tablebases.
      *
      * @param path the file path to the tablebase directory
@@ -64,7 +64,7 @@ public class Syzygy {
         // Set the path for the tablebase files
         setPath(path);
 
-        // Initialize the first five tablebases with predefined table names starting with QUEEN (IMPORTANT TO KEEP THE ORDER for testing)
+        // Initialize the first five tablebases with predefined tableType names starting with QUEEN (IMPORTANT TO KEEP THE ORDER for testing)
         for (int i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", SyzygyConstants.pchr(i));
             init_tb(tableName);
@@ -98,8 +98,8 @@ public class Syzygy {
 
 
     /**
-     * Initializes a tablebase entry for the given table name.
-     * This method processes the table name to determine the pieces involved,
+     * Initializes a tablebase entry for the given tableType name.
+     * This method processes the tableType name to determine the pieces involved,
      * calculates unique keys for the tablebase, and sets up the corresponding
      * `BaseEntry` object with relevant attributes. It also updates global counters
      * and properties related to the tablebase.
@@ -117,12 +117,12 @@ public class Syzygy {
     }
 
     /**
-     * Adds a `BaseEntry` object to the hash table using the provided key.
-     * This method calculates the index in the hash table based on the key
+     * Adds a `BaseEntry` object to the hash tableType using the provided key.
+     * This method calculates the index in the hash tableType based on the key
      * and resolves collisions using linear probing.
      *
-     * @param ptr the `BaseEntry` object to be added to the hash table
-     * @param key the unique key used to identify the entry in the hash table
+     * @param ptr the `BaseEntry` object to be added to the hash tableType
+     * @param key the unique key used to identify the entry in the hash tableType
      */
     void add_to_hash(BaseEntry ptr, long key) {
 

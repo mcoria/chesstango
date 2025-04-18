@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * @author Mauricio Coria
@@ -30,6 +29,14 @@ public class PieceEntryTest {
         assertEquals(3, pieceEntry.num);
         assertFalse(pieceEntry.symmetric);
         assertFalse(pieceEntry.kk_enc);
+
+
+        PieceAsymmetric wdl = (PieceAsymmetric) pieceEntry.wdl;
+        TableBase.EncInfo ei0 = wdl.ei[0];
+
+        assertArrayEquals(new long[]{1, 0, 0, 0, 0, 0, 0}, ei0.factor);
+        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei0.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei0.norm);
     }
 
     @Test

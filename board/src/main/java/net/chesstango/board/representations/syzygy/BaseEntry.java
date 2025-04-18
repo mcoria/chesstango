@@ -33,7 +33,7 @@ abstract class BaseEntry {
     void init_tb(String tbName) {
         this.tableName = tbName;
 
-        // Convert the table name into an array of piece counts
+        // Convert the tableType name into an array of piece counts
         int[] pcs = tableName_to_pcs(tbName);
 
         // Calculate unique keys for the tablebase
@@ -79,7 +79,7 @@ abstract class BaseEntry {
             }
         }
 
-        // Add the entry to the hash table using the calculated keys
+        // Add the entry to the hash tableType using the calculated keys
         this.syzygy.add_to_hash(this, key);
         if (key != key2) {
             this.syzygy.add_to_hash(this, key2);

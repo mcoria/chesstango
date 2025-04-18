@@ -50,7 +50,7 @@ public class SyzygyTest {
 
 
     /**
-     * Test for the "KQvK" table: table without PAWNs
+     * Test for the "KQvK" tableType: tableType without PAWNs
      */
     @Test
     public void test_init_tb_KQvK() {
@@ -79,7 +79,7 @@ public class SyzygyTest {
     }
 
     /**
-     * Test for the "KPvK" table: table with PAWNs
+     * Test for the "KPvK" tableType: tableType with PAWNs
      */
     @Test
     public void test_init_tb_KPvK() {
