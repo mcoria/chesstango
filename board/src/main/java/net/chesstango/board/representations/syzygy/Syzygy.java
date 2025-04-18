@@ -97,7 +97,6 @@ public class Syzygy {
     }
 
 
-
     /**
      * Initializes a tablebase entry for the given table name.
      * This method processes the table name to determine the pieces involved,

@@ -4,8 +4,16 @@ package net.chesstango.board.representations.syzygy;
  * @author Mauricio Coria
  */
 class PawnAsymmetric extends TableBase {
-    PawnAsymmetric(BaseEntry baseEntry, TableType table) {
-        super(baseEntry, table);
+    final PawnEntry pawnEntry;
+
+    PawnAsymmetric(PawnEntry pawnEntry, TableType table) {
+        super(table);
+        this.pawnEntry = pawnEntry;
+    }
+
+    @Override
+    PawnEntry getBaseEntry() {
+        return pawnEntry;
     }
 
     @Override

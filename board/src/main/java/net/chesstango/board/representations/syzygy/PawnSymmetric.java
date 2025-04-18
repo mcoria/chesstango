@@ -4,8 +4,16 @@ package net.chesstango.board.representations.syzygy;
  * @author Mauricio Coria
  */
 class PawnSymmetric extends TableBase {
-    PawnSymmetric(BaseEntry baseEntry, TableType table) {
-        super(baseEntry, table);
+    final PawnEntry pawnEntry;
+
+    PawnSymmetric(PawnEntry pawnEntry, TableType table) {
+        super(table);
+        this.pawnEntry = pawnEntry;
+    }
+
+    @Override
+    PawnEntry getBaseEntry() {
+        return pawnEntry;
     }
 
     @Override
