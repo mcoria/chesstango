@@ -65,24 +65,4 @@ abstract class TableBase {
         return 0;
     }
 
-    static class EncInfo {
-        PairsData precomp;
-        long[] factor = new long[SyzygyConstants.TB_PIECES];
-        byte[] pieces = new byte[SyzygyConstants.TB_PIECES];
-        byte[] norm = new byte[SyzygyConstants.TB_PIECES];
-    }
-
-    static class PairsData {
-        BytePTR indexTable;
-        CharPTR sizeTable;
-        BytePTR data;
-        CharPTR offset;
-        byte[] symLen;
-        BytePTR symPat;
-        byte blockSize;
-        byte idxBits;
-        byte minLen;
-        byte[] constValue = new byte[2];
-        long[] base = new long[1];
-    }
 }

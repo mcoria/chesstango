@@ -19,7 +19,7 @@ class PieceAlgorithm {
         BytePTR bytePTR = new BytePTR(pieceAsymmetric.mappedFile);
         bytePTR.ptr = 5;
 
-        TableBase.EncInfo[] ei = pieceAsymmetric.ei;
+        EncInfo[] ei = pieceAsymmetric.ei;
 
         long[][] tb_size = new long[1][2];
 
@@ -45,7 +45,7 @@ class PieceAlgorithm {
     }
 
 
-    long init_enc_info(TableBase.EncInfo ei, BytePTR bytePTR, int shift) {
+    long init_enc_info(EncInfo ei, BytePTR bytePTR, int shift) {
         for (int i = 0; i < pieceEntry.num; i++) {
             ei.pieces[i] = (byte) ((bytePTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
             ei.norm[i] = 0;
@@ -93,12 +93,12 @@ class PieceAlgorithm {
         return f / l;
     }
 
-    private TableBase.PairsData setup_pairs(TableType tableType, BytePTR ptr, long tb_size, long[] size) {
-        TableBase.PairsData d;
+    private PairsData setup_pairs(TableType tableType, BytePTR ptr, long tb_size, long[] size) {
+        PairsData d;
         BytePTR data = ptr.clone();
 
         if ((data.read_uint8_t(0) & 0x80) != 0) {
-            d = new TableBase.PairsData();
+            d = new PairsData();
             d.idxBits = 0;
             d.constValue[0] = WDL == tableType ? data.read_uint8_t(1) : 0;
             d.constValue[1] = 0;
@@ -118,7 +118,7 @@ class PieceAlgorithm {
         int h = maxLen - minLen + 1;
         int numSyms = mappedFile.read_le_u16(data.ptr + 10 + 2 * h);
 
-        d = new TableBase.PairsData();
+        d = new PairsData();
         d.blockSize = blockSize;
         d.idxBits = idxBits;
         d.offset = data.createCharPTR(10);
@@ -142,11 +142,24 @@ class PieceAlgorithm {
             }
         }
 
+        /*
+        d.base[h - 1] = 0;
+        for (int i = h - 2; i >= 0; i--) {
+            d.base[i] = (d.base[i + 1] + read_le_u16((uint8_t *)(d.offset + i)) - read_le_u16((uint8_t *)(d->offset + i + 1))) / 2;
+        }
+
+        for (int i = 0; i < h; i++) {
+            d.base[i] <<= 64 - (minLen + i);
+        }
+
+        d.offset -= d.minLen;
+         */
+
         return d;
     }
 
 
-    static void calc_symLen(TableBase.PairsData d, int s, byte[] tmp) {
+    static void calc_symLen(PairsData d, int s, byte[] tmp) {
         BytePTR w = d.symPat.clone();
         w.incPtr(3 * s);
         int w2 = (w.read_uint8_t(2) & 0xFF) << 4;
