@@ -136,7 +136,7 @@ class PieceAlgorithm {
         assert (numSyms < TB_MAX_SYMS);
         byte[] tmp = new byte[TB_MAX_SYMS];
 
-        for (byte s = 0; s < numSyms; s++) {
+        for (int s = 0; s < numSyms; s++) {
             if (tmp[s] == 0) {
                 calc_symLen(d, s, tmp);
             }
