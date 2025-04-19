@@ -14,5 +14,5 @@ class PairsData {
     byte idxBits;
     byte minLen;
     byte[] constValue = new byte[2];
-    long[] base = new long[1];
+    long[] base;
 }

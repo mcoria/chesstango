@@ -37,6 +37,28 @@ class PieceAlgorithm {
         ei[0].precomp = setup_pairs(WDL, bytePTR, tb_size[0][0], size[0][0]);
         ei[1].precomp = setup_pairs(WDL, bytePTR, tb_size[0][1], size[0][1]);
 
+        // indexTable ptr
+        ei[0].precomp.indexTable = bytePTR.clone();
+        bytePTR.incPtr((int) size[0][0][0]);
+
+        ei[1].precomp.indexTable = bytePTR.clone();
+        bytePTR.incPtr((int) size[0][1][0]);
+
+        // sizeTable ptr
+        ei[0].precomp.sizeTable = bytePTR.createCharPTR(0);
+        bytePTR.incPtr((int) size[0][0][1]);
+
+        ei[1].precomp.sizeTable = bytePTR.createCharPTR(0);
+        bytePTR.incPtr((int) size[0][1][1]);
+
+        bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
+        ei[0].precomp.data = bytePTR.clone();
+        bytePTR.incPtr((int) size[0][0][2]);
+
+        bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
+        ei[1].precomp.data = bytePTR.clone();
+        bytePTR.incPtr((int) size[0][1][2]);
+
         return true;
     }
 
@@ -93,7 +115,7 @@ class PieceAlgorithm {
         return f / l;
     }
 
-    private PairsData setup_pairs(TableType tableType, BytePTR ptr, long tb_size, long[] size) {
+    PairsData setup_pairs(TableType tableType, BytePTR ptr, long tb_size, long[] size) {
         PairsData d;
         BytePTR data = ptr.clone();
 
@@ -118,6 +140,7 @@ class PieceAlgorithm {
         int h = maxLen - minLen + 1;
         int numSyms = mappedFile.read_le_u16(data.ptr + 10 + 2 * h);
 
+
         d = new PairsData();
         d.blockSize = blockSize;
         d.idxBits = idxBits;
@@ -125,6 +148,7 @@ class PieceAlgorithm {
         d.symLen = new byte[numSyms];
         d.symPat = data.clone().incPtr(12 + 2 * h);
         d.minLen = minLen;
+        d.base = new long[h];
 
         ptr.ptr = data.ptr + (12 + 2 * h + 3 * numSyms + (numSyms & 1));
 
@@ -142,24 +166,24 @@ class PieceAlgorithm {
             }
         }
 
-        /*
         d.base[h - 1] = 0;
+
         for (int i = h - 2; i >= 0; i--) {
-            d.base[i] = (d.base[i + 1] + read_le_u16((uint8_t *)(d.offset + i)) - read_le_u16((uint8_t *)(d->offset + i + 1))) / 2;
+            d.base[i] = (d.base[i + 1] + mappedFile.read_le_u16(d.offset.ptr + 2 * i) - mappedFile.read_le_u16(d.offset.ptr + 2 * i + 2)) / 2;
         }
 
         for (int i = 0; i < h; i++) {
             d.base[i] <<= 64 - (minLen + i);
         }
 
-        d.offset -= d.minLen;
-         */
+        // offset is a two byte pointer
+        d.offset.incPtr(-2 * d.minLen);
 
         return d;
     }
 
 
-    static void calc_symLen(PairsData d, int s, byte[] tmp) {
+    void calc_symLen(PairsData d, int s, byte[] tmp) {
         BytePTR w = d.symPat.clone();
         w.incPtr(3 * s);
         int w2 = (w.read_uint8_t(2) & 0xFF) << 4;
