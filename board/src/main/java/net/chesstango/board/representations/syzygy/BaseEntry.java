@@ -57,14 +57,14 @@ abstract class BaseEntry {
 
         if (test_tb(this.syzygy.path, tbName, WDL.getSuffix())) {
             this.wdl = createTable(WDL);
-            if(this.wdl.init_table()){
+            if (this.wdl.init_table()) {
                 this.syzygy.numWdl++;
             }
         }
 
         if (test_tb(this.syzygy.path, tbName, DTM.getSuffix())) {
             this.dtm = createTable(DTM);
-            if(this.dtm.init_table()){
+            if (this.dtm.init_table()) {
                 this.syzygy.numDtm++;
                 if (this.num > syzygy.TB_MaxCardinalityDTM) {
                     this.syzygy.TB_MaxCardinalityDTM = this.num;
@@ -74,7 +74,7 @@ abstract class BaseEntry {
 
         if (test_tb(syzygy.path, tbName, DTZ.getSuffix())) {
             this.dtz = createTable(DTZ);
-            if(this.dtz.init_table()){
+            if (this.dtz.init_table()) {
                 this.syzygy.numDtz++;
             }
         }

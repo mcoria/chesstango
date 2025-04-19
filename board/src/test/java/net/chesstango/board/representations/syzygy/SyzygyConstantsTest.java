@@ -55,4 +55,24 @@ public class SyzygyConstantsTest {
 
         assertEquals("KQvK", prt_str(bitPosition, false));
     }
+
+    @Test
+    public void test_byte_bitshift() {
+        byte aPositiveByte = (byte) 0b0010_0001;
+        byte aNegativeByte = (byte) 0b1010_0001;
+
+        // Left shift
+        assertEquals((byte) 0b0100_0010, (byte) ((aPositiveByte & 0xFF) << 1));
+        assertEquals((byte) 0b0001_0000, (byte) ((aPositiveByte & 0xFF) << 4));
+
+        assertEquals((byte) 0b0100_0010, (byte) ((aNegativeByte & 0xFF) << 1));
+        assertEquals((byte) 0b0001_0000, (byte) ((aNegativeByte & 0xFF) << 4));
+
+        // Right shift
+        assertEquals((byte) 0b0001_0000, (byte) ((aPositiveByte & 0xFF) >>> 1));
+        assertEquals((byte) 0b0000_0010, (byte) ((aPositiveByte & 0xFF) >>> 4));
+
+        assertEquals((byte) 0b0101_0000, (byte) ((aNegativeByte & 0xFF) >>> 1));
+        assertEquals((byte) 0b0000_1010, (byte) ((aNegativeByte & 0xFF) >>> 4));
+    }
 }

@@ -32,11 +32,16 @@ public class PieceEntryTest {
 
 
         PieceAsymmetric wdl = (PieceAsymmetric) pieceEntry.wdl;
-        TableBase.EncInfo ei0 = wdl.ei[0];
 
+        TableBase.EncInfo ei0 = wdl.ei[0];
         assertArrayEquals(new long[]{1, 0, 0, 0, 0, 0, 0}, ei0.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei0.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei0.norm);
+
+        TableBase.EncInfo ei1 = wdl.ei[1];
+        assertArrayEquals(new long[]{1, 0, 0, 0, 0, 0, 0}, ei1.factor);
+        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei1.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei1.norm);
     }
 
     @Test

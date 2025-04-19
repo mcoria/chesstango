@@ -11,6 +11,7 @@ abstract class TableBase {
     boolean error;
 
     abstract BaseEntry getBaseEntry();
+
     abstract boolean init_table_imp();
 
     public TableBase(TableType tableType) {
@@ -47,8 +48,9 @@ abstract class TableBase {
                 assert baseEntry.symmetric == !nonSymmetric : "baseEntry.symmetric: " + baseEntry.symmetric + " != nonSymmetric: " + nonSymmetric;
                 assert baseEntry.num == numPieces : "baseEntry.num: " + baseEntry.num + " != numPieces: " + numPieces;
                 assert baseEntry instanceof PawnEntry && pawnfulTable || baseEntry instanceof PieceEntry && !pawnfulTable : "File name doesn't match header description";
+
+                result = init_table_imp();
             }
-            result = init_table_imp();
         }
         error = !result;
         ready = true;
@@ -64,8 +66,23 @@ abstract class TableBase {
     }
 
     static class EncInfo {
+        PairsData precomp;
         long[] factor = new long[SyzygyConstants.TB_PIECES];
         byte[] pieces = new byte[SyzygyConstants.TB_PIECES];
         byte[] norm = new byte[SyzygyConstants.TB_PIECES];
+    }
+
+    static class PairsData {
+        BytePTR indexTable;
+        CharPTR sizeTable;
+        BytePTR data;
+        CharPTR offset;
+        byte[] symLen;
+        BytePTR symPat;
+        byte blockSize;
+        byte idxBits;
+        byte minLen;
+        byte[] constValue = new byte[2];
+        long[] base = new long[1];
     }
 }

@@ -34,11 +34,15 @@ class MappedFile {
         return false;
     }
 
-    int read_le_u32(int idx) {
-        return buffer.getInt();
+    byte read_uint8_t(int idx) {
+        return buffer.get(idx);
     }
 
-    public byte read_uint8_t(int idx) {
-        return buffer.get(idx);
+    int read_le_u32(int idx) {
+        return buffer.getInt(idx);
+    }
+
+    char read_le_u16(int idx) {
+        return buffer.getChar(idx);
     }
 }
