@@ -73,6 +73,18 @@ class SyzygyConstants {
                 default -> throw new IllegalArgumentException("Invalid piece type: " + c);
             };
         }
+
+        static PieceType typeOfPiece(int piece) {
+            return switch (piece) {
+                case WHITE_PAWN, BLACK_PAWN -> PAWN;
+                case WHITE_KNIGHT, BLACK_KNIGHT -> KNIGHT;
+                case WHITE_BISHOP, BLACK_BISHOP -> BISHOP;
+                case WHITE_ROOK, BLACK_ROOK -> ROOK;
+                case WHITE_QUEEN, BLACK_QUEEN -> QUEEN;
+                case WHITE_KING, BLACK_KING -> KING;
+                default -> throw new IllegalArgumentException("Invalid piece type: " + piece);
+            };
+        }
     }
 
     @Getter
@@ -89,6 +101,21 @@ class SyzygyConstants {
 
     enum Encoding {PIECE_ENC, FILE_ENC, RANK_ENC}
 
+    enum Color {
+        BLACK, WHITE;
+
+        static Color colorOfPiece(int piece) {
+            return piece >>> 3 != 0 ? Color.BLACK : Color.WHITE;
+        }
+
+        public Color oposite() {
+            if (this == WHITE) {
+                return BLACK;
+            } else {
+                return WHITE;
+            }
+        }
+    }
 
 
     static char pchr(int i) {
@@ -172,7 +199,7 @@ class SyzygyConstants {
         return flip ? blackStr + "v" + whiteStr : whiteStr + "v" + blackStr;
     }
 
-    private static String piecesToString(int kings, int queens, int rooks, int bishops, int knights, int pawns) {
+    static String piecesToString(int kings, int queens, int rooks, int bishops, int knights, int pawns) {
         return "K".repeat(kings) +
                 "Q".repeat(queens) +
                 "R".repeat(rooks) +

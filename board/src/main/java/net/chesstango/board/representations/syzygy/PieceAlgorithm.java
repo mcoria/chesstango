@@ -1,7 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_MAX_SYMS;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
 /**
@@ -220,7 +219,22 @@ class PieceAlgorithm {
         return 0;
     }
 
-    int fill_squares(BitPosition bitPosition, byte[] pieces, boolean flip, int i, int[] p, int i1) {
-        return 0;
+    // p[i] is to contain the square 0-63 (A1-H8) for a piece of type
+    // pc[i] ^ flip, where 1 = white pawn, ..., 14 = black king and pc ^ flip
+    // flips between white and black if flip == true.
+    // Pieces of the same type are guaranteed to be consecutive.
+    int fill_squares(BitPosition pos, byte[] pc, boolean flip, int mirror, int[] p, int i) {
+        Color color = Color.colorOfPiece(pc[i]);
+        if (flip) {
+            color = color.oposite();
+        }
+        long bb = pos.pieces_by_type(color, PieceType.typeOfPiece(pc[i]));
+        int sq;
+        do {
+            sq = Long.numberOfTrailingZeros(bb);
+            p[i++] = sq ^ mirror;
+            bb = bb & (bb - 1);
+        } while (bb != 0);
+        return i;
     }
 }
