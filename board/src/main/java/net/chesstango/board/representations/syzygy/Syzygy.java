@@ -93,7 +93,7 @@ public class Syzygy {
 
         BaseEntry be = tbHash[hashIdx].ptr;
 
-        return be.probe_table(key, type);
+        return be.probe_table(bitPosition, key, type);
     }
 
 

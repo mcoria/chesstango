@@ -20,4 +20,9 @@ class PawnSymmetric extends TableBase {
     boolean init_table_imp() {
         return false;
     }
+
+    @Override
+    int probe_table_imp(BitPosition bitPosition, long key) {
+        return 0;
+    }
 }

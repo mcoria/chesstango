@@ -37,18 +37,6 @@ public class SyzygyTest {
         assertEquals(5, syzygy.numDtz);
     }
 
-
-    @Test
-    public void test_probeTable() {
-        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
-
-        Position chessPosition = fen.toChessPosition();
-        BitPosition bitPosition = BitPosition.from(chessPosition);
-
-        syzygy.probe_table(bitPosition, TableType.WDL);
-    }
-
-
     /**
      * Test for the "KQvK" tableType: tableType without PAWNs
      */
@@ -76,6 +64,18 @@ public class SyzygyTest {
         tbHash = syzygy.tbHash[3438];
         assertEquals(0xd6e4e47d24962951L, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
+    }
+
+    @Test
+    public void test_probeTable() {
+        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
+
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        syzygy.init_tb("KQvK");
+        syzygy.probe_table(bitPosition, TableType.WDL);
     }
 
     /**

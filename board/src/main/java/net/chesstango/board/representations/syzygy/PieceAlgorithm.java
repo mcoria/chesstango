@@ -1,6 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_MAX_SYMS;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
 /**
@@ -51,6 +52,7 @@ class PieceAlgorithm {
         ei[1].precomp.sizeTable = bytePTR.createCharPTR(0);
         bytePTR.incPtr((int) size[0][1][1]);
 
+        // data ptr
         bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
         ei[0].precomp.data = bytePTR.clone();
         bytePTR.incPtr((int) size[0][0][2]);
@@ -124,7 +126,7 @@ class PieceAlgorithm {
             d.idxBits = 0;
             d.constValue[0] = WDL == tableType ? data.read_uint8_t(1) : 0;
             d.constValue[1] = 0;
-            ptr.ptr = data.ptr + 2;
+            ptr.incPtr(2);
             size[0] = 0;
             size[1] = 0;
             size[2] = 0;
@@ -167,21 +169,16 @@ class PieceAlgorithm {
         }
 
         d.base[h - 1] = 0;
-
         for (int i = h - 2; i >= 0; i--) {
             d.base[i] = (d.base[i + 1] + mappedFile.read_le_u16(d.offset.ptr + 2 * i) - mappedFile.read_le_u16(d.offset.ptr + 2 * i + 2)) / 2;
         }
-
         for (int i = 0; i < h; i++) {
             d.base[i] <<= 64 - (minLen + i);
         }
-
         // offset is a two byte pointer
         d.offset.incPtr(-2 * d.minLen);
-
         return d;
     }
-
 
     void calc_symLen(PairsData d, int s, byte[] tmp) {
         BytePTR w = d.symPat.clone();
@@ -199,5 +196,31 @@ class PieceAlgorithm {
             d.symLen[s] = (byte) (d.symLen[s1] + d.symLen[s2] + 0x01);
         }
         tmp[s] = 1;
+    }
+
+    int probe_table_wdl(PieceAsymmetric pieceAsymmetric, BitPosition bitPosition, long key) {
+        boolean flip = key != pieceEntry.key;
+        boolean bside = bitPosition.turn() == flip;
+
+        int[] p = new int[TB_PIECES];
+        long idx;
+        int t = 0;
+        byte flags = 0;
+
+        EncInfo ei = pieceAsymmetric.ei[bside ? 1 : 0];
+
+        for (int i = 0; i < pieceEntry.num; ) {
+            i = fill_squares(bitPosition, ei.pieces, flip, 0, p, i);
+        }
+
+        return 0;
+    }
+
+    int probe_table_dtz(PieceAsymmetric pieceAsymmetric, BitPosition bitPosition, long key) {
+        return 0;
+    }
+
+    int fill_squares(BitPosition bitPosition, byte[] pieces, boolean flip, int i, int[] p, int i1) {
+        return 0;
     }
 }

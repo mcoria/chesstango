@@ -20,4 +20,9 @@ class PawnAsymmetric extends TableBase {
     boolean init_table_imp() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    int probe_table_imp(BitPosition bitPosition, long key) {
+        return 0;
+    }
 }

@@ -86,9 +86,9 @@ abstract class BaseEntry {
         }
     }
 
-    int probe_table(long key, TableType type) {
+    int probe_table(BitPosition bitPosition, long key, TableType type) {
         return switch (type) {
-            case WDL -> wdl.probe_table(key);
+            case WDL -> wdl.probe_table(bitPosition, key);
             case DTM, DTZ -> 0;
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         };
