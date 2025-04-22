@@ -68,7 +68,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_probeTable() {
+    public void test_tb_probe_root() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         syzygy.init_tb("KQvK");
 
@@ -81,6 +81,7 @@ public class SyzygyTest {
         assertNotEquals(TB_RESULT_FAILED, res);
 
         assertEquals(TB_WIN, TB_GET_WDL(res));
+
         assertEquals(1, TB_GET_DTZ(res));
     }
 

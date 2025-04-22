@@ -12,7 +12,7 @@ abstract class BaseEntry {
     String tableName;
 
     long key;
-    char num;
+    int num;
 
     TableBase wdl;
     TableBase dtm;
@@ -45,7 +45,7 @@ abstract class BaseEntry {
         this.symmetric = key == key2;
         this.num = 0;
         for (int i = 0; i < 16; i++) {
-            this.num += (char) pcs[i];
+            this.num += pcs[i];
         }
 
         init_tb(pcs);

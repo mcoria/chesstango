@@ -1,11 +1,20 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.BLACK;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.WHITE;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.KING;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
 
 /**
  * @author Mauricio Coria
  */
 public class Chess {
+    static final short BEST_NONE = (short) 0xFFFF;
+    static final short SCORE_ILLEGAL = 0x7FFF;
+
+    static final int MAX_MOVES = TB_MAX_MOVES;
+
     static final short MOVE_STALEMATE = (short) 0xFFFF;
     static final short MOVE_CHECKMATE = (short) 0xFFFE;
 
@@ -14,6 +23,10 @@ public class Chess {
     static final long BOARD_EDGE = (BOARD_RANK_EDGE | BOARD_FILE_EDGE);
     static final long BOARD_RANK_1 = 0x00000000000000FFL;
     static final long BOARD_FILE_A = 0x8080808080808080L;
+
+    static int popcount(long b) {
+        return Long.bitCount(b);
+    }
 
     static long poplsb(long b) {
         return b & (b - 1);
@@ -104,6 +117,25 @@ public class Chess {
         return anti2board_table[(a)];
     }
 
+    static PieceType type_of_piece_moved(BitPosition pos, short move) {
+        throw  new RuntimeException("type_of_piece_moved");
+    }
+
+    static long pieces_by_type(BitPosition pos, Color c, PieceType p) {
+        long mask = (c == WHITE) ? pos.white : pos.black;
+        return switch (p) {
+            case PAWN -> pos.pawns & mask;
+            case KNIGHT -> pos.knights & mask;
+            case BISHOP -> pos.bishops & mask;
+            case ROOK -> pos.rooks & mask;
+            case QUEEN -> pos.queens & mask;
+            case KING -> pos.kings & mask;
+            default -> {
+                throw new IllegalArgumentException("Unknown piece type: " + p);
+            }
+        };
+    }
+
     static boolean is_en_passant(BitPosition pos, short move) {
         short from = move_from(move);
         short to = move_to(move);
@@ -139,6 +171,62 @@ public class Chess {
         if ((pawn_attacks(sq, pos.turn) & (pos.pawns & them)) != 0)
             return true;
         return false;
+    }
+
+    /*
+     * Test if the king is in checkmate.
+     */
+    static boolean is_mate(BitPosition pos) {
+
+        if (!is_check(pos))
+            return false;
+        short[] moves = new short[MAX_MOVES];
+        int totalMoves = gen_moves(pos, moves);
+        BitPosition pos1 = new BitPosition();
+        for (int i = 0; i < totalMoves; i++) {
+            if (do_move(pos1, pos, moves[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*
+     * Test if the given position is legal.
+     * (Pawns on backrank? Can the king be captured?)
+     */
+    static boolean is_legal(BitPosition pos) {
+        long occ = pos.white | pos.black;
+        long us = (pos.turn ? pos.black : pos.white),
+                them = (pos.turn ? pos.white : pos.black);
+        long king = pos.kings & us;
+        if (king == 0)
+            return false;
+        int sq = lsb(king);
+        if ((king_attacks(sq) & (pos.kings & them)) != 0)
+            return false;
+        long ratt = rook_attacks(sq, occ);
+        long batt = bishop_attacks(sq, occ);
+        if ((ratt & (pos.rooks & them)) != 0)
+            return false;
+        if ((batt & (pos.bishops & them)) != 0)
+            return false;
+        if (((ratt | batt) & (pos.queens & them)) != 0)
+            return false;
+        if ((knight_attacks(sq) & (pos.knights & them)) != 0)
+            return false;
+        if ((pawn_attacks(sq, !pos.turn) & (pos.pawns & them)) != 0)
+            return false;
+        return true;
+    }
+
+    /*
+     * Test if the given move is a capture.
+     */
+    static boolean is_capture(BitPosition pos, short move) {
+        long to = move_to(move);
+        long them = (pos.turn ? pos.black : pos.white);
+        return (them & board((int) to)) != 0 || is_en_passant(pos, move);
     }
 
 
@@ -205,44 +293,6 @@ public class Chess {
         if (!is_legal(pos))
             return false;
         return true;
-    }
-
-    /*
-     * Test if the given position is legal.
-     * (Pawns on backrank? Can the king be captured?)
-     */
-    static boolean is_legal(BitPosition pos) {
-        long occ = pos.white | pos.black;
-        long us = (pos.turn ? pos.black : pos.white),
-                them = (pos.turn ? pos.white : pos.black);
-        long king = pos.kings & us;
-        if (king == 0)
-            return false;
-        int sq = lsb(king);
-        if ((king_attacks(sq) & (pos.kings & them)) != 0)
-            return false;
-        long ratt = rook_attacks(sq, occ);
-        long batt = bishop_attacks(sq, occ);
-        if ((ratt & (pos.rooks & them)) != 0)
-            return false;
-        if ((batt & (pos.bishops & them)) != 0)
-            return false;
-        if (((ratt | batt) & (pos.queens & them)) != 0)
-            return false;
-        if ((knight_attacks(sq) & (pos.knights & them)) != 0)
-            return false;
-        if ((pawn_attacks(sq, !pos.turn) & (pos.pawns & them)) != 0)
-            return false;
-        return true;
-    }
-
-    /*
-     * Test if the given move is a capture.
-     */
-    static boolean is_capture(BitPosition pos, short move) {
-        long to = move_to(move);
-        long them = (pos.turn ? pos.black : pos.white);
-        return (them & board((int) to)) != 0 || is_en_passant(pos, move);
     }
 
     /*
@@ -363,6 +413,21 @@ public class Chess {
         long d_attacks = diag_attacks_table[sq][d_idx];
         long a_attacks = anti_attacks_table[sq][a_idx];
         return d_attacks | a_attacks;
+    }
+
+    /*
+     * Generate all legal moves.
+     */
+    static int gen_legal(BitPosition pos, short[] moves) {
+        int results = 0;
+        short[] pl_moves = new short[TB_MAX_MOVES];
+        int totalMoves = gen_moves(pos, pl_moves);
+        for (int i = 0; i < totalMoves; i++) {
+            if (legal_move(pos, pl_moves[i])) {
+                results++;
+            }
+        }
+        return results;
     }
 
     /*
@@ -654,5 +719,27 @@ public class Chess {
         bishop_attacks_init();
         king_attacks_init();
         knight_attacks_init();
+    }
+
+    /*
+     * Given a position, produce a 64-bit material signature key.
+     */
+    static long calc_key(BitPosition pos, boolean mirror) {
+        long white = pos.white, black = pos.black;
+        if (mirror) {
+            long tmp = white;
+            white = black;
+            black = tmp;
+        }
+        return popcount(white & pos.queens) * PRIME_WHITE_QUEEN +
+                popcount(white & pos.rooks) * PRIME_WHITE_ROOK +
+                popcount(white & pos.bishops) * PRIME_WHITE_BISHOP +
+                popcount(white & pos.knights) * PRIME_WHITE_KNIGHT +
+                popcount(white & pos.pawns) * PRIME_WHITE_PAWN +
+                popcount(black & pos.queens) * PRIME_BLACK_QUEEN +
+                popcount(black & pos.rooks) * PRIME_BLACK_ROOK +
+                popcount(black & pos.bishops) * PRIME_BLACK_BISHOP +
+                popcount(black & pos.knights) * PRIME_BLACK_KNIGHT +
+                popcount(black & pos.pawns) * PRIME_BLACK_PAWN;
     }
 }

@@ -3,6 +3,7 @@ package net.chesstango.board.representations.syzygy;
 import lombok.Setter;
 
 import static net.chesstango.board.representations.syzygy.Chess.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
@@ -25,6 +26,14 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
  * @author Mauricio Coria
  */
 public class Syzygy {
+    /**
+     * @author Mauricio Coria
+     */
+    static class HashEntry {
+        long key;
+        BaseEntry ptr;
+        boolean error;
+    }
 
     final HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
     final PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
@@ -123,7 +132,6 @@ public class Syzygy {
      * - This function is NOT thread safe.  For engines this function should only
      * be called once at the root per search.
      */
-
     public int tb_probe_root(
             BitPosition pos) {
 
@@ -178,6 +186,7 @@ public class Syzygy {
     public int tb_probe_wdl(BitPosition pos) {
         if (pos.castling != 0)
             return TB_RESULT_FAILED;
+
         if (pos.rule50 != 0)
             return TB_RESULT_FAILED;
 
@@ -217,91 +226,76 @@ public class Syzygy {
      * @param key the unique key used to identify the entry in the hash tableType
      */
     void add_to_hash(BaseEntry ptr, long key) {
-
         int idx = (int) (key >>> (64 - TB_HASHBITS));
-
         while (tbHash[idx] != null) {
             idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
         }
-
         tbHash[idx] = new HashEntry();
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
         tbHash[idx].error = false;
     }
 
-    /**
-     * @author Mauricio Coria
-     */
-    static class HashEntry {
-        long key;
-        BaseEntry ptr;
-        boolean error;
-    }
 
-
-    void probe_root(BitPosition pos) {
-        /*
+    long probe_root(BitPosition pos) {
         int dtz = probe_dtz(pos);
         if (success != 0) return 0;
 
         short[] scores = new short[MAX_MOVES];
-        short[] moves0 = new short[MAX_MOVES];
-        uint16_t * moves = moves0;
-        uint16_t * end = gen_moves(pos, moves);
-        size_t len = end - moves;
-        size_t num_draw = 0;
-        unsigned j = 0;
-        for (unsigned i = 0; i < len; i++) {
-            Pos pos1;
-            if (!do_move( & pos1,pos, moves[i]))
-            {
+        short[] moves = new short[MAX_MOVES];
+        int len = gen_moves(pos, moves);
+        int num_draw = 0;
+        int j = 0;
+        BitPosition pos1 = new BitPosition();
+        for (int i = 0; i < len; i++) {
+
+            if (!do_move(pos1, pos, moves[i])) {
                 scores[i] = SCORE_ILLEGAL;
                 continue;
             }
             int v = 0;
             //        print_move(pos,moves[i]);
-            if (dtz > 0 && is_mate( & pos1))
-            v = 1;
-        else
-            {
+            if (dtz > 0 && is_mate(pos1))
+                v = 1;
+            else {
                 if (pos1.rule50 != 0) {
-                    v = -probe_dtz( & pos1, &success);
+                    v = -probe_dtz(pos1);
                     if (v > 0)
                         v++;
                     else if (v < 0)
                         v--;
                 } else {
-                    v = -probe_wdl( & pos1, &success);
+                    v = -probe_wdl(pos1);
                     v = wdl_to_dtz[v + 2];
                 }
             }
-            num_draw += (v == 0);
-            if (!success)
+            num_draw += v == 0 ? 1 : 0;
+            if (success != 0)
                 return 0;
-            scores[i] = v;
-            if (results != NULL) {
-                unsigned res = 0;
-                res = TB_SET_WDL(res, dtz_to_wdl(pos -> rule50, v));
+            scores[i] = (short) v;
+            if (results != null) {
+                int res = 0;
+                res = TB_SET_WDL(res, dtz_to_wdl(pos.rule50, v));
                 res = TB_SET_FROM(res, move_from(moves[i]));
                 res = TB_SET_TO(res, move_to(moves[i]));
                 res = TB_SET_PROMOTES(res, move_promotes(moves[i]));
-                res = TB_SET_EP(res, is_en_passant(pos, moves[i]));
+                res = TB_SET_EP(res, is_en_passant(pos, moves[i]) ? 1 : 0);
                 res = TB_SET_DTZ(res, (v < 0 ? -v : v));
                 results[j++] = res;
             }
         }
-        if (results != NULL)
+        if (results != null)
             results[j++] = TB_RESULT_FAILED;
-        if (score != NULL)
-        *score = dtz;
+
+        //if (score != 0)
+        //score = dtz;
 
         // Now be a bit smart about filtering out moves.
         if (dtz > 0)        // winning (or 50-move rule draw)
         {
             int best = BEST_NONE;
-            uint16_t best_move = 0;
-            for (unsigned i = 0; i < len; i++) {
+            long best_move = 0;
+            for (int i = 0; i < len; i++) {
                 int v = scores[i];
                 if (v == SCORE_ILLEGAL)
                     continue;
@@ -314,8 +308,8 @@ public class Syzygy {
         } else if (dtz < 0)   // losing (or 50-move rule draw)
         {
             int best = 0;
-            uint16_t best_move = 0;
-            for (unsigned i = 0; i < len; i++) {
+            long best_move = 0;
+            for (int i = 0; i < len; i++) {
                 int v = scores[i];
                 if (v == SCORE_ILLEGAL)
                     continue;
@@ -333,8 +327,8 @@ public class Syzygy {
 
             // Select a "random" move that preserves the draw.
             // Uses calc_key as the PRNG.
-            size_t count = calc_key(pos, !pos -> turn) % num_draw;
-            for (unsigned i = 0; i < len; i++) {
+            int count = (int) calc_key(pos, !pos.turn) % num_draw;
+            for (int i = 0; i < len; i++) {
                 int v = scores[i];
                 if (v == SCORE_ILLEGAL)
                     continue;
@@ -346,9 +340,129 @@ public class Syzygy {
             }
             return 0;
         }
-         */
+
     }
 
+    static int[] WdlToDtz = {-1, -101, 0, 101, 1};
+    static int[] wdl_to_dtz = {-1, -101, 0, 101, 1};
+
+    // Probe the DTZ table for a particular position.
+    // If *success != 0, the probe was successful.
+    // The return value is from the point of view of the side to move:
+    //         n < -100 : loss, but draw under 50-move rule
+    // -100 <= n < -1   : loss in n ply (assuming 50-move counter == 0)
+    //         0        : draw
+    //     1 < n <= 100 : win in n ply (assuming 50-move counter == 0)
+    //   100 < n        : win, but draw under 50-move rule
+    //
+    // If the position mate, -1 is returned instead of 0.
+    //
+    // The return value n can be off by 1: a return value -n can mean a loss
+    // in n+1 ply and a return value +n can mean a win in n+1 ply. This
+    // cannot happen for tables with positions exactly on the "edge" of
+    // the 50-move rule.
+    //
+    // This means that if dtz > 0 is returned, the position is certainly
+    // a win if dtz + 50-move-counter <= 99. Care must be taken that the engine
+    // picks moves that preserve dtz + 50-move-counter <= 99.
+    //
+    // If n = 100 immediately after a capture or pawn move, then the position
+    // is also certainly a win, and during the whole phase until the next
+    // capture or pawn move, the inequality to be preserved is
+    // dtz + 50-movecounter <= 100.
+    //
+    // In short, if a move is available resulting in dtz + 50-move-counter <= 99,
+    // then do not accept moves leading to dtz + 50-move-counter == 100.
+    //
+    int probe_dtz(BitPosition pos) {
+        int wdl = probe_wdl(pos);
+        if (success == 0) return 0;
+
+        // If draw, then dtz = 0.
+        if (wdl == 0) return 0;
+
+        // Check for winning capture or en passant capture as only best move.
+        if (success == 2)
+            return WdlToDtz[wdl + 2];
+
+        short[] moves = new short[TB_MAX_MOVES];
+        short m = 0;
+
+        BitPosition pos1 = new BitPosition();
+        int totalMoves = 0;
+
+        // If winning, check for a winning pawn move.
+        if (wdl > 0) {
+            // Generate at least all legal non-capturing pawn moves
+            // including non-capturing promotions.
+            // (The following call in fact generates all moves.)
+            totalMoves = gen_legal(pos, moves);
+
+            for (m = 0; m < totalMoves; m++) {
+                short move = moves[m];
+                if (type_of_piece_moved(pos, move) != PAWN || is_capture(pos, move))
+                    continue;
+                if (!do_move(pos1, pos, move))
+                    continue; // not legal
+                int v = -probe_wdl(pos1);
+                if (success == 0) return 0;
+                if (v == wdl) {
+                    assert (wdl < 3);
+                    return WdlToDtz[wdl + 2];
+                }
+            }
+        }
+
+        // If we are here, we know that the best move is not an ep capture.
+        // In other words, the value of wdl corresponds to the WDL value of
+        // the position without ep rights. It is therefore safe to probe the
+        // DTZ table with the current value of wdl.
+
+        int dtz = probe_table(pos, TableType.WDL);
+        if (success >= 0)
+            return WdlToDtz[wdl + 2] + ((wdl > 0) ? dtz : -dtz);
+
+
+        // *success < 0 means we need to probe DTZ for the other side to move.
+        int best;
+        if (wdl > 0) {
+            best = Integer.MAX_VALUE;
+        } else {
+            // If (cursed) loss, the worst case is a losing capture or pawn move
+            // as the "best" move, leading to dtz of -1 or -101.
+            // In case of mate, this will cause -1 to be returned.
+            best = WdlToDtz[wdl + 2];
+            // If wdl < 0, we still have to generate all moves.
+            totalMoves = gen_moves(pos, moves);
+        }
+        assert (totalMoves != 0);
+
+        for (int i = 0; i < totalMoves; i++) {
+            short move = moves[i] ;
+            // We can skip pawn moves and captures.
+            // If wdl > 0, we already caught them. If wdl < 0, the initial value
+            // of best already takes account of them.
+            if (is_capture(pos, move) || type_of_piece_moved(pos, move) == PAWN)
+                continue;
+            if (!do_move( pos1,pos, move)){
+                // move was not legal
+                continue;
+            }
+            int v = -probe_dtz(pos1);
+            // Check for the case of mate in 1
+            if (v == 1 && is_mate(pos1))
+                best = 1;
+            else if (wdl > 0) {
+                if (v > 0 && v + 1 < best)
+                    best = v + 1;
+            } else {
+                if (v - 1 < best)
+                    best = v - 1;
+            }
+            if (success == 0) return 0;
+        }
+        return best;
+    }
 
     // Probe the WDL table for a particular position.
     //
