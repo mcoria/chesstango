@@ -5,7 +5,7 @@ package net.chesstango.board.representations.syzygy;
  */
 class EncInfo {
     PairsData precomp;
-    long[] factor = new long[SyzygyConstants.TB_PIECES];
+    int[] factor = new int[SyzygyConstants.TB_PIECES];
     byte[] pieces = new byte[SyzygyConstants.TB_PIECES];
     byte[] norm = new byte[SyzygyConstants.TB_PIECES];
 }

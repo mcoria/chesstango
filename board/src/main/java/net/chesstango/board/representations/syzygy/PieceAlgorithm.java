@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.Chess.poplsb;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
@@ -39,26 +40,26 @@ class PieceAlgorithm {
 
         // indexTable ptr
         ei[0].precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr((int) size[0][0][0]);
+        bytePTR.incPtr(size[0][0][0]);
 
         ei[1].precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr((int) size[0][1][0]);
+        bytePTR.incPtr(size[0][1][0]);
 
         // sizeTable ptr
         ei[0].precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr((int) size[0][0][1]);
+        bytePTR.incPtr(size[0][0][1]);
 
         ei[1].precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr((int) size[0][1][1]);
+        bytePTR.incPtr(size[0][1][1]);
 
         // data ptr
         bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
         ei[0].precomp.data = bytePTR.clone();
-        bytePTR.incPtr((int) size[0][0][2]);
+        bytePTR.incPtr(size[0][0][2]);
 
         bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
         ei[1].precomp.data = bytePTR.clone();
-        bytePTR.incPtr((int) size[0][1][2]);
+        bytePTR.incPtr(size[0][1][2]);
 
         return true;
     }
@@ -197,29 +198,97 @@ class PieceAlgorithm {
         tmp[s] = 1;
     }
 
-    int probe_table_wdl(PieceAsymmetric pieceAsymmetric, BitPosition bitPosition, long key) {
+    int probe_table_wdl(PieceAsymmetric pieceAsymmetric, BitPosition pos, long key) {
         boolean flip = key != pieceEntry.key;
-        boolean bside = bitPosition.turn() == flip;
+        boolean bside = pos.turn == flip;
 
         int[] p = new int[TB_PIECES];
-        long idx;
-        int t = 0;
-        byte flags = 0;
 
         EncInfo ei = pieceAsymmetric.ei[bside ? 1 : 0];
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = fill_squares(bitPosition, ei.pieces, flip, 0, p, i);
+            i = fill_squares(pos, ei.pieces, flip, 0, p, i);
         }
 
-        idx = encode_piece(p, ei);
+        int idx = encode_piece(p, ei);
 
+        byte[] w = decompress_pairs(ei.precomp, idx);
+
+        return (int) w[0] - 2;
+    }
+
+
+    int probe_table_dtz(PieceAsymmetric pieceAsymmetric, BitPosition pos, long key) {
         return 0;
     }
 
 
-    int probe_table_dtz(PieceAsymmetric pieceAsymmetric, BitPosition bitPosition, long key) {
-        return 0;
+    byte[] decompress_pairs(PairsData d, int idx) {
+        if (d.idxBits == 0) {
+            return d.constValue;
+        }
+
+        throw new RuntimeException("Uninmplemented");
+
+        /*
+        int mainIdx = idx >> d.idxBits;
+        int litIdx = -(1 << 31);
+        int block;
+        memcpy( & block, d.indexTable + 6 * mainIdx, sizeof(block));
+        block = from_le_u32(block);
+
+        uint16_t idxOffset = *(uint16_t *) (d.indexTable + 6 * mainIdx + 4);
+        litIdx += from_le_u16(idxOffset);
+
+        if (litIdx < 0)
+            while (litIdx < 0)
+                litIdx += d.sizeTable[--block] + 1;
+        else
+            while (litIdx > d.sizeTable[block])
+                litIdx -= d.sizeTable[block++] + 1;
+
+        int * ptr = (int *) (d.data + ((int) block << d.blockSize));
+
+        int m = d.minLen;
+        uint16_t * offset = d.offset;
+        uint64_t * base = d.base - m;
+        uint8_t * symLen = d.symLen;
+        int sym, bitCnt;
+
+        uint64_t code = from_be_u64( * (uint64_t *) ptr);
+
+        ptr += 2;
+        bitCnt = 0; // number of "empty bits" in code
+        for (; ; ) {
+            int l = m;
+            while (code < base[l]) l++;
+            sym = from_le_u16(offset[l]);
+            sym += (int) ((code - base[l]) >> (64 - l));
+            if (litIdx < (int) symLen[sym] + 1) break;
+            litIdx -= (int) symLen[sym] + 1;
+            code <<= l;
+            bitCnt += l;
+            if (bitCnt >= 32) {
+                bitCnt -= 32;
+                int tmp = from_be_u32( * ptr++);
+                code |= (uint64_t) tmp << bitCnt;
+            }
+        }
+
+        uint8_t * symPat = d.symPat;
+        while (symLen[sym] != 0) {
+            uint8_t * w = symPat + (3 * sym);
+            int s1 = ((w[1] & 0xf) << 8) | w[0];
+            if (litIdx < (int) symLen[s1] + 1)
+                sym = s1;
+            else {
+                litIdx -= (int) symLen[s1] + 1;
+                sym = (w[2] << 4) | (w[1] >> 4);
+            }
+        }
+
+        return &symPat[3 * sym];
+        */
     }
 
     // p[i] is to contain the square 0-63 (A1-H8) for a piece of type
@@ -236,12 +305,12 @@ class PieceAlgorithm {
         do {
             sq = Long.numberOfTrailingZeros(bb);
             p[i++] = sq ^ mirror;
-            bb = bb & (bb - 1);
+            bb = poplsb(bb);
         } while (bb != 0);
         return i;
     }
 
-    long encode_piece(int[] p, EncInfo ei) {
+    int encode_piece(int[] p, EncInfo ei) {
         int n = pieceEntry.num;
         int idx;
         int k;
@@ -283,7 +352,7 @@ class PieceAlgorithm {
         idx *= ei.factor[0];
 
 
-        for (; k < n; ) {
+        while (k < n) {
             int t = k + ei.norm[k];
             for (int i = k; i < t; i++)
                 for (int j = i + 1; j < t; j++)
@@ -567,5 +636,4 @@ class PieceAlgorithm {
             }
         }
     }
-
 }

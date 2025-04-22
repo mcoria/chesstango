@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -75,7 +76,12 @@ public class SyzygyTest {
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
-        syzygy.probe_table(bitPosition, TableType.WDL);
+        int res = syzygy.tb_probe_root(bitPosition);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_WIN, TB_GET_WDL(res));
+        assertEquals(1, TB_GET_DTZ(res));
     }
 
     /**

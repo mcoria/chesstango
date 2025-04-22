@@ -10,48 +10,52 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.
 /**
  * @author Mauricio Coria
  */
-public record BitPosition(long white,
-                          long black,
-                          long kings,
-                          long queens,
-                          long rooks,
-                          long bishops,
-                          long knights,
-                          long pawns,
-                          byte rule50,
-                          byte ep,
-                          boolean turn) {
+public class BitPosition {
+
+    long white;
+    long black;
+    long kings;
+    long queens;
+    long rooks;
+    long bishops;
+    long knights;
+    long pawns;
+    int rule50;
+    int castling;
+    int ep;
+    boolean turn;
 
     public static BitPosition from(Position chessPosition) {
         BitBoard bitBoard = chessPosition.getBitBoard();
         PositionState positionState = chessPosition.getPositionState();
-        long white = bitBoard.getPositions(Color.WHITE);
-        long black = bitBoard.getPositions(Color.BLACK);
-        long kings = bitBoard.getKingPositions();
-        long queens = bitBoard.getQueenPositions();
-        long rooks = bitBoard.getRookPositions();
-        long bishops = bitBoard.getBishopPositions();
-        long knights = bitBoard.getKnightPositions();
-        long pawns = bitBoard.getPawnPositions();
+
+        BitPosition bitPosition = new BitPosition();
+
+        bitPosition.black = bitBoard.getPositions(Color.BLACK);
+        bitPosition.white = bitBoard.getPositions(Color.WHITE);
+
+        bitPosition.kings = bitBoard.getKingPositions();
+        bitPosition.queens = bitBoard.getQueenPositions();
+        bitPosition.rooks = bitBoard.getRookPositions();
+        bitPosition.bishops = bitBoard.getBishopPositions();
+        bitPosition.knights = bitBoard.getKnightPositions();
+        bitPosition.pawns = bitBoard.getPawnPositions();
 
         byte rule50 = 0;
-        byte ep = 0;
-        if (positionState.getEnPassantSquare() != null) {
-            ep = (byte) positionState.getEnPassantSquare().toIdx();
-        }
-        boolean turn = positionState.getCurrentTurn() == Color.WHITE;
 
-        return new BitPosition(white,
-                black,
-                kings,
-                queens,
-                rooks,
-                bishops,
-                knights,
-                pawns,
-                rule50,
-                ep,
-                turn);
+
+        if (positionState.getEnPassantSquare() != null) {
+            bitPosition.ep = (byte) positionState.getEnPassantSquare().toIdx();
+        }
+
+        bitPosition.turn = positionState.getCurrentTurn() == Color.WHITE;
+
+        bitPosition.castling = positionState.isCastlingWhiteKingAllowed() ||
+                positionState.isCastlingWhiteQueenAllowed() ||
+                positionState.isCastlingBlackKingAllowed() ||
+                positionState.isCastlingBlackQueenAllowed() ? 1 : 0;
+
+        return bitPosition;
     }
 
     long pieces_by_type(SyzygyConstants.Color c, SyzygyConstants.PieceType p) {

@@ -33,10 +33,10 @@ class PieceAsymmetric extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition bitPosition, long key) {
+    int probe_table_imp(BitPosition pos, long key) {
         return switch (tableType) {
-            case WDL -> pieceAlgorithm.probe_table_wdl(this, bitPosition, key);
-            case DTZ -> pieceAlgorithm.probe_table_dtz(this, bitPosition, key);
+            case WDL -> pieceAlgorithm.probe_table_wdl(this, pos, key);
+            case DTZ -> pieceAlgorithm.probe_table_dtz(this, pos, key);
             default -> 0;
         };
     }

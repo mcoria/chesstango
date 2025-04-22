@@ -9,6 +9,7 @@ import java.nio.file.Paths;
  * @author Mauricio Coria
  */
 class SyzygyConstants {
+
     static final long PRIME_WHITE_QUEEN = Long.parseUnsignedLong("11811845319353239651");
     static final long PRIME_WHITE_ROOK = Long.parseUnsignedLong("10979190538029446137");
     static final long PRIME_WHITE_BISHOP = Long.parseUnsignedLong("12311744257139811149");
@@ -22,6 +23,17 @@ class SyzygyConstants {
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
 
+    static final int TB_LOSS = 0;               /* LOSS */
+    static final int TB_BLESSED_LOSS = 1;       /* LOSS but 50-move draw */
+    static final int TB_DRAW = 2;               /* DRAW */
+    static final int TB_CURSED_WIN = 3;         /* WIN but 50-move draw  */
+    static final int TB_WIN = 4;                /* WIN  */
+
+    static final int TB_PROMOTES_NONE = 0;
+    static final int TB_PROMOTES_QUEEN = 1;
+    static final int TB_PROMOTES_ROOK = 2;
+    static final int TB_PROMOTES_BISHOP = 3;
+    static final int TB_PROMOTES_KNIGHT = 4;
 
     static final byte TB_PAWN = 1;
     static final byte TB_KNIGHT = 2;
@@ -51,6 +63,27 @@ class SyzygyConstants {
     static final char TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
     static final char TB_MAX_SYMS = 4096;
     static final char TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
+
+    static final int TB_MAX_MOVES = (192 + 1);
+    static final int TB_MAX_CAPTURES = 64;
+
+    static final int TB_RESULT_CHECKMATE = TB_SET_WDL(0, TB_WIN);
+    static final int TB_RESULT_STALEMATE = TB_SET_WDL(0, TB_DRAW);
+    static final int TB_RESULT_FAILED = 0xFFFFFFFF;
+
+
+    static final int TB_RESULT_WDL_MASK = 0x0000000F;
+    static final int TB_RESULT_TO_MASK = 0x000003F0;
+    static final int TB_RESULT_FROM_MASK = 0x0000FC00;
+    static final int TB_RESULT_PROMOTES_MASK = 0x00070000;
+    static final int TB_RESULT_EP_MASK = 0x00080000;
+    static final int TB_RESULT_DTZ_MASK = 0xFFF00000;
+    static final int TB_RESULT_WDL_SHIFT = 0;
+    static final int TB_RESULT_TO_SHIFT = 4;
+    static final int TB_RESULT_FROM_SHIFT = 10;
+    static final int TB_RESULT_PROMOTES_SHIFT = 16;
+    static final int TB_RESULT_EP_SHIFT = 19;
+    static final int TB_RESULT_DTZ_SHIFT = 20;
 
     @Getter
     enum PieceType {
@@ -154,16 +187,16 @@ class SyzygyConstants {
     }
 
     static long calcKey(BitPosition bitPosition) {
-        return Long.bitCount(bitPosition.white() & bitPosition.queens()) * PRIME_WHITE_QUEEN +
-                Long.bitCount(bitPosition.white() & bitPosition.rooks()) * PRIME_WHITE_ROOK +
-                Long.bitCount(bitPosition.white() & bitPosition.bishops()) * PRIME_WHITE_BISHOP +
-                Long.bitCount(bitPosition.white() & bitPosition.knights()) * PRIME_WHITE_KNIGHT +
-                Long.bitCount(bitPosition.white() & bitPosition.pawns()) * PRIME_WHITE_PAWN +
-                Long.bitCount(bitPosition.black() & bitPosition.queens()) * PRIME_BLACK_QUEEN +
-                Long.bitCount(bitPosition.black() & bitPosition.rooks()) * PRIME_BLACK_ROOK +
-                Long.bitCount(bitPosition.black() & bitPosition.bishops()) * PRIME_BLACK_BISHOP +
-                Long.bitCount(bitPosition.black() & bitPosition.knights()) * PRIME_BLACK_KNIGHT +
-                Long.bitCount(bitPosition.black() & bitPosition.pawns()) * PRIME_BLACK_PAWN;
+        return Long.bitCount(bitPosition.white & bitPosition.queens) * PRIME_WHITE_QUEEN +
+                Long.bitCount(bitPosition.white & bitPosition.rooks) * PRIME_WHITE_ROOK +
+                Long.bitCount(bitPosition.white & bitPosition.bishops) * PRIME_WHITE_BISHOP +
+                Long.bitCount(bitPosition.white & bitPosition.knights) * PRIME_WHITE_KNIGHT +
+                Long.bitCount(bitPosition.white & bitPosition.pawns) * PRIME_WHITE_PAWN +
+                Long.bitCount(bitPosition.black & bitPosition.queens) * PRIME_BLACK_QUEEN +
+                Long.bitCount(bitPosition.black & bitPosition.rooks) * PRIME_BLACK_ROOK +
+                Long.bitCount(bitPosition.black & bitPosition.bishops) * PRIME_BLACK_BISHOP +
+                Long.bitCount(bitPosition.black & bitPosition.knights) * PRIME_BLACK_KNIGHT +
+                Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
     }
 
     static boolean test_tb(String basePath, String fileName, String suffix) {
@@ -180,20 +213,20 @@ class SyzygyConstants {
     // "KQP" represents the white pieces if flip == false and the black pieces
     // if flip == true.
     static String prt_str(BitPosition bitPosition, boolean flip) {
-        var whiteKings = Long.bitCount(bitPosition.white() & bitPosition.kings());
-        var whiteQueens = Long.bitCount(bitPosition.white() & bitPosition.queens());
-        var whiteRooks = Long.bitCount(bitPosition.white() & bitPosition.rooks());
-        var whiteBishops = Long.bitCount(bitPosition.white() & bitPosition.bishops());
-        var whiteKnights = Long.bitCount(bitPosition.white() & bitPosition.knights());
-        var whitePawns = Long.bitCount(bitPosition.white() & bitPosition.pawns());
+        var whiteKings = Long.bitCount(bitPosition.white & bitPosition.kings);
+        var whiteQueens = Long.bitCount(bitPosition.white & bitPosition.queens);
+        var whiteRooks = Long.bitCount(bitPosition.white & bitPosition.rooks);
+        var whiteBishops = Long.bitCount(bitPosition.white & bitPosition.bishops);
+        var whiteKnights = Long.bitCount(bitPosition.white & bitPosition.knights);
+        var whitePawns = Long.bitCount(bitPosition.white & bitPosition.pawns);
         var whiteStr = piecesToString(whiteKings, whiteQueens, whiteRooks, whiteBishops, whiteKnights, whitePawns);
 
-        var blackKings = Long.bitCount(bitPosition.black() & bitPosition.kings());
-        var blackQueens = Long.bitCount(bitPosition.black() & bitPosition.queens());
-        var blackRooks = Long.bitCount(bitPosition.black() & bitPosition.rooks());
-        var blackBishops = Long.bitCount(bitPosition.black() & bitPosition.bishops());
-        var blackKnights = Long.bitCount(bitPosition.black() & bitPosition.knights());
-        var blackPawns = Long.bitCount(bitPosition.black() & bitPosition.pawns());
+        var blackKings = Long.bitCount(bitPosition.black & bitPosition.kings);
+        var blackQueens = Long.bitCount(bitPosition.black & bitPosition.queens);
+        var blackRooks = Long.bitCount(bitPosition.black & bitPosition.rooks);
+        var blackBishops = Long.bitCount(bitPosition.black & bitPosition.bishops);
+        var blackKnights = Long.bitCount(bitPosition.black & bitPosition.knights);
+        var blackPawns = Long.bitCount(bitPosition.black & bitPosition.pawns);
         var blackStr = piecesToString(blackKings, blackQueens, blackRooks, blackBishops, blackKnights, blackPawns);
 
         return flip ? blackStr + "v" + whiteStr : whiteStr + "v" + blackStr;
@@ -206,5 +239,53 @@ class SyzygyConstants {
                 "B".repeat(bishops) +
                 "N".repeat(knights) +
                 "P".repeat(pawns);
+    }
+
+    static int dtz_to_wdl(int cnt50, int dtz) {
+        int wdl = 0;
+        if (dtz > 0)
+            wdl = (dtz + cnt50 <= 100 ? 2 : 1);
+        else if (dtz < 0)
+            wdl = (-dtz + cnt50 <= 100 ? -2 : -1);
+        return wdl + 2;
+    }
+
+
+    static int TB_GET_WDL(int _res) {
+        return ((_res) & TB_RESULT_WDL_MASK) >>> TB_RESULT_WDL_SHIFT;
+    }
+
+    static int TB_GET_DTZ(int _res) {
+        return ((_res) & TB_RESULT_DTZ_MASK) >> TB_RESULT_DTZ_SHIFT;
+    }
+
+    static int TB_SET_WDL(int _res, int _wdl) {
+        return (((_res) & ~TB_RESULT_WDL_MASK) |
+                (((_wdl) << TB_RESULT_WDL_SHIFT) & TB_RESULT_WDL_MASK));
+    }
+
+    static int TB_SET_TO(int _res, int _to) {
+        return (((_res) & ~TB_RESULT_TO_MASK) |
+                (((_to) << TB_RESULT_TO_SHIFT) & TB_RESULT_TO_MASK));
+    }
+
+    static int TB_SET_FROM(int _res, int _from) {
+        return (((_res) & ~TB_RESULT_FROM_MASK) |
+                (((_from) << TB_RESULT_FROM_SHIFT) & TB_RESULT_FROM_MASK));
+    }
+
+    static int TB_SET_PROMOTES(int _res, int _promotes) {
+        return (((_res) & ~TB_RESULT_PROMOTES_MASK) |
+                (((_promotes) << TB_RESULT_PROMOTES_SHIFT) & TB_RESULT_PROMOTES_MASK));
+    }
+
+    static int TB_SET_EP(int _res, int _ep) {
+        return (((_res) & ~TB_RESULT_EP_MASK) |
+                (((_ep) << TB_RESULT_EP_SHIFT) & TB_RESULT_EP_MASK));
+    }
+
+    static int TB_SET_DTZ(int _res, int _dtz) {
+        return (((_res) & ~TB_RESULT_DTZ_MASK) |
+                (((_dtz) << TB_RESULT_DTZ_SHIFT) & TB_RESULT_DTZ_MASK));
     }
 }

@@ -22,7 +22,7 @@ class PawnSymmetric extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition bitPosition, long key) {
+    int probe_table_imp(BitPosition pos, long key) {
         return 0;
     }
 }

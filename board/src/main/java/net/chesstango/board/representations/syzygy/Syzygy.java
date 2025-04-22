@@ -2,6 +2,7 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Setter;
 
+import static net.chesstango.board.representations.syzygy.Chess.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 
 /**
@@ -25,9 +26,10 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
  */
 public class Syzygy {
 
-    HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
-    PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
-    PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
+    final HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
+    final PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
+    final PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
+
 
     int tbNumPiece;
     int tbNumPawn;
@@ -37,6 +39,11 @@ public class Syzygy {
     int TB_MaxCardinality;
     int TB_MaxCardinalityDTM;
     int TB_LARGEST;
+
+    int[] results = new int[TB_MAX_MOVES];
+    int success;
+    int dtz;
+    short bestMove;
 
     @Setter
     String path;
@@ -77,25 +84,110 @@ public class Syzygy {
         }
     }
 
+    /**
+     * Probe the Distance-To-Zero (DTZ) table.
+     * <p>
+     * PARAMETERS:
+     * - white, black, kings, queens, rooks, bishops, knights, pawns: The current position (bitboards).
+     * - rule50: The 50-move half-move clock.
+     * - castling: Castling rights.  Set to zero if no castling is possible.
+     * - ep: The en passant square (if exists).  Set to zero if there is no en passant square.
+     * - turn: true=white, false=black
+     * - results (OPTIONAL):
+     * Alternative results, one for each possible legal move.  The passed array
+     * must be TB_MAX_MOVES in size.
+     * If alternative results are not desired then set results=NULL.
+     * <p>
+     * RETURN:
+     * - A TB_RESULT value comprising:
+     * 1) The WDL value (TB_GET_WDL)
+     * 2) The suggested move (TB_GET_FROM, TB_GET_TO, TB_GET_PROMOTES, TB_GET_EP)
+     * 3) The DTZ value (TB_GET_DTZ)
+     * The suggested move is guaranteed to preserved the WDL value.
+     * <p>
+     * Otherwise:
+     * 1) TB_RESULT_STALEMATE is returned if the position is in stalemate.
+     * 2) TB_RESULT_CHECKMATE is returned if the position is in checkmate.
+     * 3) TB_RESULT_FAILED is returned if the probe failed.
+     * <p>
+     * If results!=NULL, then a TB_RESULT for each legal move will be generated
+     * and stored in the results array.  The results array will be terminated
+     * by TB_RESULT_FAILED.
+     * <p>
+     * NOTES:
+     * - Engines can use this function to probe at the root.  This function should
+     * not be used during search.
+     * - DTZ tablebases can suggest unnatural moves, especially for losing
+     * positions.  Engines may prefer to traditional search combined with WDL
+     * move filtering using the alternative results array.
+     * - This function is NOT thread safe.  For engines this function should only
+     * be called once at the root per search.
+     */
 
-    public int probe_table(BitPosition bitPosition, TableType type) {
-        long key = calcKey(bitPosition);
+    public int tb_probe_root(
+            BitPosition pos) {
 
-        int hashIdx = (int) (key >>> (64 - TB_HASHBITS));
-        final int hashIdxStart = hashIdx;
+        if (pos.castling != 0)
+            return TB_RESULT_FAILED;
 
-        while (tbHash[hashIdx] == null || tbHash[hashIdx].key != key) {
-            hashIdx = (hashIdx + 1) & ((1 << TB_HASHBITS) - 1);
-            if (hashIdx == hashIdxStart) {
-                return 0;
-            }
+        if (!is_valid(pos)) {
+            return TB_RESULT_FAILED;
         }
 
-        BaseEntry be = tbHash[hashIdx].ptr;
+        probe_root(pos);
 
-        return be.probe_table(bitPosition, key, type);
+        if (bestMove == 0)
+            return TB_RESULT_FAILED;
+
+        if (bestMove == MOVE_CHECKMATE)
+            return TB_RESULT_CHECKMATE;
+
+        if (bestMove == MOVE_STALEMATE)
+            return TB_RESULT_STALEMATE;
+
+        int res = 0;
+        res = TB_SET_WDL(res, dtz_to_wdl(pos.rule50, dtz));
+        res = TB_SET_DTZ(res, (dtz < 0 ? -dtz : dtz));
+        res = TB_SET_FROM(res, move_from(bestMove));
+        res = TB_SET_TO(res, move_to(bestMove));
+        res = TB_SET_PROMOTES(res, move_promotes(bestMove));
+        res = TB_SET_EP(res, is_en_passant(pos, bestMove) ? pos.ep : 0);
+
+        return res;
     }
 
+
+    /**
+     * Probe the Win-Draw-Loss (WDL) table.
+     * <p>
+     * PARAMETERS:
+     * - white, black, kings, queens, rooks, bishops, knights, pawns: The current position (bitboards).
+     * - rule50: The 50-move half-move clock.
+     * - castling: Castling rights.  Set to zero if no castling is possible.
+     * - ep: The en passant square (if exists).  Set to zero if there is no en passant square.
+     * - turn: true=white, false=black
+     * <p>
+     * RETURN:
+     * - One of {TB_LOSS, TB_BLESSED_LOSS, TB_DRAW, TB_CURSED_WIN, TB_WIN}.
+     * Otherwise returns TB_RESULT_FAILED if the probe failed.
+     * <p>
+     * NOTES:
+     * - Engines should use this function during search.
+     */
+
+    public int tb_probe_wdl(BitPosition pos) {
+        if (pos.castling != 0)
+            return TB_RESULT_FAILED;
+        if (pos.rule50 != 0)
+            return TB_RESULT_FAILED;
+
+        int v = probe_wdl(pos);
+
+        if (success == 0)
+            return TB_RESULT_FAILED;
+
+        return v + 2;
+    }
 
     /**
      * Initializes a tablebase entry for the given tableType name.
@@ -145,5 +237,258 @@ public class Syzygy {
         long key;
         BaseEntry ptr;
         boolean error;
+    }
+
+
+    void probe_root(BitPosition pos) {
+        /*
+        int dtz = probe_dtz(pos);
+        if (success != 0) return 0;
+
+        short[] scores = new short[MAX_MOVES];
+        short[] moves0 = new short[MAX_MOVES];
+        uint16_t * moves = moves0;
+        uint16_t * end = gen_moves(pos, moves);
+        size_t len = end - moves;
+        size_t num_draw = 0;
+        unsigned j = 0;
+        for (unsigned i = 0; i < len; i++) {
+            Pos pos1;
+            if (!do_move( & pos1,pos, moves[i]))
+            {
+                scores[i] = SCORE_ILLEGAL;
+                continue;
+            }
+            int v = 0;
+            //        print_move(pos,moves[i]);
+            if (dtz > 0 && is_mate( & pos1))
+            v = 1;
+        else
+            {
+                if (pos1.rule50 != 0) {
+                    v = -probe_dtz( & pos1, &success);
+                    if (v > 0)
+                        v++;
+                    else if (v < 0)
+                        v--;
+                } else {
+                    v = -probe_wdl( & pos1, &success);
+                    v = wdl_to_dtz[v + 2];
+                }
+            }
+            num_draw += (v == 0);
+            if (!success)
+                return 0;
+            scores[i] = v;
+            if (results != NULL) {
+                unsigned res = 0;
+                res = TB_SET_WDL(res, dtz_to_wdl(pos -> rule50, v));
+                res = TB_SET_FROM(res, move_from(moves[i]));
+                res = TB_SET_TO(res, move_to(moves[i]));
+                res = TB_SET_PROMOTES(res, move_promotes(moves[i]));
+                res = TB_SET_EP(res, is_en_passant(pos, moves[i]));
+                res = TB_SET_DTZ(res, (v < 0 ? -v : v));
+                results[j++] = res;
+            }
+        }
+        if (results != NULL)
+            results[j++] = TB_RESULT_FAILED;
+        if (score != NULL)
+        *score = dtz;
+
+        // Now be a bit smart about filtering out moves.
+        if (dtz > 0)        // winning (or 50-move rule draw)
+        {
+            int best = BEST_NONE;
+            uint16_t best_move = 0;
+            for (unsigned i = 0; i < len; i++) {
+                int v = scores[i];
+                if (v == SCORE_ILLEGAL)
+                    continue;
+                if (v > 0 && v < best) {
+                    best = v;
+                    best_move = moves[i];
+                }
+            }
+            return (best == BEST_NONE ? 0 : best_move);
+        } else if (dtz < 0)   // losing (or 50-move rule draw)
+        {
+            int best = 0;
+            uint16_t best_move = 0;
+            for (unsigned i = 0; i < len; i++) {
+                int v = scores[i];
+                if (v == SCORE_ILLEGAL)
+                    continue;
+                if (v < best) {
+                    best = v;
+                    best_move = moves[i];
+                }
+            }
+            return (best == 0 ? MOVE_CHECKMATE : best_move);
+        } else                // drawing
+        {
+            // Check for stalemate:
+            if (num_draw == 0)
+                return MOVE_STALEMATE;
+
+            // Select a "random" move that preserves the draw.
+            // Uses calc_key as the PRNG.
+            size_t count = calc_key(pos, !pos -> turn) % num_draw;
+            for (unsigned i = 0; i < len; i++) {
+                int v = scores[i];
+                if (v == SCORE_ILLEGAL)
+                    continue;
+                if (v == 0) {
+                    if (count == 0)
+                        return moves[i];
+                    count--;
+                }
+            }
+            return 0;
+        }
+         */
+    }
+
+
+    // Probe the WDL table for a particular position.
+    //
+    // If *success != 0, the probe was successful.
+    //
+    // If *success == 2, the position has a winning capture, or the position
+    // is a cursed win and has a cursed winning capture, or the position
+    // has an ep capture as only best move.
+    // This is used in probe_dtz().
+    //
+    // The return value is from the point of view of the side to move:
+    // -2 : loss
+    // -1 : loss, but draw under 50-move rule
+    //  0 : draw
+    //  1 : win, but draw under 50-move rule
+    //  2 : win
+    int probe_wdl(BitPosition pos) {
+        // Generate (at least) all legal captures including (under)promotions.
+        short[] moves0 = new short[TB_MAX_CAPTURES];
+        int moveCount = gen_captures(pos, moves0);
+        int bestCap = -3, bestEp = -3;
+
+        // We do capture resolution, letting bestCap keep track of the best
+        // capture without ep rights and letting bestEp keep track of still
+        // better ep captures if they exist.
+
+        BitPosition pos1 = new BitPosition();
+        for (int i = 0; i < moveCount; i++) {
+            short move = moves0[i];
+            if (!is_capture(pos, move))
+                continue;
+            if (!do_move(pos1, pos, move))
+                continue; // illegal move
+            int v = -probe_ab(pos1, -2, -bestCap);
+            if (success == 0) return 0;
+            if (v > bestCap) {
+                if (v == 2) {
+                    success = 2;
+                    return 2;
+                }
+                if (!is_en_passant(pos, move))
+                    bestCap = v;
+                else if (v > bestEp)
+                    bestEp = v;
+            }
+        }
+
+        int v = probe_table(pos, TableType.WDL);
+        if (success == 0) return 0;
+
+        // Now max(v, bestCap) is the WDL value of the position without ep rights.
+        // If the position without ep rights is not stalemate or no ep captures
+        // exist, then the value of the position is max(v, bestCap, bestEp).
+        // If the position without ep rights is stalemate and bestEp > -3,
+        // then the value of the position is bestEp (and we will have v == 0).
+
+        if (bestEp > bestCap) {
+            if (bestEp > v) { // ep capture (possibly cursed losing) is best.
+                success = 2;
+                return bestEp;
+            }
+            bestCap = bestEp;
+        }
+
+        // Now max(v, bestCap) is the WDL value of the position unless
+        // the position without ep rights is stalemate and bestEp > -3.
+
+        if (bestCap >= v) {
+            // No need to test for the stalemate case here: either there are
+            // non-ep captures, or bestCap == bestEp >= v anyway.
+            success = 1 + bestCap > 0 ? 1 : 0;
+            return bestCap;
+        }
+
+        // Now handle the stalemate case.
+        if (bestEp > -3 && v == 0) {
+            short[] moves = new short[TB_MAX_MOVES];
+            int totalMoves = gen_moves(pos, moves);
+            // Check for stalemate in the position with ep captures.
+            int m = 0;
+            for (; m < totalMoves; m++) {
+                if (!is_en_passant(pos, moves[m]) && legal_move(pos, moves[m])) break;
+            }
+            if (m == totalMoves && !is_check(pos)) {
+                // stalemate score from tb (w/o e.p.), but an en-passant capture
+                // is possible.
+                success = 2;
+                return bestEp;
+            }
+        }
+        // Stalemate / en passant not an issue, so v is the correct value.
+
+        return v;
+    }
+
+    // probe_ab() is not called for positions with en passant captures.
+    int probe_ab(BitPosition pos, int alpha, int beta) {
+        assert (pos.ep == 0);
+
+        short[] moves0 = new short[TB_MAX_CAPTURES];
+        // Generate (at least) all legal captures including (under)promotions.
+        // It is OK to generate more, as long as they are filtered out below.
+        int totalMoves = gen_captures(pos, moves0);
+
+        BitPosition pos1 = new BitPosition();
+        for (int m = 0; m < totalMoves; m++) {
+            short move = moves0[m];
+            if (!is_capture(pos, move))
+                continue;
+            if (!do_move(pos1, pos, move))
+                continue; // illegal move
+            int v = -probe_ab(pos1, -beta, -alpha);
+            if (success == 0) return 0;
+            if (v > alpha) {
+                if (v >= beta)
+                    return v;
+                alpha = v;
+            }
+        }
+
+        int v = probe_table(pos, TableType.WDL);
+
+        return Math.max(alpha, v);
+    }
+
+    int probe_table(BitPosition bitPosition, TableType type) {
+        long key = calcKey(bitPosition);
+
+        int hashIdx = (int) (key >>> (64 - TB_HASHBITS));
+        final int hashIdxStart = hashIdx;
+
+        while (tbHash[hashIdx] == null || tbHash[hashIdx].key != key) {
+            hashIdx = (hashIdx + 1) & ((1 << TB_HASHBITS) - 1);
+            if (hashIdx == hashIdxStart) {
+                return 0;
+            }
+        }
+
+        BaseEntry be = tbHash[hashIdx].ptr;
+
+        return be.probe_table(bitPosition, key, type);
     }
 }

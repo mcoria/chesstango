@@ -19,17 +19,17 @@ public class BitPositionTest {
 
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
-        assertEquals(0x0000808000000000L, bitPosition.white());
-        assertEquals(0x8000000000000000L, bitPosition.black());
-        assertEquals(0x8000800000000000L, bitPosition.kings());
-        assertEquals(0x0000008000000000L, bitPosition.queens());
-        assertEquals(0x0000000000000000L, bitPosition.rooks());
-        assertEquals(0x0000000000000000L, bitPosition.bishops());
-        assertEquals(0x0000000000000000L, bitPosition.knights());
-        assertEquals(0x0000000000000000L, bitPosition.pawns());
-        assertEquals(0x00L, bitPosition.rule50());
-        assertEquals(0x00L, bitPosition.ep());
-        assertTrue(bitPosition.turn());
+        assertEquals(0x0000808000000000L, bitPosition.white);
+        assertEquals(0x8000000000000000L, bitPosition.black);
+        assertEquals(0x8000800000000000L, bitPosition.kings);
+        assertEquals(0x0000008000000000L, bitPosition.queens);
+        assertEquals(0x0000000000000000L, bitPosition.rooks);
+        assertEquals(0x0000000000000000L, bitPosition.bishops);
+        assertEquals(0x0000000000000000L, bitPosition.knights);
+        assertEquals(0x0000000000000000L, bitPosition.pawns);
+        assertEquals(0x00L, bitPosition.rule50);
+        assertEquals(0x00L, bitPosition.ep);
+        assertTrue(bitPosition.turn);
     }
 
 }

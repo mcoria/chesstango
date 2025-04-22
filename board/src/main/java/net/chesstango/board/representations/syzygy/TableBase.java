@@ -14,7 +14,7 @@ abstract class TableBase {
 
     abstract boolean init_table_imp();
 
-    abstract int probe_table_imp(BitPosition bitPosition, long key);
+    abstract int probe_table_imp(BitPosition pos, long key);
 
     public TableBase(TableType tableType) {
         this.tableType = tableType;
@@ -59,12 +59,12 @@ abstract class TableBase {
         return result;
     }
 
-    public int probe_table(BitPosition bitPosition, long key) {
+    public int probe_table(BitPosition pos, long key) {
         if (!ready || error) {
             return 0;
         }
 
-        return probe_table_imp(bitPosition, key);
+        return probe_table_imp(pos, key);
     }
 
 }
