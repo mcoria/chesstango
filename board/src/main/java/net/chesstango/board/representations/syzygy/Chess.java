@@ -3,8 +3,6 @@ package net.chesstango.board.representations.syzygy;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.BLACK;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.WHITE;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.KING;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
 
 /**
  * @author Mauricio Coria
@@ -118,7 +116,12 @@ public class Chess {
     }
 
     static PieceType type_of_piece_moved(BitPosition pos, short move) {
-        throw  new RuntimeException("type_of_piece_moved");
+        for (PieceType pt : PieceType.values()) {
+            if ((pieces_by_type(pos, pos.turn ? WHITE : BLACK, pt) & board(move_from(move))) != 0) {
+                return pt;
+            }
+        }
+        throw new RuntimeException("No piece found");
     }
 
     static long pieces_by_type(BitPosition pos, Color c, PieceType p) {
@@ -130,9 +133,6 @@ public class Chess {
             case ROOK -> pos.rooks & mask;
             case QUEEN -> pos.queens & mask;
             case KING -> pos.kings & mask;
-            default -> {
-                throw new IllegalArgumentException("Unknown piece type: " + p);
-            }
         };
     }
 
@@ -424,7 +424,7 @@ public class Chess {
         int totalMoves = gen_moves(pos, pl_moves);
         for (int i = 0; i < totalMoves; i++) {
             if (legal_move(pos, pl_moves[i])) {
-                results++;
+                moves[results++] = pl_moves[i];
             }
         }
         return results;
@@ -435,8 +435,7 @@ public class Chess {
      */
     static int gen_moves(BitPosition pos, short[] moves) {
         long occ = pos.white | pos.black;
-        long us = (pos.turn ? pos.white : pos.black),
-                them = (pos.turn ? pos.black : pos.white);
+        long us = (pos.turn ? pos.white : pos.black), them = (pos.turn ? pos.black : pos.white);
         long b, att;
         int idx = 0;
         {
@@ -713,12 +712,72 @@ public class Chess {
         }
     }
 
+    static void rook_attacks_init() {
+        for (int idx = 0; idx < 64; idx++) {
+            int idx1 = idx << 1, occ;
+            for (int f = 0; f <= 7; f++) {
+                long b = 0;
+                if (f > 0) {
+                    int i = f - 1;
+                    do {
+                        occ = (1 << i);
+                        b |= board(square(0, i));
+                        i--;
+                    }
+                    while ((idx1 & occ) == 0 && i >= 0);
+                }
+                if (f < 7) {
+                    int i = f + 1;
+                    do {
+                        occ = (1 << i);
+                        b |= board(square(0, i));
+                        i++;
+                    }
+                    while ((idx1 & occ) == 0 && i <= 7);
+                }
+                for (int r = 0; r <= 7; r++) {
+                    rank_attacks_table[square(r, f)][idx] = b;
+                    b <<= 8;
+                }
+            }
+        }
+        for (int idx = 0; idx < 64; idx++) {
+            int idx1 = idx << 1, occ;
+            for (int r = 0; r <= 7; r++) {
+                long b = 0;
+                if (r > 0) {
+                    int i = r - 1;
+                    do {
+                        occ = (1 << i);
+                        b |= board(square(i, 0));
+                        i--;
+                    }
+                    while ((idx1 & occ) == 0 && i >= 0);
+                }
+                if (r < 7) {
+                    int i = r + 1;
+                    do {
+                        occ = (1 << i);
+                        b |= board(square(i, 0));
+                        i++;
+                    }
+                    while ((idx1 & occ) == 0 && i <= 7);
+                }
+                for (int f = 0; f <= 7; f++) {
+                    file_attacks_table[square(r, f)][idx] = b;
+                    b <<= 1;
+                }
+            }
+        }
+    }
+
 
     static {
-        pawn_attacks_init();
-        bishop_attacks_init();
         king_attacks_init();
         knight_attacks_init();
+        bishop_attacks_init();
+        rook_attacks_init();
+        pawn_attacks_init();
     }
 
     /*

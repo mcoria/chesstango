@@ -480,6 +480,8 @@ public class Syzygy {
     //  1 : win, but draw under 50-move rule
     //  2 : win
     int probe_wdl(BitPosition pos) {
+        success = 1;
+
         // Generate (at least) all legal captures including (under)promotions.
         short[] moves0 = new short[TB_MAX_CAPTURES];
         int moveCount = gen_captures(pos, moves0);
