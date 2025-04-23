@@ -31,43 +31,42 @@ class PieceAsymmetricWdl extends TableBase {
         BytePTR bytePTR = new BytePTR(mappedFile);
         bytePTR.ptr = 5;
 
-        int[][] tb_size = new int[1][2];
-
-        tb_size[0][0] = pieceAlgorithm.init_enc_info(ei_wtm, bytePTR, 0);
-        tb_size[0][1] = pieceAlgorithm.init_enc_info(ei_btm, bytePTR, 4);
+        int tb_size_white = pieceAlgorithm.init_enc_info(ei_wtm, bytePTR, 0);
+        int tb_size_black = pieceAlgorithm.init_enc_info(ei_btm, bytePTR, 4);
 
         bytePTR.incPtr(pieceEntry.num + 1);
 
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
         bytePTR.ptr += bytePTR.ptr & 1;
 
-        int[][][] size = new int[6][2][3];
+        int[] size_white = new int[3];
+        int[] size_black = new int[3];
 
-        ei_wtm.precomp = pieceAlgorithm.setup_pairs(WDL, bytePTR, tb_size[0][0], size[0][0]);
-        ei_btm.precomp = pieceAlgorithm.setup_pairs(WDL, bytePTR, tb_size[0][1], size[0][1]);
+        ei_wtm.precomp = pieceAlgorithm.setup_pairs(WDL, bytePTR, tb_size_white, size_white);
+        ei_btm.precomp = pieceAlgorithm.setup_pairs(WDL, bytePTR, tb_size_black, size_black);
 
         // indexTable ptr
         ei_wtm.precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][0]);
+        bytePTR.incPtr(size_white[0]);
 
         ei_btm.precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr(size[0][1][0]);
+        bytePTR.incPtr(size_black[0]);
 
         // sizeTable ptr
         ei_wtm.precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr(size[0][0][1]);
+        bytePTR.incPtr(size_white[1]);
 
         ei_btm.precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr(size[0][1][1]);
+        bytePTR.incPtr(size_black[1]);
 
         // data ptr
         bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
         ei_wtm.precomp.data = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][2]);
+        bytePTR.incPtr(size_white[2]);
 
         bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
         ei_btm.precomp.data = bytePTR.clone();
-        bytePTR.incPtr(size[0][1][2]);
+        bytePTR.incPtr(size_black[2]);
 
         return true;
     }
@@ -79,7 +78,7 @@ class PieceAsymmetricWdl extends TableBase {
 
         int[] p = new int[TB_PIECES];
 
-        EncInfo ei = bside ? ei_wtm : ei_btm ;
+        EncInfo ei = bside ? ei_btm : ei_wtm;
 
         for (int i = 0; i < pieceEntry.num; ) {
             i = pieceAlgorithm.fill_squares(pos, ei.pieces, flip, 0, p, i);
