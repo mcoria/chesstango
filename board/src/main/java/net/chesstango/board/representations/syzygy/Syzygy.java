@@ -419,7 +419,7 @@ public class Syzygy {
         // the position without ep rights. It is therefore safe to probe the
         // DTZ table with the current value of wdl.
 
-        int dtz = probe_table(pos, wdl, DTZ);
+        int dtz = probe_dtz_table(pos, wdl);
         if (success >= 0)
             return WdlToDtz[wdl + 2] + ((wdl > 0) ? dtz : -dtz);
 

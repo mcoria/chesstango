@@ -60,7 +60,9 @@ abstract class TableBase {
     }
 
     public int probe_table(BitPosition pos, long key) {
+        BaseEntry baseEntry = getBaseEntry();
         if (!ready || error) {
+            baseEntry.syzygy.success = 0;
             return 0;
         }
 

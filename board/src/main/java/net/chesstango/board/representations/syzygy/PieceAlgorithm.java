@@ -65,7 +65,7 @@ class PieceAlgorithm {
     }
 
     boolean init_table_dtz(PieceAsymmetric pieceAsymmetric) {
-        return false;
+        throw new RuntimeException("Uninmplemented");
     }
 
 
