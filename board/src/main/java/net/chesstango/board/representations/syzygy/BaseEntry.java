@@ -27,6 +27,8 @@ abstract class BaseEntry {
     }
 
     abstract TableBase createTable(TableType tableType);
+    abstract int probe_wdl(BitPosition bitPosition, long key);
+    abstract int probe_dtz(BitPosition bitPosition, long key);
 
     abstract void init_tb(int[] pcs);
 
@@ -85,13 +87,4 @@ abstract class BaseEntry {
             this.syzygy.add_to_hash(this, key2);
         }
     }
-
-    int probe_table(BitPosition pos, long key, TableType type) {
-        return switch (type) {
-            case WDL -> wdl.probe_table(pos, key);
-            case DTM, DTZ -> 0;
-            default -> throw new IllegalArgumentException("Unexpected value: " + type);
-        };
-    }
-
 }

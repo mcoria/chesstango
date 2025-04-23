@@ -219,7 +219,7 @@ class PieceAlgorithm {
 
 
     int probe_table_dtz(PieceAsymmetric pieceAsymmetric, BitPosition pos, long key) {
-        return 0;
+        throw new RuntimeException("Uninmplemented");
     }
 
 

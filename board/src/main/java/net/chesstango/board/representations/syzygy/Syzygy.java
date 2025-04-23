@@ -5,6 +5,7 @@ import lombok.Setter;
 import static net.chesstango.board.representations.syzygy.Chess.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.TableType.*;
 
 /**
  * Syzygy Bases consist of two sets of files,
@@ -418,7 +419,7 @@ public class Syzygy {
         // the position without ep rights. It is therefore safe to probe the
         // DTZ table with the current value of wdl.
 
-        int dtz = probe_table(pos, TableType.WDL);
+        int dtz = probe_table(pos, wdl, DTZ);
         if (success >= 0)
             return WdlToDtz[wdl + 2] + ((wdl > 0) ? dtz : -dtz);
 
@@ -438,13 +439,13 @@ public class Syzygy {
         assert (totalMoves != 0);
 
         for (int i = 0; i < totalMoves; i++) {
-            short move = moves[i] ;
+            short move = moves[i];
             // We can skip pawn moves and captures.
             // If wdl > 0, we already caught them. If wdl < 0, the initial value
             // of best already takes account of them.
             if (is_capture(pos, move) || type_of_piece_moved(pos, move) == PAWN)
                 continue;
-            if (!do_move( pos1,pos, move)){
+            if (!do_move(pos1, pos, move)) {
                 // move was not legal
                 continue;
             }
@@ -512,7 +513,7 @@ public class Syzygy {
             }
         }
 
-        int v = probe_table(pos, TableType.WDL);
+        int v = probe_wdl_table(pos);
         if (success == 0) return 0;
 
         // Now max(v, bestCap) is the WDL value of the position without ep rights.
@@ -585,12 +586,24 @@ public class Syzygy {
             }
         }
 
-        int v = probe_table(pos, TableType.WDL);
+        int v = probe_wdl_table(pos);
 
         return Math.max(alpha, v);
     }
 
-    int probe_table(BitPosition bitPosition, TableType type) {
+    int probe_wdl_table(BitPosition pos) {
+        return probe_table(pos, 0, WDL);
+    }
+
+    int probe_dtm_table(BitPosition pos, int won) {
+        return probe_table(pos, won, DTM);
+    }
+
+    int probe_dtz_table(BitPosition pos, int wdl) {
+        return probe_table(pos, wdl, DTZ);
+    }
+
+    int probe_table(BitPosition bitPosition, int s, TableType type) {
         long key = calcKey(bitPosition);
 
         int hashIdx = (int) (key >>> (64 - TB_HASHBITS));
@@ -605,6 +618,10 @@ public class Syzygy {
 
         BaseEntry be = tbHash[hashIdx].ptr;
 
-        return be.probe_table(bitPosition, key, type);
+        return switch (type) {
+            case WDL -> be.probe_wdl(bitPosition, key);
+            case DTZ -> be.probe_dtz(bitPosition, key);
+            default -> throw new IllegalArgumentException("Unknown table type: " + type);
+        };
     }
 }

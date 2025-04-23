@@ -29,4 +29,14 @@ class PawnEntry extends BaseEntry {
             this.pawns[1] = tmp;
         }
     }
+
+    @Override
+    int probe_wdl(BitPosition bitPosition, long key) {
+        return wdl.probe_table(bitPosition, key);
+    }
+
+    @Override
+    int probe_dtz(BitPosition bitPosition, long key) {
+        return dtz.probe_table(bitPosition, key);
+    }
 }
