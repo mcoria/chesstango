@@ -13,7 +13,13 @@ class PieceEntry extends BaseEntry {
 
     @Override
     protected TableBase createTable(TableType tableType) {
-        return this.symmetric ? new PieceSymmetric(this, tableType) : new PieceAsymmetric(this, tableType);
+        if (!symmetric && tableType == TableType.WDL)
+            return new PieceAsymmetricWdl(this);
+
+        if (!symmetric && tableType == TableType.DTZ)
+            return new PieceAsymmetricDtz(this);
+
+        return new PieceSymmetric(this, tableType);
     }
 
     @Override
@@ -26,13 +32,4 @@ class PieceEntry extends BaseEntry {
         this.kk_enc = j == 2;
     }
 
-    @Override
-    int probe_wdl(BitPosition bitPosition, long key) {
-        return wdl.probe_table(bitPosition, key);
-    }
-
-    @Override
-    int probe_dtz(BitPosition bitPosition, long key) {
-        return dtz.probe_table(bitPosition, key);
-    }
 }

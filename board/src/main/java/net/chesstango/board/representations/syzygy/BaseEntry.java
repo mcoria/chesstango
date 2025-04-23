@@ -14,23 +14,20 @@ abstract class BaseEntry {
     long key;
     int num;
 
+    boolean symmetric;
+    boolean dtmLossOnly;
+
     TableBase wdl;
     TableBase dtm;
     TableBase dtz;
-
-    boolean symmetric;
-
-    boolean dtmLossOnly;
 
     BaseEntry(Syzygy syzygy) {
         this.syzygy = syzygy;
     }
 
-    abstract TableBase createTable(TableType tableType);
-    abstract int probe_wdl(BitPosition bitPosition, long key);
-    abstract int probe_dtz(BitPosition bitPosition, long key);
-
     abstract void init_tb(int[] pcs);
+    abstract TableBase createTable(TableType tableType);
+
 
     void init_tb(String tbName) {
         this.tableName = tbName;
@@ -86,5 +83,14 @@ abstract class BaseEntry {
         if (key != key2) {
             this.syzygy.add_to_hash(this, key2);
         }
+    }
+
+
+    int probe_wdl(BitPosition bitPosition, long key) {
+        return wdl.probe_table(bitPosition, key);
+    }
+
+    int probe_dtz(BitPosition bitPosition, long key) {
+        return dtz.probe_table(bitPosition, key);
     }
 }

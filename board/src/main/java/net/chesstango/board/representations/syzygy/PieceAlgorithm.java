@@ -16,59 +16,6 @@ class PieceAlgorithm {
         this.mappedFile = mappedFile;
     }
 
-    boolean init_table_wdl(PieceAsymmetric pieceAsymmetric) {
-        BytePTR bytePTR = new BytePTR(pieceAsymmetric.mappedFile);
-        bytePTR.ptr = 5;
-
-        EncInfo[] ei = pieceAsymmetric.ei;
-
-        int[][] tb_size = new int[1][2];
-
-        tb_size[0][0] = init_enc_info(ei[0], bytePTR, 0);
-        tb_size[0][1] = init_enc_info(ei[1], bytePTR, 4);
-
-        bytePTR.incPtr(pieceAsymmetric.pieceEntry.num + 1);
-
-        // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
-        bytePTR.ptr += bytePTR.ptr & 1;
-
-        int[][][] size = new int[6][2][3];
-
-        byte flags = bytePTR.read_uint8_t(0);
-        ei[0].precomp = setup_pairs(WDL, bytePTR, tb_size[0][0], size[0][0]);
-        ei[1].precomp = setup_pairs(WDL, bytePTR, tb_size[0][1], size[0][1]);
-
-        // indexTable ptr
-        ei[0].precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][0]);
-
-        ei[1].precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr(size[0][1][0]);
-
-        // sizeTable ptr
-        ei[0].precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr(size[0][0][1]);
-
-        ei[1].precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr(size[0][1][1]);
-
-        // data ptr
-        bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
-        ei[0].precomp.data = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][2]);
-
-        bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
-        ei[1].precomp.data = bytePTR.clone();
-        bytePTR.incPtr(size[0][1][2]);
-
-        return true;
-    }
-
-    boolean init_table_dtz(PieceAsymmetric pieceAsymmetric) {
-        throw new RuntimeException("Uninmplemented");
-    }
-
-
     int init_enc_info(EncInfo ei, BytePTR bytePTR, int shift) {
         for (int i = 0; i < pieceEntry.num; i++) {
             ei.pieces[i] = (byte) ((bytePTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
@@ -175,8 +122,10 @@ class PieceAlgorithm {
         for (int i = 0; i < h; i++) {
             d.base[i] <<= 64 - (minLen + i);
         }
+
         // offset is a two byte pointer
         d.offset.incPtr(-2 * d.minLen);
+
         return d;
     }
 
@@ -197,31 +146,6 @@ class PieceAlgorithm {
         }
         tmp[s] = 1;
     }
-
-    int probe_table_wdl(PieceAsymmetric pieceAsymmetric, BitPosition pos, long key) {
-        boolean flip = key != pieceEntry.key;
-        boolean bside = pos.turn == flip;
-
-        int[] p = new int[TB_PIECES];
-
-        EncInfo ei = pieceAsymmetric.ei[bside ? 1 : 0];
-
-        for (int i = 0; i < pieceEntry.num; ) {
-            i = fill_squares(pos, ei.pieces, flip, 0, p, i);
-        }
-
-        int idx = encode_piece(p, ei);
-
-        byte[] w = decompress_pairs(ei.precomp, idx);
-
-        return (int) w[0] - 2;
-    }
-
-
-    int probe_table_dtz(PieceAsymmetric pieceAsymmetric, BitPosition pos, long key) {
-        throw new RuntimeException("Uninmplemented");
-    }
-
 
     byte[] decompress_pairs(PairsData d, int idx) {
         if (d.idxBits == 0) {

@@ -31,14 +31,14 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
 
 
-        PieceAsymmetric wdl = (PieceAsymmetric) pieceEntry.wdl;
+        PieceAsymmetricWdl wdl = (PieceAsymmetricWdl) pieceEntry.wdl;
 
-        EncInfo ei0 = wdl.ei[0];
+        EncInfo ei0 = wdl.ei_wtm;
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei0.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei0.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei0.norm);
 
-        EncInfo ei1 = wdl.ei[1];
+        EncInfo ei1 = wdl.ei_btm;
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei1.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei1.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei1.norm);

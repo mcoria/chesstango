@@ -18,11 +18,11 @@ class PieceSymmetric extends TableBase {
 
     @Override
     boolean init_table_imp() {
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     int probe_table_imp(BitPosition pos, long key) {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
