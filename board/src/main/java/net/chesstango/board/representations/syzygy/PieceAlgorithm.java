@@ -16,13 +16,13 @@ class PieceAlgorithm {
         this.mappedFile = mappedFile;
     }
 
-    int init_enc_info(EncInfo ei, BytePTR bytePTR, int shift) {
+    int init_enc_info(EncInfo ei, U_INT8_PTR UINT8PTR, int shift) {
         for (int i = 0; i < pieceEntry.num; i++) {
-            ei.pieces[i] = (byte) ((bytePTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
+            ei.pieces[i] = (byte) ((UINT8PTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
             ei.norm[i] = 0;
         }
 
-        int order = (bytePTR.read_uint8_t(0) >>> shift) & 0x0f;
+        int order = (UINT8PTR.read_uint8_t(0) >>> shift) & 0x0f;
         int order2 = 0x0f;
 
         int k = pieceEntry.kk_enc ? 2 : 3;
@@ -64,9 +64,9 @@ class PieceAlgorithm {
         return f / l;
     }
 
-    PairsData setup_pairs(TableType tableType, BytePTR ptr, int tb_size, int[] size) {
+    PairsData setup_pairs(TableType tableType, U_INT8_PTR ptr, int tb_size, int[] size) {
         PairsData d;
-        BytePTR data = ptr.clone();
+        U_INT8_PTR data = ptr.clone();
 
         if ((data.read_uint8_t(0) & 0x80) != 0) {
             d = new PairsData();
@@ -93,7 +93,7 @@ class PieceAlgorithm {
         d = new PairsData();
         d.blockSize = blockSize;
         d.idxBits = idxBits;
-        d.offset = data.createCharPTR(10);
+        d.offset = data.createU_INT16_PTR(10);
         d.symLen = new byte[numSyms];
         d.symPat = data.clone().incPtr(12 + 2 * h);
         d.minLen = minLen;
@@ -130,7 +130,7 @@ class PieceAlgorithm {
     }
 
     void calc_symLen(PairsData d, int s, byte[] tmp) {
-        BytePTR w = d.symPat.clone();
+        U_INT8_PTR w = d.symPat.clone();
         w.incPtr(3 * s);
         int w2 = (w.read_uint8_t(2) & 0xFF) << 4;
         int w1 = (w.read_uint8_t(1) & 0xFF) >>> 4;
@@ -152,34 +152,41 @@ class PieceAlgorithm {
             return d.constValue;
         }
 
-        throw new RuntimeException("Uninmplemented");
 
+        int mainIdx = idx >>> d.idxBits;
+        int litIdx = (idx & ((1 << d.idxBits) - 1)) - (1 << (d.idxBits - 1));
+
+        int block = d.indexTable.read_le_u32(6 * mainIdx);
+
+        short idxOffset = d.indexTable.read_short(6 * mainIdx + 4);
+        litIdx += idxOffset;
+
+
+        if (litIdx < 0) {
+            while (litIdx < 0) {
+                litIdx += d.sizeTable.read_short(--block) + 1;
+            }
+        }else {
+            while (litIdx > d.sizeTable.read_short(block)) {
+                litIdx -= d.sizeTable.read_short(block++) + 1;
+            }
+        }
+
+
+        U_INT32_PTR ptr = d.data.createU_INT32_PTR(block << d.blockSize);
+
+        throw  new RuntimeException("Not implemented yet");
         /*
-        int mainIdx = idx >> d.idxBits;
-        int litIdx = -(1 << 31);
-        int block;
-        memcpy( & block, d.indexTable + 6 * mainIdx, sizeof(block));
-        block = from_le_u32(block);
-
-        uint16_t idxOffset = *(uint16_t *) (d.indexTable + 6 * mainIdx + 4);
-        litIdx += from_le_u16(idxOffset);
-
-        if (litIdx < 0)
-            while (litIdx < 0)
-                litIdx += d.sizeTable[--block] + 1;
-        else
-            while (litIdx > d.sizeTable[block])
-                litIdx -= d.sizeTable[block++] + 1;
-
-        int * ptr = (int *) (d.data + ((int) block << d.blockSize));
 
         int m = d.minLen;
-        uint16_t * offset = d.offset;
-        uint64_t * base = d.base - m;
-        uint8_t * symLen = d.symLen;
+        U_INT16_PTR offset = d.offset;
+        long * base = d.base. - m;
+        byte * symLen = d.symLen;
         int sym, bitCnt;
 
-        uint64_t code = from_be_u64( * (uint64_t *) ptr);
+
+
+        long code = from_be_u64( * (long *) ptr);
 
         ptr += 2;
         bitCnt = 0; // number of "empty bits" in code
@@ -195,13 +202,13 @@ class PieceAlgorithm {
             if (bitCnt >= 32) {
                 bitCnt -= 32;
                 int tmp = from_be_u32( * ptr++);
-                code |= (uint64_t) tmp << bitCnt;
+                code |= (long) tmp << bitCnt;
             }
         }
 
-        uint8_t * symPat = d.symPat;
+        byte * symPat = d.symPat;
         while (symLen[sym] != 0) {
-            uint8_t * w = symPat + (3 * sym);
+            byte * w = symPat + (3 * sym);
             int s1 = ((w[1] & 0xf) << 8) | w[0];
             if (litIdx < (int) symLen[s1] + 1)
                 sym = s1;
@@ -212,7 +219,7 @@ class PieceAlgorithm {
         }
 
         return &symPat[3 * sym];
-        */
+         */
     }
 
     // p[i] is to contain the square 0-63 (A1-H8) for a piece of type

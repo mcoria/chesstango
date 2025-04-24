@@ -27,7 +27,7 @@ class PieceAsymmetricDtz extends TableBase {
 
     @Override
     boolean init_table_imp() {
-        BytePTR data = new BytePTR(mappedFile);
+        U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.ptr = 5;
 
         int tb_size = pieceAlgorithm.init_enc_info(ei_dtz, data, 0);
@@ -58,7 +58,7 @@ class PieceAsymmetricDtz extends TableBase {
         data.incPtr(size[0]);
 
         // sizeTable ptr
-        ei_dtz.precomp.sizeTable = data.createCharPTR(0);
+        ei_dtz.precomp.sizeTable = data.createU_INT16_PTR(0);
         data.incPtr(size[1]);
 
         // data ptr

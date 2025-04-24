@@ -4,12 +4,12 @@ package net.chesstango.board.representations.syzygy;
  * @author Mauricio Coria
  */
 class PairsData {
-    BytePTR indexTable;
-    CharPTR sizeTable;
-    BytePTR data;
-    CharPTR offset;
+    U_INT8_PTR indexTable;
+    U_INT16_PTR sizeTable;
+    U_INT8_PTR data;
+    U_INT16_PTR offset;
     byte[] symLen;
-    BytePTR symPat;
+    U_INT8_PTR symPat;
     byte blockSize;
     byte idxBits;
     byte minLen;

@@ -45,4 +45,8 @@ class MappedFile {
     char read_le_u16(int idx) {
         return buffer.getChar(idx);
     }
+
+    short read_short(int idx) {
+        return buffer.getShort(idx);
+    }
 }

@@ -28,7 +28,7 @@ class PieceAsymmetricWdl extends TableBase {
 
     @Override
     boolean init_table_imp() {
-        BytePTR data = new BytePTR(mappedFile);
+        U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.ptr = 5;
 
         int tb_size_white = pieceAlgorithm.init_enc_info(ei_wtm, data, 0);
@@ -53,10 +53,10 @@ class PieceAsymmetricWdl extends TableBase {
         data.incPtr(size_black[0]);
 
         // sizeTable ptr
-        ei_wtm.precomp.sizeTable = data.createCharPTR(0);
+        ei_wtm.precomp.sizeTable = data.createU_INT16_PTR(0);
         data.incPtr(size_white[1]);
 
-        ei_btm.precomp.sizeTable = data.createCharPTR(0);
+        ei_btm.precomp.sizeTable = data.createU_INT16_PTR(0);
         data.incPtr(size_black[1]);
 
         // data ptr

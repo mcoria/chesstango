@@ -3,15 +3,19 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-class CharPTR {
+class U_INT16_PTR {
     final MappedFile mappedFile;
     int ptr = 0;
 
-    CharPTR(MappedFile mappedFile) {
+    U_INT16_PTR(MappedFile mappedFile) {
         this.mappedFile = mappedFile;
     }
 
-    public void incPtr(int inc) {
+    void incPtr(int inc) {
         ptr += inc;
+    }
+
+    short read_short(int offset) {
+        return mappedFile.read_short(ptr + 2 * offset);
     }
 }
