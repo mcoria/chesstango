@@ -5,7 +5,11 @@ package net.chesstango.board.representations.syzygy;
  */
 class PieceEntry extends BaseEntry {
     boolean kk_enc;
+
+    BytePTR dtzMap;
     byte dtzFlags;
+
+    short[] dtzMapIdx = new short[4];
 
     PieceEntry(Syzygy syzygy) {
         super(syzygy);

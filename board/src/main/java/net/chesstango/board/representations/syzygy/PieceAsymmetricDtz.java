@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableType.DTZ;
-import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
 /**
  * @author Mauricio Coria
@@ -27,70 +27,71 @@ class PieceAsymmetricDtz extends TableBase {
 
     @Override
     boolean init_table_imp() {
-        BytePTR bytePTR = new BytePTR(mappedFile);
-        bytePTR.ptr = 5;
+        BytePTR data = new BytePTR(mappedFile);
+        data.ptr = 5;
 
-        int[][] tb_size = new int[1][1];
+        int tb_size = pieceAlgorithm.init_enc_info(ei_dtz, data, 0);
 
-        tb_size[0][0] = pieceAlgorithm.init_enc_info(ei_dtz, bytePTR, 0);
-
-        bytePTR.incPtr(pieceEntry.num + 1);
+        data.incPtr(pieceEntry.num + 1);
 
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
-        bytePTR.ptr += bytePTR.ptr & 1;
+        data.ptr += data.ptr & 1;
 
-        int[][][] size = new int[6][2][3];
+        int[] size = new int[3];
+        pieceEntry.dtzFlags = data.read_uint8_t(0);
+        ei_dtz.precomp = pieceAlgorithm.setup_pairs(DTZ, data, tb_size, size);
 
-        pieceEntry.dtzFlags = bytePTR.read_uint8_t(0);
-        ei_dtz.precomp = pieceAlgorithm.setup_pairs(DTZ, bytePTR, tb_size[0][0], size[0][0]);
-
-        // indexTable ptr
-        ei_dtz.precomp.indexTable = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][0]);
-
-        // sizeTable ptr
-        ei_dtz.precomp.sizeTable = bytePTR.createCharPTR(0);
-        bytePTR.incPtr(size[0][0][1]);
-
-        // data ptr
-        bytePTR.ptr = (bytePTR.ptr + 0x3f) & ~0x3f;
-        ei_dtz.precomp.data = bytePTR.clone();
-        bytePTR.incPtr(size[0][0][2]);
-
-        /*
-        void *map = data;
-
-        *(be->hasPawns ? &PAWN(be)->dtzMap : &PIECE(be)->dtzMap) = map;
-
-        uint16_t (*mapIdx)[4] = be->hasPawns ? &PAWN(be)->dtzMapIdx[0]
-                                      : &PIECE(be)->dtzMapIdx;
-        uint8_t *flags = be->hasPawns ? &PAWN(be)->dtzFlags[0]
-                              : &PIECE(be)->dtzFlags;
-        for (int t = 0; t < num; t++) {
-            if (flags[t] & 2) {
-                if (!(flags[t] & 16)) {
-                    for (int i = 0; i < 4; i++) {
-                        mapIdx[t][i] = (uint16_t)(data + 1 - (uint8_t *)map);
-                        data += 1 + data[0];
-                    }
-                } else {
-                    data += (uintptr_t)data & 0x01;
-                    for (int i = 0; i < 4; i++) {
-                        mapIdx[t][i] = (uint16_t)((uint16_t*)data + 1 - (uint16_t *)map);
-                        data += 2 + 2 * read_le_u16(data);
-                    }
-                }
+        // DTZ specific attributes
+        pieceEntry.dtzMap = data.clone();
+        short[] mapIdx = pieceEntry.dtzMapIdx;
+        if ((pieceEntry.dtzFlags & 2) != 0) {
+            if ((pieceEntry.dtzFlags & 16) == 0) {
+                throw new RuntimeException("not implemented: pieceEntry.dtzFlags & 16 == 0");
+            } else {
+                throw new RuntimeException("not implemented: pieceEntry.dtzFlags & 16 == 0");
             }
         }
-        data += (uintptr_t)data & 0x01;
-        */
+        data.ptr += data.ptr & 1;
+
+        // indexTable ptr
+        ei_dtz.precomp.indexTable = data.clone();
+        data.incPtr(size[0]);
+
+        // sizeTable ptr
+        ei_dtz.precomp.sizeTable = data.createCharPTR(0);
+        data.incPtr(size[1]);
+
+        // data ptr
+        data.ptr = (data.ptr + 0x3f) & ~0x3f;
+        ei_dtz.precomp.data = data.clone();
+        data.incPtr(size[2]);
 
         return true;
     }
 
     @Override
     int probe_table_imp(BitPosition pos, long key) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean flip = key != pieceEntry.key;
+        boolean bside = pos.turn == flip;
+
+        byte flags = pieceEntry.dtzFlags;
+        boolean flagFlag = (flags & 1) != 0;
+        if (flagFlag != bside && bside) {
+            pieceEntry.syzygy.success = -1;
+            return 0;
+        }
+
+        int[] p = new int[TB_PIECES];
+
+        for (int i = 0; i < pieceEntry.num; ) {
+            i = pieceAlgorithm.fill_squares(pos, ei_dtz.pieces, flip, 0, p, i);
+        }
+
+        int idx = pieceAlgorithm.encode_piece(p, ei_dtz);
+
+        byte[] w = pieceAlgorithm.decompress_pairs(ei_dtz.precomp, idx);
+
+        return (int) w[0] - 2;
     }
 
 }
