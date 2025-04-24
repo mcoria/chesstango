@@ -3,7 +3,7 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-class U_INT16_PTR {
+class U_INT16_PTR implements Cloneable{
     final MappedFile mappedFile;
     int ptr = 0;
 
@@ -17,5 +17,12 @@ class U_INT16_PTR {
 
     short read_short(int offset) {
         return mappedFile.read_short(ptr + 2 * offset);
+    }
+
+    @Override
+    public U_INT16_PTR clone() {
+        U_INT16_PTR u_int16_ptr = new U_INT16_PTR(mappedFile);
+        u_int16_ptr.ptr = ptr;
+        return u_int16_ptr;
     }
 }

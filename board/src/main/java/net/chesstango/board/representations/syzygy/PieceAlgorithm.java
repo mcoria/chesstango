@@ -166,7 +166,7 @@ class PieceAlgorithm {
             while (litIdx < 0) {
                 litIdx += d.sizeTable.read_short(--block) + 1;
             }
-        }else {
+        } else {
             while (litIdx > d.sizeTable.read_short(block)) {
                 litIdx -= d.sizeTable.read_short(block++) + 1;
             }
@@ -175,36 +175,35 @@ class PieceAlgorithm {
 
         U_INT32_PTR ptr = d.data.createU_INT32_PTR(block << d.blockSize);
 
-        throw  new RuntimeException("Not implemented yet");
-        /*
-
         int m = d.minLen;
-        U_INT16_PTR offset = d.offset;
-        long * base = d.base. - m;
-        byte * symLen = d.symLen;
+        U_INT16_PTR offset = d.offset.clone();
+        byte[] symLen = d.symLen;
         int sym, bitCnt;
 
+        long code = Long.reverseBytes(ptr.read_le_u64(0));
 
-
-        long code = from_be_u64( * (long *) ptr);
-
-        ptr += 2;
-        bitCnt = 0; // number of "empty bits" in code
+        ptr.incPtr(2);
+        bitCnt = 0;     // number of "empty bits" in code
         for (; ; ) {
             int l = m;
-            while (code < base[l]) l++;
-            sym = from_le_u16(offset[l]);
-            sym += (int) ((code - base[l]) >> (64 - l));
+            while (code < d.base[l - m]) l++;
+            sym = offset.read_short(l);
+            sym += (int) ((code - d.base[l - m]) >> (64 - l));
             if (litIdx < (int) symLen[sym] + 1) break;
             litIdx -= (int) symLen[sym] + 1;
             code <<= l;
             bitCnt += l;
             if (bitCnt >= 32) {
                 bitCnt -= 32;
-                int tmp = from_be_u32( * ptr++);
-                code |= (long) tmp << bitCnt;
+                int tmp = Integer.reverseBytes(ptr.read_le_u32(0));
+                ptr.incPtr(1);
+                code |= (tmp & 0xFFFFFFFFL) << bitCnt;
             }
         }
+
+        throw new RuntimeException("Not implemented yet");
+
+        /*
 
         byte * symPat = d.symPat;
         while (symLen[sym] != 0) {

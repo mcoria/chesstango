@@ -42,9 +42,9 @@ class U_INT8_PTR implements Cloneable {
 
     @Override
     public U_INT8_PTR clone() {
-        U_INT8_PTR UINT8PTR = new U_INT8_PTR(mappedFile);
-        UINT8PTR.ptr = ptr;
-        return UINT8PTR;
+        U_INT8_PTR u_int8_ptr = new U_INT8_PTR(mappedFile);
+        u_int8_ptr.ptr = ptr;
+        return u_int8_ptr;
     }
 
 }
