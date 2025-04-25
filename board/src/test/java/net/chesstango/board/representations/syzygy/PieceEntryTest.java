@@ -30,25 +30,58 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.symmetric);
         assertFalse(pieceEntry.kk_enc);
 
+        assertFalse(pieceEntry.dtmLossOnly);
+
+        assertEquals(662, pieceEntry.dtzMap.ptr);
+        assertArrayEquals(new short[]{0, 0, 0, 0}, pieceEntry.dtzMapIdx);
+        assertEquals(0, pieceEntry.dtzFlags);
+
 
         PieceAsymmetricWdl wdl = (PieceAsymmetricWdl) pieceEntry.wdl;
 
-        EncInfo ei0 = wdl.ei_wtm;
-        assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei0.factor);
-        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei0.pieces);
-        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei0.norm);
+        EncInfo ei_wtm = wdl.ei_wtm;
+        assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_wtm.factor);
+        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_wtm.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_wtm.norm);
+        PairsData ei_wtm_precomp = ei_wtm.precomp;
+        assertEquals(112, ei_wtm_precomp.indexTable.ptr);
+        assertEquals(118, ei_wtm_precomp.sizeTable.ptr);
+        assertEquals(128, ei_wtm_precomp.data.ptr);
+        assertNull(ei_wtm_precomp.offset);
+        assertNull(ei_wtm_precomp.symLen);
+        assertNull(ei_wtm_precomp.symPat);
+        assertNull(ei_wtm_precomp.base);
+        assertEquals(0, ei_wtm_precomp.blockSize);
+        assertEquals(0, ei_wtm_precomp.idxBits);
+        assertEquals(0, ei_wtm_precomp.minLen);
+        assertArrayEquals(new byte[]{4, 0}, ei_wtm.precomp.constValue);
 
-        EncInfo ei1 = wdl.ei_btm;
-        assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei1.factor);
-        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei1.pieces);
-        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei1.norm);
+
+        EncInfo ei_btm = wdl.ei_btm;
+        assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_btm.factor);
+        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_btm.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_btm.norm);
+        PairsData ei_btm_precomp = ei_btm.precomp;
+        assertEquals(112, ei_btm_precomp.indexTable.ptr);
+        assertEquals(118, ei_btm_precomp.sizeTable.ptr);
+        assertEquals(128, ei_btm_precomp.data.ptr);
+        assertEquals(20, ei_btm_precomp.offset.ptr);
+        assertArrayEquals(new byte[]{63, 54, 11, 127, 17, 8, 15, 1, 3, 6, 31, -65, 123, 7, 0, 1,
+                47, 59, 7, 1, -1, 0, 61, 5}, ei_btm_precomp.symLen);
+        assertEquals(40, ei_btm_precomp.symPat.ptr);
+        assertEquals(6, ei_btm_precomp.blockSize);
+        assertEquals(15, ei_btm_precomp.idxBits);
+        assertEquals(1, ei_btm_precomp.minLen);
+        assertArrayEquals(new byte[]{0, 0}, ei_btm_precomp.constValue);
+        assertArrayEquals(new long[]{0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L,
+                0x6000000000000000L, 0x2000000000000000L, 0x400000000000000L, 0x200000000000000L,
+                0x0L}, ei_btm_precomp.base);
     }
 
     @Test
     public void test_init_table_KQvKR() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         pieceEntry.init_tb("KQvKR");
-
 
         assertEquals("KQvKR", pieceEntry.tableName);
         assertEquals(4, pieceEntry.num);
