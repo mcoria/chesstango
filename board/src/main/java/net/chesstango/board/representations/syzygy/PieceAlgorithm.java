@@ -186,9 +186,9 @@ class PieceAlgorithm {
         bitCnt = 0;     // number of "empty bits" in code
         for (; ; ) {
             int l = m;
-            while (code < d.base[l - m]) l++;
+            while (Long.compareUnsigned(code, d.base[l - m]) < 0) l++;
             sym = offset.read_short(l);
-            sym += (int) ((code - d.base[l - m]) >> (64 - l));
+            sym += (int) ((code - d.base[l - m]) >>> (64 - l));
             if (litIdx < (int) symLen[sym] + 1) break;
             litIdx -= (int) symLen[sym] + 1;
             code <<= l;

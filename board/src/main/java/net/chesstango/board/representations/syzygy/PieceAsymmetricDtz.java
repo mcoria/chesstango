@@ -46,6 +46,10 @@ class PieceAsymmetricDtz extends TableBase {
         short[] mapIdx = pieceEntry.dtzMapIdx;
         if ((pieceEntry.dtzFlags & 2) != 0) {
             if ((pieceEntry.dtzFlags & 16) == 0) {
+                for (int i = 0; i < 4; i++) {
+                    mapIdx[i] = (short) (data.ptr + 1 - pieceEntry.dtzMap.ptr);
+                    //data += 1 + data[0];
+                }
                 throw new RuntimeException("not implemented: pieceEntry.dtzFlags & 16 == 0");
             } else {
                 throw new RuntimeException("not implemented: pieceEntry.dtzFlags & 16 == 0");
