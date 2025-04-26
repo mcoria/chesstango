@@ -50,21 +50,35 @@ public class SyzygyTest {
         assertEquals(0, syzygy.numDtm);
         assertEquals(1, syzygy.numDtz);
 
-        PieceEntry baseEntry = syzygy.pieceEntry[0];
-        assertEquals(0xa3ec1abc71e90863L, baseEntry.key);
-        assertEquals(3, baseEntry.num);
-        assertFalse(baseEntry.symmetric);
-        assertFalse(baseEntry.kk_enc);
+        /**
+         * PieceEntry assertions
+         */
+        PieceEntry pieceEntry = syzygy.pieceEntry[0];
 
+        assertEquals("KQvK", pieceEntry.tableName);
+        assertEquals(0xa3ec1abc71e90863L, pieceEntry.key);
+        assertEquals(3, pieceEntry.num);
+        assertFalse(pieceEntry.symmetric);
+        assertFalse(pieceEntry.kk_enc);
+
+        assertFalse(pieceEntry.dtmLossOnly);
+
+        assertEquals(662, pieceEntry.dtzMap.ptr);
+        assertArrayEquals(new short[]{0, 0, 0, 0}, pieceEntry.dtzMapIdx);
+        assertEquals(0, pieceEntry.dtzFlags);
+
+        /**
+         * HashEntry assertions
+         */
         Syzygy.HashEntry tbHash = null;
 
         tbHash = syzygy.tbHash[2622];
         assertEquals(0xa3ec1abc71e90863L, tbHash.key);
-        assertSame(tbHash.ptr, baseEntry);
+        assertSame(tbHash.ptr, pieceEntry);
 
         tbHash = syzygy.tbHash[3438];
         assertEquals(0xd6e4e47d24962951L, tbHash.key);
-        assertSame(tbHash.ptr, baseEntry);
+        assertSame(tbHash.ptr, pieceEntry);
     }
 
     @Test
@@ -90,7 +104,6 @@ public class SyzygyTest {
         assertEquals(5, count(results, TB_DRAW));
         assertEquals(0, count(results, TB_BLESSED_LOSS));
         assertEquals(0, count(results, TB_LOSS));
-
     }
 
     /**
