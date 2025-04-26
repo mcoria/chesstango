@@ -77,13 +77,20 @@ public class SyzygyTest {
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
         int[] results = new int[TB_MAX_MOVES];
+
         int res = syzygy.tb_probe_root(bitPosition, results);
 
         assertNotEquals(TB_RESULT_FAILED, res);
 
         assertEquals(TB_WIN, TB_GET_WDL(res));
-
         assertEquals(1, TB_GET_DTZ(res));
+
+        assertEquals(15, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(5, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(0, count(results, TB_LOSS));
+
     }
 
     /**
@@ -114,6 +121,17 @@ public class SyzygyTest {
         tbHash = syzygy.tbHash[2596];
         assertEquals(0xa24f0f571bb202e7L, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
+    }
+
+
+    static int count(int[] results, int wdl) {
+        int count = 0;
+        for (int i = 0; i < results.length && results[i] != TB_RESULT_FAILED; i++) {
+            if (TB_GET_WDL(results[i]) == wdl) {
+                count++;
+            }
+        }
+        return count;
     }
 }
 
