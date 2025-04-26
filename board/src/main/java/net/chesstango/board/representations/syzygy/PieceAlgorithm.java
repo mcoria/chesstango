@@ -190,8 +190,8 @@ class PieceAlgorithm {
             sym = offset.read_short(l);
             sym += (int) ((code - d.base[l - m]) >>> (64 - l));
             if (litIdx < (int) symLen[sym] + 1) break;
-            litIdx -= (int) symLen[sym] + 1;
-            code <<= l;
+            litIdx -= (symLen[sym] & 0xFF) + 1;
+            code <<= (l & 0xFFFFFFFFL);
             bitCnt += l;
             if (bitCnt >= 32) {
                 bitCnt -= 32;
