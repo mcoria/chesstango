@@ -37,6 +37,10 @@ public class PieceEntryTest {
         assertEquals(0, pieceEntry.dtzFlags);
 
 
+        /**
+         * WDL table assertions
+         */
+        assertNotNull(pieceEntry.wdl);
         PieceAsymmetricWdl wdl = (PieceAsymmetricWdl) pieceEntry.wdl;
 
         EncInfo ei_wtm = wdl.ei_wtm;
@@ -76,6 +80,32 @@ public class PieceEntryTest {
         assertArrayEquals(new long[]{0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L,
                 0x6000000000000000L, 0x2000000000000000L, 0x400000000000000L, 0x200000000000000L,
                 0x0L}, ei_btm_precomp.base);
+
+
+        /**
+         * DTZ table assertions
+         */
+        assertNotNull(pieceEntry.dtz);
+        PieceAsymmetricDtz dtz = (PieceAsymmetricDtz) pieceEntry.dtz;
+
+        EncInfo ei_dtz = dtz.ei_dtz;
+        assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_dtz.factor);
+        assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_dtz.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_dtz.norm);
+        PairsData ei_dtz_precomp = ei_dtz.precomp;
+        assertEquals(662, ei_dtz_precomp.indexTable.ptr);
+        assertEquals(668, ei_dtz_precomp.sizeTable.ptr);
+        assertEquals(704, ei_dtz_precomp.data.ptr);
+        assertEquals(8, ei_dtz_precomp.offset.ptr);
+        assertEquals(209, ei_dtz_precomp.symLen.length);
+        assertEquals(34, ei_dtz_precomp.symPat.ptr);
+        assertEquals(9, ei_dtz_precomp.blockSize);
+        assertEquals(15, ei_dtz_precomp.idxBits);
+        assertEquals(6, ei_dtz_precomp.minLen);
+        assertArrayEquals(new byte[]{4, 0}, ei_wtm.precomp.constValue);
+        assertArrayEquals(new long[]{0xAC00000000000000L, 0x6600000000000000L, 0x2C00000000000000L, 0x280000000000000L,
+                0x40000000000000L,
+                0x0L}, ei_dtz_precomp.base);
     }
 
     @Test
