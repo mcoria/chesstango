@@ -76,7 +76,8 @@ public class SyzygyTest {
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
-        int res = syzygy.tb_probe_root(bitPosition);
+        int[] results = new int[TB_MAX_MOVES];
+        int res = syzygy.tb_probe_root(bitPosition, results);
 
         assertNotEquals(TB_RESULT_FAILED, res);
 

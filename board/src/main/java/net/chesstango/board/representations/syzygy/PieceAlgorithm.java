@@ -204,12 +204,12 @@ class PieceAlgorithm {
 
         while (symLen[sym] != 0) {
             U_INT8_PTR w = d.symPat.clone().incPtr(3 * sym);
-            int s1 = ((w.read_uint8_t(1) & 0xf) << 8) | w.read_uint8_t(0);
-            if (litIdx < (int) symLen[s1] + 1)
+            int s1 = (((w.read_uint8_t(1) & 0x0F) << 8) | (w.read_uint8_t(0) & 0xFF));
+            if (litIdx < (int) symLen[s1] + 1) {
                 sym = s1;
-            else {
+            } else {
                 litIdx -= (int) symLen[s1] + 1;
-                sym = (w.read_uint8_t(2) << 4) | (w.read_uint8_t(1) >> 4);
+                sym = (w.read_uint8_t(2) << 4) | ((w.read_uint8_t(1) & 0xFF) >>> 4);
             }
         }
 

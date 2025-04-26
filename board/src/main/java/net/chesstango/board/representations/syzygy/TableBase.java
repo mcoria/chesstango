@@ -68,6 +68,4 @@ abstract class TableBase {
 
         return probe_table_imp(pos, key, s);
     }
-
-
 }

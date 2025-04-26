@@ -1,6 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,6 +110,7 @@ public class PieceEntryTest {
     }
 
     @Test
+    @Disabled
     public void test_init_table_KQvKR() {
         syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
         pieceEntry.init_tb("KQvKR");

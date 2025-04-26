@@ -36,6 +36,11 @@ public class Syzygy {
         boolean error;
     }
 
+    static int[] WdlToDtz = {-1, -101, 0, 101, 1};
+    static int[] wdl_to_dtz = {-1, -101, 0, 101, 1};
+    static final int[] WdlToMap = new int[]{1, 3, 0, 2, 0};
+    static final byte[] PAFlags = new byte[]{ 8, 0, 0, 0, 4 };
+
     final HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
     final PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
     final PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
@@ -50,7 +55,6 @@ public class Syzygy {
     int TB_MaxCardinalityDTM;
     int TB_LARGEST;
 
-    int[] results = new int[TB_MAX_MOVES];
     int success;
     int dtz;
     short bestMove;
@@ -134,7 +138,8 @@ public class Syzygy {
      * be called once at the root per search.
      */
     public int tb_probe_root(
-            BitPosition pos) {
+            BitPosition pos,
+            int[] results) {
 
         if (pos.castling != 0)
             return TB_RESULT_FAILED;
@@ -143,7 +148,7 @@ public class Syzygy {
             return TB_RESULT_FAILED;
         }
 
-        probe_root(pos);
+        probe_root(pos, results);
 
         if (bestMove == 0)
             return TB_RESULT_FAILED;
@@ -238,7 +243,7 @@ public class Syzygy {
     }
 
 
-    long probe_root(BitPosition pos) {
+    long probe_root(BitPosition pos, int[] results) {
         int dtz = probe_dtz(pos);
         if (success == 0) return 0;
 
@@ -271,7 +276,7 @@ public class Syzygy {
                 }
             }
             num_draw += v == 0 ? 1 : 0;
-            if (success != 0)
+            if (success == 0)
                 return 0;
             scores[i] = (short) v;
             if (results != null) {
@@ -343,9 +348,6 @@ public class Syzygy {
         }
 
     }
-
-    static int[] WdlToDtz = {-1, -101, 0, 101, 1};
-    static int[] wdl_to_dtz = {-1, -101, 0, 101, 1};
 
     // Probe the DTZ table for a particular position.
     // If *success != 0, the probe was successful.
