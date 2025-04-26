@@ -8,7 +8,7 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.
  * @author Mauricio Coria
  */
 public class Chess {
-    static final short BEST_NONE = (short) 0xFFFF;
+    static final int BEST_NONE = 0xFFFF;
     static final short SCORE_ILLEGAL = 0x7FFF;
 
     static final int MAX_MOVES = TB_MAX_MOVES;

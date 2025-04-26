@@ -56,8 +56,8 @@ public class Syzygy {
     int TB_LARGEST;
 
     int success;
+    int score;
     int dtz;
-    short bestMove;
 
     @Setter
     String path;
@@ -148,24 +148,24 @@ public class Syzygy {
             return TB_RESULT_FAILED;
         }
 
-        probe_root(pos, results);
+        short move = probe_root(pos, results);
 
-        if (bestMove == 0)
+        if (move == 0)
             return TB_RESULT_FAILED;
 
-        if (bestMove == MOVE_CHECKMATE)
+        if (move == MOVE_CHECKMATE)
             return TB_RESULT_CHECKMATE;
 
-        if (bestMove == MOVE_STALEMATE)
+        if (move == MOVE_STALEMATE)
             return TB_RESULT_STALEMATE;
 
         int res = 0;
         res = TB_SET_WDL(res, dtz_to_wdl(pos.rule50, dtz));
         res = TB_SET_DTZ(res, (dtz < 0 ? -dtz : dtz));
-        res = TB_SET_FROM(res, move_from(bestMove));
-        res = TB_SET_TO(res, move_to(bestMove));
-        res = TB_SET_PROMOTES(res, move_promotes(bestMove));
-        res = TB_SET_EP(res, is_en_passant(pos, bestMove) ? pos.ep : 0);
+        res = TB_SET_FROM(res, move_from(move));
+        res = TB_SET_TO(res, move_to(move));
+        res = TB_SET_PROMOTES(res, move_promotes(move));
+        res = TB_SET_EP(res, is_en_passant(pos, move) ? pos.ep : 0);
 
         return res;
     }
@@ -243,8 +243,8 @@ public class Syzygy {
     }
 
 
-    long probe_root(BitPosition pos, int[] results) {
-        int dtz = probe_dtz(pos);
+    short probe_root(BitPosition pos, int[] results) {
+        dtz = probe_dtz(pos);
         if (success == 0) return 0;
 
         short[] scores = new short[MAX_MOVES];
@@ -276,8 +276,9 @@ public class Syzygy {
                 }
             }
             num_draw += v == 0 ? 1 : 0;
-            if (success == 0)
+            if (success == 0) {
                 return 0;
+            }
             scores[i] = (short) v;
             if (results != null) {
                 int res = 0;
@@ -290,21 +291,23 @@ public class Syzygy {
                 results[j++] = res;
             }
         }
-        if (results != null)
+        if (results != null) {
             results[j++] = TB_RESULT_FAILED;
+        }
 
-        //if (score != 0)
-        //score = dtz;
+
+        score = dtz;
 
         // Now be a bit smart about filtering out moves.
         if (dtz > 0)        // winning (or 50-move rule draw)
         {
             int best = BEST_NONE;
-            long best_move = 0;
+            short best_move = 0;
             for (int i = 0; i < len; i++) {
                 int v = scores[i];
-                if (v == SCORE_ILLEGAL)
+                if (v == SCORE_ILLEGAL) {
                     continue;
+                }
                 if (v > 0 && v < best) {
                     best = v;
                     best_move = moves[i];
@@ -314,7 +317,7 @@ public class Syzygy {
         } else if (dtz < 0)   // losing (or 50-move rule draw)
         {
             int best = 0;
-            long best_move = 0;
+            short best_move = 0;
             for (int i = 0; i < len; i++) {
                 int v = scores[i];
                 if (v == SCORE_ILLEGAL)
