@@ -201,24 +201,19 @@ class PieceAlgorithm {
             }
         }
 
-        throw new RuntimeException("Not implemented yet");
 
-        /*
-
-        byte * symPat = d.symPat;
         while (symLen[sym] != 0) {
-            byte * w = symPat + (3 * sym);
-            int s1 = ((w[1] & 0xf) << 8) | w[0];
+            U_INT8_PTR w = d.symPat.clone().incPtr(3 * sym);
+            int s1 = ((w.read_uint8_t(1) & 0xf) << 8) | w.read_uint8_t(0);
             if (litIdx < (int) symLen[s1] + 1)
                 sym = s1;
             else {
                 litIdx -= (int) symLen[s1] + 1;
-                sym = (w[2] << 4) | (w[1] >> 4);
+                sym = (w.read_uint8_t(2) << 4) | (w.read_uint8_t(1) >> 4);
             }
         }
 
-        return &symPat[3 * sym];
-         */
+        return new byte[]{d.symPat.read_uint8_t(3 * sym), d.symPat.read_uint8_t(3 * sym + 1)};
     }
 
     // p[i] is to contain the square 0-63 (A1-H8) for a piece of type

@@ -14,7 +14,7 @@ abstract class TableBase {
 
     abstract boolean init_table_imp();
 
-    abstract int probe_table_imp(BitPosition pos, long key);
+    abstract int probe_table_imp(BitPosition pos, long key, int s);
 
     public TableBase(TableType tableType) {
         this.tableType = tableType;
@@ -59,14 +59,14 @@ abstract class TableBase {
         return result;
     }
 
-    int probe_table(BitPosition pos, long key) {
+    int probe_table(BitPosition pos, long key, int s) {
         BaseEntry baseEntry = getBaseEntry();
         if (!ready || error) {
             baseEntry.syzygy.success = 0;
             return 0;
         }
 
-        return probe_table_imp(pos, key);
+        return probe_table_imp(pos, key, s);
     }
 
 

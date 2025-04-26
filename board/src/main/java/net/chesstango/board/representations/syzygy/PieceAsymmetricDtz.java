@@ -1,6 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.TableType.DTZ;
 
 /**
@@ -74,7 +74,7 @@ class PieceAsymmetricDtz extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition pos, long key) {
+    int probe_table_imp(BitPosition pos, long key, int s) {
         boolean flip = key != pieceEntry.key;
         boolean bside = pos.turn == flip;
 
@@ -95,7 +95,21 @@ class PieceAsymmetricDtz extends TableBase {
 
         byte[] w = pieceAlgorithm.decompress_pairs(ei_dtz.precomp, idx);
 
-        return (int) w[0] - 2;
+        int v = w[0] + ((w[1] & 0x0f) << 8);
+
+        if ((flags & 2) != 0) {
+            int m = WdlToMap[s + 2];
+            if ((flags & 16) == 0) {
+                v = pieceEntry.dtzMap.read_uint8_t(pieceEntry.dtzMapIdx[m] + v);
+            } else {
+                v = pieceEntry.dtzMap.read_short(pieceEntry.dtzMapIdx[m] + v);
+            }
+        }
+        if ((flags & PAFlags[s + 2]) == 0 || (s & 1) != 0) {
+            v *= 2;
+        }
+
+        return v;
     }
 
 }

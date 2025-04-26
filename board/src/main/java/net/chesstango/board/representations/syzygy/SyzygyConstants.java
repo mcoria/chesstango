@@ -22,6 +22,8 @@ class SyzygyConstants {
     static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
 
     static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
+    static final int[] WdlToMap = new int[]{1, 3, 0, 2, 0};
+    static final byte[] PAFlags = new byte[]{ 8, 0, 0, 0, 4 };
 
     static final int TB_LOSS = 0;               /* LOSS */
     static final int TB_BLESSED_LOSS = 1;       /* LOSS but 50-move draw */

@@ -72,7 +72,7 @@ class PieceAsymmetricWdl extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition pos, long key) {
+    int probe_table_imp(BitPosition pos, long key, int s) {
         boolean flip = key != pieceEntry.key;
         boolean bside = pos.turn == flip;
 

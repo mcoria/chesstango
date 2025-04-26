@@ -240,7 +240,7 @@ public class Syzygy {
 
     long probe_root(BitPosition pos) {
         int dtz = probe_dtz(pos);
-        if (success != 0) return 0;
+        if (success == 0) return 0;
 
         short[] scores = new short[MAX_MOVES];
         short[] moves = new short[MAX_MOVES];
@@ -619,8 +619,8 @@ public class Syzygy {
         BaseEntry be = tbHash[hashIdx].ptr;
 
         return switch (type) {
-            case WDL -> be.probe_wdl(bitPosition, key);
-            case DTZ -> be.probe_dtz(bitPosition, key);
+            case WDL -> be.probe_wdl(bitPosition, key, s);
+            case DTZ -> be.probe_dtz(bitPosition, key, s);
             default -> throw new IllegalArgumentException("Unknown table type: " + type);
         };
     }

@@ -86,11 +86,11 @@ abstract class BaseEntry {
     }
 
 
-    int probe_wdl(BitPosition bitPosition, long key) {
-        return wdl.probe_table(bitPosition, key);
+    int probe_wdl(BitPosition bitPosition, long key, int s) {
+        return wdl.probe_table(bitPosition, key, s);
     }
 
-    int probe_dtz(BitPosition bitPosition, long key) {
-        return dtz.probe_table(bitPosition, key);
+    int probe_dtz(BitPosition bitPosition, long key, int s) {
+        return dtz.probe_table(bitPosition, key, s);
     }
 }
