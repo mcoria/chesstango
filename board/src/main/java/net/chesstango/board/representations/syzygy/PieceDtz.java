@@ -74,12 +74,20 @@ class PieceDtz extends TableBase {
 
     @Override
     int probe_table_imp(BitPosition pos, long key, int s) {
-        boolean flip = key != pieceEntry.key;
-        boolean bside = pos.turn == flip;
+        boolean flip;
+        boolean bside;
+        if (!pieceEntry.symmetric) {
+            flip = key != pieceEntry.key;
+            bside = pos.turn == flip;
+        } else {
+            flip = !pos.turn;
+            bside = false;
+        }
+
 
         byte flags = pieceEntry.dtzFlags;
         boolean flagFlag = (flags & 1) != 0;
-        if (flagFlag != bside && bside) {
+        if (flagFlag != bside && !pieceEntry.symmetric) {
             pieceEntry.syzygy.success = -1;
             return 0;
         }

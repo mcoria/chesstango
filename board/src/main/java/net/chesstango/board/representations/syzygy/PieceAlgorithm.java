@@ -152,15 +152,12 @@ class PieceAlgorithm {
             return d.constValue;
         }
 
-
         int mainIdx = idx >>> d.idxBits;
         int litIdx = (idx & ((1 << d.idxBits) - 1)) - (1 << (d.idxBits - 1));
-
         int block = d.indexTable.read_le_u32(6 * mainIdx);
 
         short idxOffset = d.indexTable.read_short(6 * mainIdx + 4);
-        litIdx += idxOffset;
-
+        litIdx += (idxOffset & 0xFFFF);
 
         if (litIdx < 0) {
             while (litIdx < 0) {
@@ -171,7 +168,6 @@ class PieceAlgorithm {
                 litIdx -= (d.sizeTable.read_short(block++) & 0xFFFF) + 1;
             }
         }
-
 
         U_INT32_PTR ptr = d.data.createU_INT32_PTR(block << d.blockSize);
 

@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
 /**
@@ -57,6 +58,20 @@ class PieceSymmetricWdl extends TableBase {
 
     @Override
     int probe_table_imp(BitPosition pos, long key, int s) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean flip = key != pieceEntry.key;
+
+        int[] p = new int[TB_PIECES];
+
+        EncInfo ei = ei_wtm;
+
+        for (int i = 0; i < pieceEntry.num; ) {
+            i = pieceAlgorithm.fill_squares(pos, ei.pieces, flip, 0, p, i);
+        }
+
+        int idx = pieceAlgorithm.encode_piece(p, ei);
+
+        byte[] w = pieceAlgorithm.decompress_pairs(ei.precomp, idx);
+
+        return (int) w[0] - 2;
     }
 }
