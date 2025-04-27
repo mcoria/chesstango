@@ -12,7 +12,7 @@ class U_INT16_PTR implements Cloneable{
     }
 
     void incPtr(int inc) {
-        ptr += inc;
+        ptr += 2 * inc;
     }
 
     short read_le_u16(int offset) {

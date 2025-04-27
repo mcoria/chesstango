@@ -124,7 +124,7 @@ class PieceAlgorithm {
         }
 
         // offset is a two byte pointer
-        d.offset.incPtr(-2 * d.minLen);
+        d.offset.incPtr(-d.minLen);
 
         return d;
     }
