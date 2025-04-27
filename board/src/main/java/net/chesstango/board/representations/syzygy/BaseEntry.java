@@ -107,4 +107,20 @@ abstract class BaseEntry {
                 pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
                 pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
     }
+
+    static int[] tableName_to_pcs(String tbName) {
+        char[] tbNameChars = tbName.toCharArray();
+        int[] pcs = new int[16];
+        int color = 0;
+        for (char c : tbNameChars) {
+            if (c == 'v') {
+                color = 8;
+            } else {
+                PieceType piece_type = PieceType.char_to_piece_type(c);
+                assert ((piece_type.getValue() | color) < 16);
+                pcs[piece_type.getValue() | color]++;
+            }
+        }
+        return pcs;
+    }
 }

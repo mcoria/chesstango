@@ -155,21 +155,6 @@ class SyzygyConstants {
         return piece_to_char[PieceType.QUEEN.getValue() - i];
     }
 
-    static int[] tableName_to_pcs(String tbName) {
-        char[] tbNameChars = tbName.toCharArray();
-        int[] pcs = new int[16];
-        int color = 0;
-        for (char c : tbNameChars) {
-            if (c == 'v') {
-                color = 8;
-            } else {
-                PieceType piece_type = PieceType.char_to_piece_type(c);
-                assert ((piece_type.getValue() | color) < 16);
-                pcs[piece_type.getValue() | color]++;
-            }
-        }
-        return pcs;
-    }
 
     static boolean test_tb(String basePath, String fileName, String suffix) {
         Path path = Paths.get(basePath, String.format("%s%s", fileName, suffix));

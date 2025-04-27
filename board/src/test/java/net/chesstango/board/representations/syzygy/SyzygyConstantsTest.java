@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.Test;
 
 import static net.chesstango.board.representations.syzygy.BaseEntry.calc_key_from_pcs;
+import static net.chesstango.board.representations.syzygy.BaseEntry.tableName_to_pcs;
 import static net.chesstango.board.representations.syzygy.Syzygy.calcKey;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
