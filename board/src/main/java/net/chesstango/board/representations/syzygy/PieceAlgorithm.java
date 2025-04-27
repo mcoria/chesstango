@@ -167,7 +167,7 @@ class PieceAlgorithm {
                 litIdx += (d.sizeTable.read_short(--block) & 0xFFFF) + 1;
             }
         } else {
-            while (litIdx > (d.sizeTable.read_short(block)& 0xFFFF)) {
+            while (litIdx > (d.sizeTable.read_short(block) & 0xFFFF)) {
                 litIdx -= (d.sizeTable.read_short(block++) & 0xFFFF) + 1;
             }
         }
@@ -189,7 +189,7 @@ class PieceAlgorithm {
             while (Long.compareUnsigned(code, d.base[l - m]) < 0) l++;
             sym = offset.read_short(l);
             sym += (int) ((code - d.base[l - m]) >>> (64 - l));
-            if (litIdx < (int) symLen[sym] + 1) break;
+            if (litIdx < (symLen[sym] & 0xFF) + 1) break;
             litIdx -= (symLen[sym] & 0xFF) + 1;
             code <<= (l & 0xFFFFFFFFL);
             bitCnt += l;

@@ -169,11 +169,11 @@ public class SyzygyTest {
         assertEquals(TB_WIN, TB_GET_WDL(res));
         assertEquals(1, TB_GET_DTZ(res));
 
-        assertEquals(15, count(results, TB_WIN));
+        assertEquals(12, count(results, TB_WIN));
         assertEquals(0, count(results, TB_CURSED_WIN));
-        assertEquals(5, count(results, TB_DRAW));
+        assertEquals(3, count(results, TB_DRAW));
         assertEquals(0, count(results, TB_BLESSED_LOSS));
-        assertEquals(0, count(results, TB_LOSS));
+        assertEquals(5, count(results, TB_LOSS));
     }
 
     /**
