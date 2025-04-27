@@ -171,34 +171,6 @@ class SyzygyConstants {
         return pcs;
     }
 
-
-    static long calc_key_from_pcs(int[] pcs, boolean mirror) {
-        int theMirror = (mirror ? 8 : 0);
-        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
-                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
-                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
-                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
-                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
-                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
-                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
-                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
-                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
-                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
-    }
-
-    static long calcKey(BitPosition bitPosition) {
-        return Long.bitCount(bitPosition.white & bitPosition.queens) * PRIME_WHITE_QUEEN +
-                Long.bitCount(bitPosition.white & bitPosition.rooks) * PRIME_WHITE_ROOK +
-                Long.bitCount(bitPosition.white & bitPosition.bishops) * PRIME_WHITE_BISHOP +
-                Long.bitCount(bitPosition.white & bitPosition.knights) * PRIME_WHITE_KNIGHT +
-                Long.bitCount(bitPosition.white & bitPosition.pawns) * PRIME_WHITE_PAWN +
-                Long.bitCount(bitPosition.black & bitPosition.queens) * PRIME_BLACK_QUEEN +
-                Long.bitCount(bitPosition.black & bitPosition.rooks) * PRIME_BLACK_ROOK +
-                Long.bitCount(bitPosition.black & bitPosition.bishops) * PRIME_BLACK_BISHOP +
-                Long.bitCount(bitPosition.black & bitPosition.knights) * PRIME_BLACK_KNIGHT +
-                Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
-    }
-
     static boolean test_tb(String basePath, String fileName, String suffix) {
         Path path = Paths.get(basePath, String.format("%s%s", fileName, suffix));
         if (!path.toFile().exists()) {

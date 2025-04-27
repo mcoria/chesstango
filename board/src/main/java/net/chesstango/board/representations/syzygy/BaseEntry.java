@@ -22,6 +22,7 @@ abstract class BaseEntry {
     TableBase dtz;
 
     abstract TableBase createTable(TableType tableType);
+
     abstract void init_tb(int[] pcs);
 
     BaseEntry(Syzygy syzygy) {
@@ -91,5 +92,19 @@ abstract class BaseEntry {
 
     int probe_dtz(BitPosition bitPosition, long key, int s) {
         return dtz.probe_table(bitPosition, key, s);
+    }
+
+    static long calc_key_from_pcs(int[] pcs, boolean mirror) {
+        int theMirror = (mirror ? 8 : 0);
+        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
+                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
+                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
+                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
+                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
+                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
+                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
+                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
+                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
+                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
     }
 }
