@@ -87,7 +87,7 @@ class PieceAlgorithm {
         byte maxLen = data.read_uint8_t(8);
         byte minLen = data.read_uint8_t(9);
         int h = maxLen - minLen + 1;
-        int numSyms = mappedFile.read_le_u16(data.ptr + 10 + 2 * h);
+        int numSyms = data.read_le_u16(10 + 2 * h);
 
 
         d = new PairsData();
@@ -117,7 +117,7 @@ class PieceAlgorithm {
 
         d.base[h - 1] = 0;
         for (int i = h - 2; i >= 0; i--) {
-            d.base[i] = (d.base[i + 1] + mappedFile.read_le_u16(d.offset.ptr + 2 * i) - mappedFile.read_le_u16(d.offset.ptr + 2 * i + 2)) / 2;
+            d.base[i] = (d.base[i + 1] + d.offset.read_le_u16(i) - d.offset.read_le_u16(i + 1)) / 2;
         }
         for (int i = 0; i < h; i++) {
             d.base[i] <<= 64 - (minLen + i);
