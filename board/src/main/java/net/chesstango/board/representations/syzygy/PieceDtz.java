@@ -8,14 +8,12 @@ import static net.chesstango.board.representations.syzygy.TableType.DTZ;
 /**
  * @author Mauricio Coria
  */
-class PieceAsymmetricDtz extends TableBase {
-
-    final EncInfo ei_dtz;
-
+class PieceDtz extends TableBase {
     final PieceEntry pieceEntry;
     final PieceAlgorithm pieceAlgorithm;
+    final EncInfo ei_dtz;
 
-    public PieceAsymmetricDtz(PieceEntry pieceEntry) {
+    public PieceDtz(PieceEntry pieceEntry) {
         super(DTZ);
         this.pieceAlgorithm = new PieceAlgorithm(pieceEntry, mappedFile);
         this.pieceEntry = pieceEntry;

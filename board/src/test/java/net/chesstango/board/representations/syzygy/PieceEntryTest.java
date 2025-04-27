@@ -85,7 +85,7 @@ public class PieceEntryTest {
          * DTZ table assertions
          */
         assertNotNull(pieceEntry.dtz);
-        PieceAsymmetricDtz dtz = (PieceAsymmetricDtz) pieceEntry.dtz;
+        PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
 
         EncInfo ei_dtz = dtz.ei_dtz;
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_dtz.factor);
@@ -173,7 +173,7 @@ public class PieceEntryTest {
          * DTZ table assertions
          */
         assertNotNull(pieceEntry.dtz);
-        PieceAsymmetricDtz dtz = (PieceAsymmetricDtz) pieceEntry.dtz;
+        PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
 
         EncInfo ei_dtz = dtz.ei_dtz;
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_dtz.factor);
@@ -194,4 +194,72 @@ public class PieceEntryTest {
                 0x5660000000000000L, 0x37A0000000000000L, 0x1D60000000000000L, 0x3FC000000000000L, 0x2000000000000L,
                 0x2000000000000L, 0}, ei_dtz_precomp.base);
     }
+
+    @Test
+    public void test_init_table_KQvKQ() {
+        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        pieceEntry.init_tb("KQvKQ");
+
+        assertEquals("KQvKQ", pieceEntry.tableName);
+        assertEquals(0x7AD0FF39967F31B4L, pieceEntry.key);
+        assertEquals(4, pieceEntry.num);
+        assertTrue(pieceEntry.symmetric);
+        assertFalse(pieceEntry.kk_enc);
+        assertFalse(pieceEntry.dtmLossOnly);
+
+        assertEquals(544, pieceEntry.dtzMap.ptr);
+        assertArrayEquals(new short[]{(short) 1, (short) 12, (short) 22, (short) 23}, pieceEntry.dtzMapIdx);
+        assertEquals(2, pieceEntry.dtzFlags);
+
+
+        /**
+         * WDL table assertions
+         */
+        assertNotNull(pieceEntry.wdl);
+        PieceSymmetricWdl wdl = (PieceSymmetricWdl) pieceEntry.wdl;
+
+        EncInfo ei_wtm = wdl.ei_wtm;
+        assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_wtm.factor);
+        assertArrayEquals(new byte[]{13, 6, 14, 5, 0, 0, 0}, ei_wtm.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_wtm.norm);
+        PairsData ei_wtm_precomp = ei_wtm.precomp;
+        assertEquals(1570, ei_wtm_precomp.indexTable.ptr);
+        assertEquals(1618, ei_wtm_precomp.sizeTable.ptr);
+        assertEquals(2112, ei_wtm_precomp.data.ptr);
+        assertEquals(16, ei_wtm_precomp.offset.ptr);
+        assertEquals(48, ei_wtm_precomp.symPat.ptr);
+        assertNotNull(ei_wtm_precomp.symLen);
+        assertNotNull(ei_wtm_precomp.base);
+        assertEquals(6, ei_wtm_precomp.blockSize);
+        assertEquals(18, ei_wtm_precomp.idxBits);
+        assertEquals(2, ei_wtm_precomp.minLen);
+        assertArrayEquals(new byte[]{0, 0}, ei_wtm.precomp.constValue);
+
+
+        /**
+         * DTZ table assertions
+         */
+        assertNotNull(pieceEntry.dtz);
+        PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
+
+        EncInfo ei_dtz = dtz.ei_dtz;
+        assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_dtz.factor);
+        assertArrayEquals(new byte[]{14, 5, 12, 6, 0, 0, 0}, ei_dtz.pieces);
+        assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_dtz.norm);
+        PairsData ei_dtz_precomp = ei_dtz.precomp;
+        assertEquals(12368, ei_dtz_precomp.indexTable.ptr);
+        assertEquals(12458, ei_dtz_precomp.sizeTable.ptr);
+        assertEquals(13056, ei_dtz_precomp.data.ptr);
+        assertEquals(6, ei_dtz_precomp.offset.ptr);
+        assertEquals(4095, ei_dtz_precomp.symLen.length);
+        assertEquals(44, ei_dtz_precomp.symPat.ptr);
+        assertEquals(10, ei_dtz_precomp.blockSize);
+        assertEquals(17, ei_dtz_precomp.idxBits);
+        assertEquals(7, ei_dtz_precomp.minLen);
+        assertArrayEquals(new byte[]{0, 0}, ei_wtm.precomp.constValue);
+        assertArrayEquals(new long[]{0xFE00000000000000L, 0xD600000000000000L, 0xA780000000000000L, 0x7F80000000000000L,
+                0x5660000000000000L, 0x37A0000000000000L, 0x1D60000000000000L, 0x3FC000000000000L, 0x2000000000000L,
+                0x2000000000000L, 0}, ei_dtz_precomp.base);
+    }
+
 }

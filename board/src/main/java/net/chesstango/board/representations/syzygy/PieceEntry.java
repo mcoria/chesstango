@@ -8,7 +8,6 @@ class PieceEntry extends BaseEntry {
 
     U_INT8_PTR dtzMap;
     byte dtzFlags;
-
     short[] dtzMapIdx = new short[4];
 
     PieceEntry(Syzygy syzygy) {
@@ -17,13 +16,18 @@ class PieceEntry extends BaseEntry {
 
     @Override
     protected TableBase createTable(TableType tableType) {
-        if (!symmetric && tableType == TableType.WDL)
-            return new PieceAsymmetricWdl(this);
+        if (tableType == TableType.WDL) {
+            if (symmetric)
+                return new PieceSymmetricWdl(this);
+            else
+                return new PieceAsymmetricWdl(this);
+        }
 
-        if (!symmetric && tableType == TableType.DTZ)
-            return new PieceAsymmetricDtz(this);
+        if (tableType == TableType.DTZ) {
+            return new PieceDtz(this);
+        }
 
-        return new PieceSymmetric(this, tableType);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
