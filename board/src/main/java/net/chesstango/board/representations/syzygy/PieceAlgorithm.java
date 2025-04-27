@@ -164,11 +164,11 @@ class PieceAlgorithm {
 
         if (litIdx < 0) {
             while (litIdx < 0) {
-                litIdx += d.sizeTable.read_short(--block) + 1;
+                litIdx += (d.sizeTable.read_short(--block) & 0xFFFF) + 1;
             }
         } else {
             while (litIdx > d.sizeTable.read_short(block)) {
-                litIdx -= d.sizeTable.read_short(block++) + 1;
+                litIdx -= (d.sizeTable.read_short(block++) & 0xFFFF) + 1;
             }
         }
 
