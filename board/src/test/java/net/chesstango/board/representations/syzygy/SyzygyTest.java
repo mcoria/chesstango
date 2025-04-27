@@ -204,6 +204,35 @@ public class SyzygyTest {
         assertEquals(7, count(results, TB_LOSS));
     }
 
+    @Test
+    public void test_tb_probe_root_KQNvKQ() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQNvKQ");
+        syzygy.init_tb("KQvKQ");
+        syzygy.init_tb("KQvKN");
+        syzygy.init_tb("KQvK");
+        syzygy.init_tb("KNvK");
+
+        FEN fen = FEN.of("7k/q7/7K/7Q/4N3/8/8/8 w - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_WIN, TB_GET_WDL(res));
+        assertEquals(1, TB_GET_DTZ(res));
+
+        assertEquals(3, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(11, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(14, count(results, TB_LOSS));
+    }
+
     /**
      * Test for the "KPvK" tableType: tableType with PAWNs
      */
