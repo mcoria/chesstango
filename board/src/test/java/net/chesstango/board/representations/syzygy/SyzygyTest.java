@@ -3,6 +3,7 @@ package net.chesstango.board.representations.syzygy;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.representations.fen.FEN;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
@@ -127,7 +128,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_tb_probe_root_KQvK() {
+    public void test_tb_probe_root_KQvK_white() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KQvK");
 
@@ -152,7 +153,32 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_tb_probe_root_KQvKR() {
+    public void test_tb_probe_root_KQvK_black() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQvK");
+
+        FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 b - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_LOSS, TB_GET_WDL(res));
+        assertEquals(2, TB_GET_DTZ(res));
+
+        assertEquals(0, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(0, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(1, count(results, TB_LOSS));
+    }
+
+    @Test
+    public void test_tb_probe_root_KQvKR_white() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KQvKR");
         syzygy.init_tb("KQvK");
@@ -176,6 +202,33 @@ public class SyzygyTest {
         assertEquals(3, count(results, TB_DRAW));
         assertEquals(0, count(results, TB_BLESSED_LOSS));
         assertEquals(5, count(results, TB_LOSS));
+    }
+
+    @Test
+    public void test_tb_probe_root_KQvKR_black() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQvKR");
+        syzygy.init_tb("KQvK");
+        syzygy.init_tb("KRvK");
+
+        FEN fen = FEN.of("7k/r7/7K/7Q/8/8/8/8 b - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_DRAW, TB_GET_WDL(res));
+        assertEquals(0, TB_GET_DTZ(res));
+
+        assertEquals(0, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(1, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(14, count(results, TB_LOSS));
     }
 
     @Test
@@ -205,7 +258,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_tb_probe_root_KQNvKQ() {
+    public void test_tb_probe_root_KQNvKQ_white() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KQNvKQ");
         syzygy.init_tb("KQvKQ");
@@ -214,6 +267,36 @@ public class SyzygyTest {
         syzygy.init_tb("KNvK");
 
         FEN fen = FEN.of("7k/q7/7K/7Q/4N3/8/8/8 w - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_WIN, TB_GET_WDL(res));
+        assertEquals(1, TB_GET_DTZ(res));
+
+        assertEquals(3, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(11, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(14, count(results, TB_LOSS));
+    }
+
+    @Test
+    @Disabled
+    public void test_tb_probe_root_KQNvKQ_black() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQNvKQ");
+        syzygy.init_tb("KQvKQ");
+        syzygy.init_tb("KQvKN");
+        syzygy.init_tb("KQvK");
+        syzygy.init_tb("KNvK");
+
+        FEN fen = FEN.of("7k/q7/7K/7Q/4N3/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
 
