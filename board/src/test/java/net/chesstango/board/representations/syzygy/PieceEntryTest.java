@@ -32,10 +32,6 @@ public class PieceEntryTest {
 
         assertFalse(pieceEntry.dtmLossOnly);
 
-        assertEquals(662, pieceEntry.dtzMap.ptr);
-        assertArrayEquals(new short[]{0, 0, 0, 0}, pieceEntry.dtzMapIdx);
-        assertEquals(0, pieceEntry.dtzFlags);
-
 
         /**
          * WDL table assertions
@@ -87,6 +83,10 @@ public class PieceEntryTest {
         assertNotNull(pieceEntry.dtz);
         PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
 
+        assertEquals(662, dtz.dtzMap.ptr);
+        assertArrayEquals(new short[]{0, 0, 0, 0}, dtz.dtzMapIdx);
+        assertEquals(0, dtz.dtzFlags);
+
         EncInfo ei_dtz = dtz.ei_dtz;
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_dtz.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_dtz.pieces);
@@ -119,10 +119,6 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
 
         assertFalse(pieceEntry.dtmLossOnly);
-
-        assertEquals(12330, pieceEntry.dtzMap.ptr);
-        assertArrayEquals(new short[]{(short) 1, (short) 33, (short) 36, (short) 37}, pieceEntry.dtzMapIdx);
-        assertEquals(2, pieceEntry.dtzFlags);
 
 
         /**
@@ -175,6 +171,10 @@ public class PieceEntryTest {
         assertNotNull(pieceEntry.dtz);
         PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
 
+        assertEquals(12330, dtz.dtzMap.ptr);
+        assertArrayEquals(new short[]{(short) 1, (short) 33, (short) 36, (short) 37}, dtz.dtzMapIdx);
+        assertEquals(2, dtz.dtzFlags);
+
         EncInfo ei_dtz = dtz.ei_dtz;
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_dtz.factor);
         assertArrayEquals(new byte[]{14, 5, 12, 6, 0, 0, 0}, ei_dtz.pieces);
@@ -207,10 +207,6 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
         assertFalse(pieceEntry.dtmLossOnly);
 
-        assertEquals(544, pieceEntry.dtzMap.ptr);
-        assertArrayEquals(new short[]{(short) 1, (short) 12, (short) 22, (short) 23}, pieceEntry.dtzMapIdx);
-        assertEquals(2, pieceEntry.dtzFlags);
-
 
         /**
          * WDL table assertions
@@ -241,6 +237,10 @@ public class PieceEntryTest {
          */
         assertNotNull(pieceEntry.dtz);
         PieceDtz dtz = (PieceDtz) pieceEntry.dtz;
+
+        assertEquals(544, dtz.dtzMap.ptr);
+        assertArrayEquals(new short[]{(short) 1, (short) 12, (short) 22, (short) 23}, dtz.dtzMapIdx);
+        assertEquals(2, dtz.dtzFlags);
 
         EncInfo ei_dtz = dtz.ei_dtz;
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_dtz.factor);

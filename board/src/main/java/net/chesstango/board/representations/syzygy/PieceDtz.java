@@ -11,7 +11,12 @@ import static net.chesstango.board.representations.syzygy.TableType.DTZ;
 class PieceDtz extends TableBase {
     final PieceEntry pieceEntry;
     final PieceAlgorithm pieceAlgorithm;
+
     final EncInfo ei_dtz;
+
+    byte dtzFlags;
+    U_INT8_PTR dtzMap;
+    short[] dtzMapIdx = new short[4];
 
     public PieceDtz(PieceEntry pieceEntry) {
         super(DTZ);
@@ -38,16 +43,16 @@ class PieceDtz extends TableBase {
         data.ptr += data.ptr & 1;
 
         int[] size = new int[3];
-        pieceEntry.dtzFlags = data.read_uint8_t(0);
+        dtzFlags = data.read_uint8_t(0);
         ei_dtz.precomp = pieceAlgorithm.setup_pairs(DTZ, data, tb_size, size);
 
         // DTZ specific attributes
-        pieceEntry.dtzMap = data.clone();
-        short[] mapIdx = pieceEntry.dtzMapIdx;
-        if ((pieceEntry.dtzFlags & 2) != 0) {
-            if ((pieceEntry.dtzFlags & 16) == 0) {
+        dtzMap = data.clone();
+        short[] mapIdx = dtzMapIdx;
+        if ((dtzFlags & 2) != 0) {
+            if ((dtzFlags & 16) == 0) {
                 for (int i = 0; i < 4; i++) {
-                    mapIdx[i] = (short) (data.ptr + 1 - pieceEntry.dtzMap.ptr);
+                    mapIdx[i] = (short) (data.ptr + 1 - dtzMap.ptr);
                     data.incPtr(1 + data.read_uint8_t(0) & 0xFF);
                 }
             } else {
@@ -85,7 +90,7 @@ class PieceDtz extends TableBase {
         }
 
 
-        byte flags = pieceEntry.dtzFlags;
+        byte flags = dtzFlags;
         boolean flagFlag = (flags & 1) != 0;
         if (flagFlag != bside && !pieceEntry.symmetric) {
             pieceEntry.syzygy.success = -1;
@@ -107,9 +112,9 @@ class PieceDtz extends TableBase {
         if ((flags & 2) != 0) {
             int m = WdlToMap[s + 2];
             if ((flags & 16) == 0) {
-                v = pieceEntry.dtzMap.read_uint8_t(pieceEntry.dtzMapIdx[m] + v);
+                v = dtzMap.read_uint8_t(dtzMapIdx[m] + v);
             } else {
-                v = pieceEntry.dtzMap.read_le_u16(pieceEntry.dtzMapIdx[m] + v);
+                v = dtzMap.read_le_u16(dtzMapIdx[m] + v);
             }
         }
         if ((flags & PAFlags[s + 2]) == 0 || (s & 1) != 0) {

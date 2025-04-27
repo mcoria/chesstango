@@ -29,5 +29,4 @@ class U_INT32_PTR implements Cloneable {
         u_int32_ptr.ptr = ptr;
         return u_int32_ptr;
     }
-
 }

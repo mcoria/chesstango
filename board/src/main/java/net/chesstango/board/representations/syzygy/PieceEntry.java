@@ -6,10 +6,6 @@ package net.chesstango.board.representations.syzygy;
 class PieceEntry extends BaseEntry {
     boolean kk_enc;
 
-    U_INT8_PTR dtzMap;
-    byte dtzFlags;
-    short[] dtzMapIdx = new short[4];
-
     PieceEntry(Syzygy syzygy) {
         super(syzygy);
     }

@@ -66,10 +66,6 @@ public class SyzygyTest {
 
         assertFalse(pieceEntry.dtmLossOnly);
 
-        assertEquals(662, pieceEntry.dtzMap.ptr);
-        assertArrayEquals(new short[]{0, 0, 0, 0}, pieceEntry.dtzMapIdx);
-        assertEquals(0, pieceEntry.dtzFlags);
-
         /**
          * HashEntry assertions
          */
@@ -108,10 +104,6 @@ public class SyzygyTest {
         assertFalse(pieceEntry.kk_enc);
 
         assertFalse(pieceEntry.dtmLossOnly);
-
-        assertEquals(12330, pieceEntry.dtzMap.ptr);
-        assertArrayEquals(new short[]{(short) 1, (short) 33, (short) 36, (short) 37}, pieceEntry.dtzMapIdx);
-        assertEquals(2, pieceEntry.dtzFlags);
 
         /**
          * HashEntry assertions
