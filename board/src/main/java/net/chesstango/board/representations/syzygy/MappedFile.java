@@ -6,6 +6,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.EnumSet;
 
@@ -50,4 +51,8 @@ class MappedFile {
         return buffer.getLong(idx);
     }
 
+    static boolean test_tb(String basePath, String fileName, String suffix) {
+        Path path = Paths.get(basePath, String.format("%s%s", fileName, suffix));
+        return path.toFile().exists();
+    }
 }

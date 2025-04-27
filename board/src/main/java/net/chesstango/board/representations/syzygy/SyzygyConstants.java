@@ -21,8 +21,6 @@ class SyzygyConstants {
     static final long PRIME_BLACK_KNIGHT = Long.parseUnsignedLong("13469005675588064321");
     static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
 
-    static final char[] piece_to_char = " PNBRQK  pnbrqk".toCharArray();
-
     static final int TB_LOSS = 0;               /* LOSS */
     static final int TB_BLESSED_LOSS = 1;       /* LOSS but 50-move draw */
     static final int TB_DRAW = 2;               /* DRAW */
@@ -87,12 +85,14 @@ class SyzygyConstants {
 
     @Getter
     enum PieceType {
-        PAWN(1), KNIGHT(2), BISHOP(3), ROOK(4), QUEEN(5), KING(6);
+        PAWN(1, 'P'), KNIGHT(2, 'N'), BISHOP(3, 'B'), ROOK(4, 'R'), QUEEN(5, 'Q'), KING(6, 'K');
 
         private final int value;
+        private final char symbol;
 
-        PieceType(int value) {
+        PieceType(int value, char symbol) {
             this.value = value;
+            this.symbol = symbol;
         }
 
         static PieceType char_to_piece_type(char c) {
@@ -148,21 +148,6 @@ class SyzygyConstants {
                 return WHITE;
             }
         }
-    }
-
-
-    static char pchr(int i) {
-        return piece_to_char[PieceType.QUEEN.getValue() - i];
-    }
-
-
-    static boolean test_tb(String basePath, String fileName, String suffix) {
-        Path path = Paths.get(basePath, String.format("%s%s", fileName, suffix));
-        if (!path.toFile().exists()) {
-            //System.out.println("File not found: " + path);
-            return false;
-        }
-        return true;
     }
 
 

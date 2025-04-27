@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.MappedFile.test_tb;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.TableType.*;
 

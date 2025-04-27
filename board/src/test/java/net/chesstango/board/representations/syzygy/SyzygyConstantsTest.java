@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import static net.chesstango.board.representations.syzygy.BaseEntry.calc_key_from_pcs;
 import static net.chesstango.board.representations.syzygy.BaseEntry.tableName_to_pcs;
 import static net.chesstango.board.representations.syzygy.Syzygy.calcKey;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_HASHBITS;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.prt_str;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
@@ -43,10 +45,6 @@ public class SyzygyConstantsTest {
         assertEquals(2622, 0xa3ec1abc71e90863L >>> (64 - TB_HASHBITS));
     }
 
-    @Test
-    public void test_test_tb() {
-        assertFalse(test_tb("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5", "KQvK", ".rtbm"));
-    }
 
     @Test
     public void test_prt_str() {

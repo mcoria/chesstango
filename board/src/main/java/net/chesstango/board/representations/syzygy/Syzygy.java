@@ -85,9 +85,10 @@ public class Syzygy {
         // Set the path for the tablebase files
         setPath(path);
 
-        // Initialize the first five tablebases with predefined tableType names starting with QUEEN (IMPORTANT TO KEEP THE ORDER for testing)
+        PieceType[] pieces = PieceType.values();
+
         for (int i = 0; i < 5; i++) {
-            String tableName = String.format("K%cvK", SyzygyConstants.pchr(i));
+            String tableName = String.format("K%cvK", pieces[i].getSymbol());
             init_tb(tableName);
         }
 
