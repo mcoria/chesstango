@@ -535,7 +535,7 @@ public class Syzygy {
         if (bestCap >= v) {
             // No need to test for the stalemate case here: either there are
             // non-ep captures, or bestCap == bestEp >= v anyway.
-            success = 1 + bestCap > 0 ? 1 : 0;
+            success = 1 + (bestCap > 0 ? 1 : 0);
             return bestCap;
         }
 

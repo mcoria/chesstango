@@ -21,13 +21,12 @@ abstract class BaseEntry {
     TableBase dtm;
     TableBase dtz;
 
+    abstract TableBase createTable(TableType tableType);
+    abstract void init_tb(int[] pcs);
+
     BaseEntry(Syzygy syzygy) {
         this.syzygy = syzygy;
     }
-
-    abstract void init_tb(int[] pcs);
-    abstract TableBase createTable(TableType tableType);
-
 
     void init_tb(String tbName) {
         this.tableName = tbName;

@@ -39,5 +39,4 @@ class PieceEntry extends BaseEntry {
         }
         this.kk_enc = j == 2;
     }
-
 }
