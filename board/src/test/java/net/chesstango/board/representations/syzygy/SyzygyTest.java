@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SyzygyTest {
 
+    public static final String PATH = "C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5";
+
     private Syzygy syzygy;
 
     @BeforeEach
@@ -22,7 +24,7 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_init() {
-        syzygy.tb_init("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        syzygy.tb_init(PATH);
 
         assertEquals(650, syzygy.pieceEntry.length);
         assertEquals(861, syzygy.pawnEntry.length);
@@ -43,7 +45,7 @@ public class SyzygyTest {
      */
     @Test
     public void test_init_tb_KQvK() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        syzygy.setPath(PATH);
         syzygy.init_tb("KQvK");
 
         assertEquals(1, syzygy.numWdl);
@@ -81,9 +83,52 @@ public class SyzygyTest {
         assertSame(tbHash.ptr, pieceEntry);
     }
 
+    /**
+     * Test for the "KQvKR" tableType: tableType without PAWNs
+     */
     @Test
-    public void test_tb_probe_root() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+    public void test_init_tb_KQvKR() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQvKR");
+
+        assertEquals(1, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(1, syzygy.numDtz);
+
+        /**
+         * PieceEntry assertions
+         */
+        PieceEntry pieceEntry = syzygy.pieceEntry[0];
+
+        assertEquals("KQvKR", pieceEntry.tableName);
+        assertEquals(0xA1648170ABA24CF8L, pieceEntry.key);
+        assertEquals(4, pieceEntry.num);
+        assertFalse(pieceEntry.symmetric);
+        assertFalse(pieceEntry.kk_enc);
+
+        assertFalse(pieceEntry.dtmLossOnly);
+
+        assertEquals(12330, pieceEntry.dtzMap.ptr);
+        assertArrayEquals(new short[]{(short) 1, (short) 33, (short) 36, (short) 37}, pieceEntry.dtzMapIdx);
+        assertEquals(2, pieceEntry.dtzFlags);
+
+        /**
+         * HashEntry assertions
+         */
+        Syzygy.HashEntry tbHash = null;
+
+        tbHash = syzygy.tbHash[2582];
+        assertEquals(0xA1648170ABA24CF8L, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
+
+        tbHash = syzygy.tbHash[1780];
+        assertEquals(0x6f42d01ce9295d4aL, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
+    }
+
+    @Test
+    public void test_tb_probe_root_KQvK() {
+        syzygy.setPath(PATH);
         syzygy.init_tb("KQvK");
 
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
@@ -111,7 +156,7 @@ public class SyzygyTest {
      */
     @Test
     public void test_init_tb_KPvK() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
+        syzygy.setPath(PATH);
         syzygy.init_tb("KPvK");
 
         assertEquals(1, syzygy.numWdl);
