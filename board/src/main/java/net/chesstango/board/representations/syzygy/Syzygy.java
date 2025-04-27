@@ -39,7 +39,7 @@ public class Syzygy {
     static int[] WdlToDtz = {-1, -101, 0, 101, 1};
     static int[] wdl_to_dtz = {-1, -101, 0, 101, 1};
     static final int[] WdlToMap = new int[]{1, 3, 0, 2, 0};
-    static final byte[] PAFlags = new byte[]{ 8, 0, 0, 0, 4 };
+    static final byte[] PAFlags = new byte[]{8, 0, 0, 0, 4};
 
     final HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
     final PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
@@ -254,7 +254,6 @@ public class Syzygy {
         int j = 0;
         BitPosition pos1 = new BitPosition();
         for (int i = 0; i < len; i++) {
-
             if (!do_move(pos1, pos, moves[i])) {
                 scores[i] = SCORE_ILLEGAL;
                 continue;
@@ -295,12 +294,10 @@ public class Syzygy {
             results[j++] = TB_RESULT_FAILED;
         }
 
-
         score = dtz;
 
         // Now be a bit smart about filtering out moves.
-        if (dtz > 0)        // winning (or 50-move rule draw)
-        {
+        if (dtz > 0) {        // winning (or 50-move rule draw)
             int best = BEST_NONE;
             short best_move = 0;
             for (int i = 0; i < len; i++) {
@@ -314,8 +311,7 @@ public class Syzygy {
                 }
             }
             return (best == BEST_NONE ? 0 : best_move);
-        } else if (dtz < 0)   // losing (or 50-move rule draw)
-        {
+        } else if (dtz < 0) {   // losing (or 50-move rule draw)
             int best = 0;
             short best_move = 0;
             for (int i = 0; i < len; i++) {
@@ -328,8 +324,7 @@ public class Syzygy {
                 }
             }
             return (best == 0 ? MOVE_CHECKMATE : best_move);
-        } else                // drawing
-        {
+        } else {                // drawing
             // Check for stalemate:
             if (num_draw == 0)
                 return MOVE_STALEMATE;
@@ -349,7 +344,6 @@ public class Syzygy {
             }
             return 0;
         }
-
     }
 
     // Probe the DTZ table for a particular position.

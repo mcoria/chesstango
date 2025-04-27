@@ -155,6 +155,8 @@ public class SyzygyTest {
     public void test_tb_probe_root_KQvKR() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KQvKR");
+        syzygy.init_tb("KQvK");
+        syzygy.init_tb("KRvK");
 
         FEN fen = FEN.of("7k/r7/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();

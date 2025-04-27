@@ -62,8 +62,9 @@ abstract class TableBase {
     int probe_table(BitPosition pos, long key, int s) {
         BaseEntry baseEntry = getBaseEntry();
         if (!ready || error) {
-            baseEntry.syzygy.success = 0;
-            return 0;
+            //baseEntry.syzygy.success = 0;
+            //return 0;
+            throw new IllegalStateException("TableBase not ready or error");
         }
 
         return probe_table_imp(pos, key, s);
