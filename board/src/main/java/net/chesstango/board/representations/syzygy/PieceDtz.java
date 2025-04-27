@@ -109,7 +109,7 @@ class PieceDtz extends TableBase {
             if ((flags & 16) == 0) {
                 v = pieceEntry.dtzMap.read_uint8_t(pieceEntry.dtzMapIdx[m] + v);
             } else {
-                v = pieceEntry.dtzMap.read_short(pieceEntry.dtzMapIdx[m] + v);
+                v = pieceEntry.dtzMap.read_le_u16(pieceEntry.dtzMapIdx[m] + v);
             }
         }
         if ((flags & PAFlags[s + 2]) == 0 || (s & 1) != 0) {

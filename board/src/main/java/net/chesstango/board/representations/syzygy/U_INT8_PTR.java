@@ -20,8 +20,8 @@ class U_INT8_PTR implements Cloneable {
         return mappedFile.read_uint8_t(ptr + offset);
     }
 
-    short read_short(int offset) {
-        return mappedFile.read_short(ptr + offset);
+    short read_le_u16(int offset) {
+        return mappedFile.read_le_u16(ptr + offset);
     }
 
     int read_le_u32(int offset) {

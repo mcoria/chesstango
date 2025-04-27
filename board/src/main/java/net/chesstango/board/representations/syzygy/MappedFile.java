@@ -38,11 +38,7 @@ class MappedFile {
         return buffer.get(idx);
     }
 
-    char read_le_u16(int idx) {
-        return buffer.getChar(idx);
-    }
-
-    short read_short(int idx) {
+    short read_le_u16(int idx) {
         return buffer.getShort(idx);
     }
 

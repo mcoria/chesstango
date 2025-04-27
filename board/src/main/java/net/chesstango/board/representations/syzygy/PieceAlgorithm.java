@@ -156,16 +156,16 @@ class PieceAlgorithm {
         int litIdx = (idx & ((1 << d.idxBits) - 1)) - (1 << (d.idxBits - 1));
         int block = d.indexTable.read_le_u32(6 * mainIdx);
 
-        short idxOffset = d.indexTable.read_short(6 * mainIdx + 4);
+        short idxOffset = d.indexTable.read_le_u16(6 * mainIdx + 4);
         litIdx += (idxOffset & 0xFFFF);
 
         if (litIdx < 0) {
             while (litIdx < 0) {
-                litIdx += (d.sizeTable.read_short(--block) & 0xFFFF) + 1;
+                litIdx += (d.sizeTable.read_le_u16(--block) & 0xFFFF) + 1;
             }
         } else {
-            while (litIdx > (d.sizeTable.read_short(block) & 0xFFFF)) {
-                litIdx -= (d.sizeTable.read_short(block++) & 0xFFFF) + 1;
+            while (litIdx > (d.sizeTable.read_le_u16(block) & 0xFFFF)) {
+                litIdx -= (d.sizeTable.read_le_u16(block++) & 0xFFFF) + 1;
             }
         }
 
@@ -183,7 +183,7 @@ class PieceAlgorithm {
         for (; ; ) {
             int l = m;
             while (Long.compareUnsigned(code, d.base[l - m]) < 0) l++;
-            sym = offset.read_short(l);
+            sym = offset.read_le_u16(l);
             sym += (int) ((code - d.base[l - m]) >>> (64 - l));
             if (litIdx < (symLen[sym] & 0xFF) + 1) break;
             litIdx -= (symLen[sym] & 0xFF) + 1;

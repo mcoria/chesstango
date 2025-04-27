@@ -15,8 +15,8 @@ class U_INT16_PTR implements Cloneable{
         ptr += inc;
     }
 
-    short read_short(int offset) {
-        return mappedFile.read_short(ptr + 2 * offset);
+    short read_le_u16(int offset) {
+        return mappedFile.read_le_u16(ptr + 2 * offset);
     }
 
     @Override
