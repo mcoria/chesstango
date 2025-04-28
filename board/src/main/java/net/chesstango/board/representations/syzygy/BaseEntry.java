@@ -2,6 +2,7 @@ package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.MappedFile.test_tb;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 import static net.chesstango.board.representations.syzygy.TableType.*;
 
 /**
@@ -97,16 +98,16 @@ abstract class BaseEntry {
 
     static long calc_key_from_pcs(int[] pcs, boolean mirror) {
         int theMirror = (mirror ? 8 : 0);
-        return pcs[WHITE_QUEEN ^ theMirror] * PRIME_WHITE_QUEEN +
-                pcs[WHITE_ROOK ^ theMirror] * PRIME_WHITE_ROOK +
-                pcs[WHITE_BISHOP ^ theMirror] * PRIME_WHITE_BISHOP +
-                pcs[WHITE_KNIGHT ^ theMirror] * PRIME_WHITE_KNIGHT +
-                pcs[WHITE_PAWN ^ theMirror] * PRIME_WHITE_PAWN +
-                pcs[BLACK_QUEEN ^ theMirror] * PRIME_BLACK_QUEEN +
-                pcs[BLACK_ROOK ^ theMirror] * PRIME_BLACK_ROOK +
-                pcs[BLACK_BISHOP ^ theMirror] * PRIME_BLACK_BISHOP +
-                pcs[BLACK_KNIGHT ^ theMirror] * PRIME_BLACK_KNIGHT +
-                pcs[BLACK_PAWN ^ theMirror] * PRIME_BLACK_PAWN;
+        return pcs[WHITE_QUEEN ^ theMirror] * W_QUEEN.getPrime() +
+                pcs[WHITE_ROOK ^ theMirror] * W_ROOK.getPrime() +
+                pcs[WHITE_BISHOP ^ theMirror] * W_BISHOP.getPrime() +
+                pcs[WHITE_KNIGHT ^ theMirror] * W_KNIGHT.getPrime() +
+                pcs[WHITE_PAWN ^ theMirror] * W_PAWN.getPrime() +
+                pcs[BLACK_QUEEN ^ theMirror] * B_QUEEN.getPrime() +
+                pcs[BLACK_ROOK ^ theMirror] * B_ROOK.getPrime() +
+                pcs[BLACK_BISHOP ^ theMirror] * B_BISHOP.getPrime() +
+                pcs[BLACK_KNIGHT ^ theMirror] * B_KNIGHT.getPrime() +
+                pcs[BLACK_PAWN ^ theMirror] * B_PAWN.getPrime();
     }
 
     static int[] tableName_to_pcs(String tbName) {

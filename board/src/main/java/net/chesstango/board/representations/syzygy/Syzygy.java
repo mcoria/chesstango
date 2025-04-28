@@ -3,8 +3,9 @@ package net.chesstango.board.representations.syzygy;
 import lombok.Setter;
 
 import static net.chesstango.board.representations.syzygy.Chess.*;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
 import static net.chesstango.board.representations.syzygy.TableType.*;
 
 /**
@@ -625,16 +626,39 @@ public class Syzygy {
         };
     }
 
-    static long calcKey(BitPosition bitPosition) {
-        return Long.bitCount(bitPosition.white & bitPosition.queens) * PRIME_WHITE_QUEEN +
-                Long.bitCount(bitPosition.white & bitPosition.rooks) * PRIME_WHITE_ROOK +
-                Long.bitCount(bitPosition.white & bitPosition.bishops) * PRIME_WHITE_BISHOP +
-                Long.bitCount(bitPosition.white & bitPosition.knights) * PRIME_WHITE_KNIGHT +
-                Long.bitCount(bitPosition.white & bitPosition.pawns) * PRIME_WHITE_PAWN +
-                Long.bitCount(bitPosition.black & bitPosition.queens) * PRIME_BLACK_QUEEN +
-                Long.bitCount(bitPosition.black & bitPosition.rooks) * PRIME_BLACK_ROOK +
-                Long.bitCount(bitPosition.black & bitPosition.bishops) * PRIME_BLACK_BISHOP +
-                Long.bitCount(bitPosition.black & bitPosition.knights) * PRIME_BLACK_KNIGHT +
-                Long.bitCount(bitPosition.black & bitPosition.pawns) * PRIME_BLACK_PAWN;
+    /*
+     * Given a position, produce a 64-bit material signature key.
+     */
+    static long calc_key(BitPosition pos, boolean mirror) {
+        long white = pos.white, black = pos.black;
+        if (mirror) {
+            long tmp = white;
+            white = black;
+            black = tmp;
+        }
+        return calcKey(white, black,
+                pos.queens, pos.rooks,
+                pos.bishops, pos.knights,
+                pos.pawns);
+    }
+
+    static long calcKey(BitPosition pos) {
+        return calcKey(pos.white, pos.black,
+                pos.queens, pos.rooks,
+                pos.bishops, pos.knights,
+                pos.pawns);
+    }
+
+    static long calcKey(long white, long black, long queens, long rooks, long bishops, long knights, long pawns) {
+        return popcount(white & queens) * W_QUEEN.getPrime() +
+                popcount(white & rooks) * W_ROOK.getPrime() +
+                popcount(white & bishops) * W_BISHOP.getPrime() +
+                popcount(white & knights) * W_KNIGHT.getPrime() +
+                popcount(white & pawns) * W_PAWN.getPrime() +
+                popcount(black & queens) * B_QUEEN.getPrime() +
+                popcount(black & rooks) * B_ROOK.getPrime() +
+                popcount(black & bishops) * B_BISHOP.getPrime() +
+                popcount(black & knights) * B_KNIGHT.getPrime() +
+                popcount(black & pawns) * B_PAWN.getPrime();
     }
 }

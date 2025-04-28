@@ -3,6 +3,7 @@ package net.chesstango.board.representations.syzygy;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.BLACK;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.WHITE;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 
 /**
  * @author Mauricio Coria
@@ -778,27 +779,5 @@ public class Chess {
         bishop_attacks_init();
         rook_attacks_init();
         pawn_attacks_init();
-    }
-
-    /*
-     * Given a position, produce a 64-bit material signature key.
-     */
-    static long calc_key(BitPosition pos, boolean mirror) {
-        long white = pos.white, black = pos.black;
-        if (mirror) {
-            long tmp = white;
-            white = black;
-            black = tmp;
-        }
-        return popcount(white & pos.queens) * PRIME_WHITE_QUEEN +
-                popcount(white & pos.rooks) * PRIME_WHITE_ROOK +
-                popcount(white & pos.bishops) * PRIME_WHITE_BISHOP +
-                popcount(white & pos.knights) * PRIME_WHITE_KNIGHT +
-                popcount(white & pos.pawns) * PRIME_WHITE_PAWN +
-                popcount(black & pos.queens) * PRIME_BLACK_QUEEN +
-                popcount(black & pos.rooks) * PRIME_BLACK_ROOK +
-                popcount(black & pos.bishops) * PRIME_BLACK_BISHOP +
-                popcount(black & pos.knights) * PRIME_BLACK_KNIGHT +
-                popcount(black & pos.pawns) * PRIME_BLACK_PAWN;
     }
 }

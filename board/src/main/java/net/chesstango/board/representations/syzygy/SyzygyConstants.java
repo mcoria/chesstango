@@ -2,24 +2,10 @@ package net.chesstango.board.representations.syzygy;
 
 import lombok.Getter;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 /**
  * @author Mauricio Coria
  */
 class SyzygyConstants {
-
-    static final long PRIME_WHITE_QUEEN = Long.parseUnsignedLong("11811845319353239651");
-    static final long PRIME_WHITE_ROOK = Long.parseUnsignedLong("10979190538029446137");
-    static final long PRIME_WHITE_BISHOP = Long.parseUnsignedLong("12311744257139811149");
-    static final long PRIME_WHITE_KNIGHT = Long.parseUnsignedLong("15202887380319082783");
-    static final long PRIME_WHITE_PAWN = Long.parseUnsignedLong("17008651141875982339");
-    static final long PRIME_BLACK_QUEEN = Long.parseUnsignedLong("15484752644942473553");
-    static final long PRIME_BLACK_ROOK = Long.parseUnsignedLong("18264461213049635989");
-    static final long PRIME_BLACK_BISHOP = Long.parseUnsignedLong("15394650811035483107");
-    static final long PRIME_BLACK_KNIGHT = Long.parseUnsignedLong("13469005675588064321");
-    static final long PRIME_BLACK_PAWN = Long.parseUnsignedLong("11695583624105689831");
 
     static final int TB_LOSS = 0;               /* LOSS */
     static final int TB_BLESSED_LOSS = 1;       /* LOSS but 50-move draw */
@@ -68,7 +54,6 @@ class SyzygyConstants {
     static final int TB_RESULT_CHECKMATE = TB_SET_WDL(0, TB_WIN);
     static final int TB_RESULT_STALEMATE = TB_SET_WDL(0, TB_DRAW);
     static final int TB_RESULT_FAILED = 0xFFFFFFFF;
-
 
     static final int TB_RESULT_WDL_MASK = 0x0000000F;
     static final int TB_RESULT_TO_MASK = 0x000003F0;
@@ -122,13 +107,25 @@ class SyzygyConstants {
 
     @Getter
     enum Piece {
-        W_PAWN(1), W_KNIGHT(2), W_BISHOP(3), W_ROOK(4), W_QUEEN(5), W_KING(6),
-        B_PAWN(9), B_KNIGHT(10), B_BISHOP(11), B_ROOK(12), B_QUEEN(13), B_KING(14);
-
+        W_PAWN(1, Long.parseUnsignedLong("17008651141875982339")),
+        W_KNIGHT(2, Long.parseUnsignedLong("15202887380319082783")),
+        W_BISHOP(3, Long.parseUnsignedLong("12311744257139811149")),
+        W_ROOK(4, Long.parseUnsignedLong("10979190538029446137")),
+        W_QUEEN(5, Long.parseUnsignedLong("11811845319353239651")),
+        W_KING(6, 0),
+        B_PAWN(9, Long.parseUnsignedLong("11695583624105689831")),
+        B_KNIGHT(10, Long.parseUnsignedLong("13469005675588064321")),
+        B_BISHOP(11, Long.parseUnsignedLong("15394650811035483107")),
+        B_ROOK(12, Long.parseUnsignedLong("18264461213049635989")),
+        B_QUEEN(13, Long.parseUnsignedLong("15484752644942473553")),
+        B_KING(14, 0);
+        
         private final int value;
+        private final long prime;
 
-        Piece(int value) {
+        Piece(int value, long prime) {
             this.value = value;
+            this.prime = prime;
         }
     }
 
