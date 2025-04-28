@@ -10,9 +10,8 @@ import static net.chesstango.board.representations.syzygy.TableType.DTZ;
  */
 class PieceDtz extends TableBase {
     final PieceEntry pieceEntry;
-    final PieceAlgorithm pieceAlgorithm;
 
-    final EncInfo ei_dtz;
+    final PieceEncInfo ei_dtz;
 
     byte dtzFlags;
     U_INT8_PTR dtzMap;
@@ -20,9 +19,8 @@ class PieceDtz extends TableBase {
 
     public PieceDtz(PieceEntry pieceEntry) {
         super(DTZ);
-        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry);
         this.pieceEntry = pieceEntry;
-        this.ei_dtz = new EncInfo();
+        this.ei_dtz = new PieceEncInfo(pieceEntry);
     }
 
     @Override
@@ -35,7 +33,7 @@ class PieceDtz extends TableBase {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.incPtr(5);
 
-        int tb_size = pieceAlgorithm.init_enc_info(ei_dtz, data, 0);
+        int tb_size = ei_dtz.init_enc_info(ei_dtz, data, 0);
 
         data.incPtr(pieceEntry.num + 1);
 
@@ -100,10 +98,10 @@ class PieceDtz extends TableBase {
         int[] p = new int[TB_PIECES];
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = pieceAlgorithm.fill_squares(pos, ei_dtz.pieces, flip, 0, p, i);
+            i = ei_dtz.fill_squares(pos, ei_dtz.pieces, flip, 0, p, i);
         }
 
-        int idx = pieceAlgorithm.encode_piece(p, ei_dtz);
+        int idx = ei_dtz.encode_piece(p, ei_dtz);
 
         byte[] w = ei_dtz.precomp.decompress_pairs(idx);
 

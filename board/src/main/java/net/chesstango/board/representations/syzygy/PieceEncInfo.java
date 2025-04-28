@@ -1,16 +1,14 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.Chess.poplsb;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
-import static net.chesstango.board.representations.syzygy.TableType.WDL;
 
 /**
  * @author Mauricio Coria
  */
-class PieceAlgorithm {
+public class PieceEncInfo extends EncInfo {
     final PieceEntry pieceEntry;
 
-    PieceAlgorithm(PieceEntry pieceEntry) {
+    PieceEncInfo(PieceEntry pieceEntry) {
         this.pieceEntry = pieceEntry;
     }
 
@@ -135,11 +133,11 @@ class PieceAlgorithm {
     // flips between white and black if flip == true.
     // Pieces of the same type are guaranteed to be consecutive.
     static int fill_squares(BitPosition pos, byte[] pc, boolean flip, int mirror, int[] p, int i) {
-        Color color = Color.colorOfPiece(pc[i]);
+        SyzygyConstants.Color color = SyzygyConstants.Color.colorOfPiece(pc[i]);
         if (flip) {
             color = color.oposite();
         }
-        long bb = pos.pieces_by_type(color, PieceType.typeOfPiece(pc[i]));
+        long bb = pos.pieces_by_type(color, SyzygyConstants.PieceType.typeOfPiece(pc[i]));
         int sq;
         do {
             sq = Long.numberOfTrailingZeros(bb);

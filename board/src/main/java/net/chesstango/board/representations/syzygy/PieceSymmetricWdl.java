@@ -8,15 +8,13 @@ import static net.chesstango.board.representations.syzygy.TableType.WDL;
  */
 class PieceSymmetricWdl extends TableBase {
     final PieceEntry pieceEntry;
-    final PieceAlgorithm pieceAlgorithm;
 
-    final EncInfo ei_wtm;
+    final PieceEncInfo ei_wtm;
 
     public PieceSymmetricWdl(PieceEntry pieceEntry) {
         super(WDL);
         this.pieceEntry = pieceEntry;
-        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry);
-        this.ei_wtm = new EncInfo();
+        this.ei_wtm = new PieceEncInfo(pieceEntry);
     }
 
     @Override
@@ -29,7 +27,7 @@ class PieceSymmetricWdl extends TableBase {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.incPtr(5);
 
-        int tb_size_white = pieceAlgorithm.init_enc_info(ei_wtm, data, 0);
+        int tb_size_white = ei_wtm.init_enc_info(ei_wtm, data, 0);
 
         data.incPtr(pieceEntry.num + 1);
 
@@ -62,13 +60,13 @@ class PieceSymmetricWdl extends TableBase {
 
         int[] p = new int[TB_PIECES];
 
-        EncInfo ei = ei_wtm;
+        PieceEncInfo ei = ei_wtm;
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = pieceAlgorithm.fill_squares(pos, ei.pieces, flip, 0, p, i);
+            i = ei.fill_squares(pos, ei.pieces, flip, 0, p, i);
         }
 
-        int idx = pieceAlgorithm.encode_piece(p, ei);
+        int idx = ei.encode_piece(p, ei);
 
         byte[] w = ei.precomp.decompress_pairs(idx);
 
