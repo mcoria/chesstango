@@ -333,7 +333,7 @@ public class Syzygy {
 
             // Select a "random" move that preserves the draw.
             // Uses calc_key as the PRNG.
-            int count = (int) calc_key(pos, !pos.turn) % num_draw;
+            int count = (int) calcKey(pos, !pos.turn) % num_draw;
             for (int i = 0; i < len; i++) {
                 int v = scores[i];
                 if (v == SCORE_ILLEGAL)
@@ -629,7 +629,7 @@ public class Syzygy {
     /*
      * Given a position, produce a 64-bit material signature key.
      */
-    static long calc_key(BitPosition pos, boolean mirror) {
+    static long calcKey(BitPosition pos, boolean mirror) {
         long white = pos.white, black = pos.black;
         if (mirror) {
             long tmp = white;

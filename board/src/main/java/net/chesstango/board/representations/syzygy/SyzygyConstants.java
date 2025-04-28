@@ -42,11 +42,11 @@ class SyzygyConstants {
     static final byte BLACK_KNIGHT = (TB_BPAWN + 1);
     static final byte BLACK_PAWN = TB_BPAWN;
 
-    static final char TB_PIECES = 7;
-    static final char TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
-    static final char TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
-    static final char TB_MAX_SYMS = 4096;
-    static final char TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
+    static final short TB_PIECES = 7;
+    static final short TB_MAX_PIECE = (TB_PIECES < 7 ? 254 : 650);
+    static final short TB_MAX_PAWN = (TB_PIECES < 7 ? 256 : 861);
+    static final short TB_MAX_SYMS = 4096;
+    static final short TB_HASHBITS = (TB_PIECES < 7 ? 11 : 12);
 
     static final int TB_MAX_MOVES = (192 + 1);
     static final int TB_MAX_CAPTURES = 64;
@@ -119,7 +119,7 @@ class SyzygyConstants {
         B_ROOK(12, Long.parseUnsignedLong("18264461213049635989")),
         B_QUEEN(13, Long.parseUnsignedLong("15484752644942473553")),
         B_KING(14, 0);
-        
+
         private final int value;
         private final long prime;
 
