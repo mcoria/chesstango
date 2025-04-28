@@ -39,11 +39,11 @@ abstract class BaseEntry {
 
         // Calculate unique keys for the tablebase
         long key = calc_key_from_pcs(pcs, false);
-        long key2 = calc_key_from_pcs(pcs, true);
+        long keyMirror = calc_key_from_pcs(pcs, true);
 
         // Set attributes for the BaseEntry
         this.key = key;
-        this.symmetric = key == key2;
+        this.symmetric = key == keyMirror;
         this.num = 0;
         for (int i = 0; i < 16; i++) {
             this.num += pcs[i];
@@ -82,8 +82,8 @@ abstract class BaseEntry {
 
         // Add the entry to the hash tableType using the calculated keys
         this.syzygy.add_to_hash(this, key);
-        if (key != key2) {
-            this.syzygy.add_to_hash(this, key2);
+        if (key != keyMirror) {
+            this.syzygy.add_to_hash(this, keyMirror);
         }
     }
 

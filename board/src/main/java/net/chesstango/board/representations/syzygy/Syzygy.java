@@ -28,24 +28,18 @@ import static net.chesstango.board.representations.syzygy.TableType.*;
  * @author Mauricio Coria
  */
 public class Syzygy {
-    /**
-     * @author Mauricio Coria
-     */
     static class HashEntry {
         long key;
         BaseEntry ptr;
-        boolean error;
     }
 
-    static int[] WdlToDtz = {-1, -101, 0, 101, 1};
-    static int[] wdl_to_dtz = {-1, -101, 0, 101, 1};
+    static final int[] WdlToDtz = {-1, -101, 0, 101, 1};
     static final int[] WdlToMap = new int[]{1, 3, 0, 2, 0};
     static final byte[] PAFlags = new byte[]{8, 0, 0, 0, 4};
 
     final HashEntry[] tbHash = new HashEntry[1 << TB_HASHBITS];
     final PieceEntry[] pieceEntry = new PieceEntry[TB_MAX_PIECE];
     final PawnEntry[] pawnEntry = new PawnEntry[TB_MAX_PAWN];
-
 
     int tbNumPiece;
     int tbNumPawn;
@@ -235,13 +229,16 @@ public class Syzygy {
      */
     void add_to_hash(BaseEntry ptr, long key) {
         int idx = (int) (key >>> (64 - TB_HASHBITS));
+        final int idxStart = idx;
         while (tbHash[idx] != null) {
             idx = (idx + 1) & ((1 << TB_HASHBITS) - 1);
+            if (idx == idxStart) {
+                throw new RuntimeException("Hash tableType overflow");
+            }
         }
         tbHash[idx] = new HashEntry();
         tbHash[idx].key = key;
         tbHash[idx].ptr = ptr;
-        tbHash[idx].error = false;
     }
 
 
@@ -273,7 +270,7 @@ public class Syzygy {
                         v--;
                 } else {
                     v = -probe_wdl(pos1);
-                    v = wdl_to_dtz[v + 2];
+                    v = WdlToDtz[v + 2];
                 }
             }
             num_draw += v == 0 ? 1 : 0;

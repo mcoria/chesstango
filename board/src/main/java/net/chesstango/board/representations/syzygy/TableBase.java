@@ -22,7 +22,7 @@ abstract class TableBase {
     }
 
     boolean init_table() {
-        boolean result = false;
+        boolean init_success = false;
 
         BaseEntry baseEntry = getBaseEntry();
 
@@ -51,12 +51,12 @@ abstract class TableBase {
                 assert baseEntry.num == numPieces : "baseEntry.num: " + baseEntry.num + " != numPieces: " + numPieces;
                 assert baseEntry instanceof PawnEntry && pawnfulTable || baseEntry instanceof PieceEntry && !pawnfulTable : "File name doesn't match header description";
 
-                result = init_table_imp();
+                init_success = init_table_imp();
             }
         }
-        error = !result;
+        error = !init_success;
         ready = true;
-        return result;
+        return init_success;
     }
 
     int probe_table(BitPosition pos, long key, int s) {
