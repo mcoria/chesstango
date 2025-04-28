@@ -8,7 +8,6 @@ import static net.chesstango.board.representations.syzygy.TableBase.TableType.WD
  */
 class PieceSymmetricWdl extends TableBase {
     final PieceEntry pieceEntry;
-
     final PieceEncInfo ei_wtm;
 
     public PieceSymmetricWdl(PieceEntry pieceEntry) {
