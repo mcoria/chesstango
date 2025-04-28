@@ -11,7 +11,6 @@ import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.
  * @author Mauricio Coria
  */
 public class BitPosition {
-
     long white;
     long black;
     long kings;

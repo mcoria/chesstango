@@ -15,7 +15,7 @@ class PieceSymmetricWdl extends TableBase {
     public PieceSymmetricWdl(PieceEntry pieceEntry) {
         super(WDL);
         this.pieceEntry = pieceEntry;
-        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry, mappedFile);
+        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry);
         this.ei_wtm = new EncInfo();
     }
 

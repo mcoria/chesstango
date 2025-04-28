@@ -20,7 +20,7 @@ class PieceDtz extends TableBase {
 
     public PieceDtz(PieceEntry pieceEntry) {
         super(DTZ);
-        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry, mappedFile);
+        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry);
         this.pieceEntry = pieceEntry;
         this.ei_dtz = new EncInfo();
     }

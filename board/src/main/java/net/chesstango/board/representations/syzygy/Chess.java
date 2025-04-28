@@ -3,7 +3,6 @@ package net.chesstango.board.representations.syzygy;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.BLACK;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Color.WHITE;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 
 /**
  * @author Mauricio Coria

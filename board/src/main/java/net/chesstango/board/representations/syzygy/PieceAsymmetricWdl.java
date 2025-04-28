@@ -16,7 +16,7 @@ class PieceAsymmetricWdl extends TableBase {
     public PieceAsymmetricWdl(PieceEntry pieceEntry) {
         super(WDL);
         this.pieceEntry = pieceEntry;
-        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry, mappedFile);
+        this.pieceAlgorithm = new PieceAlgorithm(pieceEntry);
         this.ei_wtm = new EncInfo();
         this.ei_btm = new EncInfo();
     }
