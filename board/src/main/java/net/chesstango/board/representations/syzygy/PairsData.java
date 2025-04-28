@@ -19,6 +19,85 @@ class PairsData {
     byte[] constValue = new byte[2];
     long[] base;
 
+    PairsData(TableType tableType, U_INT8_PTR ptr, int tb_size, int[] size) {
+        U_INT8_PTR data = ptr.clone();
+
+        if ((data.read_uint8_t(0) & 0x80) != 0) {
+            this.idxBits = 0;
+            this.constValue[0] = WDL == tableType ? data.read_uint8_t(1) : 0;
+            this.constValue[1] = 0;
+            ptr.incPtr(2);
+            size[0] = 0;
+            size[1] = 0;
+            size[2] = 0;
+            return;
+        }
+
+        final byte blockSize = data.read_uint8_t(1);
+        final byte idxBits = data.read_uint8_t(2);
+        final int realNumBlocks = data.read_le_u32(4);
+        final int numBlocks = realNumBlocks + data.read_uint8_t(3);
+        final byte maxLen = data.read_uint8_t(8);
+        final byte minLen = data.read_uint8_t(9);
+        final int h = maxLen - minLen + 1;
+        final int numSyms = data.read_le_u16(10 + 2 * h);
+
+
+        this.blockSize = blockSize;
+        this.idxBits = idxBits;
+        this.offset = data.createU_INT16_PTR(10);
+        this.symLen = new byte[numSyms];
+        this.symPat = data.clone().incPtr(12 + 2 * h);
+        this.minLen = minLen;
+        this.base = new long[h];
+
+        ptr.ptr = data.ptr + (12 + 2 * h + 3 * numSyms + (numSyms & 1));
+
+        int num_indices = (tb_size + (1 << idxBits) - 1) >>> idxBits;
+        size[0] = 6 * num_indices;
+        size[1] = 2 * numBlocks;
+        size[2] = realNumBlocks << blockSize;
+
+        assert (numSyms < TB_MAX_SYMS);
+        byte[] tmp = new byte[TB_MAX_SYMS];
+
+        for (int s = 0; s < numSyms; s++) {
+            if (tmp[s] == 0) {
+                calc_symLen(s, tmp);
+            }
+        }
+
+        this.base[h - 1] = 0;
+        for (int i = h - 2; i >= 0; i--) {
+            this.base[i] = (this.base[i + 1] + this.offset.read_le_u16(i) - this.offset.read_le_u16(i + 1)) / 2;
+        }
+        for (int i = 0; i < h; i++) {
+            this.base[i] <<= 64 - (minLen + i);
+        }
+
+        // offset is a two byte pointer
+        this.offset.incPtr(-this.minLen);
+    }
+
+    void calc_symLen(int s, byte[] tmp) {
+        U_INT8_PTR w = this.symPat.clone();
+        w.incPtr(3 * s);
+        int w2 = (w.read_uint8_t(2) & 0xFF) << 4;
+        int w1 = (w.read_uint8_t(1) & 0xFF) >>> 4;
+
+        int s2 = w2 | w1;
+        if (s2 == 0x0fff) {
+            this.symLen[s] = 0;
+        } else {
+            int s1 = ((w.read_uint8_t(1) & 0xF) << 8) | (w.read_uint8_t(0) & 0xFF);
+            if (tmp[s1] == 0) calc_symLen(s1, tmp);
+            if (tmp[s2] == 0) calc_symLen(s2, tmp);
+            this.symLen[s] = (byte) (this.symLen[s1] + this.symLen[s2] + 0x01);
+        }
+        tmp[s] = 1;
+    }
+
+
     byte[] decompress_pairs(int idx) {
         if (idxBits == 0) {
             return constValue;
@@ -80,89 +159,5 @@ class PairsData {
         }
 
         return new byte[]{symPat.read_uint8_t(3 * sym), symPat.read_uint8_t(3 * sym + 1)};
-    }
-
-    static PairsData setup_pairs(TableType tableType, U_INT8_PTR ptr, int tb_size, int[] size) {
-        PairsData d;
-
-        U_INT8_PTR data = ptr.clone();
-
-        if ((data.read_uint8_t(0) & 0x80) != 0) {
-            d = new PairsData();
-            d.idxBits = 0;
-            d.constValue[0] = WDL == tableType ? data.read_uint8_t(1) : 0;
-            d.constValue[1] = 0;
-            ptr.incPtr(2);
-            size[0] = 0;
-            size[1] = 0;
-            size[2] = 0;
-            return d;
-        }
-
-        byte blockSize = data.read_uint8_t(1);
-        byte idxBits = data.read_uint8_t(2);
-        int realNumBlocks = data.read_le_u32(4);
-        int numBlocks = realNumBlocks + data.read_uint8_t(3);
-        byte maxLen = data.read_uint8_t(8);
-        byte minLen = data.read_uint8_t(9);
-        int h = maxLen - minLen + 1;
-        int numSyms = data.read_le_u16(10 + 2 * h);
-
-
-        d = new PairsData();
-        d.blockSize = blockSize;
-        d.idxBits = idxBits;
-        d.offset = data.createU_INT16_PTR(10);
-        d.symLen = new byte[numSyms];
-        d.symPat = data.clone().incPtr(12 + 2 * h);
-        d.minLen = minLen;
-        d.base = new long[h];
-
-        ptr.ptr = data.ptr + (12 + 2 * h + 3 * numSyms + (numSyms & 1));
-
-        int num_indices = (tb_size + (1 << idxBits) - 1) >>> idxBits;
-        size[0] = 6 * num_indices;
-        size[1] = 2 * numBlocks;
-        size[2] = realNumBlocks << blockSize;
-
-        assert (numSyms < TB_MAX_SYMS);
-        byte[] tmp = new byte[TB_MAX_SYMS];
-
-        for (int s = 0; s < numSyms; s++) {
-            if (tmp[s] == 0) {
-                calc_symLen(d, s, tmp);
-            }
-        }
-
-        d.base[h - 1] = 0;
-        for (int i = h - 2; i >= 0; i--) {
-            d.base[i] = (d.base[i + 1] + d.offset.read_le_u16(i) - d.offset.read_le_u16(i + 1)) / 2;
-        }
-        for (int i = 0; i < h; i++) {
-            d.base[i] <<= 64 - (minLen + i);
-        }
-
-        // offset is a two byte pointer
-        d.offset.incPtr(-d.minLen);
-
-        return d;
-    }
-
-    static void calc_symLen(PairsData d, int s, byte[] tmp) {
-        U_INT8_PTR w = d.symPat.clone();
-        w.incPtr(3 * s);
-        int w2 = (w.read_uint8_t(2) & 0xFF) << 4;
-        int w1 = (w.read_uint8_t(1) & 0xFF) >>> 4;
-
-        int s2 = w2 | w1;
-        if (s2 == 0x0fff) {
-            d.symLen[s] = 0;
-        } else {
-            int s1 = ((w.read_uint8_t(1) & 0xF) << 8) | (w.read_uint8_t(0) & 0xFF);
-            if (tmp[s1] == 0) calc_symLen(d, s1, tmp);
-            if (tmp[s2] == 0) calc_symLen(d, s2, tmp);
-            d.symLen[s] = (byte) (d.symLen[s1] + d.symLen[s2] + 0x01);
-        }
-        tmp[s] = 1;
     }
 }
