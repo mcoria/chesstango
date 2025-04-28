@@ -353,20 +353,16 @@ public class SyzygyTest {
         assertEquals(1, syzygy.numDtz);
 
         PawnEntry baseEntry = syzygy.pawnEntry[0];
-        assertEquals(0xec0ade190c0f6003L, baseEntry.key);
-        assertEquals(3, baseEntry.num);
-        assertFalse(baseEntry.symmetric);
+        assertEquals(0x8E59ED7027C162EAL, baseEntry.key);
+        assertEquals(4, baseEntry.num);
+        assertTrue(baseEntry.symmetric);
         assertEquals(1, baseEntry.pawns[0]);
-        assertEquals(0, baseEntry.pawns[1]);
+        assertEquals(1, baseEntry.pawns[1]);
 
         Syzygy.HashEntry tbHash = null;
 
-        tbHash = syzygy.tbHash[3776];
-        assertEquals(0xec0ade190c0f6003L, tbHash.key);
-        assertSame(tbHash.ptr, baseEntry);
-
-        tbHash = syzygy.tbHash[2596];
-        assertEquals(0xa24f0f571bb202e7L, tbHash.key);
+        tbHash = syzygy.tbHash[2277];
+        assertEquals(0x8E59ED7027C162EAL, tbHash.key);
         assertSame(tbHash.ptr, baseEntry);
     }
 

@@ -20,7 +20,12 @@ class PawnEntry extends BaseEntry {
             else
                 return new PawnAsymmetricWdl(this);
         }
-        throw new RuntimeException("Not implemented yet");
+
+        if (tableType == TableBase.TableType.DTZ) {
+            return new PawnDtz(this);
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

@@ -24,12 +24,21 @@ public class SyzygyConstantsTest {
     }
 
     @Test
-    public void test_calc_key_from_pcs() {
+    public void test_calc_key_from_pcs_KQvK() {
         int[] pcs = tableName_to_pcs("KQvK");
         long key = calc_key_from_pcs(pcs, false);
         long key2 = calc_key_from_pcs(pcs, true);
         assertEquals(0xa3ec1abc71e90863L, key);
         assertEquals(0xd6e4e47d24962951L, key2);
+    }
+
+    @Test
+    public void test_calc_key_from_pcs_KPvKP() {
+        int[] pcs = tableName_to_pcs("KPvKP");
+        long key = calc_key_from_pcs(pcs, false);
+        long key2 = calc_key_from_pcs(pcs, true);
+        assertEquals(0x8E59ED7027C162EAL, key);
+        assertEquals(0x8E59ED7027C162EAL, key2);
     }
 
     @Test

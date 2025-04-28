@@ -31,26 +31,29 @@ class PawnSymmetricWdl extends TableBase {
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
         data.ptr += data.ptr & 1;
 
-        int[][] size_white = new int[4][3];
-        for (int i = 0; i < num; i++) {
-            ei[i].precomp = new PairsData(WDL, data, tb_size[i], size_white[i]);
+        int[][] size = new int[4][3];
+        for (int t = 0; t < num; t++) {
+            ei[t].precomp = new PairsData(WDL, data, tb_size[t], size[t]);
         }
 
-        /*
-
         // indexTable ptr
-        ei.precomp.indexTable = data.clone();
-        data.incPtr(size_white[0]);
+        for (int t = 0; t < num; t++) {
+            ei[t].precomp.indexTable = data.clone();
+            data.incPtr(size[t][0]);
+        }
 
         // sizeTable ptr
-        ei.precomp.sizeTable = data.createU_INT16_PTR(0);
-        data.incPtr(size_white[1]);
+        for (int t = 0; t < num; t++) {
+            ei[t].precomp.sizeTable = data.createU_INT16_PTR(0);
+            data.incPtr(size[t][1]);
+        }
 
         // data ptr
-        data.ptr = (data.ptr + 0x3f) & ~0x3f;
-        ei.precomp.data = data.clone();
-        data.incPtr(size_white[2]);
-         */
+        for (int t = 0; t < num; t++) {
+            data.ptr = (data.ptr + 0x3f) & ~0x3f;
+            ei[t].precomp.data = data.clone();
+            data.incPtr(size[t][2]);
+        }
 
         return true;
     }
