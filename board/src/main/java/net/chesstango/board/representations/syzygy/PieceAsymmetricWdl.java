@@ -79,10 +79,10 @@ class PieceAsymmetricWdl extends TableBase {
         PieceEncInfo ei = bside ? ei_btm : ei_wtm;
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = ei.fill_squares(pos, ei.pieces, flip, 0, p, i);
+            i = PieceEncInfo.fill_squares(pos, ei.pieces, flip, 0, p, i);
         }
 
-        int idx = ei.encode_piece(p, ei);
+        int idx = ei.encode_piece(p);
 
         byte[] w = ei.precomp.decompress_pairs(idx);
 

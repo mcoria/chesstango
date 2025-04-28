@@ -49,7 +49,7 @@ public class PieceEncInfo extends EncInfo {
         return f;
     }
 
-    int encode_piece(int[] p, EncInfo ei) {
+    int encode_piece(int[] p) {
         int n = pieceEntry.num;
         int idx;
         int k;
@@ -88,11 +88,11 @@ public class PieceEncInfo extends EncInfo {
                 idx = 6 * 63 * 62 + 4 * 28 * 62 + 4 * 7 * 28 + Diag[p[0]] * 7 * 6 + (Diag[p[1]] - s1) * 6 + (Diag[p[2]] - s2);
             k = 3;
         }
-        idx *= ei.factor[0];
+        idx *= factor[0];
 
 
         while (k < n) {
-            int t = k + ei.norm[k];
+            int t = k + norm[k];
             for (int i = k; i < t; i++)
                 for (int j = i + 1; j < t; j++)
                     if (p[i] > p[j]) {
@@ -109,7 +109,7 @@ public class PieceEncInfo extends EncInfo {
                 }
                 s += Binomial[i - k + 1][sq - skips];
             }
-            idx += s * ei.factor[k];
+            idx += s * factor[k];
             k = t;
         }
 
