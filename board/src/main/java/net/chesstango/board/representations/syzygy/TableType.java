@@ -7,19 +7,16 @@ import lombok.Getter;
  */
 @Getter
 public enum TableType {
-    WDL(".rtbw", 0x5d23e871, 2, 1),
-    DTM(".rtbm", 0x88ac504b, 1, 1),
-    DTZ(".rtbz", 0xa50c66d7, 1, 1);
+    WDL(".rtbw", 0x5d23e871),
+    DTM(".rtbm", 0x88ac504b),
+    DTZ(".rtbz", 0xa50c66d7);
 
     private final String suffix;
     private final int magicNumber;
-    private final int ecInfoSizePiece;
-    private final int ecInfoSizePawn;
 
-    TableType(String suffix, int magicNumber, int ecInfoSizePiece, int ecInfoSizePawn) {
+
+    TableType(String suffix, int magicNumber) {
         this.suffix = suffix;
         this.magicNumber = magicNumber;
-        this.ecInfoSizePiece = ecInfoSizePiece;
-        this.ecInfoSizePawn = ecInfoSizePawn;
     }
 }
