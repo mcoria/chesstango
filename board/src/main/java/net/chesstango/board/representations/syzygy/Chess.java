@@ -35,7 +35,51 @@ public class Chess {
     }
 
     static boolean is_valid(BitPosition pos) {
-        return true;
+        if (popcount(pos.kings) != 2)
+            return false;
+        if (popcount(pos.kings & pos.white) != 1)
+            return false;
+        if (popcount(pos.kings & pos.black) != 1)
+            return false;
+        if ((pos.white & pos.black) != 0)
+            return false;
+        if ((pos.kings & pos.queens) != 0)
+            return false;
+        if ((pos.kings & pos.rooks) != 0)
+            return false;
+        if ((pos.kings & pos.bishops) != 0)
+            return false;
+        if ((pos.kings & pos.knights) != 0)
+            return false;
+        if ((pos.kings & pos.pawns) != 0)
+            return false;
+        if ((pos.queens & pos.rooks) != 0)
+            return false;
+        if ((pos.queens & pos.bishops) != 0)
+            return false;
+        if ((pos.queens & pos.knights) != 0)
+            return false;
+        if ((pos.queens & pos.pawns) != 0)
+            return false;
+        if ((pos.rooks & pos.bishops) != 0)
+            return false;
+        if ((pos.rooks & pos.knights) != 0)
+            return false;
+        if ((pos.rooks & pos.pawns) != 0)
+            return false;
+        if ((pos.bishops & pos.knights) != 0)
+            return false;
+        if ((pos.bishops & pos.pawns) != 0)
+            return false;
+        if ((pos.knights & pos.pawns) != 0)
+            return false;
+        if ((pos.pawns & BOARD_FILE_EDGE) != 0)
+            return false;
+        if ((pos.white | pos.black) !=
+                (pos.kings | pos.queens | pos.rooks | pos.bishops | pos.knights |
+                        pos.pawns))
+            return false;
+        return is_legal(pos);
     }
 
     static short move_from(short move) {
