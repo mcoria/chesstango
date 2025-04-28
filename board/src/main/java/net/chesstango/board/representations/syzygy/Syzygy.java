@@ -6,7 +6,7 @@ import static net.chesstango.board.representations.syzygy.Chess.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
-import static net.chesstango.board.representations.syzygy.TableType.*;
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.*;
 
 /**
  * Syzygy Bases consist of two sets of files,
@@ -601,7 +601,7 @@ public class Syzygy {
         return probe_table(pos, wdl, DTZ);
     }
 
-    int probe_table(BitPosition bitPosition, int s, TableType type) {
+    int probe_table(BitPosition bitPosition, int s, TableBase.TableType type) {
         long key = calcKey(bitPosition);
 
         int hashIdx = (int) (key >>> (64 - TB_HASHBITS));

@@ -3,7 +3,7 @@ package net.chesstango.board.representations.syzygy;
 import static net.chesstango.board.representations.syzygy.MappedFile.test_tb;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
-import static net.chesstango.board.representations.syzygy.TableType.*;
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.*;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +23,7 @@ abstract class BaseEntry {
     TableBase dtm;
     TableBase dtz;
 
-    abstract TableBase createTable(TableType tableType);
+    abstract TableBase createTable(TableBase.TableType tableType);
 
     abstract void init_tb(int[] pcs);
 
@@ -86,7 +86,6 @@ abstract class BaseEntry {
             this.syzygy.add_to_hash(this, keyMirror);
         }
     }
-
 
     int probe_wdl(BitPosition bitPosition, long key, int s) {
         return wdl.probe_table(bitPosition, key, s);

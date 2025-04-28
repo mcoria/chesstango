@@ -3,7 +3,7 @@ package net.chesstango.board.representations.syzygy;
 import static net.chesstango.board.representations.syzygy.Syzygy.PAFlags;
 import static net.chesstango.board.representations.syzygy.Syzygy.WdlToMap;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
-import static net.chesstango.board.representations.syzygy.TableType.DTZ;
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.DTZ;
 
 /**
  * @author Mauricio Coria

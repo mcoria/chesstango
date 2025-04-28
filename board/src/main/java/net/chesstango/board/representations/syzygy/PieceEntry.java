@@ -11,15 +11,15 @@ class PieceEntry extends BaseEntry {
     }
 
     @Override
-    protected TableBase createTable(TableType tableType) {
-        if (tableType == TableType.WDL) {
+    protected TableBase createTable(TableBase.TableType tableType) {
+        if (tableType == TableBase.TableType.WDL) {
             if (symmetric)
                 return new PieceSymmetricWdl(this);
             else
                 return new PieceAsymmetricWdl(this);
         }
 
-        if (tableType == TableType.DTZ) {
+        if (tableType == TableBase.TableType.DTZ) {
             return new PieceDtz(this);
         }
 

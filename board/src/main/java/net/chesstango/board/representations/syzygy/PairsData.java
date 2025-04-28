@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_MAX_SYMS;
-import static net.chesstango.board.representations.syzygy.TableType.WDL;
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.WDL;
 
 /**
  * @author Mauricio Coria
@@ -19,7 +19,7 @@ class PairsData {
     byte[] constValue = new byte[2];
     long[] base;
 
-    PairsData(TableType tableType, U_INT8_PTR ptr, int tb_size, int[] size) {
+    PairsData(TableBase.TableType tableType, U_INT8_PTR ptr, int tb_size, int[] size) {
         U_INT8_PTR data = ptr.clone();
 
         if ((data.read_uint8_t(0) & 0x80) != 0) {

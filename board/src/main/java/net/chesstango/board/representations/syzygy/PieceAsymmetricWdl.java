@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
-import static net.chesstango.board.representations.syzygy.TableType.WDL;
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.WDL;
 
 /**
  * @author Mauricio Coria

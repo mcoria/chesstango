@@ -13,7 +13,7 @@ class PawnEntry extends BaseEntry {
     }
 
     @Override
-    protected TableBase createTable(TableType tableType) {
+    protected TableBase createTable(TableBase.TableType tableType) {
         return this.symmetric ? new PawnSymmetric(this, tableType) : new PawnAsymmetric(this, tableType);
     }
 
