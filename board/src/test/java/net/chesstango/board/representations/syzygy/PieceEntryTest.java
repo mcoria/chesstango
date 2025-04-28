@@ -32,7 +32,6 @@ public class PieceEntryTest {
 
         assertFalse(pieceEntry.dtmLossOnly);
 
-
         /**
          * WDL table assertions
          */
@@ -43,39 +42,44 @@ public class PieceEntryTest {
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_wtm.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_wtm.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_wtm.norm);
+
         PairsData ei_wtm_precomp = ei_wtm.precomp;
         assertEquals(112, ei_wtm_precomp.indexTable.ptr);
         assertEquals(118, ei_wtm_precomp.sizeTable.ptr);
         assertEquals(128, ei_wtm_precomp.data.ptr);
-        assertNull(ei_wtm_precomp.offset);
-        assertNull(ei_wtm_precomp.symLen);
-        assertNull(ei_wtm_precomp.symPat);
-        assertNull(ei_wtm_precomp.base);
+        assertNull(ei_wtm_precomp.offset);  //POR QUE ES NULL ?????
+        assertNull(ei_wtm_precomp.symPat);  //POR QUE ES NULL ?????
+
         assertEquals(0, ei_wtm_precomp.blockSize);
         assertEquals(0, ei_wtm_precomp.idxBits);
         assertEquals(0, ei_wtm_precomp.minLen);
-        assertArrayEquals(new byte[]{4, 0}, ei_wtm.precomp.constValue);
 
+        assertArrayEquals(new byte[]{4, 0}, ei_wtm.precomp.constValue);
+        assertNull(ei_wtm_precomp.base);
+        assertNull(ei_wtm_precomp.symLen);
 
         EncInfo ei_btm = wdl.ei_btm;
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_btm.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_btm.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_btm.norm);
+
         PairsData ei_btm_precomp = ei_btm.precomp;
         assertEquals(112, ei_btm_precomp.indexTable.ptr);
         assertEquals(118, ei_btm_precomp.sizeTable.ptr);
         assertEquals(128, ei_btm_precomp.data.ptr);
         assertEquals(20, ei_btm_precomp.offset.ptr);
-        assertArrayEquals(new byte[]{63, 54, 11, 127, 17, 8, 15, 1, 3, 6, 31, -65, 123, 7, 0, 1,
-                47, 59, 7, 1, -1, 0, 61, 5}, ei_btm_precomp.symLen);
         assertEquals(40, ei_btm_precomp.symPat.ptr);
+
         assertEquals(6, ei_btm_precomp.blockSize);
         assertEquals(15, ei_btm_precomp.idxBits);
         assertEquals(1, ei_btm_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_btm_precomp.constValue);
         assertArrayEquals(new long[]{0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L,
                 0x6000000000000000L, 0x2000000000000000L, 0x400000000000000L, 0x200000000000000L,
                 0x0L}, ei_btm_precomp.base);
+        assertArrayEquals(new byte[]{63, 54, 11, 127, 17, 8, 15, 1, 3, 6, 31, -65, 123, 7, 0, 1,
+                47, 59, 7, 1, -1, 0, 61, 5}, ei_btm_precomp.symLen);
 
         /**
          * DTZ table assertions
@@ -91,20 +95,23 @@ public class PieceEntryTest {
         assertArrayEquals(new int[]{1, 0, 0, 0, 0, 0, 0}, ei_dtz.factor);
         assertArrayEquals(new byte[]{14, 6, 5, 0, 0, 0, 0}, ei_dtz.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 0, 0, 0, 0}, ei_dtz.norm);
+
         PairsData ei_dtz_precomp = ei_dtz.precomp;
         assertEquals(662, ei_dtz_precomp.indexTable.ptr);
         assertEquals(668, ei_dtz_precomp.sizeTable.ptr);
         assertEquals(704, ei_dtz_precomp.data.ptr);
         assertEquals(8, ei_dtz_precomp.offset.ptr);
-        assertEquals(209, ei_dtz_precomp.symLen.length);
         assertEquals(34, ei_dtz_precomp.symPat.ptr);
+
         assertEquals(9, ei_dtz_precomp.blockSize);
         assertEquals(15, ei_dtz_precomp.idxBits);
         assertEquals(6, ei_dtz_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_dtz_precomp.constValue);
         assertArrayEquals(new long[]{0xAC00000000000000L, 0x6600000000000000L, 0x2C00000000000000L, 0x280000000000000L,
                 0x40000000000000L,
                 0x0L}, ei_dtz_precomp.base);
+        assertEquals(209, ei_dtz_precomp.symLen.length);
     }
 
     @Test
@@ -120,7 +127,6 @@ public class PieceEntryTest {
 
         assertFalse(pieceEntry.dtmLossOnly);
 
-
         /**
          * WDL table assertions
          */
@@ -131,39 +137,49 @@ public class PieceEntryTest {
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_wtm.factor);
         assertArrayEquals(new byte[]{6, 12, 5, 14, 0, 0, 0}, ei_wtm.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_wtm.norm);
+
         PairsData ei_wtm_precomp = ei_wtm.precomp;
         assertEquals(2234, ei_wtm_precomp.indexTable.ptr);
         assertEquals(2306, ei_wtm_precomp.sizeTable.ptr);
         assertEquals(2880, ei_wtm_precomp.data.ptr);
         assertEquals(18, ei_wtm_precomp.offset.ptr);
-        assertNotNull(ei_wtm_precomp.symLen);
         assertEquals(46, ei_wtm_precomp.symPat.ptr);
-        assertNotNull(ei_wtm_precomp.base);
+
         assertEquals(6, ei_wtm_precomp.blockSize);
         assertEquals(19, ei_wtm_precomp.idxBits);
         assertEquals(1, ei_wtm_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_wtm.precomp.constValue);
+        assertArrayEquals(new long[]{
+                0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L,
+                0x8000000000000000L, 0x7C00000000000000L, 0x5A00000000000000L, 0x3100000000000000L,
+                0x1000000000000000L, 0x80000000000000L, 0x20000000000000L, 0
+        }, ei_wtm_precomp.base);
+        assertEquals(193, ei_wtm_precomp.symLen.length);
 
 
         EncInfo ei_btm = wdl.ei_btm;
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_btm.factor);
         assertArrayEquals(new byte[]{5, 14, 6, 12, 0, 0, 0}, ei_btm.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_btm.norm);
+
         PairsData ei_btm_precomp = ei_btm.precomp;
         assertEquals(2258, ei_btm_precomp.indexTable.ptr);
         assertEquals(2462, ei_btm_precomp.sizeTable.ptr);
         assertEquals(7872, ei_btm_precomp.data.ptr);
         assertEquals(632, ei_btm_precomp.offset.ptr);
-        assertNotNull(ei_btm_precomp.symLen);
         assertEquals(664, ei_btm_precomp.symPat.ptr);
+
         assertEquals(6, ei_btm_precomp.blockSize);
         assertEquals(18, ei_btm_precomp.idxBits);
         assertEquals(2, ei_btm_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_btm_precomp.constValue);
         assertArrayEquals(new long[]{0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L,
                 0xC000000000000000L, 0xC000000000000000L, 0xA200000000000000L, 0x7700000000000000L,
                 0x4080000000000000L, 0x1240000000000000L, 0x160000000000000L, 0x70000000000000L,
                 0x18000000000000L, 0}, ei_btm_precomp.base);
+        assertEquals(523, ei_btm_precomp.symLen.length);
 
         /**
          * DTZ table assertions
@@ -179,20 +195,23 @@ public class PieceEntryTest {
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_dtz.factor);
         assertArrayEquals(new byte[]{14, 5, 12, 6, 0, 0, 0}, ei_dtz.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_dtz.norm);
+
         PairsData ei_dtz_precomp = ei_dtz.precomp;
         assertEquals(12368, ei_dtz_precomp.indexTable.ptr);
         assertEquals(12458, ei_dtz_precomp.sizeTable.ptr);
         assertEquals(13056, ei_dtz_precomp.data.ptr);
         assertEquals(6, ei_dtz_precomp.offset.ptr);
-        assertEquals(4095, ei_dtz_precomp.symLen.length);
         assertEquals(44, ei_dtz_precomp.symPat.ptr);
+
         assertEquals(10, ei_dtz_precomp.blockSize);
         assertEquals(17, ei_dtz_precomp.idxBits);
         assertEquals(7, ei_dtz_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_dtz_precomp.constValue);
         assertArrayEquals(new long[]{0xFE00000000000000L, 0xD600000000000000L, 0xA780000000000000L, 0x7F80000000000000L,
                 0x5660000000000000L, 0x37A0000000000000L, 0x1D60000000000000L, 0x3FC000000000000L, 0x2000000000000L,
                 0x2000000000000L, 0}, ei_dtz_precomp.base);
+        assertEquals(4095, ei_dtz_precomp.symLen.length);
     }
 
     @Test
@@ -207,7 +226,6 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
         assertFalse(pieceEntry.dtmLossOnly);
 
-
         /**
          * WDL table assertions
          */
@@ -218,18 +236,26 @@ public class PieceEntryTest {
         assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei_wtm.factor);
         assertArrayEquals(new byte[]{13, 6, 14, 5, 0, 0, 0}, ei_wtm.pieces);
         assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei_wtm.norm);
+
         PairsData ei_wtm_precomp = ei_wtm.precomp;
         assertEquals(1570, ei_wtm_precomp.indexTable.ptr);
         assertEquals(1618, ei_wtm_precomp.sizeTable.ptr);
         assertEquals(2112, ei_wtm_precomp.data.ptr);
         assertEquals(16, ei_wtm_precomp.offset.ptr);
         assertEquals(48, ei_wtm_precomp.symPat.ptr);
-        assertNotNull(ei_wtm_precomp.symLen);
-        assertNotNull(ei_wtm_precomp.base);
+
         assertEquals(6, ei_wtm_precomp.blockSize);
         assertEquals(18, ei_wtm_precomp.idxBits);
         assertEquals(2, ei_wtm_precomp.minLen);
+
+        assertArrayEquals(new long[]{
+                0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L,
+                0xBC00000000000000L, 0x9600000000000000L, 0x6600000000000000L, 0x3B00000000000000L,
+                0x1740000000000000L, 0x120000000000000L, 0x50000000000000L, 0x20000000000000L,
+                0x0
+        }, ei_wtm_precomp.base);
         assertArrayEquals(new byte[]{0, 0}, ei_wtm_precomp.constValue);
+        assertEquals(507, ei_wtm_precomp.symLen.length);
 
 
         /**
@@ -254,16 +280,17 @@ public class PieceEntryTest {
         assertEquals(18, ei_dtz_precomp.offset.ptr);
         assertEquals(46, ei_dtz_precomp.symPat.ptr);
 
-        assertEquals(166, ei_dtz_precomp.symLen.length);
         assertEquals(6, ei_dtz_precomp.blockSize);
         assertEquals(19, ei_dtz_precomp.idxBits);
         assertEquals(1, ei_dtz_precomp.minLen);
+
         assertArrayEquals(new byte[]{0, 0}, ei_dtz_precomp.constValue);
         assertArrayEquals(new long[]{
                 0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L, 0x8000000000000000L,
                 0x8000000000000000L, 0x7000000000000000L, 0x5000000000000000L, 0x2300000000000000L,
                 0xD00000000000000L, 0x80000000000000L, 0x40000000000000L, 0x0
         }, ei_dtz_precomp.base);
+        assertEquals(166, ei_dtz_precomp.symLen.length);
     }
 
 }

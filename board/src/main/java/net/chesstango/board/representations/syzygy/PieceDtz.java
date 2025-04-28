@@ -33,7 +33,7 @@ class PieceDtz extends TableBase {
     @Override
     boolean init_table_imp() {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
-        data.ptr = 5;
+        data.incPtr(5);
 
         int tb_size = pieceAlgorithm.init_enc_info(ei_dtz, data, 0);
 
