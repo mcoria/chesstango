@@ -17,7 +17,7 @@ class PawnSymmetric extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition pos, long key, int s) {
+    int probe_table_imp(BitPosition pos, long key, int score) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

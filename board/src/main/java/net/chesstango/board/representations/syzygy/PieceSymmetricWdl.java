@@ -50,7 +50,7 @@ class PieceSymmetricWdl extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition pos, long key, int s) {
+    int probe_table_imp(BitPosition pos, long key, int score) {
         boolean flip = !pos.turn;
 
         int[] p = new int[TB_PIECES];

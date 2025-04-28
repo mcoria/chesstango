@@ -11,9 +11,16 @@ abstract class TableBase {
     boolean ready;
     boolean error;
 
+    /**
+     * Abstract method to initialize the table implementation.
+     * This method must be implemented by subclasses to provide
+     * specific initialization logic for the table.
+     *
+     * @return true if the table initialization is successful, false otherwise
+     */
     abstract boolean init_table_imp();
 
-    abstract int probe_table_imp(BitPosition pos, long key, int s);
+    abstract int probe_table_imp(BitPosition pos, long key, int score);
 
     public TableBase(TableType tableType, BaseEntry baseEntry) {
         this.tableType = tableType;

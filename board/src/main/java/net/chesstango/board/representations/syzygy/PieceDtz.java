@@ -71,7 +71,7 @@ class PieceDtz extends TableBase {
     }
 
     @Override
-    int probe_table_imp(BitPosition pos, long key, int s) {
+    int probe_table_imp(BitPosition pos, long key, int score) {
         boolean flip;
         boolean bside;
         if (!pieceEntry.symmetric) {
@@ -103,14 +103,14 @@ class PieceDtz extends TableBase {
         int v = w[0] + ((w[1] & 0x0f) << 8);
 
         if ((flags & 2) != 0) {
-            int m = WdlToMap[s + 2];
+            int m = WdlToMap[score + 2];
             if ((flags & 16) == 0) {
                 v = dtzMap.read_uint8_t(dtzMapIdx[m] + v);
             } else {
                 v = dtzMap.read_le_u16(dtzMapIdx[m] + v);
             }
         }
-        if ((flags & PAFlags[s + 2]) == 0 || (s & 1) != 0) {
+        if ((flags & PAFlags[score + 2]) == 0 || (score & 1) != 0) {
             v *= 2;
         }
 
