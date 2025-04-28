@@ -44,7 +44,7 @@ class PieceDtz extends TableBase {
 
         int[] size = new int[3];
         dtzFlags = data.read_uint8_t(0);
-        ei_dtz.precomp = pieceAlgorithm.setup_pairs(DTZ, data, tb_size, size);
+        ei_dtz.precomp = PairsData.setup_pairs(DTZ, data, tb_size, size);
 
         // DTZ specific attributes
         dtzMap = data.clone();

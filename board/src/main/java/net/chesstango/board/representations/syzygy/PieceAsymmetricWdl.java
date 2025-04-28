@@ -42,8 +42,8 @@ class PieceAsymmetricWdl extends TableBase {
         int[] size_white = new int[3];
         int[] size_black = new int[3];
 
-        ei_wtm.precomp = pieceAlgorithm.setup_pairs(WDL, data, tb_size_white, size_white);
-        ei_btm.precomp = pieceAlgorithm.setup_pairs(WDL, data, tb_size_black, size_black);
+        ei_wtm.precomp = PairsData.setup_pairs(WDL, data, tb_size_white, size_white);
+        ei_btm.precomp = PairsData.setup_pairs(WDL, data, tb_size_black, size_black);
 
         // indexTable ptr
         ei_wtm.precomp.indexTable = data.clone();

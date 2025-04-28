@@ -38,7 +38,7 @@ class PieceSymmetricWdl extends TableBase {
 
         int[] size_white = new int[3];
 
-        ei_wtm.precomp = pieceAlgorithm.setup_pairs(WDL, data, tb_size_white, size_white);
+        ei_wtm.precomp = PairsData.setup_pairs(WDL, data, tb_size_white, size_white);
 
         // indexTable ptr
         ei_wtm.precomp.indexTable = data.clone();
