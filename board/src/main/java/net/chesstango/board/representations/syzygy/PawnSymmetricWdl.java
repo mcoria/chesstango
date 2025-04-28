@@ -24,7 +24,7 @@ class PawnSymmetricWdl extends TableBase {
         int[] tb_size = new int[num];
         for (int i = 0; i < num; i++) {
             ei[i] = new PawnEncInfo(pawnEntry);
-            tb_size[i] = ei[i].init_enc_info(data, 0);
+            tb_size[i] = ei[i].init_enc_info(data, 0, i);
             data.incPtr(pawnEntry.num + 1 + pawnEntry.pawns[1]);
         }
 
