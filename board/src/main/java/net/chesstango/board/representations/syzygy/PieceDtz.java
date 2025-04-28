@@ -105,7 +105,7 @@ class PieceDtz extends TableBase {
 
         int idx = pieceAlgorithm.encode_piece(p, ei_dtz);
 
-        byte[] w = pieceAlgorithm.decompress_pairs(ei_dtz.precomp, idx);
+        byte[] w = ei_dtz.precomp.decompress_pairs(idx);
 
         int v = w[0] + ((w[1] & 0x0f) << 8);
 

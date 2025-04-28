@@ -86,7 +86,7 @@ class PieceAsymmetricWdl extends TableBase {
 
         int idx = pieceAlgorithm.encode_piece(p, ei);
 
-        byte[] w = pieceAlgorithm.decompress_pairs(ei.precomp, idx);
+        byte[] w = ei.precomp.decompress_pairs(idx);
 
         return (int) w[0] - 2;
     }
