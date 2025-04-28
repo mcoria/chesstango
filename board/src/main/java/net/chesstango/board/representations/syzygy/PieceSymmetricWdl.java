@@ -12,14 +12,9 @@ class PieceSymmetricWdl extends TableBase {
     final PieceEncInfo ei_wtm;
 
     public PieceSymmetricWdl(PieceEntry pieceEntry) {
-        super(WDL);
+        super(WDL, pieceEntry);
         this.pieceEntry = pieceEntry;
         this.ei_wtm = new PieceEncInfo(pieceEntry);
-    }
-
-    @Override
-    PieceEntry getBaseEntry() {
-        return pieceEntry;
     }
 
     @Override

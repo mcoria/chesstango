@@ -13,15 +13,10 @@ class PieceAsymmetricWdl extends TableBase {
     final PieceEncInfo ei_btm;
 
     public PieceAsymmetricWdl(PieceEntry pieceEntry) {
-        super(WDL);
+        super(WDL, pieceEntry);
         this.pieceEntry = pieceEntry;
         this.ei_wtm = new PieceEncInfo(pieceEntry);
         this.ei_btm = new PieceEncInfo(pieceEntry);
-    }
-
-    @Override
-    PieceEntry getBaseEntry() {
-        return pieceEntry;
     }
 
     @Override

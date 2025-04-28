@@ -6,25 +6,23 @@ package net.chesstango.board.representations.syzygy;
 abstract class TableBase {
     final TableType tableType;
     final MappedFile mappedFile;
+    final BaseEntry baseEntry;
 
     boolean ready;
     boolean error;
-
-    abstract BaseEntry getBaseEntry();
 
     abstract boolean init_table_imp();
 
     abstract int probe_table_imp(BitPosition pos, long key, int s);
 
-    public TableBase(TableType tableType) {
+    public TableBase(TableType tableType, BaseEntry baseEntry) {
         this.tableType = tableType;
+        this.baseEntry = baseEntry;
         this.mappedFile = new MappedFile();
     }
 
     boolean init_table() {
         boolean init_success = false;
-
-        BaseEntry baseEntry = getBaseEntry();
 
         if (!ready && mappedFile.map_tb(baseEntry.syzygy.path, baseEntry.tableName, tableType.getSuffix())) {
 
@@ -60,11 +58,10 @@ abstract class TableBase {
     }
 
     int probe_table(BitPosition pos, long key, int s) {
-        BaseEntry baseEntry = getBaseEntry();
         if (!ready || error) {
-            //baseEntry.syzygy.success = 0;
-            //return 0;
+            baseEntry.syzygy.success = 0;
             throw new IllegalStateException("TableBase not ready or error");
+            //return 0;
         }
 
         return probe_table_imp(pos, key, s);

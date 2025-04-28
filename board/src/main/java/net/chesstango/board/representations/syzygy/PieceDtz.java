@@ -18,14 +18,9 @@ class PieceDtz extends TableBase {
     short[] dtzMapIdx = new short[4];
 
     public PieceDtz(PieceEntry pieceEntry) {
-        super(DTZ);
+        super(DTZ, pieceEntry);
         this.pieceEntry = pieceEntry;
         this.ei_dtz = new PieceEncInfo(pieceEntry);
-    }
-
-    @Override
-    PieceEntry getBaseEntry() {
-        return pieceEntry;
     }
 
     @Override

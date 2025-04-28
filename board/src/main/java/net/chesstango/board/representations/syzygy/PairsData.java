@@ -11,8 +11,8 @@ class PairsData {
     U_INT16_PTR sizeTable;
     U_INT8_PTR data;
     U_INT16_PTR offset;
-    byte[] symLen;
     U_INT8_PTR symPat;
+    byte[] symLen;
     byte blockSize;
     byte idxBits;
     byte minLen;

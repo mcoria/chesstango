@@ -7,13 +7,8 @@ class PawnAsymmetric extends TableBase {
     final PawnEntry pawnEntry;
 
     PawnAsymmetric(PawnEntry pawnEntry, TableType table) {
-        super(table);
+        super(table, pawnEntry);
         this.pawnEntry = pawnEntry;
-    }
-
-    @Override
-    PawnEntry getBaseEntry() {
-        return pawnEntry;
     }
 
     @Override
