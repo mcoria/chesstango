@@ -14,7 +14,13 @@ class PawnEntry extends BaseEntry {
 
     @Override
     protected TableBase createTable(TableBase.TableType tableType) {
-        return this.symmetric ? new PawnSymmetric(this, tableType) : new PawnAsymmetric(this, tableType);
+        if (tableType == TableBase.TableType.WDL) {
+            if (symmetric)
+                return new PawnSymmetricWdl(this);
+            else
+                return new PawnAsymmetricWdl(this);
+        }
+        throw new RuntimeException("Not implemented yet");
     }
 
     @Override

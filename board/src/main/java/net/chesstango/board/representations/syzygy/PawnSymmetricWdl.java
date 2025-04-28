@@ -1,13 +1,15 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.TableBase.TableType.WDL;
+
 /**
  * @author Mauricio Coria
  */
-class PawnSymmetric extends TableBase {
+class PawnSymmetricWdl extends TableBase {
     final PawnEntry pawnEntry;
 
-    PawnSymmetric(PawnEntry pawnEntry, TableType table) {
-        super(table, pawnEntry);
+    PawnSymmetricWdl(PawnEntry pawnEntry) {
+        super(WDL, pawnEntry);
         this.pawnEntry = pawnEntry;
     }
 

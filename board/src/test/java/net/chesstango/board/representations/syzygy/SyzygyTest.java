@@ -344,7 +344,6 @@ public class SyzygyTest {
      * Test for the "KPvK" tableType: tableType with PAWNs
      */
     @Test
-    @Disabled
     public void test_init_tb_KPvK() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KPvK");

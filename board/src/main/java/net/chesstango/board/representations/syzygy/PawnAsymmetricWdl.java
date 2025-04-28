@@ -3,11 +3,11 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-class PawnAsymmetric extends TableBase {
+class PawnAsymmetricWdl extends TableBase {
     final PawnEntry pawnEntry;
 
-    PawnAsymmetric(PawnEntry pawnEntry, TableType table) {
-        super(table, pawnEntry);
+    PawnAsymmetricWdl(PawnEntry pawnEntry) {
+        super(TableType.WDL, pawnEntry);
         this.pawnEntry = pawnEntry;
     }
 
