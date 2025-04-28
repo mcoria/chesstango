@@ -29,8 +29,8 @@ class PieceAsymmetricWdl extends TableBase {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.incPtr(5);
 
-        int tb_size_white = ei_wtm.init_enc_info(ei_wtm, data, 0);
-        int tb_size_black = ei_btm.init_enc_info(ei_btm, data, 4);
+        int tb_size_white = ei_wtm.init_enc_info(data, 0);
+        int tb_size_black = ei_btm.init_enc_info(data, 4);
 
         data.incPtr(pieceEntry.num + 1);
 

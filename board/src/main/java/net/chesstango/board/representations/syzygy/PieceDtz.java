@@ -33,7 +33,7 @@ class PieceDtz extends TableBase {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.incPtr(5);
 
-        int tb_size = ei_dtz.init_enc_info(ei_dtz, data, 0);
+        int tb_size = ei_dtz.init_enc_info(data, 0);
 
         data.incPtr(pieceEntry.num + 1);
 

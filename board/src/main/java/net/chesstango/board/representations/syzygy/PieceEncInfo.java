@@ -12,21 +12,21 @@ public class PieceEncInfo extends EncInfo {
         this.pieceEntry = pieceEntry;
     }
 
-    int init_enc_info(EncInfo ei, U_INT8_PTR UINT8PTR, int shift) {
+    int init_enc_info(U_INT8_PTR UINT8PTR, int shift) {
         for (int i = 0; i < pieceEntry.num; i++) {
-            ei.pieces[i] = (byte) ((UINT8PTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
-            ei.norm[i] = 0;
+            pieces[i] = (byte) ((UINT8PTR.read_uint8_t(i + 1) >>> shift) & 0x0f);
+            norm[i] = 0;
         }
 
         int order = (UINT8PTR.read_uint8_t(0) >>> shift) & 0x0f;
         int order2 = 0x0f;
 
         int k = pieceEntry.kk_enc ? 2 : 3;
-        ei.norm[0] = (byte) k;
+        norm[0] = (byte) k;
 
-        for (int i = k; i < pieceEntry.num; i += ei.norm[i]) {
-            for (int j = i; j < pieceEntry.num && ei.pieces[j] == ei.pieces[i]; j++) {
-                ei.norm[i]++;
+        for (int i = k; i < pieceEntry.num; i += norm[i]) {
+            for (int j = i; j < pieceEntry.num && pieces[j] == pieces[i]; j++) {
+                norm[i]++;
             }
         }
 
@@ -34,16 +34,16 @@ public class PieceEncInfo extends EncInfo {
         int f = 1;
         for (int i = 0; k < pieceEntry.num || i == order || i == order2; i++) {
             if (i == order) {
-                ei.factor[0] = f;
+                factor[0] = f;
                 f *= pieceEntry.kk_enc ? 462 : 31332;
             } else if (i == order2) {
-                ei.factor[ei.norm[0]] = f;
-                f *= subfactor(ei.norm[ei.norm[0]], 48 - ei.norm[0]);
+                factor[norm[0]] = f;
+                f *= subfactor(norm[norm[0]], 48 - norm[0]);
             } else {
-                ei.factor[k] = f;
-                f *= subfactor(ei.norm[k], n);
-                n -= ei.norm[k];
-                k += ei.norm[k];
+                factor[k] = f;
+                f *= subfactor(norm[k], n);
+                n -= norm[k];
+                k += norm[k];
             }
         }
         return f;
