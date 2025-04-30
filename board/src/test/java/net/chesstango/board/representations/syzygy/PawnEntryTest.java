@@ -512,11 +512,11 @@ public class PawnEntryTest {
         assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei3_btm.norm);
 
         PairsData ei3_precomp_btm = ei3_btm.precomp;
-        assertEquals(1706, ei3_precomp_btm.indexTable.ptr);
-        assertEquals(1852, ei3_precomp_btm.sizeTable.ptr);
-        assertEquals(6208, ei3_precomp_btm.data.ptr);
-        assertEquals(1236, ei3_precomp_btm.offset.ptr);
-        assertEquals(1256, ei3_precomp_btm.symPat.ptr);
+        assertEquals(1712, ei3_precomp_btm.indexTable.ptr);
+        assertEquals(1874, ei3_precomp_btm.sizeTable.ptr);
+        assertEquals(6912, ei3_precomp_btm.data.ptr);
+        assertEquals(1432, ei3_precomp_btm.offset.ptr);
+        assertEquals(1454, ei3_precomp_btm.symPat.ptr);
 
         assertEquals(6, ei3_precomp_btm.blockSize);
         assertEquals(15, ei3_precomp_btm.idxBits);
@@ -524,12 +524,11 @@ public class PawnEntryTest {
 
         assertArrayEquals(new byte[]{0, 0}, ei3_precomp_btm.constValue);
         assertArrayEquals(new long[]{
-                0xF000000000000000L,
-                0x7000000000000000L,
-                0x2800000000000000L,
-                0x600000000000000L,
+                0xF000000000000000L, 0x9800000000000000L,
+                0x4800000000000000L, 0x600000000000000L,
+                0x100000000000000L,
                 0}, ei3_precomp_btm.base);
-        assertEquals(58, ei3_precomp_btm.symLen.length);
+        assertEquals(72, ei3_precomp_btm.symLen.length);
 
         /**
          * DTZ table assertions
