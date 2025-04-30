@@ -88,27 +88,67 @@ public class PawnEntryTest {
 
 
         EncInfo ei1 = wdl.ei[1];
-        assertArrayEquals(new int[]{61, 0, 0, 1, 0, 0, 0}, ei1.factor);
-        assertArrayEquals(new byte[]{5, 14, 6, 12, 0, 0, 0}, ei1.pieces);
-        assertArrayEquals(new byte[]{3, 0, 0, 1, 0, 0, 0}, ei1.norm);
+        assertArrayEquals(new int[]{177754, 62, 1, 2914, 0, 0, 0}, ei1.factor);
+        assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei1.pieces);
+        assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei1.norm);
 
         PairsData ei1_precomp = ei1.precomp;
-        assertEquals(2258, ei1_precomp.indexTable.ptr);
-        assertEquals(2462, ei1_precomp.sizeTable.ptr);
-        assertEquals(7872, ei1_precomp.data.ptr);
-        assertEquals(632, ei1_precomp.offset.ptr);
-        assertEquals(664, ei1_precomp.symPat.ptr);
+        assertEquals(19026, ei1_precomp.indexTable.ptr);
+        assertEquals(21262, ei1_precomp.sizeTable.ptr);
+        assertEquals(79040, ei1_precomp.data.ptr);
+        assertEquals(4806, ei1_precomp.offset.ptr);
+        assertEquals(4842, ei1_precomp.symPat.ptr);
 
         assertEquals(6, ei1_precomp.blockSize);
-        assertEquals(18, ei1_precomp.idxBits);
-        assertEquals(2, ei1_precomp.minLen);
+        assertEquals(15, ei1_precomp.idxBits);
+        assertEquals(6, ei1_precomp.minLen);
 
         assertArrayEquals(new byte[]{0, 0}, ei1_precomp.constValue);
-        assertArrayEquals(new long[]{0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L,
-                0xC000000000000000L, 0xC000000000000000L, 0xA200000000000000L, 0x7700000000000000L,
-                0x4080000000000000L, 0x1240000000000000L, 0x160000000000000L, 0x70000000000000L,
-                0x18000000000000L, 0}, ei1_precomp.base);
-        assertEquals(523, ei1_precomp.symLen.length);
+        assertArrayEquals(new long[]{
+                0xFC00000000000000L,
+                0xF000000000000000L,
+                0xB200000000000000L,
+                0x8880000000000000L,
+                0x5A40000000000000L,
+                0x31A0000000000000L,
+                0x370000000000000L,
+                0xF8000000000000L,
+                0x40000000000000L,
+                0x10000000000000L,
+                0}, ei1_precomp.base);
+        assertEquals(1587, ei1_precomp.symLen.length);
+
+
+        EncInfo ei2 = wdl.ei[2];
+        assertArrayEquals(new int[]{2914, 62, 1, 17484, 0, 0, 0}, ei2.factor);
+        assertArrayEquals(new byte[]{1, 9, 14, 6, 0, 0, 0}, ei2.pieces);
+        assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei2.norm);
+
+        PairsData ei2_precomp = ei2.precomp;
+        assertEquals(19224, ei2_precomp.indexTable.ptr);
+        assertEquals(23008, ei2_precomp.sizeTable.ptr);
+        assertEquals(134912, ei2_precomp.data.ptr);
+        assertEquals(9600, ei2_precomp.offset.ptr);
+        assertEquals(9636, ei2_precomp.symPat.ptr);
+
+        assertEquals(6, ei2_precomp.blockSize);
+        assertEquals(15, ei2_precomp.idxBits);
+        assertEquals(7, ei2_precomp.minLen);
+
+        assertArrayEquals(new byte[]{0, 0}, ei2_precomp.constValue);
+        assertArrayEquals(new long[]{
+                0xF000000000000000L,
+                0xB400000000000000L,
+                0x7F80000000000000L,
+                0x5500000000000000L,
+                0x2D00000000000000L,
+                0x860000000000000L,
+                0x98000000000000L,
+                0x24000000000000L,
+                0x8000000000000L,
+                0}, ei2_precomp.base);
+        assertEquals(1558, ei2_precomp.symLen.length);
+
     }
 
     /**
