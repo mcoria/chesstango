@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Mauricio Coria
  */
 public class PieceEntryTest {
+    public static final String PATH = "C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5";
 
     private Syzygy syzygy;
     private PieceEntry pieceEntry;
@@ -19,10 +20,22 @@ public class PieceEntryTest {
         pieceEntry = new PieceEntry(syzygy);
     }
 
+    /**
+     * Test for the "KQvK" tableType: tableType without PAWNs
+     */
     @Test
     public void test_init_table_KQvK() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
-        pieceEntry.init_tb("KQvK");
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQvK");
+
+        assertEquals(1, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(1, syzygy.numDtz);
+
+        /**
+         * PieceEntry assertions
+         */
+        pieceEntry = syzygy.pieceEntry[0];
 
         assertEquals("KQvK", pieceEntry.tableName);
         assertEquals(0xa3ec1abc71e90863L, pieceEntry.key);
@@ -31,6 +44,19 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
 
         assertFalse(pieceEntry.dtmLossOnly);
+
+        /**
+         * HashEntry assertions
+         */
+        Syzygy.HashEntry tbHash = null;
+
+        tbHash = syzygy.tbHash[2622];
+        assertEquals(0xa3ec1abc71e90863L, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
+
+        tbHash = syzygy.tbHash[3438];
+        assertEquals(0xd6e4e47d24962951L, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
 
         /**
          * WDL table assertions
@@ -114,10 +140,22 @@ public class PieceEntryTest {
         assertEquals(209, ei_dtz_precomp.symLen.length);
     }
 
+    /**
+     * Test for the "KQvKR" tableType: tableType without PAWNs
+     */
     @Test
     public void test_init_table_KQvKR() {
-        syzygy.setPath("C:\\java\\projects\\chess\\chess-utils\\books\\syzygy\\3-4-5");
-        pieceEntry.init_tb("KQvKR");
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KQvKR");
+
+        assertEquals(1, syzygy.numWdl);
+        assertEquals(0, syzygy.numDtm);
+        assertEquals(1, syzygy.numDtz);
+
+        /**
+         * PieceEntry assertions
+         */
+        pieceEntry = syzygy.pieceEntry[0];
 
         assertEquals("KQvKR", pieceEntry.tableName);
         assertEquals(0xA1648170ABA24CF8L, pieceEntry.key);
@@ -126,6 +164,19 @@ public class PieceEntryTest {
         assertFalse(pieceEntry.kk_enc);
 
         assertFalse(pieceEntry.dtmLossOnly);
+
+        /**
+         * HashEntry assertions
+         */
+        Syzygy.HashEntry tbHash = null;
+
+        tbHash = syzygy.tbHash[2582];
+        assertEquals(0xA1648170ABA24CF8L, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
+
+        tbHash = syzygy.tbHash[1780];
+        assertEquals(0x6f42d01ce9295d4aL, tbHash.key);
+        assertSame(tbHash.ptr, pieceEntry);
 
         /**
          * WDL table assertions
