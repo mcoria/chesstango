@@ -215,6 +215,31 @@ public class PawnEntryTest {
                 0}, ei0_dtz_precomp.base);
         assertEquals(328, ei0_dtz_precomp.symLen.length);
 
+
+        EncInfo ei1_dtz = dtz.ei[1];
+        assertArrayEquals(new int[]{177754, 3782, 1, 62, 0, 0, 0}, ei1_dtz.factor);
+        assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei1_dtz.pieces);
+        assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei1_dtz.norm);
+
+        PairsData ei1_dtz_precomp = ei1_dtz.precomp;
+        assertEquals(5218, ei1_dtz_precomp.indexTable.ptr);
+        assertEquals(5456, ei1_dtz_precomp.sizeTable.ptr);
+        assertEquals(15296, ei1_dtz_precomp.data.ptr);
+        assertEquals(1058, ei1_dtz_precomp.offset.ptr);
+        assertEquals(1090, ei1_dtz_precomp.symPat.ptr);
+
+        assertEquals(7, ei1_dtz_precomp.blockSize);
+        assertEquals(18, ei1_dtz_precomp.idxBits);
+        assertEquals(2, ei1_dtz_precomp.minLen);
+
+        assertArrayEquals(new byte[]{0, 0}, ei1_dtz_precomp.constValue);
+        assertArrayEquals(new long[]{
+                0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L, 0xC000000000000000L,
+                0xC000000000000000L, 0x9000000000000000L, 0x6000000000000000L, 0x3900000000000000L,
+                0x15C0000000000000L, 0x180000000000000L, 0x60000000000000L, 0x18000000000000L,
+                0}, ei1_dtz_precomp.base);
+        assertEquals(500, ei1_dtz_precomp.symLen.length);
+
     }
 
     /**
