@@ -403,34 +403,29 @@ public class PawnEntryTest {
 
 
         EncInfo ei3 = wdl.ei_wtm[3];
-        assertArrayEquals(new int[]{177754, 3782, 1, 62, 0, 0, 0}, ei3.factor);
-        assertArrayEquals(new byte[]{1, 9, 14, 6, 0, 0, 0}, ei3.pieces);
-        assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei3.norm);
+        assertArrayEquals(new int[]{3906, 1, 63, 0, 0, 0, 0}, ei3.factor);
+        assertArrayEquals(new byte[]{1, 6, 14, 0, 0, 0, 0}, ei3.pieces);
+        assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei3.norm);
 
         PairsData ei3_precomp = ei3.precomp;
-        assertEquals(19422, ei3_precomp.indexTable.ptr);
-        assertEquals(24802, ei3_precomp.sizeTable.ptr);
-        assertEquals(192320, ei3_precomp.data.ptr);
-        assertEquals(14306, ei3_precomp.offset.ptr);
-        assertEquals(14342, ei3_precomp.symPat.ptr);
+        assertEquals(1706, ei3_precomp.indexTable.ptr);
+        assertEquals(1852, ei3_precomp.sizeTable.ptr);
+        assertEquals(6208, ei3_precomp.data.ptr);
+        assertEquals(1236, ei3_precomp.offset.ptr);
+        assertEquals(1256, ei3_precomp.symPat.ptr);
 
         assertEquals(6, ei3_precomp.blockSize);
         assertEquals(15, ei3_precomp.idxBits);
-        assertEquals(7, ei3_precomp.minLen);
+        assertEquals(4, ei3_precomp.minLen);
 
         assertArrayEquals(new byte[]{0, 0}, ei3_precomp.constValue);
         assertArrayEquals(new long[]{
-                0xE400000000000000L,
-                0xAD00000000000000L,
-                0x7F80000000000000L,
-                0x5940000000000000L,
-                0x2EC0000000000000L,
-                0x300000000000000L,
-                0xA0000000000000L,
-                0x24000000000000L,
-                0x4000000000000L,
+                0xF000000000000000L,
+                0x7000000000000000L,
+                0x2800000000000000L,
+                0x600000000000000L,
                 0}, ei3_precomp.base);
-        assertEquals(1495, ei3_precomp.symLen.length);
+        assertEquals(58, ei3_precomp.symLen.length);
 
 
         /**
