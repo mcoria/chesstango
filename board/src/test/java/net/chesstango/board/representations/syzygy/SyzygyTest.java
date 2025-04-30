@@ -341,7 +341,7 @@ public class SyzygyTest {
     }
 
     /**
-     * Test for the "KPvK" tableType: tableType with PAWNs
+     * Test for the "KPvKP" tableType: tableType with PAWNs
      */
     @Test
     public void test_init_tb_KPvKP() {

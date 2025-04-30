@@ -6,6 +6,25 @@ import lombok.Getter;
  * @author Mauricio Coria
  */
 abstract class TableBase {
+    @Getter
+    enum TableType {
+        WDL(".rtbw", 0x5d23e871),
+        DTM(".rtbm", 0x88ac504b),
+        DTZ(".rtbz", 0xa50c66d7);
+
+        private final String suffix;
+        private final int magicNumber;
+
+        TableType(String suffix, int magicNumber) {
+            this.suffix = suffix;
+            this.magicNumber = magicNumber;
+        }
+    }
+
+    /**
+     * The tableType of the tablebase.
+     * It can be WDL, DTM, or DTZ.
+     */
     final TableType tableType;
     final MappedFile mappedFile;
     final BaseEntry baseEntry;
@@ -69,29 +88,9 @@ abstract class TableBase {
     int probe_table(BitPosition pos, long key, int s) {
         if (!ready || error) {
             baseEntry.syzygy.success = 0;
-            throw new IllegalStateException("TableBase not ready or error");
-            //return 0;
+            return 0;
         }
 
         return probe_table_imp(pos, key, s);
-    }
-
-    /**
-     * @author Mauricio Coria
-     */
-    @Getter
-    enum TableType {
-        WDL(".rtbw", 0x5d23e871),
-        DTM(".rtbm", 0x88ac504b),
-        DTZ(".rtbz", 0xa50c66d7);
-
-        private final String suffix;
-        private final int magicNumber;
-
-
-        TableType(String suffix, int magicNumber) {
-            this.suffix = suffix;
-            this.magicNumber = magicNumber;
-        }
     }
 }
