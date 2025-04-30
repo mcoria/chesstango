@@ -20,9 +20,10 @@ class PawnSymmetricWdl extends TableBase {
         U_INT8_PTR data = new U_INT8_PTR(mappedFile);
         data.incPtr(5);
 
-        final int num = 4;
-        int[] tb_size = new int[num];
-        for (int i = 0; i < num; i++) {
+        final int NUM = 4;
+
+        int[] tb_size = new int[NUM];
+        for (int i = 0; i < NUM; i++) {
             ei[i] = new PawnEncInfo(pawnEntry);
             tb_size[i] = ei[i].init_enc_info(data, 0, i);
             data.incPtr(pawnEntry.num + 1 + pawnEntry.pawns[1]);
@@ -31,25 +32,25 @@ class PawnSymmetricWdl extends TableBase {
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
         data.ptr += data.ptr & 1;
 
-        int[][] size = new int[4][3];
-        for (int t = 0; t < num; t++) {
+        int[][] size = new int[NUM][3];
+        for (int t = 0; t < NUM; t++) {
             ei[t].precomp = new PairsData(WDL, data, tb_size[t], size[t]);
         }
 
         // indexTable ptr
-        for (int t = 0; t < num; t++) {
+        for (int t = 0; t < NUM; t++) {
             ei[t].precomp.indexTable = data.clone();
             data.incPtr(size[t][0]);
         }
 
         // sizeTable ptr
-        for (int t = 0; t < num; t++) {
+        for (int t = 0; t < NUM; t++) {
             ei[t].precomp.sizeTable = data.createU_INT16_PTR(0);
             data.incPtr(size[t][1]);
         }
 
         // data ptr
-        for (int t = 0; t < num; t++) {
+        for (int t = 0; t < NUM; t++) {
             data.ptr = (data.ptr + 0x3f) & ~0x3f;
             ei[t].precomp.data = data.clone();
             data.incPtr(size[t][2]);
