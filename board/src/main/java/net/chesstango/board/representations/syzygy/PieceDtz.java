@@ -41,11 +41,10 @@ class PieceDtz extends TableBase {
 
         // DTZ specific attributes
         dtzMap = data.clone();
-        short[] mapIdx = dtzMapIdx;
         if ((dtzFlags & 2) != 0) {
             if ((dtzFlags & 16) == 0) {
                 for (int i = 0; i < 4; i++) {
-                    mapIdx[i] = (short) (data.ptr + 1 - dtzMap.ptr);
+                    dtzMapIdx[i] = (short) (data.ptr + 1 - dtzMap.ptr);
                     data.incPtr(1 + data.read_uint8_t(0) & 0xFF);
                 }
             } else {
