@@ -27,12 +27,12 @@ class EncInfo {
     // pc[i] ^ flip, where 1 = white pawn, ..., 14 = black king and pc ^ flip
     // flips between white and black if flip == true.
     // Pieces of the same type are guaranteed to be consecutive.
-    static int fill_squares(BitPosition pos, byte[] pc, boolean flip, int mirror, int[] p, int i) {
-        SyzygyConstants.Color color = SyzygyConstants.Color.colorOfPiece(pc[i]);
+    int fill_squares(BitPosition pos, boolean flip, int mirror, int[] p, int i) {
+        SyzygyConstants.Color color = SyzygyConstants.Color.colorOfPiece(pieces[i]);
         if (flip) {
             color = color.oposite();
         }
-        long bb = pos.pieces_by_type(color, SyzygyConstants.PieceType.typeOfPiece(pc[i]));
+        long bb = pos.pieces_by_type(color, SyzygyConstants.PieceType.typeOfPiece(pieces[i]));
         int sq;
         do {
             sq = Long.numberOfTrailingZeros(bb);

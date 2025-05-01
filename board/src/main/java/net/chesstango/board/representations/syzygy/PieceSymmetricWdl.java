@@ -57,7 +57,7 @@ class PieceSymmetricWdl extends TableBase {
         PieceEncInfo ei = ei_wtm;
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = PieceEncInfo.fill_squares(pos, ei.pieces, flip, 0, p, i);
+            i = ei.fill_squares(pos, flip, 0, p, i);
         }
 
         int idx = ei.encode_piece(p);

@@ -3,8 +3,10 @@ package net.chesstango.board.representations.syzygy;
 /**
  * @author Mauricio Coria
  */
-public class PawnEncInfo extends EncInfo {
+class PawnEncInfo extends EncInfo {
     final PawnEntry pawnEntry;
+
+    final byte[] FileToFile = {0, 1, 2, 3, 3, 2, 1, 0};
 
     PawnEncInfo(PawnEntry pawnEntry) {
         this.pawnEntry = pawnEntry;
@@ -56,7 +58,17 @@ public class PawnEncInfo extends EncInfo {
         return f;
     }
 
-    int encode_piece(int[] p) {
-        throw new RuntimeException("Not implemented yet");
+    int leading_pawn(int[] p) {
+        for (int i = 1; i < pawnEntry.pawns[0]; i++)
+            if (Flap[0][p[0]] > Flap[0][p[i]]) {
+                int tmp = p[0];
+                p[0] = p[i];
+                p[i] = tmp;
+            }
+        return FileToFile[p[0] & 7];
+    }
+
+    int encode_pawn_f(int[] p) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableBase.TableType.WDL;
 
 /**
@@ -79,6 +80,27 @@ class PawnAsymmetricWdl extends TableBase {
 
     @Override
     int probe_table_imp(BitPosition pos, long key, int score) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean flip = key != pawnEntry.key;
+        boolean bside = pos.turn == flip;
+
+        int[] p = new int[TB_PIECES];
+
+        PawnEncInfo ei = ei_wtm[0];
+
+        int i = ei.fill_squares(pos, flip, flip ? 0x38 : 0, p, 0);
+        int t = ei.leading_pawn(p);
+
+        ei = bside ? ei_btm[t] : ei_wtm[t];
+
+        while (i < pawnEntry.num) {
+            i = ei.fill_squares(pos, flip, flip ? 0x38 : 0, p, i);
+        }
+
+        int idx = ei.encode_pawn_f(p);
+
+        byte[] w = ei.precomp.decompress_pairs(idx);
+
+        return (int) w[0] - 2;
     }
+
 }

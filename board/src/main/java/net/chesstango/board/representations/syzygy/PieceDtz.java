@@ -92,7 +92,7 @@ class PieceDtz extends TableBase {
         int[] p = new int[TB_PIECES];
 
         for (int i = 0; i < pieceEntry.num; ) {
-            i = PieceEncInfo.fill_squares(pos, ei_dtz.pieces, flip, 0, p, i);
+            i = ei_dtz.fill_squares(pos, flip, 0, p, i);
         }
 
         int idx = ei_dtz.encode_piece(p);
