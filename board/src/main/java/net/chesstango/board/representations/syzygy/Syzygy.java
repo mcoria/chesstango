@@ -105,14 +105,17 @@ public class Syzygy {
             }
         }
 
-        /*
-        for (i = 0; i < 5; i++)
-            for (j = i; j < 5; j++)
+
+        for (i = 0; i < 5; i++) {
+            for (j = i; j < 5; j++) {
                 for (k = 0; k < 5; k++) {
                     String tableName = String.format("K%c%cvK%c", pieces[i].getSymbol(), pieces[j].getSymbol(), pieces[k].getSymbol());
                     init_tb(tableName);
                 }
+            }
+        }
 
+    /*
         for (i = 0; i < 5; i++)
             for (j = i; j < 5; j++)
                 for (k = j; k < 5; k++) {

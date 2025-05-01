@@ -33,7 +33,7 @@ class PawnAsymmetricWdl extends TableBase {
             ei_btm[t] = new PawnEncInfo(pawnEntry);
             tb_size_white[t] = ei_wtm[t].init_enc_info(data, 0, t);
             tb_size_black[t] = ei_btm[t].init_enc_info(data, 4, t);
-            data.incPtr(pawnEntry.num + 1 + pawnEntry.pawns[1]);
+            data.incPtr(pawnEntry.num + 1 + (pawnEntry.pawns[1] > 0 ? 1 : 0));
         }
 
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.

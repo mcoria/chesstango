@@ -637,4 +637,14 @@ public class PawnEntryTest {
                 0x100000000000000L, 0}, ei3_dtz_precomp.base);
         assertEquals(72, ei3_dtz_precomp.symLen.length);
     }
+
+
+    /**
+     * Test for the "KPPvKP" tableType: tableType with PAWNs
+     */
+    @Test
+    public void test_init_tb_KPPvKP() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KPPvKP");
+    }
 }
