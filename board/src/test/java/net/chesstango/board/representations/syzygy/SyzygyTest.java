@@ -328,6 +328,30 @@ public class SyzygyTest {
         assertEquals(7, count(results, TB_LOSS));
     }
 
+    //8/8/8/6B1/8/8/4k3/1K5N b - - 0 1
+
+    @Test
+    public void test_tb_probe_root_longest_4() {
+        FEN fen = FEN.of("8/8/8/6B1/8/8/4k3/1K5N b - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_LOSS, TB_GET_WDL(res));
+        assertEquals(65, TB_GET_DTZ(res));
+
+        assertEquals(0, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(0, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(5, count(results, TB_LOSS));
+    }
+
     static int count(int[] results, int wdl) {
         int count = 0;
         for (int i = 0; i < results.length && results[i] != TB_RESULT_FAILED; i++) {
