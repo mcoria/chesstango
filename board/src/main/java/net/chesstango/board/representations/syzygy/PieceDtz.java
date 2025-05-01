@@ -81,7 +81,6 @@ class PieceDtz extends TableBase {
             bside = false;
         }
 
-
         byte flags = dtzFlags;
         boolean flagFlag = (flags & 1) != 0;
         if (flagFlag != bside && !pieceEntry.symmetric) {

@@ -55,7 +55,7 @@ public class PawnEntryTest {
         assertNotNull(pawnEntry.wdl);
         PawnSymmetricWdl wdl = (PawnSymmetricWdl) pawnEntry.wdl;
 
-        EncInfo ei0 = wdl.ei[0];
+        EncInfo ei0 = wdl.ei_wtm[0];
         assertArrayEquals(new int[]{177754, 3782, 1, 62, 0, 0, 0}, ei0.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei0.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei0.norm);
@@ -87,7 +87,7 @@ public class PawnEntryTest {
         assertEquals(1581, ei0_precomp.symLen.length);
 
 
-        EncInfo ei1 = wdl.ei[1];
+        EncInfo ei1 = wdl.ei_wtm[1];
         assertArrayEquals(new int[]{177754, 62, 1, 2914, 0, 0, 0}, ei1.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei1.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei1.norm);
@@ -119,7 +119,7 @@ public class PawnEntryTest {
         assertEquals(1587, ei1_precomp.symLen.length);
 
 
-        EncInfo ei2 = wdl.ei[2];
+        EncInfo ei2 = wdl.ei_wtm[2];
         assertArrayEquals(new int[]{2914, 62, 1, 17484, 0, 0, 0}, ei2.factor);
         assertArrayEquals(new byte[]{1, 9, 14, 6, 0, 0, 0}, ei2.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei2.norm);
@@ -150,7 +150,7 @@ public class PawnEntryTest {
         assertEquals(1558, ei2_precomp.symLen.length);
 
 
-        EncInfo ei3 = wdl.ei[3];
+        EncInfo ei3 = wdl.ei_wtm[3];
         assertArrayEquals(new int[]{177754, 3782, 1, 62, 0, 0, 0}, ei3.factor);
         assertArrayEquals(new byte[]{1, 9, 14, 6, 0, 0, 0}, ei3.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei3.norm);

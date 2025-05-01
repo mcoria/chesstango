@@ -1,5 +1,7 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.Syzygy.PAFlags;
+import static net.chesstango.board.representations.syzygy.Syzygy.WdlToMap;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableBase.TableType.DTZ;
 
@@ -111,7 +113,21 @@ class PawnDtz extends TableBase {
 
         byte[] w = ei.precomp.decompress_pairs(idx);
 
-        return (int) w[0] - 2;
+        int v = w[0] + ((w[1] & 0x0f) << 8);
+
+        if ((flags & 2) != 0) {
+            int m = WdlToMap[score + 2];
+            if ((flags & 16) == 0) {
+                v = dtzMap.read_uint8_t(dtzMapIdx[t][m] + v);
+            } else {
+                v = dtzMap.read_le_u16(dtzMapIdx[t][m] + v);
+            }
+        }
+        if ((flags & PAFlags[score + 2]) == 0 || (score & 1) != 0) {
+            v *= 2;
+        }
+
+        return v;
     }
 
 }
