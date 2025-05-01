@@ -20,6 +20,7 @@ public class SyzygyTest {
     @BeforeEach
     public void setUp() throws Exception {
         syzygy = new Syzygy();
+        syzygy.tb_init(PATH);
     }
 
     @Test
@@ -33,18 +34,15 @@ public class SyzygyTest {
         assertEquals(5, syzygy.TB_LARGEST);
         assertEquals(5, syzygy.TB_MaxCardinality);
         assertEquals(0, syzygy.TB_MaxCardinalityDTM);
-        assertEquals(64, syzygy.tbNumPiece);
-        assertEquals(46, syzygy.tbNumPawn);
-        assertEquals(110, syzygy.numWdl);
+        assertEquals(84, syzygy.tbNumPiece);
+        assertEquals(61, syzygy.tbNumPawn);
+        assertEquals(145, syzygy.numWdl);
         assertEquals(0, syzygy.numDtm);
-        assertEquals(110, syzygy.numDtz);
+        assertEquals(145, syzygy.numDtz);
     }
 
     @Test
     public void test_tb_probe_root_KQvK_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvK");
-
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -67,9 +65,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQvK_black() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvK");
-
         FEN fen = FEN.of("7k/8/7K/7Q/8/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -92,9 +87,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_3pieces_black_longest() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KRvK");
-
         FEN fen = FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -117,11 +109,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQvKR_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvKR");
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KRvK");
-
         FEN fen = FEN.of("7k/r7/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -144,11 +131,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQvKR_black() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvKR");
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KRvK");
-
         FEN fen = FEN.of("7k/r7/7K/7Q/8/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -171,10 +153,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQvKQ_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvKQ");
-        syzygy.init_tb("KQvK");
-
         FEN fen = FEN.of("7k/q7/7K/7Q/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -197,10 +175,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQvKQ_black() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvKQ");
-        syzygy.init_tb("KQvK");
-
         FEN fen = FEN.of("7k/q7/7K/7Q/8/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -223,13 +197,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQNvKQ_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQNvKQ");
-        syzygy.init_tb("KQvKQ");
-        syzygy.init_tb("KQvKN");
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KNvK");
-
         FEN fen = FEN.of("7k/q7/7K/7Q/4N3/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -252,20 +219,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KQNvKQ_black() {
-        syzygy.setPath(PATH);
-
-        //5 pieces
-        syzygy.init_tb("KQNvKQ");
-
-        //4 pieces
-        syzygy.init_tb("KQNvK");
-        syzygy.init_tb("KQvKQ");
-        syzygy.init_tb("KQvKN");
-
-        //3 pieces
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KNvK");
-
         FEN fen = FEN.of("7k/q7/7K/7Q/4N3/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -289,13 +242,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KPvK_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KRvK");
-        syzygy.init_tb("KBvK");
-        syzygy.init_tb("KNvK");
-        syzygy.init_tb("KPvK");
-
         FEN fen = FEN.of("8/P7/4K3/7k/8/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -318,13 +264,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KPvK_black() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KRvK");
-        syzygy.init_tb("KBvK");
-        syzygy.init_tb("KNvK");
-        syzygy.init_tb("KPvK");
-
         FEN fen = FEN.of("8/P7/4K3/7k/8/8/8/8 b - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);
@@ -347,19 +286,6 @@ public class SyzygyTest {
 
     @Test
     public void test_tb_probe_root_KPvKP_white() {
-        syzygy.setPath(PATH);
-        syzygy.init_tb("KQvKP");
-        syzygy.init_tb("KRvKP");
-        syzygy.init_tb("KBvKP");
-        syzygy.init_tb("KNvKP");
-        syzygy.init_tb("KPvKP");
-
-        syzygy.init_tb("KQvK");
-        syzygy.init_tb("KRvK");
-        syzygy.init_tb("KBvK");
-        syzygy.init_tb("KNvK");
-        syzygy.init_tb("KPvK");
-
         FEN fen = FEN.of("8/P7/4K3/7k/6p1/8/8/8 w - - 0 1");
         Position chessPosition = fen.toChessPosition();
         BitPosition bitPosition = BitPosition.from(chessPosition);

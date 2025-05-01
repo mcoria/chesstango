@@ -97,14 +97,12 @@ public class Syzygy {
             }
         }
 
-
         for (i = 0; i < 5; i++) {
             for (j = i; j < 5; j++) {
                 String tableName = String.format("K%c%cvK", pieces[i].getSymbol(), pieces[j].getSymbol());
                 init_tb(tableName);
             }
         }
-
 
         for (i = 0; i < 5; i++) {
             for (j = i; j < 5; j++) {
@@ -115,14 +113,14 @@ public class Syzygy {
             }
         }
 
-    /*
-        for (i = 0; i < 5; i++)
-            for (j = i; j < 5; j++)
+        for (i = 0; i < 5; i++) {
+            for (j = i; j < 5; j++) {
                 for (k = j; k < 5; k++) {
                     String tableName = String.format("K%c%c%cvK", pieces[i].getSymbol(), pieces[j].getSymbol(), pieces[k].getSymbol());
                     init_tb(tableName);
                 }
-        */
+            }
+        }
 
         // Update the largest cardinality values
         TB_LARGEST = TB_MaxCardinality;
