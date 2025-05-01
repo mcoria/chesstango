@@ -1,6 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece;
 
 /**
  * @author Mauricio Coria
@@ -34,7 +34,8 @@ class PawnEntry extends BaseEntry {
         // Handle pawn-specific attributes
         this.pawns[0] = (byte) pcs[Piece.W_PAWN.getValue()];
         this.pawns[1] = (byte) pcs[Piece.B_PAWN.getValue()];
-        if (pcs[SyzygyConstants.Piece.B_PAWN.getValue()] != 0 && (pcs[Piece.W_PAWN.getValue()] != 0 || (pcs[Piece.W_PAWN.getValue()] > pcs[Piece.B_PAWN.getValue()]))) {
+        if (pcs[SyzygyConstants.Piece.B_PAWN.getValue()] > 0 &&
+                (pcs[Piece.W_PAWN.getValue()] == 0 || (pcs[Piece.W_PAWN.getValue()] > pcs[Piece.B_PAWN.getValue()]))) {
             byte tmp = this.pawns[0];
             this.pawns[0] = this.pawns[1];
             this.pawns[1] = tmp;

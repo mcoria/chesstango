@@ -323,6 +323,10 @@ public class SyzygyTest {
     @Test
     public void test_tb_probe_root_KPvKP_white() {
         syzygy.setPath(PATH);
+        syzygy.init_tb("KQvKP");
+        syzygy.init_tb("KRvKP");
+        syzygy.init_tb("KBvKP");
+        syzygy.init_tb("KNvKP");
         syzygy.init_tb("KPvKP");
 
         syzygy.init_tb("KQvK");
@@ -346,9 +350,9 @@ public class SyzygyTest {
 
         assertEquals(10, count(results, TB_WIN));
         assertEquals(0, count(results, TB_CURSED_WIN));
-        assertEquals(2, count(results, TB_DRAW));
+        assertEquals(1, count(results, TB_DRAW));
         assertEquals(0, count(results, TB_BLESSED_LOSS));
-        assertEquals(0, count(results, TB_LOSS));
+        assertEquals(1, count(results, TB_LOSS));
     }
 
     static int count(int[] results, int wdl) {
