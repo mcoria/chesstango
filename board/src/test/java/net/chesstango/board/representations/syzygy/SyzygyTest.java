@@ -91,6 +91,31 @@ public class SyzygyTest {
     }
 
     @Test
+    public void test_tb_probe_root_KRvK_black_longest() {
+        syzygy.setPath(PATH);
+        syzygy.init_tb("KRvK");
+
+        FEN fen = FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1");
+        Position chessPosition = fen.toChessPosition();
+        BitPosition bitPosition = BitPosition.from(chessPosition);
+
+        int[] results = new int[TB_MAX_MOVES];
+
+        int res = syzygy.tb_probe_root(bitPosition, results);
+
+        assertNotEquals(TB_RESULT_FAILED, res);
+
+        assertEquals(TB_LOSS, TB_GET_WDL(res));
+        assertEquals(32, TB_GET_DTZ(res));
+
+        assertEquals(0, count(results, TB_WIN));
+        assertEquals(0, count(results, TB_CURSED_WIN));
+        assertEquals(0, count(results, TB_DRAW));
+        assertEquals(0, count(results, TB_BLESSED_LOSS));
+        assertEquals(4, count(results, TB_LOSS));
+    }
+
+    @Test
     public void test_tb_probe_root_KQvKR_white() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KQvKR");
