@@ -5,7 +5,7 @@ import lombok.Setter;
 import static net.chesstango.board.representations.syzygy.Chess.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.Piece.*;
 import static net.chesstango.board.representations.syzygy.SyzygyConstants.*;
-import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.PAWN;
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.PieceType.*;
 import static net.chesstango.board.representations.syzygy.TableBase.TableType.*;
 
 /**
@@ -80,7 +80,7 @@ public class Syzygy {
         // Set the path for the tablebase files
         setPath(path);
 
-        PieceType[] pieces = PieceType.values();
+        PieceType[] pieces = {QUEEN, ROOK, BISHOP, KNIGHT, PAWN};
 
         int i = 0;
         int j = 0;
@@ -90,19 +90,22 @@ public class Syzygy {
             init_tb(tableName);
         }
 
-        /*
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < 5; i++) {
             for (j = i; j < 5; j++) {
                 String tableName = String.format("K%cvK%c", pieces[i].getSymbol(), pieces[j].getSymbol());
                 init_tb(tableName);
             }
+        }
 
-        for (i = 0; i < 5; i++)
+
+        for (i = 0; i < 5; i++) {
             for (j = i; j < 5; j++) {
                 String tableName = String.format("K%c%cvK", pieces[i].getSymbol(), pieces[j].getSymbol());
                 init_tb(tableName);
             }
+        }
 
+        /*
         for (i = 0; i < 5; i++)
             for (j = i; j < 5; j++)
                 for (k = 0; k < 5; k++) {

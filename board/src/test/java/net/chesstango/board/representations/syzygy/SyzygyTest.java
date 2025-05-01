@@ -30,14 +30,14 @@ public class SyzygyTest {
         assertEquals(861, syzygy.pawnEntry.length);
         assertEquals(4096, syzygy.tbHash.length);
 
-        assertEquals(3, syzygy.TB_LARGEST);
-        assertEquals(3, syzygy.TB_MaxCardinality);
+        assertEquals(4, syzygy.TB_LARGEST);
+        assertEquals(4, syzygy.TB_MaxCardinality);
         assertEquals(0, syzygy.TB_MaxCardinalityDTM);
-        assertEquals(4, syzygy.tbNumPiece);
-        assertEquals(1, syzygy.tbNumPawn);
-        assertEquals(5, syzygy.numWdl);
+        assertEquals(24, syzygy.tbNumPiece);
+        assertEquals(11, syzygy.tbNumPawn);
+        assertEquals(35, syzygy.numWdl);
         assertEquals(0, syzygy.numDtm);
-        assertEquals(5, syzygy.numDtz);
+        assertEquals(35, syzygy.numDtz);
     }
 
     @Test
