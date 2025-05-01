@@ -91,7 +91,7 @@ public class SyzygyTest {
     }
 
     @Test
-    public void test_tb_probe_root_KRvK_black_longest() {
+    public void test_tb_probe_root_3pieces_black_longest() {
         syzygy.setPath(PATH);
         syzygy.init_tb("KRvK");
 

@@ -82,10 +82,41 @@ public class Syzygy {
 
         PieceType[] pieces = PieceType.values();
 
-        for (int i = 0; i < 5; i++) {
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        for (i = 0; i < 5; i++) {
             String tableName = String.format("K%cvK", pieces[i].getSymbol());
             init_tb(tableName);
         }
+
+        /*
+        for (i = 0; i < 5; i++)
+            for (j = i; j < 5; j++) {
+                String tableName = String.format("K%cvK%c", pieces[i].getSymbol(), pieces[j].getSymbol());
+                init_tb(tableName);
+            }
+
+        for (i = 0; i < 5; i++)
+            for (j = i; j < 5; j++) {
+                String tableName = String.format("K%c%cvK", pieces[i].getSymbol(), pieces[j].getSymbol());
+                init_tb(tableName);
+            }
+
+        for (i = 0; i < 5; i++)
+            for (j = i; j < 5; j++)
+                for (k = 0; k < 5; k++) {
+                    String tableName = String.format("K%c%cvK%c", pieces[i].getSymbol(), pieces[j].getSymbol(), pieces[k].getSymbol());
+                    init_tb(tableName);
+                }
+
+        for (i = 0; i < 5; i++)
+            for (j = i; j < 5; j++)
+                for (k = j; k < 5; k++) {
+                    String tableName = String.format("K%c%c%cvK", pieces[i].getSymbol(), pieces[j].getSymbol(), pieces[k].getSymbol());
+                    init_tb(tableName);
+                }
+        */
 
         // Update the largest cardinality values
         TB_LARGEST = TB_MaxCardinality;
