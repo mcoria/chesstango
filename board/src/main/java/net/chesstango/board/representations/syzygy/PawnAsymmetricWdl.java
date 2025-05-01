@@ -96,7 +96,7 @@ class PawnAsymmetricWdl extends TableBase {
             i = ei.fill_squares(pos, flip, flip ? 0x38 : 0, p, i);
         }
 
-        int idx = ei.encode_pawn_f(p);
+        int idx = ei.encode_pawn(p);
 
         byte[] w = ei.precomp.decompress_pairs(idx);
 

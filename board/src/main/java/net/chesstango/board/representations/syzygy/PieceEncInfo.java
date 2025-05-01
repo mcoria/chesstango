@@ -1,7 +1,5 @@
 package net.chesstango.board.representations.syzygy;
 
-import static net.chesstango.board.representations.syzygy.Chess.poplsb;
-
 /**
  * @author Mauricio Coria
  */

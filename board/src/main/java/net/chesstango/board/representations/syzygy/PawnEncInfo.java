@@ -54,7 +54,6 @@ class PawnEncInfo extends EncInfo {
                 k += norm[k];
             }
         }
-
         return f;
     }
 
@@ -68,7 +67,74 @@ class PawnEncInfo extends EncInfo {
         return FileToFile[p[0] & 7];
     }
 
-    int encode_pawn_f(int[] p) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    int encode_pawn(int[] p) {
+        int n = pawnEntry.num;
+        int idx = 0;
+        int k = 0;
+
+        if ((p[0] & 0x04) != 0)
+            for (int i = 0; i < n; i++)
+                p[i] ^= 0x07;
+
+
+        for (int i = 1; i < pawnEntry.pawns[0]; i++)
+            for (int j = i + 1; j < pawnEntry.pawns[0]; j++)
+                if (PawnTwist[0][p[i]] < PawnTwist[0][p[j]]) {
+                    int tmp = p[i];
+                    p[i] = p[j];
+                    p[j] = tmp;
+                }
+
+        k = pawnEntry.pawns[0];
+        idx = PawnIdx[0][k - 1][Flap[0][p[0]]];
+        for (int i = 1; i < k; i++)
+            idx += Binomial[k - i][PawnTwist[0][p[i]]];
+        idx *= factor[0];
+
+        // Pawns of other color
+        if (pawnEntry.pawns[1] != 0) {
+            int t = k + pawnEntry.pawns[1];
+            for (int i = k; i < t; i++)
+                for (int j = i + 1; j < t; j++)
+                    if (p[i] > p[j]) {
+                        int tmp = p[i];
+                        p[i] = p[j];
+                        p[j] = tmp;
+                    }
+            int s = 0;
+            for (int i = k; i < t; i++) {
+                int sq = p[i];
+                int skips = 0;
+                for (int j = 0; j < k; j++)
+                    skips += (sq > p[j]) ? 1 : 0;
+                s += Binomial[i - k + 1][sq - skips - 8];
+            }
+            idx += s * factor[k];
+            k = t;
+        }
+
+        while (k < n) {
+            int t = k + norm[k];
+            for (int i = k; i < t; i++)
+                for (int j = i + 1; j < t; j++)
+                    if (p[i] > p[j]) {
+                        int tmp = p[i];
+                        p[i] = p[j];
+                        p[j] = tmp;
+                    }
+            int s = 0;
+            for (int i = k; i < t; i++) {
+                int sq = p[i];
+                int skips = 0;
+                for (int j = 0; j < k; j++) {
+                    skips = sq > p[j] ? skips + 1 : skips;
+                }
+                s += Binomial[i - k + 1][sq - skips];
+            }
+            idx += s * factor[k];
+            k = t;
+        }
+
+        return idx;
     }
 }
