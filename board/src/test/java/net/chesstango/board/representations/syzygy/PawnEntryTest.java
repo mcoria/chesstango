@@ -191,7 +191,7 @@ public class PawnEntryTest {
         assertArrayEquals(new short[][]{{1, 8, 16, 17}, {18, 30, 41, 42}, {43, 54, 64, 65}, {66, 76, 85, 86}}, dtz.dtzMapIdx);
         assertArrayEquals(new byte[]{2, 2, 2, 2}, dtz.dtzFlags);
 
-        EncInfo ei0_dtz = dtz.ei[0];
+        EncInfo ei0_dtz = dtz.ei_dtz[0];
         assertArrayEquals(new int[]{62, 22692, 1, 372, 0, 0, 0}, ei0_dtz.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei0_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei0_dtz.norm);
@@ -216,7 +216,7 @@ public class PawnEntryTest {
         assertEquals(328, ei0_dtz_precomp.symLen.length);
 
 
-        EncInfo ei1_dtz = dtz.ei[1];
+        EncInfo ei1_dtz = dtz.ei_dtz[1];
         assertArrayEquals(new int[]{177754, 3782, 1, 62, 0, 0, 0}, ei1_dtz.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei1_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei1_dtz.norm);
@@ -241,7 +241,7 @@ public class PawnEntryTest {
         assertEquals(500, ei1_dtz_precomp.symLen.length);
 
 
-        EncInfo ei2_dtz = dtz.ei[2];
+        EncInfo ei2_dtz = dtz.ei_dtz[2];
         assertArrayEquals(new int[]{177754, 62, 1, 2914, 0, 0, 0}, ei2_dtz.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei2_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei2_dtz.norm);
@@ -266,7 +266,7 @@ public class PawnEntryTest {
         assertEquals(432, ei2_dtz_precomp.symLen.length);
 
 
-        EncInfo ei3_dtz = dtz.ei[3];
+        EncInfo ei3_dtz = dtz.ei_dtz[3];
         assertArrayEquals(new int[]{177754, 62, 1, 2914, 0, 0, 0}, ei3_dtz.factor);
         assertArrayEquals(new byte[]{1, 9, 6, 14, 0, 0, 0}, ei3_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 1, 0, 0, 0}, ei3_dtz.norm);
@@ -540,7 +540,7 @@ public class PawnEntryTest {
         assertArrayEquals(new short[][]{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, dtz.dtzMapIdx);
         assertArrayEquals(new byte[]{0, 0, 0, 0}, dtz.dtzFlags);
 
-        EncInfo ei0_dtz = dtz.ei[0];
+        EncInfo ei0_dtz = dtz.ei_dtz[0];
         assertArrayEquals(new int[]{3906, 1, 63, 0, 0, 0, 0}, ei0_dtz.factor);
         assertArrayEquals(new byte[]{1, 6, 14, 0, 0, 0, 0}, ei0_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei0_dtz.norm);
@@ -566,7 +566,7 @@ public class PawnEntryTest {
         assertEquals(23, ei0_dtz_precomp.symLen.length);
 
 
-        EncInfo ei1_dtz = dtz.ei[1];
+        EncInfo ei1_dtz = dtz.ei_dtz[1];
         assertArrayEquals(new int[]{3906, 1, 63, 0, 0, 0, 0}, ei1_dtz.factor);
         assertArrayEquals(new byte[]{1, 6, 14, 0, 0, 0, 0}, ei1_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei1_dtz.norm);
@@ -590,7 +590,7 @@ public class PawnEntryTest {
         assertEquals(59, ei1_dtz_precomp.symLen.length);
 
 
-        EncInfo ei2_dtz = dtz.ei[2];
+        EncInfo ei2_dtz = dtz.ei_dtz[2];
         assertArrayEquals(new int[]{3906, 1, 63, 0, 0, 0, 0}, ei2_dtz.factor);
         assertArrayEquals(new byte[]{1, 6, 14, 0, 0, 0, 0}, ei2_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei2_dtz.norm);
@@ -614,7 +614,7 @@ public class PawnEntryTest {
         assertEquals(67, ei2_dtz_precomp.symLen.length);
 
 
-        EncInfo ei3_dtz = dtz.ei[3];
+        EncInfo ei3_dtz = dtz.ei_dtz[3];
         assertArrayEquals(new int[]{3906, 1, 63, 0, 0, 0, 0}, ei3_dtz.factor);
         assertArrayEquals(new byte[]{1, 6, 14, 0, 0, 0, 0}, ei3_dtz.pieces);
         assertArrayEquals(new byte[]{1, 1, 1, 0, 0, 0, 0}, ei3_dtz.norm);

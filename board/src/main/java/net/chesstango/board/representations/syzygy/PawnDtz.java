@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.syzygy;
 
+import static net.chesstango.board.representations.syzygy.SyzygyConstants.TB_PIECES;
 import static net.chesstango.board.representations.syzygy.TableBase.TableType.DTZ;
 
 /**
@@ -8,7 +9,7 @@ import static net.chesstango.board.representations.syzygy.TableBase.TableType.DT
 class PawnDtz extends TableBase {
     final PawnEntry pawnEntry;
 
-    final PawnEncInfo[] ei;
+    final PawnEncInfo[] ei_dtz;
 
     U_INT8_PTR dtzMap;
     byte[] dtzFlags = new byte[4];
@@ -17,7 +18,7 @@ class PawnDtz extends TableBase {
     public PawnDtz(PawnEntry pawnEntry) {
         super(DTZ, pawnEntry);
         this.pawnEntry = pawnEntry;
-        this.ei = new PawnEncInfo[4];
+        this.ei_dtz = new PawnEncInfo[4];
     }
 
     @Override
@@ -28,8 +29,8 @@ class PawnDtz extends TableBase {
         final int num = 4;
         int[] tb_size = new int[num];
         for (int i = 0; i < num; i++) {
-            ei[i] = new PawnEncInfo(pawnEntry);
-            tb_size[i] = ei[i].init_enc_info(data, 0, i);
+            ei_dtz[i] = new PawnEncInfo(pawnEntry);
+            tb_size[i] = ei_dtz[i].init_enc_info(data, 0, i);
             data.incPtr(pawnEntry.num + 1 + pawnEntry.pawns[1]);
         }
 
@@ -39,7 +40,7 @@ class PawnDtz extends TableBase {
         int[][] size = new int[4][3];
         for (int t = 0; t < num; t++) {
             dtzFlags[t] = data.read_uint8_t(0);
-            ei[t].precomp = new PairsData(DTZ, data, tb_size[t], size[t]);
+            ei_dtz[t].precomp = new PairsData(DTZ, data, tb_size[t], size[t]);
         }
 
 
@@ -61,20 +62,20 @@ class PawnDtz extends TableBase {
 
         // indexTable ptr
         for (int t = 0; t < num; t++) {
-            ei[t].precomp.indexTable = data.clone();
+            ei_dtz[t].precomp.indexTable = data.clone();
             data.incPtr(size[t][0]);
         }
 
         // sizeTable ptr
         for (int t = 0; t < num; t++) {
-            ei[t].precomp.sizeTable = data.createU_INT16_PTR(0);
+            ei_dtz[t].precomp.sizeTable = data.createU_INT16_PTR(0);
             data.incPtr(size[t][1]);
         }
 
         // data ptr
         for (int t = 0; t < num; t++) {
             data.ptr = (data.ptr + 0x3f) & ~0x3f;
-            ei[t].precomp.data = data.clone();
+            ei_dtz[t].precomp.data = data.clone();
             data.incPtr(size[t][2]);
         }
 
@@ -83,7 +84,34 @@ class PawnDtz extends TableBase {
 
     @Override
     int probe_table_imp(BitPosition pos, long key, int score) {
-        return 0;
+        boolean flip = key != pawnEntry.key;
+        boolean bside = pos.turn == flip;
+
+        int[] p = new int[TB_PIECES];
+
+        PawnEncInfo ei = ei_dtz[0];
+
+        int i = ei.fill_squares(pos, flip, flip ? 0x38 : 0, p, 0);
+        int t = ei.leading_pawn(p);
+
+        byte flags = dtzFlags[t];
+        boolean flagFlag = (flags & 1) != 0;
+        if (flagFlag != bside && !pawnEntry.symmetric) {
+            pawnEntry.syzygy.success = -1;
+            return 0;
+        }
+
+        ei = ei_dtz[t];
+
+        while (i < pawnEntry.num) {
+            i = ei.fill_squares(pos, flip, flip ? 0x38 : 0, p, i);
+        }
+
+        int idx = ei.encode_pawn(p);
+
+        byte[] w = ei.precomp.decompress_pairs(idx);
+
+        return (int) w[0] - 2;
     }
 
 }

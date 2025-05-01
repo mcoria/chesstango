@@ -284,11 +284,11 @@ public class SyzygyTest {
         assertEquals(TB_WIN, TB_GET_WDL(res));
         assertEquals(1, TB_GET_DTZ(res));
 
-        assertEquals(3, count(results, TB_WIN));
+        assertEquals(10, count(results, TB_WIN));
         assertEquals(0, count(results, TB_CURSED_WIN));
-        assertEquals(11, count(results, TB_DRAW));
+        assertEquals(2, count(results, TB_DRAW));
         assertEquals(0, count(results, TB_BLESSED_LOSS));
-        assertEquals(14, count(results, TB_LOSS));
+        assertEquals(0, count(results, TB_LOSS));
     }
 
     static int count(int[] results, int wdl) {
