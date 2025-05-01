@@ -86,7 +86,7 @@ class PairsData {
         int w1 = (w.read_uint8_t(1) & 0xFF) >>> 4;
 
         int s2 = w2 | w1;
-        if (s2 == 0x0fff) {
+        if (s2 == 0x0FFF) {
             this.symLen[s] = 0;
         } else {
             int s1 = ((w.read_uint8_t(1) & 0xF) << 8) | (w.read_uint8_t(0) & 0xFF);

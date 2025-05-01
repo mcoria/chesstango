@@ -33,7 +33,7 @@ class PawnDtz extends TableBase {
         for (int i = 0; i < num; i++) {
             ei_dtz[i] = new PawnEncInfo(pawnEntry);
             tb_size[i] = ei_dtz[i].init_enc_info(data, 0, i);
-            data.incPtr(pawnEntry.num + 1 + pawnEntry.pawns[1]);
+            data.incPtr(pawnEntry.num + 1 + (pawnEntry.pawns[1] > 0 ? 1 : 0));
         }
 
         // Next, there may be a padding byte to align the position within the tablebase file to a multiple of 2 bytes.
