@@ -79,12 +79,6 @@ public class GameBuilder implements PositionBuilder<Game> {
     }
 
     @Override
-    public GameBuilder withPiece(Square square, Piece piece) {
-        chessPositionBuilder.withPiece(square, piece);
-        return this;
-    }
-
-    @Override
     public GameBuilder withPiece(int file, int rank, Piece piece) {
         chessPositionBuilder.withPiece(file, rank, piece);
         return null;

@@ -95,16 +95,6 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public ChessPositionBuilder withPiece(Square square, Piece piece) {
-        if (piece == null) {
-            throw new RuntimeException("piece is null");
-        }
-        squareBoard.setPiece(square, piece);
-        bitBoard.addPosition(PiecePositioned.of(square, piece));
-        return this;
-    }
-
-    @Override
     public ChessPositionBuilder withPiece(int file, int rank, Piece piece) {
         if (piece == null) {
             throw new RuntimeException("piece is null");

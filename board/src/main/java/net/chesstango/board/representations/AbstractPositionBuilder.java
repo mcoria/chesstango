@@ -19,14 +19,8 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
     protected final Piece[][] board = new Piece[8][8];
 
     @Override
-    public AbstractPositionBuilder<T> withPiece(Square square, Piece piece) {
-        this.board[square.getRank()][square.getFile()] = piece;
-        return this;
-    }
-
-    @Override
     public AbstractPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
-        board[file][rank] = piece;
+        board[rank][file] = piece;
         return null;
     }
 

@@ -51,7 +51,7 @@ public class PositionImp implements Position {
 
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {
-                builder.withPiece(piecePositioned.getSquare(), piecePositioned.getPiece());
+                builder.withPiece(piecePositioned.getSquare().getFile(), piecePositioned.getSquare().getRank(), piecePositioned.getPiece());
             }
         }
     }

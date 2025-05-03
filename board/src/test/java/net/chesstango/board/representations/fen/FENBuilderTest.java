@@ -74,7 +74,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement03() {
-        coder.withPiece(Square.a1, Piece.ROOK_WHITE);
+        coder.withPiece(0, 0, Piece.ROOK_WHITE);
 
         String actual = coder.getPiecePlacement();
 
@@ -83,7 +83,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement04() {
-        coder.withPiece(Square.h1, Piece.ROOK_WHITE);
+        coder.withPiece(7, 0, Piece.ROOK_WHITE);
 
         String actual = coder.getPiecePlacement();
 
@@ -92,7 +92,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement05() {
-        coder.withPiece(Square.a8, Piece.ROOK_BLACK);
+        coder.withPiece(0, 7, Piece.ROOK_BLACK);
 
         String actual = coder.getPiecePlacement();
 
@@ -146,42 +146,42 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement06() {
-        coder.withPiece(Square.a8, Piece.ROOK_BLACK);
-        coder.withPiece(Square.b8, Piece.KNIGHT_BLACK);
-        coder.withPiece(Square.c8, Piece.BISHOP_BLACK);
-        coder.withPiece(Square.d8, Piece.QUEEN_BLACK);
-        coder.withPiece(Square.e8, Piece.KING_BLACK);
-        coder.withPiece(Square.f8, Piece.BISHOP_BLACK);
-        coder.withPiece(Square.g8, Piece.KNIGHT_BLACK);
-        coder.withPiece(Square.h8, Piece.ROOK_BLACK);
+        coder.withPiece(0, 7, Piece.ROOK_BLACK);
+        coder.withPiece(1, 7, Piece.KNIGHT_BLACK);
+        coder.withPiece(2, 7, Piece.BISHOP_BLACK);
+        coder.withPiece(3, 7, Piece.QUEEN_BLACK);
+        coder.withPiece(4, 7, Piece.KING_BLACK);
+        coder.withPiece(5, 7, Piece.BISHOP_BLACK);
+        coder.withPiece(6, 7, Piece.KNIGHT_BLACK);
+        coder.withPiece(7, 7, Piece.ROOK_BLACK);
 
-        coder.withPiece(Square.a7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.b7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.c7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.d7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.e7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.f7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.g7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.h7, Piece.PAWN_BLACK);
+        coder.withPiece(0, 6, Piece.PAWN_BLACK);
+        coder.withPiece(1, 6, Piece.PAWN_BLACK);
+        coder.withPiece(2, 6, Piece.PAWN_BLACK);
+        coder.withPiece(3, 6, Piece.PAWN_BLACK);
+        coder.withPiece(4, 6, Piece.PAWN_BLACK);
+        coder.withPiece(5, 6, Piece.PAWN_BLACK);
+        coder.withPiece(6, 6, Piece.PAWN_BLACK);
+        coder.withPiece(7, 6, Piece.PAWN_BLACK);
 
 
-        coder.withPiece(Square.a2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.b2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.c2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.d2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.e2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.f2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.g2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.h2, Piece.PAWN_WHITE);
+        coder.withPiece(0, 1, Piece.PAWN_WHITE);
+        coder.withPiece(1, 1, Piece.PAWN_WHITE);
+        coder.withPiece(2, 1, Piece.PAWN_WHITE);
+        coder.withPiece(3, 1, Piece.PAWN_WHITE);
+        coder.withPiece(4, 1, Piece.PAWN_WHITE);
+        coder.withPiece(5, 1, Piece.PAWN_WHITE);
+        coder.withPiece(6, 1, Piece.PAWN_WHITE);
+        coder.withPiece(7, 1, Piece.PAWN_WHITE);
 
-        coder.withPiece(Square.a1, Piece.ROOK_WHITE);
-        coder.withPiece(Square.b1, Piece.KNIGHT_WHITE);
-        coder.withPiece(Square.c1, Piece.BISHOP_WHITE);
-        coder.withPiece(Square.d1, Piece.QUEEN_WHITE);
-        coder.withPiece(Square.e1, Piece.KING_WHITE);
-        coder.withPiece(Square.f1, Piece.BISHOP_WHITE);
-        coder.withPiece(Square.g1, Piece.KNIGHT_WHITE);
-        coder.withPiece(Square.h1, Piece.ROOK_WHITE);
+        coder.withPiece(0, 0, Piece.ROOK_WHITE);
+        coder.withPiece(1, 0, Piece.KNIGHT_WHITE);
+        coder.withPiece(2, 0, Piece.BISHOP_WHITE);
+        coder.withPiece(3, 0, Piece.QUEEN_WHITE);
+        coder.withPiece(4, 0, Piece.KING_WHITE);
+        coder.withPiece(5, 0, Piece.BISHOP_WHITE);
+        coder.withPiece(6, 0, Piece.KNIGHT_WHITE);
+        coder.withPiece(7, 0, Piece.ROOK_WHITE);
 
 
         String actual = coder.getPiecePlacement();
@@ -191,42 +191,42 @@ public class FENBuilderTest {
 
     @Test
     public void testGetFEN() {
-        coder.withPiece(Square.a8, Piece.ROOK_BLACK);
-        coder.withPiece(Square.b8, Piece.KNIGHT_BLACK);
-        coder.withPiece(Square.c8, Piece.BISHOP_BLACK);
-        coder.withPiece(Square.d8, Piece.QUEEN_BLACK);
-        coder.withPiece(Square.e8, Piece.KING_BLACK);
-        coder.withPiece(Square.f8, Piece.BISHOP_BLACK);
-        coder.withPiece(Square.g8, Piece.KNIGHT_BLACK);
-        coder.withPiece(Square.h8, Piece.ROOK_BLACK);
+        coder.withPiece(0, 7, Piece.ROOK_BLACK);
+        coder.withPiece(1, 7, Piece.KNIGHT_BLACK);
+        coder.withPiece(2, 7, Piece.BISHOP_BLACK);
+        coder.withPiece(3, 7, Piece.QUEEN_BLACK);
+        coder.withPiece(4, 7, Piece.KING_BLACK);
+        coder.withPiece(5, 7, Piece.BISHOP_BLACK);
+        coder.withPiece(6, 7, Piece.KNIGHT_BLACK);
+        coder.withPiece(7, 7, Piece.ROOK_BLACK);
 
-        coder.withPiece(Square.a7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.b7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.c7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.d7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.e7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.f7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.g7, Piece.PAWN_BLACK);
-        coder.withPiece(Square.h7, Piece.PAWN_BLACK);
+        coder.withPiece(0, 6, Piece.PAWN_BLACK);
+        coder.withPiece(1, 6, Piece.PAWN_BLACK);
+        coder.withPiece(2, 6, Piece.PAWN_BLACK);
+        coder.withPiece(3, 6, Piece.PAWN_BLACK);
+        coder.withPiece(4, 6, Piece.PAWN_BLACK);
+        coder.withPiece(5, 6, Piece.PAWN_BLACK);
+        coder.withPiece(6, 6, Piece.PAWN_BLACK);
+        coder.withPiece(7, 6, Piece.PAWN_BLACK);
 
 
-        coder.withPiece(Square.a2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.b2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.c2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.d2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.e2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.f2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.g2, Piece.PAWN_WHITE);
-        coder.withPiece(Square.h2, Piece.PAWN_WHITE);
+        coder.withPiece(0, 1, Piece.PAWN_WHITE);
+        coder.withPiece(1, 1, Piece.PAWN_WHITE);
+        coder.withPiece(2, 1, Piece.PAWN_WHITE);
+        coder.withPiece(3, 1, Piece.PAWN_WHITE);
+        coder.withPiece(4, 1, Piece.PAWN_WHITE);
+        coder.withPiece(5, 1, Piece.PAWN_WHITE);
+        coder.withPiece(6, 1, Piece.PAWN_WHITE);
+        coder.withPiece(7, 1, Piece.PAWN_WHITE);
 
-        coder.withPiece(Square.a1, Piece.ROOK_WHITE);
-        coder.withPiece(Square.b1, Piece.KNIGHT_WHITE);
-        coder.withPiece(Square.c1, Piece.BISHOP_WHITE);
-        coder.withPiece(Square.d1, Piece.QUEEN_WHITE);
-        coder.withPiece(Square.e1, Piece.KING_WHITE);
-        coder.withPiece(Square.f1, Piece.BISHOP_WHITE);
-        coder.withPiece(Square.g1, Piece.KNIGHT_WHITE);
-        coder.withPiece(Square.h1, Piece.ROOK_WHITE);
+        coder.withPiece(0, 0, Piece.ROOK_WHITE);
+        coder.withPiece(1, 0, Piece.KNIGHT_WHITE);
+        coder.withPiece(2, 0, Piece.BISHOP_WHITE);
+        coder.withPiece(3, 0, Piece.QUEEN_WHITE);
+        coder.withPiece(4, 0, Piece.KING_WHITE);
+        coder.withPiece(5, 0, Piece.BISHOP_WHITE);
+        coder.withPiece(6, 0, Piece.KNIGHT_WHITE);
+        coder.withPiece(7, 0, Piece.ROOK_WHITE);
 
         coder.withWhiteTurn(true);
 

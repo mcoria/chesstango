@@ -67,12 +67,6 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
     }
 
     @Override
-    public SquareBoardBuilder withPiece(Square square, Piece piece) {
-        squareBoard.setPiece(square, piece);
-        return this;
-    }
-
-    @Override
     public SquareBoardBuilder withPiece(int file, int rank, Piece piece) {
         Square square = Square.getSquare(file, rank);
         squareBoard.setPiece(square, piece);

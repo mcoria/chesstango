@@ -20,9 +20,9 @@ public class MirrorBuilderTest {
     public void mirrorChessPosition() {
         MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
         mirrorChessPositionBuilder.withWhiteTurn(true);
-        mirrorChessPositionBuilder.withPiece(Square.a1, Piece.ROOK_WHITE);
-        mirrorChessPositionBuilder.withPiece(Square.e1, Piece.KING_WHITE);
-        mirrorChessPositionBuilder.withPiece(Square.e8, Piece.KING_BLACK);
+        mirrorChessPositionBuilder.withPiece(Square.a1.getFile(), Square.a1.getRank(), Piece.ROOK_WHITE);
+        mirrorChessPositionBuilder.withPiece(Square.e1.getFile(), Square.e1.getRank(), Piece.KING_WHITE);
+        mirrorChessPositionBuilder.withPiece(Square.e8.getFile(), Square.e8.getRank(), Piece.KING_BLACK);
         Position mirrorPosition = mirrorChessPositionBuilder.getPositionRepresentation();
 
         assertEquals(Color.BLACK, mirrorPosition.getCurrentTurn());

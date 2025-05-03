@@ -3,8 +3,8 @@ package net.chesstango.board.internal.position;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.iterators.byposition.BitIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.ascii.ASCIIBuilder;
 
@@ -23,7 +23,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         }
     }
 
-    ///////////////////////////// START positioning logic /////////////////////////////
+    /// ////////////////////////// START positioning logic /////////////////////////////
     // Quizas podria encapsular estas operaciones en su propia clase.
     // Bitboard podria ser mas rapido? Un word por tipo de ficha
     // Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
@@ -110,7 +110,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIBuilder output = new ASCIIBuilder();
-            this.forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece()));
+            forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare().getFile(), posicionPieza.getSquare().getRank(), posicionPieza.getPiece()));
             output.getPiecePlacement(ps);
         }
         return baos.toString();

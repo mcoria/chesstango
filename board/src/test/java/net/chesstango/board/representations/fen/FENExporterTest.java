@@ -37,12 +37,6 @@ public class FENExporterTest {
 
         parser = new FENExporter(new PositionBuilder<>() {
             @Override
-            public PositionBuilder<Object> withPiece(Square square, Piece piece) {
-                board[square.getRank()][square.getFile()] = piece;
-                return this;
-            }
-
-            @Override
             public PositionBuilder<Object> withPiece(int file, int rank, Piece piece) {
                 board[file][rank] = piece;
                 return null;

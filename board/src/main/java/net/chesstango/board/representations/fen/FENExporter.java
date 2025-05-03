@@ -52,7 +52,7 @@ public class FENExporter {
                 Square square = Square.getSquare(file, rank);
                 Piece piece = piezas[rank][file];
                 if (piece != null) {
-                    positionBuilder.withPiece(square, piece);
+                    positionBuilder.withPiece(square.getFile(), square.getRank(), piece);
                 }
             }
         }

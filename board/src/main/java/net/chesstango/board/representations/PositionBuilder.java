@@ -68,15 +68,6 @@ public interface PositionBuilder<T> {
      */
     PositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed);
 
-    /**
-     * Places a piece on a specific square.
-     *
-     * @param square The square where the piece is to be placed.
-     * @param piece  The piece to be placed on the square.
-     * @return The current instance of the PositionBuilder.
-     */
-    PositionBuilder<T> withPiece(Square square, Piece piece);
-
 
     /**
      * Places a piece on a specific board square determined by the file and rank.
