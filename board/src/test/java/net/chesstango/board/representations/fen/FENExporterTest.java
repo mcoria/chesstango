@@ -3,7 +3,7 @@ package net.chesstango.board.representations.fen;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PositionBuilder;
+import net.chesstango.board.representations.PositionBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -91,7 +91,7 @@ public class FENExporterTest {
             }
 
             @Override
-            public Object getChessRepresentation() {
+            public Object getPositionRepresentation() {
                 // TODO Auto-generated method stub
                 return null;
             }

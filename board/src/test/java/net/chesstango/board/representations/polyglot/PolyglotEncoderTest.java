@@ -20,7 +20,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -41,7 +41,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -63,7 +63,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -84,7 +84,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -104,7 +104,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -125,7 +125,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -145,7 +145,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -166,7 +166,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -187,7 +187,7 @@ public class PolyglotEncoderTest {
 
         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
-        Long polyglotKey = polyglotEncoder.getChessRepresentation();
+        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 

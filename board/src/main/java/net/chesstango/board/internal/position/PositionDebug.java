@@ -7,7 +7,7 @@ import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
+import net.chesstango.board.representations.ascii.ASCIIBuilder;
 
 
 /**
@@ -25,10 +25,10 @@ public class PositionDebug extends PositionImp {
 
     @Override
     public String toString() {
-        ASCIIEncoder asciiEncoder = new ASCIIEncoder();
-        constructChessPositionRepresentation(asciiEncoder);
+        ASCIIBuilder asciiBuilder = new ASCIIBuilder();
+        constructChessPositionRepresentation(asciiBuilder);
 
-        return super.toString() + "\n" + asciiEncoder.getChessRepresentation();
+        return super.toString() + "\n" + asciiBuilder.getPositionRepresentation();
     }
 
 

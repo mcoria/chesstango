@@ -59,6 +59,6 @@ public class PositionAnalyzerTest {
 
         exporter.exportFEN(FEN.of(string));
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 }

@@ -3,7 +3,7 @@ package net.chesstango.board.representations.fen;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.AbstractPositionBuilder;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -11,7 +11,7 @@ import net.chesstango.board.builders.AbstractPositionBuilder;
 public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
 
     @Override
-    public String getChessRepresentation() {
+    public String getPositionRepresentation() {
         StringBuilder stringBuilder = new StringBuilder(70);
 
         getPiecePlacement(stringBuilder).append(' ');
@@ -128,7 +128,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
     public static String encodeGame(Game game) {
         FENEncoderZobrist encoder = new FENEncoderZobrist();
         game.getPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation();
+        return encoder.getPositionRepresentation();
     }
 
 }

@@ -2,7 +2,7 @@ package net.chesstango.board.representations.ascii;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.AbstractPositionBuilder;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 
@@ -13,11 +13,11 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  *
  */
-public class ASCIIEncoder extends AbstractPositionBuilder<String> {
+public class ASCIIBuilder extends AbstractPositionBuilder<String> {
 	
 
 	@Override
-	public String getChessRepresentation() {
+	public String getPositionRepresentation() {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
 			getPiecePlacement(ps);

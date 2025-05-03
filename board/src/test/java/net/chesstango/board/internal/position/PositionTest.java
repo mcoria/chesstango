@@ -220,7 +220,7 @@ public class PositionTest {
 
         exporter.exportFEN(FEN.of(string));
 
-        game = builder.getChessRepresentation();
+        game = builder.getPositionRepresentation();
     }
 
 

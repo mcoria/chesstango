@@ -3,6 +3,7 @@ package net.chesstango.board.builders;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
+import net.chesstango.board.representations.PositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -70,7 +71,7 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
-    public T getChessRepresentation() {
-        return positionBuilder.getChessRepresentation();
+    public T getPositionRepresentation() {
+        return positionBuilder.getPositionRepresentation();
     }
 }

@@ -3,7 +3,7 @@ package net.chesstango.board.representations.fen;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PositionBuilder;
+import net.chesstango.board.representations.PositionBuilder;
 
 /**
  * @author Mauricio Coria

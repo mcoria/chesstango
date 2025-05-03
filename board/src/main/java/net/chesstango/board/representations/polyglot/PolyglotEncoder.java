@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.AbstractPositionBuilder;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FEN;
 
@@ -22,7 +22,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     public static final int TURN_OFFSET = 780;
 
     @Override
-    public Long getChessRepresentation() {
+    public Long getPositionRepresentation() {
         long piece = 0;
         for (Square square : Square.values()) {
             if (board[square.getRank()][square.getFile()] != null) {
@@ -300,6 +300,6 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     public static Long getKey(PositionReader position) {
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructChessPositionRepresentation(polyglotEncoder);
-        return polyglotEncoder.getChessRepresentation();
+        return polyglotEncoder.getPositionRepresentation();
     }
 }

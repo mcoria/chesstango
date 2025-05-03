@@ -54,7 +54,7 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
 
         chessPosition.constructChessPositionRepresentation(encoder);
 
-        String fenWithoutClocks = encoder.getChessRepresentation();
+        String fenWithoutClocks = encoder.getPositionRepresentation();
 
         long hash = chessPosition.getZobristHash();
 

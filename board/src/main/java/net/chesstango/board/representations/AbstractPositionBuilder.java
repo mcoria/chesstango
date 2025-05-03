@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.chesstango.board.builders;
+package net.chesstango.board.representations;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;

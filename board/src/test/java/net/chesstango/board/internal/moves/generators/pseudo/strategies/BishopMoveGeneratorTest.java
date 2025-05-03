@@ -187,6 +187,6 @@ public class BishopMoveGeneratorTest {
 
 		exporter.exportFEN(FEN.of(string));
 
-		return builder.getChessRepresentation();
+		return builder.getPositionRepresentation();
 	}	
 }

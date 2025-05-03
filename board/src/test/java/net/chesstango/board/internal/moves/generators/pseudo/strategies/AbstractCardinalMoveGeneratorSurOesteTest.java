@@ -153,7 +153,7 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 
 		exporter.exportFEN(FEN.of(string));
 
-		return builder.getChessRepresentation();
+		return builder.getPositionRepresentation();
 	}	
 
 }

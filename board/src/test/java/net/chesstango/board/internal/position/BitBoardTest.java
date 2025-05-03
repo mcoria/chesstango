@@ -46,7 +46,7 @@ public class BitBoardTest {
 
 		exporter.exportFEN(FEN.of(string));
 
-		return builder.getChessRepresentation();
+		return builder.getPositionRepresentation();
 	}	
 
 }

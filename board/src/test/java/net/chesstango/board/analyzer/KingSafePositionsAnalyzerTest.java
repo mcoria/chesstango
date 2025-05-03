@@ -87,7 +87,7 @@ public class KingSafePositionsAnalyzerTest {
 
         exporter.exportFEN(FEN.of(string));
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
 }

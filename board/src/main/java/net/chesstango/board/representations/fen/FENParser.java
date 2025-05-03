@@ -50,7 +50,7 @@ public class FENParser {
 
         fenExporter.exportFEN(fen);
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
 

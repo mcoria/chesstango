@@ -36,7 +36,7 @@ public class GameDebugEncoder {
             theGamePositionReader.constructChessPositionRepresentation(fenBuilder);
 
             sb.append(" // ")
-                    .append(fenBuilder.getChessRepresentation())
+                    .append(fenBuilder.getPositionRepresentation())
                     .append("\n");
         });
 

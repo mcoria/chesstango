@@ -430,7 +430,7 @@ public class KingBlackMoveGeneratorTest {
 
 		exporter.exportFEN(FEN.of(string));
 		
-		SquareBoard tablero = builder.getChessRepresentation();
+		SquareBoard tablero = builder.getPositionRepresentation();
 		
 		bitBoard.init(tablero);
 		kingSquare.init(tablero);

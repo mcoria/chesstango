@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.internal.factory.ChessInjector;
+import net.chesstango.board.representations.PositionBuilder;
 
 
 /**
@@ -31,7 +32,7 @@ public class GameBuilder implements PositionBuilder<Game> {
     }
 
     @Override
-    public Game getChessRepresentation() {
+    public Game getPositionRepresentation() {
         if (game == null) {
             game = chessInjector.getGame();
         }

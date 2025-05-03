@@ -21,7 +21,7 @@ public class FENIntegrationTest {
 
         exporter.exportFEN(fen);
 
-        FEN fenResult = encoder.getChessRepresentation();
+        FEN fenResult = encoder.getPositionRepresentation();
 
         assertEquals(fen, fenResult);
 

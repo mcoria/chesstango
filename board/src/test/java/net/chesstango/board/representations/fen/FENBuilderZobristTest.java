@@ -28,7 +28,7 @@ public class FENBuilderZobristTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fenZobrist = coder.getChessRepresentation();
+        String fenZobrist = coder.getPositionRepresentation();
 
         assertEquals("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - -", fenZobrist);
     }

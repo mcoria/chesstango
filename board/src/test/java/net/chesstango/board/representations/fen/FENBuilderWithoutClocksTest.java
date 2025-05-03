@@ -27,7 +27,7 @@ public class FENBuilderWithoutClocksTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fenWithoutClocks = coder.getChessRepresentation();
+        String fenWithoutClocks = coder.getPositionRepresentation();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", fenWithoutClocks);
     }

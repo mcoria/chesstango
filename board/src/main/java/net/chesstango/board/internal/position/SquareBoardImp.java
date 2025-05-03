@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.iterators.byposition.BitIterator;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
+import net.chesstango.board.representations.ascii.ASCIIBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -109,7 +109,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     public String toString() {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
-            ASCIIEncoder output = new ASCIIEncoder();
+            ASCIIBuilder output = new ASCIIBuilder();
             this.forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece()));
             output.getPiecePlacement(ps);
         }

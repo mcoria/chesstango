@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.SquareBoardImp;
+import net.chesstango.board.representations.PositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +24,7 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 	}	
 	
 	@Override
-	public SquareBoard getChessRepresentation() {
+	public SquareBoard getPositionRepresentation() {
 		return squareBoard;
 	}
 

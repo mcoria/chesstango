@@ -56,7 +56,7 @@ public class BottomUpSquareIteratorTest {
 	public void testBottomUpSquareIterator() {
 		exporter.exportFEN(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1"));
 
-		SquareBoard tablero =  builder.getChessRepresentation();
+		SquareBoard tablero =  builder.getPositionRepresentation();
 
 		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
 

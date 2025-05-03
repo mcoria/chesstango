@@ -97,7 +97,7 @@ public class GameMockLoader {
 
             FENBuilder fenBuilder = new FENBuilder();
             node.position.constructChessPositionRepresentation(fenBuilder);
-            String fenFromPosition = fenBuilder.getChessRepresentation().toString();
+            String fenFromPosition = fenBuilder.getPositionRepresentation().toString();
 
             if (node.fen == null) {
                 node.fen = fenFromPosition;
@@ -143,7 +143,7 @@ public class GameMockLoader {
 
             position.constructChessPositionRepresentation(gameBuilder);
 
-            return gameBuilder.getChessRepresentation();
+            return gameBuilder.getPositionRepresentation();
         }
     }
 

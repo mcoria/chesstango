@@ -2,7 +2,7 @@ package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.AbstractPositionBuilder;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -10,7 +10,7 @@ import net.chesstango.board.builders.AbstractPositionBuilder;
 public class FENEncoderWithoutClocks extends AbstractPositionBuilder<String> {
 
     @Override
-    public String getChessRepresentation() {
+    public String getPositionRepresentation() {
         StringBuilder stringBuilder = new StringBuilder(70);
 
         getPiecePlacement(stringBuilder).append(' ');

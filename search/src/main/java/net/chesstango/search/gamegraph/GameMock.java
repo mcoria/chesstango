@@ -97,7 +97,7 @@ public class GameMock implements Game {
     public FEN getCurrentFEN() {
         FENBuilder encoder = new FENBuilder();
         getPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation();
+        return encoder.getPositionRepresentation();
     }
 
     @Override

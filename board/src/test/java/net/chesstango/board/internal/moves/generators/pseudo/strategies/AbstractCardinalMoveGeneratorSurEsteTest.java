@@ -150,7 +150,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 
 		exporter.exportFEN(FEN.of(string));
 
-		return builder.getChessRepresentation();
+		return builder.getPositionRepresentation();
 	}	
 	
 }

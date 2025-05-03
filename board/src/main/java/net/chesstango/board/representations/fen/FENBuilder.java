@@ -2,7 +2,7 @@ package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.AbstractPositionBuilder;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -10,7 +10,7 @@ import net.chesstango.board.builders.AbstractPositionBuilder;
 public class FENBuilder extends AbstractPositionBuilder<FEN> {
 
     @Override
-    public FEN getChessRepresentation() {
+    public FEN getPositionRepresentation() {
         String piecePlacement = getPiecePlacement();
         String activeColor = getTurno();
         String castingsAllowed = getEnroques();

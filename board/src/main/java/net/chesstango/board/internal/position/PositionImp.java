@@ -5,7 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PositionBuilder;
+import net.chesstango.board.representations.PositionBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENBuilder;
@@ -245,7 +245,7 @@ public class PositionImp implements Position {
 
         constructChessPositionRepresentation(fenBuilder);
 
-        return fenBuilder.getChessRepresentation().toString();
+        return fenBuilder.getPositionRepresentation().toString();
     }
 
 }

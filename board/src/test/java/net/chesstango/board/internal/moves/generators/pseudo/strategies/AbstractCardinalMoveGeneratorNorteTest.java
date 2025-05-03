@@ -148,7 +148,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 
 		exporter.exportFEN(FEN.of(string));
 
-		return builder.getChessRepresentation();
+		return builder.getPositionRepresentation();
 	}	
 		
 }

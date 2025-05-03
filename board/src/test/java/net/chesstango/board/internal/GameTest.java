@@ -930,7 +930,7 @@ public class GameTest {
 
         exporter.exportFEN(FEN.of(string));
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
 }

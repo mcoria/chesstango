@@ -12,6 +12,7 @@ import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
+import net.chesstango.board.representations.PositionBuilder;
 
 
 /**
@@ -39,7 +40,7 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public Position getChessRepresentation() {
+    public Position getPositionRepresentation() {
         return chessPosition;
     }
 

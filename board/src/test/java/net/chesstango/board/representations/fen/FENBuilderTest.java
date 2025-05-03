@@ -244,7 +244,7 @@ public class FENBuilderTest {
         coder.withFullMoveClock(5);
 
 
-        FEN fen = coder.getChessRepresentation();
+        FEN fen = coder.getPositionRepresentation();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 3 5", fen.toString());
     }
@@ -256,7 +256,7 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getChessRepresentation().toString();
+        String fen = coder.getPositionRepresentation().toString();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", fen.toString());
     }
@@ -269,7 +269,7 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getChessRepresentation().toString();
+        String fen = coder.getPositionRepresentation().toString();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", fen.toString());
     }
@@ -284,7 +284,7 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getChessRepresentation().toString();
+        String fen = coder.getPositionRepresentation().toString();
 
         assertEquals("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", fen.toString());
     }

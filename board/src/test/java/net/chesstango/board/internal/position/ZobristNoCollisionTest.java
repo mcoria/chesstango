@@ -73,7 +73,7 @@ public class ZobristNoCollisionTest {
 
         exporter.exportFEN(FEN.of(string));
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
 

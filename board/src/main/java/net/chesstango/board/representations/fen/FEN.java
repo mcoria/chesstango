@@ -63,7 +63,7 @@ public final class FEN {
 
         parser.exportFEN(this);
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
     public static FEN of(String fenString) {

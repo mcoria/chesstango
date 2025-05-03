@@ -1,4 +1,4 @@
-package net.chesstango.board.builders;
+package net.chesstango.board.representations;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
@@ -91,9 +91,9 @@ public interface PositionBuilder<T> {
     PositionBuilder<T> withFullMoveClock(int fullMoveClock);
 
     /**
-     * Gets the chess representation built by this builder.
+     * Gets the chess position representation built by this builder.
      *
      * @return The chess representation.
      */
-    T getChessRepresentation();
+    T getPositionRepresentation();
 }

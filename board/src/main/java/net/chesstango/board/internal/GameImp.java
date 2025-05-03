@@ -84,7 +84,7 @@ public class GameImp implements Game {
     public FEN getCurrentFEN() {
         FENBuilder encoder = new FENBuilder();
         getPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getChessRepresentation();
+        return encoder.getPositionRepresentation();
     }
 
     @Override
@@ -195,7 +195,7 @@ public class GameImp implements Game {
     public Game mirror() {
         MirrorPositionBuilder<Game> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new GameBuilder());
         getPosition().constructChessPositionRepresentation(mirrorChessPositionBuilder);
-        return mirrorChessPositionBuilder.getChessRepresentation();
+        return mirrorChessPositionBuilder.getPositionRepresentation();
     }
 
     @Override
@@ -208,7 +208,7 @@ public class GameImp implements Game {
 
         position.constructChessPositionRepresentation(encoder);
 
-        gameState.setInitialFEN(encoder.getChessRepresentation());
+        gameState.setInitialFEN(encoder.getPositionRepresentation());
     }
 
     public void setAnalyzer(PositionAnalyzer analyzer) {

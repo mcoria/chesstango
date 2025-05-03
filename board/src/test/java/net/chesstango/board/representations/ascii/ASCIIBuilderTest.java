@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class ASCIIEncoderTest {
+public class ASCIIBuilderTest {
 
-    private ASCIIEncoder builder;
+    private ASCIIBuilder builder;
 
     private FENExporter exporter;
 
     @BeforeEach
     public void setUp() throws Exception {
-        builder = new ASCIIEncoder();
+        builder = new ASCIIBuilder();
         exporter = new FENExporter(builder);
     }
 
@@ -114,7 +114,7 @@ public class ASCIIEncoderTest {
         //Actual
         exporter.exportFEN(FEN.of(FENParser.INITIAL_FEN));
 
-        String result = builder.getChessRepresentation();
+        String result = builder.getPositionRepresentation();
 
         assertEquals(baosExp.toString(), result);
     }
