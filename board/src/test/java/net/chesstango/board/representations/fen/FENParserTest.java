@@ -18,7 +18,7 @@ public class FENParserTest {
     }
 
     @Test
-    public void testParseFEN() {
+    public void testParseInitial() {
         String fenString = "rnbqkb1r/pppppppp/8/8/8/8/PPPPPPPP/RNBQKB1R w KQkq - 0 1";
 
         FEN fen = fenParser.parseFEN(fenString);
@@ -26,8 +26,24 @@ public class FENParserTest {
         assertEquals("rnbqkb1r/pppppppp/8/8/8/8/PPPPPPPP/RNBQKB1R", fen.getPiecePlacement());
         assertEquals("w", fen.getActiveColor());
         assertEquals("KQkq", fen.getCastingsAllowed());
+        assertEquals("-", fen.getEnPassantSquare());
         assertEquals("0", fen.getHalfMoveClock());
         assertEquals("1", fen.getFullMoveClock());
+        assertEquals(fenString, fen.toString());
+    }
+
+    @Test
+    public void testParseWithEnPassant() {
+        String fenString = "rnbqkb1r/5ppp/p2ppn2/1p6/3NP3/2N1BP2/PPP3PP/R2QKB1R w KQkq b6 0 8";
+
+        FEN fen = fenParser.parseFEN(fenString);
+
+        assertEquals("rnbqkb1r/5ppp/p2ppn2/1p6/3NP3/2N1BP2/PPP3PP/R2QKB1R", fen.getPiecePlacement());
+        assertEquals("w", fen.getActiveColor());
+        assertEquals("KQkq", fen.getCastingsAllowed());
+        assertEquals("b6", fen.getEnPassantSquare());
+        assertEquals("0", fen.getHalfMoveClock());
+        assertEquals("8", fen.getFullMoveClock());
         assertEquals(fenString, fen.toString());
     }
 }

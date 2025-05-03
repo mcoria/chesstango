@@ -32,7 +32,7 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
     }
 
     @Override
-    public SquareBoardBuilder withEnPassantSquare(Square enPassantSquare) {
+    public SquareBoardBuilder withEnPassantSquare(int file, int rank) {
         return this;
     }
 

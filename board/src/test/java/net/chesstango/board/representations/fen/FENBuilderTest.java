@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
@@ -41,17 +40,15 @@ public class FENBuilderTest {
 
     @Test
     public void testEnPassantC3() {
-        coder.withEnPassantSquare(Square.c3);
+        coder.withEnPassantSquare(2, 2);
 
-        String actual = coder.getEnPassant().toString();
+        String actual = coder.getEnPassant();
 
         assertEquals("c3", actual);
     }
 
     @Test
     public void testEnPassantNull() {
-        coder.withEnPassantSquare(null);
-
         String actual = coder.getEnPassant();
 
         assertEquals("-", actual);
@@ -233,8 +230,6 @@ public class FENBuilderTest {
 
         coder.withWhiteTurn(true);
 
-        coder.withEnPassantSquare(null);
-
         coder.withCastlingWhiteQueenAllowed(true);
         coder.withCastlingWhiteKingAllowed(true);
         coder.withCastlingBlackQueenAllowed(true);
@@ -242,7 +237,6 @@ public class FENBuilderTest {
 
         coder.withHalfMoveClock(3);
         coder.withFullMoveClock(5);
-
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -256,7 +250,7 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getPositionRepresentation().toString();
+        FEN fen = coder.getPositionRepresentation();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", fen.toString());
     }
@@ -269,7 +263,7 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getPositionRepresentation().toString();
+        FEN fen = coder.getPositionRepresentation();
 
         assertEquals("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", fen.toString());
     }
@@ -284,9 +278,31 @@ public class FENBuilderTest {
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
-        String fen = coder.getPositionRepresentation().toString();
+        FEN fen = coder.getPositionRepresentation();
 
         assertEquals("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", fen.toString());
     }
 
+    @Test
+    public void testEnPassantSquareToString() {
+        // Valid en passant square (bit 18 -> c3)
+        long enPassantBitboard1 = 1L << 18;
+        assertEquals("c3", FENBuilder.enPassantSquareToString(enPassantBitboard1));
+
+        // Valid en passant square (bit 0 -> a1)
+        long enPassantBitboard2 = 1L;
+        assertEquals("a1", FENBuilder.enPassantSquareToString(enPassantBitboard2));
+
+        // Valid en passant square (bit 63 -> h8)
+        long enPassantBitboard3 = 1L << 63;
+        assertEquals("h8", FENBuilder.enPassantSquareToString(enPassantBitboard3));
+
+        // Valid en passant square (bit 18 -> c3)
+        long enPassantBitboard4 = 1L << (5 * 8 + 1);
+        assertEquals("b6", FENBuilder.enPassantSquareToString(enPassantBitboard4));
+
+        // Invalid en passant square (no bits set)
+        long enPassantBitboardInvalid = 0L;
+        assertEquals("-", FENBuilder.enPassantSquareToString(enPassantBitboardInvalid));
+    }
 }

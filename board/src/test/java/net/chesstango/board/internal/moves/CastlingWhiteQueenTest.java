@@ -14,7 +14,7 @@ import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.internal.position.ZobristHashImp;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -110,7 +110,7 @@ public class CastlingWhiteQueenTest {
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(zobristHash);
 
-        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test

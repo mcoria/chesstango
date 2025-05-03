@@ -1,8 +1,6 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.PositionBuilder;
 
@@ -24,8 +22,10 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
-    public MirrorPositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
-        positionBuilder.withEnPassantSquare(enPassantSquare == null ? null : enPassantSquare.getMirrorSquare());
+    public MirrorPositionBuilder<T> withEnPassantSquare(int file, int rank) {
+        Square square = Square.getSquare(file, rank);
+        Square squareMirror = square.getMirrorSquare();
+        positionBuilder.withEnPassantSquare(squareMirror.getFile(), squareMirror.getRank());
         return this;
     }
 

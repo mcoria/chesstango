@@ -28,12 +28,13 @@ public interface PositionBuilder<T> {
 
 
     /**
-     * Sets the en passant square.
+     * Sets the en passant square, which indicates the target square of a possible en passant capture.
      *
-     * @param enPassantSquare The square where en passant is possible.
+     * @param file The file of the en passant square (0-based index).
+     * @param rank The rank of the en passant square (0-based index).
      * @return The current instance of the PositionBuilder.
      */
-    PositionBuilder<T> withEnPassantSquare(Square enPassantSquare);
+    PositionBuilder<T> withEnPassantSquare(int file, int rank);
 
     /**
      * Sets whether castling with the white queen is allowed.

@@ -428,7 +428,7 @@ public class KingBlackMoveGeneratorTest {
 
 		FENExporter exporter = new FENExporter(builder);
 
-		exporter.exportFEN(FEN.of(string));
+		exporter.export(FEN.of(string));
 		
 		SquareBoard tablero = builder.getPositionRepresentation();
 		

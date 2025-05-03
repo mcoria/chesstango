@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class PgnToFenTest {
+public class PGNStringDecoderTest {
 
     @Test
     public void testTranscoding01() {

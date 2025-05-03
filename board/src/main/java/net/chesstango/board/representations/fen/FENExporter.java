@@ -15,10 +15,12 @@ public class FENExporter {
     }
 
 
-    public void exportFEN(FEN fen) {
+    public void export(FEN fen) {
         parsePiecePlacement(fen.getPiecePlacement());
 
-        positionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
+        if (!"-".equals(fen.getEnPassantSquare())) {
+            positionBuilder.withEnPassantSquare(parseFileEnPassantSquare(fen.getEnPassantSquare()), parseRankEnPassantSquare(fen.getEnPassantSquare()));
+        }
 
         positionBuilder.withWhiteTurn(parseTurn(fen.getActiveColor()));
 
@@ -88,14 +90,10 @@ public class FENExporter {
         return piezas;
     }
 
-    Square parseEnPassantSquare(String pawnPasante) {
-        Square result = null;
+    int parseFileEnPassantSquare(String pawnPasante) {
         if (!"-".equals(pawnPasante)) {
             char file = pawnPasante.charAt(0);
-            char rank = pawnPasante.charAt(1);
-            int fileNumber = -1;
-            int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-            fileNumber = switch (file) {
+            return switch (file) {
                 case 'a' -> 0;
                 case 'b' -> 1;
                 case 'c' -> 2;
@@ -104,11 +102,18 @@ public class FENExporter {
                 case 'f' -> 5;
                 case 'g' -> 6;
                 case 'h' -> 7;
-                default -> throw new RuntimeException("Invalid FEV code");
+                default -> throw new IllegalArgumentException("Invalid EnPassantSquare");
             };
-            result = Square.getSquare(fileNumber, rankNumber);
         }
-        return result;
+        throw new IllegalArgumentException("Invalid EnPassantSquare");
+    }
+
+    int parseRankEnPassantSquare(String pawnPasante) {
+        if (!"-".equals(pawnPasante)) {
+            char rank = pawnPasante.charAt(1);
+            return Integer.parseInt(String.valueOf(rank)) - 1;
+        }
+        throw new IllegalArgumentException("Invalid EnPassantSquare");
     }
 
     boolean parseTurn(String activeColor) {

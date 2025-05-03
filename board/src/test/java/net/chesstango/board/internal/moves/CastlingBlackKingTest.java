@@ -9,7 +9,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -105,7 +105,7 @@ public class CastlingBlackKingTest {
 
         moveExecutor.doMove(zobristHash);
 
-        assertEquals(PolyglotEncoder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test

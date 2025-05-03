@@ -25,20 +25,19 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
                 fullMoveClock);
     }
 
-    protected String getHalfMoveClock() {
+    String getHalfMoveClock() {
         return Integer.toString(this.halfMoveClock);
     }
 
-    protected String getFullMoveClock() {
+    String getFullMoveClock() {
         return Integer.toString(this.fullMoveClock);
     }
 
-
-    protected String getTurno() {
+    String getTurno() {
         return whiteTurn ? "w" : "b";
     }
 
-    protected String getPiecePlacement() {
+    String getPiecePlacement() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 7; i >= 0; i--) {
             codePiecePlacementRank(board[i], stringBuilder);
@@ -49,14 +48,14 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
         return stringBuilder.toString();
     }
 
-    protected String getEnPassant() {
-        if (enPassantSquare != null) {
-            return enPassantSquare.toString();
+    String getEnPassant() {
+        if (enPassantSquare != 0) {
+            return enPassantSquareToString(enPassantSquare);
         }
         return "-";
     }
 
-    protected String getEnroques() {
+    String getEnroques() {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (castlingWhiteKingAllowed) {
@@ -82,7 +81,7 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
         return stringBuilder.toString();
     }
 
-    protected String codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
+    String codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
         int vacios = 0;
         for (Piece pieza : piezas) {
             if (pieza == null) {
@@ -101,6 +100,23 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static String enPassantSquareToString(long enPassantSquare) {
+        int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
+        if (enPassantSquarePosition == 64) {
+            return "-";
+        }
+
+        int file = enPassantSquarePosition % 8;
+        int rank = enPassantSquarePosition / 8;
+
+        char fileChar = (char) ('a' + file);
+        char rankChar = rank == 0 ? '1' :
+                        rank == 7 ? '8' :
+                        (char) ('1' + rank);
+
+        return String.valueOf(new char[]{fileChar, rankChar});
     }
 
     private char getCode(Piece piece) {

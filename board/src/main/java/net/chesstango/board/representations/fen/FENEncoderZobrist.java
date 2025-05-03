@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.AbstractPositionBuilder;
@@ -40,9 +39,11 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
     }
 
     private StringBuilder getEnPassantZobrist(StringBuilder stringBuilder) {
-        if (enPassantSquare == null) {
+
+        if (enPassantSquare == 0) {
             stringBuilder.append('-');
         } else {
+            /*
             if (whiteTurn) {
                 if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
                         || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
@@ -58,6 +59,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
                     stringBuilder.append('-');
                 }
             }
+             */
         }
         return stringBuilder;
     }

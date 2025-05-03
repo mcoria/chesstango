@@ -51,8 +51,8 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public ChessPositionBuilder withEnPassantSquare(Square enPassantSquare) {
-        positionState.setEnPassantSquare(enPassantSquare);
+    public ChessPositionBuilder withEnPassantSquare(int file, int rank) {
+        positionState.setEnPassantSquare(Square.getSquare(file, rank));
         return this;
     }
 

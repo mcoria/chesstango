@@ -2,10 +2,8 @@ package net.chesstango.board.builders;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.internal.factory.ChessInjector;
-import net.chesstango.board.position.Position;
 import net.chesstango.board.representations.PositionBuilder;
 
 
@@ -48,8 +46,8 @@ public class GameBuilder implements PositionBuilder<Game> {
 
 
     @Override
-    public GameBuilder withEnPassantSquare(Square enPassantSquare) {
-        chessPositionBuilder.withEnPassantSquare(enPassantSquare);
+    public GameBuilder withEnPassantSquare(int file, int rank) {
+        chessPositionBuilder.withEnPassantSquare(file, rank);
         return this;
     }
 

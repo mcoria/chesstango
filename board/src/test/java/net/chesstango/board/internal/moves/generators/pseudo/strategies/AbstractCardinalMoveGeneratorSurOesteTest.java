@@ -151,7 +151,7 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 
 		FENExporter exporter = new FENExporter(builder);
 
-		exporter.exportFEN(FEN.of(string));
+		exporter.export(FEN.of(string));
 
 		return builder.getPositionRepresentation();
 	}	

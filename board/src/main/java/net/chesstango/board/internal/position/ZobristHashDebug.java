@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.position;
 
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 
 /**
  * @author Mauricio Coria
@@ -9,7 +9,7 @@ import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 public class ZobristHashDebug extends ZobristHashImp {
 
     public void validar(PositionReader position) {
-        if (!PolyglotEncoder.getKey(position).equals(position.getZobristHash())) {
+        if (!PolyglotKeyBuilder.getKey(position).equals(position.getZobristHash())) {
             throw new RuntimeException("Zobrist hash does not match");
         }
     }

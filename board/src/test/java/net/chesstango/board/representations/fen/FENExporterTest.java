@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -66,8 +67,8 @@ public class FENExporterTest {
             }
 
             @Override
-            public PositionBuilder<Object> withEnPassantSquare(Square enPassantSquare) {
-                FENExporterTest.this.enPassantSquare = enPassantSquare;
+            public PositionBuilder<Object> withEnPassantSquare(int file, int rank) {
+                FENExporterTest.this.enPassantSquare = Square.getSquare(file, rank);
                 return this;
             }
 
@@ -253,6 +254,13 @@ public class FENExporterTest {
     }
 
     @Test
+    public void testParseWithEnPassant() {
+        parser.export(FEN.of("rnbqkb1r/5ppp/p2ppn2/1p6/3NP3/2N1BP2/PPP3PP/R2QKB1R w KQkq b6 0 8"));
+
+        assertEquals(Square.b6, this.enPassantSquare);
+    }
+
+    @Test
     public void testParseColorWhite() {
         assertTrue(parser.parseTurn("w"));
     }
@@ -264,28 +272,31 @@ public class FENExporterTest {
 
     @Test
     public void testParseEnPassantSquare01() {
-        Square pawnPasanteSquare = parser.parseEnPassantSquare("-");
-
-        assertNull(pawnPasanteSquare);
+        assertThrows(IllegalArgumentException.class, () -> {parser.parseFileEnPassantSquare("-");});
+        assertThrows(IllegalArgumentException.class, () -> {parser.parseRankEnPassantSquare("-");});
     }
 
     @Test
     public void testParseEnPassantSquare02() {
-        Square pawnPasanteSquare = parser.parseEnPassantSquare("a3");
+        int filePawnPasanteSquare = parser.parseFileEnPassantSquare("a3");
+        int rankPawnPasanteSquare = parser.parseRankEnPassantSquare("a3");
 
-        assertEquals(Square.a3, pawnPasanteSquare);
+        assertEquals(0, filePawnPasanteSquare);
+        assertEquals(2, rankPawnPasanteSquare);
     }
 
     @Test
     public void testParseEnPassantSquare03() {
-        Square pawnPasanteSquare = parser.parseEnPassantSquare("h6");
+        int filePawnPasanteSquare = parser.parseFileEnPassantSquare("h6");
+        int rankPawnPasanteSquare = parser.parseRankEnPassantSquare("h6");
 
-        assertEquals(Square.h6, pawnPasanteSquare);
+        assertEquals(7, filePawnPasanteSquare);
+        assertEquals(5, rankPawnPasanteSquare);
     }
 
     @Test
     public void testParseFenWithSpaces() {
-        parser.exportFEN(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4  w   -   -    4       10"));
+        parser.export(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4  w   -   -    4       10"));
 
         assertTrue(this.whiteTurn);
         assertEquals(4, this.halfMoveClock);
@@ -295,7 +306,7 @@ public class FENExporterTest {
     @Test
     @Disabled
     public void testParseFenWithoutClocks() {
-        parser.exportFEN(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -"));
+        parser.export(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -"));
 
         assertTrue(this.whiteTurn);
         assertEquals(0, this.halfMoveClock);

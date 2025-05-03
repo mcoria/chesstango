@@ -218,7 +218,7 @@ public class PositionTest {
 
         FENExporter exporter = new FENExporter(builder);
 
-        exporter.exportFEN(FEN.of(string));
+        exporter.export(FEN.of(string));
 
         game = builder.getPositionRepresentation();
     }

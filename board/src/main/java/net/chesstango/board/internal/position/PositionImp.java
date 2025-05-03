@@ -42,9 +42,12 @@ public class PositionImp implements Position {
                 .withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
                 .withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
                 .withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
-                .withEnPassantSquare(positionState.getEnPassantSquare())
                 .withHalfMoveClock(positionState.getHalfMoveClock())
                 .withFullMoveClock(positionState.getFullMoveClock());
+
+        if (positionState.getEnPassantSquare() != null) {
+            builder.withEnPassantSquare(positionState.getEnPassantSquare().getFile(), positionState.getEnPassantSquare().getRank());
+        }
 
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {

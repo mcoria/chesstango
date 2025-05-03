@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.polyglot;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
@@ -12,7 +11,7 @@ import net.chesstango.board.representations.fen.FEN;
 /**
  * @author Mauricio Coria
  */
-public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
+public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
 
     public static final int CASTLE_WHITE_KING_OFFSET = 768;
     public static final int CASTLE_WHITE_QUEEN_OFFSET = 769;
@@ -41,7 +40,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
                         (castlingBlackQueenAllowed ? KEYS[CASTLE_BLACK_QUEEN_OFFSET] : 0);
 
         long enpassant = 0;
-        if (enPassantSquare != null) {
+        if (enPassantSquare == 0) {
             enpassant = zobristEnPassantSquare();
         }
 
@@ -52,6 +51,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     private long zobristEnPassantSquare() {
         long result = 0;
         if (whiteTurn) {
+            /*
             if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
                     || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
                 result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
@@ -61,6 +61,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
                     || enPassantSquare.getFile() + 1 < 8 && board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK) {
                 result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
             }
+             */
         }
         return result;
     }
@@ -298,8 +299,8 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     }
 
     public static Long getKey(PositionReader position) {
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
-        position.constructChessPositionRepresentation(polyglotEncoder);
-        return polyglotEncoder.getPositionRepresentation();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        position.constructChessPositionRepresentation(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 }

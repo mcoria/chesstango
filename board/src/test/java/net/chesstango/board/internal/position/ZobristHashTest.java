@@ -7,7 +7,7 @@ import net.chesstango.board.position.Position;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENParser;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +26,7 @@ public class ZobristHashTest {
 
         zobristHash.xorPosition(position.getPosition(Square.f2));
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/8/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("rnbqkbnr/pppppppp/8/8/8/8/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ZobristHashTest {
         zobristHash.xorPosition(position.getPosition(Square.f2));
         zobristHash.xorPosition(PiecePositioned.of(Square.f3, Piece.PAWN_WHITE));
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.f3, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.d6, Piece.PAWN_BLACK));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/3p4/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("rnbqkbnr/ppp1pppp/3p4/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.d5, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").longValue(), zobristHash.getZobristHash());
     }
 
 
@@ -112,7 +112,7 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -134,7 +134,7 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -178,7 +178,7 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("2kr4/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotKeyBuilder.getKey("2kr4/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
 }

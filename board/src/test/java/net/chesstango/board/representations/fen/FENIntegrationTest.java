@@ -19,7 +19,7 @@ public class FENIntegrationTest {
 
         FEN fen = decoder.parseFEN(FENParser.INITIAL_FEN);
 
-        exporter.exportFEN(fen);
+        exporter.export(fen);
 
         FEN fenResult = encoder.getPositionRepresentation();
 

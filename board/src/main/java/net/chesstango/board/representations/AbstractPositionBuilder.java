@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
  */
 public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
     protected boolean whiteTurn;
-    protected Square enPassantSquare;
+    protected long enPassantSquare;
     protected boolean castlingBlackKingAllowed;
     protected boolean castlingBlackQueenAllowed;
     protected boolean castlingWhiteKingAllowed;
@@ -37,8 +37,8 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
-    public AbstractPositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
-        this.enPassantSquare = enPassantSquare;
+    public AbstractPositionBuilder<T> withEnPassantSquare(int file, int rank) {
+        this.enPassantSquare = 1L << (rank * 8 + file);
         return this;
     }
 

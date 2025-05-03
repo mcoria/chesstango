@@ -169,7 +169,7 @@ public interface Game {
 
         FENExporter fenExporter = new FENExporter(builder);
 
-        fenExporter.exportFEN(fen);
+        fenExporter.export(fen);
 
         return builder.getPositionRepresentation();
     }

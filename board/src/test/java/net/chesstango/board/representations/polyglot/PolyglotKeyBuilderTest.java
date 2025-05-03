@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class PolyglotEncoderTest {
+public class PolyglotKeyBuilderTest {
 
     @Test
     public void generateKeyINITIAL_FEN() {
         Position initialPosition = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -37,11 +37,11 @@ public class PolyglotEncoderTest {
     public void generateKey01() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -59,11 +59,11 @@ public class PolyglotEncoderTest {
     public void generateKey02() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -80,11 +80,11 @@ public class PolyglotEncoderTest {
     public void generateKey03() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
@@ -100,15 +100,15 @@ public class PolyglotEncoderTest {
     public void generateKey04() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
-        assertEquals(0x22a48b5a8e47ff78L, polyglotKey.longValue());
+        assertEquals(0X22A48B5A8E47FF78L, polyglotKey.longValue());
     }
 
     /**
@@ -121,15 +121,15 @@ public class PolyglotEncoderTest {
     public void generateKey05() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR b kq - 0 3"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
-        assertEquals(0x652a607ca3f242c1L, polyglotKey.longValue());
+        assertEquals(0X652A607CA3F242C1L, polyglotKey.longValue());
     }
 
     /**
@@ -141,15 +141,15 @@ public class PolyglotEncoderTest {
     public void generateKey06() {
         Position initialPosition = Position.from(FEN.of("rnbq1bnr/ppp1pkpp/8/3pPp2/8/8/PPPPKPPP/RNBQ1BNR w - - 0 4"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
-        assertEquals(0x00fdd303c946bdd9L, polyglotKey.longValue());
+        assertEquals(0X00FDD303C946BDD9L, polyglotKey.longValue());
     }
 
 
@@ -162,15 +162,15 @@ public class PolyglotEncoderTest {
     public void generateKey07() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/p1pppppp/8/8/PpP4P/8/1P1PPPP1/RNBQKBNR b KQkq c3 0 3"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
-        assertEquals(0x3c8123ea7b067637L, polyglotKey.longValue());
+        assertEquals(0X3C8123EA7B067637L, polyglotKey.longValue());
     }
 
 
@@ -183,14 +183,14 @@ public class PolyglotEncoderTest {
     public void generateKey08() {
         Position initialPosition = Position.from(FEN.of("rnbqkbnr/p1pppppp/8/8/P6P/R1p5/1P1PPPP1/1NBQKBNR b Kkq - 0 4"));
 
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
 
-        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotKeyBuilder);
 
-        Long polyglotKey = polyglotEncoder.getPositionRepresentation();
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
 
         //System.out.printf("%016X", polyglotKey);
 
-        assertEquals(0x5c3f9b829b279560L, polyglotKey.longValue());
+        assertEquals(0X5C3F9B829B279560L, polyglotKey.longValue());
     }
 }

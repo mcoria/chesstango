@@ -49,7 +49,7 @@ public interface Position extends PositionReader, PositionWriter {
 
         FENExporter parser = new FENExporter(builder);
 
-        parser.exportFEN(fen);
+        parser.export(fen);
 
         return builder.getPositionRepresentation();
     }
