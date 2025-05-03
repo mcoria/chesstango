@@ -24,7 +24,7 @@ public class FENBuilderZobristTest {
     @Test
     @Disabled
     public void test_encode_zobrist(){
-        Game game = FENParser.loadGame("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3");
+        Game game = Game.fromFEN("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3");
 
         game.getPosition().constructChessPositionRepresentation(coder);
 

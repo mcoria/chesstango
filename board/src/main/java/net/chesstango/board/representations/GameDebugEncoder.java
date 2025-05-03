@@ -3,7 +3,6 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.fen.FENBuilder;
 
 /**
@@ -15,7 +14,7 @@ public class GameDebugEncoder {
         StringBuilder sb = new StringBuilder();
 
         String initialFEN = game.getInitialFEN().toString();
-        Game theGame = FENParser.loadGame(initialFEN);
+        Game theGame = Game.fromFEN(initialFEN);
         sb.append("Game game = getGame(\"")
                 .append(initialFEN)
                 .append("\")\n");

@@ -70,7 +70,7 @@ public class DetectCycleDisabledTest {
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
     public void testDetectCycle01() {
-        Game game = FENParser.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
+        Game game = Game.fromFEN("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
             PositionReader chessPosition = theGame.getPosition();
@@ -114,7 +114,7 @@ public class DetectCycleDisabledTest {
 
     @Test
     public void testDetectCycle02() {
-        Game game = FENParser.loadGame("k2b4/2pPp3/1pP1P3/pP5p/P5pP/3p1pP1/3PpP2/4B2K w - - 0 1");
+        Game game = Game.fromFEN("k2b4/2pPp3/1pP1P3/pP5p/P5pP/3p1pP1/3PpP2/4B2K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
             PositionReader chessPosition = theGame.getPosition();
@@ -155,7 +155,7 @@ public class DetectCycleDisabledTest {
 
     @Test
     public void testDetectCycle03() {
-        Game game = FENParser.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
+        Game game = Game.fromFEN("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
             PositionReader chessPosition = theGame.getPosition();
@@ -189,7 +189,7 @@ public class DetectCycleDisabledTest {
 
     @Test
     public void testDetectCycle04() {
-        Game game = FENParser.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
+        Game game = Game.fromFEN("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
             PositionReader chessPosition = theGame.getPosition();

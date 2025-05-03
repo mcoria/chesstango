@@ -48,10 +48,10 @@ public class ExtractorMain {
         epdEntryStream.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
-                Game game = FENParser.loadGame(epdEntry.getFenWithoutClocks());
+                Game game = Game.from(epdEntry);
                 extractor.extractFeatures(game, features);
             }
-            Game game = FENParser.loadGame(epdEntry.getFenWithoutClocks());
+            Game game = Game.from(epdEntry);
             featuresList.add(convertToLine(game.getPosition().toString(), features, gameResultString));
         });
     }

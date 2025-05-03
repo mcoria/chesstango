@@ -31,7 +31,7 @@ public class UCIEncoderTest {
 
     @Test
     public void testEncodePromotion01(){
-        Game game = FENParser.loadGame("r1bqkbnr/1p5p/p4pp1/3p4/3Pp2Q/8/PpPP1PPP/R1B1R1K1 b kq - 1 15");
+        Game game = Game.fromFEN("r1bqkbnr/1p5p/p4pp1/3p4/3Pp2Q/8/PpPP1PPP/R1B1R1K1 b kq - 1 15");
 
         String moveStr = "b2a1q";
         Move theMove = null;

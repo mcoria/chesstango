@@ -38,7 +38,7 @@ public class IterativeDeepeningTest {
 
         //smart.setGameEvaluator(evaluatorMock);
 
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         SearchResult searchResult = iterativeDeepening.search(game);
         Move bestMove = searchResult.getBestMove();

@@ -252,7 +252,7 @@ public class FENBuilderTest {
 
     @Test
     public void test_encode_with_clocks1() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
@@ -263,7 +263,7 @@ public class FENBuilderTest {
 
     @Test
     public void test_encode_with_clocks2() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.g1, Square.f3);
 
@@ -277,7 +277,7 @@ public class FENBuilderTest {
 
     @Test
     public void test_encode_with_clocks3() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);

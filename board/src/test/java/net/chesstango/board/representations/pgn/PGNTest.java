@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PGNTest {
     @Test
     public void testToEpd() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         game.executeMove(a2, a4);
 
         PGN pgn = PGN.of(game);

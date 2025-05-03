@@ -1,12 +1,15 @@
 package net.chesstango.board;
 
+import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameHistoryReader;
-import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.PositionReader;
+import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 
 /**
  * Interface representing a chess game.
@@ -156,4 +159,22 @@ public interface Game {
      * @return the mirrored game
      */
     Game mirror();
+
+    static Game fromFEN(String fen) {
+        return from(FEN.of(fen));
+    }
+
+    static Game from(FEN fen) {
+        GameBuilder builder = new GameBuilder();
+
+        FENExporter fenExporter = new FENExporter(builder);
+
+        fenExporter.exportFEN(fen);
+
+        return builder.getPositionRepresentation();
+    }
+
+    static Game from(EPD epd) {
+        return from(FEN.of(epd.getFenWithoutClocks() + " 0 1"));
+    }
 }

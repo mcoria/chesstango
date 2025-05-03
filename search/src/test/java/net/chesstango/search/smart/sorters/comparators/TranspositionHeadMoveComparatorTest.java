@@ -39,7 +39,7 @@ public class TranspositionHeadMoveComparatorTest {
 
     @Test
     public void testInitial() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {

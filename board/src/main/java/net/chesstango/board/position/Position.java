@@ -40,6 +40,10 @@ public interface Position extends PositionReader, PositionWriter {
 
     ZobristHash getZobrist();
 
+    static Position fromFEN(String fen) {
+        return from(FEN.of(fen));
+    }
+
     static Position from(FEN fen) {
         ChessPositionBuilder builder = new ChessPositionBuilder();
 
@@ -48,9 +52,5 @@ public interface Position extends PositionReader, PositionWriter {
         parser.exportFEN(fen);
 
         return builder.getPositionRepresentation();
-    }
-
-    static Position fromFEN(String fen) {
-        return from(FEN.of(fen));
     }
 }

@@ -27,7 +27,7 @@ public class ExtractorByMaterialTest {
 
     @Test
     public void testExtractInitialPosition() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         extractorByMaterial.extractFeatures(game, featuresMap);
 

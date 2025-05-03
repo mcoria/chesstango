@@ -53,7 +53,7 @@ public class PGN {
 
         Stream.Builder<EPD> fenStreamBuilder = Stream.builder();
 
-        Game game = FENParser.loadGame(getFen() == null ? FENParser.INITIAL_FEN : getFen());
+        Game game = Game.fromFEN(getFen() == null ? FENParser.INITIAL_FEN : getFen());
         game.threefoldRepetitionRule(false);
         game.fiftyMovesRule(false);
 

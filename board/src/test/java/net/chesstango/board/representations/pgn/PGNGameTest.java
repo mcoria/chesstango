@@ -218,7 +218,7 @@ public class PGNGameTest {
 
     @Test
     public void testOf01() throws IOException {
-        Game game = FENParser.loadGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
+        Game game = Game.fromFEN("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
         game.executeMove(Square.a7, Square.a6);
 
         PGN pgn = PGN.of(game);

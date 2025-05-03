@@ -12,7 +12,7 @@ import net.chesstango.board.representations.move.SANDecoder;
 public class PGNGameEncoder {
 
     public Game encode(PGN pgn) {
-        Game game = FENParser.loadGame(pgn.getFen() == null ? FENParser.INITIAL_FEN : pgn.getFen());
+        Game game = Game.fromFEN(pgn.getFen() == null ? FENParser.INITIAL_FEN : pgn.getFen());
         SANDecoder sanDecoder = new SANDecoder();
         pgn.getMoveList().forEach(moveStr -> {
             MoveContainerReader<Move> legalMoves = game.getPossibleMoves();

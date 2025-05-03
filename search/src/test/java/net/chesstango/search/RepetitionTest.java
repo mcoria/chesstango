@@ -37,7 +37,7 @@ public class RepetitionTest {
 
     @Test
     public void testSearch_01() {
-        Game game = FENParser.loadGame("8/7k/8/7Q/8/8/8/K7 b - - 0 1"); // Posicion inicial
+        Game game = Game.fromFEN("8/7k/8/7Q/8/8/8/K7 b - - 0 1"); // Posicion inicial
 
         game.executeMove(Square.h7, Square.g8);
         game.executeMove(Square.h5, Square.e8);

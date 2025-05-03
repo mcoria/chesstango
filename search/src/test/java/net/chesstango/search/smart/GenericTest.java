@@ -19,7 +19,7 @@ public abstract class GenericTest {
 
     @Test
     public void testHorizonteEffectCapture() {
-        Game game = FENParser.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
+        Game game = Game.fromFEN("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
         Move bestMove = search.search(game).getBestMove();
 
@@ -30,7 +30,7 @@ public abstract class GenericTest {
 
     @Test
     public void testHorizonteEffectPromotion() {
-        Game game = FENParser.loadGame("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
+        Game game = Game.fromFEN("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
 
         Move bestMove = search.search(game).getBestMove();
 
@@ -41,7 +41,7 @@ public abstract class GenericTest {
 
     @Test
     public void testDeterministicMove() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         Move bestMove = search.search(game).getBestMove();
 

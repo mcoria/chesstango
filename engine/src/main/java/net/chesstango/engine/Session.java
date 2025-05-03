@@ -27,7 +27,7 @@ public class Session {
     private Game game;
 
     public void setPosition(FEN fen, List<String> moves) {
-        game = FENParser.loadGame(fen);
+        game = Game.from(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
                 Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);

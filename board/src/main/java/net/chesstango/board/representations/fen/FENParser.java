@@ -39,19 +39,4 @@ public class FENParser {
     }
 
 
-    public static Game loadGame(String fen) {
-        return loadGame(FEN.of(fen));
-    }
-
-    public static Game loadGame(FEN fen) {
-        GameBuilder builder = new GameBuilder();
-
-        FENExporter fenExporter = new FENExporter(builder);
-
-        fenExporter.exportFEN(fen);
-
-        return builder.getPositionRepresentation();
-    }
-
-
 }

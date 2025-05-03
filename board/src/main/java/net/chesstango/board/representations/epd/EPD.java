@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.move.MoveDecoder;
 
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class EPD {
     }
 
     List<Move> movesStringToMoves(String movesString) {
-        Game game = FENParser.loadGame(FEN.of(getFenWithoutClocks() + " 0 1"));
+        Game game = Game.from(this);
         String[] bestMoves = movesString.split(" ");
         List<Move> moveList = new ArrayList<>(bestMoves.length);
         MoveDecoder moveDecoder = new MoveDecoder();

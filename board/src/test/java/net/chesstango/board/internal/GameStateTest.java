@@ -15,7 +15,7 @@ public class GameStateTest {
 
     @Test
     public void testGetPreviousGameState01() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         Move move = game.getMove(Square.e2, Square.e4);
         move.executeMove();
@@ -30,7 +30,7 @@ public class GameStateTest {
 
     @Test
     public void testGetPreviousGameState02() {
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game =  Game.fromFEN(FENParser.INITIAL_FEN);
 
         Move move1 = game.getMove(Square.e2, Square.e4);
         move1.executeMove();

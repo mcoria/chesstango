@@ -42,7 +42,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
     @Override
     protected Game createGame() {
-        return FENParser.loadGame("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1")
+        return Game.fromFEN("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1")
                 .executeMove(Square.f6, Square.f3)
                 .executeMove(Square.h3, Square.h4);
 

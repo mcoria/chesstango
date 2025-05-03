@@ -110,7 +110,7 @@ public class MoveEvaluationTrackerTest {
                 .thenReturn(TranspositionEntry.encode(1000));
 
 
-        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         moveEvaluationTracker.beforeSearch(new SearchByCycleContext(game));
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
