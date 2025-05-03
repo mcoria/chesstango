@@ -1,6 +1,5 @@
 package net.chesstango.board.representations;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 
@@ -19,6 +18,12 @@ import net.chesstango.board.Square;
 public interface PositionBuilder<T> {
 
 
+    /**
+     * Sets the turn to indicate whether it is White's turn to move.
+     *
+     * @param whiteTurn True if it is White's turn to move, false if it is Black's turn.
+     * @return The current instance of the PositionBuilder.
+     */
     PositionBuilder<T> withWhiteTurn(boolean whiteTurn);
 
 
@@ -70,6 +75,17 @@ public interface PositionBuilder<T> {
      * @return The current instance of the PositionBuilder.
      */
     PositionBuilder<T> withPiece(Square square, Piece piece);
+
+
+    /**
+     * Places a piece on a specific board square determined by the file and rank.
+     *
+     * @param file The file of the square where the piece is to be placed (0-based index).
+     * @param rank The rank of the square where the piece is to be placed (0-based index).
+     * @param piece The chess piece to be placed on the specified square.
+     * @return The current instance of the PositionBuilder.
+     */
+    PositionBuilder<T> withPiece(int file, int rank, Piece piece);
 
     /**
      * Sets the half-move clock.

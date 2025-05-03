@@ -42,6 +42,12 @@ public class FENExporterTest {
             }
 
             @Override
+            public PositionBuilder<Object> withPiece(int file, int rank, Piece piece) {
+                board[file][rank] = piece;
+                return null;
+            }
+
+            @Override
             public PositionBuilder<Object> withHalfMoveClock(int halfMoveClock) {
                 FENExporterTest.this.halfMoveClock = halfMoveClock;
                 return null;

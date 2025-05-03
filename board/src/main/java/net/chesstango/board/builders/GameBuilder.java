@@ -1,10 +1,11 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.internal.factory.ChessInjector;
+import net.chesstango.board.position.Position;
 import net.chesstango.board.representations.PositionBuilder;
 
 
@@ -79,9 +80,16 @@ public class GameBuilder implements PositionBuilder<Game> {
         return this;
     }
 
+    @Override
     public GameBuilder withPiece(Square square, Piece piece) {
         chessPositionBuilder.withPiece(square, piece);
         return this;
+    }
+
+    @Override
+    public GameBuilder withPiece(int file, int rank, Piece piece) {
+        chessPositionBuilder.withPiece(file, rank, piece);
+        return null;
     }
 
     @Override

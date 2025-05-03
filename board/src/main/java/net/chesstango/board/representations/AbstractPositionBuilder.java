@@ -25,6 +25,12 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
+    public AbstractPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
+        board[file][rank] = piece;
+        return null;
+    }
+
+    @Override
     public AbstractPositionBuilder<T> withWhiteTurn(boolean whiteTurn) {
         this.whiteTurn = whiteTurn;
         return this;

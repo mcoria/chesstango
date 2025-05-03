@@ -2,6 +2,7 @@ package net.chesstango.board.builders;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.PositionBuilder;
 
@@ -54,8 +55,15 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
 
     @Override
     public MirrorPositionBuilder<T> withPiece(Square square, Piece piece) {
-        positionBuilder.withPiece(square.getMirrorSquare(), piece == null ? null : piece.getOpposite());
+        positionBuilder.withPiece(square.getMirrorSquare(), piece.getOpposite());
         return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
+        Square square = Square.getSquare(file, rank);
+        positionBuilder.withPiece(square.getMirrorSquare(), piece.getOpposite());
+        return null;
     }
 
     @Override
