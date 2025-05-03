@@ -1,8 +1,6 @@
 package net.chesstango.board.representations.fen;
 
 import lombok.Getter;
-import net.chesstango.board.builders.ChessPositionBuilder;
-import net.chesstango.board.position.Position;
 
 import java.util.Objects;
 
@@ -39,6 +37,10 @@ public final class FEN {
         this.fullMoveClock = fullMoveClock;
     }
 
+    public static FEN of(String fenString) {
+        FENParser parser = new FENParser();
+        return parser.parseFEN(fenString);
+    }
 
     @Override
     public String toString() {
@@ -56,18 +58,4 @@ public final class FEN {
         return Objects.hash(piecePlacement, activeColor, castingsAllowed, enPassantSquare, halfMoveClock, fullMoveClock);
     }
 
-    public Position toChessPosition() {
-        ChessPositionBuilder builder = new ChessPositionBuilder();
-
-        FENExporter parser = new FENExporter(builder);
-
-        parser.exportFEN(this);
-
-        return builder.getPositionRepresentation();
-    }
-
-    public static FEN of(String fenString) {
-        FENParser parser = new FENParser();
-        return parser.parseFEN(fenString);
-    }
 }

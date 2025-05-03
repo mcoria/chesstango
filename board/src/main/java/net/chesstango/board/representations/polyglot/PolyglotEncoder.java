@@ -4,13 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.AbstractPositionBuilder;
+import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
+import net.chesstango.board.representations.AbstractPositionBuilder;
 import net.chesstango.board.representations.fen.FEN;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
 
@@ -41,24 +41,24 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
                         (castlingBlackQueenAllowed ? KEYS[CASTLE_BLACK_QUEEN_OFFSET] : 0);
 
         long enpassant = 0;
-        if (enPassantSquare != null){
+        if (enPassantSquare != null) {
             enpassant = zobristEnPassantSquare();
         }
 
 
-        return  piece ^ castle ^ enpassant ^ turn;
+        return piece ^ castle ^ enpassant ^ turn;
     }
 
     private long zobristEnPassantSquare() {
         long result = 0;
-        if(Color.WHITE.equals(this.turn)){
-            if(enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
-            || enPassantSquare.getFile() + 1 < 8 &&  board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE ){
+        if (Color.WHITE.equals(this.turn)) {
+            if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
+                    || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
                 result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
             }
         } else {
-            if(enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
-                    || enPassantSquare.getFile() + 1 < 8 &&  board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK ){
+            if (enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
+                    || enPassantSquare.getFile() + 1 < 8 && board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK) {
                 result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
             }
         }
@@ -66,7 +66,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
     }
 
 
-    private int getKindOfPiece(Piece piece){
+    private int getKindOfPiece(Piece piece) {
         return switch (piece) {
             case PAWN_BLACK -> 0;
             case PAWN_WHITE -> 1;
@@ -289,7 +289,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
 
 
     public static Long getKey(String fenString) {
-        PositionReader position = FEN.of(fenString).toChessPosition();
+        PositionReader position = Position.from(FEN.of(fenString));
         return getKey(position);
     }
 

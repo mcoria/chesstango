@@ -19,7 +19,7 @@ public class ZobristHashTest {
 
     @Test
     public void testXorPosition01(){
-        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -31,7 +31,7 @@ public class ZobristHashTest {
 
     @Test
     public void testXorPosition02(){
-        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -44,7 +44,7 @@ public class ZobristHashTest {
 
     @Test
     public void testMoveToEmptySquare(){
-        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -58,7 +58,7 @@ public class ZobristHashTest {
 
     @Test
     public void testTwoMoves(){
-        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -78,7 +78,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCaptureMove(){
-        Position position = FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2 ").toChessPosition();
+        Position position = Position.from(FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2 "));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -95,7 +95,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleWhiteKing(){
-        Position position = FEN.of("8/8/8/8/8/8/8/4K2R w K - 0 1").toChessPosition();
+        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/4K2R w K - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -117,7 +117,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleWhiteQueen(){
-        Position position = FEN.of("8/8/8/8/8/8/8/R3K3 w Q - 0 1").toChessPosition();
+        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/R3K3 w Q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -139,7 +139,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleBlackKing(){
-        Position position = FEN.of("4k2r/8/8/8/8/8/8/8 b k - 0 1").toChessPosition();
+        Position position = Position.from(FEN.of("4k2r/8/8/8/8/8/8/8 b k - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -161,7 +161,7 @@ public class ZobristHashTest {
 
     @Test
     public void testCastleBlackQueen(){
-        Position position = FEN.of("r3k3/8/8/8/8/8/8/8 b q - 0 1").toChessPosition();
+        Position position = Position.from(FEN.of("r3k3/8/8/8/8/8/8/8 b q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);

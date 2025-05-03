@@ -1,7 +1,10 @@
 package net.chesstango.board.position;
 
+import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
+
 /**
- *
  * Interface representing a chess position.
  * This interface extends both ChessPositionReader and ChessPositionWriter,
  * indicating that it provides methods for reading and writing chess positions.
@@ -36,4 +39,18 @@ public interface Position extends PositionReader, PositionWriter {
     PositionState getPositionState();
 
     ZobristHash getZobrist();
+
+    static Position from(FEN fen) {
+        ChessPositionBuilder builder = new ChessPositionBuilder();
+
+        FENExporter parser = new FENExporter(builder);
+
+        parser.exportFEN(fen);
+
+        return builder.getPositionRepresentation();
+    }
+
+    static Position fromFEN(String fen) {
+        return from(FEN.of(fen));
+    }
 }
