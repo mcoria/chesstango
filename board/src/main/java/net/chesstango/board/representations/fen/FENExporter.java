@@ -1,29 +1,22 @@
 package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PositionBuilder;
-import net.chesstango.board.builders.GameBuilder;
 
 /**
  * @author Mauricio Coria
  */
-public class FENDecoder {
-    public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
+public class FENExporter {
     private final PositionBuilder<?> positionBuilder;
 
-    public FENDecoder(PositionBuilder<?> positionBuilder) {
+    public FENExporter(PositionBuilder<?> positionBuilder) {
         this.positionBuilder = positionBuilder;
     }
 
-    public void parseFEN(String fenString) {
-        parseFEN(FEN.of(fenString));
-    }
 
-    public void parseFEN(FEN fen) {
+    public void exportFEN(FEN fen) {
         parsePiecePlacement(fen.getPiecePlacement());
 
         positionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
@@ -198,21 +191,4 @@ public class FENDecoder {
     protected boolean isCastlingBlackKingAllowed(String castlingAllowed) {
         return castlingAllowed.contains("k");
     }
-
-
-    public static Game loadGame(String fen) {
-        return loadGame(FEN.of(fen));
-    }
-
-    public static Game loadGame(FEN fen) {
-        GameBuilder builder = new GameBuilder();
-
-        FENDecoder parser = new FENDecoder(builder);
-
-        parser.parseFEN(fen);
-
-        return builder.getChessRepresentation();
-    }
-
-
 }

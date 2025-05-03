@@ -9,7 +9,9 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.board.representations.fen.FENExporter;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,7 @@ public class GameTest {
 
     @Test
     public void testInitialPosition() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
 
         Assertions.assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
@@ -40,7 +42,7 @@ public class GameTest {
 
     @Test
     public void test_mate() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
 
@@ -62,7 +64,7 @@ public class GameTest {
 
     @Test
     public void testMateAndUndo() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
 
@@ -97,7 +99,7 @@ public class GameTest {
 
     @Test
     public void testJuegoJaque() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
@@ -180,7 +182,7 @@ public class GameTest {
 
     @Test
     public void testDrawByThreeFoldRepetition() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertEquals(Status.NO_CHECK, game.getStatus());
@@ -256,7 +258,7 @@ public class GameTest {
 
     @Test
     public void testGetRepetitionCounter() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertEquals(Status.NO_CHECK, game.getStatus());
@@ -309,7 +311,7 @@ public class GameTest {
 
     @Test
     public void test_undo() {
-        Game game = getGame(FENDecoder.INITIAL_FEN);
+        Game game = getGame(FENParser.INITIAL_FEN);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
@@ -924,9 +926,9 @@ public class GameTest {
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parseFEN(string);
+        exporter.exportFEN(FEN.of(string));
 
         return builder.getChessRepresentation();
     }

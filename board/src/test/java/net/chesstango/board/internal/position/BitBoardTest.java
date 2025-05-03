@@ -5,7 +5,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +25,7 @@ public class BitBoardTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		SquareBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		SquareBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1");
 		
 		colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
@@ -41,10 +42,10 @@ public class BitBoardTest {
 	private SquareBoard getTablero(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
 
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parsePiecePlacement(string);
-		
+		FENExporter exporter = new FENExporter(builder);
+
+		exporter.exportFEN(FEN.of(string));
+
 		return builder.getChessRepresentation();
 	}	
 

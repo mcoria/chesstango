@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.AbstractCardinalMoveGenerator;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
@@ -16,7 +15,8 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.BitBoardImp;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +59,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 
     @Test
     public void testEste() {
-        SquareBoard squareBoard = getSquareBoard("8/8/8/4R3/8/8/8/8");
+        SquareBoard squareBoard = getSquareBoard("8/8/8/4R3/8/8/8/8 w KQkq - 0 1");
         moveGenerator.setSquareBoard(squareBoard);
 
         BitBoard bitBoard = new BitBoardDebug();
@@ -85,7 +85,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 
     @Test
     public void testEste01() {
-        SquareBoard tablero = getSquareBoard("8/8/8/4R2B/8/8/8/8");
+        SquareBoard tablero = getSquareBoard("8/8/8/4R2B/8/8/8/8 w KQkq - 0 1");
         moveGenerator.setSquareBoard(tablero);
 
         BitBoard bitBoard = new BitBoardDebug();
@@ -110,7 +110,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 
     @Test
     public void testEste02() {
-        SquareBoard squareBoard = getSquareBoard("8/8/8/4R2b/8/8/8/8");
+        SquareBoard squareBoard = getSquareBoard("8/8/8/4R2b/8/8/8/8 w KQkq - 0 1");
         moveGenerator.setSquareBoard(squareBoard);
 
         BitBoardImp bitBoard = new BitBoardDebug();
@@ -145,9 +145,9 @@ public class AbstractCardinalMoveGeneratorEsteTest {
     private SquareBoard getSquareBoard(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parsePiecePlacement(string);
+        exporter.exportFEN(FEN.of(string));
 
         return builder.getChessRepresentation();
     }

@@ -4,8 +4,8 @@ import net.chesstango.board.representations.move.SANDecoderTest;
 import net.chesstango.board.representations.move.SANEncoderTest;
 import net.chesstango.board.representations.pgn.PgnToFenTest;
 import net.chesstango.board.representations.ascii.ASCIIEncoderTest;
-import net.chesstango.board.representations.fen.FENDecoderTest;
-import net.chesstango.board.representations.fen.FENEncoderTest;
+import net.chesstango.board.representations.fen.FENExporterTest;
+import net.chesstango.board.representations.fen.FENBuilderTest;
 import net.chesstango.board.representations.fen.FENIntegrationTest;
 import net.chesstango.board.representations.pgn.PGNDecoderTest;
 import net.chesstango.board.representations.pgn.PGNEncoderTest;
@@ -19,7 +19,7 @@ import org.junit.platform.suite.api.Suite;
  *
  */
 @Suite
-@SelectClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
+@SelectClasses({ ASCIIEncoderTest.class, FENExporterTest.class, FENBuilderTest.class, FENIntegrationTest.class,
         SANEncoderTest.class, SANDecoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class, PGNGameTest.class,
         PgnToFenTest.class, PolyglotEncoderTest.class})
 public class UtilsTestSuite {

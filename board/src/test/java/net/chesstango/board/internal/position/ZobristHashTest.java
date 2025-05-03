@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class ZobristHashTest {
 
     @Test
     public void testXorPosition01(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -31,7 +31,7 @@ public class ZobristHashTest {
 
     @Test
     public void testXorPosition02(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -44,7 +44,7 @@ public class ZobristHashTest {
 
     @Test
     public void testMoveToEmptySquare(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -58,7 +58,7 @@ public class ZobristHashTest {
 
     @Test
     public void testTwoMoves(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position position = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);

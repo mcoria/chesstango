@@ -2,7 +2,7 @@ package net.chesstango.board.representations.polyglot;
 
 import net.chesstango.board.position.Position;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +14,7 @@ public class PolyglotEncoderTest {
 
     @Test
     public void generateKeyINITIAL_FEN() {
-        Position initialPosition = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+        Position initialPosition = FEN.of(FENParser.INITIAL_FEN).toChessPosition();
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 

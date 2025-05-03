@@ -6,22 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class FENIntegrationTest {
 
-	@Test
-	public void testTurnoWhite() {
-		FENEncoder coder = new FENEncoder();
-		
-		FENDecoder parser = new FENDecoder(coder);
-		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
-		
-		String fen = coder.getChessRepresentation().toString();
-		
-		assertEquals(FENDecoder.INITIAL_FEN, fen);
-		
-	}	
+    @Test
+    public void testTurnoWhite() {
+        FENParser decoder = new FENParser();
+
+        FENBuilder encoder = new FENBuilder();
+
+        FENExporter exporter = new FENExporter(encoder);
+
+        FEN fen = decoder.parseFEN(FENParser.INITIAL_FEN);
+
+        exporter.exportFEN(fen);
+
+        FEN fenResult = encoder.getChessRepresentation();
+
+        assertEquals(fen, fenResult);
+
+    }
 
 }

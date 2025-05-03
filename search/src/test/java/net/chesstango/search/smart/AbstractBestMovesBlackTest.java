@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
@@ -25,7 +25,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_moveQueen() {
         // hay que sacar a la reina negra de donde esta, sino se la morfa el caballo
-        Game game = FENDecoder.loadGame("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1");
+        Game game = FENParser.loadGame("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1");
 
 		search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
         SearchResult searchResult = search.search(game);
@@ -45,7 +45,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_imminentMateIn2Moves() {
         // Black will be in checkmate in the next 1 move
-        Game game = FENDecoder.loadGame("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
+        Game game = FENParser.loadGame("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
         SearchResult searchResult = search.search(game);
@@ -63,7 +63,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_imminentMateIn4Moves() {
         // Black will be in checkmate in the next 2 move
-        Game game = FENDecoder.loadGame("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
+        Game game = FENParser.loadGame("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchResult searchResult = search.search(game);
@@ -81,7 +81,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test
     public void test_Mate() {
         // Black can win the game in the next move
-        Game game = FENDecoder.loadGame("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1");
+        Game game = FENParser.loadGame("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
         SearchResult searchResult = search.search(game);
@@ -100,7 +100,7 @@ public abstract class AbstractBestMovesBlackTest {
     @Test //Max Walter vs. Emanuel Lasker
     public void test_MateInThree() {
 
-        Game game = FENDecoder.loadGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
+        Game game = FENParser.loadGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
         SearchResult searchResult = search.search(game);

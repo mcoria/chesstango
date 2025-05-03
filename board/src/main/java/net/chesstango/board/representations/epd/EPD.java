@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.move.MoveDecoder;
 
 import java.util.ArrayList;
@@ -20,6 +20,11 @@ import java.util.Objects;
 public class EPD {
     private String text;
 
+    private String piecePlacement;
+    private String activeColor;
+    private String castingsAllowed;
+    private String enPassantSquare;
+
     private String id;
     private String c0;
     private String c1;
@@ -29,11 +34,6 @@ public class EPD {
     private String c5;
     private String c6;
     private String c7;
-
-    //  The halfmove clock and full move counter,
-    //  obligatory in Forsyth-Edwards Notation
-    //  are replaced by optional hmvc and fmvn operations
-    private FEN fenWithoutClocks;
 
     private String bestMovesStr;
 
@@ -60,6 +60,15 @@ public class EPD {
         return text != null ? text : new EPDEncoder().encode(this);
     }
 
+    public String getFenWithoutClocks() {
+        return piecePlacement +
+                " " +
+                activeColor +
+                " " +
+                castingsAllowed +
+                " " +
+                enPassantSquare;
+    }
 
     public boolean isMoveSuccess(Move move) {
         if (bestMovesStr != null && !bestMovesStr.isEmpty()) {
@@ -84,7 +93,7 @@ public class EPD {
     }
 
     List<Move> movesStringToMoves(String movesString) {
-        Game game = FENDecoder.loadGame(fenWithoutClocks);
+        Game game = FENParser.loadGame(FEN.of(getFenWithoutClocks() + " 0 1"));
         String[] bestMoves = movesString.split(" ");
         List<Move> moveList = new ArrayList<>(bestMoves.length);
         MoveDecoder moveDecoder = new MoveDecoder();
@@ -98,5 +107,4 @@ public class EPD {
         }
         return moveList;
     }
-
 }

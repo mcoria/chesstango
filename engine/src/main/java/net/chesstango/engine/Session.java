@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.search.SearchResult;
 
@@ -27,7 +27,7 @@ public class Session {
     private Game game;
 
     public void setPosition(FEN fen, List<String> moves) {
-        game = FENDecoder.loadGame(fen);
+        game = FENParser.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
                 Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);

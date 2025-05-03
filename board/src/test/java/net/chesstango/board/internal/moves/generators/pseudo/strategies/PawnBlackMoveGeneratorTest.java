@@ -4,14 +4,14 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.PawnBlackMoveGenerator;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +43,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testSaltoSimple() {
-        SquareBoard tablero = getTablero("8/8/p7/8/8/8/8/8");
+        SquareBoard tablero = getTablero("8/8/p7/8/8/8/8/8 w KQkq - 0 1");
 
         moveGenerator.setSquareBoard(tablero);
 
@@ -63,7 +63,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testSaltoDoble() {
-        SquareBoard tablero = getTablero("8/p7/8/8/8/8/8/8");
+        SquareBoard tablero = getTablero("8/p7/8/8/8/8/8/8 w KQkq - 0 1");
 
         moveGenerator.setSquareBoard(tablero);
 
@@ -84,7 +84,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testAtaqueIzquierda() {
-        SquareBoard tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
+        SquareBoard tablero = getTablero("8/4p3/3P4/8/8/8/8/8 w KQkq - 0 1");
 
         moveGenerator.setSquareBoard(tablero);
 
@@ -107,7 +107,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testAtaqueDerecha() {
-        SquareBoard tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
+        SquareBoard tablero = getTablero("8/4p3/5P2/8/8/8/8/8 w KQkq - 0 1");
 
         moveGenerator.setSquareBoard(tablero);
 
@@ -151,9 +151,9 @@ public class PawnBlackMoveGeneratorTest {
     private SquareBoard getTablero(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parsePiecePlacement(string);
+        exporter.exportFEN(FEN.of(string));
 
         return builder.getChessRepresentation();
     }

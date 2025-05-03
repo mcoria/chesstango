@@ -8,7 +8,7 @@ import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,9 +95,9 @@ public class GameMockLoader {
                 node.gameState = game.getState();
             }
 
-            FENEncoder fenEncoder = new FENEncoder();
-            node.position.constructChessPositionRepresentation(fenEncoder);
-            String fenFromPosition = fenEncoder.getChessRepresentation().toString();
+            FENBuilder fenBuilder = new FENBuilder();
+            node.position.constructChessPositionRepresentation(fenBuilder);
+            String fenFromPosition = fenBuilder.getChessRepresentation().toString();
 
             if (node.fen == null) {
                 node.fen = fenFromPosition;

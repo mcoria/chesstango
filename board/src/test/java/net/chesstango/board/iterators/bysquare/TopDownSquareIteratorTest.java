@@ -6,7 +6,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,19 +22,19 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TopDownSquareIteratorTest {
 
-	private FENDecoder parser = null;
+	private FENExporter exporter = null;
 	
 	private SquareBoardBuilder builder = null;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		builder = new SquareBoardBuilder();
-		parser = new FENDecoder(builder);
+		exporter = new FENExporter(builder);
 	}
 
 	@Test
 	public void testTopDownSquareIterator() {
-		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		exporter.exportFEN(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1"));
 		
 		SquareBoard tablero =  builder.getChessRepresentation();
 

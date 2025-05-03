@@ -4,7 +4,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -82,9 +83,9 @@ public class KingSafePositionsAnalyzerTest {
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parseFEN(string);
+        exporter.exportFEN(FEN.of(string));
 
         return builder.getChessRepresentation();
     }

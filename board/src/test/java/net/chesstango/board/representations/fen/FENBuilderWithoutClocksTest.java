@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Mauricio Coria
  *
  */
-public class FENEncoderWithoutClocksTest {
+public class FENBuilderWithoutClocksTest {
 
     private FENEncoderWithoutClocks coder ;
 
@@ -23,7 +23,7 @@ public class FENEncoderWithoutClocksTest {
 
     @Test
     public void test_encode_without_clocks(){
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.getPosition().constructChessPositionRepresentation(coder);
 

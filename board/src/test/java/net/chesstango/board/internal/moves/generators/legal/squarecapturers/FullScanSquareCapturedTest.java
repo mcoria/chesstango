@@ -6,7 +6,8 @@ import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.BitBoardImp;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,7 +20,7 @@ public class FullScanSquareCapturedTest {
 
     @Test
     public void testPositionCapturedByPawnWhite() {
-        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/1P6/8/8/8/8");
+        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/1P6/8/8/8/8  w KQkq - 0 1");
         BitBoard bitBoard = new BitBoardImp();
         bitBoard.init(dummySquareBoard);
 
@@ -32,7 +33,7 @@ public class FullScanSquareCapturedTest {
 
     @Test
     public void testPositionCapturedByPawnBlack() {
-        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/1p6/8/8/8/8");
+        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/1p6/8/8/8/8  w KQkq - 0 1");
         BitBoard bitBoard = new BitBoardImp();
         bitBoard.init(dummySquareBoard);
 
@@ -46,7 +47,7 @@ public class FullScanSquareCapturedTest {
 
     @Test
     public void testPositionCapturedByKnight() {
-        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/3N4/8/8/8/8");
+        SquareBoard dummySquareBoard = getSquareBoard("8/8/8/3N4/8/8/8/8  w KQkq - 0 1");
         BitBoard bitBoard = new BitBoardImp();
         bitBoard.init(dummySquareBoard);
 
@@ -68,9 +69,9 @@ public class FullScanSquareCapturedTest {
     private SquareBoard getSquareBoard(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parsePiecePlacement(string);
+        exporter.exportFEN(FEN.of(string));
 
         return builder.getChessRepresentation();
     }

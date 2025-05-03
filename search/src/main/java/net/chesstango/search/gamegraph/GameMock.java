@@ -9,7 +9,7 @@ import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENBuilder;
 
 /**
  * @author Mauricio Coria
@@ -95,7 +95,7 @@ public class GameMock implements Game {
 
     @Override
     public FEN getCurrentFEN() {
-        FENEncoder encoder = new FENEncoder();
+        FENBuilder encoder = new FENBuilder();
         getPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();
     }

@@ -13,7 +13,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENBuilder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -82,7 +82,7 @@ public class GameImp implements Game {
 
     @Override
     public FEN getCurrentFEN() {
-        FENEncoder encoder = new FENEncoder();
+        FENBuilder encoder = new FENBuilder();
         getPosition().constructChessPositionRepresentation(encoder);
         return encoder.getChessRepresentation();
     }
@@ -204,7 +204,7 @@ public class GameImp implements Game {
     }
 
     private void saveInitialFEN() {
-        FENEncoder encoder = new FENEncoder();
+        FENBuilder encoder = new FENBuilder();
 
         position.constructChessPositionRepresentation(encoder);
 

@@ -2,8 +2,8 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.board.representations.fen.FENBuilder;
 import net.chesstango.evaluation.Evaluator;
 
 import java.util.HashMap;
@@ -29,11 +29,11 @@ public class EvaluatorByFEN implements Evaluator {
     }
 
     protected int evaluateNonFinalStatus() {
-        FENEncoder fenEncoder = new FENEncoder();
+        FENBuilder fenBuilder = new FENBuilder();
 
-        game.getPosition().constructChessPositionRepresentation(fenEncoder);
+        game.getPosition().constructChessPositionRepresentation(fenBuilder);
 
-        String fen = fenEncoder.getChessRepresentation().toString();
+        String fen = fenBuilder.getChessRepresentation().toString();
 
         Integer evaluation = evaluations.get(fen);
 
@@ -61,7 +61,7 @@ public class EvaluatorByFEN implements Evaluator {
     public static EvaluatorByFEN loadEvaluations() {
         EvaluatorByFEN mock = new EvaluatorByFEN();
         mock.setDefaultValue(0);
-        mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);
+        mock.addEvaluation(FENParser.INITIAL_FEN, 0);
 
         return mock;
     }

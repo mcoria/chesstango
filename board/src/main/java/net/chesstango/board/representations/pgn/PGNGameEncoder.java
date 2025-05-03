@@ -3,7 +3,7 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.move.SANDecoder;
 
 /**
@@ -12,7 +12,7 @@ import net.chesstango.board.representations.move.SANDecoder;
 public class PGNGameEncoder {
 
     public Game encode(PGN pgn) {
-        Game game = FENDecoder.loadGame(pgn.getFen() == null ? FENDecoder.INITIAL_FEN : pgn.getFen());
+        Game game = FENParser.loadGame(pgn.getFen() == null ? FENParser.INITIAL_FEN : pgn.getFen());
         SANDecoder sanDecoder = new SANDecoder();
         pgn.getMoveList().forEach(moveStr -> {
             MoveContainerReader<Move> legalMoves = game.getPossibleMoves();

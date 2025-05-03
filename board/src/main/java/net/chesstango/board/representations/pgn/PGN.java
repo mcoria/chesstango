@@ -6,7 +6,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.move.SANDecoder;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class PGN {
 
         Stream.Builder<EPD> fenStreamBuilder = Stream.builder();
 
-        Game game = FENDecoder.loadGame(getFen() == null ? FENDecoder.INITIAL_FEN : getFen());
+        Game game = FENParser.loadGame(getFen() == null ? FENParser.INITIAL_FEN : getFen());
         game.threefoldRepetitionRule(false);
         game.fiftyMovesRule(false);
 
@@ -66,7 +67,11 @@ public class PGN {
             if (legalMoveToExecute != null) {
                 EPD epd = new EPD();
 
-                epd.setFenWithoutClocks(game.getCurrentFEN());
+                FEN fenGame = game.getCurrentFEN();
+                epd.setPiecePlacement(fenGame.getPiecePlacement());
+                epd.setActiveColor(fenGame.getActiveColor());
+                epd.setCastingsAllowed(fenGame.getCastingsAllowed());
+                epd.setEnPassantSquare(fenGame.getEnPassantSquare());
 
                 epd.setId(String.format("%s", Long.toHexString(game.getPosition().getZobristHash())));
 

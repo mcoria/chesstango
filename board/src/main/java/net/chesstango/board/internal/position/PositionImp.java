@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PositionBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.*;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENBuilder;
 
 import java.util.Iterator;
 
@@ -241,11 +241,11 @@ public class PositionImp implements Position {
 
     @Override
     public String toString() {
-        FENEncoder fenEncoder = new FENEncoder();
+        FENBuilder fenBuilder = new FENBuilder();
 
-        constructChessPositionRepresentation(fenEncoder);
+        constructChessPositionRepresentation(fenBuilder);
 
-        return fenEncoder.getChessRepresentation().toString();
+        return fenBuilder.getChessRepresentation().toString();
     }
 
 }

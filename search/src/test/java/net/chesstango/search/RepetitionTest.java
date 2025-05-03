@@ -3,7 +3,7 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class RepetitionTest {
 
     @Test
     public void testSearch_01() {
-        Game game = FENDecoder.loadGame("8/7k/8/7Q/8/8/8/K7 b - - 0 1"); // Posicion inicial
+        Game game = FENParser.loadGame("8/7k/8/7Q/8/8/8/K7 b - - 0 1"); // Posicion inicial
 
         game.executeMove(Square.h7, Square.g8);
         game.executeMove(Square.h5, Square.e8);

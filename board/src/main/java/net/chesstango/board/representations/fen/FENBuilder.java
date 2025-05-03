@@ -7,7 +7,7 @@ import net.chesstango.board.builders.AbstractPositionBuilder;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoder extends AbstractPositionBuilder<FEN> {
+public class FENBuilder extends AbstractPositionBuilder<FEN> {
 
     @Override
     public FEN getChessRepresentation() {

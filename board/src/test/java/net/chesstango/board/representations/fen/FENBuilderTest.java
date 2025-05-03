@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoderTest {
+public class FENBuilderTest {
 
-    private FENEncoder coder;
+    private FENBuilder coder;
 
     @BeforeEach
     public void setUp() throws Exception {
-        coder = new FENEncoder();
+        coder = new FENBuilder();
     }
 
     @Test
@@ -252,7 +252,7 @@ public class FENEncoderTest {
 
     @Test
     public void test_encode_with_clocks1() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
@@ -263,7 +263,7 @@ public class FENEncoderTest {
 
     @Test
     public void test_encode_with_clocks2() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.g1, Square.f3);
 
@@ -277,7 +277,7 @@ public class FENEncoderTest {
 
     @Test
     public void test_encode_with_clocks3() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);

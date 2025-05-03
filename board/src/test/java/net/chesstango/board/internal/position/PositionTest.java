@@ -6,7 +6,9 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.board.representations.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -207,15 +209,16 @@ public class PositionTest {
 
 
     private void setupWithDefaultBoard() {
-        setupWithBoard(FENDecoder.INITIAL_FEN);
+        setupWithBoard(FENParser.INITIAL_FEN);
     }
 
 
     private void setupWithBoard(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENDecoder parser = new FENDecoder(builder);
-        parser.parseFEN(string);
+        FENExporter exporter = new FENExporter(builder);
+
+        exporter.exportFEN(FEN.of(string));
 
         game = builder.getChessRepresentation();
     }

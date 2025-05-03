@@ -2,7 +2,7 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ public class PGNEncoderTest {
 
     @Test
     public void test_encodeGame1() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.e2, Square.e4)
                 .executeMove(Square.d7, Square.d5)
@@ -51,7 +51,7 @@ public class PGNEncoderTest {
 
     @Test
     public void test_check_mate() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENParser.loadGame(FENParser.INITIAL_FEN);
 
         game.executeMove(Square.e2, Square.e4)
                 .executeMove(Square.e7, Square.e5)
@@ -82,7 +82,7 @@ public class PGNEncoderTest {
 
     @Test
     public void test_draw() {
-        Game game = FENDecoder.loadGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
+        Game game = FENParser.loadGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
         game.executeMove(Square.h7, Square.c7);
 
         PGN pgn = PGN.of(game);
@@ -107,7 +107,7 @@ public class PGNEncoderTest {
 
     @Test
     public void test_check_draw() {
-        Game game = FENDecoder.loadGame("k7/8/K7/2Q5/8/8/8/8 w - - 1 1");
+        Game game = FENParser.loadGame("k7/8/K7/2Q5/8/8/8/8 w - - 1 1");
 
         game.executeMove(Square.c5, Square.c6);
         game.executeMove(Square.a8, Square.b8);

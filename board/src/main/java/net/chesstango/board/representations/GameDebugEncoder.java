@@ -3,8 +3,8 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.board.representations.fen.FENBuilder;
 
 /**
  * @author Mauricio Coria
@@ -15,7 +15,7 @@ public class GameDebugEncoder {
         StringBuilder sb = new StringBuilder();
 
         String initialFEN = game.getInitialFEN().toString();
-        Game theGame = FENDecoder.loadGame(initialFEN);
+        Game theGame = FENParser.loadGame(initialFEN);
         sb.append("Game game = getGame(\"")
                 .append(initialFEN)
                 .append("\")\n");
@@ -31,12 +31,12 @@ public class GameDebugEncoder {
             // Execute move
             move.executeMove();
 
-            FENEncoder fenEncoder = new FENEncoder();
+            FENBuilder fenBuilder = new FENBuilder();
             PositionReader theGamePositionReader = theGame.getPosition();
-            theGamePositionReader.constructChessPositionRepresentation(fenEncoder);
+            theGamePositionReader.constructChessPositionRepresentation(fenBuilder);
 
             sb.append(" // ")
-                    .append(fenEncoder.getChessRepresentation())
+                    .append(fenBuilder.getChessRepresentation())
                     .append("\n");
         });
 

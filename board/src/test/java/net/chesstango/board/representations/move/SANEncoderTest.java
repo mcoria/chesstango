@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_pawnMove1(){
-        Game game =  FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game =  FENParser.loadGame(FENParser.INITIAL_FEN);
 
         Move move = game.getMove(Square.e2, Square.e3);
 
@@ -31,7 +31,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_pawnMove_capture01(){
-        Game game =  FENDecoder.loadGame("rnbqkbnr/ppp1p1pp/8/3p1p2/2P1P3/8/PP1P1PPP/RNBQKBNR w KQkq f6 0 3");
+        Game game =  FENParser.loadGame("rnbqkbnr/ppp1p1pp/8/3p1p2/2P1P3/8/PP1P1PPP/RNBQKBNR w KQkq f6 0 3");
 
         Move move = null;
         String encodedMove = null;
@@ -51,7 +51,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_pawnMove_capture_enpassant(){
-        Game game =  FENDecoder.loadGame("rnbqkbnr/1ppp1pp1/7p/p2PpP2/8/8/PPP1P1PP/RNBQKBNR w KQkq e6 0 5");
+        Game game =  FENParser.loadGame("rnbqkbnr/1ppp1pp1/7p/p2PpP2/8/8/PPP1P1PP/RNBQKBNR w KQkq e6 0 5");
 
         Move move = null;
         String encodedMove = null;
@@ -68,7 +68,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_pawnMove_promotion(){
-        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
+        Game game =  FENParser.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
 
         Move move = null;
         String encodedMove = null;
@@ -84,7 +84,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_castling(){
-        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1 ");
+        Game game =  FENParser.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1 ");
 
         Move move = null;
         String encodedMove = null;
@@ -100,7 +100,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_knight_move01(){
-        Game game =  FENDecoder.loadGame("r1k4r/ppp4p/2nb1pq1/3p1np1/4p1Q1/4P3/PPPPNPPP/RNB1K2R w KQ - 0 1");
+        Game game =  FENParser.loadGame("r1k4r/ppp4p/2nb1pq1/3p1np1/4p1Q1/4P3/PPPPNPPP/RNB1K2R w KQ - 0 1");
 
         Move move = null;
         String encodedMove = null;
@@ -112,7 +112,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_knight_move02(){
-        Game game =  FENDecoder.loadGame("rk2q3/ppp5/6n1/2b5/4pp2/P1N5/1PPPKPRP/R1B5 b - - 19 47");
+        Game game =  FENParser.loadGame("rk2q3/ppp5/6n1/2b5/4pp2/P1N5/1PPPKPRP/R1B5 b - - 19 47");
 
         Move move = null;
         String encodedMove = null;
@@ -125,7 +125,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_knight_move03(){
-        Game game =  FENDecoder.loadGame("rk2q3/ppp5/5p2/2b2np1/4p3/P1N1Pn2/1PPPKPRP/R1B5 b - - 3 34");
+        Game game =  FENParser.loadGame("rk2q3/ppp5/5p2/2b2np1/4p3/P1N1Pn2/1PPPKPRP/R1B5 b - - 3 34");
 
         Move move = null;
         String encodedMove = null;
@@ -141,7 +141,7 @@ public class SANEncoderTest {
 
     @Test
     public void test_bishop_move01(){
-        Game game =  FENDecoder.loadGame("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1");
+        Game game =  FENParser.loadGame("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1");
 
         Move move = null;
         String encodedMove = null;
