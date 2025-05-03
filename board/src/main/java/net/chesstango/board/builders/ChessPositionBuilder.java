@@ -45,57 +45,56 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public PositionBuilder<Position> withTurn(Color turn) {
-        positionState.setCurrentTurn(turn);
+    public ChessPositionBuilder withWhiteTurn(boolean whiteTurn) {
+        positionState.setCurrentTurn(whiteTurn ? Color.WHITE : Color.BLACK);
         return this;
     }
 
-
     @Override
-    public PositionBuilder<Position> withEnPassantSquare(Square enPassantSquare) {
+    public ChessPositionBuilder withEnPassantSquare(Square enPassantSquare) {
         positionState.setEnPassantSquare(enPassantSquare);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Position> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+    public ChessPositionBuilder withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         positionState.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
-    public PositionBuilder<Position> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+    public ChessPositionBuilder withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         positionState.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Position> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+    public ChessPositionBuilder withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         positionState.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
     @Override
-    public PositionBuilder<Position> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+    public ChessPositionBuilder withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         positionState.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
     @Override
-    public PositionBuilder<Position> withHalfMoveClock(int halfMoveClock) {
+    public ChessPositionBuilder withHalfMoveClock(int halfMoveClock) {
         positionState.setHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
-    public PositionBuilder<Position> withFullMoveClock(int fullMoveClock) {
+    public ChessPositionBuilder withFullMoveClock(int fullMoveClock) {
         positionState.setFullMoveClock(fullMoveClock);
         return this;
     }
 
-    public PositionBuilder<Position> withPiece(Square square, Piece piece) {
+    public ChessPositionBuilder withPiece(Square square, Piece piece) {
         if (piece == null) {
             throw new RuntimeException("piece is null");
         }

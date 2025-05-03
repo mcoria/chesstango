@@ -23,7 +23,7 @@ public class FENBuilderTest {
 
     @Test
     public void testTurnoWhite() {
-        coder.withTurn(Color.WHITE);
+        coder.withWhiteTurn(true);
 
         String actual = coder.getTurno();
 
@@ -32,7 +32,7 @@ public class FENBuilderTest {
 
     @Test
     public void testTurnoBlack() {
-        coder.withTurn(Color.BLACK);
+        coder.withWhiteTurn(false);
 
         String actual = coder.getTurno();
 
@@ -231,7 +231,7 @@ public class FENBuilderTest {
         coder.withPiece(Square.g1, Piece.KNIGHT_WHITE);
         coder.withPiece(Square.h1, Piece.ROOK_WHITE);
 
-        coder.withTurn(Color.WHITE);
+        coder.withWhiteTurn(true);
 
         coder.withEnPassantSquare(null);
 

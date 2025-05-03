@@ -32,7 +32,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
             }
         }
 
-        long turn = Color.WHITE.equals(this.turn) ? KEYS[TURN_OFFSET] : 0;
+        long turn = whiteTurn ? KEYS[TURN_OFFSET] : 0;
 
         long castle =
                 (castlingWhiteKingAllowed ? KEYS[CASTLE_WHITE_KING_OFFSET] : 0) ^
@@ -51,7 +51,7 @@ public class PolyglotEncoder extends AbstractPositionBuilder<Long> {
 
     private long zobristEnPassantSquare() {
         long result = 0;
-        if (Color.WHITE.equals(this.turn)) {
+        if (whiteTurn) {
             if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
                     || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
                 result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];

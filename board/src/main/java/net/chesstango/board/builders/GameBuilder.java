@@ -40,58 +40,58 @@ public class GameBuilder implements PositionBuilder<Game> {
     }
 
     @Override
-    public PositionBuilder<Game> withTurn(Color turn) {
-        chessPositionBuilder.withTurn(turn);
+    public GameBuilder withWhiteTurn(boolean whiteTurn) {
+        chessPositionBuilder.withWhiteTurn(whiteTurn);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
+    public GameBuilder withEnPassantSquare(Square enPassantSquare) {
         chessPositionBuilder.withEnPassantSquare(enPassantSquare);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+    public GameBuilder withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         chessPositionBuilder.withCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
-    public PositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+    public GameBuilder withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         chessPositionBuilder.withCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+    public GameBuilder withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         chessPositionBuilder.withCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+    public GameBuilder withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         chessPositionBuilder.withCastlingBlackKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
-    public PositionBuilder<Game> withPiece(Square square, Piece piece) {
+    public GameBuilder withPiece(Square square, Piece piece) {
         chessPositionBuilder.withPiece(square, piece);
         return this;
     }
 
     @Override
-    public PositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
+    public GameBuilder withHalfMoveClock(int halfMoveClock) {
         chessPositionBuilder.withHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
-    public PositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
+    public GameBuilder withFullMoveClock(int fullMoveClock) {
         chessPositionBuilder.withFullMoveClock(fullMoveClock);
         return this;
     }

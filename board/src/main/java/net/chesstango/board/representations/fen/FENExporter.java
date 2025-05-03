@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.PositionBuilder;
@@ -21,7 +20,7 @@ public class FENExporter {
 
         positionBuilder.withEnPassantSquare(parseEnPassantSquare(fen.getEnPassantSquare()));
 
-        positionBuilder.withTurn(parseTurn(fen.getActiveColor()));
+        positionBuilder.withWhiteTurn(parseTurn(fen.getActiveColor()));
 
         if (isCastlingWhiteQueenAllowed(fen.getCastingsAllowed())) {
             positionBuilder.withCastlingWhiteQueenAllowed(true);
@@ -44,7 +43,7 @@ public class FENExporter {
         positionBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
     }
 
-    public void parsePiecePlacement(String piecePlacement) {
+    void parsePiecePlacement(String piecePlacement) {
         Piece[][] piezas = parsePieces(piecePlacement);
         for (int rank = 0; rank < 8; rank++) {
             for (int file = 0; file < 8; file++) {
@@ -57,7 +56,7 @@ public class FENExporter {
         }
     }
 
-    protected Piece[][] parsePieces(String piecePlacement) {
+    Piece[][] parsePieces(String piecePlacement) {
         Piece[][] tablero = new Piece[8][8];
         String[] ranks = piecePlacement.split("/");
         int currentRank = 7;
@@ -69,7 +68,7 @@ public class FENExporter {
         return tablero;
     }
 
-    protected Piece[] parseRank(String rank) {
+    Piece[] parseRank(String rank) {
         Piece[] piezas = new Piece[8];
         int position = 0;
         for (int i = 0; i < rank.length(); i++) {
@@ -87,6 +86,49 @@ public class FENExporter {
             throw new RuntimeException("FEN: Malformed rank: " + rank);
         }
         return piezas;
+    }
+
+    Square parseEnPassantSquare(String pawnPasante) {
+        Square result = null;
+        if (!"-".equals(pawnPasante)) {
+            char file = pawnPasante.charAt(0);
+            char rank = pawnPasante.charAt(1);
+            int fileNumber = -1;
+            int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
+            fileNumber = switch (file) {
+                case 'a' -> 0;
+                case 'b' -> 1;
+                case 'c' -> 2;
+                case 'd' -> 3;
+                case 'e' -> 4;
+                case 'f' -> 5;
+                case 'g' -> 6;
+                case 'h' -> 7;
+                default -> throw new RuntimeException("Invalid FEV code");
+            };
+            result = Square.getSquare(fileNumber, rankNumber);
+        }
+        return result;
+    }
+
+    boolean parseTurn(String activeColor) {
+        return 'w' == activeColor.charAt(0);
+    }
+
+    boolean isCastlingWhiteQueenAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("Q");
+    }
+
+    boolean isCastlingWhiteKingAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("K");
+    }
+
+    boolean isCastlingBlackQueenAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("q");
+    }
+
+    boolean isCastlingBlackKingAllowed(String castlingAllowed) {
+        return castlingAllowed.contains("k");
     }
 
     private Piece getCode(char t) {
@@ -142,53 +184,5 @@ public class FENExporter {
         }
 
         return piece;
-    }
-
-    protected Square parseEnPassantSquare(String pawnPasante) {
-        Square result = null;
-        if (!"-".equals(pawnPasante)) {
-            char file = pawnPasante.charAt(0);
-            char rank = pawnPasante.charAt(1);
-            int fileNumber = -1;
-            int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-            fileNumber = switch (file) {
-                case 'a' -> 0;
-                case 'b' -> 1;
-                case 'c' -> 2;
-                case 'd' -> 3;
-                case 'e' -> 4;
-                case 'f' -> 5;
-                case 'g' -> 6;
-                case 'h' -> 7;
-                default -> throw new RuntimeException("Invalid FEV code");
-            };
-            result = Square.getSquare(fileNumber, rankNumber);
-        }
-        return result;
-    }
-
-    protected Color parseTurn(String activeColor) {
-        char colorChar = activeColor.charAt(0);
-        return switch (colorChar) {
-            case 'w' -> Color.WHITE;
-            case 'b' -> Color.BLACK;
-            default -> throw new RuntimeException("Unknown FEN code " + activeColor);
-        };
-    }
-
-    protected boolean isCastlingWhiteQueenAllowed(String castlingAllowed) {
-        return castlingAllowed.contains("Q");
-    }
-
-    protected boolean isCastlingWhiteKingAllowed(String castlingAllowed) {
-        return castlingAllowed.contains("K");
-    }
-
-    protected boolean isCastlingBlackQueenAllowed(String castlingAllowed) {
-        return castlingAllowed.contains("q");
-    }
-
-    protected boolean isCastlingBlackKingAllowed(String castlingAllowed) {
-        return castlingAllowed.contains("k");
     }
 }

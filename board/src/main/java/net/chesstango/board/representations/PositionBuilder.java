@@ -17,13 +17,10 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  */
 public interface PositionBuilder<T> {
-    /**
-     * Sets the turn color.
-     *
-     * @param turn The color of the player to move.
-     * @return The current instance of the PositionBuilder.
-     */
-    PositionBuilder<T> withTurn(Color turn);
+
+
+    PositionBuilder<T> withWhiteTurn(boolean whiteTurn);
+
 
     /**
      * Sets the en passant square.

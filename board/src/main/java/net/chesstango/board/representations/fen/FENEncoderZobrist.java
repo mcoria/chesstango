@@ -26,7 +26,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
     }
 
     public StringBuilder getTurno(StringBuilder stringBuilder) {
-        return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
+        return whiteTurn ? stringBuilder.append('w') : stringBuilder.append('b');
     }
 
     public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
@@ -43,7 +43,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
         if (enPassantSquare == null) {
             stringBuilder.append('-');
         } else {
-            if (Color.WHITE.equals(turn)) {
+            if (whiteTurn) {
                 if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
                         || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
                     stringBuilder.append(enPassantSquare);

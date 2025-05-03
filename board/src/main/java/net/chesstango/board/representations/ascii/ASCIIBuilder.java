@@ -28,7 +28,8 @@ public class ASCIIBuilder extends AbstractPositionBuilder<String> {
 	
 
 	public void getState(PrintStream printStream) {
-		printStream.println("Turn: " + String.format("%-6s", turn.toString()) + ", enPassantSquare: " +  (enPassantSquare == null ? "- " : enPassantSquare.toString()) +
+		printStream.println("Turn: " + String.format("%-6s", whiteTurn ? "WHITE" : "BLACK") +
+				", enPassantSquare: " +  (enPassantSquare == null ? "- " : enPassantSquare.toString()) +
 				", castlingWhiteQueenAllowed: " + castlingWhiteQueenAllowed +
 				", castlingWhiteKingAllowed: " + castlingWhiteKingAllowed +
 				", castlingBlackQueenAllowed: " + castlingBlackQueenAllowed +

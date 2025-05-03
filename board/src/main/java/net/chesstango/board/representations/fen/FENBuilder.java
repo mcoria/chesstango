@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.AbstractPositionBuilder;
 
@@ -36,7 +35,7 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
 
 
     protected String getTurno() {
-        return Color.WHITE.equals(turn) ? "w" : "b";
+        return whiteTurn ? "w" : "b";
     }
 
     protected String getPiecePlacement() {

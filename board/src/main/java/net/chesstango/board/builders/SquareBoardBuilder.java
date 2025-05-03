@@ -29,47 +29,47 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withTurn(Color turn) {
+	public SquareBoardBuilder withWhiteTurn(boolean whiteTurn) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withEnPassantSquare(Square enPassantSquare) {
+	public SquareBoardBuilder withEnPassantSquare(Square enPassantSquare) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public SquareBoardBuilder withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public SquareBoardBuilder withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public SquareBoardBuilder withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public SquareBoardBuilder withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withHalfMoveClock(int halfMoveClock) {
+	public SquareBoardBuilder withHalfMoveClock(int halfMoveClock) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withFullMoveClock(int fullMoveClock) {
+	public SquareBoardBuilder withFullMoveClock(int fullMoveClock) {
 		return this;
 	}
 
 	@Override
-	public PositionBuilder<SquareBoard> withPiece(Square square, Piece piece) {
+	public SquareBoardBuilder withPiece(Square square, Piece piece) {
 		squareBoard.setPiece(square, piece);
 		return this;
 	}

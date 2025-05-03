@@ -19,7 +19,7 @@ public class MirrorBuilderTest {
     @Test
     public void mirrorChessPosition() {
         MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
-        mirrorChessPositionBuilder.withTurn(Color.WHITE);
+        mirrorChessPositionBuilder.withWhiteTurn(true);
         mirrorChessPositionBuilder.withPiece(Square.a1, Piece.ROOK_WHITE);
         mirrorChessPositionBuilder.withPiece(Square.e1, Piece.KING_WHITE);
         mirrorChessPositionBuilder.withPiece(Square.e8, Piece.KING_BLACK);

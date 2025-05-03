@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.PositionBuilder;
@@ -18,7 +17,7 @@ public class FENExporterTest {
 
     private FENExporter parser = null;
 
-    private Color turn;
+    private boolean whiteTurn;
     private Square enPassantSquare;
     private boolean castlingBlackKingAllowed;
     private boolean castlingBlackQueenAllowed;
@@ -55,8 +54,8 @@ public class FENExporterTest {
             }
 
             @Override
-            public PositionBuilder<Object> withTurn(Color turn) {
-                FENExporterTest.this.turn = turn;
+            public PositionBuilder<Object> withWhiteTurn(boolean whiteTurn) {
+                FENExporterTest.this.whiteTurn = whiteTurn;
                 return this;
             }
 
@@ -249,16 +248,12 @@ public class FENExporterTest {
 
     @Test
     public void testParseColorWhite() {
-        Color actualColor = parser.parseTurn("w");
-
-        assertEquals(Color.WHITE, actualColor);
+        assertTrue(parser.parseTurn("w"));
     }
 
     @Test
     public void testParseColorBlack() {
-        Color actualColor = parser.parseTurn("b");
-
-        assertEquals(Color.BLACK, actualColor);
+        assertFalse(parser.parseTurn("b"));
     }
 
     @Test
@@ -286,7 +281,7 @@ public class FENExporterTest {
     public void testParseFenWithSpaces() {
         parser.exportFEN(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4  w   -   -    4       10"));
 
-        assertEquals(Color.WHITE, this.turn);
+        assertTrue(this.whiteTurn);
         assertEquals(4, this.halfMoveClock);
         assertEquals(10, this.fullMoveClock);
     }
@@ -296,7 +291,7 @@ public class FENExporterTest {
     public void testParseFenWithoutClocks() {
         parser.exportFEN(FEN.of("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -"));
 
-        assertEquals(Color.WHITE, this.turn);
+        assertTrue(this.whiteTurn);
         assertEquals(0, this.halfMoveClock);
         assertEquals(1, this.fullMoveClock);
     }
