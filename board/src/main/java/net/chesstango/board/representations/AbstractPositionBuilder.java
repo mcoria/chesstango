@@ -1,10 +1,5 @@
 package net.chesstango.board.representations;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.builders.ChessPositionBuilder;
-import net.chesstango.board.position.Position;
-
 /**
  * @author Mauricio Coria
  */

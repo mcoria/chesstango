@@ -1,9 +1,7 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
 import net.chesstango.board.position.Position;
+import net.chesstango.board.representations.MirrorPositionBuilder;
 import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.fen.FENParser;
 import net.chesstango.board.representations.fen.FENBuilder;

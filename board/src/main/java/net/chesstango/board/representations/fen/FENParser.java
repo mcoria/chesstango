@@ -1,8 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.builders.GameBuilder;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

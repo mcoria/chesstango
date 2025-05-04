@@ -4,7 +4,7 @@ import lombok.Setter;
 import net.chesstango.board.*;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.builders.MirrorPositionBuilder;
+import net.chesstango.board.representations.MirrorPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainer;

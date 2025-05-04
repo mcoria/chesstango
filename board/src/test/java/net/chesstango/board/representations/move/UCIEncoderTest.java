@@ -4,11 +4,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.moves.factories.MoveFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

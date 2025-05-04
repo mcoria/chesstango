@@ -1,8 +1,4 @@
-package net.chesstango.board.builders;
-
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
-import net.chesstango.board.representations.PositionBuilder;
+package net.chesstango.board.representations;
 
 /**
  * @author Mauricio Coria

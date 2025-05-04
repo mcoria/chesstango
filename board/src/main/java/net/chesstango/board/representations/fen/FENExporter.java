@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Piece;
 import net.chesstango.board.representations.PositionBuilder;
 
 /**
@@ -119,58 +118,4 @@ public class FENExporter {
         return castlingAllowed.contains("k");
     }
 
-    private Piece getCode(char t) {
-        Piece piece = null;
-        switch (t) {
-            case 'r':
-                piece = Piece.ROOK_BLACK;
-                break;
-            case 'n':
-                piece = Piece.KNIGHT_BLACK;
-                break;
-            case 'q':
-                piece = Piece.QUEEN_BLACK;
-                break;
-            case 'k':
-                piece = Piece.KING_BLACK;
-                break;
-            case 'p':
-                piece = Piece.PAWN_BLACK;
-                break;
-            case 'b':
-                piece = Piece.BISHOP_BLACK;
-                break;
-            case 'R':
-                piece = Piece.ROOK_WHITE;
-                break;
-            case 'N':
-                piece = Piece.KNIGHT_WHITE;
-                break;
-            case 'Q':
-                piece = Piece.QUEEN_WHITE;
-                break;
-            case 'K':
-                piece = Piece.KING_WHITE;
-                break;
-            case 'P':
-                piece = Piece.PAWN_WHITE;
-                break;
-            case 'B':
-                piece = Piece.BISHOP_WHITE;
-                break;
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-                break;
-            default:
-                throw new RuntimeException("Unknown FEN code " + t);
-        }
-
-        return piece;
-    }
 }
