@@ -8,8 +8,8 @@ import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENExporter;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 
 /**
  * Interface representing a chess game.

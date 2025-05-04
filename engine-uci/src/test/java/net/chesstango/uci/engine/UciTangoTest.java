@@ -1,7 +1,7 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;

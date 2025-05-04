@@ -1,6 +1,6 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

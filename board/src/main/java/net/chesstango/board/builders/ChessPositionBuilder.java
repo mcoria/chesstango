@@ -12,7 +12,7 @@ import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.PositionBuilder;
+import net.chesstango.gardel.PositionBuilder;
 
 
 /**

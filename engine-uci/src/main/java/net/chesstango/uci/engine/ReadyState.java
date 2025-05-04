@@ -1,8 +1,8 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;

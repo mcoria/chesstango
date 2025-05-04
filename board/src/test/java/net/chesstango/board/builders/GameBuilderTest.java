@@ -4,8 +4,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENExporter;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

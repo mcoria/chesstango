@@ -1,10 +1,10 @@
 package net.chesstango.board.builders;
 
 import net.chesstango.board.position.Position;
-import net.chesstango.board.representations.MirrorPositionBuilder;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
-import net.chesstango.board.representations.fen.FENBuilder;
+import net.chesstango.gardel.MirrorPositionBuilder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.fen.FENBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

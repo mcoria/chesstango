@@ -1,7 +1,7 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchParameter;

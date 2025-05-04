@@ -2,7 +2,7 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package net.chesstango.board.position;
 
-import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.gardel.fen.FEN;
 
 /**
  * @author Mauricio Coria

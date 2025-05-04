@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.SearchByCycleContext;

@@ -7,7 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;

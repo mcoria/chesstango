@@ -1,8 +1,8 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

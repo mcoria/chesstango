@@ -2,12 +2,9 @@ module net.chesstango.board {
     exports net.chesstango.board;
     exports net.chesstango.board.analyzer;
     exports net.chesstango.board.representations;
-    exports net.chesstango.board.representations.polyglot;
     exports net.chesstango.board.representations.pgn;
     exports net.chesstango.board.representations.move;
-    exports net.chesstango.board.representations.fen;
     exports net.chesstango.board.representations.epd;
-    exports net.chesstango.board.representations.ascii;
     exports net.chesstango.board.position;
     exports net.chesstango.board.moves;
     exports net.chesstango.board.moves.generators.pseudo;
@@ -17,6 +14,8 @@ module net.chesstango.board {
     exports net.chesstango.board.iterators.bysquare;
     exports net.chesstango.board.iterators.byposition;
     exports net.chesstango.board.builders;
+
+    requires net.chesstango.gardel;
 
     requires static lombok;
 }

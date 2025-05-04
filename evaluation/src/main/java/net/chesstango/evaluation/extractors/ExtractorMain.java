@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.io.BufferedWriter;

@@ -4,8 +4,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENExporter;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

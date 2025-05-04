@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FENStringBuilder;
+import net.chesstango.gardel.fen.FENStringBuilder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;

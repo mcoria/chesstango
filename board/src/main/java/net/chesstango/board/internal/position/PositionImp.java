@@ -7,8 +7,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.*;
-import net.chesstango.board.representations.PositionBuilder;
-import net.chesstango.board.representations.fen.FENBuilder;
+import net.chesstango.gardel.PositionBuilder;
+import net.chesstango.gardel.fen.FENBuilder;
 
 import java.util.Iterator;
 

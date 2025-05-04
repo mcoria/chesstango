@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;

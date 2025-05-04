@@ -9,10 +9,11 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENParser;
-import net.chesstango.board.representations.fen.FENExporter;
-import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENBuilder;
+import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.fen.FENExporter;
+import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -911,6 +912,51 @@ public class GameTest {
 
         assertNotNull(move);
         assertEquals(Cardinal.SurEste, move.getMoveDirection());
+    }
+
+    @Test
+    public void test_encode_with_clocks1() {
+        FENBuilder coder = new FENBuilder();
+
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+
+        game.getPosition().constructChessPositionRepresentation(coder);
+
+        FEN fen = coder.getPositionRepresentation();
+
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", fen.toString());
+    }
+
+    @Test
+    public void test_encode_with_clocks2() {
+        FENBuilder coder = new FENBuilder();
+
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+
+        game.executeMove(Square.g1, Square.f3);
+
+        game.getPosition().constructChessPositionRepresentation(coder);
+
+        FEN fen = coder.getPositionRepresentation();
+
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", fen.toString());
+    }
+
+
+    @Test
+    public void test_encode_with_clocks3() {
+        FENBuilder coder = new FENBuilder();
+
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+
+        game.executeMove(Square.g1, Square.f3)
+                .executeMove(Square.g8, Square.f6);
+
+        game.getPosition().constructChessPositionRepresentation(coder);
+
+        FEN fen = coder.getPositionRepresentation();
+
+        assertEquals("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", fen.toString());
     }
 
     protected boolean contieneMove(MoveContainerReader<? extends Move> movimientos, Square from, Square to) {

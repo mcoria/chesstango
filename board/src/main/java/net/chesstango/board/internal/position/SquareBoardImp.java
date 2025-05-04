@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.byposition.BitIterator;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.ascii.ASCIIBuilder;
+import net.chesstango.gardel.ascii.ASCIIBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

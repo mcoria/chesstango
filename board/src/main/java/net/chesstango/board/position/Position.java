@@ -1,8 +1,8 @@
 package net.chesstango.board.position;
 
 import net.chesstango.board.builders.ChessPositionBuilder;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENExporter;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 
 /**
  * Interface representing a chess position.

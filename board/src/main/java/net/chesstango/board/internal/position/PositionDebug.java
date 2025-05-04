@@ -7,7 +7,7 @@ import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.representations.ascii.ASCIIBuilder;
+import net.chesstango.gardel.ascii.ASCIIBuilder;
 
 
 /**

@@ -2,7 +2,7 @@ package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.representations.fen.FENParser;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

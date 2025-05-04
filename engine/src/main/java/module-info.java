@@ -5,4 +5,5 @@ module net.chesstango.engine {
     requires net.chesstango.board;
     requires net.chesstango.search;
     requires static lombok;
+    requires net.chesstango.gardel;
 }
