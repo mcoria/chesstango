@@ -1,6 +1,7 @@
 package net.chesstango.board.representations.fen;
 
 import lombok.Getter;
+import net.chesstango.board.representations.PositionBuilder;
 
 import java.util.Objects;
 
@@ -40,6 +41,12 @@ public final class FEN {
     public static FEN of(String fenString) {
         FENParser parser = new FENParser();
         return parser.parseFEN(fenString);
+    }
+
+    public <T> T export(PositionBuilder<T> positionBuilder) {
+        FENExporter fenExporter = new FENExporter(positionBuilder);
+        fenExporter.export(this);
+        return positionBuilder.getPositionRepresentation();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
 
                     int kind_of_piece = getKindOfPiece(position);
 
-                    piece = piece ^ KEYS[64 * kind_of_piece + rank + file];
+                    piece = piece ^ KEYS[64 * kind_of_piece + 8 * rank + file];
                 }
             }
         }
@@ -76,10 +76,10 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
         if ((whitePositions & pawnPositions & position) != 0) {
             return 1;
         }
-        if ((whitePositions & knightPositions & position) != 0) {
+        if ((blackPositions & knightPositions & position) != 0) {
             return 2;
         }
-        if ((blackPositions & knightPositions & position) != 0) {
+        if ((whitePositions & knightPositions & position) != 0) {
             return 3;
         }
         if ((blackPositions & bishopPositions & position) != 0) {
@@ -100,7 +100,6 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
         if ((whitePositions & queenPositions & position) != 0) {
             return 9;
         }
-
         if ((blackPositions & kingPositions & position) != 0) {
             return 10;
         }
