@@ -21,13 +21,12 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
     @Override
     public Long getPositionRepresentation() {
         long piece = 0;
+
         for (int rank = 0; rank < 8; rank++) {
             for (int file = 0; file < 8; file++) {
                 long position = 1L << rank * 8 + file;
                 if (((whitePositions | blackPositions) & position) != 0) {
-
                     int kind_of_piece = getKindOfPiece(position);
-
                     piece = piece ^ KEYS[64 * kind_of_piece + 8 * rank + file];
                 }
             }
