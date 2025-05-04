@@ -7,7 +7,7 @@ import net.chesstango.board.representations.AbstractPositionBuilder;
 /**
  * @author Mauricio Coria
  */
-public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
+public class FENStringBuilder extends AbstractPositionBuilder<String> {
 
     @Override
     public String getPositionRepresentation() {
@@ -128,7 +128,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
     }
 
     public static String encodeGame(Game game) {
-        FENEncoderZobrist encoder = new FENEncoderZobrist();
+        FENStringBuilder encoder = new FENStringBuilder();
         game.getPosition().constructChessPositionRepresentation(encoder);
         return encoder.getPositionRepresentation();
     }

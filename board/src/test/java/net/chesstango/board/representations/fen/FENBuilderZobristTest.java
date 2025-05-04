@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 public class FENBuilderZobristTest {
-    private FENEncoderZobrist fenEncoderZobrist;
+    private FENStringBuilder fenStringBuilder;
 
 
     @BeforeEach
     public void setUp() throws Exception {
-        fenEncoderZobrist = new FENEncoderZobrist();
+        fenStringBuilder = new FENStringBuilder();
     }
 
     /**
@@ -26,9 +26,9 @@ public class FENBuilderZobristTest {
     public void test_encode_zobrist_with_EnPassantCapture(){
         Game game = Game.fromFEN("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3 0 1");
 
-        game.getPosition().constructChessPositionRepresentation(fenEncoderZobrist);
+        game.getPosition().constructChessPositionRepresentation(fenStringBuilder);
 
-        String fenZobrist = fenEncoderZobrist.getPositionRepresentation();
+        String fenZobrist = fenStringBuilder.getPositionRepresentation();
 
         assertEquals("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3", fenZobrist);
     }
@@ -41,9 +41,9 @@ public class FENBuilderZobristTest {
     public void test_encode_zobrist_without_EnPassantCapture(){
         Game game = Game.fromFEN("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3 0 1");
 
-        game.getPosition().constructChessPositionRepresentation(fenEncoderZobrist);
+        game.getPosition().constructChessPositionRepresentation(fenStringBuilder);
 
-        String fenZobrist = fenEncoderZobrist.getPositionRepresentation();
+        String fenZobrist = fenStringBuilder.getPositionRepresentation();
 
         assertEquals("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - -", fenZobrist);
     }

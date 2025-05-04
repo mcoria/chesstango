@@ -16,13 +16,9 @@ public class FENExporter {
 
 
     public void export(FEN fen) {
-        parsePiecePlacement(fen.getPiecePlacement());
-
-        if (!"-".equals(fen.getEnPassantSquare())) {
-            positionBuilder.withEnPassantSquare(parseFileEnPassantSquare(fen.getEnPassantSquare()), parseRankEnPassantSquare(fen.getEnPassantSquare()));
-        }
-
         positionBuilder.withWhiteTurn(parseTurn(fen.getActiveColor()));
+
+        parsePiecePlacement(fen.getPiecePlacement());
 
         if (isCastlingWhiteQueenAllowed(fen.getCastingsAllowed())) {
             positionBuilder.withCastlingWhiteQueenAllowed(true);
@@ -40,9 +36,13 @@ public class FENExporter {
             positionBuilder.withCastlingBlackKingAllowed(true);
         }
 
-        positionBuilder.withHalfMoveClock(fen.getHalfMoveClock() == null ? 0 : Integer.parseInt(fen.getHalfMoveClock()));
+        if (!"-".equals(fen.getEnPassantSquare())) {
+            positionBuilder.withEnPassantSquare(parseFileEnPassantSquare(fen.getEnPassantSquare()), parseRankEnPassantSquare(fen.getEnPassantSquare()));
+        }
 
-        positionBuilder.withFullMoveClock(fen.getFullMoveClock() == null ? 1 : Integer.parseInt(fen.getFullMoveClock()));
+        positionBuilder.withHalfMoveClock(Integer.parseInt(fen.getHalfMoveClock()));
+
+        positionBuilder.withFullMoveClock(Integer.parseInt(fen.getFullMoveClock()));
     }
 
     void parsePiecePlacement(String piecePlacement) {
