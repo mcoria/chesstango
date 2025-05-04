@@ -17,21 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MirrorBuilderTest {
 
     @Test
-    public void mirrorChessPosition() {
-        MirrorPositionBuilder<Position> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new ChessPositionBuilder());
-        mirrorChessPositionBuilder.withWhiteTurn(true);
-        mirrorChessPositionBuilder.withPiece(Square.a1.getFile(), Square.a1.getRank(), Piece.ROOK_WHITE);
-        mirrorChessPositionBuilder.withPiece(Square.e1.getFile(), Square.e1.getRank(), Piece.KING_WHITE);
-        mirrorChessPositionBuilder.withPiece(Square.e8.getFile(), Square.e8.getRank(), Piece.KING_BLACK);
-        Position mirrorPosition = mirrorChessPositionBuilder.getPositionRepresentation();
-
-        assertEquals(Color.BLACK, mirrorPosition.getCurrentTurn());
-        assertEquals(Piece.ROOK_BLACK, mirrorPosition.getPiece(Square.a8));
-        assertEquals(Piece.KING_BLACK, mirrorPosition.getPiece(Square.e8));
-        assertEquals(Piece.KING_WHITE, mirrorPosition.getPiece(Square.e1));
-    }
-
-    @Test
     public void mirrorChessPosition01() {
         Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 

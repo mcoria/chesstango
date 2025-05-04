@@ -1,7 +1,6 @@
 package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement03() {
-        coder.withPiece(0, 0, Piece.ROOK_WHITE);
+        coder.withWhiteRook(0, 0);
 
         String actual = coder.getPiecePlacement();
 
@@ -65,7 +64,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement04() {
-        coder.withPiece(7, 0, Piece.ROOK_WHITE);
+        coder.withWhiteRook(7, 0);
 
         String actual = coder.getPiecePlacement();
 
@@ -74,7 +73,7 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement05() {
-        coder.withPiece(0, 7, Piece.ROOK_BLACK);
+        coder.withBlackRook(0, 7);
 
         String actual = coder.getPiecePlacement();
 
@@ -128,42 +127,42 @@ public class FENBuilderTest {
 
     @Test
     public void testCodePiecePlacement06() {
-        coder.withPiece(0, 7, Piece.ROOK_BLACK);
-        coder.withPiece(1, 7, Piece.KNIGHT_BLACK);
-        coder.withPiece(2, 7, Piece.BISHOP_BLACK);
-        coder.withPiece(3, 7, Piece.QUEEN_BLACK);
-        coder.withPiece(4, 7, Piece.KING_BLACK);
-        coder.withPiece(5, 7, Piece.BISHOP_BLACK);
-        coder.withPiece(6, 7, Piece.KNIGHT_BLACK);
-        coder.withPiece(7, 7, Piece.ROOK_BLACK);
+        coder.withBlackRook(0, 7);
+        coder.withBlackKnight(1, 7);
+        coder.withBlackBishop(2, 7);
+        coder.withBlackQueen(3, 7);
+        coder.withBlackKing(4, 7);
+        coder.withBlackBishop(5, 7);
+        coder.withBlackKnight(6, 7);
+        coder.withBlackRook(7, 7);
 
-        coder.withPiece(0, 6, Piece.PAWN_BLACK);
-        coder.withPiece(1, 6, Piece.PAWN_BLACK);
-        coder.withPiece(2, 6, Piece.PAWN_BLACK);
-        coder.withPiece(3, 6, Piece.PAWN_BLACK);
-        coder.withPiece(4, 6, Piece.PAWN_BLACK);
-        coder.withPiece(5, 6, Piece.PAWN_BLACK);
-        coder.withPiece(6, 6, Piece.PAWN_BLACK);
-        coder.withPiece(7, 6, Piece.PAWN_BLACK);
+        coder.withBlackPawn(0, 6);
+        coder.withBlackPawn(1, 6);
+        coder.withBlackPawn(2, 6);
+        coder.withBlackPawn(3, 6);
+        coder.withBlackPawn(4, 6);
+        coder.withBlackPawn(5, 6);
+        coder.withBlackPawn(6, 6);
+        coder.withBlackPawn(7, 6);
 
 
-        coder.withPiece(0, 1, Piece.PAWN_WHITE);
-        coder.withPiece(1, 1, Piece.PAWN_WHITE);
-        coder.withPiece(2, 1, Piece.PAWN_WHITE);
-        coder.withPiece(3, 1, Piece.PAWN_WHITE);
-        coder.withPiece(4, 1, Piece.PAWN_WHITE);
-        coder.withPiece(5, 1, Piece.PAWN_WHITE);
-        coder.withPiece(6, 1, Piece.PAWN_WHITE);
-        coder.withPiece(7, 1, Piece.PAWN_WHITE);
+        coder.withWhitePawn(0, 1);
+        coder.withWhitePawn(1, 1);
+        coder.withWhitePawn(2, 1);
+        coder.withWhitePawn(3, 1);
+        coder.withWhitePawn(4, 1);
+        coder.withWhitePawn(5, 1);
+        coder.withWhitePawn(6, 1);
+        coder.withWhitePawn(7, 1);
 
-        coder.withPiece(0, 0, Piece.ROOK_WHITE);
-        coder.withPiece(1, 0, Piece.KNIGHT_WHITE);
-        coder.withPiece(2, 0, Piece.BISHOP_WHITE);
-        coder.withPiece(3, 0, Piece.QUEEN_WHITE);
-        coder.withPiece(4, 0, Piece.KING_WHITE);
-        coder.withPiece(5, 0, Piece.BISHOP_WHITE);
-        coder.withPiece(6, 0, Piece.KNIGHT_WHITE);
-        coder.withPiece(7, 0, Piece.ROOK_WHITE);
+        coder.withWhiteRook(0, 0);
+        coder.withWhiteKnight(1, 0);
+        coder.withWhiteBishop(2, 0);
+        coder.withWhiteQueen(3, 0);
+        coder.withWhiteKing(4, 0);
+        coder.withWhiteBishop(5, 0);
+        coder.withWhiteKnight(6, 0);
+        coder.withWhiteRook(7, 0);
 
 
         String actual = coder.getPiecePlacement();
@@ -173,42 +172,41 @@ public class FENBuilderTest {
 
     @Test
     public void testGetFEN() {
-        coder.withPiece(0, 7, Piece.ROOK_BLACK);
-        coder.withPiece(1, 7, Piece.KNIGHT_BLACK);
-        coder.withPiece(2, 7, Piece.BISHOP_BLACK);
-        coder.withPiece(3, 7, Piece.QUEEN_BLACK);
-        coder.withPiece(4, 7, Piece.KING_BLACK);
-        coder.withPiece(5, 7, Piece.BISHOP_BLACK);
-        coder.withPiece(6, 7, Piece.KNIGHT_BLACK);
-        coder.withPiece(7, 7, Piece.ROOK_BLACK);
+        coder.withBlackRook(0, 7);
+        coder.withBlackKnight(1, 7);
+        coder.withBlackBishop(2, 7);
+        coder.withBlackQueen(3, 7);
+        coder.withBlackKing(4, 7);
+        coder.withBlackBishop(5, 7);
+        coder.withBlackKnight(6, 7);
+        coder.withBlackRook(7, 7);
 
-        coder.withPiece(0, 6, Piece.PAWN_BLACK);
-        coder.withPiece(1, 6, Piece.PAWN_BLACK);
-        coder.withPiece(2, 6, Piece.PAWN_BLACK);
-        coder.withPiece(3, 6, Piece.PAWN_BLACK);
-        coder.withPiece(4, 6, Piece.PAWN_BLACK);
-        coder.withPiece(5, 6, Piece.PAWN_BLACK);
-        coder.withPiece(6, 6, Piece.PAWN_BLACK);
-        coder.withPiece(7, 6, Piece.PAWN_BLACK);
+        coder.withBlackPawn(0, 6);
+        coder.withBlackPawn(1, 6);
+        coder.withBlackPawn(2, 6);
+        coder.withBlackPawn(3, 6);
+        coder.withBlackPawn(4, 6);
+        coder.withBlackPawn(5, 6);
+        coder.withBlackPawn(6, 6);
+        coder.withBlackPawn(7, 6);
 
+        coder.withWhitePawn(0, 1);
+        coder.withWhitePawn(1, 1);
+        coder.withWhitePawn(2, 1);
+        coder.withWhitePawn(3, 1);
+        coder.withWhitePawn(4, 1);
+        coder.withWhitePawn(5, 1);
+        coder.withWhitePawn(6, 1);
+        coder.withWhitePawn(7, 1);
 
-        coder.withPiece(0, 1, Piece.PAWN_WHITE);
-        coder.withPiece(1, 1, Piece.PAWN_WHITE);
-        coder.withPiece(2, 1, Piece.PAWN_WHITE);
-        coder.withPiece(3, 1, Piece.PAWN_WHITE);
-        coder.withPiece(4, 1, Piece.PAWN_WHITE);
-        coder.withPiece(5, 1, Piece.PAWN_WHITE);
-        coder.withPiece(6, 1, Piece.PAWN_WHITE);
-        coder.withPiece(7, 1, Piece.PAWN_WHITE);
-
-        coder.withPiece(0, 0, Piece.ROOK_WHITE);
-        coder.withPiece(1, 0, Piece.KNIGHT_WHITE);
-        coder.withPiece(2, 0, Piece.BISHOP_WHITE);
-        coder.withPiece(3, 0, Piece.QUEEN_WHITE);
-        coder.withPiece(4, 0, Piece.KING_WHITE);
-        coder.withPiece(5, 0, Piece.BISHOP_WHITE);
-        coder.withPiece(6, 0, Piece.KNIGHT_WHITE);
-        coder.withPiece(7, 0, Piece.ROOK_WHITE);
+        coder.withWhiteRook(0, 0);
+        coder.withWhiteKnight(1, 0);
+        coder.withWhiteBishop(2, 0);
+        coder.withWhiteQueen(3, 0);
+        coder.withWhiteKing(4, 0);
+        coder.withWhiteBishop(5, 0);
+        coder.withWhiteKnight(6, 0);
+        coder.withWhiteRook(7, 0);
 
         coder.withWhiteTurn(true);
 

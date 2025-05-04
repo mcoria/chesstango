@@ -1,8 +1,5 @@
 package net.chesstango.board.representations;
 
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
-
 /**
  * Interface for building a chess position. A chess positions consists of:
  * <ul>
@@ -26,15 +23,29 @@ public interface PositionBuilder<T> {
      */
     PositionBuilder<T> withWhiteTurn(boolean whiteTurn);
 
+    PositionBuilder<T> withWhiteKing(int file, int rank);
 
-    /**
-     * Sets the en passant square, which indicates the target square of a possible en passant capture.
-     *
-     * @param file The file of the en passant square (0-based index).
-     * @param rank The rank of the en passant square (0-based index).
-     * @return The current instance of the PositionBuilder.
-     */
-    PositionBuilder<T> withEnPassantSquare(int file, int rank);
+    PositionBuilder<T> withWhiteQueen(int file, int rank);
+
+    PositionBuilder<T> withWhiteRook(int file, int rank);
+
+    PositionBuilder<T> withWhiteBishop(int file, int rank);
+
+    PositionBuilder<T> withWhiteKnight(int file, int rank);
+
+    PositionBuilder<T> withWhitePawn(int file, int rank);
+
+    PositionBuilder<T> withBlackKing(int file, int rank);
+
+    PositionBuilder<T> withBlackQueen(int file, int rank);
+
+    PositionBuilder<T> withBlackRook(int file, int rank);
+
+    PositionBuilder<T> withBlackBishop(int file, int rank);
+
+    PositionBuilder<T> withBlackKnight(int file, int rank);
+
+    PositionBuilder<T> withBlackPawn(int file, int rank);
 
     /**
      * Sets whether castling with the white queen is allowed.
@@ -70,14 +81,13 @@ public interface PositionBuilder<T> {
 
 
     /**
-     * Places a piece on a specific board square determined by the file and rank.
+     * Sets the en passant square, which indicates the target square of a possible en passant capture.
      *
-     * @param file The file of the square where the piece is to be placed (0-based index).
-     * @param rank The rank of the square where the piece is to be placed (0-based index).
-     * @param piece The chess piece to be placed on the specified square.
+     * @param file The file of the en passant square (0-based index).
+     * @param rank The rank of the en passant square (0-based index).
      * @return The current instance of the PositionBuilder.
      */
-    PositionBuilder<T> withPiece(int file, int rank, Piece piece);
+    PositionBuilder<T> withEnPassantSquare(int file, int rank);
 
     /**
      * Sets the half-move clock.

@@ -4,14 +4,14 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.internal.position.BitBoardImp;
+import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.internal.position.PositionStateImp;
+import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.BitBoardImp;
-import net.chesstango.board.internal.position.PositionImp;
-import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.representations.PositionBuilder;
 
 
@@ -40,14 +40,69 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public Position getPositionRepresentation() {
-        return chessPosition;
-    }
-
-    @Override
     public ChessPositionBuilder withWhiteTurn(boolean whiteTurn) {
         positionState.setCurrentTurn(whiteTurn ? Color.WHITE : Color.BLACK);
         return this;
+    }
+
+    @Override
+    public ChessPositionBuilder withWhiteKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withWhiteQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withWhiteRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withWhiteBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withWhiteKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withWhitePawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_WHITE);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_BLACK);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_BLACK);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_BLACK);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_BLACK);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_BLACK);
+    }
+
+    @Override
+    public PositionBuilder<Position> withBlackPawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_BLACK);
     }
 
     @Override
@@ -95,13 +150,18 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
     }
 
     @Override
-    public ChessPositionBuilder withPiece(int file, int rank, Piece piece) {
+    public Position getPositionRepresentation() {
+        return chessPosition;
+    }
+
+
+    ChessPositionBuilder withPiece(int file, int rank, Piece piece) {
         if (piece == null) {
             throw new RuntimeException("piece is null");
         }
         Square square = Square.getSquare(file, rank);
         squareBoard.setPiece(square, piece);
         bitBoard.addPosition(PiecePositioned.of(square, piece));
-        return null;
+        return this;
     }
 }

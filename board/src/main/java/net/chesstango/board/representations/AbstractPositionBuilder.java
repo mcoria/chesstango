@@ -2,6 +2,8 @@ package net.chesstango.board.representations;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
+import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.position.Position;
 
 /**
  * @author Mauricio Coria
@@ -27,30 +29,104 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
 
 
     @Override
-    public AbstractPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
-        int square = rank * 8 + file;
-
-        if (Color.WHITE.equals(piece.getColor())) {
-            whitePositions |= 1L << square;
-        } else {
-            blackPositions |= 1L << square;
-        }
-
-        switch (piece) {
-            case KING_WHITE, KING_BLACK -> kingPositions |= 1L << square;
-            case QUEEN_WHITE, QUEEN_BLACK -> queenPositions |= 1L << square;
-            case ROOK_WHITE, ROOK_BLACK -> rookPositions |= 1L << square;
-            case BISHOP_WHITE, BISHOP_BLACK -> bishopPositions |= 1L << square;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> knightPositions |= 1L << square;
-            case PAWN_WHITE, PAWN_BLACK -> pawnPositions |= 1L << square;
-        }
-
-        return null;
+    public AbstractPositionBuilder<T> withWhiteTurn(boolean whiteTurn) {
+        this.whiteTurn = whiteTurn;
+        return this;
     }
 
     @Override
-    public AbstractPositionBuilder<T> withWhiteTurn(boolean whiteTurn) {
-        this.whiteTurn = whiteTurn;
+    public AbstractPositionBuilder<T> withWhiteKing(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        kingPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withWhiteQueen(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        queenPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withWhiteRook(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        rookPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withWhiteBishop(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        bishopPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withWhiteKnight(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        knightPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withWhitePawn(int file, int rank) {
+        int square = rank * 8 + file;
+        whitePositions |= 1L << square;
+        pawnPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackKing(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        kingPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackQueen(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        queenPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackRook(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        rookPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackBishop(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        bishopPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackKnight(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        knightPositions |= 1L << square;
+        return this;
+    }
+
+    @Override
+    public AbstractPositionBuilder<T> withBlackPawn(int file, int rank) {
+        int square = rank * 8 + file;
+        blackPositions |= 1L << square;
+        pawnPositions |= 1L << square;
         return this;
     }
 

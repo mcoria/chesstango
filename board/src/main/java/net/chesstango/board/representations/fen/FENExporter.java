@@ -1,7 +1,6 @@
 package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
 import net.chesstango.board.representations.PositionBuilder;
 
 /**
@@ -46,48 +45,32 @@ public class FENExporter {
     }
 
     void parsePiecePlacement(String piecePlacement) {
-        Piece[][] piezas = parsePieces(piecePlacement);
-        for (int rank = 0; rank < 8; rank++) {
-            for (int file = 0; file < 8; file++) {
-                Square square = Square.getSquare(file, rank);
-                Piece piece = piezas[rank][file];
-                if (piece != null) {
-                    positionBuilder.withPiece(square.getFile(), square.getRank(), piece);
+        int rank = 7;
+        int file = 0;
+        int idx = 0;
+        while (idx < piecePlacement.length()) {
+            char currentChar = piecePlacement.charAt(idx++);
+            switch (currentChar) {
+                case 'K' -> positionBuilder.withWhiteKing(file++, rank);
+                case 'Q' -> positionBuilder.withWhiteQueen(file++, rank);
+                case 'R' -> positionBuilder.withWhiteRook(file++, rank);
+                case 'B' -> positionBuilder.withWhiteBishop(file++, rank);
+                case 'N' -> positionBuilder.withWhiteKnight(file++, rank);
+                case 'P' -> positionBuilder.withWhitePawn(file++, rank);
+                case 'k' -> positionBuilder.withBlackKing(file++, rank);
+                case 'q' -> positionBuilder.withBlackQueen(file++, rank);
+                case 'r' -> positionBuilder.withBlackRook(file++, rank);
+                case 'b' -> positionBuilder.withBlackBishop(file++, rank);
+                case 'n' -> positionBuilder.withBlackKnight(file++, rank);
+                case 'p' -> positionBuilder.withBlackPawn(file++, rank);
+                case '1', '2', '3', '4', '5', '6', '7', '8' -> file += Integer.parseInt(String.valueOf(currentChar));
+                case '/' -> {
+                    rank--;
+                    file = 0;
                 }
+                default -> throw new RuntimeException("FEN: Malformed piece placement: " + piecePlacement);
             }
         }
-    }
-
-    Piece[][] parsePieces(String piecePlacement) {
-        Piece[][] tablero = new Piece[8][8];
-        String[] ranks = piecePlacement.split("/");
-        int currentRank = 7;
-        for (int i = 0; i < 8; i++) {
-            Piece[] rankPiezas = parseRank(ranks[i]);
-            System.arraycopy(rankPiezas, 0, tablero[currentRank], 0, 8);
-            currentRank--;
-        }
-        return tablero;
-    }
-
-    Piece[] parseRank(String rank) {
-        Piece[] piezas = new Piece[8];
-        int position = 0;
-        for (int i = 0; i < rank.length(); i++) {
-            char theCharCode = rank.charAt(i);
-            Piece currentPieza = getCode(theCharCode);
-            if (currentPieza != null) {
-                piezas[position] = currentPieza;
-                position++;
-            } else {
-                int offset = Integer.parseInt(String.valueOf(theCharCode));
-                position += offset;
-            }
-        }
-        if (position != 8) {
-            throw new RuntimeException("FEN: Malformed rank: " + rank);
-        }
-        return piezas;
     }
 
     int parseFileEnPassantSquare(String pawnPasante) {

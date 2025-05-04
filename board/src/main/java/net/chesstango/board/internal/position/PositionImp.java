@@ -51,7 +51,22 @@ public class PositionImp implements Position {
 
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {
-                builder.withPiece(piecePositioned.getSquare().getFile(), piecePositioned.getSquare().getRank(), piecePositioned.getPiece());
+                int file = piecePositioned.getSquare().getFile();
+                int rank = piecePositioned.getSquare().getRank();
+                switch (piecePositioned.getPiece()) {
+                    case PAWN_WHITE -> builder.withWhitePawn(file, rank);
+                    case KNIGHT_WHITE -> builder.withWhiteKnight(file, rank);
+                    case BISHOP_WHITE -> builder.withWhiteBishop(file, rank);
+                    case ROOK_WHITE -> builder.withWhiteRook(file, rank);
+                    case QUEEN_WHITE -> builder.withWhiteQueen(file, rank);
+                    case KING_WHITE -> builder.withWhiteKing(file, rank);
+                    case PAWN_BLACK -> builder.withBlackPawn(file, rank);
+                    case KNIGHT_BLACK -> builder.withBlackKnight(file, rank);
+                    case BISHOP_BLACK -> builder.withBlackBishop(file, rank);
+                    case ROOK_BLACK -> builder.withBlackRook(file, rank);
+                    case QUEEN_BLACK -> builder.withBlackQueen(file, rank);
+                    case KING_BLACK -> builder.withBlackKing(file, rank);
+                }
             }
         }
     }

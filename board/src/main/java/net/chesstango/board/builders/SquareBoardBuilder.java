@@ -32,6 +32,66 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
     }
 
     @Override
+    public SquareBoardBuilder withWhiteKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withWhiteQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withWhiteRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withWhiteBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withWhiteKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withWhitePawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_WHITE);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_BLACK);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_BLACK);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_BLACK);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_BLACK);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_BLACK);
+    }
+
+    @Override
+    public SquareBoardBuilder withBlackPawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_BLACK);
+    }
+
+    @Override
     public SquareBoardBuilder withEnPassantSquare(int file, int rank) {
         return this;
     }
@@ -66,10 +126,10 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
         return this;
     }
 
-    @Override
+
     public SquareBoardBuilder withPiece(int file, int rank, Piece piece) {
         Square square = Square.getSquare(file, rank);
         squareBoard.setPiece(square, piece);
-        return null;
+        return this;
     }
 }

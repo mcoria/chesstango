@@ -22,10 +22,80 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
+    public MirrorPositionBuilder<T> withWhiteKing(int file, int rank) {
+        positionBuilder.withBlackKing(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withWhiteQueen(int file, int rank) {
+        positionBuilder.withBlackQueen(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withWhiteRook(int file, int rank) {
+        positionBuilder.withBlackRook(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withWhiteBishop(int file, int rank) {
+        positionBuilder.withBlackBishop(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withWhiteKnight(int file, int rank) {
+        positionBuilder.withBlackKnight(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withWhitePawn(int file, int rank) {
+        positionBuilder.withBlackPawn(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackKing(int file, int rank) {
+        positionBuilder.withWhiteKing(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackQueen(int file, int rank) {
+        positionBuilder.withWhiteQueen(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackRook(int file, int rank) {
+        positionBuilder.withWhiteRook(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackBishop(int file, int rank) {
+        positionBuilder.withWhiteBishop(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackKnight(int file, int rank) {
+        positionBuilder.withWhiteKnight(file, 7- rank);
+        return this;
+    }
+
+    @Override
+    public MirrorPositionBuilder<T> withBlackPawn(int file, int rank) {
+        positionBuilder.withWhitePawn(file, 7- rank);
+        return this;
+    }
+
+    @Override
     public MirrorPositionBuilder<T> withEnPassantSquare(int file, int rank) {
-        Square square = Square.getSquare(file, rank);
-        Square squareMirror = square.getMirrorSquare();
-        positionBuilder.withEnPassantSquare(squareMirror.getFile(), squareMirror.getRank());
+        positionBuilder.withEnPassantSquare(file, 7 - rank);
         return this;
     }
 
@@ -54,14 +124,6 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
     }
 
     @Override
-    public MirrorPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
-        Square square = Square.getSquare(file, rank);
-        Square mirrorSquare = square.getMirrorSquare();
-        positionBuilder.withPiece(mirrorSquare.getFile(), mirrorSquare.getRank(), piece.getOpposite());
-        return null;
-    }
-
-    @Override
     public MirrorPositionBuilder<T> withHalfMoveClock(int halfMoveClock) {
         positionBuilder.withHalfMoveClock(halfMoveClock);
         return this;
@@ -77,4 +139,5 @@ public class MirrorPositionBuilder<T> implements PositionBuilder<T> {
     public T getPositionRepresentation() {
         return positionBuilder.getPositionRepresentation();
     }
+
 }
