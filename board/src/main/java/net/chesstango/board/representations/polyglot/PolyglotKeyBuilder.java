@@ -57,23 +57,31 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
             0b00000000_00000000_00000000_10100000_10100000_00000000_00000000_00000000L,
             0b00000000_00000000_00000000_01000000_01000000_00000000_00000000_00000000L,
     };
-
-    private long zobristEnPassantSquare() {
-        long result = 0;
+    public static long pawnsAttackingEnPassantSquare(boolean whiteTurn, long whitePositions, long blackPositions, long pawnPositions, long enPassantSquare) {
+        long pawns = 0;
         int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
         if (enPassantSquarePosition < 64) {
             int file = enPassantSquarePosition % 8;
-            long pawns = pawnPositions;
+            pawns = pawnPositions;
             pawns &= (whiteTurn ? whitePositions : blackPositions);
             pawns &= (whiteTurn ? WHITE_MASK : BLACK_MASK);
             pawns &= PAWN_ATTACKERS_MASK[file];
-            if (pawns != 0) {
-                result = KEYS[EN_PASSANT_OFFSET + file];
-            }
+            return pawns;
         }
-        return result;
+        return pawns;
     }
 
+    private long zobristEnPassantSquare() {
+        long result = 0;
+
+        if (pawnsAttackingEnPassantSquare(whiteTurn, whitePositions, blackPositions, pawnPositions, enPassantSquare) != 0) {
+            int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
+            int file = enPassantSquarePosition % 8;
+            result = KEYS[EN_PASSANT_OFFSET + file];
+        }
+
+        return result;
+    }
 
     private int getKindOfPiece(long position) {
         if ((blackPositions & pawnPositions & position) != 0) {

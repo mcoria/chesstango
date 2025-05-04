@@ -17,6 +17,8 @@ public class FENBuilderZobristTest {
     @BeforeEach
     public void setUp() throws Exception {
         fenStringBuilder = new FENStringBuilder();
+        fenStringBuilder.setIgnoreClocks(true);
+        fenStringBuilder.setIgnoreEnPassantSquareIfNotCapturePresente(true);
     }
 
     /**
@@ -24,13 +26,13 @@ public class FENBuilderZobristTest {
      */
     @Test
     public void test_encode_zobrist_with_EnPassantCapture(){
-        Game game = Game.fromFEN("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3 0 1");
+        Game game = Game.fromFEN("5rk1/1ppb3p/2pb4/6q1/pP1r4/2PQR2P/P2B2P1/6KN b - b3 0 1");
 
         game.getPosition().constructChessPositionRepresentation(fenStringBuilder);
 
         String fenZobrist = fenStringBuilder.getPositionRepresentation();
 
-        assertEquals("5rk1/1ppb3p/p1pb4/6q1/1P1r4/2PQR2P/P2B2P1/6KN b - b3", fenZobrist);
+        assertEquals("5rk1/1ppb3p/2pb4/6q1/pP1r4/2PQR2P/P2B2P1/6KN b - b3", fenZobrist);
     }
 
 
