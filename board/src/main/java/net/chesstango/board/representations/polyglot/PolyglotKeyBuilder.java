@@ -41,29 +41,36 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
                         (castlingBlackKingAllowed ? KEYS[CASTLE_BLACK_KING_OFFSET] : 0) ^
                         (castlingBlackQueenAllowed ? KEYS[CASTLE_BLACK_QUEEN_OFFSET] : 0);
 
-        long enpassant = 0;
-        if (enPassantSquare == 0) {
-            enpassant = zobristEnPassantSquare();
-        }
+        long enPassant = zobristEnPassantSquare();
 
-
-        return piece ^ castle ^ enpassant ^ turn;
+        return piece ^ castle ^ enPassant ^ turn;
     }
+
+    private static long WHITE_MASK = 0b00000000_00000000_00000000_11111111_00000000_00000000_00000000_00000000L;
+    private static long BLACK_MASK = 0b00000000_00000000_00000000_00000000_11111111_00000000_00000000_00000000L;
+    private static long[] PAWN_ATTACKERS_MASK = {
+            0b00000000_00000000_00000000_00000010_00000010_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_00000101_00000101_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_00001010_00001010_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_00010100_00010100_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_00101000_00101000_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_01010000_01010000_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_10100000_10100000_00000000_00000000_00000000L,
+            0b00000000_00000000_00000000_01000000_01000000_00000000_00000000_00000000L,
+    };
 
     private long zobristEnPassantSquare() {
         long result = 0;
-        if (whiteTurn) {
-            /*
-            if (enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
-                    || enPassantSquare.getFile() + 1 < 8 && board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE) {
-                result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
+        int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
+        if (enPassantSquarePosition < 64) {
+            int file = enPassantSquarePosition % 8;
+            long pawns = pawnPositions;
+            pawns &= (whiteTurn ? whitePositions : blackPositions);
+            pawns &= (whiteTurn ? WHITE_MASK : BLACK_MASK);
+            pawns &= PAWN_ATTACKERS_MASK[file];
+            if (pawns != 0) {
+                result = KEYS[EN_PASSANT_OFFSET + file];
             }
-        } else {
-            if (enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
-                    || enPassantSquare.getFile() + 1 < 8 && board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK) {
-                result = KEYS[EN_PASSANT_OFFSET + enPassantSquare.getFile()];
-            }
-             */
         }
         return result;
     }
