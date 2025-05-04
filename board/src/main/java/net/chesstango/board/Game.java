@@ -160,6 +160,8 @@ public interface Game {
      */
     Game mirror();
 
+
+
     static Game fromFEN(String fen) {
         return from(FEN.of(fen));
     }

@@ -1,10 +1,6 @@
 package net.chesstango.board.representations.polyglot;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.position.Position;
-import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.AbstractPositionBuilder;
-import net.chesstango.board.representations.fen.FEN;
 
 /**
  * @author Mauricio Coria
@@ -57,6 +53,7 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
             0b00000000_00000000_00000000_10100000_10100000_00000000_00000000_00000000L,
             0b00000000_00000000_00000000_01000000_01000000_00000000_00000000_00000000L,
     };
+
     public static long pawnsAttackingEnPassantSquare(boolean whiteTurn, long whitePositions, long blackPositions, long pawnPositions, long enPassantSquare) {
         long pawns = 0;
         int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
@@ -321,20 +318,4 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
             0xCF3145DE0ADD4289L, 0xD0E4427A5514FB72L, 0x77C621CC9FB3A483L, 0x67A34DAC4356550BL,
             0xF8D626AAAF278509L
     };
-
-
-    public static Long getKey(String fenString) {
-        PositionReader position = Position.from(FEN.of(fenString));
-        return getKey(position);
-    }
-
-    public static Long getKey(Game game) {
-        return getKey(game.getPosition());
-    }
-
-    public static Long getKey(PositionReader position) {
-        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        position.constructChessPositionRepresentation(polyglotKeyBuilder);
-        return polyglotKeyBuilder.getPositionRepresentation();
-    }
 }

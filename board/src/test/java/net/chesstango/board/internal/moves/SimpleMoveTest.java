@@ -14,6 +14,7 @@ import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.internal.position.PositionImp;
 import net.chesstango.board.internal.position.SquareBoardImp;
 import net.chesstango.board.internal.position.ZobristHashImp;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -108,7 +109,7 @@ public class SimpleMoveTest {
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(zobristHash);
 
-        assertEquals(PolyglotKeyBuilder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("8/4R3/8/8/8/8/8/8 b - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
@@ -224,5 +225,11 @@ public class SimpleMoveTest {
         bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
+    }
+
+    private long getPolyglotKey(String fen){
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        FEN.of(fen).export(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 }

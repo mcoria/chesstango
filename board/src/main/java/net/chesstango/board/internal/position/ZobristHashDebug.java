@@ -9,7 +9,10 @@ import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 public class ZobristHashDebug extends ZobristHashImp {
 
     public void validar(PositionReader position) {
-        if (!PolyglotKeyBuilder.getKey(position).equals(position.getZobristHash())) {
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        position.constructChessPositionRepresentation(polyglotKeyBuilder);
+        Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
+        if (!polyglotKey.equals(position.getZobristHash())) {
             throw new RuntimeException("Zobrist hash does not match");
         }
     }

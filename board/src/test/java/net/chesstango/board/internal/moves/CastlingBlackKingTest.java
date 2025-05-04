@@ -9,6 +9,7 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.representations.fen.FEN;
 import net.chesstango.board.representations.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,7 +106,7 @@ public class CastlingBlackKingTest {
 
         moveExecutor.doMove(zobristHash);
 
-        assertEquals(PolyglotKeyBuilder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("5rk1/8/8/8/8/8/8/8 w - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
@@ -260,5 +261,11 @@ public class CastlingBlackKingTest {
         positionState.validar(squareBoard);
         kingCacheBoard.validar(squareBoard);
         moveCacheBoard.validar(squareBoard);
+    }
+
+    private long getPolyglotKey(String fen){
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        FEN.of(fen).export(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 }
