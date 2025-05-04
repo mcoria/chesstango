@@ -1,9 +1,5 @@
 package net.chesstango.board.representations.ascii;
 
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
-import net.chesstango.board.iterators.bysquare.SquareIterator;
-import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 import net.chesstango.board.representations.AbstractPositionBuilder;
 import net.chesstango.board.representations.fen.FENBuilder;
 
@@ -37,51 +33,68 @@ public class ASCIIBuilder extends AbstractPositionBuilder<String> {
     }
 
     public void getPiecePlacement(PrintStream printStream) {
-        SquareIterator iterator = new TopDownSquareIterator();
-
         printStream.println("  -------------------------------");
-        do {
-            Square square = iterator.next();
 
-            Piece piece = board[square.getRank()][square.getFile()];
+        for (int rank = 7; rank >= 0; rank--) {
+            for (int file = 0; file < 8; file++) {
+                if (file == 0) {
+                    printStream.print((rank + 1));
+                }
 
-            if (square.getFile() == 0) {
-                printStream.print((square.getRank() + 1));
+                long position = 1L << rank * 8 + file;
+
+                printStream.print("| " + getChar(position) + " ");
+
+                if (file == 7) {
+                    printStream.println("|");
+                    printStream.println("  -------------------------------");
+                }
             }
-
-            printStream.print("| " + getChar(piece) + " ");
-
-            if (square.getFile() == 7) {
-                printStream.println("|");
-                printStream.println("  -------------------------------");
-            }
-        } while (iterator.hasNext());
+        }
 
         printStream.println("   a   b   c   d   e   f   g   h");
 
         printStream.flush();
     }
 
-    private char getChar(Piece piece) {
-        char result = ' ';
-        if (piece != null) {
-            result = switch (piece) {
-                case PAWN_WHITE -> 'P';
-                case PAWN_BLACK -> 'p';
-                case ROOK_WHITE -> 'R';
-                case ROOK_BLACK -> 'r';
-                case KNIGHT_WHITE -> 'N';
-                case KNIGHT_BLACK -> 'n';
-                case BISHOP_WHITE -> 'B';
-                case BISHOP_BLACK -> 'b';
-                case QUEEN_WHITE -> 'Q';
-                case QUEEN_BLACK -> 'q';
-                case KING_WHITE -> 'K';
-                case KING_BLACK -> 'k';
-                default -> '?';
-            };
+    private char getChar(long position) {
+        if ((whitePositions & kingPositions & position) != 0) {
+            return 'K';
         }
-        return result;
-    }
+        if ((whitePositions & queenPositions & position) != 0) {
+            return 'Q';
+        }
+        if ((whitePositions & rookPositions & position) != 0) {
+            return 'R';
+        }
+        if ((whitePositions & bishopPositions & position) != 0) {
+            return 'B';
+        }
+        if ((whitePositions & knightPositions & position) != 0) {
+            return 'N';
+        }
+        if ((whitePositions & pawnPositions & position) != 0) {
+            return 'P';
+        }
 
+        if ((blackPositions & kingPositions & position) != 0) {
+            return 'k';
+        }
+        if ((blackPositions & queenPositions & position) != 0) {
+            return 'q';
+        }
+        if ((blackPositions & rookPositions & position) != 0) {
+            return 'r';
+        }
+        if ((blackPositions & bishopPositions & position) != 0) {
+            return 'b';
+        }
+        if ((blackPositions & knightPositions & position) != 0) {
+            return 'n';
+        }
+        if ((blackPositions & pawnPositions & position) != 0) {
+            return 'p';
+        }
+        return ' ';
+    }
 }

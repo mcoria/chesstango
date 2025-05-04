@@ -1,8 +1,6 @@
 package net.chesstango.board.representations.polyglot;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.AbstractPositionBuilder;
@@ -23,11 +21,15 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
     @Override
     public Long getPositionRepresentation() {
         long piece = 0;
-        for (Square square : Square.values()) {
-            if (board[square.getRank()][square.getFile()] != null) {
-                int kind_of_piece = getKindOfPiece(board[square.getRank()][square.getFile()]);
+        for (int rank = 0; rank < 8; rank++) {
+            for (int file = 0; file < 8; file++) {
+                long position = 1L << rank * 8 + file;
+                if (((whitePositions | blackPositions) & position) != 0) {
 
-                piece = piece ^ KEYS[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
+                    int kind_of_piece = getKindOfPiece(position);
+
+                    piece = piece ^ KEYS[64 * kind_of_piece + rank + file];
+                }
             }
         }
 
@@ -67,26 +69,45 @@ public class PolyglotKeyBuilder extends AbstractPositionBuilder<Long> {
     }
 
 
-    private int getKindOfPiece(Piece piece) {
-        return switch (piece) {
-            case PAWN_BLACK -> 0;
-            case PAWN_WHITE -> 1;
+    private int getKindOfPiece(long position) {
+        if ((blackPositions & pawnPositions & position) != 0) {
+            return 0;
+        }
+        if ((whitePositions & pawnPositions & position) != 0) {
+            return 1;
+        }
+        if ((whitePositions & knightPositions & position) != 0) {
+            return 2;
+        }
+        if ((blackPositions & knightPositions & position) != 0) {
+            return 3;
+        }
+        if ((blackPositions & bishopPositions & position) != 0) {
+            return 4;
+        }
+        if ((whitePositions & bishopPositions & position) != 0) {
+            return 5;
+        }
+        if ((blackPositions & rookPositions & position) != 0) {
+            return 6;
+        }
+        if ((whitePositions & rookPositions & position) != 0) {
+            return 7;
+        }
+        if ((blackPositions & queenPositions & position) != 0) {
+            return 8;
+        }
+        if ((whitePositions & queenPositions & position) != 0) {
+            return 9;
+        }
 
-            case KNIGHT_BLACK -> 2;
-            case KNIGHT_WHITE -> 3;
-
-            case BISHOP_BLACK -> 4;
-            case BISHOP_WHITE -> 5;
-
-            case ROOK_BLACK -> 6;
-            case ROOK_WHITE -> 7;
-
-            case QUEEN_BLACK -> 8;
-            case QUEEN_WHITE -> 9;
-
-            case KING_BLACK -> 10;
-            case KING_WHITE -> 11;
-        };
+        if ((blackPositions & kingPositions & position) != 0) {
+            return 10;
+        }
+        if ((whitePositions & kingPositions & position) != 0) {
+            return 11;
+        }
+        throw new RuntimeException("Invalid position: " + position);
     }
 
     private final static long[] KEYS = {

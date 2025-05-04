@@ -110,7 +110,11 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIBuilder output = new ASCIIBuilder();
-            forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare().getFile(), posicionPieza.getSquare().getRank(), posicionPieza.getPiece()));
+            forEach(posicionPieza -> {
+                if (posicionPieza.getPiece() != null) {
+                    output.withPiece(posicionPieza.getSquare().getFile(), posicionPieza.getSquare().getRank(), posicionPieza.getPiece());
+                }
+            });
             output.getPiecePlacement(ps);
         }
         return baos.toString();

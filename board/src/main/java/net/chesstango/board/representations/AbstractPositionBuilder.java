@@ -1,7 +1,7 @@
 package net.chesstango.board.representations;
 
+import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
 
 /**
  * @author Mauricio Coria
@@ -16,11 +16,35 @@ public abstract class AbstractPositionBuilder<T> implements PositionBuilder<T> {
     protected int halfMoveClock;
     protected int fullMoveClock;
 
-    protected final Piece[][] board = new Piece[8][8];
+    protected long whitePositions = 0;
+    protected long blackPositions = 0;
+    protected long kingPositions = 0;
+    protected long queenPositions = 0;
+    protected long rookPositions = 0;
+    protected long bishopPositions = 0;
+    protected long knightPositions = 0;
+    protected long pawnPositions = 0;
+
 
     @Override
     public AbstractPositionBuilder<T> withPiece(int file, int rank, Piece piece) {
-        board[rank][file] = piece;
+        int square = rank * 8 + file;
+
+        if (Color.WHITE.equals(piece.getColor())) {
+            whitePositions |= 1L << square;
+        } else {
+            blackPositions |= 1L << square;
+        }
+
+        switch (piece) {
+            case KING_WHITE, KING_BLACK -> kingPositions |= 1L << square;
+            case QUEEN_WHITE, QUEEN_BLACK -> queenPositions |= 1L << square;
+            case ROOK_WHITE, ROOK_BLACK -> rookPositions |= 1L << square;
+            case BISHOP_WHITE, BISHOP_BLACK -> bishopPositions |= 1L << square;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> knightPositions |= 1L << square;
+            case PAWN_WHITE, PAWN_BLACK -> pawnPositions |= 1L << square;
+        }
+
         return null;
     }
 

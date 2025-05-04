@@ -1,6 +1,5 @@
 package net.chesstango.board.representations.fen;
 
-import net.chesstango.board.Piece;
 import net.chesstango.board.representations.AbstractPositionBuilder;
 
 /**
@@ -39,9 +38,25 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
 
     String getPiecePlacement() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 7; i >= 0; i--) {
-            codePiecePlacementRank(board[i], stringBuilder);
-            if (i > 0) {
+        for (int rank = 7; rank >= 0; rank--) {
+            int emptySquares = 0;
+            for (int file = 0; file < 8; file++) {
+                long position = 1L << rank * 8 + file;
+                char piece = getChar(position);
+                if (piece == ' ') {
+                    emptySquares++;
+                } else {
+                    if (emptySquares > 0) {
+                        stringBuilder.append(emptySquares);
+                        emptySquares = 0;
+                    }
+                    stringBuilder.append(piece);
+                }
+            }
+            if (emptySquares > 0) {
+                stringBuilder.append(emptySquares);
+            }
+            if (rank > 0) {
                 stringBuilder.append('/');
             }
         }
@@ -81,27 +96,6 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
         return stringBuilder.toString();
     }
 
-    String codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
-        int vacios = 0;
-        for (Piece pieza : piezas) {
-            if (pieza == null) {
-                vacios++;
-            } else {
-                if (vacios > 0) {
-                    stringBuilder.append(vacios);
-                    vacios = 0;
-                }
-                stringBuilder.append(getCode(pieza));
-            }
-        }
-
-        if (vacios > 0) {
-            stringBuilder.append(vacios);
-        }
-
-        return stringBuilder.toString();
-    }
-
     public static String enPassantSquareToString(long enPassantSquare) {
         int enPassantSquarePosition = Long.numberOfTrailingZeros(enPassantSquare);
         if (enPassantSquarePosition == 64) {
@@ -113,28 +107,51 @@ public class FENBuilder extends AbstractPositionBuilder<FEN> {
 
         char fileChar = (char) ('a' + file);
         char rankChar = rank == 0 ? '1' :
-                        rank == 7 ? '8' :
+                rank == 7 ? '8' :
                         (char) ('1' + rank);
 
         return String.valueOf(new char[]{fileChar, rankChar});
     }
 
-    private char getCode(Piece piece) {
-        return switch (piece) {
-            case ROOK_BLACK -> 'r';
-            case KNIGHT_BLACK -> 'n';
-            case QUEEN_BLACK -> 'q';
-            case KING_BLACK -> 'k';
-            case PAWN_BLACK -> 'p';
-            case BISHOP_BLACK -> 'b';
-            case ROOK_WHITE -> 'R';
-            case KNIGHT_WHITE -> 'N';
-            case QUEEN_WHITE -> 'Q';
-            case KING_WHITE -> 'K';
-            case PAWN_WHITE -> 'P';
-            case BISHOP_WHITE -> 'B';
-            default -> throw new RuntimeException("Falta pieza");
-        };
+    private char getChar(long position) {
+        if ((whitePositions & kingPositions & position) != 0) {
+            return 'K';
+        }
+        if ((whitePositions & queenPositions & position) != 0) {
+            return 'Q';
+        }
+        if ((whitePositions & rookPositions & position) != 0) {
+            return 'R';
+        }
+        if ((whitePositions & bishopPositions & position) != 0) {
+            return 'B';
+        }
+        if ((whitePositions & knightPositions & position) != 0) {
+            return 'N';
+        }
+        if ((whitePositions & pawnPositions & position) != 0) {
+            return 'P';
+        }
+
+        if ((blackPositions & kingPositions & position) != 0) {
+            return 'k';
+        }
+        if ((blackPositions & queenPositions & position) != 0) {
+            return 'q';
+        }
+        if ((blackPositions & rookPositions & position) != 0) {
+            return 'r';
+        }
+        if ((blackPositions & bishopPositions & position) != 0) {
+            return 'b';
+        }
+        if ((blackPositions & knightPositions & position) != 0) {
+            return 'n';
+        }
+        if ((blackPositions & pawnPositions & position) != 0) {
+            return 'p';
+        }
+        return ' ';
     }
 
 }

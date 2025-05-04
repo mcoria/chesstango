@@ -30,7 +30,7 @@ public class FENEncoderZobrist extends AbstractPositionBuilder<String> {
 
     public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
         for (int i = 7; i >= 0; i--) {
-            codePiecePlacementRank(board[i], stringBuilder);
+            //codePiecePlacementRank(board[i], stringBuilder);
             if (i > 0) {
                 stringBuilder.append('/');
             }

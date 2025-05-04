@@ -55,24 +55,6 @@ public class FENBuilderTest {
     }
 
     @Test
-    public void testCodePiecePlacementRank01() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        String actual = coder.codePiecePlacementRank(new Piece[]{Piece.BISHOP_WHITE, null, null, Piece.PAWN_WHITE, null, Piece.BISHOP_WHITE, null, Piece.PAWN_WHITE}, stringBuilder).toString();
-
-        assertEquals("B2P1B1P", actual);
-    }
-
-    @Test
-    public void testCodePiecePlacementRank02() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        String actual = coder.codePiecePlacementRank(new Piece[]{null, null, null, null, null, null, null, null}, stringBuilder);
-
-        assertEquals("8", actual);
-    }
-
-    @Test
     public void testCodePiecePlacement03() {
         coder.withPiece(0, 0, Piece.ROOK_WHITE);
 
