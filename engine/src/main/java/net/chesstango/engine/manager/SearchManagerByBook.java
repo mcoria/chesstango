@@ -2,6 +2,7 @@ package net.chesstango.engine.manager;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.engine.polyglot.MappedPolyglotBook;
@@ -80,7 +81,9 @@ public final class SearchManagerByBook implements SearchManagerChain {
         if (bookSearchResult != null) {
             MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
             for (PolyglotEntry polyglotEntry : bookSearchResult) {
-                Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
+                Square from = Square.getSquare(polyglotEntry.from_file(), polyglotEntry.from_rank());
+                Square to = Square.getSquare(polyglotEntry.to_file(), polyglotEntry.to_rank());
+                Move move = possibleMoves.getMove(from, to);
                 if (move != null) {
                     MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
                     return new SearchResult()

@@ -1,7 +1,5 @@
 package net.chesstango.engine.polyglot;
 
-import net.chesstango.board.Square;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
@@ -62,20 +60,17 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
 
             while (getKey(idx) == key) {
 
-                long rawEntry = mappedByteBuffer.getLong(idx * ENTRY_SIZE + 8);
+                int moveAndWeight = mappedByteBuffer.getInt(idx * ENTRY_SIZE + 8);
 
-                int toFile = (int) ((rawEntry & 0b00000000_00000111_00000000_00000000_00000000_00000000_00000000_00000000L) >> (48));
-                int toRow = (int) ((rawEntry & 0b00000000_00111000_00000000_00000000_00000000_00000000_00000000_00000000L) >> (48 + 3));
+                int weight = moveAndWeight & 0b00000000_00000000_11111111_11111111;
 
-                int fromFile = (int) ((rawEntry & 0b00000001_11000000_00000000_00000000_00000000_00000000_00000000_00000000L) >> (48 + 6));
-                int fromRow = (int) ((rawEntry & 0b00001110_00000000_00000000_00000000_00000000_00000000_00000000_00000000L) >> (48 + 9));
+                int toFile = ((moveAndWeight & 0b00000000_00000111_00000000_00000000) >>> (16));
+                int toRank = ((moveAndWeight & 0b00000000_00111000_00000000_00000000) >>> (16 + 3));
 
-                int weight = (int) ((rawEntry & 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L) >> (32));
+                int fromFile = ((moveAndWeight & 0b00000001_11000000_00000000_00000000) >>> (16 + 6));
+                int fromRank = ((moveAndWeight & 0b00001110_00000000_00000000_00000000) >>> (16 + 9));
 
-                Square to = Square.getSquare(toFile, toRow);
-                Square from = Square.getSquare(fromFile, fromRow);
-
-                PolyglotEntry entry = new PolyglotEntry(from, to, weight);
+                PolyglotEntry entry = new PolyglotEntry(key, fromFile, fromRank, toFile, toRank, weight);
 
                 polyglotEntryList.add(entry);
 
