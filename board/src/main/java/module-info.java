@@ -13,7 +13,7 @@ module net.chesstango.board {
     exports net.chesstango.board.iterators;
     exports net.chesstango.board.iterators.bysquare;
     exports net.chesstango.board.iterators.byposition;
-    exports net.chesstango.board.builders;
+    //exports net.chesstango.board.builders;
 
     requires net.chesstango.gardel;
 

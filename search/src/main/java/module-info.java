@@ -25,11 +25,11 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.evaluator.comparators;
     exports net.chesstango.search.smart.features.debug;
     exports net.chesstango.search.smart.features.debug.traps;
+    exports net.chesstango.search.smart.features.debug.traps.predicates;
     exports net.chesstango.search.smart.features.debug.traps.actions;
     exports net.chesstango.search.smart.features.debug.model;
     exports net.chesstango.search.smart.features.debug.listeners;
     exports net.chesstango.search.smart.features.debug.filters;
-    exports net.chesstango.search.smart.features.debug.traps.predicates;
     exports net.chesstango.search.smart.alphabeta;
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.alphabeta.filters;
@@ -38,13 +38,12 @@ module net.chesstango.search {
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.alphabeta;
 
-    requires net.chesstango.evaluation;
-    requires net.chesstango.board;
 
     requires com.fasterxml.jackson.databind;
-
-    requires static lombok;
+    requires net.chesstango.board;
+    requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
+    requires static lombok;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
 }

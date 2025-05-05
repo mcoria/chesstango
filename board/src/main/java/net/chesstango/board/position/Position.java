@@ -40,10 +40,27 @@ public interface Position extends PositionReader, PositionWriter {
 
     ZobristHash getZobrist();
 
+    /**
+     * Creates a new chess position from a FEN (Forsyth–Edwards Notation) string.
+     * The FEN string describes the state of a chessboard, including piece positions,
+     * active color, castling availability, en passant target squares, halfmove clock,
+     * and fullmove number.
+     *
+     * @param fen the FEN string representing the chessboard state
+     * @return a {@code Position} object representing the chessboard described by the FEN string
+     */
     static Position fromFEN(String fen) {
         return from(FEN.of(fen));
     }
 
+    /**
+     * Creates a new {@code Position} object from the given FEN (Forsyth–Edwards Notation) object.
+     * The method constructs a chessboard state using the FEN representation by utilizing a
+     * {@code ChessPositionBuilder} and a {@code FENExporter}.
+     *
+     * @param fen the FEN object representing the chessboard state
+     * @return a {@code Position} object representing the chessboard described by the FEN object
+     */
     static Position from(FEN fen) {
         ChessPositionBuilder builder = new ChessPositionBuilder();
 

@@ -2,11 +2,8 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.Game;
-import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.position.Position;
-import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FENBuilder;
 
 import java.io.IOException;
@@ -88,8 +85,7 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                Position position = Position.fromFEN(node.fen);
-                Game game = loadGame(position);
+                Game game = Game.fromFEN(node.fen);
                 node.position = game.getPosition();
                 node.gameState = game.getState();
             }
@@ -109,9 +105,8 @@ public class GameMockLoader {
         public void visit(NodeLink nodeLink) {
             Matcher moveMatcher = movePattern.matcher(nodeLink.moveStr);
             if (moveMatcher.matches()) {
-                PositionReader position = nodeLink.parent.position;
 
-                Game game = loadGame(position);
+                Game game = Game.fromFEN(nodeLink.parent.fen);
 
                 Move selectedMove = selectMove(game, nodeLink.moveStr);
 
@@ -137,13 +132,6 @@ public class GameMockLoader {
             throw new RuntimeException(String.format("Move %s not found", moveStr));
         }
 
-        private Game loadGame(PositionReader position) {
-            GameBuilder gameBuilder = new GameBuilder();
-
-            position.constructChessPositionRepresentation(gameBuilder);
-
-            return gameBuilder.getPositionRepresentation();
-        }
     }
 
 

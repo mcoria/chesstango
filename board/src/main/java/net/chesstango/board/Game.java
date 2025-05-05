@@ -160,12 +160,22 @@ public interface Game {
      */
     Game mirror();
 
-
-
+    /**
+     * Creates a new game based on the given FEN (Forsyth–Edwards Notation) string.
+     *
+     * @param fen the FEN string representing the state of a chess game
+     * @return a new Game instance initialized with the specified FEN
+     */
     static Game fromFEN(String fen) {
         return from(FEN.of(fen));
     }
 
+    /**
+     * Creates a new Game instance based on a given FEN (Forsyth–Edwards Notation) representation.
+     *
+     * @param fen the FEN object representing the state of a chess game
+     * @return a new Game instance initialized using the specified FEN
+     */
     static Game from(FEN fen) {
         GameBuilder builder = new GameBuilder();
 
@@ -176,6 +186,12 @@ public interface Game {
         return builder.getPositionRepresentation();
     }
 
+    /**
+     * Creates a new Game instance based on a given EPD (Extended Position Description).
+     *
+     * @param epd the EPD object containing information about the chess position
+     * @return a new Game instance initialized using the FEN derived from the EPD
+     */
     static Game from(EPD epd) {
         return from(FEN.of(epd.getFenWithoutClocks() + " 0 1"));
     }
