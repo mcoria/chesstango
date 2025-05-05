@@ -5,10 +5,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.PositionBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.*;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.gardel.PositionBuilder;
+import net.chesstango.gardel.fen.FENBuilder;
 
 import java.util.Iterator;
 
@@ -37,18 +37,36 @@ public class PositionImp implements Position {
 
     @Override
     public void constructChessPositionRepresentation(PositionBuilder<?> builder) {
-        builder.withTurn(positionState.getCurrentTurn())
+        builder.withWhiteTurn(Color.WHITE == positionState.getCurrentTurn())
                 .withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
                 .withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
                 .withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
                 .withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
-                .withEnPassantSquare(positionState.getEnPassantSquare())
                 .withHalfMoveClock(positionState.getHalfMoveClock())
                 .withFullMoveClock(positionState.getFullMoveClock());
 
+        if (positionState.getEnPassantSquare() != null) {
+            builder.withEnPassantSquare(positionState.getEnPassantSquare().getFile(), positionState.getEnPassantSquare().getRank());
+        }
+
         for (PiecePositioned piecePositioned : squareBoard) {
             if (piecePositioned.getPiece() != null) {
-                builder.withPiece(piecePositioned.getSquare(), piecePositioned.getPiece());
+                int file = piecePositioned.getSquare().getFile();
+                int rank = piecePositioned.getSquare().getRank();
+                switch (piecePositioned.getPiece()) {
+                    case PAWN_WHITE -> builder.withWhitePawn(file, rank);
+                    case KNIGHT_WHITE -> builder.withWhiteKnight(file, rank);
+                    case BISHOP_WHITE -> builder.withWhiteBishop(file, rank);
+                    case ROOK_WHITE -> builder.withWhiteRook(file, rank);
+                    case QUEEN_WHITE -> builder.withWhiteQueen(file, rank);
+                    case KING_WHITE -> builder.withWhiteKing(file, rank);
+                    case PAWN_BLACK -> builder.withBlackPawn(file, rank);
+                    case KNIGHT_BLACK -> builder.withBlackKnight(file, rank);
+                    case BISHOP_BLACK -> builder.withBlackBishop(file, rank);
+                    case ROOK_BLACK -> builder.withBlackRook(file, rank);
+                    case QUEEN_BLACK -> builder.withBlackQueen(file, rank);
+                    case KING_BLACK -> builder.withBlackKing(file, rank);
+                }
             }
         }
     }
@@ -241,11 +259,11 @@ public class PositionImp implements Position {
 
     @Override
     public String toString() {
-        FENEncoder fenEncoder = new FENEncoder();
+        FENBuilder fenBuilder = new FENBuilder();
 
-        constructChessPositionRepresentation(fenEncoder);
+        constructChessPositionRepresentation(fenBuilder);
 
-        return fenEncoder.getChessRepresentation().toString();
+        return fenBuilder.getPositionRepresentation().toString();
     }
 
 }

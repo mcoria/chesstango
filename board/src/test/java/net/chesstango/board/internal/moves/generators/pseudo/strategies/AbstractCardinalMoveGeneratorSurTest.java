@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.AbstractCardinalMoveGenerator;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
@@ -15,7 +14,8 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +59,7 @@ public class AbstractCardinalMoveGeneratorSurTest {
 
     @Test
     public void testSur() {
-        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/8");
+        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/8 w KQkq - 0 1");
         moveGenerator.setSquareBoard(tablero);
 
         BitBoard bitBoard = new BitBoardDebug();
@@ -85,7 +85,7 @@ public class AbstractCardinalMoveGeneratorSurTest {
 
     @Test
     public void testSur01() {
-        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/4B3");
+        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/4B3 w KQkq - 0 1");
         moveGenerator.setSquareBoard(tablero);
 
         BitBoard bitBoard = new BitBoardDebug();
@@ -111,7 +111,7 @@ public class AbstractCardinalMoveGeneratorSurTest {
 
     @Test
     public void testSur02() {
-        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/4b3");
+        SquareBoard tablero = getSquareBoard("8/8/8/4R3/8/8/8/4b3 w KQkq - 0 1");
         moveGenerator.setSquareBoard(tablero);
 
         BitBoard bitBoard = new BitBoardDebug();
@@ -147,11 +147,11 @@ public class AbstractCardinalMoveGeneratorSurTest {
     private SquareBoard getSquareBoard(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FENDecoder parser = new FENDecoder(builder);
+        FENExporter exporter = new FENExporter(builder);
 
-        parser.parsePiecePlacement(string);
+        exporter.export(FEN.of(string));
 
-        return builder.getChessRepresentation();
+        return builder.getPositionRepresentation();
     }
 
 }

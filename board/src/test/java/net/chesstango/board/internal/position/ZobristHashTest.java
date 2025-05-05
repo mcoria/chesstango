@@ -5,33 +5,33 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.ZobristHash;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * @author Mauricio Coria
- *
  */
 public class ZobristHashTest {
 
     @Test
-    public void testXorPosition01(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+    public void testXorPosition01() {
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         zobristHash.xorPosition(position.getPosition(Square.f2));
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/8/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("rnbqkbnr/pppppppp/8/8/8/8/PPPPP1PP/RNBQKBNR w KQkq - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testXorPosition02(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+    public void testXorPosition02() {
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -39,12 +39,12 @@ public class ZobristHashTest {
         zobristHash.xorPosition(position.getPosition(Square.f2));
         zobristHash.xorPosition(PiecePositioned.of(Square.f3, Piece.PAWN_WHITE));
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testMoveToEmptySquare(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+    public void testMoveToEmptySquare() {
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -53,12 +53,12 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.f3, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testTwoMoves(){
-        Position position = FEN.of(FENDecoder.INITIAL_FEN).toChessPosition();
+    public void testTwoMoves() {
+        Position position = Position.from(FEN.of(FENParser.INITIAL_FEN));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -73,12 +73,12 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.d6, Piece.PAWN_BLACK));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/3p4/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("rnbqkbnr/ppp1pppp/3p4/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testCaptureMove(){
-        Position position = FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2 ").toChessPosition();
+    public void testCaptureMove() {
+        Position position = Position.from(FEN.of("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -89,13 +89,13 @@ public class ZobristHashTest {
         zobristHash.xorPosition(PiecePositioned.of(Square.d5, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2"), zobristHash.getZobristHash());
     }
 
 
     @Test
-    public void testCastleWhiteKing(){
-        Position position = FEN.of("8/8/8/8/8/8/8/4K2R w K - 0 1").toChessPosition();
+    public void testCastleWhiteKing() {
+        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/4K2R w K - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -112,12 +112,12 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("8/8/8/8/8/8/8/5RK1 b - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testCastleWhiteQueen(){
-        Position position = FEN.of("8/8/8/8/8/8/8/R3K3 w Q - 0 1").toChessPosition();
+    public void testCastleWhiteQueen() {
+        Position position = Position.from(FEN.of("8/8/8/8/8/8/8/R3K3 w Q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -134,12 +134,12 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("8/8/8/8/8/8/8/2KR4 b - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testCastleBlackKing(){
-        Position position = FEN.of("4k2r/8/8/8/8/8/8/8 b k - 0 1").toChessPosition();
+    public void testCastleBlackKing() {
+        Position position = Position.from(FEN.of("4k2r/8/8/8/8/8/8/8 b k - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -156,12 +156,12 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("5rk1/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("5rk1/8/8/8/8/8/8/8 w - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
-    public void testCastleBlackQueen(){
-        Position position = FEN.of("r3k3/8/8/8/8/8/8/8 b q - 0 1").toChessPosition();
+    public void testCastleBlackQueen() {
+        Position position = Position.from(FEN.of("r3k3/8/8/8/8/8/8/8 b q - 0 1"));
 
         ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
@@ -178,7 +178,14 @@ public class ZobristHashTest {
 
         zobristHash.xorTurn();
 
-        assertEquals(PolyglotEncoder.getKey("2kr4/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("2kr4/8/8/8/8/8/8/8 w - - 0 1"), zobristHash.getZobristHash());
+    }
+
+
+    private long getPolyglotKey(String fen) {
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        FEN.of(fen).export(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 
 }

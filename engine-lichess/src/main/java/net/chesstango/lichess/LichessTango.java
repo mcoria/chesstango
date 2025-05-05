@@ -3,8 +3,8 @@ package net.chesstango.lichess;
 import chariot.model.*;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
@@ -117,7 +117,7 @@ public class LichessTango implements Runnable {
         GameType gameType = gameFullEvent.gameType();
         Variant gameVariant = gameType.variant();
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            fenPosition = FENDecoder.INITIAL_FEN;
+            fenPosition = FENParser.INITIAL_FEN;
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
             fenPosition = someFen.get();

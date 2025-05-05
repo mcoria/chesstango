@@ -48,6 +48,7 @@
 
         <chariot.version>0.1.13</chariot.version>
         <uci-protocol.version>1.0.3</uci-protocol.version>
+        <gardel.version>1.0.1</gardel.version>
     </properties>
 
     <build>
@@ -191,6 +192,11 @@
                 <groupId>net.chesstango</groupId>
                 <artifactId>uci-protocol</artifactId>
                 <version>${uci-protocol.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>gardel</artifactId>
+                <version>${gardel.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

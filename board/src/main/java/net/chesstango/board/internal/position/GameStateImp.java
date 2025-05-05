@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameState;
 import net.chesstango.board.position.GameStateReader;
-import net.chesstango.board.representations.fen.FEN;
+import net.chesstango.gardel.fen.FEN;
 
 /**
  * Implementation of the GameState interface that manages the state of a chess game.

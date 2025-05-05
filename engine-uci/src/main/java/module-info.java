@@ -7,4 +7,5 @@ module net.chesstango.uci.engine {
     requires net.chesstango.uci.protocol;
     requires org.slf4j;
     requires static lombok;
+    requires net.chesstango.gardel;
 }

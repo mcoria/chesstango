@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
@@ -26,7 +26,7 @@ public class AlphaBetaSymmetryTest {
     @Test
     @Disabled
     public void symmetryMate02() {
-        Game game = FENDecoder.loadGame("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -");
+        Game game = Game.fromFEN("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -");
 
         Search search = buildSearch();
 

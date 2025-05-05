@@ -1,7 +1,7 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
@@ -53,7 +53,7 @@ public class UciTangoTest {
         engine.accept(new ReqPosition(List.of("e2e4")));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), List.of("e2e4"));
+        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), List.of("e2e4"));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class UciTangoTest {
         engine.accept(new ReqPosition(moveList));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), moveList);
+        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), moveList);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class UciTangoTest {
         engine.accept(new ReqPosition(moveList));
 
         verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENDecoder.INITIAL_FEN), moveList);
+        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), moveList);
     }
 
     @Test

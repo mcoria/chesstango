@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
-import net.chesstango.board.internal.moves.generators.pseudo.strategies.QueenMoveGenerator;
 import net.chesstango.board.internal.position.BitBoardDebug;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
@@ -13,7 +12,8 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +46,7 @@ public class QueenMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves() {
-		SquareBoard tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
+		SquareBoard tablero =  getTablero("8/8/8/4Q3/8/8/8/8 w KQkq - 0 1");
 		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
@@ -114,12 +114,12 @@ public class QueenMoveGeneratorTest {
 	
 	private SquareBoard getTablero(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
-		
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parsePiecePlacement(string);
-		
-		return builder.getChessRepresentation();
+
+		FENExporter exporter = new FENExporter(builder);
+
+		exporter.export(FEN.of(string));
+
+		return builder.getPositionRepresentation();
 	}
 
 }

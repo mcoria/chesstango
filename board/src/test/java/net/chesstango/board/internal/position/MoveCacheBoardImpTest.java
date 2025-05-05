@@ -1,17 +1,13 @@
 package net.chesstango.board.internal.position;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.MoveCacheBoard;
-import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,16 +55,6 @@ public class MoveCacheBoardImpTest {
 		for (long posicion : posiciones) {
 			System.out.printf("0x%sL,%n", Long.toHexString(posicion));
 		}
-	}
-
-	private Game getGame(String string) {
-		GameBuilder builder = new GameBuilderDebug();
-
-		FENDecoder parser = new FENDecoder(builder);
-
-		parser.parseFEN(string);
-
-		return builder.getChessRepresentation();
 	}
 
 }

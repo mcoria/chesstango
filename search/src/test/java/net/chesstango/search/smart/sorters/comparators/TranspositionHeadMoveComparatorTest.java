@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -39,7 +39,7 @@ public class TranspositionHeadMoveComparatorTest {
 
     @Test
     public void testInitial() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {

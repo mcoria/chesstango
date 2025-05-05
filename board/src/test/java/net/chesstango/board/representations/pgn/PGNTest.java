@@ -2,7 +2,7 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PGNTest {
     @Test
     public void testToEpd() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         game.executeMove(a2, a4);
 
         PGN pgn = PGN.of(game);

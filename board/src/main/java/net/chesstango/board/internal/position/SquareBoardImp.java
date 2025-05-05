@@ -3,10 +3,10 @@ package net.chesstango.board.internal.position;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.iterators.byposition.BitIterator;
+import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
+import net.chesstango.gardel.ascii.ASCIIBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -23,7 +23,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         }
     }
 
-    ///////////////////////////// START positioning logic /////////////////////////////
+    /// ////////////////////////// START positioning logic /////////////////////////////
     // Quizas podria encapsular estas operaciones en su propia clase.
     // Bitboard podria ser mas rapido? Un word por tipo de ficha
     // Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
@@ -109,9 +109,28 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     public String toString() {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
-            ASCIIEncoder output = new ASCIIEncoder();
-            this.forEach(posicionPieza -> output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece()));
-            output.getPiecePlacement(ps);
+            ASCIIBuilder builder = new ASCIIBuilder();
+            forEach(piecePositioned -> {
+                if (piecePositioned.getPiece() != null) {
+                    int file = piecePositioned.getSquare().getFile();
+                    int rank = piecePositioned.getSquare().getRank();
+                    switch (piecePositioned.getPiece()) {
+                        case PAWN_WHITE -> builder.withWhitePawn(file, rank);
+                        case KNIGHT_WHITE -> builder.withWhiteKnight(file, rank);
+                        case BISHOP_WHITE -> builder.withWhiteBishop(file, rank);
+                        case ROOK_WHITE -> builder.withWhiteRook(file, rank);
+                        case QUEEN_WHITE -> builder.withWhiteQueen(file, rank);
+                        case KING_WHITE -> builder.withWhiteKing(file, rank);
+                        case PAWN_BLACK -> builder.withBlackPawn(file, rank);
+                        case KNIGHT_BLACK -> builder.withBlackKnight(file, rank);
+                        case BISHOP_BLACK -> builder.withBlackBishop(file, rank);
+                        case ROOK_BLACK -> builder.withBlackRook(file, rank);
+                        case QUEEN_BLACK -> builder.withBlackQueen(file, rank);
+                        case KING_BLACK -> builder.withBlackKing(file, rank);
+                    }
+                }
+            });
+            builder.getPiecePlacement(ps);
         }
         return baos.toString();
     }

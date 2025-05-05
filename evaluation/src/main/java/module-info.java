@@ -6,4 +6,5 @@ module net.chesstango.evaluation {
     requires com.fasterxml.jackson.databind;
 
     requires static lombok;
+    requires net.chesstango.gardel;
 }

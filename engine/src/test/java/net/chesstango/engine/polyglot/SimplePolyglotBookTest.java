@@ -1,6 +1,7 @@
 package net.chesstango.engine.polyglot;
 
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -24,12 +25,18 @@ public class SimplePolyglotBookTest {
 
         //Long polyglotKey = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN).getZobristHash();
         //Long polyglotKey = PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        Long polyglotKey = PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1");
+        long polyglotKey = getPolyglotKey("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1");
 
         List<PolyglotEntry> possibleMoves = book.search(polyglotKey);
 
         for (PolyglotEntry move : possibleMoves) {
             System.out.println(move);
         }
+    }
+
+    private long getPolyglotKey(String fen){
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        FEN.of(fen).export(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 }

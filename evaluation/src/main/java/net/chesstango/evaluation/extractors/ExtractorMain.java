@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.epd.EPDDecoder;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.io.BufferedWriter;
@@ -48,10 +48,10 @@ public class ExtractorMain {
         epdEntryStream.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
-                Game game = FENDecoder.loadGame(epdEntry.getFenWithoutClocks());
+                Game game = Game.from(epdEntry);
                 extractor.extractFeatures(game, features);
             }
-            Game game = FENDecoder.loadGame(epdEntry.getFenWithoutClocks());
+            Game game = Game.from(epdEntry);
             featuresList.add(convertToLine(game.getPosition().toString(), features, gameResultString));
         });
     }

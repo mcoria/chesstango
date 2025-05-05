@@ -44,6 +44,7 @@ module net.chesstango.search {
     requires com.fasterxml.jackson.databind;
 
     requires static lombok;
+    requires net.chesstango.gardel;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
 }

@@ -1,10 +1,9 @@
 package net.chesstango.board.builders;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
 import net.chesstango.board.internal.factory.ChessInjector;
+import net.chesstango.gardel.PositionBuilder;
 
 
 /**
@@ -31,7 +30,7 @@ public class GameBuilder implements PositionBuilder<Game> {
     }
 
     @Override
-    public Game getChessRepresentation() {
+    public Game getPositionRepresentation() {
         if (game == null) {
             game = chessInjector.getGame();
         }
@@ -39,59 +38,119 @@ public class GameBuilder implements PositionBuilder<Game> {
     }
 
     @Override
-    public PositionBuilder<Game> withTurn(Color turn) {
-        chessPositionBuilder.withTurn(turn);
+    public GameBuilder withWhiteTurn(boolean whiteTurn) {
+        chessPositionBuilder.withWhiteTurn(whiteTurn);
+        return this;
+    }
+
+    @Override
+    public GameBuilder withWhiteKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_WHITE);
+    }
+
+    @Override
+    public GameBuilder withWhiteQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_WHITE);
+    }
+
+    @Override
+    public GameBuilder withWhiteRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_WHITE);
+    }
+
+    @Override
+    public GameBuilder withWhiteBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_WHITE);
+    }
+
+    @Override
+    public GameBuilder withWhiteKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_WHITE);
+    }
+
+    @Override
+    public GameBuilder withWhitePawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_WHITE);
+    }
+
+    @Override
+    public GameBuilder withBlackKing(int file, int rank) {
+        return withPiece(file, rank, Piece.KING_BLACK);
+    }
+
+    @Override
+    public GameBuilder withBlackQueen(int file, int rank) {
+        return withPiece(file, rank, Piece.QUEEN_BLACK);
+    }
+
+    @Override
+    public GameBuilder withBlackRook(int file, int rank) {
+        return withPiece(file, rank, Piece.ROOK_BLACK);
+    }
+
+    @Override
+    public GameBuilder withBlackBishop(int file, int rank) {
+        return withPiece(file, rank, Piece.BISHOP_BLACK);
+    }
+
+    @Override
+    public GameBuilder withBlackKnight(int file, int rank) {
+        return withPiece(file, rank, Piece.KNIGHT_BLACK);
+    }
+
+    @Override
+    public GameBuilder withBlackPawn(int file, int rank) {
+        return withPiece(file, rank, Piece.PAWN_BLACK);
+    }
+
+    @Override
+    public GameBuilder withEnPassantSquare(int file, int rank) {
+        chessPositionBuilder.withEnPassantSquare(file, rank);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
-        chessPositionBuilder.withEnPassantSquare(enPassantSquare);
-        return this;
-    }
-
-
-    @Override
-    public PositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+    public GameBuilder withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         chessPositionBuilder.withCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
         return this;
     }
 
     @Override
-    public PositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+    public GameBuilder withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         chessPositionBuilder.withCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+    public GameBuilder withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         chessPositionBuilder.withCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
         return this;
     }
 
 
     @Override
-    public PositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+    public GameBuilder withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         chessPositionBuilder.withCastlingBlackKingAllowed(castlingBlackKingAllowed);
         return this;
     }
 
-    public PositionBuilder<Game> withPiece(Square square, Piece piece) {
-        chessPositionBuilder.withPiece(square, piece);
-        return this;
-    }
 
     @Override
-    public PositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
+    public GameBuilder withHalfMoveClock(int halfMoveClock) {
         chessPositionBuilder.withHalfMoveClock(halfMoveClock);
         return this;
     }
 
     @Override
-    public PositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
+    public GameBuilder withFullMoveClock(int fullMoveClock) {
         chessPositionBuilder.withFullMoveClock(fullMoveClock);
+        return this;
+    }
+
+    public GameBuilder withPiece(int file, int rank, Piece piece) {
+        chessPositionBuilder.withPiece(file, rank, piece);
         return this;
     }
 

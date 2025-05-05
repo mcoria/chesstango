@@ -1,7 +1,5 @@
 package net.chesstango.board.representations.epd;
 
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +20,10 @@ public class EPDEncoderTest {
     @Test
     public void testEncode() {
         EPD epd = new EPD();
-        epd.setFenWithoutClocks(FEN.of(FENDecoder.INITIAL_FEN));
+        epd.setPiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+        epd.setActiveColor("w");
+        epd.setCastingsAllowed("KQkq");
+        epd.setEnPassantSquare("-");
         epd.setSuppliedMoveStr("a4");
         epd.setId("1");
         epd.setC0("c0");

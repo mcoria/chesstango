@@ -7,4 +7,5 @@ module net.chesstango.lichess.engine {
     requires net.chesstango.search;
     requires net.chesstango.board;
     requires java.management;
+    requires net.chesstango.gardel;
 }

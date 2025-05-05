@@ -10,7 +10,8 @@ import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
-import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,7 +100,7 @@ public class CapturePawnPromotionTest {
         moveExecutor.doMove(positionState);
         moveExecutor.doMove(zobristHash);
 
-        assertEquals(PolyglotEncoder.getKey("5Q2/8/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(getPolyglotKey("5Q2/8/8/8/8/8/8/8 b - - 0 1"), zobristHash.getZobristHash());
     }
 
     @Test
@@ -236,5 +237,11 @@ public class CapturePawnPromotionTest {
 
         bitBoard.validar(squareBoard);
         positionState.validar(squareBoard);
+    }
+
+    private long getPolyglotKey(String fen){
+        PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
+        FEN.of(fen).export(polyglotKeyBuilder);
+        return polyglotKeyBuilder.getPositionRepresentation();
     }
 }

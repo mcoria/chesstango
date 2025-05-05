@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ public class DefaultMoveSorterTest {
     public void testCapture01() {
         Move move = null;
 
-        Game game = FENDecoder.loadGame("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4");
+        Game game = Game.fromFEN("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4");
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -61,7 +61,7 @@ public class DefaultMoveSorterTest {
     public void testCapture01Mirror() {
         Move move = null;
 
-        Game game = FENDecoder.loadGame("rnbqkb1r/pppp1ppp/8/4p2n/5Q2/4P3/PPPP1PPP/RNB1KBNR b KQkq - 4 1");
+        Game game = Game.fromFEN("rnbqkb1r/pppp1ppp/8/4p2n/5Q2/4P3/PPPP1PPP/RNB1KBNR b KQkq - 4 1");
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -90,7 +90,7 @@ public class DefaultMoveSorterTest {
     public void testCapture02() {
         Move move = null;
 
-        Game game = FENDecoder.loadGame("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1");
+        Game game = Game.fromFEN("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1");
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -123,7 +123,7 @@ public class DefaultMoveSorterTest {
     public void testCapture02Mirror() {
         Move move = null;
 
-        Game game = FENDecoder.loadGame("rnbqkb1r/pppp1ppp/8/4p2n/3R1Q2/4P1B1/PPPP1PPP/1NB1K1NR b Kkq - 4 1");
+        Game game = Game.fromFEN("rnbqkb1r/pppp1ppp/8/4p2n/3R1Q2/4P1B1/PPPP1PPP/1NB1K1NR b Kkq - 4 1");
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -154,7 +154,7 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testInitial() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -170,12 +170,12 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testGamesMirror() {
-        testMirror(FENDecoder.loadGame(FENDecoder.INITIAL_FEN));
-        testMirror(FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
-        testMirror(FENDecoder.loadGame("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1"));
-        testMirror(FENDecoder.loadGame("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1"));
-        testMirror(FENDecoder.loadGame("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4"));
-        testMirror(FENDecoder.loadGame("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1"));
+        testMirror(Game.fromFEN(FENParser.INITIAL_FEN));
+        testMirror(Game.fromFEN("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
+        testMirror(Game.fromFEN("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1"));
+        testMirror(Game.fromFEN("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1"));
+        testMirror(Game.fromFEN("rnb1kbnr/pppp1ppp/4p3/5q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQkq - 4 4"));
+        testMirror(Game.fromFEN("1nb1k1nr/pppp1ppp/4p1b1/3r1q2/4P2N/8/PPPP1PPP/RNBQKB1R w KQk - 4 1"));
     }
 
 

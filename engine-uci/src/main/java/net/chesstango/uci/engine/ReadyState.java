@@ -1,8 +1,8 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
@@ -68,7 +68,7 @@ class ReadyState implements UCIEngine {
     @Override
     public void do_position(ReqPosition cmdPosition) {
         tango.setPosition(ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
-                        ? FEN.of(FENDecoder.INITIAL_FEN)
+                        ? FEN.of(FENParser.INITIAL_FEN)
                         : FEN.of(cmdPosition.getFen())
                 , cmdPosition.getMoves());
         uciTango.changeState(waitCmdGoState);

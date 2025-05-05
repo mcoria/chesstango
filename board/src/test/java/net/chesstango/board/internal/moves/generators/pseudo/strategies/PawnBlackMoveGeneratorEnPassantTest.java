@@ -13,7 +13,8 @@ import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.internal.position.PositionStateImp;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +52,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 
 	@Test
 	public void testPawnBlackPasanteDerecha() {
-		SquareBoard tablero = getSquareBoard("8/8/8/8/3pP3/8/8/8");
+		SquareBoard tablero = getSquareBoard("8/8/8/8/3pP3/8/8/8 w KQkq - 0 1");
 		
 		positionState.setEnPassantSquare(Square.e3);
 		positionState.setCurrentTurn(Color.BLACK);
@@ -73,7 +74,7 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 
 	@Test
 	public void testPawnBlackPasanteIzquierda() {
-		SquareBoard tablero = getSquareBoard("8/8/8/8/3Pp3/8/8/8");
+		SquareBoard tablero = getSquareBoard("8/8/8/8/3Pp3/8/8/8 w KQkq - 0 1");
 		
 		positionState.setEnPassantSquare(Square.d3);
 		positionState.setCurrentTurn(Color.BLACK);
@@ -99,12 +100,12 @@ public class PawnBlackMoveGeneratorEnPassantTest {
 	
 	private SquareBoard getSquareBoard(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
-		
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parsePiecePlacement(string);
-		
-		return builder.getChessRepresentation();
+
+		FENExporter exporter = new FENExporter(builder);
+
+		exporter.export(FEN.of(string));
+
+		return builder.getPositionRepresentation();
 	}	
 	
 }

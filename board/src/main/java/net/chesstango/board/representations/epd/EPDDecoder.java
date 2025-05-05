@@ -1,7 +1,5 @@
 package net.chesstango.board.representations.epd;
 
-import net.chesstango.board.representations.fen.FEN;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,19 +17,23 @@ public class EPDDecoder {
     /**
      * Decode line components
      */
-    private static final Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+" +
-            "(\\s*bm\\s+(?<bestmoves>[^;]*);" +
-            "|\\s*am\\s+(?<avoidmoves>[^;]*);" +
-            "|\\s*sm\\s+(?<suppliedmove>[^;]*);" +
-            "|\\s*c0\\s+\"(?<comment0>[^\"]+)\";" +
-            "|\\s*c1\\s+\"(?<comment1>[^\"]+)\";" +
-            "|\\s*c2\\s+\"(?<comment2>[^\"]+)\";" +
-            "|\\s*c3\\s+\"(?<comment3>[^\"]+)\";" +
-            "|\\s*c4\\s+\"(?<comment4>[^\"]+)\";" +
-            "|\\s*c5\\s+\"(?<comment5>[^\"]+)\";" +
-            "|\\s*c6\\s+\"(?<comment6>[^\"]+)\";" +
-            "|\\s*id\\s+\"(?<id>[^\"]+)\";" +
-            "|[^;]+;)*"
+    private static final Pattern edpLinePattern = Pattern.compile(
+            "(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
+                    "(?<activeColor>[wb])\\s+" +
+                    "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +
+                    "(?<enPassantSquare>(\\w\\d|-))\\s+" +
+                    "(\\s*bm\\s+(?<bestmoves>[^;]*);" +
+                    "|\\s*am\\s+(?<avoidmoves>[^;]*);" +
+                    "|\\s*sm\\s+(?<suppliedmove>[^;]*);" +
+                    "|\\s*c0\\s+\"(?<comment0>[^\"]+)\";" +
+                    "|\\s*c1\\s+\"(?<comment1>[^\"]+)\";" +
+                    "|\\s*c2\\s+\"(?<comment2>[^\"]+)\";" +
+                    "|\\s*c3\\s+\"(?<comment3>[^\"]+)\";" +
+                    "|\\s*c4\\s+\"(?<comment4>[^\"]+)\";" +
+                    "|\\s*c5\\s+\"(?<comment5>[^\"]+)\";" +
+                    "|\\s*c6\\s+\"(?<comment6>[^\"]+)\";" +
+                    "|\\s*id\\s+\"(?<id>[^\"]+)\";" +
+                    "|[^;]+;)*"
     );
 
     public Stream<EPD> readEdpFile(String filename) {
@@ -83,7 +85,12 @@ public class EPDDecoder {
 
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
-            epd.setFenWithoutClocks(FEN.of(matcher.group("fen")));
+
+            epd.setPiecePlacement(matcher.group("piecePlacement"));
+            epd.setActiveColor(matcher.group("activeColor"));
+            epd.setCastingsAllowed(matcher.group("castingsAllowed"));
+            epd.setEnPassantSquare(matcher.group("enPassantSquare"));
+
             if (matcher.group("suppliedmove") != null) {
                 String suppliedMove = matcher.group("suppliedmove");
                 epd.setSuppliedMoveStr(suppliedMove);

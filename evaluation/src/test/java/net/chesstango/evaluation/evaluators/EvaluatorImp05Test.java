@@ -3,7 +3,7 @@ package net.chesstango.evaluation.evaluators;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -80,7 +80,7 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateByPosition() {
-        Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
+        Game game = Game.fromFEN("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
         evaluator.setGame(game);
         assertEquals(-218262, evaluator.evaluateByPST());
 
@@ -91,7 +91,7 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateSymmetric01() {
-        Game game = FENDecoder.loadGame("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
+        Game game = Game.fromFEN("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
         evaluator.setGame(game);
         assertEquals(0, evaluator.evaluate());
 
@@ -103,7 +103,7 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluation01() {
-        Game game = FENDecoder.loadGame("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
+        Game game = Game.fromFEN("7k/6p1/8/8/8/N7/8/K7 w - - 0 1");
         evaluator.setGame(game);
 
         game.executeMove(Square.a3, Square.c4);
@@ -115,17 +115,17 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
     @Test
     public void testEvaluateByMaterial() {
         // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         evaluator.setGame(game);
         final int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        game = Game.fromFEN("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         evaluator.setGame(game);
         final int evalWhite = evaluator.evaluateByMaterial();
         assertTrue(evalWhite > 0);
 
-        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        game = Game.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
         evaluator.setGame(game);
         final int evalBlack = evaluator.evaluateByMaterial();
         assertTrue(evalBlack < 0);
@@ -141,18 +141,18 @@ public class EvaluatorImp05Test extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateByMaterial02() {
-        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         evaluator.setGame(game);
         int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        game = Game.fromFEN("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval > 0);
 
 
-        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        game = Game.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval < 0);

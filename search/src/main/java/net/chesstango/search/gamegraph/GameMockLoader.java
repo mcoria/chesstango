@@ -7,8 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.Position;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.fen.FEN;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.gardel.fen.FENBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,15 +88,15 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                Position position = FEN.of(node.fen).toChessPosition();
+                Position position = Position.fromFEN(node.fen);
                 Game game = loadGame(position);
                 node.position = game.getPosition();
                 node.gameState = game.getState();
             }
 
-            FENEncoder fenEncoder = new FENEncoder();
-            node.position.constructChessPositionRepresentation(fenEncoder);
-            String fenFromPosition = fenEncoder.getChessRepresentation().toString();
+            FENBuilder fenBuilder = new FENBuilder();
+            node.position.constructChessPositionRepresentation(fenBuilder);
+            String fenFromPosition = fenBuilder.getPositionRepresentation().toString();
 
             if (node.fen == null) {
                 node.fen = fenFromPosition;
@@ -143,7 +142,7 @@ public class GameMockLoader {
 
             position.constructChessPositionRepresentation(gameBuilder);
 
-            return gameBuilder.getChessRepresentation();
+            return gameBuilder.getPositionRepresentation();
         }
     }
 

@@ -1,6 +1,6 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.gardel.fen.FENParser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class PGNStringEncoder {
         sb.append("[Round \"").append(game.getRound() == null ? "?" : game.getRound()).append("\"]\n");
         sb.append("[White \"").append(game.getWhite() == null ? "X" : game.getWhite()).append("\"]\n");
         sb.append("[Black \"").append(game.getBlack() == null ? "X" : game.getBlack()).append("\"]\n");
-        if (game.getFen() != null && !Objects.equals(FENDecoder.INITIAL_FEN, game.getFen())) {
+        if (game.getFen() != null && !Objects.equals(FENParser.INITIAL_FEN, game.getFen())) {
             sb.append("[FEN \"").append(game.getFen()).append("\"]\n");
         }
         sb.append("[Result \"").append(game.getResult()).append("\"]\n");
