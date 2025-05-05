@@ -5,8 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.engine.polyglot.MappedPolyglotBook;
-import net.chesstango.engine.polyglot.PolyglotEntry;
+import net.chesstango.piazzolla.polyglot.MappedPolyglotBook;
+import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import net.chesstango.search.*;
 
 import java.io.IOException;
