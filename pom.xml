@@ -48,7 +48,7 @@
 
         <chariot.version>0.1.13</chariot.version>
         <uci-protocol.version>1.0.3</uci-protocol.version>
-        <gardel.version>1.0-SNAPSHOT</gardel.version>
+        <gardel.version>1.0.1</gardel.version>
     </properties>
 
     <build>
