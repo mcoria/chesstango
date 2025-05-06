@@ -5,8 +5,11 @@ import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
+import net.chesstango.uci.protocol.responses.RspOption;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
+
+import static net.chesstango.uci.engine.ReadyState.POLYGLOT_PATH;
 
 /**
  * The WaitCmdUciState class is part of the State design pattern implementation for the UCI engine.
@@ -34,6 +37,7 @@ class WaitCmdUciState implements UCIEngine {
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
+        uciTango.reply(this, RspOption.createStringOption(POLYGLOT_PATH, null));
         uciTango.reply(readyState, new RspUciOk());
     }
 

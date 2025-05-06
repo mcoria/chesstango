@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.piazzolla.polyglot.MappedPolyglotBook;
+import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import net.chesstango.search.*;
 
@@ -20,13 +20,12 @@ import static net.chesstango.search.SearchParameter.POLYGLOT_PATH;
  */
 public final class SearchManagerByBook implements SearchManagerChain {
 
-    private final MappedPolyglotBook book;
+    private PolyglotBook book;
 
     @Setter
     private SearchManagerChain next;
 
     public SearchManagerByBook() {
-        this.book = new MappedPolyglotBook();
     }
 
     @Override
@@ -37,7 +36,12 @@ public final class SearchManagerByBook implements SearchManagerChain {
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (POLYGLOT_PATH.equals(parameter) && value instanceof String path) {
-            book.load(Path.of(path));
+            try {
+                book = PolyglotBook.open(Path.of(path));
+            } catch (IOException e) {
+                System.err.println("Error opening book " + path);
+                e.printStackTrace(System.err);
+            }
         }
         next.setSearchParameter(parameter, value);
     }
@@ -59,10 +63,13 @@ public final class SearchManagerByBook implements SearchManagerChain {
 
     @Override
     public void close() {
-        try {
-            book.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (book != null) {
+            try {
+                book.close();
+            } catch (IOException e) {
+                System.err.println("Error closing opening book");
+                e.printStackTrace(System.err);
+            }
         }
         next.close();
     }
@@ -70,7 +77,7 @@ public final class SearchManagerByBook implements SearchManagerChain {
     @Override
     public SearchResult search(Game game) {
         SearchResult searchResult = null;
-        if (book.isLoaded()) {
+        if (book != null) {
             searchResult = searchByBook(game);
         }
         return searchResult == null ? next.search(game) : searchResult;

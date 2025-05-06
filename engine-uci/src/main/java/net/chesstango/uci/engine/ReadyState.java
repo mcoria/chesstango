@@ -17,7 +17,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
  * @author Mauricio Coria
  */
 class ReadyState implements UCIEngine {
-    public static final String POLYGLOT_BOOK = "PolyglotBook";
+    public static final String POLYGLOT_PATH = "PolyglotPath";
 
     protected final UciTango uciTango;
     protected final Tango tango;
@@ -36,7 +36,7 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        if (cmdSetOption.getId().equals(POLYGLOT_BOOK)) {
+        if (cmdSetOption.getId().equals(POLYGLOT_PATH)) {
             tango.setPolyglotBook(cmdSetOption.getValue());
         }
     }
