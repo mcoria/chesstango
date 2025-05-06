@@ -107,7 +107,7 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
 
     @Override
     public ChessPositionBuilder withEnPassantSquare(int file, int rank) {
-        positionState.setEnPassantSquare(Square.getSquare(file, rank));
+        positionState.setEnPassantSquare(Square.of(file, rank));
         return this;
     }
 
@@ -159,7 +159,7 @@ public class ChessPositionBuilder implements PositionBuilder<Position> {
         if (piece == null) {
             throw new RuntimeException("piece is null");
         }
-        Square square = Square.getSquare(file, rank);
+        Square square = Square.of(file, rank);
         squareBoard.setPiece(square, piece);
         bitBoard.addPosition(PiecePositioned.of(square, piece));
         return this;

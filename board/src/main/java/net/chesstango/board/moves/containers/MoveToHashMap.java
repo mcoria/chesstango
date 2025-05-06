@@ -43,7 +43,7 @@ public class MoveToHashMap {
     }
 
     private long getHashForRegularMove(Move move) {
-        int idx = move.getFrom().getSquare().toIdx() * 64 + move.getTo().getSquare().toIdx();
+        int idx = move.getFrom().getSquare().idx() * 64 + move.getTo().getSquare().idx();
         int hashSession = regularMoveSessionArray[idx];
         return hashSession == currentSessionId ? regularMoveHashArray[idx] : 0;
     }
@@ -55,7 +55,7 @@ public class MoveToHashMap {
     }
 
     private void writeForRegularMove(Move move, long hash) {
-        int idx = move.getFrom().getSquare().toIdx() * 64 + move.getTo().getSquare().toIdx();
+        int idx = move.getFrom().getSquare().idx() * 64 + move.getTo().getSquare().idx();
         regularMoveSessionArray[idx] = currentSessionId;
         regularMoveHashArray[idx] = hash;
     }

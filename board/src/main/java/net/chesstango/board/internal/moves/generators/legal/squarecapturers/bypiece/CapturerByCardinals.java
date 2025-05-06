@@ -48,7 +48,7 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
             while (possibleThreatsInCardinalDirection != 0) {
                 long posicionLng = Long.lowestOneBit(possibleThreatsInCardinalDirection);
 
-                Square threat = Square.getSquareByIdx(Long.numberOfTrailingZeros(posicionLng));
+                Square threat = Square.squareByIdx(Long.numberOfTrailingZeros(posicionLng));
 
                 long squaresFromThreat = cardinal.getOpposite().getSquaresInDirection(threat);
 

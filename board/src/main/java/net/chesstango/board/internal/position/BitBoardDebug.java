@@ -67,7 +67,7 @@ public class BitBoardDebug extends BitBoardImp {
 					throw new RuntimeException("SquareBoard contiene una pieza de color distinto a BitBoard en " + piecePositioned.getSquare());
 				}
 
-				long bitPosition = piecePositioned.getSquare().getBitPosition();
+				long bitPosition = piecePositioned.getSquare().bitPosition();
 
 				long piecesPositions = switch (piecePositioned.getPiece()) {
 					case PAWN_WHITE, PAWN_BLACK ->  pawns;

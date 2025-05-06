@@ -31,9 +31,9 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void swapPositions(Piece piece, Square remove, Square add){
-		final long oldBitPosition = remove.getBitPosition();
+		final long oldBitPosition = remove.bitPosition();
 
-		final long newBitPosition = add.getBitPosition();
+		final long newBitPosition = add.bitPosition();
 
 		if (Color.WHITE.equals(piece.getColor())) {
 			squareWhites = squareWhites & ~oldBitPosition | newBitPosition;
@@ -58,7 +58,7 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void addPosition(Piece piece, Square square) {
-		final long bitPosition = square.getBitPosition();
+		final long bitPosition = square.bitPosition();
 
 		if (Color.WHITE.equals(piece.getColor())) {
 			squareWhites |= bitPosition;
@@ -83,7 +83,7 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void removePosition(Piece piece, Square square) {
-		final long bitPosition = square.getBitPosition();
+		final long bitPosition = square.bitPosition();
 
 		if(Color.WHITE.equals(piece.getColor())){
 			squareWhites &= ~bitPosition;
@@ -150,14 +150,14 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public boolean isEmpty(Square square) {
-		return ((~(squareWhites | squareBlacks)) &  square.getBitPosition()) != 0 ;
+		return ((~(squareWhites | squareBlacks)) &  square.bitPosition()) != 0 ;
 	}
 
 	@Override
 	public Color getColor(Square square) {
-		if ((squareWhites & square.getBitPosition()) != 0) {
+		if ((squareWhites & square.bitPosition()) != 0) {
 			return Color.WHITE;
-		} else if ((squareBlacks & square.getBitPosition()) != 0) {
+		} else if ((squareBlacks & square.bitPosition()) != 0) {
 			return Color.BLACK;
 		}
 		return null;

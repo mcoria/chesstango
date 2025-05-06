@@ -70,7 +70,7 @@ public class EvaluatorImp04 extends AbstractEvaluator {
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
             int[] positionValues = getPositionValues(piece);
-            evaluation += positionValues[square.toIdx()];
+            evaluation += positionValues[square.idx()];
         }
         return evaluation;
     }
@@ -88,7 +88,7 @@ public class EvaluatorImp04 extends AbstractEvaluator {
             if (toPosition.getPiece() == null) {
                 Square toSquare = toPosition.getSquare();
                 int[] positionValues = getPositionValues(piece);
-                evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
+                evaluationByMoveToEmptySquare += positionValues[toSquare.idx()];
             } else {
                 evaluationByAttack -= getPieceValue(toPosition.getPiece());
             }

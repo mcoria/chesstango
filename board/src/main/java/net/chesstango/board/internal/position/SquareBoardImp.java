@@ -19,7 +19,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     public SquareBoardImp() {
         for (int i = 0; i < 64; i++) {
-            this.setEmptySquare(Square.getSquareByIdx(i));
+            this.setEmptySquare(Square.squareByIdx(i));
         }
     }
 
@@ -33,7 +33,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public PiecePositioned getPosition(Square square) {
-        return tablero[square.toIdx()];
+        return tablero[square.idx()];
     }
 
     @Override
@@ -44,25 +44,25 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
     @Override
     public void setPosition(PiecePositioned piecePositioned) {
         Square square = piecePositioned.getSquare();
-        tablero[square.toIdx()] = piecePositioned;
+        tablero[square.idx()] = piecePositioned;
     }
 
 
     @Override
     public Piece getPiece(Square square) {
-        return tablero[square.toIdx()].getPiece();
+        return tablero[square.idx()].getPiece();
     }
 
 
     @Override
     public void setPiece(Square square, Piece piece) {
-        tablero[square.toIdx()] = PiecePositioned.of(square, piece);
+        tablero[square.idx()] = PiecePositioned.of(square, piece);
     }
 
 
     @Override
     public void setEmptySquare(Square square) {
-        tablero[square.toIdx()] = PiecePositioned.of(square, null);
+        tablero[square.idx()] = PiecePositioned.of(square, null);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class PositionDebug extends PositionImp {
 
     private void validar(MoveGeneratorImp moveGeneratorImp) {
         for (int i = 0; i < 64; i++) {
-            Square square = Square.getSquareByIdx(i);
+            Square square = Square.squareByIdx(i);
             MoveGeneratorByPieceResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
             if (cacheMoveGeneratorResult != null) {
                 MoveGeneratorByPieceResult expectedMoveGeneratorResults = moveGeneratorImp.generateByPiecePseudoMoves(squareBoard.getPosition(square));

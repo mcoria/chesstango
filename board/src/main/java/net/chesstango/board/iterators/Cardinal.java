@@ -551,11 +551,11 @@ public enum Cardinal {
     }
 
     public Square nextSquare(Square from) {
-        return Square.getSquare(from.getFile() + offSetEast, from.getRank() + offSetNorth);
+        return Square.of(from.getFile() + offSetEast, from.getRank() + offSetNorth);
     }
 
     public long getSquaresInDirection(Square square) {
-        return squaresInDirection[square.toIdx()];
+        return squaresInDirection[square.idx()];
     }
 
 

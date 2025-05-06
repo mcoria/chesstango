@@ -22,22 +22,22 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected Square getOneSquareForward(Square square) {
-		return Square.getSquare(square.getFile(), square.getRank() - 1);
+		return Square.of(square.getFile(), square.getRank() - 1);
 	}
 
 	@Override
 	protected Square getTwoSquareForward(Square square) {
-		return square.getRank() == 6 ? Square.getSquare(square.getFile(), 4) : null;
+		return square.getRank() == 6 ? Square.of(square.getFile(), 4) : null;
 	}
 
 	@Override
 	protected Square getAttackSquareLeft(Square square) {
-		return Square.getSquare(square.getFile() - 1, square.getRank() - 1);
+		return Square.of(square.getFile() - 1, square.getRank() - 1);
 	}
 	
 	@Override
 	protected Square getAttackSquareRight(Square square) {
-		return Square.getSquare(square.getFile() + 1, square.getRank() - 1);
+		return Square.of(square.getFile() + 1, square.getRank() - 1);
 	}
 
 	@Override
@@ -63,20 +63,20 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 			PiecePositioned from = null;
 			PiecePositioned capture = null;
 
-			Square casilleroPawnIzquirda = Square.getSquare(pawnPasanteSquare.getFile() - 1, pawnPasanteSquare.getRank() + 1);
+			Square casilleroPawnIzquirda = Square.of(pawnPasanteSquare.getFile() - 1, pawnPasanteSquare.getRank() + 1);
 			if (casilleroPawnIzquirda != null) {
 				from = squareBoard.getPosition(casilleroPawnIzquirda);
-				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
+				capture = squareBoard.getPosition(Square.of(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
 				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
 					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurEste);
 					moveContainer.setFirst(move);
 				}
 			}
 
-			Square casilleroPawnDerecha = Square.getSquare(pawnPasanteSquare.getFile() + 1, pawnPasanteSquare.getRank() + 1);
+			Square casilleroPawnDerecha = Square.of(pawnPasanteSquare.getFile() + 1, pawnPasanteSquare.getRank() + 1);
 			if (casilleroPawnDerecha != null) {
 				from = squareBoard.getPosition(casilleroPawnDerecha);
-				capture = squareBoard.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
+				capture = squareBoard.getPosition(Square.of(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
 				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
 					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurOeste);
 					moveContainer.setSecond(move);

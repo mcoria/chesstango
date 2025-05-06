@@ -128,7 +128,7 @@ public class SquareBoardBuilder implements PositionBuilder<SquareBoard> {
 
 
     public SquareBoardBuilder withPiece(int file, int rank, Piece piece) {
-        Square square = Square.getSquare(file, rank);
+        Square square = Square.of(file, rank);
         squareBoard.setPiece(square, piece);
         return this;
     }

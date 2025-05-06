@@ -16,13 +16,13 @@ public class JumpSquareIteratorTest {
     public void printKnightJumpPositions() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
-            Square square = Square.getSquareByIdx(idx);
+            Square square = Square.squareByIdx(idx);
             JumpSquareIterator iterator = new JumpSquareIterator(square, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
 
-                posicionesSalto |= salto.getBitPosition();
+                posicionesSalto |= salto.bitPosition();
             }
             arraySaltos[idx] = posicionesSalto;
         }
@@ -37,12 +37,12 @@ public class JumpSquareIteratorTest {
     public void printKingJumpPositions() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
-            Square square = Square.getSquareByIdx(idx);
+            Square square = Square.squareByIdx(idx);
             JumpSquareIterator iterator = new JumpSquareIterator(square, KingSquareIterator.KING_JUMP_OFFSETS);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
-                posicionesSalto |= salto.getBitPosition();
+                posicionesSalto |= salto.bitPosition();
             }
             arraySaltos[idx] = posicionesSalto;
         }
@@ -64,13 +64,13 @@ public class JumpSquareIteratorTest {
     public void printSaltosPawnWhitePosicionesLong() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
-            Square square = Square.getSquareByIdx(idx);
+            Square square = Square.squareByIdx(idx);
             JumpSquareIterator iterator = new JumpSquareIterator(square, pawnCaptureJumpsWhite);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
 
-                posicionesSalto |= salto.getBitPosition();
+                posicionesSalto |= salto.bitPosition();
             }
             arraySaltos[idx] = posicionesSalto;
         }
@@ -92,13 +92,13 @@ public class JumpSquareIteratorTest {
     public void printSaltosPawnBlackPosicionesLong() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
-            Square square = Square.getSquareByIdx(idx);
+            Square square = Square.squareByIdx(idx);
             JumpSquareIterator iterator = new JumpSquareIterator(square, pawnCaptureJumpsBlack);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
 
-                posicionesSalto |= salto.getBitPosition();
+                posicionesSalto |= salto.bitPosition();
             }
             arraySaltos[idx] = posicionesSalto;
         }

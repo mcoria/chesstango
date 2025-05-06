@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
@@ -53,8 +52,8 @@ public class AlphaBetaSymmetryTest {
         Move smartMoveMirror = searchResultMirror.getBestMove();
 
         assertEquals(Piece.BISHOP_WHITE.getOpposite(), smartMoveMirror.getFrom().getPiece());
-        assertEquals(Square.h6.getMirrorSquare(), smartMoveMirror.getFrom().getSquare());
-        assertEquals(Square.g7.getMirrorSquare(), smartMoveMirror.getTo().getSquare());
+        assertEquals(Square.h6.mirror(), smartMoveMirror.getFrom().getSquare());
+        assertEquals(Square.g7.mirror(), smartMoveMirror.getTo().getSquare());
 
         assertEquals(Evaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
 

@@ -43,140 +43,140 @@ public class EvaluatorImp04Test extends EvaluatorTestCollection {
 
     @Test
     public void testPawnValues() {
-        assertEquals(5, PAWN_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(10, PAWN_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(10, PAWN_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(-20, PAWN_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(-20, PAWN_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(10, PAWN_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(10, PAWN_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(5, PAWN_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(5, PAWN_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(10, PAWN_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(10, PAWN_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(-20, PAWN_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(-20, PAWN_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(10, PAWN_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(10, PAWN_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(5, PAWN_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(50, PAWN_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(50, PAWN_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(50, PAWN_WHITE_VALUES[Square.h7.idx()]);
 
         assertEquals(64, PAWN_WHITE_VALUES.length);
         assertEquals(64, PAWN_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
-            assertEquals(PAWN_WHITE_VALUES[square.toIdx()], -PAWN_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(PAWN_WHITE_VALUES[square.idx()], -PAWN_BLACK_VALUES[square.mirror().idx()]);
         }
     }
 
     @Test
     public void testKnightValues() {
-        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(5, KNIGHT_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(5, KNIGHT_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(5, KNIGHT_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(5, KNIGHT_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(0, KNIGHT_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(0, KNIGHT_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(-20, KNIGHT_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(-40, KNIGHT_WHITE_VALUES[Square.h7.idx()]);
 
         assertEquals(64, KNIGHT_WHITE_VALUES.length);
         assertEquals(64, KNIGHT_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, KNIGHT_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), KNIGHT_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
-            assertEquals(KNIGHT_WHITE_VALUES[square.toIdx()], -KNIGHT_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(KNIGHT_WHITE_VALUES[square.idx()], -KNIGHT_BLACK_VALUES[square.mirror().idx()]);
         }
 
     }
 
     @Test
     public void testBishopValues() {
-        assertEquals(-10, BISHOP_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(5, BISHOP_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(5, BISHOP_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(-10, BISHOP_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(-10, BISHOP_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(5, BISHOP_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(5, BISHOP_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(-10, BISHOP_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(-10, BISHOP_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(0, BISHOP_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(-10, BISHOP_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(-10, BISHOP_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(0, BISHOP_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(-10, BISHOP_WHITE_VALUES[Square.h7.idx()]);
 
         assertEquals(64, BISHOP_WHITE_VALUES.length);
         assertEquals(64, BISHOP_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, BISHOPS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), BISHOPS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
-            assertEquals(BISHOP_WHITE_VALUES[square.toIdx()], -BISHOP_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(BISHOP_WHITE_VALUES[square.idx()], -BISHOP_BLACK_VALUES[square.mirror().idx()]);
         }
     }
 
     @Test
     public void testRookValues() {
-        assertEquals(-5, ROOK_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(0, ROOK_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(-5, ROOK_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(-5, ROOK_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(0, ROOK_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(-5, ROOK_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(5, ROOK_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(10, ROOK_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(5, ROOK_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(5, ROOK_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(10, ROOK_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(5, ROOK_WHITE_VALUES[Square.h7.idx()]);
 
         assertEquals(64, ROOK_WHITE_VALUES.length);
         assertEquals(64, ROOK_BLACK_VALUES.length);
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
-            assertEquals(ROOK_WHITE_VALUES[square.toIdx()], -ROOK_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(ROOK_WHITE_VALUES[square.idx()], -ROOK_BLACK_VALUES[square.mirror().idx()]);
         }
     }
 
 
     @Test
     public void testQueenValues() {
-        assertEquals(-10, QUEEN_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(5, QUEEN_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(-10, QUEEN_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(-10, QUEEN_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(5, QUEEN_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(-10, QUEEN_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(-10, QUEEN_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(0, QUEEN_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(-10, QUEEN_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(-10, QUEEN_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(0, QUEEN_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(-10, QUEEN_WHITE_VALUES[Square.h7.idx()]);
 
 
         assertEquals(64, QUEEN_WHITE_VALUES.length);
@@ -184,29 +184,29 @@ public class EvaluatorImp04Test extends EvaluatorTestCollection {
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, QUEENS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), QUEENS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
-            assertEquals(QUEEN_WHITE_VALUES[square.toIdx()], -QUEEN_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(QUEEN_WHITE_VALUES[square.idx()], -QUEEN_BLACK_VALUES[square.mirror().idx()]);
         }
     }
 
     @Test
     public void testKingValues() {
-        assertEquals(20, KING_WHITE_VALUES[Square.a2.toIdx()]);
-        assertEquals(20, KING_WHITE_VALUES[Square.b2.toIdx()]);
-        assertEquals(0, KING_WHITE_VALUES[Square.c2.toIdx()]);
-        assertEquals(0, KING_WHITE_VALUES[Square.d2.toIdx()]);
-        assertEquals(0, KING_WHITE_VALUES[Square.e2.toIdx()]);
-        assertEquals(0, KING_WHITE_VALUES[Square.f2.toIdx()]);
-        assertEquals(20, KING_WHITE_VALUES[Square.g2.toIdx()]);
-        assertEquals(20, KING_WHITE_VALUES[Square.h2.toIdx()]);
+        assertEquals(20, KING_WHITE_VALUES[Square.a2.idx()]);
+        assertEquals(20, KING_WHITE_VALUES[Square.b2.idx()]);
+        assertEquals(0, KING_WHITE_VALUES[Square.c2.idx()]);
+        assertEquals(0, KING_WHITE_VALUES[Square.d2.idx()]);
+        assertEquals(0, KING_WHITE_VALUES[Square.e2.idx()]);
+        assertEquals(0, KING_WHITE_VALUES[Square.f2.idx()]);
+        assertEquals(20, KING_WHITE_VALUES[Square.g2.idx()]);
+        assertEquals(20, KING_WHITE_VALUES[Square.h2.idx()]);
 
-        assertEquals(-30, KING_WHITE_VALUES[Square.a7.toIdx()]);
-        assertEquals(-40, KING_WHITE_VALUES[Square.b7.toIdx()]);
-        assertEquals(-40, KING_WHITE_VALUES[Square.c7.toIdx()]);
-        assertEquals(-50, KING_WHITE_VALUES[Square.d7.toIdx()]);
-        assertEquals(-50, KING_WHITE_VALUES[Square.e7.toIdx()]);
-        assertEquals(-40, KING_WHITE_VALUES[Square.f7.toIdx()]);
-        assertEquals(-40, KING_WHITE_VALUES[Square.g7.toIdx()]);
-        assertEquals(-30, KING_WHITE_VALUES[Square.h7.toIdx()]);
+        assertEquals(-30, KING_WHITE_VALUES[Square.a7.idx()]);
+        assertEquals(-40, KING_WHITE_VALUES[Square.b7.idx()]);
+        assertEquals(-40, KING_WHITE_VALUES[Square.c7.idx()]);
+        assertEquals(-50, KING_WHITE_VALUES[Square.d7.idx()]);
+        assertEquals(-50, KING_WHITE_VALUES[Square.e7.idx()]);
+        assertEquals(-40, KING_WHITE_VALUES[Square.f7.idx()]);
+        assertEquals(-40, KING_WHITE_VALUES[Square.g7.idx()]);
+        assertEquals(-30, KING_WHITE_VALUES[Square.h7.idx()]);
 
         /*
         for (int rank = 0; rank < 8; rank++) {
@@ -225,7 +225,7 @@ public class EvaluatorImp04Test extends EvaluatorTestCollection {
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, ROOKS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), ROOKS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
-            assertEquals(KING_WHITE_VALUES[square.toIdx()], -KING_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            assertEquals(KING_WHITE_VALUES[square.idx()], -KING_BLACK_VALUES[square.mirror().idx()]);
         }
     }
 

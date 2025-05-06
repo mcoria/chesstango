@@ -25,7 +25,7 @@ public class KingSafePositionsAnalyzerTest {
         analyzerResult = game.getState().getAnalyzerResult();
 
         // El king se encuentra en Jaque, e8 no es una posicion safe
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e8.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e8.bitPosition()) == 0);
     }
 
     @Test
@@ -35,13 +35,13 @@ public class KingSafePositionsAnalyzerTest {
         analyzerResult = game.getState().getAnalyzerResult();
 
         // El king se encuentra en Jaque, e1 no es una posicion safe
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.bitPosition()) != 0);
 
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.bitPosition()) == 0);
 
     }
 
@@ -51,18 +51,18 @@ public class KingSafePositionsAnalyzerTest {
 
         analyzerResult = game.getState().getAnalyzerResult();
 
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) != 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.bitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.bitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.bitPosition()) == 0);
 
 
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) != 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.bitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.bitPosition()) == 0);
 
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d3.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.e3.getBitPosition()) == 0);
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f3.getBitPosition()) != 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d3.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.e3.bitPosition()) == 0);
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f3.bitPosition()) != 0);
     }
 
     @Test
@@ -71,13 +71,13 @@ public class KingSafePositionsAnalyzerTest {
 
         analyzerResult = game.getState().getAnalyzerResult();
 
-        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()));
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
-        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()));
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e1.bitPosition()));
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.bitPosition()) != 0);
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.f1.bitPosition()));
 
-        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()));
-        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()));
-        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) != 0);
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.d2.bitPosition()));
+        assertEquals(0, (analyzerResult.getSafeKingPositions() & Square.e2.bitPosition()));
+        assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.bitPosition()) != 0);
     }
 
     private Game getGame(String string) {

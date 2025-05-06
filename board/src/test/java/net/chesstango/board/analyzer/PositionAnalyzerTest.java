@@ -35,7 +35,7 @@ public class PositionAnalyzerTest {
 
         long pinnedSquares = analyzerResult.getPinnedSquares();
         Assertions.assertNotEquals(0, pinnedSquares);
-        Assertions.assertTrue((pinnedSquares & Square.b4.getBitPosition()) != 0);
+        Assertions.assertTrue((pinnedSquares & Square.b4.bitPosition()) != 0);
         Assertions.assertFalse(analyzerResult.isKingInCheck());
     }
 
@@ -48,7 +48,7 @@ public class PositionAnalyzerTest {
         analyzerResult = game.getState().getAnalyzerResult();
 
         long pinnedSquares = analyzerResult.getPinnedSquares();
-        Assertions.assertTrue((pinnedSquares & Square.d5.getBitPosition()) != 0);
+        Assertions.assertTrue((pinnedSquares & Square.d5.bitPosition()) != 0);
         Assertions.assertFalse(analyzerResult.isKingInCheck());
     }
 

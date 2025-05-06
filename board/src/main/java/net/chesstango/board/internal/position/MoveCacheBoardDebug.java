@@ -16,13 +16,13 @@ public class MoveCacheBoardDebug extends MoveCacheBoardImp {
 
     public void validar(SquareBoard squareBoard) {
         for (int i = 0; i < 64; i++) {
-            if (pseudoMoves[i] != null && squareBoard.isEmpty(Square.getSquareByIdx(i))) {
-                throw new RuntimeException(String.format("Un casillero de cache contiene movimientos (%s) pero no existe pieza en tablero!!!", Square.getSquareByIdx(i)));
+            if (pseudoMoves[i] != null && squareBoard.isEmpty(Square.squareByIdx(i))) {
+                throw new RuntimeException(String.format("Un casillero de cache contiene movimientos (%s) pero no existe pieza en tablero!!!", Square.squareByIdx(i)));
             }
         }
 
         for (PiecePositioned piecePositioned : squareBoard) {
-            if (piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().toIdx()] != null) {
+            if (piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().idx()] != null) {
                 throw new RuntimeException(String.format("Para un casillero de tablero sin pieza (%s) existe movimientos en cache!!!", piecePositioned.getSquare()));
             }
         }

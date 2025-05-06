@@ -54,9 +54,9 @@ public final class PiecePositioned {
 
     public PiecePositioned getMirrorPosition() {
         if(piece == null){
-            return getPosition(square.getMirrorSquare());
+            return getPosition(square.mirror());
         }
-        return of(square.getMirrorSquare(), piece.getOpposite());
+        return of(square.mirror(), piece.getOpposite());
     }
 
     private static class PiecePositionedCache {
@@ -68,11 +68,11 @@ public final class PiecePositioned {
             for (int file = 0; file < 8; file++) {
                 for (int rank = 0; rank < 8; rank++) {
                     for (Piece piece : Piece.values()) {
-                        board[Square.getSquare(file, rank).toIdx()][piece.ordinal()] = new PiecePositioned(
-                                Square.getSquare(file, rank), piece);
+                        board[Square.of(file, rank).idx()][piece.ordinal()] = new PiecePositioned(
+                                Square.of(file, rank), piece);
                     }
-                    board[Square.getSquare(file, rank).toIdx()][12] = new PiecePositioned(
-                            Square.getSquare(file, rank), null);
+                    board[Square.of(file, rank).idx()][12] = new PiecePositioned(
+                            Square.of(file, rank), null);
                 }
             }
         }
@@ -80,15 +80,15 @@ public final class PiecePositioned {
         public PiecePositioned getPiecePositioned(Square square, Piece piece) {
             PiecePositioned returnValue = null;
             if (piece == null) {
-                returnValue = board[square.toIdx()][12];
+                returnValue = board[square.idx()][12];
             } else {
-                returnValue = board[square.toIdx()][piece.ordinal()];
+                returnValue = board[square.idx()][piece.ordinal()];
             }
             return returnValue;
         }
 
         public PiecePositioned getPosition(Square square) {
-            return board[square.toIdx()][12];
+            return board[square.idx()][12];
         }
 
 

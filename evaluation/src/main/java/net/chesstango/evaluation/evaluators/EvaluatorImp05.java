@@ -136,10 +136,10 @@ public class EvaluatorImp05 extends AbstractEvaluator {
             Square square = piecePlacement.getSquare();
 
             int[] mgPositionValues = getMgPositionValues(piece);
-            int mgValue = Color.WHITE.equals(piece.getColor()) ? mgPositionValues[square.toIdx()] : -mgPositionValues[square.getMirrorSquare().toIdx()];
+            int mgValue = Color.WHITE.equals(piece.getColor()) ? mgPositionValues[square.idx()] : -mgPositionValues[square.mirror().idx()];
 
             int[] egPositionValues = getEgPositionValues(piece);
-            int egValue = Color.WHITE.equals(piece.getColor()) ? egPositionValues[square.toIdx()] : -egPositionValues[square.getMirrorSquare().toIdx()];
+            int egValue = Color.WHITE.equals(piece.getColor()) ? egPositionValues[square.idx()] : -egPositionValues[square.mirror().idx()];
 
             evaluation += wgMidGame * (numberOfPieces - 2) * mgValue + wgEndGame * (32 - numberOfPieces) * egValue;
         }

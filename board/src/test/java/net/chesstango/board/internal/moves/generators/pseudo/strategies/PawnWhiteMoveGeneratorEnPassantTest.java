@@ -96,7 +96,7 @@ public class PawnWhiteMoveGeneratorEnPassantTest {
 
 	private PseudoMove createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.of(destinoSquare, null),
-				PiecePositioned.of(Square.getSquare(destinoSquare.getFile(), 4),
+				PiecePositioned.of(Square.of(destinoSquare.getFile(), 4),
 				Piece.PAWN_BLACK), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}
 	

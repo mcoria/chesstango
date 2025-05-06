@@ -88,8 +88,8 @@ public final class SearchManagerByBook implements SearchManagerChain {
         if (bookSearchResult != null) {
             MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
             for (PolyglotEntry polyglotEntry : bookSearchResult) {
-                Square from = Square.getSquare(polyglotEntry.from_file(), polyglotEntry.from_rank());
-                Square to = Square.getSquare(polyglotEntry.to_file(), polyglotEntry.to_rank());
+                Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
+                Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
                 Move move = possibleMoves.getMove(from, to);
                 if (move != null) {
                     MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);

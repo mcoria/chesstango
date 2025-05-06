@@ -205,8 +205,8 @@ public class DefaultMoveSorterTest {
             Move moveMirror = movesSortedMirror.get(i);
 
             assertEquals(move.getFrom().getPiece(), moveMirror.getFrom().getPiece().getOpposite());
-            assertEquals(move.getFrom().getSquare(), moveMirror.getFrom().getSquare().getMirrorSquare());
-            assertEquals(move.getTo().getSquare(), moveMirror.getTo().getSquare().getMirrorSquare());
+            assertEquals(move.getFrom().getSquare(), moveMirror.getFrom().getSquare().mirror());
+            assertEquals(move.getTo().getSquare(), moveMirror.getTo().getSquare().mirror());
 
             if (move instanceof MovePromotion) {
                 MovePromotion movePromotion = (MovePromotion) move;

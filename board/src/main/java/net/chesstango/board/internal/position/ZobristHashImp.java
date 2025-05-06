@@ -161,11 +161,11 @@ public class ZobristHashImp implements ZobristHash, Cloneable {
         Square enPassantSquare = positionState.getEnPassantSquare();
         if (positionState.getEnPassantSquare() != null) {
             if (Color.WHITE.equals(positionState.getCurrentTurn())) {
-                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
-                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE;
+                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.of(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.of(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE;
             } else {
-                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 3)) == Piece.PAWN_BLACK
-                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 3)) == Piece.PAWN_BLACK;
+                return enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.of(enPassantSquare.getFile() - 1, 3)) == Piece.PAWN_BLACK
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.of(enPassantSquare.getFile() + 1, 3)) == Piece.PAWN_BLACK;
             }
         }
         return false;

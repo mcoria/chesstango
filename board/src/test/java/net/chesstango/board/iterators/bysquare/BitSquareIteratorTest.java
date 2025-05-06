@@ -19,8 +19,8 @@ public class BitSquareIteratorTest {
 	@Test
 	public void test() {
 		long posiciones = 0;
-		posiciones |= Square.a1.getBitPosition();
-		posiciones |= Square.b6.getBitPosition();
+		posiciones |= Square.a1.bitPosition();
+		posiciones |= Square.b6.bitPosition();
 		
 		List<Square> squares = new ArrayList<Square>();
 		

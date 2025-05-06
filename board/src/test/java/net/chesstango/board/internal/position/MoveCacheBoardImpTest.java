@@ -49,7 +49,7 @@ public class MoveCacheBoardImpTest {
 			}
 			possibleAffects |= square.getKingJumps();
 			possibleAffects |= square.getKnightJumps();
-			posiciones[square.toIdx()] = possibleAffects;
+			posiciones[square.idx()] = possibleAffects;
 		}
 
 		for (long posicion : posiciones) {

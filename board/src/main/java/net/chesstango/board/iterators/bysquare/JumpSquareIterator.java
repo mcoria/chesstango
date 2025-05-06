@@ -35,7 +35,7 @@ public class JumpSquareIterator implements SquareIterator {
 	private void calcularNextPoint() {
 		this.nextPoint = null;
 		while (this.idx < saltos.length && nextPoint == null) {
-			this.nextPoint = Square.getSquare(startingPoint.getFile() + saltos[idx][0],
+			this.nextPoint = Square.of(startingPoint.getFile() + saltos[idx][0],
 					startingPoint.getRank() + saltos[idx][1]);
 			this.idx++;
 		}

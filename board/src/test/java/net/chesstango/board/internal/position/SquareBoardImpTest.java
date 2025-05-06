@@ -43,12 +43,12 @@ public class SquareBoardImpTest {
 		
 		
 		long posiciones = 0;
-		posiciones |= Square.a1.getBitPosition();
-		posiciones |= Square.b7.getBitPosition();
-		posiciones |= Square.b8.getBitPosition();
-		posiciones |= Square.e1.getBitPosition();
-		posiciones |= Square.e8.getBitPosition();
-		posiciones |= Square.e3.getBitPosition();
+		posiciones |= Square.a1.bitPosition();
+		posiciones |= Square.b7.bitPosition();
+		posiciones |= Square.b8.bitPosition();
+		posiciones |= Square.e1.bitPosition();
+		posiciones |= Square.e8.bitPosition();
+		posiciones |= Square.e3.bitPosition();
 		
 		List<PiecePositioned> posicionesList = new ArrayList<>();
 

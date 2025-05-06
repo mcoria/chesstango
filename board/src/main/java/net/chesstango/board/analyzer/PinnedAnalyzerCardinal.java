@@ -66,7 +66,7 @@ abstract class PinnedAnalyzerCardinal {
                     if (queen.equals(piece) || bishopOrRook.equals(piece)) {
                         // Confirmado, tenemos pinned
                         pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
-                        return possiblePinned.getSquare().getBitPosition();
+                        return possiblePinned.getSquare().bitPosition();
                     }
                     return 0;
                 }

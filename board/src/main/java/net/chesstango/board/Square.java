@@ -15,16 +15,21 @@ public enum Square {
     a2(0, 1), b2(1, 1), c2(2, 1), d2(3, 1), e2(4, 1), f2(5, 1), g2(6, 1), h2(7, 1),
     a1(0, 0), b1(1, 0), c1(2, 0), d1(3, 0), e1(4, 0), f1(5, 0), g1(6, 0), h1(7, 0);
 
+    private static final Square[] array = {
+            Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
+            Square.a2, Square.b2, Square.c2, Square.d2, Square.e2, Square.f2, Square.g2, Square.h2,
+            Square.a3, Square.b3, Square.c3, Square.d3, Square.e3, Square.f3, Square.g3, Square.h3,
+            Square.a4, Square.b4, Square.c4, Square.d4, Square.e4, Square.f4, Square.g4, Square.h4,
+            Square.a5, Square.b5, Square.c5, Square.d5, Square.e5, Square.f5, Square.g5, Square.h5,
+            Square.a6, Square.b6, Square.c6, Square.d6, Square.e6, Square.f6, Square.g6, Square.h6,
+            Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
+            Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
+
     @Getter
     private final int file;
 
     @Getter
     private final int rank;
-
-    @Getter
-    private final long bitPosition;
-
-    private final int idx;
 
     @Getter
     private final String fileChar;
@@ -37,6 +42,9 @@ public enum Square {
 
     @Getter
     private final short binaryEncodedFrom;
+
+    private final int idx;
+    private final long bitPosition;
 
     Square(int file, int rank) {
         this.file = file;
@@ -71,8 +79,33 @@ public enum Square {
         this.binaryEncodedFrom = (short) ((file << 6 )| (rank << 9));
     }
 
-    public int toIdx() {
+    public int idx() {
         return idx;
+    }
+
+    public long bitPosition() {
+        return bitPosition;
+    }
+
+    public Square mirror() {
+        return of(file, 7 - rank);
+    }
+
+    public static Square of(int file, int rank) {
+        if (file < 0 || rank < 0) {
+            return null;
+        }
+        if (file > 7 || rank > 7) {
+            return null;
+        }
+        return array[rank * 8 + file];
+    }
+
+    public static Square squareByIdx(int idx) {
+        if (idx < 0 || idx > 64) {
+            return null;
+        }
+        return array[idx];
     }
 
     public long getKingJumps() {
@@ -89,37 +122,6 @@ public enum Square {
 
     public long getPawnBlackCaptureJumps() {
         return PAWN_BLACK_CAPTURE_JUMPS[idx];
-    }
-
-    public Square getMirrorSquare() {
-        return getSquare(file, 7 - rank);
-    }
-
-    private static final Square[] array = {
-            Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
-            Square.a2, Square.b2, Square.c2, Square.d2, Square.e2, Square.f2, Square.g2, Square.h2,
-            Square.a3, Square.b3, Square.c3, Square.d3, Square.e3, Square.f3, Square.g3, Square.h3,
-            Square.a4, Square.b4, Square.c4, Square.d4, Square.e4, Square.f4, Square.g4, Square.h4,
-            Square.a5, Square.b5, Square.c5, Square.d5, Square.e5, Square.f5, Square.g5, Square.h5,
-            Square.a6, Square.b6, Square.c6, Square.d6, Square.e6, Square.f6, Square.g6, Square.h6,
-            Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
-            Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
-
-    public static Square getSquare(int file, int rank) {
-        if (file < 0 || rank < 0) {
-            return null;
-        }
-        if (file > 7 || rank > 7) {
-            return null;
-        }
-        return array[rank * 8 + file];
-    }
-
-    public static Square getSquareByIdx(int idx) {
-        if (idx < 0 || idx > 64) {
-            return null;
-        }
-        return array[idx];
     }
 
     private static final long[] KING_JUMPS = {

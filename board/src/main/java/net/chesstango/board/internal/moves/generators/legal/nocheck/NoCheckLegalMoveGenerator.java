@@ -44,7 +44,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
         final long pinnedSquares = analysis.getPinnedSquares();
 
-        final long kingPosition = kingSquare.getBitPosition();
+        final long kingPosition = kingSquare.bitPosition();
 
         final long safePositions = currentTurnPositions & ~pinnedSquares & ~kingPosition;
 
@@ -95,7 +95,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
         for (PseudoMove pseudoMove : pseudoMovesKing) {
             Square toSquare = pseudoMove.getTo().getSquare();
-            if ((toSquare.getBitPosition() & safeKingPositions) != 0) {
+            if ((toSquare.bitPosition() & safeKingPositions) != 0) {
                 moves.add(pseudoMove);
             }
         }

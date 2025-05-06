@@ -22,7 +22,7 @@ public class BishopPositionTest {
         int totalPares = 0;
         for (int i = 0; i < 64; i += 2) {
             //System.out.println(Square.getSquareByIdx(i));
-            posicionesPares |= Square.getSquareByIdx(i).getBitPosition();
+            posicionesPares |= Square.squareByIdx(i).bitPosition();
 
             if (i % 8 == 6) {
                 i++;
@@ -31,10 +31,10 @@ public class BishopPositionTest {
             }
             totalPares++;
         }
-        assertTrue((posicionesPares & Square.a1.getBitPosition()) != 0);
-        assertTrue((posicionesPares & Square.b1.getBitPosition()) == 0);
-        assertTrue((posicionesPares & Square.a2.getBitPosition()) == 0);
-        assertTrue((posicionesPares & Square.b2.getBitPosition()) != 0);
+        assertTrue((posicionesPares & Square.a1.bitPosition()) != 0);
+        assertTrue((posicionesPares & Square.b1.bitPosition()) == 0);
+        assertTrue((posicionesPares & Square.a2.bitPosition()) == 0);
+        assertTrue((posicionesPares & Square.b2.bitPosition()) != 0);
         assertEquals(32, totalPares);
 
 
@@ -52,7 +52,7 @@ public class BishopPositionTest {
         int totalPares = 0;
         for (int i = 1; i < 64; i += 2) {
             //System.out.println(Square.getSquareByIdx(i));
-            posicionesImpares |= Square.getSquareByIdx(i).getBitPosition();
+            posicionesImpares |= Square.squareByIdx(i).bitPosition();
 
             if (i % 8 == 6) {
                 i++;
@@ -61,10 +61,10 @@ public class BishopPositionTest {
             }
             totalPares++;
         }
-        assertTrue((posicionesImpares & Square.a1.getBitPosition()) == 0);
-        assertTrue((posicionesImpares & Square.b1.getBitPosition()) != 0);
-        assertTrue((posicionesImpares & Square.a2.getBitPosition()) != 0);
-        assertTrue((posicionesImpares & Square.b2.getBitPosition()) == 0);
+        assertTrue((posicionesImpares & Square.a1.bitPosition()) == 0);
+        assertTrue((posicionesImpares & Square.b1.bitPosition()) != 0);
+        assertTrue((posicionesImpares & Square.a2.bitPosition()) != 0);
+        assertTrue((posicionesImpares & Square.b2.bitPosition()) == 0);
         assertEquals(32, totalPares);
 
 

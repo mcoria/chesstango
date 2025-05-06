@@ -21,21 +21,21 @@ public class CardinalTest {
 
         long a1_posiciones = norte.getSquaresInDirection(a1);
 
-        Assertions.assertTrue( (a1_posiciones & Square.a2.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a3.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a4.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a5.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a6.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a7.getBitPosition()) != 0 );
-        Assertions.assertTrue( (a1_posiciones & Square.a8.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a2.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a3.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a4.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a5.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a6.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a7.bitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a8.bitPosition()) != 0 );
 
-        Assertions.assertFalse( (a1_posiciones & Square.b2.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b3.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b4.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b5.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b6.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b7.getBitPosition()) != 0 );
-        Assertions.assertFalse( (a1_posiciones & Square.b8.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b2.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b3.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b4.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b5.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b6.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b7.bitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b8.bitPosition()) != 0 );
     }
 
 
@@ -47,7 +47,7 @@ public class CardinalTest {
             while (cardinalIterator.hasNext()) {
                 Square posicion = cardinalIterator.next();
                 if (!squareOrigen.equals(posicion)) {
-                    posiciones[squareOrigen.toIdx()] |= posicion.getBitPosition();
+                    posiciones[squareOrigen.idx()] |= posicion.bitPosition();
                 }
             }
         }

@@ -51,9 +51,9 @@ public abstract class GenericTest {
 
         assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
 
-        assertEquals(bestMove.getFrom().getSquare().getMirrorSquare(), bestMoveMirror.getFrom().getSquare());
+        assertEquals(bestMove.getFrom().getSquare().mirror(), bestMoveMirror.getFrom().getSquare());
 
-        assertEquals(bestMove.getTo().getSquare().getMirrorSquare(), bestMoveMirror.getTo().getSquare());
+        assertEquals(bestMove.getTo().getSquare().mirror(), bestMoveMirror.getTo().getSquare());
     }
 
 }

@@ -34,42 +34,42 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
     @Override
     public MoveGeneratorByPieceResult getPseudoMovesResult(Square key) {
-        return pseudoMoves[key.toIdx()];
+        return pseudoMoves[key.idx()];
     }
 
     @Override
     public void setPseudoMoves(Square key, MoveGeneratorByPieceResult generatorResult) {
-        if (pseudoMoves[key.toIdx()] != null) {
+        if (pseudoMoves[key.idx()] != null) {
             throw new RuntimeException("pseudoMoves[key.toIdx()]");
         }
 
-        pseudoMoves[key.toIdx()] = generatorResult;
+        pseudoMoves[key.idx()] = generatorResult;
 
-        pseudoMovesPositions |= key.getBitPosition();
+        pseudoMovesPositions |= key.bitPosition();
     }
 
     @Override
     public void affectedPositionsByMove(Square key) {
-        affectedPositionsByMove = key.getBitPosition();
-        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key.toIdx()];
+        affectedPositionsByMove = key.bitPosition();
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key.idx()];
     }
 
     @Override
     public void affectedPositionsByMove(Square key1, Square key2) {
-        affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition();
-        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()];
+        affectedPositionsByMove = key1.bitPosition() | key2.bitPosition();
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.idx()] | possibleAffectedBySquare[key2.idx()];
     }
 
     @Override
     public void affectedPositionsByMove(Square key1, Square key2, Square key3) {
-        affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition() | key3.getBitPosition();
-        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()];
+        affectedPositionsByMove = key1.bitPosition() | key2.bitPosition() | key3.bitPosition();
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.idx()] | possibleAffectedBySquare[key2.idx()] | possibleAffectedBySquare[key3.idx()];
     }
 
     @Override
     public void affectedPositionsByMove(Square key1, Square key2, Square key3, Square key4) {
-        affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition() | key3.getBitPosition() | key4.getBitPosition();
-        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()] | possibleAffectedBySquare[key4.toIdx()];
+        affectedPositionsByMove = key1.bitPosition() | key2.bitPosition() | key3.bitPosition() | key4.bitPosition();
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.idx()] | possibleAffectedBySquare[key2.idx()] | possibleAffectedBySquare[key3.idx()] | possibleAffectedBySquare[key4.idx()];
     }
 
 
@@ -124,7 +124,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
                         currentRemovedPseudoMoves.add(pseudoMove);
                     }
                     pseudoMoves[i] = null;
-                    pseudoMovesPositions &= ~key.getBitPosition();
+                    pseudoMovesPositions &= ~key.bitPosition();
                 }
             }
             allPositions &= ~posicionLng;

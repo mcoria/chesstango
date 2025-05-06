@@ -36,7 +36,7 @@ public class KingSafePositionsAnalyzer implements Analyzer {
 
         Square kingSquare = positionReader.getKingSquare(currentTurn);
         long safeKingPositions = result.getSafeKingPositions();
-        boolean kingsInCheck = (safeKingPositions & kingSquare.getBitPosition()) == 0;
+        boolean kingsInCheck = (safeKingPositions & kingSquare.bitPosition()) == 0;
 
         result.setKingInCheck(kingsInCheck);
     }
@@ -67,7 +67,7 @@ public class KingSafePositionsAnalyzer implements Analyzer {
             long kingJumps = squareKing.getKingJumps();
 
             // Todas las posiciones donde podria saltar el rey incluida la posicion actual;
-            long possibleKingPositions = (kingJumps & ~positionReader.getPositions(color)) | squareKing.getBitPosition();
+            long possibleKingPositions = (kingJumps & ~positionReader.getPositions(color)) | squareKing.bitPosition();
 
             PositionsSquareIterator possibleKingPositionsIt = new PositionsSquareIterator(possibleKingPositions);
             while (possibleKingPositionsIt.hasNext()) {
@@ -118,7 +118,7 @@ public class KingSafePositionsAnalyzer implements Analyzer {
                     Iterator<Square> iterator = new CardinalSquareIterator(cardinalAttackerFrom, attackerDirection);
                     while (iterator.hasNext()) {
                         Square to = iterator.next();
-                        result |= to.getBitPosition();
+                        result |= to.bitPosition();
                         if (positionReader.getColor(to) == null || positionReader.getKingSquare(color).equals(to)) {
                             continue;
                         }

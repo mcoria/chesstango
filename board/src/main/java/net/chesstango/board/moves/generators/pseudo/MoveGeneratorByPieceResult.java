@@ -52,7 +52,7 @@ public class MoveGeneratorByPieceResult {
 	public MoveGeneratorByPieceResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList<>();
 		this.from = from;
-		this.affectedByPositions = from.getSquare().getBitPosition();
+		this.affectedByPositions = from.getSquare().bitPosition();
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class MoveGeneratorByPieceResult {
 	 * @param key The square to add to the affected positions bitboard.
 	 */
 	public void addAffectedByPositions(Square key) {
-		affectedByPositions |= key.getBitPosition();
+		affectedByPositions |= key.bitPosition();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class MoveGeneratorByPieceResult {
 	 * @param key The square to mark as a potential capturing position.
 	 */
 	public void addCapturedPositions(Square key) {
-		capturedPositions |= key.getBitPosition();
+		capturedPositions |= key.bitPosition();
 	}
 
 	/**

@@ -40,7 +40,7 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
             int[] positionValues = getPositionValues(piece);
-            evaluation += positionValues[square.toIdx()];
+            evaluation += positionValues[square.idx()];
         }
         return evaluation;
     }
