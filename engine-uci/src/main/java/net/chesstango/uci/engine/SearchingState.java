@@ -79,9 +79,7 @@ class SearchingState implements UCIEngine, SearchListener {
 
         String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
-        System.err.println(infoStr);
-
-        //uciTango.reply(this, new RspInfo(infoStr));
+        uciTango.reply(this, UCIResponse.info(infoStr));
     }
 
 
