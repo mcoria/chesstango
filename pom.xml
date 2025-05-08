@@ -48,7 +48,7 @@
         <commons-cli.version>1.8.0</commons-cli.version>
 
         <chariot.version>0.1.13</chariot.version>
-        <uci-protocol.version>1.0.4</uci-protocol.version>
+        <goyeneche.version>1.0.5-SNAPSHOT</goyeneche.version>
         <gardel.version>1.0.1</gardel.version>
         <piazzolla.version>1.0.1</piazzolla.version>
     </properties>
@@ -192,8 +192,8 @@
 
             <dependency>
                 <groupId>net.chesstango</groupId>
-                <artifactId>uci-protocol</artifactId>
-                <version>${uci-protocol.version}</version>
+                <artifactId>goyeneche</artifactId>
+                <version>${goyeneche.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>

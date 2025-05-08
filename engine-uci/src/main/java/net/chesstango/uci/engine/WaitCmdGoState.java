@@ -2,12 +2,7 @@ package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.protocol.requests.ReqGo;
-import net.chesstango.uci.protocol.requests.ReqGoExecutor;
-import net.chesstango.uci.protocol.requests.go.ReqGoDepth;
-import net.chesstango.uci.protocol.requests.go.ReqGoFast;
-import net.chesstango.uci.protocol.requests.go.ReqGoInfinite;
-import net.chesstango.uci.protocol.requests.go.ReqGoTime;
+import net.chesstango.goyeneche.requests.*;
 
 /**
  * The WaitCmdGoState class represents a specific state in the State design pattern implementation for the UCI engine workflow in a chess engine.

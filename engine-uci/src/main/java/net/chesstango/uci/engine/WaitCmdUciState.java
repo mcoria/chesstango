@@ -2,12 +2,9 @@ package net.chesstango.uci.engine;
 
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspId;
-import net.chesstango.uci.protocol.responses.RspOption;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
-import net.chesstango.uci.protocol.responses.RspUciOk;
+import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.UCIResponse;
 
 import static net.chesstango.uci.engine.ReadyState.POLYGLOT_PATH;
 
@@ -35,10 +32,10 @@ class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_uci(ReqUci cmdUci) {
-        uciTango.reply(this, new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
-        uciTango.reply(this, new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
-        uciTango.reply(this, RspOption.createStringOption(POLYGLOT_PATH, null));
-        uciTango.reply(readyState, new RspUciOk());
+        uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
+        uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
+        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_PATH, null));
+        uciTango.reply(readyState, UCIResponse.uciok());
     }
 
     @Override
@@ -47,7 +44,6 @@ class WaitCmdUciState implements UCIEngine {
 
     @Override
     public void do_isReady(ReqIsReady cmdIsReady) {
-        uciTango.reply(this, new RspReadyOk());
     }
 
     @Override

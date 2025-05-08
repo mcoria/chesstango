@@ -3,15 +3,15 @@ package net.chesstango.uci.engine;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.protocol.UCICommand;
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.stream.UCIOutputStream;
-import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
+import net.chesstango.goyeneche.UCICommand;
+import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.stream.UCIOutputStream;
+import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.chesstango.uci.protocol.UCIService;
+import net.chesstango.goyeneche.UCIService;
 
 /**
  * The UciTango class operates as a context within the state design pattern, encapsulating the state-dependent behavior

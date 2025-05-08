@@ -4,14 +4,12 @@ import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
+import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.UCIResponse;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspBestMove;
-import net.chesstango.uci.protocol.responses.RspInfo;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
  * This class represents a specific state in the State design pattern for the UCI engine's lifecycle.
@@ -47,7 +45,7 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_isReady(ReqIsReady cmdIsReady) {
-        uciTango.reply(this, new RspReadyOk());
+        uciTango.reply(this, UCIResponse.uciok());
     }
 
     @Override
@@ -81,7 +79,9 @@ class SearchingState implements UCIEngine, SearchListener {
 
         String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
 
-        uciTango.reply(this, new RspInfo(infoStr));
+        System.err.println(infoStr);
+
+        //uciTango.reply(this, new RspInfo(infoStr));
     }
 
 
@@ -89,6 +89,6 @@ class SearchingState implements UCIEngine, SearchListener {
     public void searchFinished(SearchResult searchResult) {
         String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
 
-        uciTango.reply(readyState, new RspBestMove(selectedMoveStr));
+        uciTango.reply(readyState, UCIResponse.bestMove(selectedMoveStr));
     }
 }

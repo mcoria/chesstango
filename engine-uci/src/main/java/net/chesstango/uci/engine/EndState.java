@@ -1,7 +1,7 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
+import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.requests.*;
 
 /**
  * Represents a terminal state in the UCIEngine's state lifecycle.

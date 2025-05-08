@@ -4,9 +4,10 @@ import lombok.Setter;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.protocol.UCIEngine;
-import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
+import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.RspReadyOk;
+import net.chesstango.goyeneche.responses.UCIResponse;
 
 /**
  * This class represents one of the possible states in the state design pattern for the UCI engine.
@@ -49,7 +50,7 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_isReady(ReqIsReady cmdIsReady) {
-        uciTango.reply(this, new RspReadyOk());
+        uciTango.reply(this, UCIResponse.readyok());
     }
 
     @Override
