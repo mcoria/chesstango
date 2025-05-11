@@ -99,7 +99,7 @@ public class PGNStringDecoder {
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         while ((line = bufferReader.readLine()) != null) {
-            if ("".equals(line.trim())) {
+            if (line.trim().isEmpty()) {
                 break;
             }
             stringBuilder.append(line.trim());

@@ -2,6 +2,7 @@ package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FENBuilder;
 
@@ -22,13 +23,24 @@ public class GameDebugEncoder {
 
         game.getHistory().iteratorReverse().forEachRemaining(careTakerRecord -> {
             Move move = careTakerRecord.playedMove();
-            sb.append(".executeMove(Square.")
-                    .append(move.getFrom().getSquare().toString())
-                    .append(", Square.")
-                    .append(move.getTo().getSquare().toString()).append(")");
+            if (move instanceof MovePromotion movePromotion) {
+                sb.append(".executeMove(Square.").append(movePromotion.getFrom().getSquare().toString())
+                        .append(", Square.").append(movePromotion.getTo().getSquare().toString())
+                        .append(", Piece.").append(movePromotion.getPromotion().toString())
+                        .append(")");
 
-            // Execute move
-            move.executeMove();
+                // Execute move
+                theGame.executeMove(move.getFrom().getSquare(), move.getTo().getSquare(), movePromotion.getPromotion());
+
+            } else {
+                sb.append(".executeMove(Square.")
+                        .append(move.getFrom().getSquare().toString())
+                        .append(", Square.")
+                        .append(move.getTo().getSquare().toString()).append(")");
+
+                // Execute move
+                theGame.executeMove(move.getFrom().getSquare(), move.getTo().getSquare());
+            }
 
             FENBuilder fenBuilder = new FENBuilder();
             PositionReader theGamePositionReader = theGame.getPosition();

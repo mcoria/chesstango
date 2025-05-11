@@ -46,9 +46,9 @@
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.17.1</jackson.version>
         <commons-cli.version>1.8.0</commons-cli.version>
-
         <chariot.version>0.1.13</chariot.version>
-        <goyeneche.version>1.0.5-SNAPSHOT</goyeneche.version>
+
+        <goyeneche.version>1.0.6-SNAPSHOT</goyeneche.version>
         <gardel.version>1.0.1</gardel.version>
         <piazzolla.version>1.0.1</piazzolla.version>
     </properties>
