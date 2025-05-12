@@ -8,6 +8,9 @@ import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.board.representations.pgn.PGN;
+import net.chesstango.board.representations.pgn.PGNGameDecoder;
+import net.chesstango.board.representations.pgn.PGNGameEncoder;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENExporter;
 
@@ -160,6 +163,16 @@ public interface Game {
      */
     Game mirror();
 
+
+    /**
+     * Encodes the current game state into a PGN (Portable Game Notation) representation.
+     *
+     * @return a {@code PGN} object representing the current state and history of the game
+     */
+    default PGN encode() {
+        return new PGNGameDecoder().decode(this);
+    }
+
     /**
      * Creates a new game based on the given FEN (Forsyth–Edwards Notation) string.
      *
@@ -184,6 +197,10 @@ public interface Game {
         fenExporter.export(fen);
 
         return builder.getPositionRepresentation();
+    }
+
+    static Game from(PGN pgn) {
+        return new PGNGameEncoder().encode(pgn);
     }
 
     /**

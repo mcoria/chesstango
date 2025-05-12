@@ -20,7 +20,7 @@ public class PGNTest {
         Game game = Game.fromFEN(FENParser.INITIAL_FEN);
         game.executeMove(a2, a4);
 
-        PGN pgn = PGN.of(game);
+        PGN pgn = game.encode();
 
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 

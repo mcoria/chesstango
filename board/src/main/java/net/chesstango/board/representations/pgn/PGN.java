@@ -30,17 +30,9 @@ public class PGN {
     private String result;
     private List<String> moveList;
 
-    public static PGN of(Game game) {
-        return new PGNGameDecoder().decode(game);
-    }
-
     @Override
     public String toString() {
         return new PGNStringEncoder().encode(this);
-    }
-
-    public Game toGame() {
-        return new PGNGameEncoder().encode(this);
     }
 
     /**

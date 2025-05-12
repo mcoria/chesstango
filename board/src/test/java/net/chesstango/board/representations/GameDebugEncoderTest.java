@@ -39,7 +39,7 @@ public class GameDebugEncoderTest {
         Reader reader = new StringReader(lines);
         BufferedReader bufferReader = new BufferedReader(reader);
         PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
-        Game game = pgn.toGame();
+        Game game = Game.from(pgn);
 
         GameDebugEncoder gameDebugEncoder = new GameDebugEncoder();
         String gameEncoded = gameDebugEncoder.encode(game);
