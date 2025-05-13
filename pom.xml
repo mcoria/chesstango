@@ -48,8 +48,8 @@
         <commons-cli.version>1.8.0</commons-cli.version>
         <chariot.version>0.1.13</chariot.version>
 
+        <gardel.version>1.0.2</gardel.version>
         <goyeneche.version>1.0.6</goyeneche.version>
-        <gardel.version>1.0.1</gardel.version>
         <piazzolla.version>1.0.1</piazzolla.version>
     </properties>
 

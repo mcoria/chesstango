@@ -21,6 +21,10 @@
     <dependencies>
         <dependency>
             <groupId>net.chesstango</groupId>
+            <artifactId>gardel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.chesstango</groupId>
             <artifactId>board</artifactId>
         </dependency>
         <dependency>

@@ -2,10 +2,9 @@ package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.representations.epd.EPD;
-import net.chesstango.board.representations.epd.EPDDecoder;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.GameFeatures;
+import net.chesstango.gardel.epd.EPD;
+import net.chesstango.gardel.epd.EPDDecoder;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

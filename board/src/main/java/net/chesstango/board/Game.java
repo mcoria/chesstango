@@ -7,10 +7,10 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.epd.EPD;
 import net.chesstango.board.representations.pgn.PGN;
 import net.chesstango.board.representations.pgn.PGNGameDecoder;
 import net.chesstango.board.representations.pgn.PGNGameEncoder;
+import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENExporter;
 

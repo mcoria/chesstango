@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.gardel.epd.EPD;
 import net.chesstango.board.representations.move.MoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.SearchParameter;

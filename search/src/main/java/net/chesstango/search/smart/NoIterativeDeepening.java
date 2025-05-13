@@ -2,7 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.epd.EPD;
+import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.*;
 
 import java.util.HashMap;

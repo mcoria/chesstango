@@ -130,7 +130,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
                     }
                 }
             });
-            builder.getPiecePlacement(ps);
+            builder.printPiecePlacement(ps);
         }
         return baos.toString();
     }

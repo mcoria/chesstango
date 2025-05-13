@@ -3,7 +3,6 @@ module net.chesstango.board {
     exports net.chesstango.board.representations;
     exports net.chesstango.board.representations.pgn;
     exports net.chesstango.board.representations.move;
-    exports net.chesstango.board.representations.epd;
     exports net.chesstango.board.position;
     exports net.chesstango.board.moves;
     exports net.chesstango.board.moves.generators.pseudo;
