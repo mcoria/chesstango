@@ -39,7 +39,7 @@ public class CardinalTest {
     }
 
 
-    //@Test
+
     public void testReachedSquares() {
         long posiciones[] = new long[64];
         for (Square squareOrigen : Square.values()) {
@@ -54,7 +54,7 @@ public class CardinalTest {
 
         for (long posicion : posiciones) {
             HexFormat hexFormat = HexFormat.of().withUpperCase();
-            System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(posicion))));
+            System.out.printf("0x%sL,%n", hexFormat.formatHex(longToByte(posicion)));
             //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
 
