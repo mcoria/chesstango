@@ -174,4 +174,89 @@ public class SquareTest {
         //System.out.printf("0x%sL\n", Long.toHexString(northLimit).toUpperCase());
         assertEquals(0x8080808080808080L, northLimit);
     }
+
+
+    @Test
+    public void testWhiteCastlingQueen() {
+        Square[] squares = {Square.b1, Square.c1, Square.d1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x000000000000000EL, squaresLgn);
+    }
+
+    @Test
+    public void testWhiteCastlingKing() {
+        Square[] squares = {Square.f1, Square.g1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x0000000000000060L, squaresLgn);
+    }
+
+    @Test
+    public void test_c1() {
+        Square[] squares = {Square.c1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x0000000000000004L, squaresLgn);
+    }
+
+    @Test
+    public void test_d1() {
+        Square[] squares = {Square.d1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x0000000000000008L, squaresLgn);
+    }
+
+    @Test
+    public void test_e1() {
+        Square[] squares = {Square.e1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x10L, squaresLgn);
+    }
+
+    @Test
+    public void test_f1() {
+        Square[] squares = {Square.f1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x20L, squaresLgn);
+    }
+
+    @Test
+    public void test_g1() {
+        Square[] squares = {Square.g1};
+        long squaresLgn = 0;
+        for (Square square : squares) {
+            squaresLgn |= square.bitPosition();
+        }
+
+        //System.out.printf("0x%sL\n", Long.toHexString(squaresLgn).toUpperCase());
+        assertEquals(0x40L, squaresLgn);
+    }
 }
