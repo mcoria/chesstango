@@ -12,6 +12,10 @@ public interface LichessBotMBean {
      */
     void challengeUser(String user, String type);
 
+
+    /**
+     * Send challenge request to a random bot with rating within acceptable threshold
+     */
     void challengeRandomBot();
 
     /**
