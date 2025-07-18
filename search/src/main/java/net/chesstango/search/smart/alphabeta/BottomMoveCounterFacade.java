@@ -5,9 +5,9 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.gardel.epd.EPD;
-import net.chesstango.board.representations.move.MoveDecoder;
+import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchAlgorithm;
@@ -52,13 +52,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         }
 
         EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
-        MoveDecoder moveDecoder = new MoveDecoder();
+        GameMoveDecoder moveDecoder = new GameMoveDecoder();
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");
             String bestMoveStr = bestMoves[0];
-            this.targetMove = moveDecoder.decode(bestMoveStr, game.getPossibleMoves());
+            this.targetMove = moveDecoder.decode(bestMoveStr, game.getCurrentFEN());
         } else if (epd.getSuppliedMoveStr() != null) {
-            this.targetMove = moveDecoder.decode(epd.getSuppliedMoveStr(), game.getPossibleMoves());
+            this.targetMove = moveDecoder.decode(epd.getSuppliedMoveStr(), game.getCurrentFEN());
         }
 
         if (this.targetMove == null) {

@@ -3,6 +3,8 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.pgn.PGN;
+import net.chesstango.gardel.pgn.PGNStringEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

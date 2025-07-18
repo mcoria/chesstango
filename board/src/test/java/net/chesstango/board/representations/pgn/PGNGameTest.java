@@ -4,6 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.Status;
+import net.chesstango.gardel.pgn.PGN;
+import net.chesstango.gardel.pgn.PGNStringDecoder;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -222,6 +224,6 @@ public class PGNGameTest {
 
         PGN pgn = game.encode();
 
-        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgn.getFen().toString());
     }
 }

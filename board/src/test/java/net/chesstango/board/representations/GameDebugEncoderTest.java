@@ -1,8 +1,8 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.pgn.PGN;
-import net.chesstango.board.representations.pgn.PGNStringDecoder;
+import net.chesstango.gardel.pgn.PGN;
+import net.chesstango.gardel.pgn.PGNStringDecoder;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
