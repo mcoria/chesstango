@@ -4,9 +4,11 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.GameHistoryRecord;
-import net.chesstango.board.position.GameStateReader;
-import net.chesstango.board.representations.move.SANEncoder;
+import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.move.SANEncoder;
+import net.chesstango.gardel.pgn.PGN;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,45 +23,47 @@ public class PGNGameDecoder {
     public PGN decode(Game game) {
         PGN pgn = new PGN();
         pgn.setResult(encodeGameResult(game));
-        pgn.setFen(game.getInitialFEN().toString());
+        if( !game.getInitialFEN().toString().equals(FENParser.INITIAL_FEN)  ) {
+            pgn.setFen(game.getInitialFEN());
+        }
 
         List<String> moveList = new ArrayList<>();
 
         Iterator<GameHistoryRecord> careTakerRecordIterator = game.getHistory().iteratorReverse();
 
-        GameHistoryRecord gameHistoryRecord = null;
-
+        Game theGame = Game.from(game.getInitialFEN());
         while (careTakerRecordIterator.hasNext()) {
             GameHistoryRecord currentStateHistory = careTakerRecordIterator.next();
 
-            // Encode previous move + current iterated state
-            if (gameHistoryRecord != null) {
-                String moveStrTmp = encodeMove(gameHistoryRecord, currentStateHistory.gameState());
-                moveList.add(moveStrTmp);
+            Move playedMove = currentStateHistory.playedMove();
+
+            String currentMoveStr = sanEncoder.encodeAlgebraicNotation(toMove(playedMove), theGame.getCurrentFEN());
+
+            if (playedMove instanceof MovePromotion playedMovePromotion) {
+                theGame.executeMove(playedMovePromotion.getFrom().getSquare(), playedMovePromotion.getTo().getSquare(), playedMovePromotion.getPromotion());
+            } else {
+                theGame.executeMove(playedMove.getFrom().getSquare(), playedMove.getTo().getSquare());
             }
 
-            gameHistoryRecord = currentStateHistory;
+            currentMoveStr += encodeGameStatusAtMove(theGame.getStatus());
+
+            moveList.add(currentMoveStr);
         }
-
-        // Encode previous move + current state
-        if (gameHistoryRecord != null) {
-            String moveStrTmp = encodeMove(gameHistoryRecord, game.getState());
-
-            moveList.add(moveStrTmp);
-        }
-
 
         pgn.setMoveList(moveList);
 
         return pgn;
     }
 
-    private String encodeMove(GameHistoryRecord gameHistoryRecord, GameStateReader currentState) {
-        Move playedMove = gameHistoryRecord.playedMove();
-        GameStateReader pastState = gameHistoryRecord.gameState();
+    private net.chesstango.gardel.move.Move toMove(Move playedMove) {
+        net.chesstango.gardel.move.Move.Square from = net.chesstango.gardel.move.Move.Square.of(playedMove.getFrom().getSquare().getFile(), playedMove.getFrom().getSquare().getRank());
+        net.chesstango.gardel.move.Move.Square to = net.chesstango.gardel.move.Move.Square.of(playedMove.getTo().getSquare().getFile(), playedMove.getTo().getSquare().getRank());
 
-        return sanEncoder.encodeAlgebraicNotation(playedMove, pastState.getLegalMoves())
-                + encodeGameStatusAtMove(currentState.getStatus());
+        if (playedMove instanceof MovePromotion movePromotion) {
+            return net.chesstango.gardel.move.Move.of(from, to, net.chesstango.gardel.move.Move.PromotionPiece.valueOf(movePromotion.getPromotion().toString()));
+        } else {
+            return net.chesstango.gardel.move.Move.of(from, to);
+        }
     }
 
     private String encodeGameStatusAtMove(Status status) {

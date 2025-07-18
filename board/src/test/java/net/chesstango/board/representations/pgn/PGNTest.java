@@ -3,6 +3,7 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.pgn.PGN;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
