@@ -77,8 +77,8 @@ public class LichessClient {
         return client.bot().botsOnline();
     }
 
-    public synchronized Optional<User> findUser(String username) {
-        Many<User> users = client.users().byIds(List.of(username));
+    public synchronized Optional<UserAuth> findUser(String username) {
+        Many<UserAuth> users = client.users().byIds(List.of(username));
         return users.stream().findFirst();
     }
 }

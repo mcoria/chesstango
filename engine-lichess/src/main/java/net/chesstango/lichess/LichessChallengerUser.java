@@ -3,6 +3,7 @@ package net.chesstango.lichess;
 import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.Enums;
 import chariot.model.User;
+import chariot.model.UserAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ public class LichessChallengerUser {
             }
         };
 
-        Optional<User> user = client.findUser(username);
+        Optional<UserAuth> user = client.findUser(username);
 
         if (user.isPresent()) {
             client.challengeUser(user.get(), challengeBuilderConsumer);
