@@ -4,6 +4,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.PositionWriter;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 
 
 /**
@@ -14,12 +15,11 @@ import net.chesstango.board.position.PositionWriter;
  * <p>
  * The binaryEncoding method provides a bit field representation of the move.
  *
+ * @author Mauricio Coria
  * @see net.chesstango.board.PiecePositioned
  * @see net.chesstango.board.Square
  * @see net.chesstango.board.iterators.Cardinal
  * @see PositionWriter
- *
- * @author Mauricio Coria
  */
 public interface Move {
 
@@ -72,6 +72,19 @@ public interface Move {
         Square fromSquare = getFrom().getSquare();
         Square toSquare = getTo().getSquare();
         return (short) (fromSquare.getBinaryEncodedFrom() | toSquare.getBinaryEncodedTo());
+    }
+
+
+    /**
+     * Returns a string representation of the move in coordinate notation.
+     * The format is the starting square followed by the ending square,
+     * with an optional promotion piece indicator (e.g., "e2e4" or "e7e8q").
+     *
+     * @return a string representing the move in coordinate notation
+     */
+    default String coordinateEncoding() {
+        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+        return simpleMoveEncoder.encode(this);
     }
 
     /**

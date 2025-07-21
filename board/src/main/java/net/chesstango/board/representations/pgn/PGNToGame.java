@@ -13,7 +13,7 @@ import net.chesstango.gardel.pgn.PGN;
 /**
  * @author Mauricio Coria
  */
-public class PGNGameEncoder {
+public class PGNToGame {
 
     public Game encode(PGN pgn) {
         FEN fen = pgn.getFen() == null ? FEN.of(FENParser.INITIAL_FEN) : pgn.getFen();

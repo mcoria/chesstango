@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PGNGameDecoder {
+public class GameToPGN {
     private final SANEncoder sanEncoder = new SANEncoder();
 
     public PGN decode(Game game) {
         PGN pgn = new PGN();
         pgn.setResult(encodeGameResult(game));
-        if( !game.getInitialFEN().toString().equals(FENParser.INITIAL_FEN)  ) {
+        if (!game.getInitialFEN().toString().equals(FENParser.INITIAL_FEN)) {
             pgn.setFen(game.getInitialFEN());
         }
 
@@ -60,7 +60,13 @@ public class PGNGameDecoder {
         net.chesstango.gardel.move.Move.Square to = net.chesstango.gardel.move.Move.Square.of(playedMove.getTo().getSquare().getFile(), playedMove.getTo().getSquare().getRank());
 
         if (playedMove instanceof MovePromotion movePromotion) {
-            return net.chesstango.gardel.move.Move.of(from, to, net.chesstango.gardel.move.Move.PromotionPiece.valueOf(movePromotion.getPromotion().toString()));
+            return net.chesstango.gardel.move.Move.of(from, to, switch (movePromotion.getPromotion()) {
+                case KNIGHT_WHITE, KNIGHT_BLACK -> net.chesstango.gardel.move.Move.PromotionPiece.KNIGHT;
+                case BISHOP_WHITE, BISHOP_BLACK -> net.chesstango.gardel.move.Move.PromotionPiece.BISHOP;
+                case ROOK_WHITE, ROOK_BLACK -> net.chesstango.gardel.move.Move.PromotionPiece.ROOK;
+                case QUEEN_WHITE, QUEEN_BLACK -> net.chesstango.gardel.move.Move.PromotionPiece.QUEEN;
+                default -> throw new RuntimeException("Invalid promotion " + movePromotion);
+            });
         } else {
             return net.chesstango.gardel.move.Move.of(from, to);
         }

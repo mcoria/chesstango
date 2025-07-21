@@ -1,9 +1,8 @@
 package net.chesstango.board;
 
 
-import net.chesstango.board.representations.pgn.PGNEncoderTest;
-import net.chesstango.board.representations.pgn.PGNGameTest;
-import net.chesstango.board.representations.pgn.PGNStringDecoderTest;
+import net.chesstango.board.representations.pgn.GameToPGNTest;
+import net.chesstango.board.representations.pgn.PGNToGameTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -12,9 +11,9 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        PGNEncoderTest.class,
-        PGNGameTest.class,
-        PGNStringDecoderTest.class})
+        GameToPGNTest.class,
+        PGNToGameTest.class,
+        GameToPGNTest.class})
 public class UtilsTestSuite {
 
 }

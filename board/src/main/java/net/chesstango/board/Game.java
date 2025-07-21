@@ -7,8 +7,8 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.board.representations.pgn.PGNGameDecoder;
-import net.chesstango.board.representations.pgn.PGNGameEncoder;
+import net.chesstango.board.representations.pgn.GameToPGN;
+import net.chesstango.board.representations.pgn.PGNToGame;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENExporter;
@@ -170,7 +170,7 @@ public interface Game {
      * @return a {@code PGN} object representing the current state and history of the game
      */
     default PGN encode() {
-        return new PGNGameDecoder().decode(this);
+        return new GameToPGN().decode(this);
     }
 
     /**
@@ -200,7 +200,7 @@ public interface Game {
     }
 
     static Game from(PGN pgn) {
-        return new PGNGameEncoder().encode(pgn);
+        return new PGNToGame().encode(pgn);
     }
 
     /**

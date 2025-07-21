@@ -2,24 +2,29 @@ package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
+import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNStringEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static net.chesstango.board.Square.a2;
+import static net.chesstango.board.Square.a4;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
  */
-public class PGNEncoderTest {
+public class GameToPGNTest {
 
-    private PGNStringEncoder encoder;
+    private GameToPGN gameToPGN;
 
     @BeforeEach
     public void setup() {
-        encoder = new PGNStringEncoder();
+        gameToPGN = new GameToPGN();
     }
 
     @Test
@@ -31,7 +36,14 @@ public class PGNEncoderTest {
                 .executeMove(Square.g1, Square.f3)
                 .executeMove(Square.d5, Square.e4);
 
-        PGN pgn = game.encode();
+        PGN pgn = gameToPGN.decode(game);
+
+        List<String> moves = pgn.getMoveList();
+        assertEquals("e4", moves.getFirst());
+        assertEquals("d5", moves.get(1));
+        assertEquals("Nf3", moves.get(2));
+        assertEquals("dxe4", moves.get(3));
+
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -43,11 +55,22 @@ public class PGNEncoderTest {
                 "[Result \"*\"]\n" +
                 "\n" +
                 "1. e4 d5 2. Nf3 dxe4 *";
-
-
-        String encodedGame = encoder.encode(pgn);
-
+        String encodedGame = new PGNStringEncoder().encode(pgn);
         assertEquals(expectedResult, encodedGame);
+    }
+
+
+    @Test
+    public void testToEpd() {
+        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        game.executeMove(a2, a4);
+
+        PGN pgn = game.encode();
+
+        List<EPD> pgnToEpd = pgn.toEPD().toList();
+
+        assertEquals(1, pgnToEpd.size());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"463b96181691fc9c\";", pgnToEpd.getFirst().toString());
     }
 
 
@@ -63,7 +86,7 @@ public class PGNEncoderTest {
                 .executeMove(Square.f8, Square.c5)
                 .executeMove(Square.f3, Square.f7);
 
-        PGN pgn = game.encode();
+        PGN pgn = gameToPGN.decode(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -77,7 +100,7 @@ public class PGNEncoderTest {
                 "1. e4 e5 2. Bc4 Nc6 3. Qf3 Bc5 4. Qxf7# 1-0";
 
 
-        String encodedGame = encoder.encode(pgn);
+        String encodedGame = new PGNStringEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }
@@ -87,7 +110,7 @@ public class PGNEncoderTest {
         Game game = Game.fromFEN("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
         game.executeMove(Square.h7, Square.c7);
 
-        PGN pgn = game.encode();
+        PGN pgn = gameToPGN.decode(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -102,7 +125,7 @@ public class PGNEncoderTest {
                 "1. Qc7 1/2-1/2";
 
 
-        String encodedGame = encoder.encode(pgn);
+        String encodedGame = new PGNStringEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }
@@ -117,7 +140,7 @@ public class PGNEncoderTest {
         game.executeMove(Square.b8, Square.a8);
         game.executeMove(Square.d6, Square.c7);
 
-        PGN pgn = game.encode();
+        PGN pgn = gameToPGN.decode(game);
         overrideHeaders(pgn);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
@@ -132,10 +155,11 @@ public class PGNEncoderTest {
                 "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2";
 
 
-        String encodedGame = encoder.encode(pgn);
+        String encodedGame = new PGNStringEncoder().encode(pgn);
 
         assertEquals(expectedResult, encodedGame);
     }
+
 
     public void overrideHeaders(PGN pgn) {
         pgn.setEvent("Computer chess game");
