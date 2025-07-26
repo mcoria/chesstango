@@ -3,11 +3,11 @@ package net.chesstango.lichess;
 import chariot.model.*;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -24,24 +24,22 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class LichessTango implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(LichessTango.class);
+public class LichessGame implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(LichessGame.class);
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private final Map<String, Object> properties;
     private String fenPosition;
     private Color myColor;
     private GameInfo gameInfo;
 
-    public LichessTango(LichessClient client, String gameId, Map<String, Object> properties) {
+    public LichessGame(LichessClient client, String gameId, Tango tango) {
         this.client = client;
         this.gameId = gameId;
-        this.properties = properties;
 
-        this.tango = new Tango();
+        this.tango = tango;
         this.tango.setSearchListener(new SearchListener() {
             @Override
             public void searchStarted() {
@@ -80,18 +78,9 @@ public class LichessTango implements Runnable {
     public void run() {
         MDC.put("gameId", gameId);
 
-        tango.open();
-        String polyglotBookPath = (String) properties.get(LichessBotMain.POLYGLOT_BOOK);
-        if (Objects.nonNull(polyglotBookPath)) {
-            tango.setPolyglotBook(polyglotBookPath);
-        }
-        tango.newGame();
-
-        logger.info("[{}] Ready to play game. Entering game event loop...", gameId);
-
-        Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId);
-
-        try {
+        logger.info("[{}] Entering game event loop...", gameId);
+        try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
+            tango.newGame();
             gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
                     case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
@@ -105,8 +94,6 @@ public class LichessTango implements Runnable {
         } catch (RuntimeException e) {
             logger.error("[{}] Game event loop failed", gameId, e);
         }
-
-        tango.close();
 
         MDC.remove("gameId");
     }

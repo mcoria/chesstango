@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 /**
@@ -15,15 +15,13 @@ public class LichessChallengeHandler {
     private static final Logger logger = LoggerFactory.getLogger(LichessChallengeHandler.class);
 
     private final LichessClient client;
-    private final int maxSimultaneousGames;
-    private final AtomicInteger gameCounter;
+    private final AtomicBoolean busy;
 
     private boolean acceptChallenges;
 
-    public LichessChallengeHandler(LichessClient client, int maxSimultaneousGames, AtomicInteger gameCounter) {
+    public LichessChallengeHandler(LichessClient client, AtomicBoolean busy) {
         this.client = client;
-        this.maxSimultaneousGames = maxSimultaneousGames;
-        this.gameCounter = gameCounter;
+        this.busy = busy;
         this.acceptChallenges = true;
     }
 
@@ -78,8 +76,8 @@ public class LichessChallengeHandler {
 
         return isVariantAcceptable(gameType.variant())                    // Chess variant
                 && isTimeControlAcceptable(gameType.timeControl())        // Time control
-                && gameCounter.get() < maxSimultaneousGames               // Not busy..
-                && isChallengerAcceptable(challengerPlayer.get(), gameType.timeControl().speed());
+                && isChallengerAcceptable(challengerPlayer.get(), gameType.timeControl().speed())
+                && !busy.get();                                           // Not busy..
     }
 
     private boolean isChallengerAcceptable(ChallengeInfo.Player player, Enums.Speed speed) {

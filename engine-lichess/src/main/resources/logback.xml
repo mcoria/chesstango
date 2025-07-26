@@ -6,7 +6,7 @@
 
 	<logger level="info" name="net.chesstango.lichess" />
 
-	<logger level="info" name="net.chesstango.lichess.LichessTango">
+	<logger level="info" name="net.chesstango.lichess.LichessGame">
 		<appender-ref ref="SIFT" />
 	</logger>
 
