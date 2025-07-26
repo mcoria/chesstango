@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -15,13 +16,14 @@ public class LichessChallengeHandler {
     private static final Logger logger = LoggerFactory.getLogger(LichessChallengeHandler.class);
 
     private final LichessClient client;
-    private final AtomicBoolean busy;
+
+    private final Supplier<Boolean> fnIsBusy;
 
     private boolean acceptChallenges;
 
-    public LichessChallengeHandler(LichessClient client, AtomicBoolean busy) {
+    public LichessChallengeHandler(LichessClient client, Supplier<Boolean> fnIsBusy) {
         this.client = client;
-        this.busy = busy;
+        this.fnIsBusy = fnIsBusy;
         this.acceptChallenges = true;
     }
 
@@ -74,10 +76,10 @@ public class LichessChallengeHandler {
 
         GameType gameType = challengeEvent.challenge().gameType();
 
-        return isVariantAcceptable(gameType.variant())                    // Chess variant
-                && isTimeControlAcceptable(gameType.timeControl())        // Time control
+        return isVariantAcceptable(gameType.variant())                          // Chess variant
+                && isTimeControlAcceptable(gameType.timeControl())              // Time control
                 && isChallengerAcceptable(challengerPlayer.get(), gameType.timeControl().speed())
-                && !busy.get();                                           // Not busy..
+                && !fnIsBusy.get();                                             // Not busy..
     }
 
     private boolean isChallengerAcceptable(ChallengeInfo.Player player, Enums.Speed speed) {

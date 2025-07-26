@@ -9,7 +9,6 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -29,21 +28,22 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
     private final LichessChallengeHandler lichessChallengeHandler;
 
-    private final AtomicBoolean busy;
-
     private final ExecutorService gameExecutor;
+
     private final ScheduledExecutorService challengeRandomBotExecutor;
+
     private ScheduledFuture<?> challengeRandomBotTask;
+
+    private Future<?> job;
 
 
     public LichessBot(LichessClient client, boolean challengeRandomBot, Tango tango) {
         this.client = client;
         this.challengeRandomBot = challengeRandomBot;
         this.tango = tango;
-        this.busy = new AtomicBoolean(false);
-        this.challengeRandomBotExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("challenger-thread"));
-        this.gameExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("game-thread"));
-        this.lichessChallengeHandler = new LichessChallengeHandler(client, busy);
+        this.challengeRandomBotExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("challenger"));
+        this.gameExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("game"));
+        this.lichessChallengeHandler = new LichessChallengeHandler(client, this::isBusy);
         this.lichessChallenger = new LichessChallenger(client);
     }
 
@@ -95,9 +95,8 @@ public class LichessBot implements Runnable, LichessBotMBean {
         }
 
         // Si no se alcanzo la cantidad de juegos maximos
-        if (!busy.get()) {
+        if (!isBusy()) {
             logger.info("Challenging User {} {}", user, type);
-
             lichessChallenger.challengeUser(user, challengeType);
         } else {
             logger.info("challengeUser: Scheduler Busy");
@@ -107,7 +106,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
     @Override
     public void challengeRandomBot() {
         // Si no se alcanzo la cantidad de juegos maximos
-        if (!busy.get()) {
+        if (!isBusy()) {
             logger.info("Challenging random bot");
             lichessChallenger.challengeRandomBot();
         } else {
@@ -124,25 +123,30 @@ public class LichessBot implements Runnable, LichessBotMBean {
         }
     }
 
-
-    private void gameStart(Event.GameStartEvent gameStartEvent) {
+    private synchronized void gameStart(Event.GameStartEvent gameStartEvent) {
         logger.info("GameStartEvent {}", gameStartEvent.id());
-        gameExecutor.submit(() -> {
-            try {
-                if (busy.get()) {
-                    throw new RuntimeException("Game execution busy");
+        if (!isBusy()) {
+            job = gameExecutor.submit(() -> {
+                if (challengeRandomBot) {
+                    challengeRandomBotTask.cancel(false);
                 }
-                busy.set(true);
+
                 LichessGame onlineGame = new LichessGame(client, gameStartEvent.id(), tango);
                 onlineGame.setGameInfo(gameStartEvent.game());
                 onlineGame.run();
-            } catch (RuntimeException e) {
-                logger.error("[{}] Game execution failed", gameStartEvent.id(), e);
-            } finally {
-                logger.info("[{}] Game execution finished", gameStartEvent.id());
-                busy.set(false);
-            }
-        });
+
+                if (challengeRandomBot) {
+                    challengeRandomBotTask = challengeRandomBotExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
+                }
+            });
+        } else {
+            logger.info("[{}] GameExecutor is busy, aborting game", gameStartEvent.id());
+            client.gameAbort(gameStartEvent.id());
+        }
+    }
+
+    private synchronized boolean isBusy() {
+        return job != null && !job.isDone();
     }
 
     private void gameStop(Event.GameStopEvent gameStopEvent) {

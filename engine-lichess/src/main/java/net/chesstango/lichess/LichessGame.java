@@ -77,10 +77,11 @@ public class LichessGame implements Runnable {
     @Override
     public void run() {
         MDC.put("gameId", gameId);
+        logger.info("[{}] Starting game...", gameId);
 
-        logger.info("[{}] Entering game event loop...", gameId);
         try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
             tango.newGame();
+            logger.info("[{}] Entering game event loop...", gameId);
             gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
                     case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
@@ -93,6 +94,7 @@ public class LichessGame implements Runnable {
             logger.info("[{}] Game event loop finished", gameId);
         } catch (RuntimeException e) {
             logger.error("[{}] Game event loop failed", gameId, e);
+            throw e;
         }
 
         MDC.remove("gameId");
