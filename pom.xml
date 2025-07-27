@@ -47,7 +47,7 @@
         <commons-cli.version>1.8.0</commons-cli.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.0.4</gardel.version>
+        <gardel.version>1.0.5</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
         <piazzolla.version>1.0.1</piazzolla.version>
