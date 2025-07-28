@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class LichessClientTest {
     private static final URI lichessApi = URI.create("https://lichess.org");
-    private static final String BOT_TOKEN = "lip_1cNEC0bQajiEkANAZhwe";
+    private static final String BOT_TOKEN = "TOKEN";
 
     private BotApiAuth bot;
 
