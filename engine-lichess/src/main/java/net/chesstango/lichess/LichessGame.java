@@ -15,9 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -77,11 +74,12 @@ public class LichessGame implements Runnable {
     @Override
     public void run() {
         MDC.put("gameId", gameId);
-        logger.info("[{}] Starting game...", gameId);
 
+        logger.info("[{}] Tango new Game...", gameId);
+        tango.newGame();
+
+        logger.info("[{}] Entering Game event loop...", gameId);
         try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
-            tango.newGame();
-            logger.info("[{}] Entering game event loop...", gameId);
             gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
                     case gameFull -> gameFull((GameStateEvent.Full) gameEvent);
@@ -114,13 +112,7 @@ public class LichessGame implements Runnable {
             throw new RuntimeException("GameVariant not supported variant");
         }
 
-        ZonedDateTime createdTime = gameFullEvent.createdAt();
-        long elapsedMinutes = Duration.between(createdTime, ZonedDateTime.now()).toMinutes();
-        if (elapsedMinutes > 20) {
-            client.gameAbort(gameId);
-        } else {
-            play(gameFullEvent.state());
-        }
+        gameState(gameFullEvent.state());
     }
 
     private void gameState(GameStateEvent.State state) {

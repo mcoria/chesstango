@@ -18,6 +18,7 @@ public class LichessBotMain {
     private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
 
     public static final String POLYGLOT_BOOK = "POLYGLOT_BOOK"; //Key para leer properties
+
     private static final URI lichessApi = URI.create("https://lichess.org");
 
     private static String BOT_TOKEN;
