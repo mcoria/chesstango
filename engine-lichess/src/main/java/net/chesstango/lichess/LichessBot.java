@@ -133,14 +133,14 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
                 LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
 
-                ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 60, 60, TimeUnit.SECONDS);
+                ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 120, 60, TimeUnit.SECONDS);
 
                 onlineGame.run();
 
                 gameWatchDog.cancel(false);
 
                 if (challengeRandomBot) {
-                    challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
+                    challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 30, 30, TimeUnit.SECONDS);
                 }
             });
         } else {
