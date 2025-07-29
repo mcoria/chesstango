@@ -1,13 +1,15 @@
 package net.chesstango.lichess;
 
-import chariot.model.*;
+import chariot.model.Enums;
+import chariot.model.Event;
+import chariot.model.GameInfo;
+import chariot.model.GameStateEvent;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -28,13 +31,29 @@ public class LichessGame implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private String fenPosition;
-    private Color myColor;
-    private GameInfo gameInfo;
+    private final Color myColor;
+    private final GameInfo gameInfo;
+    private final String fenPosition;
 
-    public LichessGame(LichessClient client, String gameId, Tango tango) {
+    private GameStateEvent.Full gameFullEvent;
+    private volatile int moveCounter;
+
+    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
         this.client = client;
-        this.gameId = gameId;
+
+        this.gameInfo = gameStartEvent.game();
+
+        if (Enums.Color.white == gameInfo.color() && gameInfo.isMyTurn()) {
+            myColor = Color.WHITE;
+        } else if (Enums.Color.black == gameInfo.color() && gameInfo.isMyTurn()) {
+            myColor = Color.BLACK;
+        } else {
+            throw new RuntimeException("Unknown color");
+        }
+
+        this.gameId = gameStartEvent.gameId();
+
+        this.fenPosition = gameInfo.fen();
 
         this.tango = tango;
         this.tango.setSearchListener(new SearchListener() {
@@ -59,16 +78,20 @@ public class LichessGame implements Runnable {
         });
     }
 
-    public void setGameInfo(GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
-
-        if (Enums.Color.white.equals(gameInfo.color())) {
-            myColor = Color.WHITE;
-        } else if (Enums.Color.black.equals(gameInfo.color())) {
-            myColor = Color.BLACK;
-        } else {
-            throw new RuntimeException("Unknown color");
+    public void gameWatchDog() {
+        MDC.put("gameId", gameId);
+        if (gameFullEvent != null) {
+            ZonedDateTime createdAt = gameFullEvent.createdAt();
+            ZonedDateTime now = ZonedDateTime.now();
+            long diff = now.toEpochSecond() - createdAt.toEpochSecond();
+            if (diff > 60 && moveCounter < 2) {
+                logger.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
+                client.gameAbort(gameId);
+            } else {
+                logger.info("[{}] Game watchdog: game is still running", gameId);
+            }
         }
+        MDC.remove("gameId");
     }
 
     @Override
@@ -101,16 +124,7 @@ public class LichessGame implements Runnable {
     private void gameFull(GameStateEvent.Full gameFullEvent) {
         logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
-        GameType gameType = gameFullEvent.gameType();
-        Variant gameVariant = gameType.variant();
-        if (Variant.Basic.standard.equals(gameType.variant())) {
-            fenPosition = FENParser.INITIAL_FEN;
-        } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
-            Opt<String> someFen = fromPositionVariant.fen();
-            fenPosition = someFen.get();
-        } else {
-            throw new RuntimeException("GameVariant not supported variant");
-        }
+        this.gameFullEvent = gameFullEvent;
 
         gameState(gameFullEvent.state());
     }
@@ -118,7 +132,7 @@ public class LichessGame implements Runnable {
     private void gameState(GameStateEvent.State state) {
         logger.info("[{}] gameState: {}", gameId, state);
 
-        var status = state.status();
+        Enums.Status status = state.status();
 
         switch (status) {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
@@ -133,6 +147,8 @@ public class LichessGame implements Runnable {
     }
 
     private void play(GameStateEvent.State state) {
+        moveCounter = state.moveList().size();
+
         tango.setPosition(FEN.of(fenPosition), state.moveList());
 
         PositionReader currentChessPosition = tango

@@ -30,19 +30,19 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
     private final ExecutorService gameExecutor;
 
-    private final ScheduledExecutorService challengeRandomBotExecutor;
+    private final ScheduledExecutorService timerExecutor;
 
-    private ScheduledFuture<?> challengeRandomBotTask;
+    private transient ScheduledFuture<?> challengeRandomBotTask;
 
-    private Future<?> job;
+    private transient Future<?> job;
 
 
     public LichessBot(LichessClient client, boolean challengeRandomBot, Tango tango) {
         this.client = client;
         this.challengeRandomBot = challengeRandomBot;
         this.tango = tango;
-        this.challengeRandomBotExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("challenger"));
-        this.gameExecutor = Executors.newScheduledThreadPool(1, new LichessBotThreadFactory("game"));
+        this.timerExecutor = Executors.newSingleThreadScheduledExecutor(new LichessBotThreadFactory("timer"));
+        this.gameExecutor = Executors.newSingleThreadExecutor(new LichessBotThreadFactory("game"));
         this.lichessChallengeHandler = new LichessChallengeHandler(client, this::isBusy);
         this.lichessChallenger = new LichessChallenger(client);
     }
@@ -54,7 +54,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
         logger.info("Connection successful, entering main event loop...");
 
         if (challengeRandomBot) {
-            challengeRandomBotTask = challengeRandomBotExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
+            challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
         }
 
         try (Stream<Event> events = client.streamEvents()) {
@@ -75,7 +75,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
             logger.error("main event loop failed", e);
         } finally {
             stopAcceptingChallenges();
-            challengeRandomBotExecutor.close();
+            timerExecutor.close();
             gameExecutor.close();
         }
     }
@@ -131,17 +131,27 @@ public class LichessBot implements Runnable, LichessBotMBean {
                     challengeRandomBotTask.cancel(false);
                 }
 
-                LichessGame onlineGame = new LichessGame(client, gameStartEvent.id(), tango);
-                onlineGame.setGameInfo(gameStartEvent.game());
+                LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
+
+                ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 60, 60, TimeUnit.SECONDS);
+
                 onlineGame.run();
 
+                gameWatchDog.cancel(false);
+
                 if (challengeRandomBot) {
-                    challengeRandomBotTask = challengeRandomBotExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
+                    challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
                 }
             });
         } else {
             logger.info("[{}] GameExecutor is busy, aborting game", gameStartEvent.id());
             client.gameAbort(gameStartEvent.id());
+        }
+    }
+
+    private synchronized void gameWatchDog() {
+        if (isBusy()) {
+
         }
     }
 
