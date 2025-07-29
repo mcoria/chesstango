@@ -128,30 +128,28 @@ public class LichessBot implements Runnable, LichessBotMBean {
         if (!isBusy()) {
             job = gameExecutor.submit(() -> {
                 if (challengeRandomBot) {
+                    logger.info("Cancelling challengeRandomBotTask");
                     challengeRandomBotTask.cancel(false);
                 }
 
                 LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
 
+                logger.info("Scheduling gameWatchDog");
                 ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 120, 60, TimeUnit.SECONDS);
 
                 onlineGame.run();
 
+                logger.info("Cancelling gameWatchDog");
                 gameWatchDog.cancel(false);
 
                 if (challengeRandomBot) {
+                    logger.info("Scheduling challengeRandomBotTask");
                     challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 30, 30, TimeUnit.SECONDS);
                 }
             });
         } else {
             logger.info("[{}] GameExecutor is busy, aborting game", gameStartEvent.id());
             client.gameAbort(gameStartEvent.id());
-        }
-    }
-
-    private synchronized void gameWatchDog() {
-        if (isBusy()) {
-
         }
     }
 
