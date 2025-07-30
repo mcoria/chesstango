@@ -1,15 +1,13 @@
 package net.chesstango.lichess;
 
-import chariot.model.Enums;
-import chariot.model.Event;
-import chariot.model.GameInfo;
-import chariot.model.GameStateEvent;
+import chariot.model.*;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
@@ -32,28 +30,24 @@ public class LichessGame implements Runnable {
     private final String gameId;
     private final Tango tango;
     private final Color myColor;
-    private final GameInfo gameInfo;
-    private final String fenPosition;
+
 
     private GameStateEvent.Full gameFullEvent;
+    private FEN fen;
     private volatile int moveCounter;
 
     public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
         this.client = client;
-
-        this.gameInfo = gameStartEvent.game();
-
-        if (Enums.Color.white == gameInfo.color() && gameInfo.isMyTurn()) {
-            myColor = Color.WHITE;
-        } else if (Enums.Color.black == gameInfo.color() && gameInfo.isMyTurn()) {
-            myColor = Color.BLACK;
-        } else {
-            throw new RuntimeException("Unknown color");
-        }
-
         this.gameId = gameStartEvent.gameId();
 
-        this.fenPosition = gameInfo.fen();
+        GameInfo gameInfo = gameStartEvent.game();
+
+        // gameInfo.color() indica con que colo juego
+        if (Enums.Color.white == gameInfo.color()) {
+            this.myColor = Color.WHITE;
+        } else {
+            this.myColor = Color.BLACK;
+        }
 
         this.tango = tango;
         this.tango.setSearchListener(new SearchListener() {
@@ -126,6 +120,17 @@ public class LichessGame implements Runnable {
 
         this.gameFullEvent = gameFullEvent;
 
+        GameType gameType = gameFullEvent.gameType();
+        Variant gameVariant = gameType.variant();
+        if (Variant.Basic.standard.equals(gameType.variant())) {
+            this.fen = FEN.of(FENParser.INITIAL_FEN);
+        } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
+            Opt<String> someFen = fromPositionVariant.fen();
+            this.fen = FEN.of(someFen.get());
+        } else {
+            throw new RuntimeException("GameVariant not supported variant");
+        }
+
         gameState(gameFullEvent.state());
     }
 
@@ -149,7 +154,7 @@ public class LichessGame implements Runnable {
     private void play(GameStateEvent.State state) {
         moveCounter = state.moveList().size();
 
-        tango.setPosition(FEN.of(fenPosition), state.moveList());
+        tango.setPosition(fen, state.moveList());
 
         PositionReader currentChessPosition = tango
                 .getCurrentSession()
@@ -176,9 +181,4 @@ public class LichessGame implements Runnable {
         client.gameChat(gameId, message);
     }
 
-    public boolean isTimeControlledGame() {
-        GameInfo.TimeInfo timeInfo = gameInfo.time();
-
-        return !Enums.Speed.classical.equals(timeInfo.speed()) && !Enums.Speed.correspondence.equals(timeInfo.speed());
-    }
 }

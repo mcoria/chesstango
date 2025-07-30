@@ -54,6 +54,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
         logger.info("Connection successful, entering main event loop...");
 
         if (challengeRandomBot) {
+            logger.info("Scheduling challengeRandomBotTask");
             challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
         }
 
@@ -119,6 +120,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
         logger.info("stopAcceptingChallenges() invoked");
         lichessChallengeHandler.stopAcceptingChallenges();
         if (challengeRandomBotTask != null && !challengeRandomBotTask.isCancelled()) {
+            logger.info("Cancelling challengeRandomBotTask");
             challengeRandomBotTask.cancel(false);
         }
     }
@@ -127,24 +129,29 @@ public class LichessBot implements Runnable, LichessBotMBean {
         logger.info("GameStartEvent {}", gameStartEvent.id());
         if (!isBusy()) {
             job = gameExecutor.submit(() -> {
-                if (challengeRandomBot) {
-                    logger.info("Cancelling challengeRandomBotTask");
-                    challengeRandomBotTask.cancel(false);
-                }
+                try {
+                    if (challengeRandomBot) {
+                        logger.info("Cancelling challengeRandomBotTask");
+                        challengeRandomBotTask.cancel(false);
+                    }
 
-                LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
+                    LichessGame onlineGame = new LichessGame(client, gameStartEvent, tango);
 
-                logger.info("Scheduling gameWatchDog");
-                ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 120, 60, TimeUnit.SECONDS);
+                    logger.info("Scheduling gameWatchDog");
+                    ScheduledFuture<?> gameWatchDog = timerExecutor.scheduleWithFixedDelay(onlineGame::gameWatchDog, 120, 60, TimeUnit.SECONDS);
 
-                onlineGame.run();
+                    onlineGame.run();
 
-                logger.info("Cancelling gameWatchDog");
-                gameWatchDog.cancel(false);
+                    logger.info("Cancelling gameWatchDog");
+                    gameWatchDog.cancel(false);
 
-                if (challengeRandomBot) {
-                    logger.info("Scheduling challengeRandomBotTask");
-                    challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 30, 30, TimeUnit.SECONDS);
+                    if (challengeRandomBot) {
+                        logger.info("Scheduling challengeRandomBotTask");
+                        challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                    }
+                } catch (RuntimeException e) {
+                    logger.error("Exit(-1)", e);
+                    System.exit(-1);
                 }
             });
         } else {
