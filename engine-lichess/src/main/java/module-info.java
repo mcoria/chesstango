@@ -9,4 +9,5 @@ module net.chesstango.lichess.engine {
 
     requires java.management;
     requires net.chesstango.gardel;
+    requires static lombok;
 }

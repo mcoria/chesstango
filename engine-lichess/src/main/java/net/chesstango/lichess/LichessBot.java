@@ -55,7 +55,7 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
         if (challengeRandomBot) {
             logger.info("Scheduling challengeRandomBotTask");
-            challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 30, TimeUnit.SECONDS);
+            challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 60, 60, TimeUnit.SECONDS);
         }
 
         try (Stream<Event> events = client.streamEvents()) {
@@ -106,12 +106,17 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
     @Override
     public void challengeRandomBot() {
-        // Si no se alcanzo la cantidad de juegos maximos
-        if (!isBusy()) {
-            logger.info("Challenging random bot");
-            lichessChallenger.challengeRandomBot();
-        } else {
-            logger.info("challengeRandomBot: Scheduler Busy");
+        try {
+            // Si no se alcanzo la cantidad de juegos maximos
+            if (!isBusy()) {
+                logger.info("Challenging random bot");
+                lichessChallenger.challengeRandomBot();
+            } else {
+                logger.info("challengeRandomBot: Scheduler Busy");
+            }
+        } catch (RuntimeException e) {
+            logger.error("challengeRandomBot failed", e);
+            System.exit(-1);
         }
     }
 
@@ -147,10 +152,10 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
                     if (challengeRandomBot) {
                         logger.info("Scheduling challengeRandomBotTask");
-                        challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 10, 30, TimeUnit.SECONDS);
+                        challengeRandomBotTask = timerExecutor.scheduleWithFixedDelay(this::challengeRandomBot, 120, 60, TimeUnit.SECONDS);
                     }
                 } catch (RuntimeException e) {
-                    logger.error("Exit(-1)", e);
+                    logger.error("Error executing onlineGame", e);
                     System.exit(-1);
                 }
             });

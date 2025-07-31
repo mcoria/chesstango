@@ -1,7 +1,11 @@
 package net.chesstango.lichess;
 
 import chariot.api.ChallengesApiAuthCommon;
-import chariot.model.*;
+import chariot.model.Enums;
+import chariot.model.StatsPerf;
+import chariot.model.StatsPerfType;
+import chariot.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -9,6 +13,7 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessChallengerBot {
     public static final int RATING_THRESHOLD = 150;
 
@@ -31,35 +36,63 @@ public class LichessChallengerBot {
         Challenger challenger = challengerBotList.get(rand.nextInt(challengerBotList.size()));
         User aBot = challenger.pickRandomBot();
         if (aBot != null) {
-            client.challengeUser(aBot, challenger::consumeChallengeBuilder);
+            client.challenge(aBot, challenger::consumeChallengeBuilder);
+        } else {
+            log.warn("No bots online :S");
         }
+    }
+
+    void loadOnlineBots() {
+        Map<StatsPerfType, StatsPerf> myRatings = client.getRatings();
+        challengerBotList.forEach(challenger -> challenger.setRating(myRatings));
+
+        client.botsOnline()
+                .stream()
+                .forEach(bot -> challengerBotList.forEach(challenger -> challenger.filer(bot)));
     }
 
     private abstract class Challenger {
         final Queue<User> botsOnline = new LinkedList<>();
+
         final List<Consumer<ChallengesApiAuthCommon.ChallengeBuilder>> builders = new ArrayList<>();
+
+        int myRating;
 
         abstract StatsPerfType getRatingType();
 
         synchronized User pickRandomBot() {
             if (botsOnline.isEmpty()) {
-                int myRating = client.getRating(getRatingType());
-                Many<User> bots = client.botsOnline();
-                bots.stream().filter(bot -> {
-                    StatsPerf stats = bot.ratings().get(getRatingType());
-                    if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
-                        return statsPerfGame.rating() >= myRating - RATING_THRESHOLD && statsPerfGame.rating() <= myRating + RATING_THRESHOLD;
-                    }
-                    return false;
-                }).forEach(botsOnline::add);
+                loadOnlineBots();
+                log.info("Bots {} online: {}", getRatingType(), botsOnline.size());
             }
             return botsOnline.poll();
         }
+
+        void setRating(Map<StatsPerfType, StatsPerf> myRatings) {
+            myRating = getRating(myRatings);
+        }
+
+        void filer(User bot) {
+            int botRating = getRating(bot.ratings());
+            if (botRating >= myRating - RATING_THRESHOLD && botRating <= myRating + RATING_THRESHOLD) {
+                botsOnline.add(bot);
+            }
+        }
+
+        int getRating(Map<StatsPerfType, StatsPerf> ratings) {
+            StatsPerf stats = ratings.get(getRatingType());
+            if (stats instanceof StatsPerf.StatsPerfGame statsPerfGame) {
+                return statsPerfGame.rating();
+            }
+            return 0;
+        }
+
 
         void consumeChallengeBuilder(ChallengesApiAuthCommon.ChallengeBuilder challengeBuilder) {
             Consumer<ChallengesApiAuthCommon.ChallengeBuilder> element = builders.get(rand.nextInt(builders.size()));
             element.accept(challengeBuilder);
         }
+
     }
 
 

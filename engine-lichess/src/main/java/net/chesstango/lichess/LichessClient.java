@@ -3,6 +3,7 @@ package net.chesstango.lichess;
 import chariot.ClientAuth;
 import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessClient {
 
     private final ClientAuth client;
@@ -20,7 +22,7 @@ public class LichessClient {
     public LichessClient(ClientAuth client) {
         this.client = client;
     }
-    
+
     public Stream<Event> streamEvents() {
         return client.bot().connect().stream();
     }
@@ -29,8 +31,14 @@ public class LichessClient {
         return client.bot().connectToGame(gameId).stream();
     }
 
-    public synchronized void challengeUser(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
-        client.challenges().challenge(user.id(), challengeBuilderConsumer);
+    public synchronized void challenge(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
+        client.bot()
+                .challenge(user.id(), challengeBuilderConsumer)
+                .ifPresentOrElse(challenge -> {
+                    log.info("Challenge sent successfully to {}", challenge);
+                }, () -> {
+                    throw new RuntimeException("Error sending challenge");
+                });
     }
 
     public synchronized void challengeAccept(String challengeId) {
@@ -55,6 +63,13 @@ public class LichessClient {
 
     public synchronized void gameAbort(String gameId) {
         client.bot().abort(gameId);
+    }
+
+    public synchronized Map<StatsPerfType, StatsPerf> getRatings() {
+        return client.account()
+                .profile()
+                .get()
+                .ratings();
     }
 
     public synchronized int getRating(StatsPerfType type) {
