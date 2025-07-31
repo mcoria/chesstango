@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -28,13 +29,25 @@ public class LichessGame implements Runnable {
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private String fenPosition;
-    private Color myColor;
-    private GameInfo gameInfo;
+    private final Color myColor;
 
-    public LichessGame(LichessClient client, String gameId, Tango tango) {
+
+    private GameStateEvent.Full gameFullEvent;
+    private FEN fen;
+    private volatile int moveCounter;
+
+    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
         this.client = client;
-        this.gameId = gameId;
+        this.gameId = gameStartEvent.gameId();
+
+        GameInfo gameInfo = gameStartEvent.game();
+
+        // gameInfo.color() indica con que colo juego
+        if (Enums.Color.white == gameInfo.color()) {
+            this.myColor = Color.WHITE;
+        } else {
+            this.myColor = Color.BLACK;
+        }
 
         this.tango = tango;
         this.tango.setSearchListener(new SearchListener() {
@@ -59,16 +72,20 @@ public class LichessGame implements Runnable {
         });
     }
 
-    public void setGameInfo(GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
-
-        if (Enums.Color.white.equals(gameInfo.color())) {
-            myColor = Color.WHITE;
-        } else if (Enums.Color.black.equals(gameInfo.color())) {
-            myColor = Color.BLACK;
-        } else {
-            throw new RuntimeException("Unknown color");
+    public void gameWatchDog() {
+        MDC.put("gameId", gameId);
+        if (gameFullEvent != null) {
+            ZonedDateTime createdAt = gameFullEvent.createdAt();
+            ZonedDateTime now = ZonedDateTime.now();
+            long diff = now.toEpochSecond() - createdAt.toEpochSecond();
+            if (diff > 60 && moveCounter < 2) {
+                logger.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
+                client.gameAbort(gameId);
+            } else {
+                logger.info("[{}] Game watchdog: game is still running", gameId);
+            }
         }
+        MDC.remove("gameId");
     }
 
     @Override
@@ -101,13 +118,15 @@ public class LichessGame implements Runnable {
     private void gameFull(GameStateEvent.Full gameFullEvent) {
         logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
+        this.gameFullEvent = gameFullEvent;
+
         GameType gameType = gameFullEvent.gameType();
         Variant gameVariant = gameType.variant();
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            fenPosition = FENParser.INITIAL_FEN;
+            this.fen = FEN.of(FENParser.INITIAL_FEN);
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
-            fenPosition = someFen.get();
+            this.fen = FEN.of(someFen.get());
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }
@@ -118,7 +137,7 @@ public class LichessGame implements Runnable {
     private void gameState(GameStateEvent.State state) {
         logger.info("[{}] gameState: {}", gameId, state);
 
-        var status = state.status();
+        Enums.Status status = state.status();
 
         switch (status) {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
@@ -133,7 +152,9 @@ public class LichessGame implements Runnable {
     }
 
     private void play(GameStateEvent.State state) {
-        tango.setPosition(FEN.of(fenPosition), state.moveList());
+        moveCounter = state.moveList().size();
+
+        tango.setPosition(fen, state.moveList());
 
         PositionReader currentChessPosition = tango
                 .getCurrentSession()
@@ -160,9 +181,4 @@ public class LichessGame implements Runnable {
         client.gameChat(gameId, message);
     }
 
-    public boolean isTimeControlledGame() {
-        GameInfo.TimeInfo timeInfo = gameInfo.time();
-
-        return !Enums.Speed.classical.equals(timeInfo.speed()) && !Enums.Speed.correspondence.equals(timeInfo.speed());
-    }
 }

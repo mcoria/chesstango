@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 /**
@@ -44,6 +47,30 @@ public class LichessClientTest {
     public void test_GameAborted() {
         try (Stream<GameStateEvent> gameEvents = bot.connectToGame("cMS4Qc3K").stream()) {
             gameEvents.forEach(System.out::println);
+            System.out.println("gameEvents consumed");
+        } catch (RuntimeException e) {
+            throw e;
+        }
+    }
+
+    // https://lichess.org/dXLNmiwT
+    @Test
+    @Disabled
+    public void test_GameStarted() {
+        AtomicBoolean abortedGame = new AtomicBoolean(false);
+        try (ExecutorService executorService = Executors.newSingleThreadExecutor();
+             Stream<GameStateEvent> gameEvents = bot.connectToGame("dXLNmiwT").stream()) {
+            gameEvents.forEach(event -> {
+                System.out.println(event);
+                if (abortedGame.get()) return;
+                executorService.submit(() -> {
+                    if (!abortedGame.get()) {
+                        System.out.println("Claiming victory");
+                        bot.abort("dXLNmiwT");
+                        abortedGame.set(true);
+                    }
+                });
+            });
             System.out.println("gameEvents consumed");
         } catch (RuntimeException e) {
             throw e;

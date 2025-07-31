@@ -6,7 +6,6 @@ import net.chesstango.engine.Tango;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,14 +14,15 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 public class LichessBotMain {
+
     private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
 
-    public static final String POLYGLOT_BOOK = "POLYGLOT_BOOK"; //Key para leer properties
-
-    private static final URI lichessApi = URI.create("https://lichess.org");
-
     private static String BOT_TOKEN;
+
     private static boolean CHALLENGE_BOTS;
+
+    private static final String POLYGLOT_BOOK = "POLYGLOT_BOOK"; //Key para leer properties
+
     private static final Map<String, Object> PROPERTIES = new HashMap<>();
 
 
@@ -30,7 +30,7 @@ public class LichessBotMain {
 
         readEnvironmentVars();
 
-        ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), BOT_TOKEN);
+        ClientAuth clientAuth = Client.auth(BOT_TOKEN);
 
         LichessClient lichessClient = new LichessClient(clientAuth);
 
