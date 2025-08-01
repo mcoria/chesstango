@@ -28,7 +28,7 @@ public class IterativeDeepening implements Search {
     private final SearchListenerMediator searchListenerMediator;
 
     @Setter
-    private ProgressListener progressListener;
+    private SearchResultByDepthListener searchResultByDepthListener;
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
@@ -67,8 +67,8 @@ public class IterativeDeepening implements Search {
 
             searchResult.addSearchResultByDepth(searchResultByDepth);
 
-            if (progressListener != null) {
-                progressListener.accept(searchResultByDepth);
+            if (searchResultByDepthListener != null) {
+                searchResultByDepthListener.accept(searchResultByDepth);
             }
 
             countDownLatch.countDown();

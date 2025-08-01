@@ -1,13 +1,15 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
-import net.chesstango.goyeneche.responses.RspReadyOk;
 import net.chesstango.goyeneche.responses.UCIResponse;
+
+import static net.chesstango.uci.engine.Options.POLYGLOT_PATH;
+import static net.chesstango.uci.engine.Options.SYZYGY_DIRECTORY;
 
 /**
  * This class represents one of the possible states in the state design pattern for the UCI engine.
@@ -18,8 +20,6 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  * @author Mauricio Coria
  */
 class ReadyState implements UCIEngine {
-    public static final String POLYGLOT_PATH = "PolyglotPath";
-
     protected final UciTango uciTango;
     protected final Tango tango;
 
@@ -39,6 +39,9 @@ class ReadyState implements UCIEngine {
     public void do_setOption(ReqSetOption cmdSetOption) {
         if (cmdSetOption.getId().equals(POLYGLOT_PATH)) {
             tango.setPolyglotBook(cmdSetOption.getValue());
+        }
+        if (cmdSetOption.getId().equals(SYZYGY_DIRECTORY)) {
+            //tango.setSyzygyDirectory(cmdSetOption.getValue());
         }
     }
 

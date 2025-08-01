@@ -50,7 +50,7 @@ public class Dummy implements Search {
     }
 
     @Override
-    public void setProgressListener(ProgressListener progressListener) {
+    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
 
     }
 

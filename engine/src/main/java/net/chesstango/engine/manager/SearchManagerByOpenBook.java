@@ -10,23 +10,22 @@ import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import net.chesstango.search.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static net.chesstango.search.SearchParameter.POLYGLOT_PATH;
+import static net.chesstango.search.SearchParameter.POLYGLOT_FILE;
 
 /**
  * @author Mauricio Coria
  */
-public final class SearchManagerByBook implements SearchManagerChain {
-
-    private PolyglotBook book;
-
+public final class SearchManagerByOpenBook implements SearchManagerChain {
     @Setter
     private SearchManagerChain next;
 
-    public SearchManagerByBook() {
-    }
+    private PolyglotBook book;
+
+    private Path bookPath;
 
     @Override
     public void reset() {
@@ -35,20 +34,20 @@ public final class SearchManagerByBook implements SearchManagerChain {
 
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (POLYGLOT_PATH.equals(parameter) && value instanceof String path) {
-            try {
-                book = PolyglotBook.open(Path.of(path));
-            } catch (IOException e) {
-                System.err.println("Error opening book " + path);
-                e.printStackTrace(System.err);
+        if (POLYGLOT_FILE.equals(parameter) && value instanceof String path) {
+            Path bookPath = Path.of(path);
+            if (Files.exists(bookPath)) {
+                this.bookPath = bookPath;
+            } else {
+                System.err.println("Book file " + path + " not found");
             }
         }
         next.setSearchParameter(parameter, value);
     }
 
     @Override
-    public void setProgressListener(ProgressListener progressListener) {
-        next.setProgressListener(progressListener);
+    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
+        next.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
     @Override
@@ -58,6 +57,15 @@ public final class SearchManagerByBook implements SearchManagerChain {
 
     @Override
     public void open() {
+        if (bookPath != null) {
+            try {
+                book = PolyglotBook.open(bookPath);
+            } catch (IOException e) {
+                System.err.println("Error opening book " + bookPath.toString());
+                e.printStackTrace(System.err);
+            }
+        }
+
         next.open();
     }
 

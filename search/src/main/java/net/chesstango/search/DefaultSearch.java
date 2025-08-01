@@ -41,8 +41,8 @@ public class DefaultSearch implements Search {
     }
 
     @Override
-    public void setProgressListener(ProgressListener progressListener) {
-        imp.setProgressListener(progressListener);
+    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
+        imp.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
 }

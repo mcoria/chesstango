@@ -30,5 +30,5 @@ public interface Search {
     /**
      * Set search progress listener
      */
-    void setProgressListener(ProgressListener progressListener);
+    void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener);
 }

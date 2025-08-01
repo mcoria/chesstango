@@ -28,12 +28,12 @@ public final class SearchManagerChainBuilder {
 
     public SearchManagerChain build() {
         SearchManagerByAlgorithm searchManagerByAlgorithm = new SearchManagerByAlgorithm(search);
-        SearchManagerByBook searchManagerByBook = null;
+        SearchManagerByOpenBook searchManagerByOpenBook = null;
         if (searchByBookEnabled) {
-            searchManagerByBook = new SearchManagerByBook();
-            searchManagerByBook.setNext(searchManagerByAlgorithm);
+            searchManagerByOpenBook = new SearchManagerByOpenBook();
+            searchManagerByOpenBook.setNext(searchManagerByAlgorithm);
         }
 
-        return Objects.nonNull(searchManagerByBook) ? searchManagerByBook : searchManagerByAlgorithm;
+        return Objects.nonNull(searchManagerByOpenBook) ? searchManagerByOpenBook : searchManagerByAlgorithm;
     }
 }

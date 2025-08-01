@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 public final class SearchManager {
     private final SearchListener searchListener;
     private final SearchManagerChain searchManagerChain;
-    private final SearchManagerByBook searchManagerByBook;
+    private final SearchManagerByOpenBook searchManagerByOpenBook;
     private final SearchManagerByAlgorithm searchManagerByAlgorithm;
     private final TimeMgmt timeMgmt;
 
@@ -38,11 +38,11 @@ public final class SearchManager {
 
         this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(search);
 
-        this.searchManagerByBook = new SearchManagerByBook();
-        this.searchManagerByBook.setNext(searchManagerByAlgorithm);
+        this.searchManagerByOpenBook = new SearchManagerByOpenBook();
+        this.searchManagerByOpenBook.setNext(searchManagerByAlgorithm);
 
-        this.searchManagerChain = this.searchManagerByBook;
-        this.searchManagerChain.setProgressListener(searchListener::searchInfo);
+        this.searchManagerChain = this.searchManagerByOpenBook;
+        this.searchManagerChain.setSearchResultByDepthListener(searchListener::searchInfo);
 
         this.timeMgmt = new FivePercentage();
     }
@@ -92,7 +92,7 @@ public final class SearchManager {
     }
 
     public void setPolyglotBook(String path) {
-        searchManagerByBook.setSearchParameter(SearchParameter.POLYGLOT_PATH, path);
+        searchManagerByOpenBook.setSearchParameter(SearchParameter.POLYGLOT_FILE, path);
     }
 
     private void searchImp(Game game, int depth, int timeOut) {

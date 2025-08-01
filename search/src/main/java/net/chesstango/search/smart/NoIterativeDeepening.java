@@ -81,8 +81,7 @@ public class NoIterativeDeepening implements Search {
     }
 
     @Override
-    public void setProgressListener(ProgressListener progressListener) {
-
+    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
     }
 
 }

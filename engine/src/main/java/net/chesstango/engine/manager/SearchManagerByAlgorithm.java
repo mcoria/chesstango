@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchParameter;
-import net.chesstango.search.ProgressListener;
+import net.chesstango.search.SearchResultByDepthListener;
 
 /**
  * @author Mauricio Coria
@@ -27,8 +27,8 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     }
 
     @Override
-    public void setProgressListener(ProgressListener progressListener) {
-        search.setProgressListener(progressListener);
+    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
+        search.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
     @Override

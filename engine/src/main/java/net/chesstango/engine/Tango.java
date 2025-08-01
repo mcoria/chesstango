@@ -79,6 +79,10 @@ public class Tango {
         searchManager.setPolyglotBook(path);
     }
 
+    public void setPolyglotdBook(String path) {
+        searchManager.setPolyglotBook(path);
+    }
+
     public void newGame() {
         searchManager.reset();
         currentSession = new Session();
