@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import lombok.Getter;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.stream.UCIActiveStreamReader;
@@ -26,6 +27,7 @@ public class UciMain implements Runnable {
 
     private final UCIActiveStreamReader pipe;
 
+    @Getter
     private volatile boolean isRunning;
 
     public static void main(String[] args) {
@@ -70,7 +72,4 @@ public class UciMain implements Runnable {
         }
     }
 
-    public boolean isRunning() {
-        return isRunning;
-    }
 }

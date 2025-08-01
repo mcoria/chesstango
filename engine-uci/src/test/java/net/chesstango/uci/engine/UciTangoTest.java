@@ -115,6 +115,7 @@ public class UciTangoTest {
         assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("option name PolyglotPath type string default <empty>", in.readLine());
+        assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
         assertEquals("uciok", in.readLine());
         assertEquals(ReadyState.class, engine.currentState.getClass());
 
