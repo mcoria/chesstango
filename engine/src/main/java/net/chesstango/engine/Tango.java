@@ -1,22 +1,19 @@
 package net.chesstango.engine;
 
-import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.gardel.fen.FEN;
+import net.chesstango.board.Game;
 import net.chesstango.engine.manager.SearchManager;
-import net.chesstango.search.DefaultSearch;
-import net.chesstango.search.Search;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
- * @author Mauricio Coria
+ * @author Mauricio Corial
  */
 public class Tango {
     public static final Properties PROPERTIES = loadProperties();
@@ -27,17 +24,13 @@ public class Tango {
 
     private final SearchManager searchManager;
 
-    @Getter
     private Session currentSession;
 
     @Setter
     private SearchListener searchListener;
 
-    public Tango() {
-        this(new DefaultSearch());
-    }
 
-    public Tango(Search search) {
+    public Tango() {
         SearchListener myListener = new SearchListener() {
             @Override
             public void searchStarted() {
@@ -63,7 +56,7 @@ public class Tango {
             }
         };
 
-        this.searchManager = new SearchManager(search, myListener);
+        this.searchManager = new SearchManager(myListener);
         this.searchManager.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
     }
 
@@ -79,39 +72,37 @@ public class Tango {
         searchManager.setPolyglotBook(path);
     }
 
-    public void setPolyglotdBook(String path) {
+    public void setSyzygyDirectory(String path) {
         searchManager.setPolyglotBook(path);
     }
 
-    public void newGame() {
+    public void setStartPosition(FEN fen) {
         searchManager.reset();
-        currentSession = new Session();
+        currentSession = new Session(fen);
     }
 
-    public void setPosition(FEN fen, List<String> moves) {
-        if (currentSession == null ||
-                currentSession.getGame() != null &&
-                        !Objects.equals(fen, currentSession.getInitialFen())) {
-            newGame();
-        }
-        currentSession.setPosition(fen, moves);
+    public FEN getStartPosition() {
+        return currentSession.getStartPosition();
     }
 
+    public void setMoves(List<String> moves) {
+        currentSession.setMoves(moves);
+    }
 
     public void goInfinite() {
-        searchManager.searchInfinite(currentSession.getGame());
+        searchManager.searchInfinite(getGame());
     }
 
     public void goDepth(int depth) {
-        searchManager.searchDepth(currentSession.getGame(), depth);
+        searchManager.searchDepth(getGame(), depth);
     }
 
     public void goTime(int timeOut) {
-        searchManager.searchTime(currentSession.getGame(), timeOut);
+        searchManager.searchTime(getGame(), timeOut);
     }
 
     public void goFast(int wTime, int bTime, int wInc, int bInc) {
-        searchManager.searchFast(currentSession.getGame(), wTime, bTime, wInc, bInc);
+        searchManager.searchFast(getGame(), wTime, bTime, wInc, bInc);
     }
 
     public void stopSearching() {
@@ -130,5 +121,9 @@ public class Tango {
             throw new RuntimeException(e);
         }
         return properties;
+    }
+
+    Game getGame(){
+        return currentSession.getGame();
     }
 }

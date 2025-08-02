@@ -33,10 +33,10 @@ public final class SearchManager {
     private static ExecutorService searchExecutor;
     private static ScheduledExecutorService timeOutExecutor;
 
-    public SearchManager(Search search, SearchListener searchListener) {
+    public SearchManager(SearchListener searchListener) {
         this.searchListener = searchListener;
 
-        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm(search);
+        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm();
 
         this.searchManagerByOpenBook = new SearchManagerByOpenBook();
         this.searchManagerByOpenBook.setNext(searchManagerByAlgorithm);
@@ -79,7 +79,6 @@ public final class SearchManager {
             initExecutors();
         }
     }
-
 
     public void close() {
         int currentValue = executorCounter.decrementAndGet();

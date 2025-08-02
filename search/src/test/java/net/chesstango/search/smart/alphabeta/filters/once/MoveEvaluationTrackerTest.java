@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
@@ -110,7 +111,7 @@ public class MoveEvaluationTrackerTest {
                 .thenReturn(TranspositionEntry.encode(1000));
 
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         moveEvaluationTracker.beforeSearch(new SearchByCycleContext(game));
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 

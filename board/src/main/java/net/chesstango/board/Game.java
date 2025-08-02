@@ -7,12 +7,15 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameHistoryReader;
 import net.chesstango.board.position.GameStateReader;
 import net.chesstango.board.position.PositionReader;
+import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.board.representations.pgn.GameToPGN;
 import net.chesstango.board.representations.pgn.PGNToGame;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENExporter;
 import net.chesstango.gardel.pgn.PGN;
+
+import java.util.List;
 
 /**
  * Interface representing a chess game.
@@ -174,16 +177,6 @@ public interface Game {
     }
 
     /**
-     * Creates a new game based on the given FEN (Forsyth–Edwards Notation) string.
-     *
-     * @param fen the FEN string representing the state of a chess game
-     * @return a new Game instance initialized with the specified FEN
-     */
-    static Game fromFEN(String fen) {
-        return from(FEN.of(fen));
-    }
-
-    /**
      * Creates a new Game instance based on a given FEN (Forsyth–Edwards Notation) representation.
      *
      * @param fen the FEN object representing the state of a chess game
@@ -199,6 +192,36 @@ public interface Game {
         return builder.getPositionRepresentation();
     }
 
+
+    /**
+     * Creates a new Game instance based on a given FEN (Forsyth–Edwards Notation) and a list of moves.
+     * The method initializes the game with the provided FEN position and then executes each move in the list sequentially.
+     *
+     * @param fen   the FEN object representing the initial state of the chess game
+     * @param moves a list of moves in string format to be executed from the initial position
+     * @return a new Game instance initialized using the specified FEN and with all moves executed
+     * @throws RuntimeException if any of the moves in the list is invalid or cannot be executed
+     */
+    static Game from(FEN fen, List<String> moves) {
+        SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
+        Game game = from(fen);
+        for (String moveStr : moves) {
+            Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
+            if (move == null) {
+                throw new RuntimeException(String.format("No move found %s", moveStr));
+            }
+            move.executeMove();
+        }
+        return game;
+    }
+
+
+    /**
+     * Creates a new Game instance based on a given PGN (Portable Game Notation).
+     *
+     * @param pgn the PGN object containing the chess game information
+     * @return a new Game instance initialized from the PGN data
+     */
     static Game from(PGN pgn) {
         return new PGNToGame().encode(pgn);
     }

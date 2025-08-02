@@ -6,8 +6,8 @@ import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.uci.engine.Options.POLYGLOT_PATH;
-import static net.chesstango.uci.engine.Options.SYZYGY_DIRECTORY;
+import static net.chesstango.engine.ConfigOptions.POLYGLOT_PATH;
+import static net.chesstango.engine.ConfigOptions.SYZYGY_DIRECTORY;
 
 /**
  * The WaitCmdUciState class is part of the State design pattern implementation for the UCI engine.
@@ -35,8 +35,8 @@ class WaitCmdUciState implements UCIEngine {
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
-        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_PATH, null));
-        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_DIRECTORY, null));
+        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_PATH.getOptionName(), null));
+        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_DIRECTORY.getOptionName(), null));
         uciTango.reply(readyState, UCIResponse.uciok());
     }
 

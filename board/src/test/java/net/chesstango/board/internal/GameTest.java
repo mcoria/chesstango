@@ -918,7 +918,7 @@ public class GameTest {
     public void test_encode_with_clocks1() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         game.getPosition().constructChessPositionRepresentation(coder);
 
@@ -931,7 +931,7 @@ public class GameTest {
     public void test_encode_with_clocks2() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         game.executeMove(Square.g1, Square.f3);
 
@@ -947,7 +947,7 @@ public class GameTest {
     public void test_encode_with_clocks3() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);

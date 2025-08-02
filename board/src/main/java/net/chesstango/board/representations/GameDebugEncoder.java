@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PositionReader;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 
 /**
@@ -15,7 +16,7 @@ public class GameDebugEncoder {
         StringBuilder sb = new StringBuilder();
 
         String initialFEN = game.getInitialFEN().toString();
-        Game theGame = Game.fromFEN(initialFEN);
+        Game theGame = Game.from(FEN.of(initialFEN));
         sb.append("Game game = getGame(\"")
                 .append(initialFEN)
                 .append("\")\n");

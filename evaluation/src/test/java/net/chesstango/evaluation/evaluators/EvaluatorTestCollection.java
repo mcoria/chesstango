@@ -1,8 +1,9 @@
 package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Game;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Supplier;
@@ -34,12 +35,12 @@ public abstract class EvaluatorTestCollection {
 
     protected void testGenericFeature(Evaluator evaluator, Supplier<Integer> evaluationFunction, String fen) {
         // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         evaluator.setGame(game);
         final int eval = evaluationFunction.get();
         assertEquals(0, eval);
 
-        game = Game.fromFEN(fen);
+        game = Game.from(FEN.of(fen));
         evaluator.setGame(game);
         final int eval1 = evaluationFunction.get();
 
@@ -53,9 +54,9 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testInMateBlack() {
-        Game mate = Game.fromFEN("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
-        Game check = Game.fromFEN("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
-        Game draw = Game.fromFEN("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
+        Game mate = Game.from(FEN.of("4Q2k/8/7K/8/8/8/8/8 b - - 0 1"));       // Black is in Mate
+        Game check = Game.from(FEN.of("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1"));    // Black is in Check
+        Game draw = Game.from(FEN.of("7k/8/7K/8/8/8/8/6Q1 b - - 0 1"));       // Draw
 
         int mateEval = getEvaluator(mate).evaluate();
         int checkEval = getEvaluator(check).evaluate();
@@ -76,9 +77,9 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testInMateWhite() {
-        Game mate = Game.fromFEN("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
-        Game check = Game.fromFEN("7k/8/8/3q4/8/8/8/2Q4K w - - 0 1");     // White is in Check
-        Game draw = Game.fromFEN("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
+        Game mate = Game.from(FEN.of("8/8/8/8/8/7k/8/4q2K w - - 0 1"));        // White is in Mate
+        Game check = Game.from(FEN.of("7k/8/8/3q4/8/8/8/2Q4K w - - 0 1"));     // White is in Check
+        Game draw = Game.from(FEN.of("6q1/8/8/8/8/7k/8/7K w - - 0 1"));         // Draw
 
         int mateEval = getEvaluator(mate).evaluate();
         int checkEval = getEvaluator(check).evaluate();
@@ -99,8 +100,8 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testCloseToPromotionOneMove() {
-        Game promotionInOneMoves = Game.fromFEN("7k/P7/8/8/8/8/8/7K w - - 0 1 ");
-        Game promotionInTwoMoves = Game.fromFEN("7k/8/P7/8/8/8/8/7K w - - 0 1");
+        Game promotionInOneMoves = Game.from(FEN.of("7k/P7/8/8/8/8/8/7K w - - 0 1"));
+        Game promotionInTwoMoves = Game.from(FEN.of("7k/8/P7/8/8/8/8/7K w - - 0 1"));
 
 
         int evalPromotionInOneMoves = getEvaluator(promotionInOneMoves).evaluate();
@@ -112,8 +113,8 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testCloseToPromotionTwoMoves() {
-        Game promotionInTwoMoves = Game.fromFEN("7k/8/P7/8/8/8/8/7K w - - 0 1");
-        Game promotionInThreeMoves = Game.fromFEN("7k/8/8/P7/8/8/8/7K w - - 0 1");
+        Game promotionInTwoMoves = Game.from(FEN.of("7k/8/P7/8/8/8/8/7K w - - 0 1"));
+        Game promotionInThreeMoves = Game.from(FEN.of("7k/8/8/P7/8/8/8/7K w - - 0 1"));
 
         int evalPromotionInTwoMoves = getEvaluator(promotionInTwoMoves).evaluate();
         int evalPromotionInThreeMoves = getEvaluator(promotionInThreeMoves).evaluate();
@@ -123,7 +124,7 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testComparatives() {
-        Game game = Game.fromFEN("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1");
+        Game game = Game.from(FEN.of("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1"));
 
         int eval = getEvaluator(game).evaluate();
 
@@ -136,7 +137,7 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testDraw() {
-        Game game = Game.fromFEN("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");
+        Game game = Game.from(FEN.of("7k/8/7K/8/8/8/8/6Q1 b - - 0 1"));
 
         int eval = getEvaluator(game).evaluate();
 
@@ -146,7 +147,7 @@ public abstract class EvaluatorTestCollection {
 
     @Test
     public void testSymmetryOfGame() {
-        Game game = Game.fromFEN("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7");
+        Game game = Game.from(FEN.of("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7"));
         Game gameMirror = game.mirror();
 
         assertEquals(getEvaluator(game).evaluate(), (-1) * getEvaluator(gameMirror).evaluate());

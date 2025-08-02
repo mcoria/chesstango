@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ public class MoveSelectorTest {
 
     @Test
     public void selectMoveTest01() {
-        Game game = Game.fromFEN("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14");
+        Game game = Game.from(FEN.of("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
 
         MoveContainerReader<? extends Move> possibleMovesMoves = game.getPossibleMoves();
 
@@ -37,7 +38,7 @@ public class MoveSelectorTest {
 
     @Test
     public void selectMoveTest01_mirror() {
-        Game game = Game.fromFEN("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14");
+        Game game = Game.from(FEN.of("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
 
         Game gameMirror = game.mirror();
 
@@ -56,7 +57,7 @@ public class MoveSelectorTest {
 
     @Test
     public void selectMoveTest02() {
-        Game game = Game.fromFEN("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1");
+        Game game = Game.from(FEN.of("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1"));
 
         MoveContainerReader<? extends Move> possibleMovesMoves = game.getPossibleMoves();
 
@@ -75,7 +76,7 @@ public class MoveSelectorTest {
 
     @Test
     public void selectMoveTest02_mirror() {
-        Game game = Game.fromFEN("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1");
+        Game game = Game.from(FEN.of("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1"));
 
         Game gameMirror = game.mirror();
 

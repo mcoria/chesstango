@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +46,7 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
     @Override
     protected Game createGame() {
-        return Game.fromFEN("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - 0 1")
+        return Game.from(FEN.of("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - 0 1"))
                 .executeMove(Square.h3, Square.h5)
                 .executeMove(Square.b7, Square.d5);
     }

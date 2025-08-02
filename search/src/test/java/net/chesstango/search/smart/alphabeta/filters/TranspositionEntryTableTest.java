@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.Search;
@@ -70,8 +71,8 @@ public class TranspositionEntryTableTest {
 
 
     public void executeTest(String fen, int depth) {
-        Game game01 = Game.fromFEN(fen);
-        Game game02 = Game.fromFEN(fen);
+        Game game01 = Game.from(FEN.of(fen));
+        Game game02 = Game.from(FEN.of(fen));
 
         searchWithoutTT.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
         searchResultWithoutTT = searchWithoutTT.search(game01);
@@ -89,9 +90,9 @@ public class TranspositionEntryTableTest {
     }
 
     private void debugTT(String fen, int evaluation, int depth, Search searchMethod1, Search searchMethod2) {
-        if (depth > 0 && Game.fromFEN(fen).getStatus().isInProgress()) {
-            Game game01 = Game.fromFEN(fen);
-            Game game02 = Game.fromFEN(fen);
+        if (depth > 0 && Game.from(FEN.of(fen)).getStatus().isInProgress()) {
+            Game game01 = Game.from(FEN.of(fen));
+            Game game02 = Game.from(FEN.of(fen));
 
             SearchResult searchResult01 = searchMethod1.search(game01);
 
@@ -101,7 +102,7 @@ public class TranspositionEntryTableTest {
 
             Move bestMove = searchResult01.getBestMove();
 
-            debugTT(Game.fromFEN(fen).executeMove(bestMove.getFrom().getSquare(), bestMove.getTo().getSquare()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
+            debugTT(Game.from(FEN.of(fen)).executeMove(bestMove.getFrom().getSquare(), bestMove.getTo().getSquare()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
 
             Assertions.assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
 

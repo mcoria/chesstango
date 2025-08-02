@@ -3,6 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.search.SearchResult;
@@ -38,7 +39,7 @@ public class IterativeDeepeningTest {
 
         //smart.setGameEvaluator(evaluatorMock);
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         SearchResult searchResult = iterativeDeepening.search(game);
         Move bestMove = searchResult.getBestMove();

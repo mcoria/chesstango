@@ -1,16 +1,18 @@
 package net.chesstango.engine.manager;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
-import net.chesstango.search.SearchResultByDepthListener;
+import net.chesstango.search.*;
 
 /**
  * @author Mauricio Coria
  */
 public final class SearchManagerByAlgorithm implements SearchManagerChain {
     private final Search search;
+
+
+    public SearchManagerByAlgorithm() {
+        this(new DefaultSearch());
+    }
 
     public SearchManagerByAlgorithm(Search search) {
         this.search = search;

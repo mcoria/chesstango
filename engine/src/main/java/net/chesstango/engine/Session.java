@@ -1,8 +1,8 @@
 package net.chesstango.engine;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveDecoder;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.SearchResult;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class Session {
+class Session {
     private final SimpleMoveDecoder simpleMoveDecoder = new SimpleMoveDecoder();
 
     /**
@@ -22,27 +22,24 @@ public class Session {
     @Getter
     private final List<SearchResult> searches = new ArrayList<>();
 
-    @Getter
-    private Game game;
+    private final FEN fen;
 
-    public void setPosition(FEN fen, List<String> moves) {
-        game = Game.from(fen);
-        if (moves != null && !moves.isEmpty()) {
-            for (String moveStr : moves) {
-                Move move = simpleMoveDecoder.decode(game.getPossibleMoves(), moveStr);
-                if (move == null) {
-                    throw new RuntimeException(String.format("No move found %s", moveStr));
-                }
-                move.executeMove();
-            }
-        }
+    @Setter
+    private List<String> moves;
+
+    Session(FEN fen) {
+        this.fen = fen;
     }
 
-    public FEN getInitialFen() {
-        return game == null ? null : game.getInitialFEN();
+    Game getGame() {
+        return Game.from(fen, moves);
     }
 
-    public void addResult(SearchResult result) {
+    void addResult(SearchResult result) {
         searches.add(result);
+    }
+
+    public FEN getStartPosition() {
+        return fen;
     }
 }

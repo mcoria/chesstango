@@ -8,8 +8,8 @@ import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.uci.engine.Options.POLYGLOT_PATH;
-import static net.chesstango.uci.engine.Options.SYZYGY_DIRECTORY;
+import static net.chesstango.engine.ConfigOptions.POLYGLOT_PATH;
+import static net.chesstango.engine.ConfigOptions.SYZYGY_DIRECTORY;
 
 /**
  * This class represents one of the possible states in the state design pattern for the UCI engine.
@@ -26,6 +26,8 @@ class ReadyState implements UCIEngine {
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
+    private FEN startPosition;
+
     ReadyState(UciTango uciTango, Tango tango) {
         this.uciTango = uciTango;
         this.tango = tango;
@@ -41,14 +43,12 @@ class ReadyState implements UCIEngine {
             tango.setPolyglotBook(cmdSetOption.getValue());
         }
         if (cmdSetOption.getId().equals(SYZYGY_DIRECTORY)) {
-            //tango.setSyzygyDirectory(cmdSetOption.getValue());
+            tango.setSyzygyDirectory(cmdSetOption.getValue());
         }
     }
 
     @Override
-
     public void do_newGame(ReqUciNewGame cmdUciNewGame) {
-        tango.newGame();
     }
 
     @Override
@@ -71,10 +71,16 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_position(ReqPosition cmdPosition) {
-        tango.setPosition(ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
-                        ? FEN.of(FENParser.INITIAL_FEN)
-                        : FEN.of(cmdPosition.getFen())
-                , cmdPosition.getMoves());
+        FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
+                ? FEN.of(FENParser.INITIAL_FEN)
+                : FEN.of(cmdPosition.getFen());
+
+        if (this.startPosition == null || !this.startPosition.equals(startPosition)) {
+            tango.setStartPosition(startPosition);
+        }
+
+        tango.setMoves(cmdPosition.getMoves());
+
         uciTango.changeState(waitCmdGoState);
     }
 }

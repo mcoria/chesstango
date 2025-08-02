@@ -2,6 +2,7 @@ package net.chesstango.lichess;
 
 import chariot.model.*;
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
@@ -33,7 +34,6 @@ public class LichessGame implements Runnable {
 
 
     private GameStateEvent.Full gameFullEvent;
-    private FEN fen;
     private volatile int moveCounter;
 
     public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
@@ -92,9 +92,6 @@ public class LichessGame implements Runnable {
     public void run() {
         MDC.put("gameId", gameId);
 
-        logger.info("[{}] Tango new Game...", gameId);
-        tango.newGame();
-
         logger.info("[{}] Entering Game event loop...", gameId);
         try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
             gameEvents.forEach(gameEvent -> {
@@ -123,14 +120,13 @@ public class LichessGame implements Runnable {
         GameType gameType = gameFullEvent.gameType();
         Variant gameVariant = gameType.variant();
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            this.fen = FEN.of(FENParser.INITIAL_FEN);
+            tango.setStartPosition(FEN.of(FENParser.INITIAL_FEN));
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
-            this.fen = FEN.of(someFen.get());
+            tango.setStartPosition(FEN.of(someFen.get()));
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }
-
         gameState(gameFullEvent.state());
     }
 
@@ -154,14 +150,14 @@ public class LichessGame implements Runnable {
     private void play(GameStateEvent.State state) {
         moveCounter = state.moveList().size();
 
-        tango.setPosition(fen, state.moveList());
+        Game game = Game.from(tango.getStartPosition(), state.moveList());
 
-        PositionReader currentChessPosition = tango
-                .getCurrentSession()
-                .getGame()
+        PositionReader currentChessPosition = game
                 .getPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
+            tango.setMoves(state.moveList());
+
             long wTime = state.wtime().toMillis();
             long bTime = state.btime().toMillis();
 

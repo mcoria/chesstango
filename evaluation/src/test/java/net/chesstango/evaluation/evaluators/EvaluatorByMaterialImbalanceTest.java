@@ -2,6 +2,7 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -80,7 +81,7 @@ public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateByPosition() {
-        Game game = Game.fromFEN("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
+        Game game = Game.from(FEN.of("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21"));
         evaluator.setGame(game);
         assertEquals(-616, evaluator.evaluate());
 
@@ -91,7 +92,7 @@ public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateSymmetric01() {
-        Game game = Game.fromFEN("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
+        Game game = Game.from(FEN.of("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4"));
         evaluator.setGame(game);
         assertEquals(0, evaluator.evaluate());
 
@@ -103,20 +104,20 @@ public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
 
     @Test
     public void testBishopPair() {
-        Game game = Game.fromFEN("k7/8/8/8/4B3/8/8/K7 w - - 0 1");
+        Game game = Game.from(FEN.of("k7/8/8/8/4B3/8/8/K7 w - - 0 1"));
         evaluator.setGame(game);
         assertEquals(331, evaluator.evaluate());
 
-        game = Game.fromFEN("k7/8/8/4B3/4B3/8/8/K7 w - - 0 1");
+        game = Game.from(FEN.of("k7/8/8/4B3/4B3/8/8/K7 w - - 0 1"));
         evaluator.setGame(game);
         assertEquals(661, evaluator.evaluate());
 
-        game = Game.fromFEN("k7/8/8/8/4b3/8/8/K7 w - - 0 1");
+        game = Game.from(FEN.of("k7/8/8/8/4b3/8/8/K7 w - - 0 1"));
         evaluator.setGame(game);
         assertEquals(-330, evaluator.evaluate());
 
 
-        game = Game.fromFEN("k7/8/8/4b3/4b3/8/8/K7 w - - 0 1");
+        game = Game.from(FEN.of("k7/8/8/4b3/4b3/8/8/K7 w - - 0 1"));
         evaluator.setGame(game);
         assertEquals(-661, evaluator.evaluate());
     }
@@ -137,17 +138,17 @@ public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
     @Test
     public void testEvaluateByMaterial() {
         // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         evaluator.setGame(game);
         final int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = Game.fromFEN("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        game = Game.from(FEN.of("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         evaluator.setGame(game);
         final int evalWhite = evaluator.evaluateByMaterial();
         assertTrue(evalWhite > 0);
 
-        game = Game.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        game = Game.from(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
         evaluator.setGame(game);
         final int evalBlack = evaluator.evaluateByMaterial();
         assertTrue(evalBlack < 0);
@@ -163,18 +164,18 @@ public class EvaluatorByMaterialImbalanceTest extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateByMaterial02() {
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         evaluator.setGame(game);
         int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
 
-        game = Game.fromFEN("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        game = Game.from(FEN.of("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval > 0);
 
 
-        game = Game.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        game = Game.from(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"));
         evaluator.setGame(game);
         eval = evaluator.evaluateByMaterial();
         assertTrue(eval < 0);

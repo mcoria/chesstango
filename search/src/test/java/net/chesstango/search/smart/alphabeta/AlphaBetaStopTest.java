@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.Search;
@@ -41,7 +42,7 @@ public class AlphaBetaStopTest {
 
 
         //Game game = FENDecoder.loadGame("r1bqkb1r/pppppppp/2n5/3nP3/2BP4/8/PPP2PPP/RNBQK1NR b KQkq - 2 4");
-        Game game = Game.fromFEN("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22");
+        Game game = Game.from(FEN.of("2rr2k1/2p2ppp/1p3bn1/p2P1q2/2P5/1Q4B1/PP3PPP/R2R2K1 w - - 6 22"));
 
         Future<SearchResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {

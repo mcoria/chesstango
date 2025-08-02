@@ -112,15 +112,18 @@ public class UciTango implements UCIService {
         waitCmdGoState.setSearchingState(searchingState);
         searchingState.setReadyState(readyState);
 
-        currentState = waitCmdUciState;  // Starting with the initial state (WaitCmdUciState), which transitions to others dynamically.
-
+        // Initialize the chess engine by opening the underlying Tango instance
         tango.open();
+
+        // set the initial state to wait for the UCI command
+        changeState(waitCmdUciState);
     }
 
     @Override
     public void close() {
+        changeState(null);
+
         tango.close();
-        currentState = null;
     }
 
     
