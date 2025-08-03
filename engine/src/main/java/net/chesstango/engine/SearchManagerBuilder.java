@@ -35,7 +35,7 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
-        SearchChain head = new SearchByAlgorithm(search == null ? new DefaultSearch() : search);
+        SearchChain head = new SearchByAlgorithm(search);
 
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);

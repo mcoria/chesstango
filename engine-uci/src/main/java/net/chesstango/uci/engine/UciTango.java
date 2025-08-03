@@ -52,7 +52,7 @@ public class UciTango implements UCIService {
         this(Tango::open);
     }
 
-    UciTango(Function<Config, Tango> tangoFactory) {
+    public UciTango(Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {

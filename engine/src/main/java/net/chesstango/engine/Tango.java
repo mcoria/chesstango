@@ -26,7 +26,7 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder();
 
-        searchManagerBuilder.withSearch(new DefaultSearch());
+        searchManagerBuilder.withSearch(config.getSearch() == null ? new DefaultSearch() : config.getSearch());
 
         searchManagerBuilder.withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
 

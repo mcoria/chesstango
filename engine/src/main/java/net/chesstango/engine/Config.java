@@ -2,16 +2,17 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Search;
 
 /**
  * @author Mauricio Coria
  */
+@Getter
+@Setter
 public class Config {
-    @Getter
-    @Setter
-    public String polyglotFile;
+    private Search search;
 
-    @Getter
-    @Setter
-    public String syzygyDirectory;
+    private String polyglotFile;
+
+    private String syzygyDirectory;
 }
