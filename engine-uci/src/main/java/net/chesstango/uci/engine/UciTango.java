@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
@@ -41,8 +42,10 @@ public class UciTango implements UCIService {
     // allowing behavior to change dynamically at runtime based on the current state.
     volatile UCIEngine currentState;
 
+    @Getter
     volatile Tango tango;
 
+    @Getter
     volatile Session session;
 
     public UciTango() {
