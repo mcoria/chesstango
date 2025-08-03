@@ -1,4 +1,4 @@
-package net.chesstango.engine.manager;
+package net.chesstango.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
@@ -6,15 +6,15 @@ import net.chesstango.search.*;
 /**
  * @author Mauricio Coria
  */
-public final class SearchManagerByAlgorithm implements SearchManagerChain {
+public final class SearchByAlgorithm implements SearchChain {
     private final Search search;
 
 
-    public SearchManagerByAlgorithm() {
+    public SearchByAlgorithm() {
         this(new DefaultSearch());
     }
 
-    public SearchManagerByAlgorithm(Search search) {
+    public SearchByAlgorithm(Search search) {
         this.search = search;
     }
 
@@ -26,11 +26,6 @@ public final class SearchManagerByAlgorithm implements SearchManagerChain {
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
         search.setSearchParameter(parameter, value);
-    }
-
-    @Override
-    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
-        search.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
     @Override

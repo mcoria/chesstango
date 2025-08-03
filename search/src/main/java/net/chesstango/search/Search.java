@@ -27,8 +27,4 @@ public interface Search {
      */
     void setSearchParameter(SearchParameter parameter, Object value);
 
-    /**
-     * Set search progress listener
-     */
-    void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener);
 }

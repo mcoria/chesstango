@@ -11,5 +11,4 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({UciMainTangoTest.class, UciTangoTest.class})
 public class UciEngineTestSuite {
-
 }

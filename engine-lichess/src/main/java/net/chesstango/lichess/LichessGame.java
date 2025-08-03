@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
@@ -23,7 +24,7 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class LichessGame implements Runnable {
+public class LichessGame implements Runnable, SearchListener {
     private static final Logger logger = LoggerFactory.getLogger(LichessGame.class);
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
@@ -34,6 +35,11 @@ public class LichessGame implements Runnable {
 
 
     private GameStateEvent.Full gameFullEvent;
+
+    private Session session;
+
+    private FEN startPosition;
+
     private volatile int moveCounter;
 
     public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
@@ -50,26 +56,6 @@ public class LichessGame implements Runnable {
         }
 
         this.tango = tango;
-        this.tango.setSearchListener(new SearchListener() {
-            @Override
-            public void searchStarted() {
-                MDC.put("gameId", gameId);
-            }
-
-            @Override
-            public void searchInfo(SearchResultByDepth searchResultByDepth) {
-                String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
-                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
-            }
-
-            @Override
-            public void searchFinished(SearchResult searchResult) {
-                String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
-                client.gameMove(gameId, moveUci);
-                MDC.remove("gameId");
-            }
-        });
     }
 
     public void gameWatchDog() {
@@ -112,6 +98,25 @@ public class LichessGame implements Runnable {
         MDC.remove("gameId");
     }
 
+    @Override
+    public void searchStarted() {
+        MDC.put("gameId", gameId);
+    }
+
+    @Override
+    public void searchInfo(SearchResultByDepth searchResultByDepth) {
+        String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
+        logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
+    }
+
+    @Override
+    public void searchFinished(SearchResult searchResult) {
+        String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
+        logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
+        client.gameMove(gameId, moveUci);
+        MDC.remove("gameId");
+    }
+
     private void gameFull(GameStateEvent.Full gameFullEvent) {
         logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
@@ -119,14 +124,20 @@ public class LichessGame implements Runnable {
 
         GameType gameType = gameFullEvent.gameType();
         Variant gameVariant = gameType.variant();
+
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            tango.setStartPosition(FEN.of(FENParser.INITIAL_FEN));
+            this.startPosition = FEN.of(FENParser.INITIAL_FEN);
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
-            tango.setStartPosition(FEN.of(someFen.get()));
+            this.startPosition = FEN.of(someFen.get());
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }
+
+        this.session = tango.newSession(startPosition);
+
+        this.session.setSearchListener(this);
+
         gameState(gameFullEvent.state());
     }
 
@@ -150,13 +161,13 @@ public class LichessGame implements Runnable {
     private void play(GameStateEvent.State state) {
         moveCounter = state.moveList().size();
 
-        Game game = Game.from(tango.getStartPosition(), state.moveList());
+        Game game = Game.from(startPosition, state.moveList());
 
         PositionReader currentChessPosition = game
                 .getPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
-            tango.setMoves(state.moveList());
+            session.setMoves(state.moveList());
 
             long wTime = state.wtime().toMillis();
             long bTime = state.btime().toMillis();
@@ -164,7 +175,7 @@ public class LichessGame implements Runnable {
             long wInc = state.winc().toMillis();
             long bInc = state.binc().toMillis();
 
-            tango.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
+            session.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
         }
     }
 

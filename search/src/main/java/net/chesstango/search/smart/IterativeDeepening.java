@@ -27,12 +27,11 @@ public class IterativeDeepening implements Search {
     @Getter
     private final SearchListenerMediator searchListenerMediator;
 
-    @Setter
-    private SearchResultByDepthListener searchResultByDepthListener;
-
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
     private int maxDepth = Integer.MAX_VALUE;
+
+    private SearchResultByDepthListener searchResultByDepthListener;
 
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
@@ -116,6 +115,8 @@ public class IterativeDeepening implements Search {
             this.maxDepth = maxDepthParam;
         } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             this.searchParameters.put(EPD_PARAMS, epd);
+        } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof SearchResultByDepthListener searchResultByDepthListenerParam) {
+            this.searchResultByDepthListener = searchResultByDepthListenerParam;
         }
     }
 }

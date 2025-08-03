@@ -1,15 +1,12 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
-import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.engine.ConfigOptions.POLYGLOT_PATH;
-import static net.chesstango.engine.ConfigOptions.SYZYGY_DIRECTORY;
 
 /**
  * This class represents one of the possible states in the state design pattern for the UCI engine.
@@ -21,34 +18,28 @@ import static net.chesstango.engine.ConfigOptions.SYZYGY_DIRECTORY;
  */
 class ReadyState implements UCIEngine {
     protected final UciTango uciTango;
-    protected final Tango tango;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    private FEN startPosition;
 
-    ReadyState(UciTango uciTango, Tango tango) {
+    volatile private FEN startPosition;
+
+    volatile private boolean reloadTango;
+
+    ReadyState(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.tango = tango;
-    }
-
-    @Override
-    public void do_uci(ReqUci cmdUci) {
+        this.reloadTango = false;
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        if (cmdSetOption.getId().equals(POLYGLOT_PATH)) {
-            tango.setPolyglotBook(cmdSetOption.getValue());
+        if ("polyglotFile".equals(cmdSetOption.getId())) {
+            uciTango.config.setPolyglotFile(cmdSetOption.getValue());
+        } else if ("syzygyDirectory".equals(cmdSetOption.getId())) {
+            uciTango.config.setSyzygyDirectory(cmdSetOption.getValue());
         }
-        if (cmdSetOption.getId().equals(SYZYGY_DIRECTORY)) {
-            tango.setSyzygyDirectory(cmdSetOption.getValue());
-        }
-    }
-
-    @Override
-    public void do_newGame(ReqUciNewGame cmdUciNewGame) {
+        this.reloadTango = true;
     }
 
     @Override
@@ -57,11 +48,11 @@ class ReadyState implements UCIEngine {
     }
 
     @Override
-    public void do_go(ReqGo cmdGo) {
-    }
-
-    @Override
-    public void do_stop(ReqStop cmdStop) {
+    public void do_newGame(ReqUciNewGame reqUciNewGame) {
+        if (reloadTango) {
+            uciTango.reloadTango();
+            reloadTango = false;
+        }
     }
 
     @Override
@@ -76,10 +67,11 @@ class ReadyState implements UCIEngine {
                 : FEN.of(cmdPosition.getFen());
 
         if (this.startPosition == null || !this.startPosition.equals(startPosition)) {
-            tango.setStartPosition(startPosition);
+            this.startPosition = startPosition;
+            this.uciTango.session = uciTango.tango.newSession(startPosition);
         }
 
-        tango.setMoves(cmdPosition.getMoves());
+        uciTango.session.setMoves(cmdPosition.getMoves());
 
         uciTango.changeState(waitCmdGoState);
     }

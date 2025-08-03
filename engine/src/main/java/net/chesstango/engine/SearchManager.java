@@ -1,14 +1,13 @@
-package net.chesstango.engine.manager;
+package net.chesstango.engine;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.Search;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.SearchResultByDepthListener;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,10 +17,7 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 public final class SearchManager {
-    private final SearchListener searchListener;
-    private final SearchManagerChain searchManagerChain;
-    private final SearchManagerByOpenBook searchManagerByOpenBook;
-    private final SearchManagerByAlgorithm searchManagerByAlgorithm;
+    private final SearchChain searchChain;
     private final TimeMgmt timeMgmt;
 
     @Setter
@@ -33,47 +29,39 @@ public final class SearchManager {
     private static ExecutorService searchExecutor;
     private static ScheduledExecutorService timeOutExecutor;
 
-    public SearchManager(SearchListener searchListener) {
-        this.searchListener = searchListener;
-
-        this.searchManagerByAlgorithm = new SearchManagerByAlgorithm();
-
-        this.searchManagerByOpenBook = new SearchManagerByOpenBook();
-        this.searchManagerByOpenBook.setNext(searchManagerByAlgorithm);
-
-        this.searchManagerChain = this.searchManagerByOpenBook;
-        this.searchManagerChain.setSearchResultByDepthListener(searchListener::searchInfo);
+    public SearchManager(SearchChain searchChain) {
+        this.searchChain = searchChain;
 
         this.timeMgmt = new FivePercentage();
     }
 
-    public void searchInfinite(Game game) {
-        searchImp(game, infiniteDepth, 0);
+    public void searchInfinite(Game game, SearchListener searchListener) {
+        searchImp(game, infiniteDepth, 0, searchListener);
     }
 
-    public void searchDepth(Game game, int depth) {
-        searchImp(game, depth, 0);
+    public void searchDepth(Game game, int depth, SearchListener searchListener) {
+        searchImp(game, depth, 0, searchListener);
     }
 
-    public void searchTime(Game game, int timeOut) {
-        searchImp(game, infiniteDepth, timeOut);
+    public void searchTime(Game game, int timeOut, SearchListener searchListener) {
+        searchImp(game, infiniteDepth, timeOut, searchListener);
     }
 
-    public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc) {
+    public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo));
+        searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
     public void reset() {
-        searchManagerChain.reset();
+        searchChain.reset();
     }
 
     public void stopSearching() {
-        searchManagerChain.stopSearching();
+        searchChain.stopSearching();
     }
 
     public void open() {
-        searchManagerChain.open();
+        searchChain.open();
         int currentValue = executorCounter.incrementAndGet();
         if (currentValue == 1) {
             initExecutors();
@@ -87,18 +75,14 @@ public final class SearchManager {
         } else if (currentValue < 0) {
             throw new RuntimeException("Closed too many times");
         }
-        searchManagerChain.close();
+        searchChain.close();
     }
 
-    public void setPolyglotBook(String path) {
-        searchManagerByOpenBook.setSearchParameter(SearchParameter.POLYGLOT_FILE, path);
+    private void searchImp(Game game, int depth, int timeOut, SearchListener searchListener) {
+        searchImp(game, depth, timeOut, searchMoveResult -> true, searchListener);
     }
 
-    private void searchImp(Game game, int depth, int timeOut) {
-        searchImp(game, depth, timeOut, searchMoveResult -> true);
-    }
-
-    private synchronized void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate) {
+    private synchronized void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         if (currentSearchTask != null && !currentSearchTask.isDone()) {
             try {
                 currentSearchTask.get();
@@ -117,10 +101,11 @@ public final class SearchManager {
                     stopTask = timeOutExecutor.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
-                searchManagerChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-                searchManagerChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
+                searchChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+                searchChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
+                searchChain.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_LISTENER, (SearchResultByDepthListener) searchListener::searchInfo);
 
-                SearchResult searchResult = searchManagerChain.search(game);
+                SearchResult searchResult = searchChain.search(game);
 
                 if (stopTask != null && !stopTask.isDone()) {
                     stopTask.cancel(false);

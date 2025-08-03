@@ -40,9 +40,4 @@ public class DefaultSearch implements Search {
         imp.setSearchParameter(parameter, value);
     }
 
-    @Override
-    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
-        imp.setSearchResultByDepthListener(searchResultByDepthListener);
-    }
-
 }

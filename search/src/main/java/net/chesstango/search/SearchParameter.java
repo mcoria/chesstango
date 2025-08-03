@@ -8,5 +8,6 @@ public enum SearchParameter {
     SEARCH_PREDICATE,
     POLYGLOT_FILE,
     SYZYGY_DIRECTORY,
-    EPD_PARAMS
+    EPD_PARAMS,
+    SEARCH_BY_DEPTH_LISTENER
 }

@@ -49,9 +49,4 @@ public class Dummy implements Search {
     public void setSearchParameter(SearchParameter parameter, Object value) {
     }
 
-    @Override
-    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
-
-    }
-
 }

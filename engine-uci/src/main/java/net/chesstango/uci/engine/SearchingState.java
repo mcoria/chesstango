@@ -24,23 +24,22 @@ class SearchingState implements UCIEngine, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final UciTango uciTango;
-    private final Tango tango;
 
     @Setter
     private ReadyState readyState;
 
-    SearchingState(UciTango uciTango, Tango tango) {
+    SearchingState(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.tango = tango;
-        tango.setSearchListener(this);
     }
 
     @Override
     public void do_uci(ReqUci cmdUci) {
+        throw new RuntimeException("Unable to process position command. Tango is still searching.");
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
+        throw new RuntimeException("Unable to process position command. Tango is still searching.");
     }
 
     @Override
@@ -49,21 +48,13 @@ class SearchingState implements UCIEngine, SearchListener {
     }
 
     @Override
-    public void do_newGame(ReqUciNewGame cmdUciNewGame) {
-    }
-
-    @Override
-    public void do_go(ReqGo cmdGo) {
-    }
-
-    @Override
     public void do_stop(ReqStop cmdStop) {
-        tango.stopSearching();
+        uciTango.session.stopSearching();
     }
 
     @Override
     public void do_quit(ReqQuit cmdQuit) {
-        tango.stopSearching();
+        uciTango.session.stopSearching();
         uciTango.changeState(new EndState());
     }
 

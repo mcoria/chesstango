@@ -1,4 +1,4 @@
-package net.chesstango.engine.manager;
+package net.chesstango.engine;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
@@ -19,9 +19,9 @@ import static net.chesstango.search.SearchParameter.POLYGLOT_FILE;
 /**
  * @author Mauricio Coria
  */
-public final class SearchManagerByOpenBook implements SearchManagerChain {
+public final class SearchByOpenBook implements SearchChain {
     @Setter
-    private SearchManagerChain next;
+    private SearchChain next;
 
     private PolyglotBook book;
 
@@ -43,11 +43,6 @@ public final class SearchManagerByOpenBook implements SearchManagerChain {
             }
         }
         next.setSearchParameter(parameter, value);
-    }
-
-    @Override
-    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
-        next.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
     @Override

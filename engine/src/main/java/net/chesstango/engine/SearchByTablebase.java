@@ -1,4 +1,4 @@
-package net.chesstango.engine.manager;
+package net.chesstango.engine;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
@@ -13,9 +13,9 @@ import static net.chesstango.search.SearchParameter.SYZYGY_DIRECTORY;
 /**
  * @author Mauricio Coria
  */
-public final class SearchManagerByTablebase implements SearchManagerChain {
+public final class SearchByTablebase implements SearchChain {
     @Setter
-    private SearchManagerChain next;
+    private SearchChain next;
 
     private Syzygy syzygy;
 
@@ -37,11 +37,6 @@ public final class SearchManagerByTablebase implements SearchManagerChain {
             }
         }
         next.setSearchParameter(parameter, value);
-    }
-
-    @Override
-    public void setSearchResultByDepthListener(SearchResultByDepthListener searchResultByDepthListener) {
-        next.setSearchResultByDepthListener(searchResultByDepthListener);
     }
 
     @Override

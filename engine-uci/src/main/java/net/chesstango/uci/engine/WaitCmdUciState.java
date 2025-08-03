@@ -3,11 +3,9 @@ package net.chesstango.uci.engine;
 import lombok.Setter;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIEngine;
-import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.requests.ReqUci;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
-import static net.chesstango.engine.ConfigOptions.POLYGLOT_PATH;
-import static net.chesstango.engine.ConfigOptions.SYZYGY_DIRECTORY;
 
 /**
  * The WaitCmdUciState class is part of the State design pattern implementation for the UCI engine.
@@ -27,41 +25,13 @@ class WaitCmdUciState implements UCIEngine {
         this.uciTango = uciTango;
     }
 
-    @Override
-    public void do_newGame(ReqUciNewGame cmdUciNewGame) {
-    }
 
     @Override
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
-        uciTango.reply(this, UCIResponse.createStringOption(POLYGLOT_PATH.getOptionName(), null));
-        uciTango.reply(this, UCIResponse.createStringOption(SYZYGY_DIRECTORY.getOptionName(), null));
+        uciTango.reply(this, UCIResponse.createStringOption("PolyglotFile", null));
+        uciTango.reply(this, UCIResponse.createStringOption("SyzygyDirectory", null));
         uciTango.reply(readyState, UCIResponse.uciok());
-    }
-
-    @Override
-    public void do_setOption(ReqSetOption cmdSetOption) {
-    }
-
-    @Override
-    public void do_isReady(ReqIsReady cmdIsReady) {
-    }
-
-    @Override
-    public void do_go(ReqGo cmdGo) {
-    }
-
-    @Override
-    public void do_stop(ReqStop cmdStop) {
-    }
-
-    @Override
-    public void do_quit(ReqQuit cmdQuit) {
-        uciTango.changeState(new EndState());
-    }
-
-    @Override
-    public void do_position(ReqPosition cmdPosition) {
     }
 }
