@@ -21,7 +21,7 @@ class SearchManager implements AutoCloseable {
     @Setter
     private int infiniteDepth;
 
-    private volatile Future<?> currentSearchTask;
+    private volatile Future<SearchResult> currentSearchTask;
 
     private static final AtomicInteger executorCounter = new AtomicInteger(0);
 
@@ -34,21 +34,21 @@ class SearchManager implements AutoCloseable {
         this.timeMgmt = new FivePercentage();
     }
 
-    public void searchInfinite(Game game, SearchListener searchListener) {
-        searchImp(game, infiniteDepth, 0, searchListener);
+    public Future<SearchResult> searchInfinite(Game game, SearchListener searchListener) {
+        return searchImp(game, infiniteDepth, 0, searchListener);
     }
 
-    public void searchDepth(Game game, int depth, SearchListener searchListener) {
-        searchImp(game, depth, 0, searchListener);
+    public Future<SearchResult> searchDepth(Game game, int depth, SearchListener searchListener) {
+        return searchImp(game, depth, 0, searchListener);
     }
 
-    public void searchTime(Game game, int timeOut, SearchListener searchListener) {
-        searchImp(game, infiniteDepth, timeOut, searchListener);
+    public Future<SearchResult> searchTime(Game game, int timeOut, SearchListener searchListener) {
+        return searchImp(game, infiniteDepth, timeOut, searchListener);
     }
 
-    public void searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
+    public Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
+        return searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
     public void reset() {
@@ -77,11 +77,11 @@ class SearchManager implements AutoCloseable {
         searchChain.close();
     }
 
-    private void searchImp(Game game, int depth, int timeOut, SearchListener searchListener) {
-        searchImp(game, depth, timeOut, searchMoveResult -> true, searchListener);
+    private Future<SearchResult> searchImp(Game game, int depth, int timeOut, SearchListener searchListener) {
+        return searchImp(game, depth, timeOut, searchMoveResult -> true, searchListener);
     }
 
-    private synchronized void searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    private synchronized Future<SearchResult> searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         if (currentSearchTask != null && !currentSearchTask.isDone()) {
             try {
                 currentSearchTask.get();
@@ -102,6 +102,7 @@ class SearchManager implements AutoCloseable {
 
                 SearchContext context = new SearchContext()
                         .setGame(game)
+                        .setDepth(depth)
                         .setSearchPredicate(searchPredicate)
                         .setSearchResultByDepthListener(searchListener::searchInfo);
 
@@ -112,11 +113,15 @@ class SearchManager implements AutoCloseable {
                 }
 
                 searchListener.searchFinished(searchResult);
+
+                return searchResult;
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);
                 throw new RuntimeException(e);
             }
         });
+
+        return currentSearchTask;
     }
 
 

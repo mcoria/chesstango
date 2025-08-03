@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.Search;
 
 /**
@@ -14,6 +15,10 @@ class SearchManagerBuilder {
 
     private String syzygyDirectory;
 
+    public SearchManagerBuilder withSearch(Search search) {
+        this.search = search;
+        return this;
+    }
 
     public SearchManagerBuilder withPolyglotFile(String polyglotFile) {
         this.polyglotFile = polyglotFile;
@@ -24,18 +29,13 @@ class SearchManagerBuilder {
         this.syzygyDirectory = SyzygyDirectory;
     }
 
-    public SearchManagerBuilder withSearch(Search search) {
-        this.search = search;
-        return this;
-    }
-
     public SearchManagerBuilder withInfiniteDepth(int infiniteDepth) {
         this.infiniteDepth = infiniteDepth;
         return this;
     }
 
     public SearchManager build() {
-        SearchChain head = new SearchByAlgorithm(search);
+        SearchChain head = new SearchByAlgorithm(search == null ? new DefaultSearch() : search);
 
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);

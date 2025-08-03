@@ -54,6 +54,8 @@ public class LichessBotMain {
             try (Tango tango = Tango.open(config)) {
                 new LichessBot(lichessClient, CHALLENGE_BOTS, tango)
                         .run();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
         } else {

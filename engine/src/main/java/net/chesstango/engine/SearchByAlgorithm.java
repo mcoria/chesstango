@@ -1,6 +1,5 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
@@ -10,10 +9,6 @@ import net.chesstango.search.SearchResult;
  */
 class SearchByAlgorithm implements SearchChain {
     private final Search search;
-
-    public SearchByAlgorithm() {
-        this(new DefaultSearch());
-    }
 
     public SearchByAlgorithm(Search search) {
         this.search = search;
@@ -35,7 +30,7 @@ class SearchByAlgorithm implements SearchChain {
 
     @Override
     public SearchResult search(SearchContext context) {
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getSearchPredicate());
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getDepth());
         search.setSearchParameter(SearchParameter.SEARCH_PREDICATE, context.getSearchPredicate());
         return search.search(context.getGame());
     }

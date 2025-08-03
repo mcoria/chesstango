@@ -9,6 +9,7 @@ import net.chesstango.search.SearchResultByDepth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * @author Mauricio Coria
@@ -62,27 +63,27 @@ public class Session {
         };
     }
 
-    public void goInfinite() {
-        searchManager.searchInfinite(getGame(), sessionSearchListener);
+    public Future<SearchResult> goInfinite() {
+        return searchManager.searchInfinite(getGame(), sessionSearchListener);
     }
 
-    public void goDepth(int depth) {
-        searchManager.searchDepth(getGame(), depth, sessionSearchListener);
+    public Future<SearchResult> goDepth(int depth) {
+        return searchManager.searchDepth(getGame(), depth, sessionSearchListener);
     }
 
-    public void goTime(int timeOut) {
-        searchManager.searchTime(getGame(), timeOut, sessionSearchListener);
+    public Future<SearchResult> goTime(int timeOut) {
+        return searchManager.searchTime(getGame(), timeOut, sessionSearchListener);
     }
 
-    public void goFast(int wTime, int bTime, int wInc, int bInc) {
-        searchManager.searchFast(getGame(), wTime, bTime, wInc, bInc, sessionSearchListener);
+    public Future<SearchResult> goFast(int wTime, int bTime, int wInc, int bInc) {
+        return searchManager.searchFast(getGame(), wTime, bTime, wInc, bInc, sessionSearchListener);
     }
 
     public void stopSearching() {
         searchManager.stopSearching();
     }
 
-    Game getGame() {
+    private Game getGame() {
         return Game.from(fen, moves);
     }
 }

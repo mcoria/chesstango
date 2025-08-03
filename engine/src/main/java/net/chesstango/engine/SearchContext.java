@@ -23,4 +23,5 @@ class SearchContext {
 
     private SearchResultByDepthListener searchResultByDepthListener;
 
+    private int depth;
 }
