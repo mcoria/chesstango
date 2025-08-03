@@ -2,13 +2,9 @@ package net.chesstango.engine;
 
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.DefaultSearch;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -23,8 +19,6 @@ public class Tango implements AutoCloseable {
 
     private final SearchManager searchManager;
 
-    Session currentSession;
-
     private Tango(SearchManager searchManager) {
         this.searchManager = searchManager;
     }
@@ -32,28 +26,33 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder();
 
-        searchManagerBuilder.withSearchMove(new DefaultSearch());
+        searchManagerBuilder.withSearch(new DefaultSearch());
 
         searchManagerBuilder.withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
 
+        if (config.getPolyglotFile() != null) {
+            searchManagerBuilder.withPolyglotFile(config.getPolyglotFile());
+        }
+
+        if (config.getSyzygyDirectory() != null) {
+            searchManagerBuilder.withSyzygyDirectory(config.getPolyglotFile());
+        }
+
         SearchManager searchManager = searchManagerBuilder.build();
 
-        Tango tango = new Tango(searchManager);
+        searchManager.init();
 
-        searchManager.open();
-
-        return tango;
+        return new Tango(searchManager);
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         searchManager.close();
     }
 
     public Session newSession(FEN fen) {
         searchManager.reset();
-        currentSession = new Session(fen, searchManager);
-        return currentSession;
+        return new Session(fen, searchManager);
     }
 
     static Properties loadProperties() {

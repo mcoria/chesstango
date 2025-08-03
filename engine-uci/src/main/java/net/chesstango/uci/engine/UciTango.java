@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * The UciTango class operates as a context within the state design pattern, encapsulating the state-dependent behavior
@@ -125,19 +124,28 @@ public class UciTango implements UCIService {
         changeState(waitCmdUciState);
     }
 
-    void reloadTango() {
-        tango.close();
-
-        tango = tangoFactory.apply(config);
-    }
-
 
     @Override
     public void close() {
         changeState(null);
 
-        tango.close();
+        try {
+            tango.close();
+        } catch (Exception e) {
+            logger.error("Failed to close tango", e);
+        }
     }
+
+    void reloadTango() {
+        try {
+            tango.close();
+        } catch (Exception e) {
+            logger.error("Failed to close tango", e);
+        }
+
+        tango = tangoFactory.apply(config);
+    }
+
 
 
     // Package visibility is used here because this method is intended to be accessed only by other engine-state classes

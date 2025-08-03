@@ -4,10 +4,8 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResultByDepthListener;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,16 +14,17 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public final class SearchManager {
+class SearchManager implements AutoCloseable {
     private final SearchChain searchChain;
     private final TimeMgmt timeMgmt;
 
     @Setter
-    private int infiniteDepth = 1;
+    private int infiniteDepth;
 
     private volatile Future<?> currentSearchTask;
 
     private static final AtomicInteger executorCounter = new AtomicInteger(0);
+
     private static ExecutorService searchExecutor;
     private static ScheduledExecutorService timeOutExecutor;
 
@@ -60,15 +59,15 @@ public final class SearchManager {
         searchChain.stopSearching();
     }
 
-    public void open() {
-        searchChain.open();
+    public void init() {
         int currentValue = executorCounter.incrementAndGet();
         if (currentValue == 1) {
             initExecutors();
         }
     }
 
-    public void close() {
+    @Override
+    public void close() throws Exception {
         int currentValue = executorCounter.decrementAndGet();
         if (currentValue == 0) {
             stopExecutors();
@@ -101,11 +100,12 @@ public final class SearchManager {
                     stopTask = timeOutExecutor.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
-                searchChain.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-                searchChain.setSearchParameter(SearchParameter.SEARCH_PREDICATE, searchPredicate);
-                searchChain.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_LISTENER, (SearchResultByDepthListener) searchListener::searchInfo);
+                SearchContext context = new SearchContext()
+                        .setGame(game)
+                        .setSearchPredicate(searchPredicate)
+                        .setSearchResultByDepthListener(searchListener::searchInfo);
 
-                SearchResult searchResult = searchChain.search(game);
+                SearchResult searchResult = searchChain.search(context);
 
                 if (stopTask != null && !stopTask.isDone()) {
                     stopTask.cancel(false);
@@ -130,7 +130,6 @@ public final class SearchManager {
         searchExecutor.shutdownNow();
         timeOutExecutor.shutdownNow();
     }
-
 
     public static class SearchManagerThreadFactory implements ThreadFactory {
         private final AtomicInteger threadCounter = new AtomicInteger(1);

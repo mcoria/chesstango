@@ -1,14 +1,15 @@
 package net.chesstango.engine;
 
-import net.chesstango.board.Game;
-import net.chesstango.search.*;
+import net.chesstango.search.DefaultSearch;
+import net.chesstango.search.Search;
+import net.chesstango.search.SearchParameter;
+import net.chesstango.search.SearchResult;
 
 /**
  * @author Mauricio Coria
  */
-public final class SearchByAlgorithm implements SearchChain {
+class SearchByAlgorithm implements SearchChain {
     private final Search search;
-
 
     public SearchByAlgorithm() {
         this(new DefaultSearch());
@@ -24,17 +25,8 @@ public final class SearchByAlgorithm implements SearchChain {
     }
 
     @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-        search.setSearchParameter(parameter, value);
-    }
-
-    @Override
     public void stopSearching() {
         search.stopSearching();
-    }
-
-    @Override
-    public void open() {
     }
 
     @Override
@@ -42,7 +34,9 @@ public final class SearchByAlgorithm implements SearchChain {
     }
 
     @Override
-    public SearchResult search(Game game) {
-        return search.search(game);
+    public SearchResult search(SearchContext context) {
+        search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getSearchPredicate());
+        search.setSearchParameter(SearchParameter.SEARCH_PREDICATE, context.getSearchPredicate());
+        return search.search(context.getGame());
     }
 }

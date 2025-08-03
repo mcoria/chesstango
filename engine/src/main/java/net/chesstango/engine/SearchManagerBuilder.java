@@ -8,16 +8,23 @@ import net.chesstango.search.Search;
 class SearchManagerBuilder {
     private Search search;
 
-    private boolean searchByBookEnabled;
-    private SearchListener listenerClient;
     private int infiniteDepth;
 
-    public SearchManagerBuilder withSearchByBookEnabled(boolean searchByBookEnabled) {
-        this.searchByBookEnabled = searchByBookEnabled;
+    private String polyglotFile;
+
+    private String syzygyDirectory;
+
+
+    public SearchManagerBuilder withPolyglotFile(String polyglotFile) {
+        this.polyglotFile = polyglotFile;
         return this;
     }
 
-    public SearchManagerBuilder withSearchMove(Search search) {
+    public void withSyzygyDirectory(String SyzygyDirectory) {
+        this.syzygyDirectory = SyzygyDirectory;
+    }
+
+    public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
         return this;
     }
@@ -28,16 +35,25 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
-        SearchByAlgorithm searchManagerByAlgorithm = new SearchByAlgorithm(search);
-        //searchManagerByAlgorithm.setSearchResultByDepthListener(listenerClient::searchInfo);
+        SearchChain head = new SearchByAlgorithm(search);
 
-        SearchByOpenBook searchManagerByOpenBook = null;
-        if (searchByBookEnabled) {
-            searchManagerByOpenBook = new SearchByOpenBook();
-            searchManagerByOpenBook.setNext(searchManagerByAlgorithm);
+        if (polyglotFile != null) {
+            SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
+            if (searchManagerByOpenBook != null) {
+                searchManagerByOpenBook.setNext(head);
+                head = searchManagerByOpenBook;
+            }
         }
 
-        SearchManager searchManager = new SearchManager(searchManagerByAlgorithm);
+        if (syzygyDirectory != null) {
+            SearchByTablebase searchManagerByOpenBook = SearchByTablebase.open(syzygyDirectory);
+            if (searchManagerByOpenBook != null) {
+                searchManagerByOpenBook.setNext(head);
+                head = searchManagerByOpenBook;
+            }
+        }
+
+        SearchManager searchManager = new SearchManager(head);
         searchManager.setInfiniteDepth(infiniteDepth);
 
         return searchManager;

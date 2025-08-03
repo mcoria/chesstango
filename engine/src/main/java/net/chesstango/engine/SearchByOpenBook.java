@@ -7,65 +7,58 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
-import net.chesstango.search.*;
+import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static net.chesstango.search.SearchParameter.POLYGLOT_FILE;
 
 /**
  * @author Mauricio Coria
  */
-public final class SearchByOpenBook implements SearchChain {
+class SearchByOpenBook implements SearchChain {
     @Setter
     private SearchChain next;
 
-    private PolyglotBook book;
+    private final PolyglotBook book;
 
-    private Path bookPath;
+    private SearchByOpenBook(PolyglotBook book) {
+        this.book = book;
+    }
+
+    static SearchByOpenBook open(String polyglotFile) {
+        try {
+            Path polyglotFilePath = Path.of(polyglotFile);
+            if (Files.exists(polyglotFilePath)) {
+                return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
+            } else {
+                System.err.println("Book file '" + polyglotFile + "' not found");
+            }
+        } catch (IOException e) {
+            System.err.println("Error opening book '" + polyglotFile + "' not found");
+        }
+        return null;
+    }
 
     @Override
     public void reset() {
         next.reset();
     }
 
-    @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (POLYGLOT_FILE.equals(parameter) && value instanceof String path) {
-            Path bookPath = Path.of(path);
-            if (Files.exists(bookPath)) {
-                this.bookPath = bookPath;
-            } else {
-                System.err.println("Book file " + path + " not found");
-            }
-        }
-        next.setSearchParameter(parameter, value);
-    }
 
     @Override
     public void stopSearching() {
         next.stopSearching();
     }
 
-    @Override
-    public void open() {
-        if (bookPath != null) {
-            try {
-                book = PolyglotBook.open(bookPath);
-            } catch (IOException e) {
-                System.err.println("Error opening book " + bookPath.toString());
-                e.printStackTrace(System.err);
-            }
-        }
-
-        next.open();
-    }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         if (book != null) {
             try {
                 book.close();
@@ -78,12 +71,12 @@ public final class SearchByOpenBook implements SearchChain {
     }
 
     @Override
-    public SearchResult search(Game game) {
+    public SearchResult search(SearchContext context) {
         SearchResult searchResult = null;
         if (book != null) {
-            searchResult = searchByBook(game);
+            searchResult = searchByBook(context.getGame());
         }
-        return searchResult == null ? next.search(game) : searchResult;
+        return searchResult == null ? next.search(context) : searchResult;
     }
 
     private SearchResult searchByBook(Game game) {

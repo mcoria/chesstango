@@ -1,14 +1,15 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.Search;
+import net.chesstango.search.SearchResult;
 
 /**
  * @author Mauricio Coria
  */
-public sealed interface SearchChain extends Search
-        permits SearchByAlgorithm, SearchByOpenBook, SearchByTablebase {
+interface SearchChain extends AutoCloseable {
 
-    void open();
+    SearchResult search(SearchContext context);
 
-    void close();
+    void stopSearching();
+
+    void reset();
 }
