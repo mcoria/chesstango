@@ -1,4 +1,4 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;

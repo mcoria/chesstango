@@ -1,6 +1,5 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.Search;
 
 /**

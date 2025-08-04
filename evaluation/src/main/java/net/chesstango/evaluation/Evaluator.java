@@ -1,6 +1,7 @@
 package net.chesstango.evaluation;
 
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.evaluators.EvaluatorImp05;
 
 /**
  * @author Mauricio Coria
@@ -24,4 +25,7 @@ public interface Evaluator {
 
     void setGame(Game game);
 
+    static Evaluator getInstance() {
+        return new EvaluatorImp05();
+    }
 }

@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
@@ -86,7 +85,7 @@ public class AlphaBetaSymmetryTest {
     private Search buildSearch() {
         return new AlphaBetaBuilder()
                 //.withGameEvaluator(new EvaluatorByMaterial())
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(Evaluator.getInstance())
 
                 .withQuiescence()
 

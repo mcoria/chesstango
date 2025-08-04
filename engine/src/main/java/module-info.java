@@ -9,4 +9,5 @@ module net.chesstango.engine {
     requires net.chesstango.piazzolla;
 
     requires static lombok;
+    requires net.chesstango.evaluation;
 }

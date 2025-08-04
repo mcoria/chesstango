@@ -1,9 +1,8 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -22,7 +21,7 @@ public class AlphaBetaStopTest {
     @Test
     public void testStop() throws InterruptedException {
         Search search = new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(Evaluator.getInstance())
 
                 .withQuiescence()
 

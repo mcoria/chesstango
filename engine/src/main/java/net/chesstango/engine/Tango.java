@@ -1,7 +1,7 @@
 package net.chesstango.engine;
 
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.DefaultSearch;
+import net.chesstango.search.Search;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ public class Tango implements AutoCloseable {
     public static Tango open(Config config) {
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder();
 
-        searchManagerBuilder.withSearch(config.getSearch() == null ? new DefaultSearch() : config.getSearch());
+        searchManagerBuilder.withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch());
 
         searchManagerBuilder.withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
 
