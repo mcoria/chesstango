@@ -2,36 +2,32 @@ package net.chesstango.engine;
 
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
  */
 class SearchManager implements AutoCloseable {
+    private final int infiniteDepth;
     private final SearchChain searchChain;
     private final TimeMgmt timeMgmt;
-
-    @Setter
-    private int infiniteDepth;
+    private final ExecutorService searchExecutor;
+    private final ScheduledExecutorService timeOutExecutor;
 
     private volatile Future<SearchResult> currentSearchTask;
 
-    private static final AtomicInteger executorCounter = new AtomicInteger(0);
 
-    private static ExecutorService searchExecutor;
-    private static ScheduledExecutorService timeOutExecutor;
-
-    public SearchManager(SearchChain searchChain) {
+    public SearchManager(int infiniteDepth, SearchChain searchChain, TimeMgmt timeMgmt, ExecutorService searchExecutor, ScheduledExecutorService timeOutExecutor) {
+        this.infiniteDepth = infiniteDepth;
         this.searchChain = searchChain;
-
-        this.timeMgmt = new FivePercentage();
+        this.timeMgmt = timeMgmt;
+        this.searchExecutor = searchExecutor;
+        this.timeOutExecutor = timeOutExecutor;
     }
 
     public Future<SearchResult> searchInfinite(Game game, SearchListener searchListener) {
@@ -47,7 +43,7 @@ class SearchManager implements AutoCloseable {
     }
 
     public Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
-        final int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
+        int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
         return searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
@@ -59,21 +55,8 @@ class SearchManager implements AutoCloseable {
         searchChain.stopSearching();
     }
 
-    public void init() {
-        int currentValue = executorCounter.incrementAndGet();
-        if (currentValue == 1) {
-            initExecutors();
-        }
-    }
-
     @Override
     public void close() throws Exception {
-        int currentValue = executorCounter.decrementAndGet();
-        if (currentValue == 0) {
-            stopExecutors();
-        } else if (currentValue < 0) {
-            throw new RuntimeException("Closed too many times");
-        }
         searchChain.close();
     }
 
@@ -122,30 +105,5 @@ class SearchManager implements AutoCloseable {
         });
 
         return currentSearchTask;
-    }
-
-
-    private synchronized static void initExecutors() {
-        timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
-        searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
-    }
-
-
-    private synchronized static void stopExecutors() {
-        searchExecutor.shutdownNow();
-        timeOutExecutor.shutdownNow();
-    }
-
-    public static class SearchManagerThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadCounter = new AtomicInteger(1);
-        private String threadNamePrefix = "";
-
-        public SearchManagerThreadFactory(String threadNamePrefix) {
-            this.threadNamePrefix = threadNamePrefix;
-        }
-
-        public Thread newThread(Runnable runnable) {
-            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
-        }
     }
 }

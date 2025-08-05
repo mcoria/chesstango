@@ -6,6 +6,11 @@ import net.chesstango.search.Search;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Corial
@@ -19,34 +24,39 @@ public class Tango implements AutoCloseable {
 
     private final SearchManager searchManager;
 
+    private static final AtomicInteger executorCounter = new AtomicInteger(0);
+    private static final ExecutorService searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
+    private static final ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
+
     private Tango(SearchManager searchManager) {
         this.searchManager = searchManager;
     }
 
     public static Tango open(Config config) {
-        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder();
+        executorCounter.incrementAndGet();
 
-        searchManagerBuilder.withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch());
-
-        searchManagerBuilder.withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
-
-        if (config.getPolyglotFile() != null) {
-            searchManagerBuilder.withPolyglotFile(config.getPolyglotFile());
-        }
-
-        if (config.getSyzygyDirectory() != null) {
-            searchManagerBuilder.withSyzygyDirectory(config.getPolyglotFile());
-        }
+        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
+                .withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch())
+                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
+                .withPolyglotFile(config.getPolyglotFile())
+                .withSyzygyDirectory(config.getPolyglotFile())
+                .withExecutorService(searchExecutor)
+                .withScheduledExecutorService(timeOutExecutor);
 
         SearchManager searchManager = searchManagerBuilder.build();
-
-        searchManager.init();
 
         return new Tango(searchManager);
     }
 
     @Override
     public void close() throws Exception {
+        int currentValue = executorCounter.decrementAndGet();
+        if (currentValue == 0) {
+            stopExecutors();
+        } else if (currentValue < 0) {
+            throw new RuntimeException("Closed too many times");
+        }
+
         searchManager.close();
     }
 
@@ -55,7 +65,7 @@ public class Tango implements AutoCloseable {
         return new Session(fen, searchManager);
     }
 
-    static Properties loadProperties() {
+    private static Properties loadProperties() {
         Properties properties;
         try (InputStream inputStream = Tango.class.getResourceAsStream("/chesstango.properties")) {
             // create Properties class object
@@ -67,5 +77,23 @@ public class Tango implements AutoCloseable {
             throw new RuntimeException(e);
         }
         return properties;
+    }
+
+    private synchronized static void stopExecutors() {
+        searchExecutor.shutdownNow();
+        timeOutExecutor.shutdownNow();
+    }
+
+    private static class SearchManagerThreadFactory implements ThreadFactory {
+        private final AtomicInteger threadCounter = new AtomicInteger(1);
+        private String threadNamePrefix = "";
+
+        public SearchManagerThreadFactory(String threadNamePrefix) {
+            this.threadNamePrefix = threadNamePrefix;
+        }
+
+        public Thread newThread(Runnable runnable) {
+            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
+        }
     }
 }

@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Dummy implements Search {
 
     @Override
-    public SearchResult search(Game game) {
+    public SearchResult startSearch(Game game) {
         Iterable<? extends Move> moves = game.getPossibleMoves();
 
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<>();
@@ -38,7 +38,7 @@ public class Dummy implements Search {
     }
 
     @Override
-    public void stopSearching() {
+    public void stopSearch() {
     }
 
     @Override

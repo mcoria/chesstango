@@ -36,7 +36,7 @@ public class GameMockTest {
         NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, searchListenerMediator);
 
         searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
-        SearchResult searchResult = searchMove.search(game);
+        SearchResult searchResult = searchMove.startSearch(game);
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);

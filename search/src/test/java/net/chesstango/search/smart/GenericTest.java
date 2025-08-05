@@ -22,7 +22,7 @@ public abstract class GenericTest {
     public void testHorizonteEffectCapture() {
         Game game = Game.from(FEN.of("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1"));
 
-        Move bestMove = search.search(game).getBestMove();
+        Move bestMove = search.startSearch(game).getBestMove();
 
         Move rookCapturePawn = game.getMove(Square.d2, Square.d5);
 
@@ -33,7 +33,7 @@ public abstract class GenericTest {
     public void testHorizonteEffectPromotion() {
         Game game = Game.from(FEN.of("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1"));
 
-        Move bestMove = search.search(game).getBestMove();
+        Move bestMove = search.startSearch(game).getBestMove();
 
         Move queenCaptureKnight = game.getMove(Square.d4, Square.c3);
 
@@ -44,11 +44,11 @@ public abstract class GenericTest {
     public void testDeterministicMove() {
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
-        Move bestMove = search.search(game).getBestMove();
+        Move bestMove = search.startSearch(game).getBestMove();
 
         Game gameMirror = game.mirror();
 
-        Move bestMoveMirror = search.search(gameMirror).getBestMove();
+        Move bestMoveMirror = search.startSearch(gameMirror).getBestMove();
 
         assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
 

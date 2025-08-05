@@ -45,7 +45,7 @@ public class AlphaBetaStopTest {
 
         Future<SearchResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                return search.search(game);
+                return search.startSearch(game);
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);
                 throw e;
@@ -54,7 +54,7 @@ public class AlphaBetaStopTest {
 
         Thread.sleep(500);
 
-        search.stopSearching();
+        search.stopSearch();
 
         SearchResult searchResult = null;
         try {

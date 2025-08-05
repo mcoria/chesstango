@@ -75,10 +75,10 @@ public class TranspositionEntryTableTest {
         Game game02 = Game.from(FEN.of(fen));
 
         searchWithoutTT.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-        searchResultWithoutTT = searchWithoutTT.search(game01);
+        searchResultWithoutTT = searchWithoutTT.startSearch(game01);
 
         searchWithTT.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
-        searchResultWithTT = searchWithTT.search(game02);
+        searchResultWithTT = searchWithTT.startSearch(game02);
 
         //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString() , searchResult01.getEvaluation(), depth - 1, searchWithoutTT, searchWithTT);
 
@@ -94,9 +94,9 @@ public class TranspositionEntryTableTest {
             Game game01 = Game.from(FEN.of(fen));
             Game game02 = Game.from(FEN.of(fen));
 
-            SearchResult searchResult01 = searchMethod1.search(game01);
+            SearchResult searchResult01 = searchMethod1.startSearch(game01);
 
-            SearchResult searchResult02 = searchMethod2.search(game02);
+            SearchResult searchResult02 = searchMethod2.startSearch(game02);
 
             Assertions.assertEquals(evaluation, searchResult01.getBestEvaluation());
 

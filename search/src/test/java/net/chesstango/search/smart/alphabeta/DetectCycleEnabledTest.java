@@ -5,7 +5,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
@@ -89,7 +88,7 @@ public class DetectCycleEnabledTest {
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
         SearchResult searchResult = search
-                .search(game);
+                .startSearch(game);
 
         assertNotNull(searchResult);
         assertEquals(3, searchResult.getBestEvaluation());
@@ -130,7 +129,7 @@ public class DetectCycleEnabledTest {
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 17);
         SearchResult searchResult = search
-                .search(game);
+                .startSearch(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
@@ -174,7 +173,7 @@ public class DetectCycleEnabledTest {
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
         SearchResult searchResult = search
-                .search(game);
+                .startSearch(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
@@ -208,7 +207,7 @@ public class DetectCycleEnabledTest {
 
         search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
         SearchResult searchResult = search
-                .search(game);
+                .startSearch(game);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());

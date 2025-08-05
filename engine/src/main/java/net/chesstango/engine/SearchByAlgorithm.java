@@ -21,17 +21,24 @@ class SearchByAlgorithm implements SearchChain {
 
     @Override
     public void stopSearching() {
-        search.stopSearching();
+        search.stopSearch();
     }
 
     @Override
     public void close() {
     }
 
+
+    /**
+     * TODO: deberia subsribirse al listener para manipular el latcher que habilita el stop
+     *
+     * @param context
+     * @return
+     */
     @Override
     public SearchResult search(SearchContext context) {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getDepth());
         search.setSearchParameter(SearchParameter.SEARCH_PREDICATE, context.getSearchPredicate());
-        return search.search(context.getGame());
+        return search.startSearch(context.getGame());
     }
 }

@@ -5,31 +5,32 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
 /**
- * 
+ * Thread synchronization must be performed outside this class.
+ *
  * @author Mauricio Coria
  */
 public interface Search {
 
     /**
-     * Search up to depth
+     * Set search parameters. For instance:
+     * - SearchResultByDepthListener
      */
-    SearchResult search(Game game);
+    void setSearchParameter(SearchParameter parameter, Object value);
 
     /**
-     * Stop searching. This method may be called while another thread is searching
+     * Start searching. Do not call stopSearch() until at least a SearchResultByDepth = 1 has been completed.
      */
-    void stopSearching();
+    SearchResult startSearch(Game game);
+
+    /**
+     * Stop searching. This method may be called while another thread is searching.
+     */
+    void stopSearch();
 
     /**
      * Reset internal counters and buffers (for instance TT)
      */
     void reset();
-
-    /**
-     * Set search parameters
-     */
-    void setSearchParameter(SearchParameter parameter, Object value);
-
 
     /**
      * Creates a default Search instance using the default Evaluator.

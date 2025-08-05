@@ -41,7 +41,7 @@ public class IterativeDeepening implements Search {
     }
 
     @Override
-    public SearchResult search(final Game game) {
+    public SearchResult startSearch(final Game game) {
         keepProcessing = true;
         countDownLatch = new CountDownLatch(1);
 
@@ -87,9 +87,11 @@ public class IterativeDeepening implements Search {
 
     /**
      * No podemos detener si al menos no se buscó con DEPTH = 1
+     * TODO: LA LOGICA DEBERIA MOVERSE A SEARCH MANAGER
+     *
      */
     @Override
-    public void stopSearching() {
+    public void stopSearch() {
         keepProcessing = false;
         try {
             // Espera que al menos se complete un ciclo
