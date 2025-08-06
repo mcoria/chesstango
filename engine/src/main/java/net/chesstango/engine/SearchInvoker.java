@@ -10,8 +10,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
+@FunctionalInterface
 interface SearchInvoker {
-    Future<SearchResult> searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);
-
-    void stopSearchingImp();
+    Future<SearchResult> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);
 }

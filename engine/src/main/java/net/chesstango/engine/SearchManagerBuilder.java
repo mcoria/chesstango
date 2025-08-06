@@ -81,15 +81,18 @@ class SearchManagerBuilder {
         SearchInvoker searchInvoker = null;
 
         if (asyncInvoker) {
-            if (searchExecutor == null || timeOutExecutor == null) {
-                throw new IllegalArgumentException("Both searchExecutor and timeOutExecutor must be provided when asyncInvoker is true");
+            if (searchExecutor == null) {
+                throw new IllegalArgumentException("SearchExecutor must be provided when asyncInvoker is true");
             }
-            searchInvoker = new SearchInvokerAsync(searchChainHead, searchExecutor, timeOutExecutor);
+            searchInvoker = new SearchInvokerAsync(searchChainHead, searchExecutor);
         } else {
             searchInvoker = new SearchInvokerSync(searchChainHead);
         }
 
+        if (timeOutExecutor == null) {
+            throw new IllegalArgumentException("ScheduledExecutorService must be provided");
+        }
 
-        return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker);
+        return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker, timeOutExecutor);
     }
 }

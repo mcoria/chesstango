@@ -18,8 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,59 +39,71 @@ public class SearchManagerTest {
     private TimeMgmt timeMgmt;
 
     @Mock
+    private SearchInvoker searchInvoker;
+
+    @Mock
     private SearchListener listener;
 
     @Captor
-    private ArgumentCaptor<SearchContext> searchContextCaptor;
+    private ArgumentCaptor<Integer> depthCaptor;
+
+    private ScheduledExecutorService timeOutExecutor;
+
+    private SearchResultByDepth expectedResultByDepth;
 
     private SearchResult expectedResult;
 
+    private Game game;
+
+
     @BeforeEach
     public void setup() {
-        expectedResult = new SearchResult();
-        searchManager = new SearchManager(10, searchChain, timeMgmt, new SearchInvokerSync(searchChain));
+        timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
 
-        when(searchChain.search(any(SearchContext.class))).thenReturn(expectedResult);
+        expectedResultByDepth = new SearchResultByDepth(1);
+        expectedResult = new SearchResult();
+
+        game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+
+        when(searchInvoker.searchImp(any(Game.class), any(Integer.class), any(Predicate.class), any(SearchListener.class)))
+                .thenAnswer(invocation -> {
+                    SearchListener listener = invocation.getArgument(3);
+                    listener.searchStarted();
+                    Thread.sleep(1000);
+                    listener.searchInfo(expectedResultByDepth);
+                    Thread.sleep(1000);
+                    listener.searchFinished(expectedResult);
+                    return CompletableFuture.completedFuture(expectedResult);
+                });
+
+        searchManager = new SearchManager(10, searchChain, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @AfterEach
     public void tearDown() throws Exception {
         searchManager.close();
+        timeOutExecutor.close();
     }
 
     @Test
     public void testStartSearchInfinite() {
-        Future<SearchResult> searchResultFuture = searchManager.searchInfinite(Game.from(FEN.of(FENParser.INITIAL_FEN)), listener);
+        Future<SearchResult> searchResultFuture = searchManager.searchInfinite(game, listener);
 
+        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+
+        assertSearchListener();
         assertResult(searchResultFuture);
-        assertStartSearchListener();
-
-        verify(searchChain).search(searchContextCaptor.capture());
-
-        SearchContext searchContext = searchContextCaptor.getValue();
-        assertEquals(FEN.of(FENParser.INITIAL_FEN), searchContext.getGame().getCurrentFEN());
-        assertEquals(10, searchContext.getDepth());
-
-        Predicate<SearchResultByDepth> predicate = searchContext.getSearchPredicate();
-        assertTrue(predicate.test(null));
     }
 
 
     @Test
     public void testStartSearchDepth() {
-        Future<SearchResult> searchResultFuture = searchManager.searchDepth(Game.from(FEN.of(FENParser.INITIAL_FEN)), 3, listener);
+        Future<SearchResult> searchResultFuture = searchManager.searchDepth(game, 3, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(3), any(Predicate.class), any(SearchListener.class));
 
         assertResult(searchResultFuture);
-        assertStartSearchListener();
-
-        verify(searchChain).search(searchContextCaptor.capture());
-
-        SearchContext searchContext = searchContextCaptor.getValue();
-        assertEquals(FEN.of(FENParser.INITIAL_FEN), searchContext.getGame().getCurrentFEN());
-        assertEquals(3, searchContext.getDepth());
-
-        Predicate<SearchResultByDepth> predicate = searchContext.getSearchPredicate();
-        assertTrue(predicate.test(null));
+        assertSearchListener();
     }
 
     private void assertResult(Future<SearchResult> searchResultFuture) {
@@ -102,8 +115,9 @@ public class SearchManagerTest {
         }
     }
 
-    private void assertStartSearchListener() {
+    private void assertSearchListener() {
         verify(listener).searchStarted();
+        verify(listener).searchInfo(expectedResultByDepth);
         verify(listener).searchFinished(expectedResult);
     }
 }

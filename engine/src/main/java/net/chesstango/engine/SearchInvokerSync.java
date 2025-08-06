@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -19,7 +20,7 @@ class SearchInvokerSync implements SearchInvoker {
     }
 
     @Override
-    public Future<SearchResult> searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResult> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         try {
             searchListener.searchStarted();
 
@@ -33,53 +34,10 @@ class SearchInvokerSync implements SearchInvoker {
 
             searchListener.searchFinished(searchResult);
 
-            return wrapResult(searchResult);
+            return CompletableFuture.completedFuture(searchResult);
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void stopSearchingImp() {
-        searchChain.stopSearching();
-    }
-
-    
-    private Future<SearchResult> wrapResult(SearchResult searchResult) {
-        return new ImmediateFuture(searchResult);
-    }
-
-    private static class ImmediateFuture implements Future<SearchResult> {
-        private final SearchResult result;
-
-        public ImmediateFuture(SearchResult result) {
-            this.result = result;
-        }
-
-        @Override
-        public boolean cancel(boolean mayInterruptIfRunning) {
-            return false;
-        }
-
-        @Override
-        public boolean isCancelled() {
-            return false;
-        }
-
-        @Override
-        public boolean isDone() {
-            return true;
-        }
-
-        @Override
-        public SearchResult get() {
-            return result;
-        }
-
-        @Override
-        public SearchResult get(long timeout, TimeUnit unit) {
-            return result;
         }
     }
 }
