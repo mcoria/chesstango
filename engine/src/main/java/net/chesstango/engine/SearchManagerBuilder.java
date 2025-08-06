@@ -71,10 +71,10 @@ class SearchManagerBuilder {
         }
 
         if (syzygyDirectory != null) {
-            SearchByTablebase searchManagerByOpenBook = SearchByTablebase.open(syzygyDirectory);
-            if (searchManagerByOpenBook != null) {
-                searchManagerByOpenBook.setNext(searchChainHead);
-                searchChainHead = searchManagerByOpenBook;
+            SearchByTablebase searchByTablebase = SearchByTablebase.open(syzygyDirectory);
+            if (searchByTablebase != null) {
+                searchByTablebase.setNext(searchChainHead);
+                searchChainHead = searchByTablebase;
             }
         }
 
