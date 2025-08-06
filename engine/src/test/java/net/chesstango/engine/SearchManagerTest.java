@@ -21,8 +21,7 @@ import java.util.function.Predicate;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Mauricio Coria
@@ -90,6 +89,7 @@ public class SearchManagerTest {
         Future<SearchResult> searchResultFuture = searchManager.searchInfinite(game, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchChain, never()).stopSearching();
 
         assertSearchListener();
         assertResult(searchResultFuture);
@@ -101,6 +101,29 @@ public class SearchManagerTest {
         Future<SearchResult> searchResultFuture = searchManager.searchDepth(game, 3, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(3), any(Predicate.class), any(SearchListener.class));
+        verify(searchChain, never()).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void testStartSearchTime() {
+        Future<SearchResult> searchResultFuture = searchManager.searchTime(game, 10000, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchChain, never()).stopSearching();
+
+        assertResult(searchResultFuture);
+        assertSearchListener();
+    }
+
+    @Test
+    public void testStartSearchTime_WithTimeOut() {
+        Future<SearchResult> searchResultFuture = searchManager.searchTime(game, 100, listener);
+
+        verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
+        verify(searchChain).stopSearching();
 
         assertResult(searchResultFuture);
         assertSearchListener();
