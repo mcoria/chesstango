@@ -1,10 +1,10 @@
 package net.chesstango.engine;
 
-import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.SearchResultByDepthListener;
 
 import java.util.concurrent.*;
 import java.util.function.Predicate;
@@ -19,6 +19,7 @@ class SearchManager implements AutoCloseable {
     private final ExecutorService searchExecutor;
     private final ScheduledExecutorService timeOutExecutor;
 
+    private volatile CountDownLatch countDownLatch;
     private volatile Future<SearchResult> currentSearchTask;
 
 
@@ -47,16 +48,24 @@ class SearchManager implements AutoCloseable {
         return searchImp(game, infiniteDepth, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
-    public void reset() {
+    public synchronized void stopSearching() {
+        try {
+            // Espera que al menos se complete un ciclo
+            // Aca se puede dar la interrupcion
+            countDownLatch.await();
+
+            searchChain.stopSearching();
+        } catch (InterruptedException e) {
+            // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
+        }
+    }
+
+    public synchronized void reset() {
         searchChain.reset();
     }
 
-    public void stopSearching() {
-        searchChain.stopSearching();
-    }
-
     @Override
-    public void close() throws Exception {
+    public synchronized void close() throws Exception {
         searchChain.close();
     }
 
@@ -74,6 +83,8 @@ class SearchManager implements AutoCloseable {
             }
         }
 
+        countDownLatch = new CountDownLatch(1);
+
         currentSearchTask = searchExecutor.submit(() -> {
             try {
                 searchListener.searchStarted();
@@ -83,11 +94,16 @@ class SearchManager implements AutoCloseable {
                     stopTask = timeOutExecutor.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
                 }
 
+                SearchResultByDepthListener searchResultByDepthListener = searchInfo -> {
+                    countDownLatch.countDown();
+                    searchListener.searchInfo(searchInfo);
+                };
+
                 SearchContext context = new SearchContext()
                         .setGame(game)
                         .setDepth(depth)
                         .setSearchPredicate(searchPredicate)
-                        .setSearchResultByDepthListener(searchListener::searchInfo);
+                        .setSearchResultByDepthListener(searchResultByDepthListener);
 
                 SearchResult searchResult = searchChain.search(context);
 

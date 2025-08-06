@@ -19,8 +19,6 @@ import static net.chesstango.search.SearchParameter.*;
 public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
 
-    private volatile CountDownLatch countDownLatch;
-
     @Getter
     private final SearchAlgorithm searchAlgorithm;
 
@@ -43,7 +41,6 @@ public class IterativeDeepening implements Search {
     @Override
     public SearchResult startSearch(final Game game) {
         keepProcessing = true;
-        countDownLatch = new CountDownLatch(1);
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
         searchByCycleContext.setSearchParameters(searchParameters);
@@ -70,7 +67,6 @@ public class IterativeDeepening implements Search {
                 searchResultByDepthListener.accept(searchResultByDepth);
             }
 
-            countDownLatch.countDown();
             currentSearchDepth++;
 
         } while (keepProcessing &&
@@ -93,15 +89,7 @@ public class IterativeDeepening implements Search {
     @Override
     public void stopSearch() {
         keepProcessing = false;
-        try {
-            // Espera que al menos se complete un ciclo
-            // Aca se puede dar la interrupcion
-            countDownLatch.await();
-
-            searchListenerMediator.triggerStopSearching();
-        } catch (InterruptedException e) {
-            // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
-        }
+        searchListenerMediator.triggerStopSearching();
     }
 
     @Override
