@@ -22,6 +22,8 @@ class SearchManagerBuilder {
 
     private ScheduledExecutorService timeOutExecutor;
 
+    private boolean asyncInvoker;
+
     public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
         return this;
@@ -52,25 +54,42 @@ class SearchManagerBuilder {
         return this;
     }
 
+    public SearchManagerBuilder withAsyncInvoker() {
+        this.asyncInvoker = true;
+        return this;
+    }
+
     public SearchManager build() {
-        SearchChain head = new SearchByAlgorithm(search);
+        SearchChain searchChainHead = new SearchByAlgorithm(search);
 
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
             if (searchManagerByOpenBook != null) {
-                searchManagerByOpenBook.setNext(head);
-                head = searchManagerByOpenBook;
+                searchManagerByOpenBook.setNext(searchChainHead);
+                searchChainHead = searchManagerByOpenBook;
             }
         }
 
         if (syzygyDirectory != null) {
             SearchByTablebase searchManagerByOpenBook = SearchByTablebase.open(syzygyDirectory);
             if (searchManagerByOpenBook != null) {
-                searchManagerByOpenBook.setNext(head);
-                head = searchManagerByOpenBook;
+                searchManagerByOpenBook.setNext(searchChainHead);
+                searchChainHead = searchManagerByOpenBook;
             }
         }
 
-        return new SearchManager(infiniteDepth, head, new FivePercentage(), searchExecutor, timeOutExecutor);
+        SearchInvoker searchInvoker = null;
+
+        if (asyncInvoker) {
+            if (searchExecutor == null || timeOutExecutor == null) {
+                throw new IllegalArgumentException("Both searchExecutor and timeOutExecutor must be provided when asyncInvoker is true");
+            }
+            searchInvoker = new SearchInvokerAsync(searchChainHead, searchExecutor, timeOutExecutor);
+        } else {
+            searchInvoker = new SearchInvokerSync(searchChainHead);
+        }
+
+
+        return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker);
     }
 }

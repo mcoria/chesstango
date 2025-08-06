@@ -10,6 +10,8 @@ import net.chesstango.search.Search;
 @Getter
 @Setter
 public class Config {
+    private boolean syncSearch;
+
     private Search search;
 
     private String polyglotFile;

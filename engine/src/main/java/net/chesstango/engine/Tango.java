@@ -39,9 +39,19 @@ public class Tango implements AutoCloseable {
                 .withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch())
                 .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
                 .withPolyglotFile(config.getPolyglotFile())
-                .withSyzygyDirectory(config.getPolyglotFile())
-                .withExecutorService(searchExecutor)
-                .withScheduledExecutorService(timeOutExecutor);
+                .withSyzygyDirectory(config.getPolyglotFile());
+
+
+        // Configure search execution mode:
+        // - Async mode: Uses separate thread pools for search and timeout management
+        // - Sync mode: Executes search in the calling thread
+        // - Default: Async mode
+        if (!config.isSyncSearch()) {
+            searchManagerBuilder
+                    .withAsyncInvoker()
+                    .withExecutorService(searchExecutor)
+                    .withScheduledExecutorService(timeOutExecutor);
+        }
 
         SearchManager searchManager = searchManagerBuilder.build();
 

@@ -43,19 +43,12 @@ public class SearchManagerTest {
     @Captor
     private ArgumentCaptor<SearchContext> searchContextCaptor;
 
-    private ExecutorService searchExecutor;
-
-    private ScheduledExecutorService timeOutExecutor;
-
     private SearchResult expectedResult;
 
     @BeforeEach
     public void setup() {
-        searchExecutor = Executors.newSingleThreadExecutor();
-        timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
-
         expectedResult = new SearchResult();
-        searchManager = new SearchManager(10, searchChain, timeMgmt, searchExecutor, timeOutExecutor);
+        searchManager = new SearchManager(10, searchChain, timeMgmt, new SearchInvokerSync(searchChain));
 
         when(searchChain.search(any(SearchContext.class))).thenReturn(expectedResult);
     }
@@ -63,8 +56,6 @@ public class SearchManagerTest {
     @AfterEach
     public void tearDown() throws Exception {
         searchManager.close();
-        searchExecutor.close();
-        timeOutExecutor.close();
     }
 
     @Test
