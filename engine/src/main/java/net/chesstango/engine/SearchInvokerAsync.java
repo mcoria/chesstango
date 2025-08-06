@@ -1,7 +1,6 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResultByDepthListener;
@@ -12,7 +11,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-class SearchInvokerAsync implements SearchInvoker{
+class SearchInvokerAsync implements SearchInvoker {
     private final ExecutorService searchExecutor;
     private final ScheduledExecutorService timeOutExecutor;
     private final SearchChain searchChain;
@@ -29,12 +28,7 @@ class SearchInvokerAsync implements SearchInvoker{
     @Override
     public Future<SearchResult> searchImp(Game game, int depth, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         if (currentSearchTask != null && !currentSearchTask.isDone()) {
-            try {
-                currentSearchTask.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace(System.err);
-                throw new RuntimeException(e);
-            }
+            throw new IllegalStateException("Another search is running");
         }
 
         countDownLatch = new CountDownLatch(1);
