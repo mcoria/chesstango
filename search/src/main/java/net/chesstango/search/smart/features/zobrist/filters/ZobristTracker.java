@@ -48,13 +48,13 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     protected void findCollision(Map<Long, String> theMap) {
-        FENStringBuilder encoder = new FENStringBuilder();
+        FENStringBuilder builder = new FENStringBuilder();
 
         PositionReader chessPosition = game.getPosition();
 
-        chessPosition.constructChessPositionRepresentation(encoder);
+        chessPosition.export(builder);
 
-        String fenWithoutClocks = encoder.getPositionRepresentation();
+        String fenWithoutClocks = builder.getPositionRepresentation();
 
         long hash = chessPosition.getZobristHash();
 

@@ -31,7 +31,7 @@ public class EvaluatorByFEN implements Evaluator {
     protected int evaluateNonFinalStatus() {
         FENBuilder fenBuilder = new FENBuilder();
 
-        game.getPosition().constructChessPositionRepresentation(fenBuilder);
+        game.getPosition().export(fenBuilder);
 
         String fen = fenBuilder.getPositionRepresentation().toString();
 

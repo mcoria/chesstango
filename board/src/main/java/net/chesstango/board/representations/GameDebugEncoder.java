@@ -45,7 +45,7 @@ public class GameDebugEncoder {
 
             FENBuilder fenBuilder = new FENBuilder();
             PositionReader theGamePositionReader = theGame.getPosition();
-            theGamePositionReader.constructChessPositionRepresentation(fenBuilder);
+            theGamePositionReader.export(fenBuilder);
 
             sb.append(" // ")
                     .append(fenBuilder.getPositionRepresentation())

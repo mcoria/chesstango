@@ -10,7 +10,7 @@ public class ZobristHashDebug extends ZobristHashImp {
 
     public void validar(PositionReader position) {
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        position.constructChessPositionRepresentation(polyglotKeyBuilder);
+        position.export(polyglotKeyBuilder);
         Long polyglotKey = polyglotKeyBuilder.getPositionRepresentation();
         if (!polyglotKey.equals(position.getZobristHash())) {
             throw new RuntimeException("Zobrist hash does not match");

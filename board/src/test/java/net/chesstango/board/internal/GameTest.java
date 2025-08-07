@@ -919,7 +919,7 @@ public class GameTest {
 
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -934,7 +934,7 @@ public class GameTest {
 
         game.executeMove(Square.g1, Square.f3);
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -951,7 +951,7 @@ public class GameTest {
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -979,7 +979,7 @@ public class GameTest {
 
     private long getPolyglotKey(Game game){
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        game.getPosition().constructChessPositionRepresentation(polyglotKeyBuilder);
+        game.getPosition().export(polyglotKeyBuilder);
         return polyglotKeyBuilder.getPositionRepresentation();
     }
 

@@ -26,8 +26,7 @@ public class PositionDebug extends PositionImp {
     @Override
     public String toString() {
         ASCIIBuilder asciiBuilder = new ASCIIBuilder();
-        constructChessPositionRepresentation(asciiBuilder);
-
+        export(asciiBuilder);
         return super.toString() + "\n" + asciiBuilder.getPositionRepresentation();
     }
 
