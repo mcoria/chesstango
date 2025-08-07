@@ -3,16 +3,15 @@ package net.chesstango.board.internal;
 import net.chesstango.board.*;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
+import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
-import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.fen.FENExporter;
 import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -972,9 +971,7 @@ public class GameTest {
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENExporter exporter = new FENExporter(builder);
-
-        exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 
         return builder.getPositionRepresentation();
     }

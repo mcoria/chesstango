@@ -2,6 +2,7 @@ package net.chesstango.lichess;
 
 import chariot.Client;
 import chariot.ClientAuth;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
 import org.slf4j.Logger;
@@ -14,9 +15,8 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessBotMain {
-
-    private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
 
     private static String BOT_TOKEN;
 
@@ -37,7 +37,7 @@ public class LichessBotMain {
         LichessClient lichessClient = new LichessClient(clientAuth);
 
         if (clientAuth.scopes().stream().anyMatch(Client.Scope.bot_play::equals)) {
-            logger.info("Start playing as a bot");
+            log.info("Start playing as a bot");
 
             Config config = new Config();
 

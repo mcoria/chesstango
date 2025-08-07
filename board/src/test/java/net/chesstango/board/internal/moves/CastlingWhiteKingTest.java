@@ -1,10 +1,12 @@
 package net.chesstango.board.internal.moves;
 
-import net.chesstango.board.*;
+import net.chesstango.board.Color;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.internal.GameImp;
-import net.chesstango.board.internal.position.*;
-import net.chesstango.board.internal.position.PositionStateDebug;
 import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.internal.position.*;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
@@ -18,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 

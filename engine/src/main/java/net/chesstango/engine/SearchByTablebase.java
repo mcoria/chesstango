@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.SearchResult;
@@ -12,6 +13,7 @@ import java.nio.file.Path;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchByTablebase implements SearchChain {
 
     @Setter
@@ -27,9 +29,9 @@ class SearchByTablebase implements SearchChain {
         if (syzygyDirectory != null) {
             Path syzygyDirectoryPath = Path.of(syzygyDirectory);
             if (Files.isDirectory(syzygyDirectoryPath)) {
-                return new SearchByTablebase(new Syzygy());
+                return new SearchByTablebase(Syzygy.open(syzygyDirectoryPath));
             } else {
-                System.err.println("Syzygy directory '" + syzygyDirectory + "' not found");
+                log.error("Syzygy directory '{}' not found", syzygyDirectory);
             }
         }
         return null;
@@ -69,7 +71,11 @@ class SearchByTablebase implements SearchChain {
         return searchResult == null ? next.search(context) : searchResult;
     }
 
-    private SearchResult searchByBook(Game game) {
+    SearchResult searchByBook(Game game) {
+        final int tbLargest = syzygy.tb_largest();
+        if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions()) ) {
+            //game.
+        }
         return null;
     }
 }

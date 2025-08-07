@@ -1,6 +1,7 @@
 package net.chesstango.lichess;
 
 import chariot.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +13,8 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessChallengeHandler {
-    private static final Logger logger = LoggerFactory.getLogger(LichessChallengeHandler.class);
-
     private final LichessClient client;
 
     private final Supplier<Boolean> fnIsBusy;
@@ -29,7 +29,7 @@ public class LichessChallengeHandler {
 
 
     public void challengeCreated(Event.ChallengeCreatedEvent event) {
-        logger.info("ChallengeCreatedEvent: {}", event.id());
+        log.info("ChallengeCreatedEvent: {}", event.id());
         if (acceptChallenges) {
             if (isChallengeAcceptable(event)) {
                 acceptChallenge(event);
@@ -37,17 +37,17 @@ public class LichessChallengeHandler {
                 declineChallenge(event);
             }
         } else {
-            logger.info("Not accepting more challenges at this time {}", event.id());
+            log.info("Not accepting more challenges at this time {}", event.id());
             declineChallenge(event);
         }
     }
 
     public void challengeCanceled(Event.ChallengeCanceledEvent event) {
-        logger.info("ChallengeCanceledEvent: {}", event.id());
+        log.info("ChallengeCanceledEvent: {}", event.id());
     }
 
     public void challengeDeclined(Event.ChallengeDeclinedEvent event) {
-        logger.info("ChallengeDeclinedEvent: {}", event.id());
+        log.info("ChallengeDeclinedEvent: {}", event.id());
     }
 
     public void stopAcceptingChallenges() {
@@ -55,12 +55,12 @@ public class LichessChallengeHandler {
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Accepting challenge {}", challengeEvent.id());
+        log.info("Accepting challenge {}", challengeEvent.id());
         client.challengeAccept(challengeEvent.id());
     }
 
     private void declineChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Declining challenge {}", challengeEvent.id());
+        log.info("Declining challenge {}", challengeEvent.id());
         client.challengeDecline(challengeEvent.id());
     }
 

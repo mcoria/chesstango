@@ -3,9 +3,9 @@ package net.chesstango.board.moves.containers;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.internal.moves.MoveImp;
+import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.moves.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

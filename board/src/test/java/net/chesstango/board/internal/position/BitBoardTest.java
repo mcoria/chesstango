@@ -6,7 +6,6 @@ import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.iterators.bysquare.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BitBoardTest {
 
 	private BitBoardImp colorBoard;
-
 	
 	@Test
 	public void test01() {
@@ -42,9 +40,7 @@ public class BitBoardTest {
 	private SquareBoard getTablero(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
 
-		FENExporter exporter = new FENExporter(builder);
-
-		exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 
 		return builder.getPositionRepresentation();
 	}	

@@ -3,9 +3,9 @@ package net.chesstango.board;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzerTest;
 import net.chesstango.board.analyzer.PositionAnalyzerTest;
 import net.chesstango.board.internal.GameTest;
+import net.chesstango.board.internal.moves.generators.legal.squarecapturers.FullScanSquareCapturedTest;
 import net.chesstango.board.internal.position.*;
 import net.chesstango.board.moves.containers.MoveContainerTest;
-import net.chesstango.board.internal.moves.generators.legal.squarecapturers.FullScanSquareCapturedTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

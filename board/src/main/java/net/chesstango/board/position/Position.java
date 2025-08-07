@@ -2,7 +2,6 @@ package net.chesstango.board.position;
 
 import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 
 /**
  * Interface representing a chess position.
@@ -64,9 +63,7 @@ public interface Position extends PositionReader, PositionWriter {
     static Position from(FEN fen) {
         ChessPositionBuilder builder = new ChessPositionBuilder();
 
-        FENExporter parser = new FENExporter(builder);
-
-        parser.export(fen);
+        fen.export(builder);
 
         return builder.getPositionRepresentation();
     }

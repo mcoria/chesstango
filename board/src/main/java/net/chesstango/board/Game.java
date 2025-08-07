@@ -12,7 +12,6 @@ import net.chesstango.board.representations.pgn.GameToPGN;
 import net.chesstango.board.representations.pgn.PGNToGame;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 import net.chesstango.gardel.pgn.PGN;
 
 import java.util.List;
@@ -185,9 +184,7 @@ public interface Game {
     static Game from(FEN fen) {
         GameBuilder builder = new GameBuilder();
 
-        FENExporter fenExporter = new FENExporter(builder);
-
-        fenExporter.export(fen);
+        fen.export(builder);
 
         return builder.getPositionRepresentation();
     }

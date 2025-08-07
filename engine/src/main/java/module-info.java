@@ -8,5 +8,7 @@ module net.chesstango.engine {
     requires net.chesstango.gardel;
     requires net.chesstango.piazzolla;
 
+    requires org.slf4j;
+
     requires static lombok;
 }

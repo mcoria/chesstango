@@ -6,7 +6,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class BottomUpSquareIteratorTest {
 
-	private FENExporter exporter = null;
-
 	private SquareBoardBuilder builder = null;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		builder = new SquareBoardBuilder();
-		exporter = new FENExporter(builder);
 	}
 
 	@Test
@@ -54,7 +50,7 @@ public class BottomUpSquareIteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		exporter.export(FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1"));
+		FEN.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w KQkq - 0 1").export(builder);
 
 		SquareBoard tablero =  builder.getPositionRepresentation();
 

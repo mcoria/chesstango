@@ -1,6 +1,7 @@
 package net.chesstango.lichess;
 
 import chariot.model.*;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
@@ -24,8 +25,8 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessGame implements Runnable, SearchListener {
-    private static final Logger logger = LoggerFactory.getLogger(LichessGame.class);
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final LichessClient client;
@@ -65,10 +66,10 @@ public class LichessGame implements Runnable, SearchListener {
             ZonedDateTime now = ZonedDateTime.now();
             long diff = now.toEpochSecond() - createdAt.toEpochSecond();
             if (diff > 60 && moveCounter < 2) {
-                logger.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
+                log.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
                 client.gameAbort(gameId);
             } else {
-                logger.info("[{}] Game watchdog: game is still running", gameId);
+                log.info("[{}] Game watchdog: game is still running", gameId);
             }
         }
         MDC.remove("gameId");
@@ -78,7 +79,7 @@ public class LichessGame implements Runnable, SearchListener {
     public void run() {
         MDC.put("gameId", gameId);
 
-        logger.info("[{}] Entering Game event loop...", gameId);
+        log.info("[{}] Entering Game event loop...", gameId);
         try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
             gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
@@ -86,12 +87,12 @@ public class LichessGame implements Runnable, SearchListener {
                     case gameState -> gameState((GameStateEvent.State) gameEvent);
                     case chatLine -> receiveChatMessage((GameStateEvent.Chat) gameEvent);
                     case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
-                    default -> logger.warn("[{}] Game event unknown failed: {}", gameId, gameEvent);
+                    default -> log.warn("[{}] Game event unknown failed: {}", gameId, gameEvent);
                 }
             });
-            logger.info("[{}] Game event loop finished", gameId);
+            log.info("[{}] Game event loop finished", gameId);
         } catch (RuntimeException e) {
-            logger.error("[{}] Game event loop failed", gameId, e);
+            log.error("[{}] Game event loop failed", gameId, e);
             throw e;
         }
 
@@ -106,19 +107,19 @@ public class LichessGame implements Runnable, SearchListener {
     @Override
     public void searchInfo(SearchResultByDepth searchResultByDepth) {
         String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
-        logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
+        log.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
     }
 
     @Override
     public void searchFinished(SearchResult searchResult) {
         String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-        logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
+        log.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
         client.gameMove(gameId, moveUci);
         MDC.remove("gameId");
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
-        logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
+        log.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
         this.gameFullEvent = gameFullEvent;
 
@@ -142,7 +143,7 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     private void gameState(GameStateEvent.State state) {
-        logger.info("[{}] gameState: {}", gameId, state);
+        log.info("[{}] gameState: {}", gameId, state);
 
         Enums.Status status = state.status();
 
@@ -150,12 +151,12 @@ public class LichessGame implements Runnable, SearchListener {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
             case aborted -> sendChatMessage("goodbye!!!");
             case started, created -> play(state);
-            default -> logger.warn("[{}] No action handler for status {}", gameId, status);
+            default -> log.warn("[{}] No action handler for status {}", gameId, status);
         }
     }
 
     private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
-        logger.warn("[{}] opponentGone {}", gameId, gameEvent);
+        log.warn("[{}] opponentGone {}", gameId, gameEvent);
     }
 
     private void play(GameStateEvent.State state) {
@@ -180,11 +181,11 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {
-        logger.info("[{}] Chat: [{}] << {}", gameId, chat.username(), chat.text());
+        log.info("[{}] Chat: [{}] << {}", gameId, chat.username(), chat.text());
     }
 
     private void sendChatMessage(String message) {
-        logger.info("[{}] Chat: [{}] >> {}", gameId, "chesstango", message);
+        log.info("[{}] Chat: [{}] >> {}", gameId, "chesstango", message);
         client.gameChat(gameId, message);
     }
 

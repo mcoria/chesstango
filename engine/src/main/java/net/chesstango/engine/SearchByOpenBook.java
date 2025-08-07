@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchByOpenBook implements SearchChain {
     @Setter
     private SearchChain next;
@@ -37,10 +39,10 @@ class SearchByOpenBook implements SearchChain {
             if (Files.exists(polyglotFilePath)) {
                 return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
             } else {
-                System.err.println("Book file '" + polyglotFile + "' not found");
+                log.error("Book file '{}' not found", polyglotFile);
             }
         } catch (IOException e) {
-            System.err.println("Error opening book '" + polyglotFile + "' not found");
+            log.error("Error opening book file", e);
         }
         return null;
     }

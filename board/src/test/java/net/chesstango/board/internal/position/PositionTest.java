@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -216,9 +215,7 @@ public class PositionTest {
     private void setupWithBoard(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENExporter exporter = new FENExporter(builder);
-
-        exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 
         game = builder.getPositionRepresentation();
     }
