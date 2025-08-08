@@ -12,7 +12,7 @@ import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
+import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

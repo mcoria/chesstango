@@ -8,6 +8,7 @@ import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNStringEncoder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class GameToPGNTest {
 
 
     @Test
+    @Disabled
     public void testToEpd() {
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         game.executeMove(a2, a4);

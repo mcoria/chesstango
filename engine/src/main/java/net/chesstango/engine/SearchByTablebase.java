@@ -3,11 +3,21 @@ package net.chesstango.engine;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
+import net.chesstango.board.Square;
+import net.chesstango.board.moves.Move;
 import net.chesstango.piazzolla.syzygy.Syzygy;
+import net.chesstango.piazzolla.syzygy.SyzygyPosition;
+import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
+import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static net.chesstango.piazzolla.syzygy.Syzygy.TB_MAX_MOVES;
+import static net.chesstango.piazzolla.syzygy.Syzygy.TB_RESULT_FAILED;
 
 
 /**
@@ -73,9 +83,30 @@ class SearchByTablebase implements SearchChain {
 
     SearchResult searchByBook(Game game) {
         final int tbLargest = syzygy.tb_largest();
-        if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions()) ) {
-            //game.
+        if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions())) {
+            SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+            game.getPosition().export(positionBuilder);
+            SyzygyPosition syzygyPosition = positionBuilder.getPositionRepresentation();
+
+            int[] results = new int[TB_MAX_MOVES];
+
+            int res = syzygy.tb_probe_root(syzygyPosition, results);
+
+            if (res != TB_RESULT_FAILED) {
+                final int fromIdx = Syzygy.TB_GET_FROM(res);
+                final int toIdx = Syzygy.TB_GET_TO(res);
+
+                Square from = Square.squareByIdx(fromIdx);
+                Square to = Square.squareByIdx(toIdx);
+                Move move = game.getMove(from, to);
+                if (move != null) {
+                    MoveEvaluation bestMove = new MoveEvaluation(move, Syzygy.TB_GET_WDL(res), MoveEvaluationType.EXACT);
+                    return new SearchResult()
+                            .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
+                }
+            }
         }
+
         return null;
     }
 }

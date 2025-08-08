@@ -12,7 +12,7 @@ import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
+import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

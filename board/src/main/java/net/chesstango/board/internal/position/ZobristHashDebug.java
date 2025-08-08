@@ -1,7 +1,7 @@
 package net.chesstango.board.internal.position;
 
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
+import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 
 /**
  * @author Mauricio Coria
