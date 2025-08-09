@@ -32,7 +32,7 @@ public class NoIterativeDeepening implements Search {
     }
 
     @Override
-    public SearchResult search(Game game) {
+    public SearchResult startSearch(Game game) {
         SearchResult searchResult = new SearchResult();
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
@@ -59,7 +59,7 @@ public class NoIterativeDeepening implements Search {
     }
 
     @Override
-    public void stopSearching() {
+    public void stopSearch() {
         this.searchListenerMediator.triggerStopSearching();
     }
 
@@ -78,11 +78,6 @@ public class NoIterativeDeepening implements Search {
         if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             searchParameters.put(EPD_PARAMS, epd);
         }
-    }
-
-    @Override
-    public void setProgressListener(ProgressListener progressListener) {
-
     }
 
 }

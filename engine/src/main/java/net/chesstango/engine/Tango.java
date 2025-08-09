@@ -1,117 +1,90 @@
 package net.chesstango.engine;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.engine.manager.SearchManager;
-import net.chesstango.search.DefaultSearch;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author Mauricio Coria
+ * @author Mauricio Corial
  */
-public class Tango {
+public class Tango implements AutoCloseable {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
     public static final String ENGINE_NAME = PROPERTIES.getProperty("engine_name");
     public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
     public static final String INFINITE_DEPTH = PROPERTIES.getProperty("infinite_depth");
 
-    private final SearchManager searchManager;
+    private static final AtomicInteger executorCounter = new AtomicInteger(0);
+    private static final ExecutorService searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
+    private static final ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
 
-    @Getter
-    private Session currentSession;
+    private volatile SearchManager searchManager;
 
-    @Setter
-    private SearchListener searchListener;
-
-    public Tango() {
-        this(new DefaultSearch());
+    private Tango() {
     }
 
-    public Tango(Search search) {
-        SearchListener myListener = new SearchListener() {
-            @Override
-            public void searchStarted() {
-                if (searchListener != null) {
-                    searchListener.searchStarted();
-                }
-            }
+    public static Tango open(Config config) {
+        executorCounter.incrementAndGet();
 
-            @Override
-            public void searchInfo(SearchResultByDepth searchByDepthResult) {
-                if (searchListener != null) {
-                    searchListener.searchInfo(searchByDepthResult);
-                }
-            }
+        Tango tango = new Tango();
 
-            @Override
-            public void searchFinished(SearchResult searchMoveResult) {
-                currentSession.addResult(searchMoveResult);
-
-                if (searchListener != null) {
-                    searchListener.searchFinished(searchMoveResult);
-                }
-            }
-        };
-
-        this.searchManager = new SearchManager(search, myListener);
-        this.searchManager.setInfiniteDepth(Integer.parseInt(INFINITE_DEPTH));
+        return tango.reload(config);
     }
 
-    public void open() {
-        searchManager.open();
-    }
-
-    public void close() {
+    @Override
+    public void close() throws Exception {
+        int currentValue = executorCounter.decrementAndGet();
+        if (currentValue == 0) {
+            stopExecutors();
+        } else if (currentValue < 0) {
+            throw new RuntimeException("Closed too many times");
+        }
         searchManager.close();
     }
 
-    public void setPolyglotBook(String path) {
-        searchManager.setPolyglotBook(path);
-    }
-
-    public void newGame() {
-        searchManager.reset();
-        currentSession = new Session();
-    }
-
-    public void setPosition(FEN fen, List<String> moves) {
-        if (currentSession == null ||
-                currentSession.getGame() != null &&
-                        !Objects.equals(fen, currentSession.getInitialFen())) {
-            newGame();
+    public Tango reload(Config config){
+        if(searchManager != null){
+            try {
+                searchManager.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-        currentSession.setPosition(fen, moves);
+
+        SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
+                .withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch())
+                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
+                .withPolyglotFile(config.getPolyglotFile())
+                .withSyzygyDirectory(config.getSyzygyDirectory())
+                .withScheduledExecutorService(timeOutExecutor);
+
+
+        // Configure search execution mode:
+        // - Async mode: Executes search by ExecutorService
+        // - Sync mode: Executes search in the calling thread
+        // - Default: Async mode
+        if (!config.isSyncSearch()) {
+            searchManagerBuilder
+                    .withAsyncInvoker()
+                    .withExecutorService(searchExecutor);
+        }
+
+        searchManager = searchManagerBuilder.build();
+
+        return this;
     }
 
-
-    public void goInfinite() {
-        searchManager.searchInfinite(currentSession.getGame());
-    }
-
-    public void goDepth(int depth) {
-        searchManager.searchDepth(currentSession.getGame(), depth);
-    }
-
-    public void goTime(int timeOut) {
-        searchManager.searchTime(currentSession.getGame(), timeOut);
-    }
-
-    public void goFast(int wTime, int bTime, int wInc, int bInc) {
-        searchManager.searchFast(currentSession.getGame(), wTime, bTime, wInc, bInc);
-    }
-
-    public void stopSearching() {
-        searchManager.stopSearching();
+    public Session newSession(FEN fen) {
+        searchManager.reset();
+        return new Session(fen, searchManager);
     }
 
     private static Properties loadProperties() {
@@ -126,5 +99,23 @@ public class Tango {
             throw new RuntimeException(e);
         }
         return properties;
+    }
+
+    private synchronized static void stopExecutors() {
+        searchExecutor.shutdownNow();
+        timeOutExecutor.shutdownNow();
+    }
+
+    private static class SearchManagerThreadFactory implements ThreadFactory {
+        private final AtomicInteger threadCounter = new AtomicInteger(1);
+        private String threadNamePrefix = "";
+
+        public SearchManagerThreadFactory(String threadNamePrefix) {
+            this.threadNamePrefix = threadNamePrefix;
+        }
+
+        public Thread newThread(Runnable runnable) {
+            return new Thread(runnable, String.format("%s-%d", threadNamePrefix, threadCounter.getAndIncrement()));
+        }
     }
 }

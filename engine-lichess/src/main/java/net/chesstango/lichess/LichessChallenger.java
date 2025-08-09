@@ -1,14 +1,9 @@
 package net.chesstango.lichess;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Mauricio Coria
  */
 public class LichessChallenger {
-
-    private static final Logger logger = LoggerFactory.getLogger(LichessChallenger.class);
 
     private final LichessChallengerBot lichessChallengerBot;
     private final LichessChallengerUser lichessChallengerUser;

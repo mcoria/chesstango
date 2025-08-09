@@ -1,6 +1,5 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.evaluation.EvaluatorCacheRead;
@@ -99,9 +98,10 @@ public class ChainPrinter {
     private void printChainSmartAlgorithm(SearchAlgorithm searchAlgorithm) {
         if (searchAlgorithm instanceof AlphaBetaFacade alphaBetaFacade) {
             printChainAlphaBetaFacade(alphaBetaFacade);
-        } if (searchAlgorithm instanceof BottomMoveCounterFacade bottomMoveCounterFacade) {
+        }
+        if (searchAlgorithm instanceof BottomMoveCounterFacade bottomMoveCounterFacade) {
             printChainBottomMoveCounterFacade(bottomMoveCounterFacade);
-        }else {
+        } else {
             throw new RuntimeException(String.format("Unknown SmartAlgorithm class: %s", searchAlgorithm.getClass()));
         }
     }
@@ -264,8 +264,6 @@ public class ChainPrinter {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsWrapper), printGameEvaluator(gameEvaluatorStatisticsWrapper.getImp()));
         } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
             return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
-        } else if (evaluator instanceof DefaultEvaluator defaultEvaluator) {
-            return String.format("%s -> %s", objectText(defaultEvaluator), printGameEvaluator(defaultEvaluator.getImp()));
         }
 
         return objectText(evaluator);

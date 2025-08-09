@@ -6,6 +6,6 @@ package net.chesstango.search;
 public enum SearchParameter {
     MAX_DEPTH,
     SEARCH_PREDICATE,
-    POLYGLOT_PATH,
-    EPD_PARAMS
+    EPD_PARAMS,
+    SEARCH_BY_DEPTH_LISTENER
 }

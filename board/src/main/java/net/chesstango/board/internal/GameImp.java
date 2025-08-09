@@ -4,14 +4,17 @@ import lombok.Setter;
 import net.chesstango.board.*;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.gardel.MirrorPositionBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.position.*;
+import net.chesstango.board.position.GameHistory;
+import net.chesstango.board.position.GameHistoryRecord;
+import net.chesstango.board.position.GameState;
+import net.chesstango.board.position.Position;
+import net.chesstango.gardel.MirrorPositionBuilder;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 
@@ -82,9 +85,9 @@ public class GameImp implements Game {
 
     @Override
     public FEN getCurrentFEN() {
-        FENBuilder encoder = new FENBuilder();
-        getPosition().constructChessPositionRepresentation(encoder);
-        return encoder.getPositionRepresentation();
+        FENBuilder builder = new FENBuilder();
+        getPosition().export(builder);
+        return builder.getPositionRepresentation();
     }
 
     @Override
@@ -194,7 +197,7 @@ public class GameImp implements Game {
     @Override
     public Game mirror() {
         MirrorPositionBuilder<Game> mirrorChessPositionBuilder = new MirrorPositionBuilder<>(new GameBuilder());
-        getPosition().constructChessPositionRepresentation(mirrorChessPositionBuilder);
+        getPosition().export(mirrorChessPositionBuilder);
         return mirrorChessPositionBuilder.getPositionRepresentation();
     }
 
@@ -204,11 +207,11 @@ public class GameImp implements Game {
     }
 
     private void saveInitialFEN() {
-        FENBuilder encoder = new FENBuilder();
+        FENBuilder builder = new FENBuilder();
 
-        position.constructChessPositionRepresentation(encoder);
+        position.export(builder);
 
-        gameState.setInitialFEN(encoder.getPositionRepresentation());
+        gameState.setInitialFEN(builder.getPositionRepresentation());
     }
 
     public void setAnalyzer(PositionAnalyzer analyzer) {

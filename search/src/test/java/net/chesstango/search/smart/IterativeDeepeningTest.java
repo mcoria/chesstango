@@ -3,6 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByFEN;
 import net.chesstango.search.SearchResult;
@@ -38,9 +39,9 @@ public class IterativeDeepeningTest {
 
         //smart.setGameEvaluator(evaluatorMock);
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
-        SearchResult searchResult = iterativeDeepening.search(game);
+        SearchResult searchResult = iterativeDeepening.startSearch(game);
         Move bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().getSquare());
         assertEquals(Square.e4, bestMove.getTo().getSquare());
@@ -52,7 +53,7 @@ public class IterativeDeepeningTest {
          * Repetimos la busqueda en depth = 3, acá la evaluacion de todos los movimientos es la misma.
          * Lo que queremos es priorizar aquellos movimientos que tempranamente se encontraron en profundidades anteriores.
          */
-        searchResult = iterativeDeepening.search(game);
+        searchResult = iterativeDeepening.startSearch(game);
         bestMove = searchResult.getBestMove();
         assertEquals(Square.e2, bestMove.getFrom().getSquare());
         assertEquals(Square.e4, bestMove.getTo().getSquare());

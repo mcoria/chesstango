@@ -1,31 +1,50 @@
-package net.chesstango.engine.manager;
+package net.chesstango.engine;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
-import net.chesstango.search.*;
+import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static net.chesstango.search.SearchParameter.POLYGLOT_PATH;
 
 /**
  * @author Mauricio Coria
  */
-public final class SearchManagerByBook implements SearchManagerChain {
-
-    private PolyglotBook book;
-
+@Slf4j
+class SearchByOpenBook implements SearchChain {
     @Setter
-    private SearchManagerChain next;
+    private SearchChain next;
 
-    public SearchManagerByBook() {
+    private final PolyglotBook book;
+
+    private SearchByOpenBook(PolyglotBook book) {
+        this.book = book;
+    }
+
+    static SearchByOpenBook open(String polyglotFile) {
+        try {
+            Path polyglotFilePath = Path.of(polyglotFile);
+            if (Files.exists(polyglotFilePath)) {
+                return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
+            } else {
+                log.error("Book file '{}' not found", polyglotFile);
+            }
+        } catch (IOException e) {
+            log.error("Error opening book file", e);
+        }
+        return null;
     }
 
     @Override
@@ -33,36 +52,15 @@ public final class SearchManagerByBook implements SearchManagerChain {
         next.reset();
     }
 
-    @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (POLYGLOT_PATH.equals(parameter) && value instanceof String path) {
-            try {
-                book = PolyglotBook.open(Path.of(path));
-            } catch (IOException e) {
-                System.err.println("Error opening book " + path);
-                e.printStackTrace(System.err);
-            }
-        }
-        next.setSearchParameter(parameter, value);
-    }
-
-    @Override
-    public void setProgressListener(ProgressListener progressListener) {
-        next.setProgressListener(progressListener);
-    }
 
     @Override
     public void stopSearching() {
         next.stopSearching();
     }
 
-    @Override
-    public void open() {
-        next.open();
-    }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         if (book != null) {
             try {
                 book.close();
@@ -75,12 +73,12 @@ public final class SearchManagerByBook implements SearchManagerChain {
     }
 
     @Override
-    public SearchResult search(Game game) {
+    public SearchResult search(SearchContext context) {
         SearchResult searchResult = null;
         if (book != null) {
-            searchResult = searchByBook(game);
+            searchResult = searchByBook(context.getGame());
         }
-        return searchResult == null ? next.search(game) : searchResult;
+        return searchResult == null ? next.search(context) : searchResult;
     }
 
     private SearchResult searchByBook(Game game) {

@@ -4,7 +4,7 @@
     <groupId>net.chesstango</groupId>
     <artifactId>engine-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/mcoria/chesstango.git</developerConnection>
@@ -47,13 +47,13 @@
         <commons-cli.version>1.8.0</commons-cli.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.0.5</gardel.version>
+        <gardel.version>1.0.6</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
-        <piazzolla.version>1.0.1</piazzolla.version>
+        <piazzolla.version>1.0.2</piazzolla.version>
 
         <!-- UCI communication protocol-->
-        <goyeneche.version>1.0.6</goyeneche.version>
+        <goyeneche.version>1.0.7</goyeneche.version>
 
         <!-- Lichess communication protocol -->
         <chariot.version>0.1.20</chariot.version>

@@ -1,6 +1,7 @@
-package net.chesstango.search.reports;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
@@ -29,10 +30,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
 
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -59,10 +60,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
 
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
@@ -81,10 +82,10 @@ public class AlphaBetaStatisticsTest {
                 .withIterativeDeepening()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -102,10 +103,10 @@ public class AlphaBetaStatisticsTest {
                 .withIterativeDeepening()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
         int expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
@@ -124,10 +125,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
@@ -150,10 +151,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
@@ -182,10 +183,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -209,10 +210,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -236,10 +237,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1");
+        Game game = Game.from(FEN.of("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -265,10 +266,10 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.fromFEN("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1");
+        Game game = Game.from(FEN.of("k1n5/p1p1p3/PpPpP3/1P1P4/4p1p1/3pPpPp/3P1P1P/5N1K w - - 0 1"));
 
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
         int visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
@@ -299,16 +300,16 @@ public class AlphaBetaStatisticsTest {
                 .build();
 
 
-        Game game = Game.fromFEN("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - 0 1");
+        Game game = Game.from(FEN.of("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - 0 1"));
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        searchResult = moveFinder.search(game);
+        searchResult = moveFinder.startSearch(game);
 
         /**
          * Ahora se prueba el inverso
          */
-        Game game1 = Game.fromFEN("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - 0 1");
+        Game game1 = Game.from(FEN.of("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - 0 1"));
         moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
-        SearchResult searchResult1 = moveFinder.search(game1);
+        SearchResult searchResult1 = moveFinder.startSearch(game1);
 
 
         NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();

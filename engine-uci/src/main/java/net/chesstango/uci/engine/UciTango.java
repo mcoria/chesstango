@@ -2,16 +2,18 @@ package net.chesstango.uci.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.chesstango.engine.Config;
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
+import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.stream.UCIOutputStream;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import net.chesstango.goyeneche.UCIService;
+import java.util.function.Function;
 
 /**
  * The UciTango class operates as a context within the state design pattern, encapsulating the state-dependent behavior
@@ -23,26 +25,32 @@ import net.chesstango.goyeneche.UCIService;
  *
  * @author Mauricio Coria
  */
+@Slf4j
 public class UciTango implements UCIService {
-    private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
-
-    @Getter
-    private final Tango tango;
-
     private final UCIOutputStreamEngineExecutor engineExecutor;
+
+    private final Function<Config, Tango> tangoFactory;
+
+    final Config tangoConfig;
 
     @Setter
     private UCIOutputStream outputStream;
 
     // Represents the current state of the engine. This is the key variable where the state pattern is applied,
     // allowing behavior to change dynamically at runtime based on the current state.
-    protected volatile UCIEngine currentState;
+    volatile UCIEngine currentState;
+
+    @Getter
+    final Tango tango;
+
+    @Getter
+    volatile Session session;
 
     public UciTango() {
-        this(new Tango());
+        this(Tango::open);
     }
 
-    public UciTango(Tango tango) {
+    public UciTango(Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {
@@ -85,17 +93,18 @@ public class UciTango implements UCIService {
             }
         };
 
-        this.tango = tango;
-
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
+        this.tangoConfig = new Config();
+        this.tangoFactory = tangoFactory;
+
+        // Initialize the chess engine by opening the underlying Tango instance
+        this.tango = tangoFactory.apply(tangoConfig);
     }
 
     @Override
-    public void accept(UCICommand command) {
-        synchronized (engineExecutor) {
-            logger.trace("tango << {}", command);
-            engineExecutor.accept(command);
-        }
+    public synchronized void accept(UCICommand command) {
+        log.trace("tango << {}", command);
+        engineExecutor.accept(command);
     }
 
     @Override
@@ -103,35 +112,35 @@ public class UciTango implements UCIService {
         // State pattern initialization: different state instances are created and linked with one another to 
         // represent the allowable transitions within the state lifecycle of the engine.
         WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
-        ReadyState readyState = new ReadyState(this, tango);
-        WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this, tango);
-        SearchingState searchingState = new SearchingState(this, tango);
+        ReadyState readyState = new ReadyState(this);
+        WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
+        SearchingState searchingState = new SearchingState(this);
 
         waitCmdUciState.setReadyState(readyState);
         readyState.setWaitCmdGoState(waitCmdGoState);
         waitCmdGoState.setSearchingState(searchingState);
         searchingState.setReadyState(readyState);
 
-        currentState = waitCmdUciState;  // Starting with the initial state (WaitCmdUciState), which transitions to others dynamically.
-
-        tango.open();
+        // set the initial state to wait for the UCI command
+        changeState(waitCmdUciState);
     }
+
 
     @Override
     public void close() {
-        tango.close();
-        currentState = null;
+        try {
+            tango.close();
+        } catch (Exception e) {
+            log.error("Failed to close tango", e);
+        }
     }
 
-    
     // Package visibility is used here because this method is intended to be accessed only by other engine-state classes
     // within the same package (e.g., state classes like ReadyState or EndState) to enable state transitions and responses.
-    void reply(UCIEngine newState, UCICommand command) {
-        synchronized (engineExecutor) {
-            logger.trace("tango >> {}", command);
-            currentState = newState;
-            outputStream.accept(command);
-        }
+    synchronized void reply(UCIEngine newState, UCICommand command) {
+        log.trace("tango >> {}", command);
+        currentState = newState;
+        outputStream.accept(command);
     }
 
 
@@ -146,9 +155,7 @@ public class UciTango implements UCIService {
      * External classes cannot call this method, ensuring the state transitions are limited to valid contexts
      * within the same package.
      */
-    void changeState(UCIEngine newState) {
-        synchronized (engineExecutor) {
-            currentState = newState;
-        }
+    synchronized void changeState(UCIEngine newState) {
+        currentState = newState;
     }
 }

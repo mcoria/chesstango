@@ -2,6 +2,8 @@ package net.chesstango.lichess;
 
 import chariot.Client;
 import chariot.ClientAuth;
+import lombok.extern.slf4j.Slf4j;
+import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +15,15 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessBotMain {
-
-    private static final Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
 
     private static String BOT_TOKEN;
 
     private static boolean CHALLENGE_BOTS;
 
-    private static final String POLYGLOT_BOOK = "POLYGLOT_BOOK"; //Key para leer properties
+    private static final String POLYGLOT_BOOK_FILE = "POLYGLOT_BOOK_FILE";
+    private static final String SYZYGY_DIRECTORY = "SYZYGY_DIRECTORY";
 
     private static final Map<String, Object> PROPERTIES = new HashMap<>();
 
@@ -35,21 +37,26 @@ public class LichessBotMain {
         LichessClient lichessClient = new LichessClient(clientAuth);
 
         if (clientAuth.scopes().stream().anyMatch(Client.Scope.bot_play::equals)) {
-            logger.info("Start playing as a bot");
+            log.info("Start playing as a bot");
 
-            Tango tango = new Tango();
+            Config config = new Config();
 
-            tango.open();
-
-            String polyglotBookPath = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_BOOK);
-            if (Objects.nonNull(polyglotBookPath)) {
-                tango.setPolyglotBook(polyglotBookPath);
+            String polyglotFile = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_BOOK_FILE);
+            if (Objects.nonNull(polyglotFile)) {
+                config.setPolyglotFile(polyglotFile);
             }
 
-            new LichessBot(lichessClient, CHALLENGE_BOTS, tango)
-                    .run();
+            String syzygyDirectory = (String) PROPERTIES.get(LichessBotMain.SYZYGY_DIRECTORY);
+            if (Objects.nonNull(polyglotFile)) {
+                config.setSyzygyDirectory(syzygyDirectory);
+            }
 
-            tango.close();
+            try (Tango tango = Tango.open(config)) {
+                new LichessBot(lichessClient, CHALLENGE_BOTS, tango)
+                        .run();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
         } else {
             throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
@@ -67,9 +74,9 @@ public class LichessBotMain {
             CHALLENGE_BOTS = Boolean.parseBoolean(challengeBots);
         }
 
-        String polyglotBookPath = System.getenv(POLYGLOT_BOOK);
+        String polyglotBookPath = System.getenv(POLYGLOT_BOOK_FILE);
         if (Objects.nonNull(polyglotBookPath)) {
-            PROPERTIES.put(POLYGLOT_BOOK, polyglotBookPath);
+            PROPERTIES.put(POLYGLOT_BOOK_FILE, polyglotBookPath);
         }
     }
 

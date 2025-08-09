@@ -4,8 +4,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -25,11 +25,11 @@ public class AlphaBetaSymmetryTest {
     @Test
     @Disabled
     public void symmetryMate02() {
-        Game game = Game.fromFEN("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -");
+        Game game = Game.from(FEN.of("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -"));
 
         Search search = buildSearch();
 
-        SearchResult searchResult = search.search(game);
+        SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();
 
@@ -47,7 +47,7 @@ public class AlphaBetaSymmetryTest {
 
         Search searchMirror = buildSearch();
 
-        SearchResult searchResultMirror = searchMirror.search(mirrorGame);
+        SearchResult searchResultMirror = searchMirror.startSearch(mirrorGame);
 
         Move smartMoveMirror = searchResultMirror.getBestMove();
 
@@ -85,7 +85,7 @@ public class AlphaBetaSymmetryTest {
     private Search buildSearch() {
         return new AlphaBetaBuilder()
                 //.withGameEvaluator(new EvaluatorByMaterial())
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(Evaluator.getInstance())
 
                 .withQuiescence()
 

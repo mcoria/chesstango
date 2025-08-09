@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Disabled
 public class AlphaBetaTest {
 
-
     private MockEvaluator evaluator;
 
     private AlphaBetaFacade alphaBetaFacade;

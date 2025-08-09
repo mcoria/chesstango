@@ -3,17 +3,16 @@ package net.chesstango.board.internal;
 import net.chesstango.board.*;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.GameBuilderDebug;
+import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
-import net.chesstango.board.internal.moves.factories.MoveFactoryBlack;
-import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.fen.FENExporter;
-import net.chesstango.gardel.polyglot.PolyglotKeyBuilder;
+import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -918,9 +917,9 @@ public class GameTest {
     public void test_encode_with_clocks1() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -931,11 +930,11 @@ public class GameTest {
     public void test_encode_with_clocks2() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         game.executeMove(Square.g1, Square.f3);
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -947,12 +946,12 @@ public class GameTest {
     public void test_encode_with_clocks3() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.fromFEN(FENParser.INITIAL_FEN);
+        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
 
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);
 
-        game.getPosition().constructChessPositionRepresentation(coder);
+        game.getPosition().export(coder);
 
         FEN fen = coder.getPositionRepresentation();
 
@@ -972,9 +971,7 @@ public class GameTest {
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilderDebug();
 
-        FENExporter exporter = new FENExporter(builder);
-
-        exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 
         return builder.getPositionRepresentation();
     }
@@ -982,7 +979,7 @@ public class GameTest {
 
     private long getPolyglotKey(Game game){
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
-        game.getPosition().constructChessPositionRepresentation(polyglotKeyBuilder);
+        game.getPosition().export(polyglotKeyBuilder);
         return polyglotKeyBuilder.getPositionRepresentation();
     }
 

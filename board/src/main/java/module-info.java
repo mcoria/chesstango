@@ -17,4 +17,5 @@ module net.chesstango.board {
     requires net.chesstango.gardel;
 
     requires static lombok;
+    requires net.chesstango.piazzolla;
 }

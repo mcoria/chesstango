@@ -16,7 +16,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class LichessClient {
-
     private final ClientAuth client;
 
     public LichessClient(ClientAuth client) {

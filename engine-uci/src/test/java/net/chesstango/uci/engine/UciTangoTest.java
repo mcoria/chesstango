@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
@@ -19,8 +20,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Mauricio Coria
@@ -32,9 +32,14 @@ public class UciTangoTest {
     @Mock
     private Tango tango;
 
+    @Mock
+    private Session session;
+
     @BeforeEach
     public void setUp() {
-        engine = new UciTango(this.tango);
+        engine = new UciTango(config -> tango);
+
+        when(tango.newSession(any(FEN.class))).thenReturn(session);
 
         engine.open();
     }
@@ -52,8 +57,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position(List.of("e2e4")));
 
-        verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), List.of("e2e4"));
+        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(session , times(1)).setMoves(List.of("e2e4"));
     }
 
     @Test
@@ -64,8 +69,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position(moveList));
 
-        verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), moveList);
+        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(session, times(1)).setMoves(moveList);
     }
 
     @Test
@@ -80,8 +85,8 @@ public class UciTangoTest {
 
         engine.accept(UCIRequest.position(moveList));
 
-        verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of(FENParser.INITIAL_FEN), moveList);
+        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(session, times(1)).setMoves(moveList);
     }
 
     @Test
@@ -93,8 +98,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", List.of("e2e4")));
 
-        verify(tango, times(1)).newGame();
-        verify(tango, times(1)).setPosition(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"), List.of("e2e4"));
+        verify(tango, times(1)).newSession(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 
 
@@ -114,7 +119,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.uci());
         assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
-        assertEquals("option name PolyglotPath type string default <empty>", in.readLine());
+        assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
+        assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
         assertEquals("uciok", in.readLine());
         assertEquals(ReadyState.class, engine.currentState.getClass());
 
@@ -139,18 +145,5 @@ public class UciTangoTest {
 
         // quit command
         engine.accept(UCIRequest.quit());
-    }
-
-    @Test
-    public void testAndThen() {
-        Consumer<String> consumer1 = string -> System.out.println("From consumer1 : " + string);
-
-        Consumer<String> consumer2 = consumer1.andThen(string2 -> System.out.println("From consumer2 : " + string2));
-
-        consumer1.accept("A");
-
-        System.out.println("------------------");
-
-        consumer2.accept("B");
     }
 }

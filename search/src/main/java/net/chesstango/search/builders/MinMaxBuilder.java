@@ -1,6 +1,6 @@
 package net.chesstango.search.builders;
 
-import net.chesstango.evaluation.DefaultEvaluator;
+
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -12,10 +12,10 @@ import net.chesstango.search.smart.minmax.MinMax;
  */
 public class MinMaxBuilder implements SearchBuilder {
 
-    private Evaluator evaluator = new DefaultEvaluator();
+    private Evaluator evaluator = Evaluator.getInstance();
 
     @Override
-    public SearchBuilder withGameEvaluator(Evaluator evaluator) {
+    public MinMaxBuilder withGameEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
         return this;
     }

@@ -3,11 +3,10 @@ package net.chesstango.board.internal.moves.generators.legal.squarecapturers;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
+import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.BitBoardImp;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -69,9 +68,7 @@ public class FullScanSquareCapturedTest {
     private SquareBoard getSquareBoard(String string) {
         SquareBoardBuilder builder = new SquareBoardBuilder();
 
-        FENExporter exporter = new FENExporter(builder);
-
-        exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 
         return builder.getPositionRepresentation();
     }

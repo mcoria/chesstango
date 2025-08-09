@@ -5,22 +5,21 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.SquareBoardBuilder;
+import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.internal.position.BitBoardDebug;
+import net.chesstango.board.internal.position.BitBoardImp;
+import net.chesstango.board.internal.position.KingSquareImp;
 import net.chesstango.board.internal.position.PositionStateImp;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.moves.factories.MoveFactory;
-import net.chesstango.board.internal.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.moves.generators.pseudo.MoveGeneratorByPieceResult;
-import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.internal.position.BitBoardImp;
-import net.chesstango.board.internal.position.KingSquareImp;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENExporter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -426,9 +425,7 @@ public class KingBlackMoveGeneratorTest {
 	private SquareBoard getTablero(String string) {
 		SquareBoardBuilder builder = new SquareBoardBuilder();
 
-		FENExporter exporter = new FENExporter(builder);
-
-		exporter.export(FEN.of(string));
+        FEN.of(string).export(builder);
 		
 		SquareBoard tablero = builder.getPositionRepresentation();
 		

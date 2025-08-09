@@ -1,21 +1,31 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 /**
+ * Thread synchronization must be performed outside this class.
+ *
  * @author Mauricio Coria
  */
 public interface Search {
 
     /**
-     * Search up to depth
+     * Set search parameters. For instance:
+     * - SearchResultByDepthListener
      */
-    SearchResult search(Game game);
+    void setSearchParameter(SearchParameter parameter, Object value);
 
     /**
-     * Stop searching. This method may be called while another thread is searching
+     * Start searching. Do not call stopSearch() until at least a SearchResultByDepth = 1 has been completed.
      */
-    void stopSearching();
+    SearchResult startSearch(Game game);
+
+    /**
+     * Stop searching. This method may be called while another thread is searching.
+     */
+    void stopSearch();
 
     /**
      * Reset internal counters and buffers (for instance TT)
@@ -23,12 +33,21 @@ public interface Search {
     void reset();
 
     /**
-     * Set search parameters
+     * Creates a default Search instance using the default Evaluator.
+     *
+     * @return a new Search instance configured with default settings
      */
-    void setSearchParameter(SearchParameter parameter, Object value);
+    static Search getInstance() {
+        return getInstance(Evaluator.getInstance());
+    }
 
     /**
-     * Set search progress listener
+     * Creates a Search instance with a custom Evaluator.
+     *
+     * @param evaluator the custom Evaluator to be used for position evaluation
+     * @return a new Search instance configured with the specified evaluator
      */
-    void setProgressListener(ProgressListener progressListener);
+    static Search getInstance(Evaluator evaluator) {
+        return AlphaBetaBuilder.createDefaultBuilderInstance(evaluator).build();
+    }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 
 import java.io.IOException;
@@ -85,13 +86,13 @@ public class GameMockLoader {
         @Override
         public void visit(Node node) {
             if (node.position == null) {
-                Game game = Game.fromFEN(node.fen);
+                Game game = Game.from(FEN.of(node.fen));
                 node.position = game.getPosition();
                 node.gameState = game.getState();
             }
 
             FENBuilder fenBuilder = new FENBuilder();
-            node.position.constructChessPositionRepresentation(fenBuilder);
+            node.position.export(fenBuilder);
             String fenFromPosition = fenBuilder.getPositionRepresentation().toString();
 
             if (node.fen == null) {
@@ -106,7 +107,7 @@ public class GameMockLoader {
             Matcher moveMatcher = movePattern.matcher(nodeLink.moveStr);
             if (moveMatcher.matches()) {
 
-                Game game = Game.fromFEN(nodeLink.parent.fen);
+                Game game = Game.from(FEN.of(nodeLink.parent.fen));
 
                 Move selectedMove = selectMove(game, nodeLink.moveStr);
 

@@ -3,8 +3,7 @@ package net.chesstango.lichess;
 import chariot.api.ChallengesApiAuthCommon;
 import chariot.model.Enums;
 import chariot.model.UserAuth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -12,16 +11,13 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class LichessChallengerUser {
-    private static final Logger logger = LoggerFactory.getLogger(LichessChallengerUser.class);
-
     private final LichessClient client;
-
 
     public LichessChallengerUser(LichessClient client) {
         this.client = client;
     }
-
 
     public void challengeUser(String username, ChallengeType challengeType) {
         Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer = (builder) -> {
@@ -46,7 +42,7 @@ public class LichessChallengerUser {
         if (user.isPresent()) {
             client.challenge(user.get(), challengeBuilderConsumer);
         } else {
-            logger.info("User '{}' not found", username);
+            log.info("User '{}' not found", username);
         }
     }
 }

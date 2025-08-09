@@ -1,7 +1,6 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
-import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.requests.*;
 
 /**
@@ -17,34 +16,37 @@ class WaitCmdGoState extends ReadyState {
     private SearchingState searchingState;
 
 
-    WaitCmdGoState(UciTango uciTango, Tango tango) {
-        super(uciTango, tango);
+    WaitCmdGoState(UciTango uciTango) {
+        super(uciTango);
         this.cmdGoExecutor = new ReqGoExecutor() {
             @Override
             public void go(ReqGoInfinite cmdGoInfinite) {
-                tango.goInfinite();
+                uciTango.session.goInfinite();
             }
 
             @Override
             public void go(ReqGoDepth cmdGoDepth) {
-                tango.goDepth(cmdGoDepth.getDepth());
+                uciTango.session.goDepth(cmdGoDepth.getDepth());
             }
 
             @Override
             public void go(ReqGoTime cmdGoTime) {
-                tango.goTime(cmdGoTime.getTimeOut());
+                uciTango.session.goTime(cmdGoTime.getTimeOut());
             }
 
             @Override
             public void go(ReqGoFast cmdGoFast) {
-                tango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
+                uciTango.session.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
     }
 
     @Override
     public void do_go(ReqGo cmdGo) {
-        cmdGo.execute(cmdGoExecutor);
+        uciTango.session.setSearchListener(searchingState);
+
         uciTango.changeState(searchingState);
+
+        cmdGo.execute(cmdGoExecutor);
     }
 }

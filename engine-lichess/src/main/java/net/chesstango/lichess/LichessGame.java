@@ -1,10 +1,13 @@
 package net.chesstango.lichess;
 
 import chariot.model.*;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
@@ -22,8 +25,8 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class LichessGame implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(LichessGame.class);
+@Slf4j
+public class LichessGame implements Runnable, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final LichessClient client;
@@ -33,7 +36,11 @@ public class LichessGame implements Runnable {
 
 
     private GameStateEvent.Full gameFullEvent;
-    private FEN fen;
+
+    private Session session;
+
+    private FEN startPosition;
+
     private volatile int moveCounter;
 
     public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
@@ -50,26 +57,6 @@ public class LichessGame implements Runnable {
         }
 
         this.tango = tango;
-        this.tango.setSearchListener(new SearchListener() {
-            @Override
-            public void searchStarted() {
-                MDC.put("gameId", gameId);
-            }
-
-            @Override
-            public void searchInfo(SearchResultByDepth searchResultByDepth) {
-                String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
-                logger.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
-            }
-
-            @Override
-            public void searchFinished(SearchResult searchResult) {
-                String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-                logger.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
-                client.gameMove(gameId, moveUci);
-                MDC.remove("gameId");
-            }
-        });
     }
 
     public void gameWatchDog() {
@@ -79,10 +66,10 @@ public class LichessGame implements Runnable {
             ZonedDateTime now = ZonedDateTime.now();
             long diff = now.toEpochSecond() - createdAt.toEpochSecond();
             if (diff > 60 && moveCounter < 2) {
-                logger.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
+                log.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
                 client.gameAbort(gameId);
             } else {
-                logger.info("[{}] Game watchdog: game is still running", gameId);
+                log.info("[{}] Game watchdog: game is still running", gameId);
             }
         }
         MDC.remove("gameId");
@@ -92,10 +79,7 @@ public class LichessGame implements Runnable {
     public void run() {
         MDC.put("gameId", gameId);
 
-        logger.info("[{}] Tango new Game...", gameId);
-        tango.newGame();
-
-        logger.info("[{}] Entering Game event loop...", gameId);
+        log.info("[{}] Entering Game event loop...", gameId);
         try (Stream<GameStateEvent> gameEvents = client.streamGameStateEvent(gameId)) {
             gameEvents.forEach(gameEvent -> {
                 switch (gameEvent.type()) {
@@ -103,39 +87,63 @@ public class LichessGame implements Runnable {
                     case gameState -> gameState((GameStateEvent.State) gameEvent);
                     case chatLine -> receiveChatMessage((GameStateEvent.Chat) gameEvent);
                     case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
-                    default -> logger.warn("[{}] Game event unknown failed: {}", gameId, gameEvent);
+                    default -> log.warn("[{}] Game event unknown failed: {}", gameId, gameEvent);
                 }
             });
-            logger.info("[{}] Game event loop finished", gameId);
+            log.info("[{}] Game event loop finished", gameId);
         } catch (RuntimeException e) {
-            logger.error("[{}] Game event loop failed", gameId, e);
+            log.error("[{}] Game event loop failed", gameId, e);
             throw e;
         }
 
         MDC.remove("gameId");
     }
 
+    @Override
+    public void searchStarted() {
+        MDC.put("gameId", gameId);
+    }
+
+    @Override
+    public void searchInfo(SearchResultByDepth searchResultByDepth) {
+        String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
+        log.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
+    }
+
+    @Override
+    public void searchFinished(SearchResult searchResult) {
+        String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
+        log.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
+        client.gameMove(gameId, moveUci);
+        MDC.remove("gameId");
+    }
+
     private void gameFull(GameStateEvent.Full gameFullEvent) {
-        logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
+        log.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
         this.gameFullEvent = gameFullEvent;
 
         GameType gameType = gameFullEvent.gameType();
         Variant gameVariant = gameType.variant();
+
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            this.fen = FEN.of(FENParser.INITIAL_FEN);
+            this.startPosition = FEN.of(FENParser.INITIAL_FEN);
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
-            this.fen = FEN.of(someFen.get());
+            this.startPosition = FEN.of(someFen.get());
         } else {
             throw new RuntimeException("GameVariant not supported variant");
         }
+
+        this.session = tango.newSession(startPosition);
+
+        this.session.setSearchListener(this);
 
         gameState(gameFullEvent.state());
     }
 
     private void gameState(GameStateEvent.State state) {
-        logger.info("[{}] gameState: {}", gameId, state);
+        log.info("[{}] gameState: {}", gameId, state);
 
         Enums.Status status = state.status();
 
@@ -143,41 +151,41 @@ public class LichessGame implements Runnable {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
             case aborted -> sendChatMessage("goodbye!!!");
             case started, created -> play(state);
-            default -> logger.warn("[{}] No action handler for status {}", gameId, status);
+            default -> log.warn("[{}] No action handler for status {}", gameId, status);
         }
     }
 
     private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
-        logger.warn("[{}] opponentGone {}", gameId, gameEvent);
+        log.warn("[{}] opponentGone {}", gameId, gameEvent);
     }
 
     private void play(GameStateEvent.State state) {
         moveCounter = state.moveList().size();
 
-        tango.setPosition(fen, state.moveList());
+        Game game = Game.from(startPosition, state.moveList());
 
-        PositionReader currentChessPosition = tango
-                .getCurrentSession()
-                .getGame()
+        PositionReader currentChessPosition = game
                 .getPosition();
 
         if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
+            session.setMoves(state.moveList());
+
             long wTime = state.wtime().toMillis();
             long bTime = state.btime().toMillis();
 
             long wInc = state.winc().toMillis();
             long bInc = state.binc().toMillis();
 
-            tango.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
+            session.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
         }
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {
-        logger.info("[{}] Chat: [{}] << {}", gameId, chat.username(), chat.text());
+        log.info("[{}] Chat: [{}] << {}", gameId, chat.username(), chat.text());
     }
 
     private void sendChatMessage(String message) {
-        logger.info("[{}] Chat: [{}] >> {}", gameId, "chesstango", message);
+        log.info("[{}] Chat: [{}] >> {}", gameId, "chesstango", message);
         client.gameChat(gameId, message);
     }
 
