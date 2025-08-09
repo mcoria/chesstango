@@ -30,8 +30,8 @@ class WaitCmdUciState implements UCIEngine {
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
-        uciTango.reply(this, UCIResponse.createStringOption("PolyglotFile", uciTango.config.getPolyglotFile()));
-        uciTango.reply(this, UCIResponse.createStringOption("SyzygyDirectory", uciTango.config.getSyzygyDirectory()));
+        uciTango.reply(this, UCIResponse.createStringOption("PolyglotFile", uciTango.tangoConfig.getPolyglotFile()));
+        uciTango.reply(this, UCIResponse.createStringOption("SyzygyDirectory", uciTango.tangoConfig.getSyzygyDirectory()));
         uciTango.reply(readyState, UCIResponse.uciok());
     }
 }

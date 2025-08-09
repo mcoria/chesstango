@@ -2,6 +2,7 @@ package net.chesstango.uci.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
@@ -11,8 +12,6 @@ import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.stream.UCIOutputStream;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
@@ -26,14 +25,13 @@ import java.util.function.Function;
  *
  * @author Mauricio Coria
  */
+@Slf4j
 public class UciTango implements UCIService {
-    private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
-
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
     private final Function<Config, Tango> tangoFactory;
 
-    final Config config;
+    final Config tangoConfig;
 
     @Setter
     private UCIOutputStream outputStream;
@@ -43,7 +41,7 @@ public class UciTango implements UCIService {
     volatile UCIEngine currentState;
 
     @Getter
-    volatile Tango tango;
+    final Tango tango;
 
     @Getter
     volatile Session session;
@@ -96,13 +94,16 @@ public class UciTango implements UCIService {
         };
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
+        this.tangoConfig = new Config();
         this.tangoFactory = tangoFactory;
-        this.config = new Config();
+
+        // Initialize the chess engine by opening the underlying Tango instance
+        this.tango = tangoFactory.apply(tangoConfig);
     }
 
     @Override
     public synchronized void accept(UCICommand command) {
-        logger.trace("tango << {}", command);
+        log.trace("tango << {}", command);
         engineExecutor.accept(command);
     }
 
@@ -120,9 +121,6 @@ public class UciTango implements UCIService {
         waitCmdGoState.setSearchingState(searchingState);
         searchingState.setReadyState(readyState);
 
-        // Initialize the chess engine by opening the underlying Tango instance
-        tango = tangoFactory.apply(config);
-
         // set the initial state to wait for the UCI command
         changeState(waitCmdUciState);
     }
@@ -130,31 +128,17 @@ public class UciTango implements UCIService {
 
     @Override
     public void close() {
-        changeState(null);
-
         try {
             tango.close();
         } catch (Exception e) {
-            logger.error("Failed to close tango", e);
+            log.error("Failed to close tango", e);
         }
     }
-
-    void reloadTango() {
-        try {
-            tango.close();
-        } catch (Exception e) {
-            logger.error("Failed to close tango", e);
-        }
-
-        tango = tangoFactory.apply(config);
-    }
-
-
 
     // Package visibility is used here because this method is intended to be accessed only by other engine-state classes
     // within the same package (e.g., state classes like ReadyState or EndState) to enable state transitions and responses.
     synchronized void reply(UCIEngine newState, UCICommand command) {
-        logger.trace("tango >> {}", command);
+        log.trace("tango >> {}", command);
         currentState = newState;
         outputStream.accept(command);
     }

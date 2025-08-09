@@ -22,7 +22,6 @@ class ReadyState implements UCIEngine {
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-
     volatile private FEN startPosition;
 
     volatile private boolean reloadTango;
@@ -34,10 +33,10 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        if ("polyglotFile".equals(cmdSetOption.getId())) {
-            uciTango.config.setPolyglotFile(cmdSetOption.getValue());
-        } else if ("syzygyDirectory".equals(cmdSetOption.getId())) {
-            uciTango.config.setSyzygyDirectory(cmdSetOption.getValue());
+        if ("PolyglotFile".equals(cmdSetOption.getId())) {
+            uciTango.tangoConfig.setPolyglotFile(cmdSetOption.getValue());
+        } else if ("SyzygyDirectory".equals(cmdSetOption.getId())) {
+            uciTango.tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
         }
         this.reloadTango = true;
     }
@@ -50,7 +49,7 @@ class ReadyState implements UCIEngine {
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
         if (reloadTango) {
-            uciTango.reloadTango();
+            uciTango.tango.reload(uciTango.tangoConfig);
             reloadTango = false;
         }
     }

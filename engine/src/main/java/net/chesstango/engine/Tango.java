@@ -22,18 +22,42 @@ public class Tango implements AutoCloseable {
     public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
     public static final String INFINITE_DEPTH = PROPERTIES.getProperty("infinite_depth");
 
-    private final SearchManager searchManager;
-
     private static final AtomicInteger executorCounter = new AtomicInteger(0);
     private static final ExecutorService searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
     private static final ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
 
-    private Tango(SearchManager searchManager) {
-        this.searchManager = searchManager;
+    private volatile SearchManager searchManager;
+
+    private Tango() {
     }
 
     public static Tango open(Config config) {
         executorCounter.incrementAndGet();
+
+        Tango tango = new Tango();
+
+        return tango.reload(config);
+    }
+
+    @Override
+    public void close() throws Exception {
+        int currentValue = executorCounter.decrementAndGet();
+        if (currentValue == 0) {
+            stopExecutors();
+        } else if (currentValue < 0) {
+            throw new RuntimeException("Closed too many times");
+        }
+        searchManager.close();
+    }
+
+    public Tango reload(Config config){
+        if(searchManager != null){
+            try {
+                searchManager.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
                 .withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch())
@@ -53,21 +77,9 @@ public class Tango implements AutoCloseable {
                     .withExecutorService(searchExecutor);
         }
 
-        SearchManager searchManager = searchManagerBuilder.build();
+        searchManager = searchManagerBuilder.build();
 
-        return new Tango(searchManager);
-    }
-
-    @Override
-    public void close() throws Exception {
-        int currentValue = executorCounter.decrementAndGet();
-        if (currentValue == 0) {
-            stopExecutors();
-        } else if (currentValue < 0) {
-            throw new RuntimeException("Closed too many times");
-        }
-
-        searchManager.close();
+        return this;
     }
 
     public Session newSession(FEN fen) {

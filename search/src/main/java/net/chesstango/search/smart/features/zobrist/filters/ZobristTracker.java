@@ -3,16 +3,12 @@ package net.chesstango.search.smart.features.zobrist.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.position.PositionReader;
-import net.chesstango.gardel.fen.FENStringBuilder;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
-import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -48,13 +44,15 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     }
 
     protected void findCollision(Map<Long, String> theMap) {
-        FENStringBuilder builder = new FENStringBuilder();
+        throw new UnsupportedOperationException("Reveer");
+        /*
+        /FENStringBuilder builder = new FENStringBuilder();
 
         PositionReader chessPosition = game.getPosition();
 
         chessPosition.export(builder);
 
-        String fenWithoutClocks = builder.getPositionRepresentation();
+        //String fenWithoutClocks = builder.getPositionRepresentation();
 
         long hash = chessPosition.getZobristHash();
 
@@ -62,7 +60,7 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
         if (Objects.nonNull(oldFenWithoutClocks) && !Objects.equals(oldFenWithoutClocks, fenWithoutClocks)) {
             HexFormat hexFormat = HexFormat.of().withUpperCase();
             zobristCollisions.add(String.format("0x%sL - %s - %s", hexFormat.formatHex(longToByte(hash)), oldFenWithoutClocks, fenWithoutClocks));
-        }
+        }*/
     }
 
     private byte[] longToByte(long lng) {
