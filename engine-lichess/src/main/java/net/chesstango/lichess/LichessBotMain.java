@@ -23,6 +23,7 @@ public class LichessBotMain {
     private static boolean CHALLENGE_BOTS;
 
     private static final String POLYGLOT_BOOK_FILE = "POLYGLOT_BOOK_FILE";
+
     private static final String SYZYGY_DIRECTORY = "SYZYGY_DIRECTORY";
 
     private static final Map<String, Object> PROPERTIES = new HashMap<>();
@@ -77,6 +78,11 @@ public class LichessBotMain {
         String polyglotBookPath = System.getenv(POLYGLOT_BOOK_FILE);
         if (Objects.nonNull(polyglotBookPath)) {
             PROPERTIES.put(POLYGLOT_BOOK_FILE, polyglotBookPath);
+        }
+
+        String syzygyDirectory = System.getenv(SYZYGY_DIRECTORY);
+        if (Objects.nonNull(polyglotBookPath)) {
+            PROPERTIES.put(SYZYGY_DIRECTORY, syzygyDirectory);
         }
     }
 
