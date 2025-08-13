@@ -81,12 +81,11 @@ public class GameToPGN {
         };
     }
 
-    private String encodeGameResult(Game game) {
+    private PGN.Result encodeGameResult(Game game) {
         return switch (game.getStatus()) {
-            case NO_CHECK, CHECK -> "*";
-            case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "1/2-1/2";
-            case MATE -> Color.BLACK.equals(game.getPosition().getCurrentTurn()) ? "1-0" : "0-1";
-            default -> throw new RuntimeException("Invalid game status");
+                case NO_CHECK, CHECK -> PGN.Result.ONGOING;
+                case STALEMATE, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> PGN.Result.DRAW;
+                case MATE -> Color.BLACK.equals(game.getPosition().getCurrentTurn()) ? PGN.Result.WHITE_WINS : PGN.Result.BLACK_WINS;
         };
     }
 }

@@ -30,7 +30,6 @@ public class LichessBotMain {
 
 
     public static void main(String[] args) {
-
         readEnvironmentVars();
 
         ClientAuth clientAuth = Client.auth(BOT_TOKEN);

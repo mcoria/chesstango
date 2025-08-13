@@ -63,7 +63,6 @@ public class GameToPGNTest {
 
 
     @Test
-    @Disabled
     public void testToEpd() {
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         game.executeMove(a2, a4);
@@ -73,7 +72,7 @@ public class GameToPGNTest {
         List<EPD> pgnToEpd = pgn.toEPD().toList();
 
         assertEquals(1, pgnToEpd.size());
-        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"463b96181691fc9c\";", pgnToEpd.getFirst().toString());
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - sm a4; c5 \"result='*'\"; c6 \"clock=1\"; c7 \"totalClock=1\"; id \"f1c2a586\";", pgnToEpd.getFirst().toString());
     }
 
 
