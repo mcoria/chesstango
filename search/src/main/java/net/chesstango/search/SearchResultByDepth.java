@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class SearchResultByDepth {
+public class SearchResultByDepth implements Serializable {
 
     private final int depth;
 

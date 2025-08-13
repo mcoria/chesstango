@@ -8,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class SearchResult {
+public class SearchResult implements Serializable {
 
     private String id;
 

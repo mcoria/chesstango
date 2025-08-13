@@ -3,6 +3,8 @@ package net.chesstango.search;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
+import java.io.Serializable;
+
 /**
  * @author Mauricio Coria
  */
@@ -10,7 +12,7 @@ public record MoveEvaluation(Move move,
                              int evaluation,
                              MoveEvaluationType moveEvaluationType)
 
-        implements Comparable<MoveEvaluation> {
+        implements Comparable<MoveEvaluation>, Serializable {
 
     @Override
     public int compareTo(MoveEvaluation other) {
