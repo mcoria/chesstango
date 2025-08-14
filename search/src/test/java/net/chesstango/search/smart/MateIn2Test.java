@@ -30,9 +30,9 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.d3, smartMove.getFrom().getSquare());
-        assertEquals(Square.c4, smartMove.getTo().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.d3, smartMove.getFrom().square());
+        assertEquals(Square.c4, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -45,9 +45,9 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.b1, smartMove.getFrom().getSquare());
-        assertEquals(Square.f5, smartMove.getTo().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.b1, smartMove.getFrom().square());
+        assertEquals(Square.f5, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -60,9 +60,9 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.d5, smartMove.getFrom().getSquare());
-        assertEquals(Square.f6, smartMove.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.d5, smartMove.getFrom().square());
+        assertEquals(Square.f6, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -76,9 +76,9 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.PAWN_BLACK, smartMove.getFrom().getPiece());
-        assertEquals(Square.d2, smartMove.getFrom().getSquare());
-        assertEquals(Square.e1, smartMove.getTo().getSquare());
+        assertEquals(Piece.PAWN_BLACK, smartMove.getFrom().piece());
+        assertEquals(Square.d2, smartMove.getFrom().square());
+        assertEquals(Square.e1, smartMove.getTo().square());
 
         assertTrue(smartMove instanceof MovePromotion);
         assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion) smartMove).getPromotion());

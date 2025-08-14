@@ -78,7 +78,7 @@ class Node {
             @Override
             public Move getMove(Square from, Square to) {
                 for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
+                    if (from.equals(move.getFrom().square()) && to.equals(move.getTo().square())) {
                         if (move instanceof MovePromotion) {
                             return null;
                         }
@@ -91,7 +91,7 @@ class Node {
             @Override
             public Move getMove(Square from, Square to, Piece promotionPiece) {
                 for (Move move : this) {
-                    if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion movePromotion)) {
+                    if (from.equals(move.getFrom().square()) && to.equals(move.getTo().square()) && (move instanceof MovePromotion movePromotion)) {
                         if (movePromotion.getPromotion().equals(promotionPiece)) {
                             return move;
                         }

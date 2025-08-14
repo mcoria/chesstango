@@ -81,10 +81,10 @@ public class NoCheckLegalMoveFilter implements LegalMoveFilter {
     // 		deberia crear CAPTURER especifico para validar castling
     @Override
     public boolean isLegalMoveCastling(MoveCastling moveCastling, Command command) {
-        Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
+        Color opositeColor = moveCastling.getFrom().piece().getColor().oppositeColor();
         //assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					// El king no esta en jaque... lo asumimos
-        return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare())            // El king no puede ser capturado en casillero intermedio
-                && !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getTo().getSquare());            // El king no puede  ser capturado en casillero destino
+        return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().square())            // El king no puede ser capturado en casillero intermedio
+                && !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getTo().square());            // El king no puede  ser capturado en casillero destino
 
     }
 

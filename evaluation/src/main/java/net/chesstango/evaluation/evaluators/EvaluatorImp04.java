@@ -67,8 +67,8 @@ public class EvaluatorImp04 extends AbstractEvaluator {
         PositionReader positionReader = game.getPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            Square square = piecePlacement.getSquare();
+            Piece piece = piecePlacement.piece();
+            Square square = piecePlacement.square();
             int[] positionValues = getPositionValues(piece);
             evaluation += positionValues[square.idx()];
         }
@@ -83,14 +83,14 @@ public class EvaluatorImp04 extends AbstractEvaluator {
         for (Move move : game.getPseudoMoves()) {
             PiecePositioned fromPosition = move.getFrom();
             PiecePositioned toPosition = move.getTo();
-            Piece piece = fromPosition.getPiece();
+            Piece piece = fromPosition.piece();
 
-            if (toPosition.getPiece() == null) {
-                Square toSquare = toPosition.getSquare();
+            if (toPosition.piece() == null) {
+                Square toSquare = toPosition.square();
                 int[] positionValues = getPositionValues(piece);
                 evaluationByMoveToEmptySquare += positionValues[toSquare.idx()];
             } else {
-                evaluationByAttack -= getPieceValue(toPosition.getPiece());
+                evaluationByAttack -= getPieceValue(toPosition.piece());
             }
 
         }

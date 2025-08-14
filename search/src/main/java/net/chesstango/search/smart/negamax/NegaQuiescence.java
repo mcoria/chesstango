@@ -32,7 +32,7 @@ public class NegaQuiescence {
         while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
-            if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
+            if (move.getTo().piece() != null || move instanceof MovePromotion) {
                 move.executeMove();
 
                 int currentValue = -quiescenceMax(game, -beta, -Math.max(maxValue, alpha));

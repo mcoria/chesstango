@@ -72,8 +72,8 @@ public class CastlingWhiteQueenTest {
         bitBoard.init(squareBoard);
 
         moveCacheBoard = new MoveCacheBoardDebug();
-        moveCacheBoard.setPseudoMoves(PiecePositioned.KING_WHITE.getSquare(), new MoveGeneratorByPieceResult(PiecePositioned.KING_WHITE));
-        moveCacheBoard.setPseudoMoves(PiecePositioned.ROOK_WHITE_QUEEN.getSquare(), new MoveGeneratorByPieceResult(PiecePositioned.ROOK_WHITE_QUEEN));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.KING_WHITE.square(), new MoveGeneratorByPieceResult(PiecePositioned.KING_WHITE));
+        moveCacheBoard.setPseudoMoves(PiecePositioned.ROOK_WHITE_QUEEN.square(), new MoveGeneratorByPieceResult(PiecePositioned.ROOK_WHITE_QUEEN));
 
         zobristHash = new ZobristHashImp();
         zobristHash.init(squareBoard, positionState);
@@ -206,19 +206,19 @@ public class CastlingWhiteQueenTest {
         moveExecutor.doMove(moveCacheBoard);
 
         // asserts execute
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().square()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().square()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().square()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().square()));
 
         // undos
         moveExecutor.undoMove(moveCacheBoard);
 
         // asserts undos
-        assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
-        assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
-        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
+        assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().square()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().square()));
+        assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().square()));
+        assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().square()));
     }
 
 

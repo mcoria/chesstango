@@ -34,7 +34,7 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
         GameHistoryRecord stateHistory = this.game.getHistory().peekLastRecord();
         Move previousMove = stateHistory.playedMove();
         if (previousMove != null && !previousMove.isQuiet()) {
-            previousMoveToSquare = previousMove.getTo().getSquare();
+            previousMoveToSquare = previousMove.getTo().square();
         } else {
             previousMoveToSquare = null;
         }
@@ -50,8 +50,8 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     @Override
     public int compare(Move o1, Move o2) {
         if (previousMoveToSquare != null) {
-            Square o1ToSquare = o1.getTo().getSquare();
-            Square o2ToSquare = o2.getTo().getSquare();
+            Square o1ToSquare = o1.getTo().square();
+            Square o2ToSquare = o2.getTo().square();
 
             if (!o1ToSquare.equals(o2ToSquare)) {
                 if (Objects.equals(previousMoveToSquare, o1ToSquare)) {

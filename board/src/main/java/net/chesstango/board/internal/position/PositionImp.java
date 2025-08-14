@@ -50,10 +50,10 @@ public class PositionImp implements Position {
         }
 
         for (PiecePositioned piecePositioned : squareBoard) {
-            if (piecePositioned.getPiece() != null) {
-                int file = piecePositioned.getSquare().getFile();
-                int rank = piecePositioned.getSquare().getRank();
-                switch (piecePositioned.getPiece()) {
+            if (piecePositioned.piece() != null) {
+                int file = piecePositioned.square().getFile();
+                int rank = piecePositioned.square().getRank();
+                switch (piecePositioned.piece()) {
                     case PAWN_WHITE -> positionBuilder.withWhitePawn(file, rank);
                     case KNIGHT_WHITE -> positionBuilder.withWhiteKnight(file, rank);
                     case BISHOP_WHITE -> positionBuilder.withWhiteBishop(file, rank);

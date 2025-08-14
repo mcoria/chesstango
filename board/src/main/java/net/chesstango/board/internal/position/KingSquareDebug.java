@@ -23,10 +23,10 @@ public class KingSquareDebug extends KingSquareImp {
 		}
 		
 		for (PiecePositioned pieza : dummySquareBoard) {
-			if (Piece.KING_WHITE.equals(pieza.getPiece()) && !pieza.getSquare().equals(squareKingWhiteCache)) {
+			if (Piece.KING_WHITE.equals(pieza.piece()) && !pieza.square().equals(squareKingWhiteCache)) {
 				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 			}
-			if (Piece.KING_BLACK.equals(pieza.getPiece()) && !pieza.getSquare().equals(squareKingBlackCache)) {
+			if (Piece.KING_BLACK.equals(pieza.piece()) && !pieza.square().equals(squareKingBlackCache)) {
 				throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedo desactualizado");
 			}			
 		}

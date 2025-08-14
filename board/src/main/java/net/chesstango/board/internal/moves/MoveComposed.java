@@ -16,19 +16,19 @@ import java.util.function.Predicate;
 @Setter
 public class MoveComposed extends MoveImp {
 
-    private MoveExecutorLayer<PositionStateWriter> fnDoPositionState;
+    private transient MoveExecutorLayer<PositionStateWriter> fnDoPositionState;
 
-    private MoveExecutorLayer<SquareBoardWriter> fnDoSquareBoard;
+    private transient MoveExecutorLayer<SquareBoardWriter> fnDoSquareBoard;
 
-    private MoveExecutorLayer<SquareBoardWriter> fnUndoSquareBoard;
+    private transient MoveExecutorLayer<SquareBoardWriter> fnUndoSquareBoard;
 
-    private MoveExecutorLayer<BitBoardWriter> fnDoBitBoard;
+    private transient MoveExecutorLayer<BitBoardWriter> fnDoBitBoard;
 
-    private MoveExecutorLayer<BitBoardWriter> fnUndoBitBoard;
+    private transient MoveExecutorLayer<BitBoardWriter> fnUndoBitBoard;
 
-    private MoveExecutorZobrist fnDoZobrist;
+    private transient MoveExecutorZobrist fnDoZobrist;
 
-    private Predicate<LegalMoveFilter> fnDoFilterMove;
+    private transient Predicate<LegalMoveFilter> fnDoFilterMove;
 
     public MoveComposed(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(gameImp, from, to, direction);
@@ -80,10 +80,10 @@ public class MoveComposed extends MoveImp {
     }
 
     private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
+        Piece piece = getFrom().piece();
         return Piece.KNIGHT_WHITE.equals(piece) ||
                 Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+                ? null : Cardinal.calculateSquaresDirection(getFrom().square(), getTo().square());
     }
 
     @Override

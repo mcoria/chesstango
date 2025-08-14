@@ -21,7 +21,7 @@ public class SimpleMoveEncoder {
                 default -> throw new RuntimeException("Invalid promotion " + move);
             };
         }
-        return String.format("%s%s%s", move.getFrom().getSquare().toString(), move.getTo().getSquare().toString(), promotionStr);
+        return String.format("%s%s%s", move.getFrom().square().toString(), move.getTo().square().toString(), promotionStr);
     }
 
     public String encodeMoves(List<Move> moves) {

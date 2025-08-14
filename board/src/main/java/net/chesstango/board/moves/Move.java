@@ -6,6 +6,8 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.PositionWriter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 
+import java.io.Serializable;
+
 
 /**
  * Interface representing a move in a chess game.
@@ -21,7 +23,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
  * @see net.chesstango.board.iterators.Cardinal
  * @see PositionWriter
  */
-public interface Move {
+public interface Move extends Serializable {
 
     /**
      * Gets the starting position of the move.
@@ -69,8 +71,8 @@ public interface Move {
      * @return a short representing the bit field encoding of the move
      */
     default short binaryEncoding() {
-        Square fromSquare = getFrom().getSquare();
-        Square toSquare = getTo().getSquare();
+        Square fromSquare = getFrom().square();
+        Square toSquare = getTo().square();
         return (short) (fromSquare.getBinaryEncodedFrom() | toSquare.getBinaryEncodedTo());
     }
 

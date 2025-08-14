@@ -25,22 +25,22 @@ public class GameDebugEncoder {
         game.getHistory().iteratorReverse().forEachRemaining(careTakerRecord -> {
             Move move = careTakerRecord.playedMove();
             if (move instanceof MovePromotion movePromotion) {
-                sb.append(".executeMove(Square.").append(movePromotion.getFrom().getSquare().toString())
-                        .append(", Square.").append(movePromotion.getTo().getSquare().toString())
+                sb.append(".executeMove(Square.").append(movePromotion.getFrom().square().toString())
+                        .append(", Square.").append(movePromotion.getTo().square().toString())
                         .append(", Piece.").append(movePromotion.getPromotion().toString())
                         .append(")");
 
                 // Execute move
-                theGame.executeMove(move.getFrom().getSquare(), move.getTo().getSquare(), movePromotion.getPromotion());
+                theGame.executeMove(move.getFrom().square(), move.getTo().square(), movePromotion.getPromotion());
 
             } else {
                 sb.append(".executeMove(Square.")
-                        .append(move.getFrom().getSquare().toString())
+                        .append(move.getFrom().square().toString())
                         .append(", Square.")
-                        .append(move.getTo().getSquare().toString()).append(")");
+                        .append(move.getTo().square().toString()).append(")");
 
                 // Execute move
-                theGame.executeMove(move.getFrom().getSquare(), move.getTo().getSquare());
+                theGame.executeMove(move.getFrom().square(), move.getTo().square());
             }
 
             FENBuilder fenBuilder = new FENBuilder();

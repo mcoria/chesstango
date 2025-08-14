@@ -41,331 +41,331 @@ public class TopDownSquareIteratorTest {
 		// Rank 8
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a8, entry.getSquare());
-		assertEquals(Piece.ROOK_BLACK, entry.getPiece());
+		assertEquals(Square.a8, entry.square());
+		assertEquals(Piece.ROOK_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b8, entry.getSquare());
-		assertEquals(Piece.KNIGHT_BLACK, entry.getPiece());
+		assertEquals(Square.b8, entry.square());
+		assertEquals(Piece.KNIGHT_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c8, entry.getSquare());
-		assertEquals(Piece.BISHOP_BLACK, entry.getPiece());
+		assertEquals(Square.c8, entry.square());
+		assertEquals(Piece.BISHOP_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d8, entry.getSquare());
-		assertEquals(Piece.QUEEN_BLACK, entry.getPiece());
+		assertEquals(Square.d8, entry.square());
+		assertEquals(Piece.QUEEN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e8, entry.getSquare());
-		assertEquals(Piece.KING_BLACK, entry.getPiece());
+		assertEquals(Square.e8, entry.square());
+		assertEquals(Piece.KING_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f8, entry.getSquare());
-		assertEquals(Piece.BISHOP_BLACK, entry.getPiece());
+		assertEquals(Square.f8, entry.square());
+		assertEquals(Piece.BISHOP_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g8, entry.getSquare());
-		assertEquals(Piece.KNIGHT_BLACK, entry.getPiece());
+		assertEquals(Square.g8, entry.square());
+		assertEquals(Piece.KNIGHT_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h8, entry.getSquare());
-		assertEquals(Piece.ROOK_BLACK, entry.getPiece());
+		assertEquals(Square.h8, entry.square());
+		assertEquals(Piece.ROOK_BLACK, entry.piece());
 		
 		// Rank 7		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.a7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.b7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.c7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.d7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.e7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.f7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.g7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h7, entry.getSquare());
-		assertEquals(Piece.PAWN_BLACK, entry.getPiece());
+		assertEquals(Square.h7, entry.square());
+		assertEquals(Piece.PAWN_BLACK, entry.piece());
 		
 		
 		// Rank 6		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.a6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.b6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.c6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.d6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.e6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.f6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.g6, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h6, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.h6, entry.square());
+		assertNull(entry.piece());
 		
 		// Rank 5		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.a5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.b5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.c5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.d5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.e5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.f5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.g5, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h5, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.h5, entry.square());
+		assertNull(entry.piece());
 		
 		// Rank 4
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.a4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.b4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.c4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.d4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.e4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.f4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.g4, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h4, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.h4, entry.square());
+		assertNull(entry.piece());
 		
 		// Rank 3
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.a3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.b3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.c3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.d3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.e3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.f3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.g3, entry.square());
+		assertNull(entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h3, entry.getSquare());
-		assertNull(entry.getPiece());
+		assertEquals(Square.h3, entry.square());
+		assertNull(entry.piece());
 		
 		// Rank 2
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.a2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.b2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.c2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.d2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.e2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.f2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.g2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h2, entry.getSquare());
-		assertEquals(Piece.PAWN_WHITE, entry.getPiece());
+		assertEquals(Square.h2, entry.square());
+		assertEquals(Piece.PAWN_WHITE, entry.piece());
 		
 		// Rank 1
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.a1, entry.getSquare());
-		assertEquals(Piece.ROOK_WHITE, entry.getPiece());
+		assertEquals(Square.a1, entry.square());
+		assertEquals(Piece.ROOK_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.b1, entry.getSquare());
-		assertEquals(Piece.KNIGHT_WHITE, entry.getPiece());
+		assertEquals(Square.b1, entry.square());
+		assertEquals(Piece.KNIGHT_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.c1, entry.getSquare());
-		assertEquals(Piece.BISHOP_WHITE, entry.getPiece());
+		assertEquals(Square.c1, entry.square());
+		assertEquals(Piece.BISHOP_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.d1, entry.getSquare());
-		assertEquals(Piece.QUEEN_WHITE, entry.getPiece());
+		assertEquals(Square.d1, entry.square());
+		assertEquals(Piece.QUEEN_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.e1, entry.getSquare());
-		assertEquals(Piece.KING_WHITE, entry.getPiece());
+		assertEquals(Square.e1, entry.square());
+		assertEquals(Piece.KING_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.f1, entry.getSquare());
-		assertEquals(Piece.BISHOP_WHITE, entry.getPiece());
+		assertEquals(Square.f1, entry.square());
+		assertEquals(Piece.BISHOP_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.g1, entry.getSquare());
-		assertEquals(Piece.KNIGHT_WHITE, entry.getPiece());
+		assertEquals(Square.g1, entry.square());
+		assertEquals(Piece.KNIGHT_WHITE, entry.piece());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
-		assertEquals(Square.h1, entry.getSquare());
-		assertEquals(Piece.ROOK_WHITE, entry.getPiece());
+		assertEquals(Square.h1, entry.square());
+		assertEquals(Piece.ROOK_WHITE, entry.piece());
 		
 		//END
 		assertFalse(iterator.hasNext());		

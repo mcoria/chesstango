@@ -53,7 +53,7 @@ abstract class PinnedAnalyzerCardinal {
 
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            Piece piece = destino.getPiece();
+            Piece piece = destino.piece();
 
             if (piece != null) {
                 if (possiblePinned == null) {
@@ -66,7 +66,7 @@ abstract class PinnedAnalyzerCardinal {
                     if (queen.equals(piece) || bishopOrRook.equals(piece)) {
                         // Confirmado, tenemos pinned
                         pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
-                        return possiblePinned.getSquare().bitPosition();
+                        return possiblePinned.square().bitPosition();
                     }
                     return 0;
                 }

@@ -55,21 +55,21 @@ public class BitBoardDebug extends BitBoardImp {
 		validar();
 		
 		for (PiecePositioned piecePositioned : squareBoard) {
-			if(piecePositioned.getPiece() == null){
-				if(! this.isEmpty(piecePositioned.getSquare()) ){
-					throw new RuntimeException("BitBoard contiene una pieza " + this.getColor(piecePositioned.getSquare()) + " en " + piecePositioned.getSquare() + " pero en PosicionPieza esta vacia");
+			if(piecePositioned.piece() == null){
+				if(! this.isEmpty(piecePositioned.square()) ){
+					throw new RuntimeException("BitBoard contiene una pieza " + this.getColor(piecePositioned.square()) + " en " + piecePositioned.square() + " pero en PosicionPieza esta vacia");
 				}
 			} else {
-				Color colorBoard = piecePositioned.getPiece().getColor();
-				Color color = this.getColor(piecePositioned.getSquare());
+				Color colorBoard = piecePositioned.piece().getColor();
+				Color color = this.getColor(piecePositioned.square());
 				
 				if(! colorBoard.equals(color) ){
-					throw new RuntimeException("SquareBoard contiene una pieza de color distinto a BitBoard en " + piecePositioned.getSquare());
+					throw new RuntimeException("SquareBoard contiene una pieza de color distinto a BitBoard en " + piecePositioned.square());
 				}
 
-				long bitPosition = piecePositioned.getSquare().bitPosition();
+				long bitPosition = piecePositioned.square().bitPosition();
 
-				long piecesPositions = switch (piecePositioned.getPiece()) {
+				long piecesPositions = switch (piecePositioned.piece()) {
 					case PAWN_WHITE, PAWN_BLACK ->  pawns;
 					case ROOK_WHITE, ROOK_BLACK -> rooks;
 					case BISHOP_WHITE, BISHOP_BLACK -> bishops;
@@ -79,7 +79,7 @@ public class BitBoardDebug extends BitBoardImp {
 				};
 
 				if( (piecesPositions & bitPosition) == 0){
-					throw new RuntimeException("SquareBoard contiena una pieza que no está presente en  BitBoard " + piecePositioned.getSquare());
+					throw new RuntimeException("SquareBoard contiena una pieza que no está presente en  BitBoard " + piecePositioned.square());
 				}
 			}
 		}

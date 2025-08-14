@@ -22,8 +22,8 @@ public class MoveCacheBoardDebug extends MoveCacheBoardImp {
         }
 
         for (PiecePositioned piecePositioned : squareBoard) {
-            if (piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().idx()] != null) {
-                throw new RuntimeException(String.format("Para un casillero de tablero sin pieza (%s) existe movimientos en cache!!!", piecePositioned.getSquare()));
+            if (piecePositioned.piece() == null && pseudoMoves[piecePositioned.square().idx()] != null) {
+                throw new RuntimeException(String.format("Para un casillero de tablero sin pieza (%s) existe movimientos en cache!!!", piecePositioned.square()));
             }
         }
 

@@ -1,17 +1,11 @@
 package net.chesstango.board;
 
-import lombok.Getter;
-
-import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * @author Mauricio Coria
  */
-@Getter
-public final class PiecePositioned {
-    private final Square square;
-    private final Piece piece;
-
+public record PiecePositioned(Square square, Piece piece) implements Serializable {
     public static final PiecePositioned ROOK_BLACK_QUEEN = PiecePositionedCache.getInstance().getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
     public static final PiecePositioned ROOK_BLACK_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
     public static final PiecePositioned KING_BLACK = PiecePositionedCache.getInstance().getPiecePositioned(Square.e8, Piece.KING_BLACK);
@@ -20,11 +14,6 @@ public final class PiecePositioned {
     public static final PiecePositioned ROOK_WHITE_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
     public static final PiecePositioned KING_WHITE = PiecePositionedCache.getInstance().getPiecePositioned(Square.e1, Piece.KING_WHITE);
 
-    private PiecePositioned(Square square, Piece piece) {
-        this.square = square;
-        this.piece = piece;
-    }
-
     public static PiecePositioned of(Square square, Piece piece) {
         return PiecePositionedCache.getInstance().getPiecePositioned(square, piece);
     }
@@ -32,7 +21,6 @@ public final class PiecePositioned {
     public static PiecePositioned getPosition(Square square) {
         return PiecePositionedCache.getInstance().getPosition(square);
     }
-
 
     @Override
     public String toString() {
@@ -47,13 +35,8 @@ public final class PiecePositioned {
         return square == that.square && piece == that.piece;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(square, piece);
-    }
-
     public PiecePositioned getMirrorPosition() {
-        if(piece == null){
+        if (piece == null) {
             return getPosition(square.mirror());
         }
         return of(square.mirror(), piece.getOpposite());

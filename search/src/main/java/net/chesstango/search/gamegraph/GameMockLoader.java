@@ -147,6 +147,6 @@ public class GameMockLoader {
                 default -> throw new RuntimeException("Invalid promotion " + move);
             };
         }
-        return move.getFrom().getSquare().toString() + move.getTo().getSquare().toString() + promotionStr;
+        return move.getFrom().square().toString() + move.getTo().square().toString() + promotionStr;
     }
 }

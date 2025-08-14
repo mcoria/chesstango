@@ -38,7 +38,7 @@ public class MovePawnTwoSquares extends MoveImp {
 
         positionState.resetHalfMoveClock();
 
-        if (Color.BLACK.equals(from.getPiece().getColor())) {
+        if (Color.BLACK.equals(from.piece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
@@ -47,23 +47,23 @@ public class MovePawnTwoSquares extends MoveImp {
 
     @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), from.square(), to.square());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), to.square(), from.square());
     }
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), enPassantSquare);
+        moveCache.affectedPositionsByMove(from.square(), to.square(), enPassantSquare);
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), enPassantSquare);
+        moveCache.affectedPositionsByMove(from.square(), to.square(), enPassantSquare);
         moveCache.pop();
     }
 
@@ -81,17 +81,17 @@ public class MovePawnTwoSquares extends MoveImp {
 
         hash.xorPosition(from);
 
-        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.square(), from.piece()));
 
         hash.clearEnPassantSquare();
 
         PositionReader positionReader = gameImp.getPosition();
 
         if (enPassantSquare.equals(positionReader.getEnPassantSquare())) {
-            Square leftSquare = Square.of(to.getSquare().getFile() - 1, to.getSquare().getRank());
-            Square rightSquare = Square.of(to.getSquare().getFile() + 1, to.getSquare().getRank());
-            if (leftSquare != null && from.getPiece().getOpposite().equals(positionReader.getPiece(leftSquare)) ||
-                    rightSquare != null && from.getPiece().getOpposite().equals(positionReader.getPiece(rightSquare))) {
+            Square leftSquare = Square.of(to.square().getFile() - 1, to.square().getRank());
+            Square rightSquare = Square.of(to.square().getFile() + 1, to.square().getRank());
+            if (leftSquare != null && from.piece().getOpposite().equals(positionReader.getPiece(leftSquare)) ||
+                    rightSquare != null && from.piece().getOpposite().equals(positionReader.getPiece(rightSquare))) {
                 hash.xorEnPassantSquare(enPassantSquare);
             }
         }

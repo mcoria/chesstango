@@ -66,12 +66,12 @@ public class MoveKingImp extends MoveComposed {
 
     @Override
     public void doMove(KingSquareWriter kingSquare) {
-        kingSquare.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
+        kingSquare.setKingSquare(getFrom().piece().getColor(), getTo().square());
     }
 
     @Override
     public void undoMove(KingSquareWriter kingSquare) {
-        kingSquare.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
+        kingSquare.setKingSquare(getFrom().piece().getColor(), getFrom().square());
     }
 
     @Override

@@ -27,7 +27,7 @@ public class CapturerByKing implements CapturerByPiece {
         Iterator<PiecePositioned> iterator = new KingBitIterator<>(squareBoardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            if (king.equals(destino.getPiece())) {
+            if (king.equals(destino.piece())) {
                 return true;
             }
         }

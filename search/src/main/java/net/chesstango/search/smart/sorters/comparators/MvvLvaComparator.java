@@ -69,12 +69,12 @@ public class MvvLvaComparator implements MoveComparator {
     }
 
     private int getValue(Move move) {
-        int attackerIdx = getIdx(move.getFrom().getPiece());
+        int attackerIdx = getIdx(move.getFrom().piece());
         int victimIdx = 0;
         if (move instanceof MoveCaptureEnPassant moveCaptureEnPassant) {
-            victimIdx = getIdx(moveCaptureEnPassant.getCapture().getPiece());
+            victimIdx = getIdx(moveCaptureEnPassant.getCapture().piece());
         } else {
-            victimIdx = getIdx(move.getTo().getPiece());
+            victimIdx = getIdx(move.getTo().piece());
         }
 
         return MVVLVA_MATRIX[victimIdx][attackerIdx];

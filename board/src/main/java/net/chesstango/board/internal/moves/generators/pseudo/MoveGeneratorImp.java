@@ -73,7 +73,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
     @Override
     public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
-        Piece piece = from.getPiece();
+        Piece piece = from.piece();
         MoveGeneratorByPiece strategy = selectMoveGeneratorStrategy(piece);
         return strategy.generateByPiecePseudoMoves(from);
     }

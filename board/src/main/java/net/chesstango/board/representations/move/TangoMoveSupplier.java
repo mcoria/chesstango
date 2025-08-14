@@ -20,8 +20,8 @@ public class TangoMoveSupplier implements MoveSupplier<Move> {
     public Move get(int fromFile, int fromRank, int toFile, int toRank, int fromPiece, int toPiece, int promotion) {
         MoveContainerReader<Move> moves = game.getPossibleMoves();
         for (Move move : moves) {
-            if (move.getFrom().getSquare().getFile() == fromFile && move.getFrom().getSquare().getRank() == fromRank &&
-                    move.getTo().getSquare().getFile() == toFile && move.getTo().getSquare().getRank() == toRank) {
+            if (move.getFrom().square().getFile() == fromFile && move.getFrom().square().getRank() == fromRank &&
+                    move.getTo().square().getFile() == toFile && move.getTo().square().getRank() == toRank) {
                 if (move instanceof MovePromotion movePromotion && promotion != 0) {
                     int promotionFilter = switch (movePromotion.getPromotion()) {
                         case ROOK_WHITE, ROOK_BLACK -> 1;

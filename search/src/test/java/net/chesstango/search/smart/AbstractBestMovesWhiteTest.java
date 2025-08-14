@@ -31,14 +31,14 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.d3, smartMove.getFrom().getSquare());
-        assertNotEquals(Square.a6, smartMove.getTo().getSquare(), "Queen captured by pawn");
-        assertNotEquals(Square.c4, smartMove.getTo().getSquare(), "Queen captured by pawn");
-        assertNotEquals(Square.c3, smartMove.getTo().getSquare(), "Queen captured by pawn");
-        assertNotEquals(Square.e3, smartMove.getTo().getSquare(), "Queen captured by pawn");
-        assertNotEquals(Square.f5, smartMove.getTo().getSquare(), "Queen captured by bishop");
-        assertNotEquals(Square.g6, smartMove.getTo().getSquare(), "Queen captured by pawn");
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.d3, smartMove.getFrom().square());
+        assertNotEquals(Square.a6, smartMove.getTo().square(), "Queen captured by pawn");
+        assertNotEquals(Square.c4, smartMove.getTo().square(), "Queen captured by pawn");
+        assertNotEquals(Square.c3, smartMove.getTo().square(), "Queen captured by pawn");
+        assertNotEquals(Square.e3, smartMove.getTo().square(), "Queen captured by pawn");
+        assertNotEquals(Square.f5, smartMove.getTo().square(), "Queen captured by bishop");
+        assertNotEquals(Square.g6, smartMove.getTo().square(), "Queen captured by pawn");
     }
 
     @Test
@@ -51,9 +51,9 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.KING_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.c2, smartMove.getFrom().getSquare());
-        assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
+        assertEquals(Piece.KING_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.c2, smartMove.getFrom().square());
+        assertEquals(Square.b1, smartMove.getTo().square(), "There is no other option for black King");
 
         assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
@@ -69,9 +69,9 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.KING_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.c2, smartMove.getFrom().getSquare());
-        assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
+        assertEquals(Piece.KING_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.c2, smartMove.getFrom().square());
+        assertEquals(Square.b1, smartMove.getTo().square(), "There is no other option for black King");
 
         assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
@@ -86,10 +86,10 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.b8, smartMove.getFrom().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.b8, smartMove.getFrom().square());
 
-        Square to = smartMove.getTo().getSquare();
+        Square to = smartMove.getTo().square();
         assertTrue(Square.a8.equals(to) || Square.a7.equals(to) || Square.b6.equals(to) || Square.b5.equals(to) || Square.b4.equals(to));
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
@@ -105,9 +105,9 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.e3, smartMove.getFrom().getSquare());
-        assertEquals(Square.g3, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.e3, smartMove.getFrom().square());
+        assertEquals(Square.g3, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }

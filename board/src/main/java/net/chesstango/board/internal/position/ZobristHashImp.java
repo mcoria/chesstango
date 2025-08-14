@@ -33,7 +33,7 @@ public class ZobristHashImp implements ZobristHash, Cloneable {
     @Override
     public void init(SquareBoardReader piecePlacement, PositionStateReader positionState) {
         for (PiecePositioned piecePositioned : piecePlacement) {
-            if (piecePositioned.getPiece() != null) {
+            if (piecePositioned.piece() != null) {
                 xorPosition(piecePositioned);
             }
         }
@@ -76,7 +76,7 @@ public class ZobristHashImp implements ZobristHash, Cloneable {
 
     @Override
     public void xorPosition(PiecePositioned piecePositioned) {
-        zobristHash ^= KEYS[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
+        zobristHash ^= KEYS[64 * getKindOfPiece(piecePositioned.piece()) + 8 * piecePositioned.square().getRank() + piecePositioned.square().getFile()];
     }
 
     @Override

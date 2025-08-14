@@ -48,14 +48,14 @@ public class DefaultMoveSorterTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.e4, move.getFrom().getSquare());
-        assertEquals(Square.f5, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+        assertEquals(Square.e4, move.getFrom().square());
+        assertEquals(Square.f5, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.h4, move.getFrom().getSquare());
-        assertEquals(Square.f5, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+        assertEquals(Square.h4, move.getFrom().square());
+        assertEquals(Square.f5, move.getTo().square());
     }
 
     @Test
@@ -71,14 +71,14 @@ public class DefaultMoveSorterTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.e5, move.getFrom().getSquare());
-        assertEquals(Square.f4, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
+        assertEquals(Square.e5, move.getFrom().square());
+        assertEquals(Square.f4, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.h5, move.getFrom().getSquare());
-        assertEquals(Square.f4, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
+        assertEquals(Square.h5, move.getFrom().square());
+        assertEquals(Square.f4, move.getTo().square());
     }
 
 
@@ -100,24 +100,24 @@ public class DefaultMoveSorterTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.e4, move.getFrom().getSquare());
-        assertEquals(Square.f5, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+        assertEquals(Square.e4, move.getFrom().square());
+        assertEquals(Square.f5, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.h4, move.getFrom().getSquare());
-        assertEquals(Square.f5, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+        assertEquals(Square.h4, move.getFrom().square());
+        assertEquals(Square.f5, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.e4, move.getFrom().getSquare());
-        assertEquals(Square.d5, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+        assertEquals(Square.e4, move.getFrom().square());
+        assertEquals(Square.d5, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.h4, move.getFrom().getSquare());
-        assertEquals(Square.g6, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+        assertEquals(Square.h4, move.getFrom().square());
+        assertEquals(Square.g6, move.getTo().square());
     }
 
     @Test
@@ -133,24 +133,24 @@ public class DefaultMoveSorterTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.e5, move.getFrom().getSquare());
-        assertEquals(Square.f4, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
+        assertEquals(Square.e5, move.getFrom().square());
+        assertEquals(Square.f4, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.h5, move.getFrom().getSquare());
-        assertEquals(Square.f4, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
+        assertEquals(Square.h5, move.getFrom().square());
+        assertEquals(Square.f4, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.e5, move.getFrom().getSquare());
-        assertEquals(Square.d4, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
+        assertEquals(Square.e5, move.getFrom().square());
+        assertEquals(Square.d4, move.getTo().square());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
-        assertEquals(Square.h5, move.getFrom().getSquare());
-        assertEquals(Square.g3, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
+        assertEquals(Square.h5, move.getFrom().square());
+        assertEquals(Square.g3, move.getTo().square());
     }
 
     @Test
@@ -164,9 +164,9 @@ public class DefaultMoveSorterTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.g1, move.getFrom().getSquare());
-        assertEquals(Square.h3, move.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
+        assertEquals(Square.g1, move.getFrom().square());
+        assertEquals(Square.h3, move.getTo().square());
     }
 
     @Test
@@ -205,9 +205,9 @@ public class DefaultMoveSorterTest {
             Move move = movesSorted.get(i);
             Move moveMirror = movesSortedMirror.get(i);
 
-            assertEquals(move.getFrom().getPiece(), moveMirror.getFrom().getPiece().getOpposite());
-            assertEquals(move.getFrom().getSquare(), moveMirror.getFrom().getSquare().mirror());
-            assertEquals(move.getTo().getSquare(), moveMirror.getTo().getSquare().mirror());
+            assertEquals(move.getFrom().piece(), moveMirror.getFrom().piece().getOpposite());
+            assertEquals(move.getFrom().square(), moveMirror.getFrom().square().mirror());
+            assertEquals(move.getTo().square(), moveMirror.getTo().square().mirror());
 
             if (move instanceof MovePromotion) {
                 MovePromotion movePromotion = (MovePromotion) move;

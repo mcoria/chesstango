@@ -53,7 +53,7 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void addPosition(PiecePositioned position) {
-		addPosition(position.getPiece(), position.getSquare());
+		addPosition(position.piece(), position.square());
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void removePosition(PiecePositioned position){
-		removePosition(position.getPiece(), position.getSquare());
+		removePosition(position.piece(), position.square());
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class BitBoardImp implements BitBoard {
 	@Override
 	public void init(SquareBoardReader board) {
 		for (PiecePositioned piecePositioned : board) {
-			if (piecePositioned.getPiece() != null) {
+			if (piecePositioned.piece() != null) {
 				addPosition(piecePositioned);
 			}			
 		}

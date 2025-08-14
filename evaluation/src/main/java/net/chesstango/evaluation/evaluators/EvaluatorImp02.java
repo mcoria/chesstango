@@ -89,10 +89,10 @@ public class EvaluatorImp02 extends AbstractEvaluator {
         for (Move move : game.getPseudoMoves()) {
             PiecePositioned fromPosition = move.getFrom();
             PiecePositioned toPosition = move.getTo();
-            if (toPosition.getPiece() == null) {
-                evaluationByMoveToEmptySquare += getPieceValue(fromPosition.getPiece());
+            if (toPosition.piece() == null) {
+                evaluationByMoveToEmptySquare += getPieceValue(fromPosition.piece());
             } else {
-                evaluationByAttack -= getPieceValue(toPosition.getPiece());
+                evaluationByAttack -= getPieceValue(toPosition.piece());
             }
         }
 

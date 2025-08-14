@@ -12,14 +12,15 @@ import net.chesstango.board.position.*;
  * @author Mauricio Coria
  */
 public abstract class MoveImp implements PseudoMove, Command {
-    protected final GameImp gameImp;
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
 
-    protected PositionStateReader positionStateSnapshot;
-    protected ZobristHashReader zobristHashSnapshot;
-    protected GameStateReader gameStateSnapshot;
+    protected final transient GameImp gameImp;
+
+    protected transient PositionStateReader positionStateSnapshot;
+    protected transient ZobristHashReader zobristHashSnapshot;
+    protected transient GameStateReader gameStateSnapshot;
 
     public MoveImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction) {
         /*
@@ -128,13 +129,13 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square());
         moveCache.pop();
     }
 
@@ -160,7 +161,7 @@ public abstract class MoveImp implements PseudoMove, Command {
 
     @Override
     public boolean isQuiet() {
-        return to.getPiece() == null;
+        return to.piece() == null;
     }
 
     @Override
@@ -201,9 +202,9 @@ public abstract class MoveImp implements PseudoMove, Command {
     }
 
     private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
+        Piece piece = getFrom().piece();
         return Piece.KNIGHT_WHITE.equals(piece) ||
                 Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+                ? null : Cardinal.calculateSquaresDirection(getFrom().square(), getTo().square());
     }
 }

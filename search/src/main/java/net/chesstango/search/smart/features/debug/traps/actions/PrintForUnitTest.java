@@ -98,7 +98,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
         tree.forEach(node -> {
             Move move = node.getSelectedMove();
             if (move != null) {
-                printStream.printf("\n.executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
+                printStream.printf("\n.executeMove(Square." + move.getFrom().square().toString() + ", Square." + move.getTo().square().toString() + ")");
             }
         });
         printStream.println(";\n");

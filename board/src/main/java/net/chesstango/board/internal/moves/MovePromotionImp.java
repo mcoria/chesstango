@@ -33,7 +33,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     @Override
     public void doMove(SquareBoardWriter squareBoard) {
         squareBoard.setEmptyPosition(from);
-        squareBoard.setPiece(to.getSquare(), this.promotion);
+        squareBoard.setPiece(to.square(), this.promotion);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
             }
         }
 
-        if (Color.BLACK.equals(from.getPiece().getColor())) {
+        if (Color.BLACK.equals(from.piece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
@@ -80,17 +80,17 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
     public void doMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.removePosition(from);
         // Captura
-        if (to.getPiece() != null) {
+        if (to.piece() != null) {
             bitBoardWriter.removePosition(to);
         }
-        bitBoardWriter.addPosition(promotion, to.getSquare());
+        bitBoardWriter.addPosition(promotion, to.square());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.removePosition(promotion, to.getSquare());
+        bitBoardWriter.removePosition(promotion, to.square());
         // Captura
-        if (to.getPiece() != null) {
+        if (to.piece() != null) {
             bitBoardWriter.addPosition(to);
         }
         bitBoardWriter.addPosition(from);
@@ -113,11 +113,11 @@ public class MovePromotionImp extends MoveImp implements MovePromotion {
 
         hash.xorPosition(from);
 
-        if (to.getPiece() != null) {
+        if (to.piece() != null) {
             hash.xorPosition(to);
         }
 
-        hash.xorPosition(PiecePositioned.of(to.getSquare(), promotion));
+        hash.xorPosition(PiecePositioned.of(to.square(), promotion));
 
         PositionReader positionReader = gameImp.getPosition();
 

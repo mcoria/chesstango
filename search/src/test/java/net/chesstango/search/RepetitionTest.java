@@ -60,8 +60,8 @@ public class RepetitionTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        assertFalse(Square.h7.equals(bestMove.getFrom().getSquare())
-                && Square.g8.equals(bestMove.getTo().getSquare()));
+        assertFalse(Square.h7.equals(bestMove.getFrom().square())
+                && Square.g8.equals(bestMove.getTo().square()));
     }
 
 

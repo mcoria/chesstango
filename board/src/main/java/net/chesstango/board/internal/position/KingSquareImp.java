@@ -78,8 +78,8 @@ public class KingSquareImp implements KingSquare {
 		Square kingSquare = null;
 		Piece king = Piece.getKing(color);
 		for (PiecePositioned entry : board) {
-			Square currentSquare = entry.getSquare();
-			Piece currentPieza = entry.getPiece();
+			Square currentSquare = entry.square();
+			Piece currentPieza = entry.piece();
 			if (king.equals(currentPieza)) {
 				kingSquare = currentSquare;
 				break;

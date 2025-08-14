@@ -50,11 +50,11 @@ public abstract class GenericTest {
 
         Move bestMoveMirror = search.startSearch(gameMirror).getBestMove();
 
-        assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
+        assertEquals(bestMove.getFrom().piece().getOpposite(), bestMoveMirror.getFrom().piece());
 
-        assertEquals(bestMove.getFrom().getSquare().mirror(), bestMoveMirror.getFrom().getSquare());
+        assertEquals(bestMove.getFrom().square().mirror(), bestMoveMirror.getFrom().square());
 
-        assertEquals(bestMove.getTo().getSquare().mirror(), bestMoveMirror.getTo().getSquare());
+        assertEquals(bestMove.getTo().square().mirror(), bestMoveMirror.getTo().square());
     }
 
 }

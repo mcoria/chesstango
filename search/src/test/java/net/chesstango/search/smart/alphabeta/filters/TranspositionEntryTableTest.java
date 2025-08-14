@@ -102,7 +102,7 @@ public class TranspositionEntryTableTest {
 
             Move bestMove = searchResult01.getBestMove();
 
-            debugTT(Game.from(FEN.of(fen)).executeMove(bestMove.getFrom().getSquare(), bestMove.getTo().getSquare()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
+            debugTT(Game.from(FEN.of(fen)).executeMove(bestMove.getFrom().square(), bestMove.getTo().square()).toString(), searchResult01.getBestEvaluation(), depth - 1, searchMethod1, searchMethod2);
 
             Assertions.assertEquals(searchResult01.getBestEvaluation(), searchResult02.getBestEvaluation());
 

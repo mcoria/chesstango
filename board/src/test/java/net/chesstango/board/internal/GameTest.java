@@ -960,7 +960,7 @@ public class GameTest {
 
     protected boolean contieneMove(MoveContainerReader<? extends Move> movimientos, Square from, Square to) {
         for (Move move : movimientos) {
-            if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
+            if (from.equals(move.getFrom().square()) && to.equals(move.getTo().square())) {
                 return true;
             }
         }

@@ -84,7 +84,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
         List<MoveGeneratorByPieceResult> currentRemovedPseudoMoves = removedPseudoMoves.pop();
 
-        currentRemovedPseudoMoves.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));
+        currentRemovedPseudoMoves.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().square(), generatorResult));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
             int i = Long.numberOfTrailingZeros(posicionLng);
             MoveGeneratorByPieceResult pseudoMove = pseudoMoves[i];
             if (pseudoMove != null) {
-                Square key = pseudoMove.getFrom().getSquare();
+                Square key = pseudoMove.getFrom().square();
                 if ((pseudoMove.getAffectedByPositions() & affectedPositionsByMove) != 0) {
                     if (trackRemoved) {
                         currentRemovedPseudoMoves.add(pseudoMove);

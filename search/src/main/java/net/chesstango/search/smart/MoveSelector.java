@@ -53,33 +53,33 @@ public class MoveSelector {
 
         if (Color.WHITE.equals(currentTurn)) {
             // Casillero de origen
-            int maxFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).max().getAsInt();
-            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxFromRank).mapToInt(Square::getFile).min().getAsInt();
+            int maxFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::square).mapToInt(Square::getRank).max().getAsInt();
+            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::square).filter(square -> square.getRank() == maxFromRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que parten del mismo Square
-            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().getSquare().getRank() == maxFromRank && move.getFrom().getSquare().getFile() == minFromFile).collect(Collectors.toList());
+            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().square().getRank() == maxFromRank && move.getFrom().square().getFile() == minFromFile).collect(Collectors.toList());
 
-            int maxToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).mapToInt(Square::getRank).max().getAsInt();
-            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxToRank).mapToInt(Square::getFile).min().getAsInt();
+            int maxToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::square).mapToInt(Square::getRank).max().getAsInt();
+            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::square).filter(square -> square.getRank() == maxToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
             movesToSquare = movesFromSquare.stream()
-                    .filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile)
+                    .filter(move -> move.getTo().square().getRank() == maxToRank && move.getTo().square().getFile() == minToFile)
                     .collect(Collectors.toList());
         } else {
             // Casillero de origen
-            int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
-            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
+            int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::square).mapToInt(Square::getRank).min().getAsInt();
+            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::square).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que parten del mismo Square
-            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().getSquare().getRank() == minFromRank && move.getFrom().getSquare().getFile() == minFromFile).collect(Collectors.toList());
+            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().square().getRank() == minFromRank && move.getFrom().square().getFile() == minFromFile).collect(Collectors.toList());
 
-            int minToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
-            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minToRank).mapToInt(Square::getFile).min().getAsInt();
+            int minToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::square).mapToInt(Square::getRank).min().getAsInt();
+            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::square).filter(square -> square.getRank() == minToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
             movesToSquare = movesFromSquare.stream()
-                    .filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile)
+                    .filter(move -> move.getTo().square().getRank() == minToRank && move.getTo().square().getFile() == minToFile)
                     .collect(Collectors.toList());
         }
 

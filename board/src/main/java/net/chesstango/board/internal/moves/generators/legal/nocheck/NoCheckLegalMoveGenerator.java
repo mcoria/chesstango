@@ -94,7 +94,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
         MoveList<PseudoMove> pseudoMovesKing = getPseudoMoves(kingSquare);
 
         for (PseudoMove pseudoMove : pseudoMovesKing) {
-            Square toSquare = pseudoMove.getTo().getSquare();
+            Square toSquare = pseudoMove.getTo().square();
             if ((toSquare.bitPosition() & safeKingPositions) != 0) {
                 moves.add(pseudoMove);
             }

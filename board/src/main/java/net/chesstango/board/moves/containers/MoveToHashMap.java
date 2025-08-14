@@ -43,25 +43,25 @@ public class MoveToHashMap {
     }
 
     private long getHashForRegularMove(Move move) {
-        int idx = move.getFrom().getSquare().idx() * 64 + move.getTo().getSquare().idx();
+        int idx = move.getFrom().square().idx() * 64 + move.getTo().square().idx();
         int hashSession = regularMoveSessionArray[idx];
         return hashSession == currentSessionId ? regularMoveHashArray[idx] : 0;
     }
 
     private long getHashForPromotionMove(MovePromotion movePromotion) {
-        int idx = movePromotion.getFrom().getSquare().getFile() * 8 * 4 + movePromotion.getTo().getSquare().getFile() * 4 + getPieceOffset(movePromotion.getPromotion());
+        int idx = movePromotion.getFrom().square().getFile() * 8 * 4 + movePromotion.getTo().square().getFile() * 4 + getPieceOffset(movePromotion.getPromotion());
         int hashSession = promotionMoveSessionArray[idx];
         return hashSession == currentSessionId ? promotionMoveHashArray[idx] : 0;
     }
 
     private void writeForRegularMove(Move move, long hash) {
-        int idx = move.getFrom().getSquare().idx() * 64 + move.getTo().getSquare().idx();
+        int idx = move.getFrom().square().idx() * 64 + move.getTo().square().idx();
         regularMoveSessionArray[idx] = currentSessionId;
         regularMoveHashArray[idx] = hash;
     }
 
     private void writeForPromotionMove(MovePromotion movePromotion, long hash) {
-        int idx = movePromotion.getFrom().getSquare().getFile() * 8 * 4 + movePromotion.getTo().getSquare().getFile() * 4 + getPieceOffset(movePromotion.getPromotion());
+        int idx = movePromotion.getFrom().square().getFile() * 8 * 4 + movePromotion.getTo().square().getFile() * 4 + getPieceOffset(movePromotion.getPromotion());
         promotionMoveSessionArray[idx] = currentSessionId;
         promotionMoveHashArray[idx] = hash;
     }

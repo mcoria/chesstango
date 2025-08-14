@@ -52,7 +52,7 @@ public class MoveGeneratorByPieceResult {
 	public MoveGeneratorByPieceResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList<>();
 		this.from = from;
-		this.affectedByPositions = from.getSquare().bitPosition();
+		this.affectedByPositions = from.square().bitPosition();
 	}
 
 	/**

@@ -55,22 +55,22 @@ public class DefaultMoveComparatorReversedTest {
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KING_WHITE, move.getFrom().piece());
 
         assertFalse(movesSortedIt.hasNext());
     }
@@ -104,22 +104,22 @@ public class DefaultMoveComparatorReversedTest {
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KING_WHITE, move.getFrom().piece());
 
         assertFalse(movesSortedIt.hasNext());
     }
@@ -153,22 +153,22 @@ public class DefaultMoveComparatorReversedTest {
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KING_BLACK, move.getFrom().piece());
 
         assertFalse(movesSortedIt.hasNext());
     }
@@ -202,22 +202,22 @@ public class DefaultMoveComparatorReversedTest {
         Iterator<Move> movesSortedIt = moveList.iterator();
 
         move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().piece());
 
         move = movesSortedIt.next();
-        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KING_BLACK, move.getFrom().piece());
 
         assertFalse(movesSortedIt.hasNext());
     }

@@ -82,8 +82,8 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     @Override
     public M getMove(Square from, Square to) {
         for (M move : this) {
-            if (from.equals(move.getFrom().getSquare()) &&
-                    to.equals(move.getTo().getSquare())) {
+            if (from.equals(move.getFrom().square()) &&
+                    to.equals(move.getTo().square())) {
                 if (move instanceof MovePromotion) {
                     return null;
                 }
@@ -96,8 +96,8 @@ public class MoveContainer<M extends Move> implements MoveContainerReader<M> {
     @Override
     public M getMove(Square from, Square to, Piece promotionPiece) {
         for (M move : this) {
-            if (from.equals(move.getFrom().getSquare()) &&
-                    to.equals(move.getTo().getSquare()) &&
+            if (from.equals(move.getFrom().square()) &&
+                    to.equals(move.getTo().square()) &&
                     (move instanceof MovePromotion movePromotion)) {
                 if (movePromotion.getPromotion().equals(promotionPiece)) {
                     return move;

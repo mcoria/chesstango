@@ -40,9 +40,9 @@ public class GameToPGN {
             String currentMoveStr = sanEncoder.encodeAlgebraicNotation(toMove(playedMove), theGame.getCurrentFEN());
 
             if (playedMove instanceof MovePromotion playedMovePromotion) {
-                theGame.executeMove(playedMovePromotion.getFrom().getSquare(), playedMovePromotion.getTo().getSquare(), playedMovePromotion.getPromotion());
+                theGame.executeMove(playedMovePromotion.getFrom().square(), playedMovePromotion.getTo().square(), playedMovePromotion.getPromotion());
             } else {
-                theGame.executeMove(playedMove.getFrom().getSquare(), playedMove.getTo().getSquare());
+                theGame.executeMove(playedMove.getFrom().square(), playedMove.getTo().square());
             }
 
             currentMoveStr += encodeGameStatusAtMove(theGame.getStatus());
@@ -56,8 +56,8 @@ public class GameToPGN {
     }
 
     private net.chesstango.gardel.move.Move toMove(Move playedMove) {
-        net.chesstango.gardel.move.Move.Square from = net.chesstango.gardel.move.Move.Square.of(playedMove.getFrom().getSquare().getFile(), playedMove.getFrom().getSquare().getRank());
-        net.chesstango.gardel.move.Move.Square to = net.chesstango.gardel.move.Move.Square.of(playedMove.getTo().getSquare().getFile(), playedMove.getTo().getSquare().getRank());
+        net.chesstango.gardel.move.Move.Square from = net.chesstango.gardel.move.Move.Square.of(playedMove.getFrom().square().getFile(), playedMove.getFrom().square().getRank());
+        net.chesstango.gardel.move.Move.Square to = net.chesstango.gardel.move.Move.Square.of(playedMove.getTo().square().getFile(), playedMove.getTo().square().getRank());
 
         if (playedMove instanceof MovePromotion movePromotion) {
             return net.chesstango.gardel.move.Move.of(from, to, switch (movePromotion.getPromotion()) {

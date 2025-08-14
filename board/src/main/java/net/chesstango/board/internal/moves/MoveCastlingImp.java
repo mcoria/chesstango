@@ -40,25 +40,25 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
 
     @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
-        bitBoardWriter.swapPositions(rookFrom.getPiece(), rookFrom.getSquare(), rookTo.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), from.square(), to.square());
+        bitBoardWriter.swapPositions(rookFrom.piece(), rookFrom.square(), rookTo.square());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
-        bitBoardWriter.swapPositions(rookFrom.getPiece(), rookTo.getSquare(), rookFrom.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), to.square(), from.square());
+        bitBoardWriter.swapPositions(rookFrom.piece(), rookTo.square(), rookFrom.square());
     }
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square(), rookFrom.square(), rookTo.square());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square(), rookFrom.square(), rookTo.square());
         moveCache.pop();
     }
 
@@ -67,10 +67,10 @@ public abstract class MoveCastlingImp extends MoveKingImp implements MoveCastlin
         zobristHashSnapshot = hash.takeSnapshot();
 
         hash.xorPosition(from);
-        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.square(), from.piece()));
 
         hash.xorPosition(rookFrom);
-        hash.xorPosition(PiecePositioned.of(rookTo.getSquare(), rookFrom.getPiece()));
+        hash.xorPosition(PiecePositioned.of(rookTo.square(), rookFrom.piece()));
 
         PositionReader positionReader = gameImp.getPosition();
 

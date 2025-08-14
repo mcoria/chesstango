@@ -22,7 +22,7 @@ public class DefaultMoveComparator implements MoveComparator {
         PiecePositioned move1From = move1.getFrom();
         PiecePositioned move1To = move1.getTo();
         Piece move1PiecePromotion = move1 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
-        if (Color.BLACK.equals(move1.getFrom().getPiece().getColor())) {
+        if (Color.BLACK.equals(move1.getFrom().piece().getColor())) {
             move1From = move1From.getMirrorPosition();
             move1To = move1To.getMirrorPosition();
             move1PiecePromotion = move1PiecePromotion == null ? null : move1PiecePromotion.getOpposite();
@@ -31,7 +31,7 @@ public class DefaultMoveComparator implements MoveComparator {
         PiecePositioned move2From = move2.getFrom();
         PiecePositioned move2To = move2.getTo();
         Piece move2PiecePromotion = move2 instanceof MovePromotion movePromotion ? movePromotion.getPromotion() : null;
-        if (Color.BLACK.equals(move2.getFrom().getPiece().getColor())) {
+        if (Color.BLACK.equals(move2.getFrom().piece().getColor())) {
             move2From = move2From.getMirrorPosition();
             move2To = move2To.getMirrorPosition();
             move2PiecePromotion = move2PiecePromotion == null ? null : move2PiecePromotion.getOpposite();
@@ -61,13 +61,13 @@ public class DefaultMoveComparator implements MoveComparator {
             boolean isMove1Capture = isCapture(move1From, move1To);
             boolean isMove2Capture = isCapture(move2From, move2To);
             if (isMove1Capture && isMove2Capture) {
-                result = pieceCaptureValue(move1To.getPiece()) - pieceCaptureValue(move2To.getPiece());  // Desempate abajo
+                result = pieceCaptureValue(move1To.piece()) - pieceCaptureValue(move2To.piece());  // Desempate abajo
 
                 /**
                  * Preferimos la captura que provenga de la pieza de menor valor
                  */
                 if (result == 0) {
-                    result = getMovePieceValue(move2From.getPiece()) - getMovePieceValue(move1From.getPiece());
+                    result = getMovePieceValue(move2From.piece()) - getMovePieceValue(move1From.piece());
                 }
             } else if (isMove1Capture) {
                 return 1;
@@ -78,24 +78,24 @@ public class DefaultMoveComparator implements MoveComparator {
 
         // Empate promocion o empate captura o movimiento simple
         if (result == 0) {
-            result = getMovePieceValue(move1From.getPiece()) - getMovePieceValue(move2From.getPiece());
+            result = getMovePieceValue(move1From.piece()) - getMovePieceValue(move2From.piece());
         }
 
         if (result == 0) {
-            result = move1From.getSquare().getRank() - move2From.getSquare().getRank();
+            result = move1From.square().getRank() - move2From.square().getRank();
         }
 
         if (result == 0) {
-            result = move1From.getSquare().getFile() - move2From.getSquare().getFile();
+            result = move1From.square().getFile() - move2From.square().getFile();
         }
 
 
         if (result == 0) {
-            result = move1To.getSquare().getRank() - move2To.getSquare().getRank();
+            result = move1To.square().getRank() - move2To.square().getRank();
         }
 
         if (result == 0) {
-            result = move1To.getSquare().getFile() - move2To.getSquare().getFile();
+            result = move1To.square().getFile() - move2To.square().getFile();
         }
 
         return result;
@@ -103,12 +103,12 @@ public class DefaultMoveComparator implements MoveComparator {
 
 
     private static boolean isCapture(PiecePositioned moveFrom, PiecePositioned moveTo) {
-        if (moveTo.getPiece() != null) {
+        if (moveTo.piece() != null) {
             return true;
         }
 
         // Captura de peon
-        if (moveFrom.getPiece().isPawn() && moveFrom.getSquare().getFile() != moveTo.getSquare().getFile()) {
+        if (moveFrom.piece().isPawn() && moveFrom.square().getFile() != moveTo.square().getFile()) {
             return true;
         }
 

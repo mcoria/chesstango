@@ -12,11 +12,11 @@ public class AlgoZobrist {
     public void defaultFnDoZobrist(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader currentPositionReader, PositionStateReader previousPositionState) {
         hash.xorPosition(from);
 
-        if(to.getPiece() != null) {
+        if(to.piece() != null) {
             hash.xorPosition(to);
         }
 
-        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.square(), from.piece()));
 
         if(previousPositionState.isCastlingWhiteKingAllowed() != currentPositionReader.isCastlingWhiteKingAllowed()){
             hash.xorCastleWhiteKing();

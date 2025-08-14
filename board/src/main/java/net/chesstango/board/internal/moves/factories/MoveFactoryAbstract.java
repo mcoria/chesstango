@@ -170,9 +170,9 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
 
 
     protected void addSimpleMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveComposed moveImp) {
-        if (origen.getPiece().isPawn()) {
+        if (origen.piece().isPawn()) {
             moveImp.setFnDoPositionState(algoPositionState::doSimplePawnMove);
-        } else if (origen.getPiece().isKing()) {
+        } else if (origen.piece().isKing()) {
             moveImp.setFnDoPositionState(algoPositionState::doSimpleKingPositionState);
         } else {
             moveImp.setFnDoPositionState(algoPositionState::doSimpleNotPawnNorKingMove);
@@ -188,7 +188,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveComposed moveImp) {
-        if (origen.getPiece().isKing()) {
+        if (origen.piece().isKing()) {
             moveImp.setFnDoPositionState(algoPositionState::doCaptureKingPositionState);
         } else {
             moveImp.setFnDoPositionState(algoPositionState::doCaptureNotKingPositionState);

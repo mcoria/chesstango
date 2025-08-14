@@ -61,7 +61,7 @@ public class EvaluatorImp03 extends AbstractEvaluator {
         PositionReader positionReader = game.getPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            evaluation += Color.WHITE.equals(piecePlacement.getPiece().getColor()) ? +1 : -1;
+            evaluation += Color.WHITE.equals(piecePlacement.piece().getColor()) ? +1 : -1;
         }
         return evaluation;
     }

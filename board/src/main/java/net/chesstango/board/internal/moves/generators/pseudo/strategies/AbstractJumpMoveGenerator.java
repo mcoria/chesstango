@@ -62,7 +62,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
     @Override
     public final MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
         MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
-        Square fromSquare = from.getSquare();
+        Square fromSquare = from.square();
         Iterator<Square> iterator = getSquareIterator(fromSquare);
         while (iterator.hasNext()) {
             Square to = iterator.next();

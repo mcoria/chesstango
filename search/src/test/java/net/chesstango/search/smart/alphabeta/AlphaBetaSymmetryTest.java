@@ -33,9 +33,9 @@ public class AlphaBetaSymmetryTest {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.h6, smartMove.getFrom().getSquare());
-        assertEquals(Square.g7, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.h6, smartMove.getFrom().square());
+        assertEquals(Square.g7, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
 
@@ -51,9 +51,9 @@ public class AlphaBetaSymmetryTest {
 
         Move smartMoveMirror = searchResultMirror.getBestMove();
 
-        assertEquals(Piece.BISHOP_WHITE.getOpposite(), smartMoveMirror.getFrom().getPiece());
-        assertEquals(Square.h6.mirror(), smartMoveMirror.getFrom().getSquare());
-        assertEquals(Square.g7.mirror(), smartMoveMirror.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE.getOpposite(), smartMoveMirror.getFrom().piece());
+        assertEquals(Square.h6.mirror(), smartMoveMirror.getFrom().square());
+        assertEquals(Square.g7.mirror(), smartMoveMirror.getTo().square());
 
         assertEquals(Evaluator.BLACK_WON, searchResultMirror.getBestEvaluation());
 

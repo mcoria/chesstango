@@ -132,8 +132,8 @@ public class EvaluatorImp05 extends AbstractEvaluator {
 
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            Square square = piecePlacement.getSquare();
+            Piece piece = piecePlacement.piece();
+            Square square = piecePlacement.square();
 
             int[] mgPositionValues = getMgPositionValues(piece);
             int mgValue = Color.WHITE.equals(piece.getColor()) ? mgPositionValues[square.idx()] : -mgPositionValues[square.mirror().idx()];

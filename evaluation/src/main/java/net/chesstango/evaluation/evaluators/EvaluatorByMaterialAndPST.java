@@ -37,8 +37,8 @@ public class EvaluatorByMaterialAndPST extends AbstractEvaluator {
         int evaluation = 0;
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            Square square = piecePlacement.getSquare();
+            Piece piece = piecePlacement.piece();
+            Square square = piecePlacement.square();
             int[] positionValues = getPositionValues(piece);
             evaluation += positionValues[square.idx()];
         }

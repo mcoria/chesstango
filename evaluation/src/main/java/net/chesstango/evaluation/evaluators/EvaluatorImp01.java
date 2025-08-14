@@ -56,15 +56,15 @@ public class EvaluatorImp01 extends AbstractEvaluator {
         Set<Square> territorioAtaque = new HashSet<>();
         int posiblesCapturasValor = 0;
         for (Move move : game.getPossibleMoves()) {
-            origenes.add(move.getFrom().getSquare());
+            origenes.add(move.getFrom().square());
 
             PiecePositioned to = move.getTo();
 
-            territorioExpansion.add(to.getSquare());
+            territorioExpansion.add(to.square());
 
-            if (to.getPiece() != null) {
-                territorioAtaque.add(to.getSquare());
-                posiblesCapturasValor += Math.abs(getPieceValue(to.getPiece()));
+            if (to.piece() != null) {
+                territorioAtaque.add(to.square());
+                posiblesCapturasValor += Math.abs(getPieceValue(to.piece()));
             }
         }
 

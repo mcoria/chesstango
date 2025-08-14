@@ -20,7 +20,7 @@ public class MoveGeneratorCacheDebug extends MoveGeneratorCache {
 
 	@Override
 	public MoveGeneratorByPieceResult generateByPiecePseudoMoves(PiecePositioned from) {
-		Square origenSquare = from.getSquare();
+		Square origenSquare = from.square();
 		
 		MoveGeneratorByPieceResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		

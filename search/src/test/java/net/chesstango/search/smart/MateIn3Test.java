@@ -28,9 +28,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.c5, smartMove.getFrom().getSquare());
-        assertEquals(Square.a6, smartMove.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.c5, smartMove.getFrom().square());
+        assertEquals(Square.a6, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -43,9 +43,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.c3, smartMove.getFrom().getSquare());
-        assertEquals(Square.e5, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.c3, smartMove.getFrom().square());
+        assertEquals(Square.e5, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -58,9 +58,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.f4, smartMove.getFrom().getSquare());
-        assertEquals(Square.f5, smartMove.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.f4, smartMove.getFrom().square());
+        assertEquals(Square.f5, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -73,9 +73,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
-        assertEquals(Square.e5, smartMove.getFrom().getSquare());
-        assertEquals(Square.e1, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().piece());
+        assertEquals(Square.e5, smartMove.getFrom().square());
+        assertEquals(Square.e1, smartMove.getTo().square());
 
         assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }
@@ -88,9 +88,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.e6, smartMove.getFrom().getSquare());
-        assertEquals(Square.e7, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.e6, smartMove.getFrom().square());
+        assertEquals(Square.e7, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -103,9 +103,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
-        assertEquals(Square.c4, smartMove.getFrom().getSquare());
-        assertEquals(Square.b5, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().piece());
+        assertEquals(Square.c4, smartMove.getFrom().square());
+        assertEquals(Square.b5, smartMove.getTo().square());
 
         assertEquals(Evaluator.WHITE_WON, searchResult.getBestEvaluation());
     }
@@ -118,9 +118,9 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
-        assertEquals(Square.e6, smartMove.getFrom().getSquare());
-        assertEquals(Square.g6, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().piece());
+        assertEquals(Square.e6, smartMove.getFrom().square());
+        assertEquals(Square.g6, smartMove.getTo().square());
 
         assertEquals(Evaluator.BLACK_WON, searchResult.getBestEvaluation());
     }

@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(game.getPosition().getCurrentTurn(), moves);
 
-        assertEquals(Square.d3, selectedMove.getFrom().getSquare());
-        assertEquals(Square.b1, selectedMove.getTo().getSquare());
+        assertEquals(Square.d3, selectedMove.getFrom().square());
+        assertEquals(Square.b1, selectedMove.getTo().square());
     }
 
     @Test
@@ -50,8 +49,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(gameMirror.getPosition().getCurrentTurn(), moves);
 
-        assertEquals(Square.d6, selectedMove.getFrom().getSquare());
-        assertEquals(Square.b8, selectedMove.getTo().getSquare());
+        assertEquals(Square.d6, selectedMove.getFrom().square());
+        assertEquals(Square.b8, selectedMove.getTo().square());
     }
 
 
@@ -67,8 +66,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(game.getPosition().getCurrentTurn(), moves);
 
-        assertEquals(Square.b2, selectedMove.getFrom().getSquare());
-        assertEquals(Square.a1, selectedMove.getTo().getSquare());
+        assertEquals(Square.b2, selectedMove.getFrom().square());
+        assertEquals(Square.a1, selectedMove.getTo().square());
         assertInstanceOf(MovePromotion.class, selectedMove);
         assertEquals(Piece.QUEEN_BLACK, ((MovePromotion) selectedMove).getPromotion());
 
@@ -88,8 +87,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(gameMirror.getPosition().getCurrentTurn(), moves);
 
-        assertEquals(Square.b7, selectedMove.getFrom().getSquare());
-        assertEquals(Square.a8, selectedMove.getTo().getSquare());
+        assertEquals(Square.b7, selectedMove.getFrom().square());
+        assertEquals(Square.a8, selectedMove.getTo().square());
         assertInstanceOf(MovePromotion.class, selectedMove);
         assertEquals(Piece.QUEEN_WHITE, ((MovePromotion) selectedMove).getPromotion());
 

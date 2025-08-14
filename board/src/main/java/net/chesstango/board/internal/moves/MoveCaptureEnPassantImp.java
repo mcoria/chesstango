@@ -14,7 +14,6 @@ import net.chesstango.board.position.*;
 public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPassant {
     protected final PiecePositioned capture;
 
-
     public MoveCaptureEnPassantImp(GameImp gameImp, PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
         super(gameImp, from, to, direction);
         this.capture = capture;
@@ -41,7 +40,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
 
         positionState.resetHalfMoveClock();
 
-        if (Color.BLACK.equals(from.getPiece().getColor())) {
+        if (Color.BLACK.equals(from.piece().getColor())) {
             positionState.incrementFullMoveClock();
         }
 
@@ -50,27 +49,27 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
 
     @Override
     public void doMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), from.square(), to.square());
 
         bitBoardWriter.removePosition(capture);
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
+        bitBoardWriter.swapPositions(from.piece(), to.square(), from.square());
 
         bitBoardWriter.addPosition(capture);
     }
 
     @Override
     public void doMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square(), capture.square());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.square(), to.square(), capture.square());
         moveCache.pop();
     }
 
@@ -92,7 +91,7 @@ public class MoveCaptureEnPassantImp extends MoveImp implements MoveCaptureEnPas
 
         hash.xorPosition(capture);
 
-        hash.xorPosition(PiecePositioned.of(to.getSquare(), from.getPiece()));
+        hash.xorPosition(PiecePositioned.of(to.square(), from.piece()));
 
         hash.clearEnPassantSquare();
 

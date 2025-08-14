@@ -37,8 +37,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
             final Square casilleroIntermedioRook,
             final Square casilleroDestinoKing,
             final Square casilleroIntermedioKing) {
-        if (king.getSquare().equals(origen)) {                                                                        //El king se encuentra en su lugar
-            if (rook.getPiece().equals(squareBoard.getPiece(rook.getSquare()))) {                                        //La rook se encuentra en su lugar
+        if (king.square().equals(origen)) {                                                                        //El king se encuentra en su lugar
+            if (rook.piece().equals(squareBoard.getPiece(rook.square()))) {                                        //La rook se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
                 return squareBoard.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
                         && squareBoard.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
@@ -54,8 +54,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
             final PiecePositioned rook,
             final Square casilleroDestinoKing,
             final Square casilleroIntermedioKing) {
-        if (king.getSquare().equals(origen)) {                                                                        //El king se encuentra en su lugar
-            if (rook.getPiece().equals(squareBoard.getPiece(rook.getSquare()))) {                                        //La rook se encuentra en su lugar
+        if (king.square().equals(origen)) {                                                                        //El king se encuentra en su lugar
+            if (rook.piece().equals(squareBoard.getPiece(rook.square()))) {                                        //La rook se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
                 return squareBoard.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
                         && squareBoard.isEmpty(casilleroIntermedioKing);

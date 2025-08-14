@@ -43,14 +43,14 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public void setPosition(PiecePositioned piecePositioned) {
-        Square square = piecePositioned.getSquare();
+        Square square = piecePositioned.square();
         tablero[square.idx()] = piecePositioned;
     }
 
 
     @Override
     public Piece getPiece(Square square) {
-        return tablero[square.idx()].getPiece();
+        return tablero[square.idx()].piece();
     }
 
 
@@ -67,7 +67,7 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public void setEmptyPosition(PiecePositioned piecePositioned) {
-        setEmptySquare(piecePositioned.getSquare());
+        setEmptySquare(piecePositioned.square());
     }
 
 
@@ -101,8 +101,8 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
 
     @Override
     public void move(PiecePositioned from, PiecePositioned to) {
-        this.setEmptySquare(from.getSquare());                            //Dejamos el origen
-        this.setPiece(to.getSquare(), from.getPiece());                   //Vamos al destino
+        this.setEmptySquare(from.square());                            //Dejamos el origen
+        this.setPiece(to.square(), from.piece());                   //Vamos al destino
     }
 
     @Override
@@ -111,10 +111,10 @@ public class SquareBoardImp implements SquareBoard, Cloneable {
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIBuilder builder = new ASCIIBuilder();
             forEach(piecePositioned -> {
-                if (piecePositioned.getPiece() != null) {
-                    int file = piecePositioned.getSquare().getFile();
-                    int rank = piecePositioned.getSquare().getRank();
-                    switch (piecePositioned.getPiece()) {
+                if (piecePositioned.piece() != null) {
+                    int file = piecePositioned.square().getFile();
+                    int rank = piecePositioned.square().getRank();
+                    switch (piecePositioned.piece()) {
                         case PAWN_WHITE -> builder.withWhitePawn(file, rank);
                         case KNIGHT_WHITE -> builder.withWhiteKnight(file, rank);
                         case BISHOP_WHITE -> builder.withWhiteBishop(file, rank);

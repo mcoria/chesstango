@@ -44,7 +44,7 @@ public class TranspositionHeadMoveComparatorTest {
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {
-            if (Square.c2.equals(move.getFrom().getSquare()) && Square.c3.equals(move.getTo().getSquare())) {
+            if (Square.c2.equals(move.getFrom().square()) && Square.c3.equals(move.getTo().square())) {
                 bestMove = move;
             }
         }
@@ -61,9 +61,9 @@ public class TranspositionHeadMoveComparatorTest {
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         Move move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.c2, move.getFrom().getSquare());
-        assertEquals(Square.c3, move.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
+        assertEquals(Square.c2, move.getFrom().square());
+        assertEquals(Square.c3, move.getTo().square());
     }
 
     private List<Move> getSortedMoves(Game game) {

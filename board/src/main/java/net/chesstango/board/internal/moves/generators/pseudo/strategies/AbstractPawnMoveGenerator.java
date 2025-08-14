@@ -129,7 +129,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
         MoveGeneratorByPieceResult result = new MoveGeneratorByPieceResult(from);
 
         int toRank = -1; //Just in case
-        Square square = from.getSquare();
+        Square square = from.square();
         Square squareSimpleJump = getOneSquareForward(square);
         Square squareDoubleJump = getTwoSquareForward(square);
 
@@ -144,7 +144,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             toPiecePositioned = this.squareBoard.getPosition(squareSimpleJump);
             result.addAffectedByPositions(squareSimpleJump);
             // Check if the square ahead is empty
-            if (toPiecePositioned.getPiece() == null) {
+            if (toPiecePositioned.piece() == null) {
                 PseudoMove moveSimpleJump = this.createSimplePawnMove(from, toPiecePositioned);
 
                 // Check for pawn promotion when reaching the final rank
@@ -159,7 +159,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
                         toPiecePositioned = this.squareBoard.getPosition(squareDoubleJump);
                         result.addAffectedByPositions(squareDoubleJump);
                         // Check if the square two steps ahead is empty
-                        if (toPiecePositioned.getPiece() == null) {
+                        if (toPiecePositioned.piece() == null) {
                             PseudoMove moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, toPiecePositioned, squareSimpleJump);
                             result.addPseudoMove(moveSaltoDoble);
                         }
@@ -174,7 +174,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             toPiecePositioned = this.squareBoard.getPosition(squareAttackLeft);
             result.addAffectedByPositions(squareAttackLeft); // Track the square as potentially affected by this move
             result.addCapturedPositions(squareAttackLeft);   // Mark the square as containing a captured piece
-            Piece piece = toPiecePositioned.getPiece();      // Check if there is a piece on the square
+            Piece piece = toPiecePositioned.piece();      // Check if there is a piece on the square
             // Is the square occupied by an opponent's piece?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
                 PseudoMove moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalLeftDirection());
@@ -193,7 +193,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator im
             toPiecePositioned = this.squareBoard.getPosition(squareAttackRight);
             result.addAffectedByPositions(squareAttackRight); // Track the square as potentially affected by this move
             result.addCapturedPositions(squareAttackRight);   // Mark the square as containing a captured piece
-            Piece piece = toPiecePositioned.getPiece();       // Check if there is a piece on the square
+            Piece piece = toPiecePositioned.piece();       // Check if there is a piece on the square
             // Is the square occupied by an opponent's piece?
             if (piece != null && color.oppositeColor().equals(piece.getColor())) {
                 PseudoMove moveCapture = this.createCapturePawnMove(from, toPiecePositioned, getDiagonalRightDirection());

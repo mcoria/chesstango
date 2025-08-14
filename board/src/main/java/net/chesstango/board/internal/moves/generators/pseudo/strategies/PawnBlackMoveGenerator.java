@@ -67,7 +67,7 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 			if (casilleroPawnIzquirda != null) {
 				from = squareBoard.getPosition(casilleroPawnIzquirda);
 				capture = squareBoard.getPosition(Square.of(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
-				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
+				if (Piece.PAWN_BLACK.equals(from.piece())) {
 					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurEste);
 					moveContainer.setFirst(move);
 				}
@@ -77,7 +77,7 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 			if (casilleroPawnDerecha != null) {
 				from = squareBoard.getPosition(casilleroPawnDerecha);
 				capture = squareBoard.getPosition(Square.of(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
-				if (Piece.PAWN_BLACK.equals(from.getPiece())) {
+				if (Piece.PAWN_BLACK.equals(from.piece())) {
 					PseudoMove move = moveFactory.createCaptureEnPassantPawnMove(from, squareBoard.getPosition(pawnPasanteSquare), capture, Cardinal.SurOeste);
 					moveContainer.setSecond(move);
 				}

@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -42,8 +40,8 @@ public class NegaMaxTest {
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
-        assertEquals(Square.b1, bestMove.getFrom().getSquare());
-        assertEquals(Square.c3, bestMove.getTo().getSquare());
+        assertEquals(Square.b1, bestMove.getFrom().square());
+        assertEquals(Square.c3, bestMove.getTo().square());
         assertEquals(1, searchResult.getBestEvaluation());
         assertEquals(3, evaluator.getNodesEvaluated());
         assertEquals(3, game.getNodesVisited());
@@ -58,8 +56,8 @@ public class NegaMaxTest {
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
-        assertEquals(Square.b8, bestMove.getFrom().getSquare());
-        assertEquals(Square.c6, bestMove.getTo().getSquare());
+        assertEquals(Square.b8, bestMove.getFrom().square());
+        assertEquals(Square.c6, bestMove.getTo().square());
         assertEquals(-1, searchResult.getBestEvaluation());
         assertEquals(3, evaluator.getNodesEvaluated());
         assertEquals(3, game.getNodesVisited());
@@ -74,8 +72,8 @@ public class NegaMaxTest {
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
-        assertEquals(Square.d2, bestMove.getFrom().getSquare());
-        assertEquals(Square.d4, bestMove.getTo().getSquare());
+        assertEquals(Square.d2, bestMove.getFrom().square());
+        assertEquals(Square.d4, bestMove.getTo().square());
         assertEquals(5, searchResult.getBestEvaluation());
         assertEquals(6, evaluator.getNodesEvaluated());
         assertEquals(8, game.getNodesVisited());
@@ -90,8 +88,8 @@ public class NegaMaxTest {
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
-        assertEquals(Square.d7, bestMove.getFrom().getSquare());
-        assertEquals(Square.d5, bestMove.getTo().getSquare());
+        assertEquals(Square.d7, bestMove.getFrom().square());
+        assertEquals(Square.d5, bestMove.getTo().square());
         assertEquals(14, searchResult.getBestEvaluation());
         assertEquals(9, evaluator.getNodesEvaluated());
         assertEquals(12, game.getNodesVisited());

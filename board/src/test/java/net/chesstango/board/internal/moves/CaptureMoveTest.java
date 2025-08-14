@@ -89,7 +89,7 @@ public class CaptureMoveTest {
 
     @Test
     public void testGetDirection() {
-        assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
+        assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().square(), moveExecutor.getTo().square()), moveExecutor.getMoveDirection());
     }
 
     @Test
