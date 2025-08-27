@@ -164,12 +164,12 @@ public class LichessBot implements Runnable, LichessBotMBean {
         }
     }
 
-    private synchronized boolean isBusy() {
-        return job != null && !job.isDone();
-    }
-
     private void gameStop(Event.GameStopEvent gameStopEvent) {
         log.info("GameStopEvent {}", gameStopEvent.id());
+    }
+
+    private synchronized boolean isBusy() {
+        return job != null && !job.isDone();
     }
 
     private void registerMBean() {

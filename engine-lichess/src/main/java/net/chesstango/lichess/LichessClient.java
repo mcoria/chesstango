@@ -22,11 +22,11 @@ public class LichessClient {
         this.client = client;
     }
 
-    public Stream<Event> streamEvents() {
+    public synchronized Stream<Event> streamEvents() {
         return client.bot().connect().stream();
     }
 
-    public Stream<GameStateEvent> streamGameStateEvent(String gameId) {
+    public synchronized Stream<GameStateEvent> streamGameStateEvent(String gameId) {
         return client.bot().connectToGame(gameId).stream();
     }
 
