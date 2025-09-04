@@ -1,14 +1,12 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
-import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 import java.util.function.Predicate;
 
 import static net.chesstango.search.SearchParameter.*;
@@ -99,7 +97,7 @@ public class IterativeDeepening implements Search {
 
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (SEARCH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
+        if (SEARCH_BY_DEPTH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
             this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
         } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
             this.maxDepth = maxDepthParam;

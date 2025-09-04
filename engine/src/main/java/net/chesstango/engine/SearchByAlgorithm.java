@@ -38,7 +38,7 @@ class SearchByAlgorithm implements SearchChain {
     @Override
     public SearchResult search(SearchContext context) {
         search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getDepth());
-        search.setSearchParameter(SearchParameter.SEARCH_PREDICATE, context.getSearchPredicate());
+        search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_PREDICATE, context.getSearchPredicate());
         search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_LISTENER, context.getSearchResultByDepthListener());
         return search.startSearch(context.getGame());
     }
