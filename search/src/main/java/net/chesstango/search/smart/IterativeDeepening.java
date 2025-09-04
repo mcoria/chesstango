@@ -25,7 +25,7 @@ public class IterativeDeepening implements Search {
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
-    private int maxDepth = Integer.MAX_VALUE;
+    private int maxDepth = Integer.MAX_VALUE / 2;
 
     private SearchResultByDepthListener searchResultByDepthListener;
 
@@ -69,8 +69,8 @@ public class IterativeDeepening implements Search {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchPredicateParameter.test(searchResultByDepth) &&
-                searchResultByDepth.isSearchNextDepth()
+                searchResultByDepth.isContinueDeepening() &&
+                searchPredicateParameter.test(searchResultByDepth)
         );
 
         searchListenerMediator.triggerAfterSearch(searchResult);
