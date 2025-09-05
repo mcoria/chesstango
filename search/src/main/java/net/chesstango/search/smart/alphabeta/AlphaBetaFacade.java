@@ -72,7 +72,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
         /**
          * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
          */
-        result.setSearchNextDepth(
+        result.setContinueDeepening(
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
                         Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );

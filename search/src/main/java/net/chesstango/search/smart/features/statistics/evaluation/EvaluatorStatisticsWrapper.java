@@ -31,6 +31,7 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
     @Setter
     @Accessors(chain = true)
     private boolean trackEvaluations;
+
     private long evaluationsCounter;
     private Set<EvaluationEntry> evaluations;
     private Game game;

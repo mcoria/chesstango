@@ -3,10 +3,14 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.*;
+import net.chesstango.search.Search;
+import net.chesstango.search.SearchParameter;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static net.chesstango.search.SearchParameter.*;
@@ -25,9 +29,9 @@ public class IterativeDeepening implements Search {
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
-    private int maxDepth = Integer.MAX_VALUE;
+    private int maxDepth = Integer.MAX_VALUE / 2;
 
-    private SearchResultByDepthListener searchResultByDepthListener;
+    private Consumer<SearchResultByDepth> searchResultByDepthListener;
 
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
@@ -69,8 +73,8 @@ public class IterativeDeepening implements Search {
 
         } while (keepProcessing &&
                 currentSearchDepth <= maxDepth &&
-                searchPredicateParameter.test(searchResultByDepth) &&
-                searchResultByDepth.isSearchNextDepth()
+                searchResultByDepth.isContinueDeepening() &&
+                searchPredicateParameter.test(searchResultByDepth)
         );
 
         searchListenerMediator.triggerAfterSearch(searchResult);
@@ -103,8 +107,8 @@ public class IterativeDeepening implements Search {
             this.maxDepth = maxDepthParam;
         } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             this.searchParameters.put(EPD_PARAMS, epd);
-        } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof SearchResultByDepthListener searchResultByDepthListenerParam) {
-            this.searchResultByDepthListener = searchResultByDepthListenerParam;
+        } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {
+            this.searchResultByDepthListener = (Consumer<SearchResultByDepth>) searchResultByDepthListenerParam;
         }
     }
 }

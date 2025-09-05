@@ -14,6 +14,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     @Getter
     private final Evaluator imp;
+
     private final GameEvaluatorCacheEntry[] cache;
 
     @Getter

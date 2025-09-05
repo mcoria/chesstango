@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 
 /**
@@ -13,6 +14,8 @@ public class Config {
     private boolean syncSearch;
 
     private Search search;
+
+    private Evaluator evaluator;
 
     private String polyglotFile;
 

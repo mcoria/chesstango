@@ -1,16 +1,24 @@
 package net.chesstango.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.timemgmt.FivePercentage;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchManagerBuilder {
     private Search search;
+
+    private Evaluator evaluator;
 
     private int infiniteDepth;
 
@@ -24,8 +32,14 @@ class SearchManagerBuilder {
 
     private boolean asyncInvoker;
 
+
     public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
+        return this;
+    }
+
+    public SearchManagerBuilder withEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -60,23 +74,37 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
-        SearchChain searchChainHead = new SearchByAlgorithm(search);
+        List<SearchChain> searchChains = new ArrayList<>();
 
+        SearchByTablebase searchByTablebase = null;
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
             if (searchManagerByOpenBook != null) {
-                searchManagerByOpenBook.setNext(searchChainHead);
-                searchChainHead = searchManagerByOpenBook;
+                searchChains.add(searchByTablebase);
             }
         }
 
         if (syzygyDirectory != null) {
-            SearchByTablebase searchByTablebase = SearchByTablebase.open(syzygyDirectory);
+            searchByTablebase = SearchByTablebase.open(syzygyDirectory);
             if (searchByTablebase != null) {
-                searchByTablebase.setNext(searchChainHead);
-                searchChainHead = searchByTablebase;
+                searchChains.add(searchByTablebase);
             }
         }
+
+        if (search != null) {
+            searchChains.add(new SearchByAlgorithm(search));
+        } else {
+
+            SearchBuilder<?> searchBuilder = Search.newSearchBuilder()
+                    .withGameEvaluator(evaluator == null ? Evaluator.getInstance() : evaluator);
+
+
+            search = searchBuilder.build();
+
+            searchChains.add(new SearchByAlgorithm(search));
+        }
+
+        SearchChain searchChainHead = linkChain(searchChains);
 
         SearchInvoker searchInvoker = null;
 
@@ -94,5 +122,19 @@ class SearchManagerBuilder {
         }
 
         return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker, timeOutExecutor);
+    }
+
+    SearchChain linkChain(List<SearchChain> searchChains) {
+        SearchChain previousChain = searchChains.getFirst();
+        for (int i = 1; i < searchChains.size(); i++) {
+            if (previousChain instanceof SearchByOpenBook searchByOpenBook) {
+                searchByOpenBook.setNext(searchChains.get(i));
+                previousChain = searchChains.get(i);
+            } else if (previousChain instanceof SearchByTablebase searchByTablebase) {
+                searchByTablebase.setNext(searchChains.get(i));
+                previousChain = searchChains.get(i);
+            }
+        }
+        return searchChains.getFirst();
     }
 }
