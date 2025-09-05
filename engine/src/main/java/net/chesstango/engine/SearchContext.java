@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResultByDepthListener;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -21,7 +21,7 @@ class SearchContext {
 
     private Predicate<SearchResultByDepth> searchPredicate;
 
-    private SearchResultByDepthListener searchResultByDepthListener;
+    private Consumer<SearchResultByDepth> searchResultByDepthListener;
 
     private int depth;
 }

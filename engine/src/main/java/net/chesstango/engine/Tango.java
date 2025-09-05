@@ -50,8 +50,8 @@ public class Tango implements AutoCloseable {
         searchManager.close();
     }
 
-    public Tango reload(Config config){
-        if(searchManager != null){
+    public Tango reload(Config config) {
+        if (searchManager != null) {
             try {
                 searchManager.close();
             } catch (Exception e) {
@@ -60,10 +60,10 @@ public class Tango implements AutoCloseable {
         }
 
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
-                .withSearch(config.getSearch() == null ? Search.getInstance() : config.getSearch())
-                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
+                .withSearch(config.getSearch())
                 .withPolyglotFile(config.getPolyglotFile())
                 .withSyzygyDirectory(config.getSyzygyDirectory())
+                .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
                 .withScheduledExecutorService(timeOutExecutor);
 
 

@@ -1,14 +1,18 @@
 package net.chesstango.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.search.Search;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchManagerBuilder {
     private Search search;
 
@@ -60,23 +64,30 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
-        SearchChain searchChainHead = new SearchByAlgorithm(search);
+        List<SearchChain> searchChains = new ArrayList<>();
 
+        SearchByTablebase searchByTablebase = null;
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
             if (searchManagerByOpenBook != null) {
-                searchManagerByOpenBook.setNext(searchChainHead);
-                searchChainHead = searchManagerByOpenBook;
+                searchChains.add(searchByTablebase);
             }
         }
 
         if (syzygyDirectory != null) {
-            SearchByTablebase searchByTablebase = SearchByTablebase.open(syzygyDirectory);
+            searchByTablebase = SearchByTablebase.open(syzygyDirectory);
             if (searchByTablebase != null) {
-                searchByTablebase.setNext(searchChainHead);
-                searchChainHead = searchByTablebase;
+                searchChains.add(searchByTablebase);
             }
         }
+
+        if (search != null) {
+            searchChains.add(new SearchByAlgorithm(search));
+        } else {
+            searchChains.add(new SearchByAlgorithm(Search.getInstance()));
+        }
+
+        SearchChain searchChainHead = linkChain(searchChains);
 
         SearchInvoker searchInvoker = null;
 
@@ -95,4 +106,20 @@ class SearchManagerBuilder {
 
         return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker, timeOutExecutor);
     }
+
+    SearchChain linkChain(List<SearchChain> searchChains) {
+        SearchChain previousChain = searchChains.getFirst();
+        for (int i = 1; i < searchChains.size(); i++) {
+            if (previousChain instanceof SearchByOpenBook searchByOpenBook) {
+                searchByOpenBook.setNext(searchChains.get(i));
+                previousChain = searchChains.get(i);
+            } else if (previousChain instanceof SearchByTablebase searchByTablebase) {
+                searchByTablebase.setNext(searchChains.get(i));
+                previousChain = searchChains.get(i);
+            }
+        }
+        return searchChains.getFirst();
+    }
+
+
 }
