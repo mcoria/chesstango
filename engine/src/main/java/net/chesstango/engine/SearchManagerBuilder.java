@@ -2,7 +2,9 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.timemgmt.FivePercentage;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 class SearchManagerBuilder {
     private Search search;
 
+    private Evaluator evaluator;
+
     private int infiniteDepth;
 
     private String polyglotFile;
@@ -28,8 +32,14 @@ class SearchManagerBuilder {
 
     private boolean asyncInvoker;
 
+
     public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
+        return this;
+    }
+
+    public SearchManagerBuilder withEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -84,7 +94,14 @@ class SearchManagerBuilder {
         if (search != null) {
             searchChains.add(new SearchByAlgorithm(search));
         } else {
-            searchChains.add(new SearchByAlgorithm(Search.getInstance()));
+
+            SearchBuilder<?> searchBuilder = Search.newSearchBuilder()
+                    .withGameEvaluator(evaluator == null ? Evaluator.getInstance() : evaluator);
+
+
+            search = searchBuilder.build();
+
+            searchChains.add(new SearchByAlgorithm(search));
         }
 
         SearchChain searchChainHead = linkChain(searchChains);
@@ -120,6 +137,4 @@ class SearchManagerBuilder {
         }
         return searchChains.getFirst();
     }
-
-
 }

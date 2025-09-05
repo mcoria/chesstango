@@ -61,6 +61,7 @@ public class Tango implements AutoCloseable {
 
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
                 .withSearch(config.getSearch())
+                .withEvaluator(config.getEvaluator())
                 .withPolyglotFile(config.getPolyglotFile())
                 .withSyzygyDirectory(config.getSyzygyDirectory())
                 .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))

@@ -4,6 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Search;
+import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -506,9 +507,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
 
-    public static AlphaBetaBuilder createDefaultBuilderInstance(final Evaluator evaluator) {
+    public static AlphaBetaBuilder createDefaultBuilderInstance() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(evaluator)
                 .withGameEvaluatorCache()
 
                 .withQuiescence()
