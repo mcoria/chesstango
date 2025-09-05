@@ -98,8 +98,7 @@ public class ChainPrinter {
     private void printChainSmartAlgorithm(SearchAlgorithm searchAlgorithm) {
         if (searchAlgorithm instanceof AlphaBetaFacade alphaBetaFacade) {
             printChainAlphaBetaFacade(alphaBetaFacade);
-        }
-        if (searchAlgorithm instanceof BottomMoveCounterFacade bottomMoveCounterFacade) {
+        } else if (searchAlgorithm instanceof BottomMoveCounterFacade bottomMoveCounterFacade) {
             printChainBottomMoveCounterFacade(bottomMoveCounterFacade);
         } else {
             throw new RuntimeException(String.format("Unknown SmartAlgorithm class: %s", searchAlgorithm.getClass()));
