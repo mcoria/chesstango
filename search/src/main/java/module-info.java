@@ -37,6 +37,7 @@ module net.chesstango.search {
     exports net.chesstango.search.dummy;
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.alphabeta;
+    exports net.chesstango.search.visitors;
 
 
     requires com.fasterxml.jackson.databind;

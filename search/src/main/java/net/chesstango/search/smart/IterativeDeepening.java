@@ -3,10 +3,8 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.Search;
-import net.chesstango.search.SearchParameter;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.*;
+import net.chesstango.search.Acceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +16,7 @@ import static net.chesstango.search.SearchParameter.*;
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeepening implements Search {
+public class IterativeDeepening implements Search, Acceptor {
     private volatile boolean keepProcessing;
 
     @Getter
@@ -110,5 +108,10 @@ public class IterativeDeepening implements Search {
         } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {
             this.searchResultByDepthListener = (Consumer<SearchResultByDepth>) searchResultByDepthListenerParam;
         }
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }
