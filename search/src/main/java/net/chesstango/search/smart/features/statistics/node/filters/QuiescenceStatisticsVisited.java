@@ -8,6 +8,8 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
+import net.chesstango.search.Visitor;
+
 /**
  * @author Mauricio Coria
  */
@@ -18,6 +20,11 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCyc
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
     private int maxPly;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {

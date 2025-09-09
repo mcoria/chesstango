@@ -9,7 +9,10 @@ import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracke
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 
@@ -63,5 +66,17 @@ public interface Visitor {
     default void visit(ExtensionFlowControl extensionFlowControl) {
     }
 
-    default void visit(KillerMoveTracker killerMoveTracker){}
+    default void visit(KillerMoveTracker killerMoveTracker) {
+    }
+
+    default void visit(TranspositionTableQ transpositionTableQ) {
+    }
+
+    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
+    }
+
+    default void visit(Quiescence quiescence) {
+    }
+
+    default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited){}
 }

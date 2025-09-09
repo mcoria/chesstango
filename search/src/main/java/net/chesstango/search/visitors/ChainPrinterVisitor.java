@@ -1,5 +1,6 @@
 package net.chesstango.search.visitors;
 
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -12,7 +13,10 @@ import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracke
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 
@@ -50,58 +54,72 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(AspirationWindows aspirationWindows) {
-        printChainDownLine();
-        printNodeObjectText(aspirationWindows);
-
-        aspirationWindows.getNext().accept(this);
+        print(aspirationWindows, aspirationWindows.getNext());
     }
 
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
-        printChainDownLine();
-        printNodeObjectText(transpositionTableRoot);
-
-        transpositionTableRoot.getNext().accept(this);
+        print(transpositionTableRoot, transpositionTableRoot.getNext());
     }
 
     @Override
     public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
-        printChainDownLine();
-        printNodeObjectText(alphaBetaStatisticsExpected);
-
-        alphaBetaStatisticsExpected.getNext().accept(this);
+        print(alphaBetaStatisticsExpected, alphaBetaStatisticsExpected.getNext());
     }
 
     @Override
     public void visit(AlphaBeta alphaBeta) {
-        printChainDownLine();
-        printNodeObjectText(alphaBeta);
-
-        alphaBeta.getNext().accept(this);
+        print(alphaBeta, alphaBeta.getNext());
     }
 
     @Override
     public void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
-        printChainDownLine();
-        printNodeObjectText(alphaBetaStatisticsVisited);
-
-        alphaBetaStatisticsVisited.getNext().accept(this);
+        print(alphaBetaStatisticsVisited, alphaBetaStatisticsVisited.getNext());
     }
 
     @Override
     public void visit(MoveEvaluationTracker moveEvaluationTracker) {
-        printChainDownLine();
-        printNodeObjectText(moveEvaluationTracker);
-
-        moveEvaluationTracker.getNext().accept(this);
+        print(moveEvaluationTracker, moveEvaluationTracker.getNext());
     }
 
     @Override
     public void visit(TranspositionPV transpositionPV) {
-        printChainDownLine();
-        printNodeObjectText(transpositionPV);
+        print(transpositionPV, transpositionPV.getNext());
+    }
 
-        transpositionPV.getNext().accept(this);
+    @Override
+    public void visit(TranspositionTableTerminal transpositionTableTerminal) {
+        print(transpositionTableTerminal, transpositionTableTerminal.getNext());
+    }
+
+    @Override
+    public void visit(TranspositionTable transpositionTable) {
+        print(transpositionTable, transpositionTable.getNext());
+    }
+
+    @Override
+    public void visit(KillerMoveTracker killerMoveTracker) {
+        print(killerMoveTracker, killerMoveTracker.getNext());
+    }
+
+    @Override
+    public void visit(TranspositionTableQ transpositionTableQ){
+        print(transpositionTableQ, transpositionTableQ.getNext());
+    }
+
+    @Override
+    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected){
+        print(quiescenceStatisticsExpected, quiescenceStatisticsExpected.getNext());
+    }
+
+    @Override
+    public void visit(Quiescence quiescence) {
+        print(quiescence, quiescence.getNext());
+    }
+
+    @Override
+    public  void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited){
+        print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
     }
 
     @Override
@@ -151,50 +169,55 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTableTerminal transpositionTableTerminal) {
+    public void visit(ExtensionFlowControl extensionFlowControl) {
         printChainDownLine();
-        printNodeObjectText(transpositionTableTerminal);
+        if (!extensionFlowControlVisited) {
+            extensionFlowControlVisited = true;
+            printNodeObjectText(extensionFlowControl);
 
-        transpositionTableTerminal.getNext().accept(this);
+            AlphaBetaFilter terminalNode = extensionFlowControl.getTerminalNode();
+            printChainDownLine();
+            printChainText(" -> TerminalNode");
+            nestedChain++;
+            terminalNode.accept(this);
+            nestedChain--;
+
+            AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
+            System.out.println();
+            printChainText(" -> LeafNode");
+            nestedChain++;
+            leafNode.accept(this);
+            nestedChain--;
+
+            AlphaBetaFilter quiescenceNode = extensionFlowControl.getQuiescenceNode();
+            System.out.println();
+            printChainText(" -> QuiescenceNode");
+            nestedChain++;
+            quiescenceNode.accept(this);
+            nestedChain--;
+
+        }else {
+            System.out.printf("%s%s -> LOOP \n", "\t".repeat(nestedChain), objectText(extensionFlowControl));
+        }
     }
 
     @Override
     public void visit(LoopEvaluation loopEvaluation) {
         printChainDownLine();
         printNodeObjectText(loopEvaluation);
-
     }
 
     @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         printChainDownLine();
         printNodeObjectText(alphaBetaEvaluation);
-
     }
 
-    @Override
-    public void visit(TranspositionTable transpositionTable) {
+    public void print(Object object, Acceptor acceptor) {
         printChainDownLine();
-        printNodeObjectText(transpositionTable);
+        printNodeObjectText(object);
 
-        transpositionTable.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(ExtensionFlowControl extensionFlowControl) {
-        if (!extensionFlowControlVisited) {
-            extensionFlowControlVisited = true;
-            printChainDownLine();
-            printNodeObjectText(extensionFlowControl);
-        }
-    }
-
-    @Override
-    public void visit(KillerMoveTracker killerMoveTracker) {
-        printChainDownLine();
-        printNodeObjectText(killerMoveTracker);
-
-        killerMoveTracker.getNext().accept(this);
+        acceptor.accept(this);
     }
 
 
