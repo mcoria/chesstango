@@ -3,36 +3,61 @@ package net.chesstango.search;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.LoopEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 
 /**
  * @author Mauricio Coria
  */
 public interface Visitor {
 
-    void visit(IterativeDeepening iterativeDeepening);
+    default void visit(IterativeDeepening iterativeDeepening) {
+    }
 
-    void visit(AlphaBetaFacade alphaBetaFacade);
+    default void visit(AlphaBetaFacade alphaBetaFacade) {
+    }
 
-    void visit(AspirationWindows aspirationWindows);
+    default void visit(AspirationWindows aspirationWindows) {
+    }
 
-    void visit(TranspositionTableRoot transpositionTableRoot);
+    default void visit(TranspositionTableRoot transpositionTableRoot) {
+    }
 
-    void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected);
+    default void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
+    }
 
-    void visit(AlphaBeta alphaBeta);
+    default void visit(AlphaBeta alphaBeta) {
+    }
 
-    void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited);
+    default void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
+    }
 
-    void visit(MoveEvaluationTracker moveEvaluationTracker);
+    default void visit(MoveEvaluationTracker moveEvaluationTracker) {
+    }
 
-    void visit(TranspositionPV transpositionPV);
+    default void visit(TranspositionPV transpositionPV) {
+    }
 
-    void visit(AlphaBetaFlowControl alphaBetaFlowControl);
+    default void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
+    }
+
+    default void visit(TranspositionTableTerminal transpositionTableTerminal) {
+    }
+
+    default void visit(LoopEvaluation loopEvaluation) {
+    }
+
+    default void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+    }
+
+    default void visit(TranspositionTable transpositionTable){}
 }

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.transposition.filters;
 
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
@@ -8,6 +9,10 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
  */
 public class TranspositionTable extends TranspositionTableAbstract {
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {

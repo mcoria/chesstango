@@ -3,6 +3,7 @@ package net.chesstango.search.smart.features.transposition.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -23,6 +24,11 @@ public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycl
     @Setter
     @Getter
     private AlphaBetaFilter next;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
