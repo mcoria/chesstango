@@ -2,12 +2,10 @@ package net.chesstango.search;
 
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.LoopEvaluation;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
@@ -59,5 +57,11 @@ public interface Visitor {
     default void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
     }
 
-    default void visit(TranspositionTable transpositionTable){}
+    default void visit(TranspositionTable transpositionTable) {
+    }
+
+    default void visit(ExtensionFlowControl extensionFlowControl) {
+    }
+
+    default void visit(KillerMoveTracker killerMoveTracker){}
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -22,6 +23,11 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
 
     private Game game;
     private KillerMoves killerMoves;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {

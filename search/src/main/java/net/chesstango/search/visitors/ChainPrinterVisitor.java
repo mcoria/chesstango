@@ -5,15 +5,16 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 
 /**
  * @author Mauricio Coria
@@ -21,6 +22,8 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 public class ChainPrinterVisitor implements Visitor {
 
     int nestedChain = 0;
+    boolean alphaBetaFlowControlVisited;
+    boolean extensionFlowControlVisited;
 
     public void print(Search search) {
         printChainText("ROOT");
@@ -104,43 +107,96 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
         printChainDownLine();
-        printNodeObjectText(alphaBetaFlowControl);
+        if (!alphaBetaFlowControlVisited) {
+            alphaBetaFlowControlVisited = true;
+            printNodeObjectText(alphaBetaFlowControl);
 
-        AlphaBetaFilter terminalNode = alphaBetaFlowControl.getTerminalNode();
-        printChainDownLine();
-        printChainText(" -> TerminalNode");
-        nestedChain++;
-        terminalNode.accept(this);
-        nestedChain--;
+            AlphaBetaFilter terminalNode = alphaBetaFlowControl.getTerminalNode();
+            printChainDownLine();
+            printChainText(" -> TerminalNode");
+            nestedChain++;
+            terminalNode.accept(this);
+            nestedChain--;
 
-        AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
-        System.out.println();
-        printChainText(" -> LoopNode");
-        nestedChain++;
-        loopNode.accept(this);
-        nestedChain--;
+            AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
+            System.out.println();
+            printChainText(" -> LoopNode");
+            nestedChain++;
+            loopNode.accept(this);
+            nestedChain--;
 
-        AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
-        System.out.println();
-        printChainText(" -> LeafNode");
-        nestedChain++;
-        leafNode.accept(this);
-        nestedChain--;
+            AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
+            System.out.println();
+            printChainText(" -> LeafNode");
+            nestedChain++;
+            leafNode.accept(this);
+            nestedChain--;
 
-        AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
-        System.out.println();
-        printChainText(" -> HorizonNode");
-        nestedChain++;
-        horizonNode.accept(this);
-        nestedChain--;
+            AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
+            System.out.println();
+            printChainText(" -> HorizonNode");
+            nestedChain++;
+            horizonNode.accept(this);
+            nestedChain--;
 
-        AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
-        System.out.println();
-        printChainText(" -> InteriorNode");
-        nestedChain++;
-        interiorNode.accept(this);
-        nestedChain--;
+            AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
+            System.out.println();
+            printChainText(" -> InteriorNode");
+            nestedChain++;
+            interiorNode.accept(this);
+            nestedChain--;
+        } else {
+            System.out.printf("%s%s -> LOOP \n", "\t".repeat(nestedChain), objectText(alphaBetaFlowControl));
+        }
     }
+
+    @Override
+    public void visit(TranspositionTableTerminal transpositionTableTerminal) {
+        printChainDownLine();
+        printNodeObjectText(transpositionTableTerminal);
+
+        transpositionTableTerminal.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(LoopEvaluation loopEvaluation) {
+        printChainDownLine();
+        printNodeObjectText(loopEvaluation);
+
+    }
+
+    @Override
+    public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+        printChainDownLine();
+        printNodeObjectText(alphaBetaEvaluation);
+
+    }
+
+    @Override
+    public void visit(TranspositionTable transpositionTable) {
+        printChainDownLine();
+        printNodeObjectText(transpositionTable);
+
+        transpositionTable.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(ExtensionFlowControl extensionFlowControl) {
+        if (!extensionFlowControlVisited) {
+            extensionFlowControlVisited = true;
+            printChainDownLine();
+            printNodeObjectText(extensionFlowControl);
+        }
+    }
+
+    @Override
+    public void visit(KillerMoveTracker killerMoveTracker) {
+        printChainDownLine();
+        printNodeObjectText(killerMoveTracker);
+
+        killerMoveTracker.getNext().accept(this);
+    }
+
 
     private void printChainDownLine() {
         System.out.printf("%s|\n", "\t".repeat(nestedChain));
