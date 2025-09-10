@@ -221,13 +221,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         setupListenerMediatorAfterChain();
 
-        Search search = new NoIterativeDeepening(bottomMoveCounterFacade, searchListenerMediator);
-
-        if (withPrintChain) {
-            new ChainPrinter().printChain(search);
-        }
-
-        return search;
+        return new NoIterativeDeepening(bottomMoveCounterFacade, searchListenerMediator);
     }
 
     private void buildObjects() {

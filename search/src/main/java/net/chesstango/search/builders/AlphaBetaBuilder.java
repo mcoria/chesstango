@@ -75,7 +75,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withZobristTracker;
     private boolean withQuiescence;
     private boolean withExtensionCheckResolver;
-    private boolean withPrintChain;
     private boolean withDebugSearchTree;
     private boolean showOnlyPV;
     private boolean showNodeTranspositionAccess;
@@ -225,11 +224,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withPrintChain() {
-        withPrintChain = true;
-        return this;
-    }
-
     public AlphaBetaBuilder withKillerMoveSorter() {
         alphaBetaInteriorChainBuilder.withKillerMoveSorter();
         withKillerMoveSorter = true;
@@ -294,10 +288,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
         } else {
             search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
-        }
-
-        if (withPrintChain) {
-            new ChainPrinter().printChain(search);
         }
 
         return search;
