@@ -92,7 +92,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         MoveSorter moveSorter = alphaBeta.getMoveSorter();
         printChainDownLine();
-        printChainText(" -> MoveSorterNode");
+        printChainText(" -> Sorter");
         nestedChain++;
         moveSorter.accept(this);
         nestedChain--;
@@ -104,6 +104,13 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(Quiescence quiescence) {
         printChainDownLine();
         printChainText(String.format("%s [Evaluator: %s]", objectText(quiescence), printGameEvaluator(quiescence.getEvaluator())));
+
+        MoveSorter moveSorter = quiescence.getMoveSorter();
+        printChainDownLine();
+        printChainText(" -> Sorter");
+        nestedChain++;
+        moveSorter.accept(this);
+        nestedChain--;
 
         quiescence.getNext().accept(this);
     }
@@ -165,7 +172,7 @@ public class ChainPrinterVisitor implements Visitor {
 
         MoveComparator moveComparator = nodeMoveSorter.getMoveComparator();
         printChainDownLine();
-        printChainText(" -> MoveComparatorNode");
+        printChainText(" -> Comparator");
         nestedChain++;
         moveComparator.accept(this);
         nestedChain--;
@@ -298,18 +305,18 @@ public class ChainPrinterVisitor implements Visitor {
         printChainDownLine();
         printNodeObjectText(quietComparator);
 
-        MoveComparator quietNext = quietComparator.getQuietNext();
-        printChainDownLine();
-        printChainText(" -> QuietComparatorNode");
-        nestedChain++;
-        quietNext.accept(this);
-        nestedChain--;
-
         MoveComparator noQuietNext = quietComparator.getNoQuietNext();
-        System.out.print("\n");
+        printChainDownLine();
         printChainText(" -> NoQuietComparatorNode");
         nestedChain++;
         noQuietNext.accept(this);
+        nestedChain--;
+
+        MoveComparator quietNext = quietComparator.getQuietNext();
+        System.out.print("\n");
+        printChainText(" -> QuietComparatorNode");
+        nestedChain++;
+        quietNext.accept(this);
         nestedChain--;
     }
 
