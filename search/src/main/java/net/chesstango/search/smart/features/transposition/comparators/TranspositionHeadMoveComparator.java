@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -26,6 +27,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     @Getter
     @Setter
     private MoveComparator next;
+
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -34,6 +36,11 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     public TranspositionHeadMoveComparator(Function<SearchByCycleContext, TTable> fnGetMaxMap, Function<SearchByCycleContext, TTable> fnGetMinMap) {
         this.fnGetMaxMap = fnGetMaxMap;
         this.fnGetMinMap = fnGetMinMap;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

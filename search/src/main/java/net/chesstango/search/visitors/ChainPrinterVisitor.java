@@ -1,24 +1,38 @@
 package net.chesstango.search.visitors;
 
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.sorters.MoveComparator;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
+import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.*;
 
 /**
  * @author Mauricio Coria
@@ -41,6 +55,10 @@ public class ChainPrinterVisitor implements Visitor {
 
         SearchAlgorithm algorithm = iterativeDeepening.getSearchAlgorithm();
         algorithm.accept(this);
+
+        printChainText("");
+        printChainText("");
+        printChainSmartListenerMediator(iterativeDeepening.getSearchListenerMediator());
     }
 
     @Override
@@ -69,7 +87,25 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBeta alphaBeta) {
-        print(alphaBeta, alphaBeta.getNext());
+        printChainDownLine();
+        printNodeObjectText(alphaBeta);
+
+        MoveSorter moveSorter = alphaBeta.getMoveSorter();
+        printChainDownLine();
+        printChainText(" -> MoveSorterNode");
+        nestedChain++;
+        moveSorter.accept(this);
+        nestedChain--;
+
+        alphaBeta.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(Quiescence quiescence) {
+        printChainDownLine();
+        printChainText(String.format("%s [Evaluator: %s]", objectText(quiescence), printGameEvaluator(quiescence.getEvaluator())));
+
+        quiescence.getNext().accept(this);
     }
 
     @Override
@@ -103,23 +139,36 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionTableQ transpositionTableQ){
+    public void visit(TranspositionTableQ transpositionTableQ) {
         print(transpositionTableQ, transpositionTableQ.getNext());
     }
 
     @Override
-    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected){
+    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
         print(quiescenceStatisticsExpected, quiescenceStatisticsExpected.getNext());
     }
 
     @Override
-    public void visit(Quiescence quiescence) {
-        print(quiescence, quiescence.getNext());
+    public void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
+        print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
     }
 
     @Override
-    public  void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited){
-        print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
+    public void visit(RootMoveSorter rootMoveSorter) {
+        print(rootMoveSorter, rootMoveSorter.getNodeMoveSorter());
+    }
+
+    @Override
+    public void visit(NodeMoveSorter nodeMoveSorter) {
+        printChainDownLine();
+        printNodeObjectText(nodeMoveSorter);
+
+        MoveComparator moveComparator = nodeMoveSorter.getMoveComparator();
+        printChainDownLine();
+        printChainText(" -> MoveComparatorNode");
+        nestedChain++;
+        moveComparator.accept(this);
+        nestedChain--;
     }
 
     @Override
@@ -196,9 +245,116 @@ public class ChainPrinterVisitor implements Visitor {
             quiescenceNode.accept(this);
             nestedChain--;
 
-        }else {
+        } else {
             System.out.printf("%s%s -> LOOP \n", "\t".repeat(nestedChain), objectText(extensionFlowControl));
         }
+    }
+
+    @Override
+    public void visit(PrincipalVariationComparator principalVariationComparator) {
+        print(principalVariationComparator, principalVariationComparator.getNext());
+    }
+
+    @Override
+    public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
+        print(transpositionHeadMoveComparator, transpositionHeadMoveComparator.getNext());
+    }
+
+    @Override
+    public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
+        print(transpositionTailMoveComparator, transpositionTailMoveComparator.getNext());
+    }
+
+    @Override
+    public void visit(KillerMoveComparator killerMoveComparator) {
+        print(killerMoveComparator, killerMoveComparator.getNext());
+    }
+
+    @Override
+    public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
+        printChainDownLine();
+        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), objectText(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
+
+        gameEvaluatorCacheComparator.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(PromotionComparator promotionComparator) {
+        print(promotionComparator, promotionComparator.getNext());
+    }
+
+    @Override
+    public void visit(RecaptureMoveComparator recaptureMoveComparator) {
+        print(recaptureMoveComparator, recaptureMoveComparator.getNext());
+    }
+
+    @Override
+    public void visit(MvvLvaComparator mvvLvaComparator) {
+        print(mvvLvaComparator, mvvLvaComparator.getNext());
+    }
+
+    @Override
+    public void visit(QuietComparator quietComparator) {
+        printChainDownLine();
+        printNodeObjectText(quietComparator);
+
+        MoveComparator quietNext = quietComparator.getQuietNext();
+        printChainDownLine();
+        printChainText(" -> QuietComparatorNode");
+        nestedChain++;
+        quietNext.accept(this);
+        nestedChain--;
+
+        MoveComparator noQuietNext = quietComparator.getNoQuietNext();
+        System.out.print("\n");
+        printChainText(" -> NoQuietComparatorNode");
+        nestedChain++;
+        noQuietNext.accept(this);
+        nestedChain--;
+    }
+
+    @Override
+    public void visit(DefaultMoveComparator defaultMoveComparator) {
+        printChainDownLine();
+        printNodeObjectText(defaultMoveComparator);
+    }
+
+
+    private void printChainSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        printChainText("SearchByCycleListeners:");
+        nestedChain++;
+        searchListenerMediator.getSearchByCycleListeners()
+                .forEach(this::printNodeObjectText);
+        System.out.print("\n");
+        nestedChain--;
+
+        printChainText("SearchByDepthListener:");
+        nestedChain++;
+        searchListenerMediator.getSearchByDepthListeners()
+                .forEach(this::printNodeObjectText);
+        System.out.print("\n");
+        nestedChain--;
+
+        printChainText("SearchByWindowsListeners:");
+        nestedChain++;
+        searchListenerMediator.getSearchByWindowsListeners()
+                .forEach(this::printNodeObjectText);
+        System.out.print("\n");
+        nestedChain--;
+
+        printChainText("StopSearchingListener:");
+        nestedChain++;
+        searchListenerMediator.getStopSearchingListeners()
+                .forEach(this::printNodeObjectText);
+        System.out.print("\n");
+        nestedChain--;
+
+        printChainText("ResetListener:");
+        nestedChain++;
+        searchListenerMediator.getResetListeners()
+                .forEach(this::printNodeObjectText);
+        System.out.print("\n");
+        nestedChain--;
     }
 
     @Override
@@ -210,7 +366,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         printChainDownLine();
-        printNodeObjectText(alphaBetaEvaluation);
+        printChainText(String.format("%s [Evaluator: %s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getEvaluator())));
     }
 
     public void print(Object object, Acceptor acceptor) {
@@ -219,7 +375,6 @@ public class ChainPrinterVisitor implements Visitor {
 
         acceptor.accept(this);
     }
-
 
     private void printChainDownLine() {
         System.out.printf("%s|\n", "\t".repeat(nestedChain));
@@ -235,6 +390,16 @@ public class ChainPrinterVisitor implements Visitor {
 
     private String objectText(Object object) {
         return String.format("%s @ %s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode()));
+    }
+
+    private String printGameEvaluator(Evaluator evaluator) {
+        if (evaluator instanceof EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper) {
+            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsWrapper), printGameEvaluator(gameEvaluatorStatisticsWrapper.getImp()));
+        } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
+            return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
+        }
+
+        return objectText(evaluator);
     }
 
 }

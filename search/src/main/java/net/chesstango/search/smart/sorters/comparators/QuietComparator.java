@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
@@ -15,6 +16,11 @@ public class QuietComparator implements MoveComparator {
     private MoveComparator noQuietNext;
 
     private MoveComparator quietNext;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
