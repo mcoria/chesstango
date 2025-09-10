@@ -3,6 +3,7 @@ package net.chesstango.search.smart.features.debug.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -25,6 +26,11 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     public DebugFilter(DebugNode.NodeTopology topology) {
         this.topology = topology;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

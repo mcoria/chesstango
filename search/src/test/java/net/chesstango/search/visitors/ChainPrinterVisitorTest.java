@@ -3,6 +3,7 @@ package net.chesstango.search.visitors;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 public class ChainPrinterVisitorTest {
 
     private ChainPrinterVisitor chainPrinterVisitor;
+    private DebugNodeTrap debugNodeTrap;
 
     @BeforeEach
     public void setup() {
@@ -41,7 +43,7 @@ public class ChainPrinterVisitorTest {
                 //.withStopProcessingCatch()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
-                //.withDebugSearchTree(debugNodeTrap, false, true, true)
+                .withDebugSearchTree(debugNodeTrap, false, true, true)
                 .withStatistics()
                 //.withPrintChain()
                 ;

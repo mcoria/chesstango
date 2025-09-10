@@ -16,7 +16,7 @@ import static net.chesstango.search.SearchParameter.*;
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeepening implements Search, Acceptor {
+public class IterativeDeepening implements Search {
     private volatile boolean keepProcessing;
 
     @Getter

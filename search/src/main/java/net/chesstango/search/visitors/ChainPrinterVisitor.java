@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
@@ -28,10 +29,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
-import net.chesstango.search.smart.sorters.MoveComparator;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 
 /**
@@ -160,6 +158,16 @@ public class ChainPrinterVisitor implements Visitor {
         print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
     }
 
+
+    @Override
+    public void visit(DebugFilter debugFilter) {
+        print(debugFilter, debugFilter.getNext());
+    }
+
+    /**
+     * Sorters elements
+     */
+
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
         print(rootMoveSorter, rootMoveSorter.getNodeMoveSorter());
@@ -177,6 +185,12 @@ public class ChainPrinterVisitor implements Visitor {
         moveComparator.accept(this);
         nestedChain--;
     }
+
+    @Override
+    public void visit(MoveSorterDebug moveSorterDebug) {
+        print(moveSorterDebug, moveSorterDebug.getMoveSorterImp());
+    }
+
 
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {

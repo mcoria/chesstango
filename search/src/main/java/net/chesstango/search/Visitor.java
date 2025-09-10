@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
@@ -20,6 +21,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.*;
@@ -89,6 +91,8 @@ public interface Visitor {
     default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
     }
 
+    default void visit(DebugFilter debugFilter){}
+
     /**
      *
      * Sorter elements
@@ -98,6 +102,8 @@ public interface Visitor {
 
     default void visit(NodeMoveSorter nodeMoveSorter) {
     }
+
+    default void visit(MoveSorterDebug moveSorterDebug){}
 
     /**
      *
@@ -129,4 +135,5 @@ public interface Visitor {
     default void visit(RecaptureMoveComparator recaptureMoveComparator){}
 
     default void visit(MvvLvaComparator mvvLvaComparator){}
+
 }

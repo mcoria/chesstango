@@ -40,10 +40,10 @@ module net.chesstango.search {
     exports net.chesstango.search.visitors;
     exports net.chesstango.search.smart.features.pv.comparators;
 
-    requires com.fasterxml.jackson.databind;
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
+    requires com.fasterxml.jackson.databind;
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
