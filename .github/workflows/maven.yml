@@ -34,4 +34,5 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2
       with:
         generate-branches-badge: true
+        jacoco-csv-file: coverage/target/site/jacoco-aggregate/jacoco.csv
 
