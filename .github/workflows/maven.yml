@@ -28,5 +28,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B verify --file pom.xml
 
+    - name: JaCoCo Report
+      uses: cicirello/jacoco-report-action@v2
+      with:
+        paths: 'coverage/target/site/jacoco/jacoco.xml'
