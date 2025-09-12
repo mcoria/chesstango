@@ -30,7 +30,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B verify --file pom.xml
 
-    - name: JaCoCo Report
-      uses: cicirello/jacoco-report-action@v2
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
       with:
-        paths: 'coverage/target/site/jacoco/jacoco.xml'
+        generate-branches-badge: true
+
