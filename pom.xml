@@ -19,6 +19,7 @@
         <module>engine</module>
         <module>engine-uci</module>
         <module>engine-lichess</module>
+        <module>coverage</module>
     </modules>
 
     <properties>
@@ -85,6 +86,16 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>engine-uci</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>engine-lichess</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
