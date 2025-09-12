@@ -71,7 +71,7 @@
 
     <profiles>
         <profile>
-            <id>jacoco</id>
+            <id>coverage</id>
             <build>
                 <plugins>
                     <plugin>
