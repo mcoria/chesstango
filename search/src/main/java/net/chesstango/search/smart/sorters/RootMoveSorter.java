@@ -1,10 +1,12 @@
 package net.chesstango.search.smart.sorters;
 
+import lombok.Getter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -21,7 +23,9 @@ import java.util.stream.Stream;
  * @author Mauricio Coria
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
+    @Getter
     private final NodeMoveSorter nodeMoveSorter;
+
     private boolean maximize;
     private int numberOfMove;
     private Move lastBestMove;
@@ -31,6 +35,11 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     public RootMoveSorter() {
         this.nodeMoveSorter = new NodeMoveSorter();
         this.nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

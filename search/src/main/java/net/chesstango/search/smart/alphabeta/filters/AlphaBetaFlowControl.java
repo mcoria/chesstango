@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.StopSearchingException;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 
 /**
@@ -36,6 +37,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
     private int maxPly;
     private Game game;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {

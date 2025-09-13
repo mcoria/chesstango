@@ -6,6 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCaptureEnPassant;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
@@ -47,6 +48,11 @@ public class MvvLvaComparator implements MoveComparator {
                     0, 0, 0, 0, 0, 0, 0
             }  // victim None, attacker K, Q, R, B, N, P, None
     };
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
