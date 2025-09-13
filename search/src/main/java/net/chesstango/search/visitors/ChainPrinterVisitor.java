@@ -6,6 +6,7 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
@@ -19,6 +20,7 @@ import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveCo
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
@@ -34,6 +36,8 @@ import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -47,6 +51,8 @@ public class ChainPrinterVisitor implements Visitor {
     private int nestedChain = 0;
     private boolean alphaBetaFlowControlVisited;
     private boolean extensionFlowControlVisited;
+    private Map<String, String> objectMap;
+    private int objectCounter = 1;
 
     public ChainPrinterVisitor(boolean printObjectId) {
         this.printObjectId = printObjectId;
@@ -61,6 +67,8 @@ public class ChainPrinterVisitor implements Visitor {
         this.nestedChain = 0;
         this.alphaBetaFlowControlVisited = false;
         this.extensionFlowControlVisited = false;
+        this.objectMap = new HashMap<>();
+        this.objectCounter = 1;
         printChainText("ROOT");
         search.accept(this);
         this.out.flush();
@@ -77,6 +85,19 @@ public class ChainPrinterVisitor implements Visitor {
         printChainText("");
         printChainText("");
         printChainSmartListenerMediator(iterativeDeepening.getSearchListenerMediator());
+    }
+
+    @Override
+    public void visit(NoIterativeDeepening noIterativeDeepening) {
+        printChainDownLine();
+        printNodeObjectText(noIterativeDeepening);
+
+        SearchAlgorithm algorithm = noIterativeDeepening.getSearchAlgorithm();
+        algorithm.accept(this);
+
+        printChainText("");
+        printChainText("");
+        printChainSmartListenerMediator(noIterativeDeepening.getSearchListenerMediator());
     }
 
     @Override
@@ -151,6 +172,11 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(TranspositionPV transpositionPV) {
         print(transpositionPV, transpositionPV.getNext());
+    }
+
+    @Override
+    public void visit(TriangularPV triangularPV) {
+        print(triangularPV, triangularPV.getNext());
     }
 
     @Override
@@ -435,9 +461,11 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private String objectText(Object object) {
+        String objectKey = String.format("%s @ %s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode()));
+
         return printObjectId ?
-                String.format("%s @ %s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode())) :
-                String.format("%s", object.getClass().getSimpleName());
+                objectKey :
+                objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
     private String printGameEvaluator(Evaluator evaluator) {

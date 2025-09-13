@@ -1,0 +1,104 @@
+ROOT
+|
+NoIterativeDeepening @ 1
+|
+AlphaBetaFacade @ 2
+|
+AlphaBeta @ 3
+|
+ -> Sorter
+	|
+	RootMoveSorter @ 4
+	|
+	NodeMoveSorter @ 5
+	|
+	 -> Comparator
+		|
+		DefaultMoveComparator @ 6
+|
+MoveEvaluationTracker @ 7
+|
+TriangularPV @ 8
+|
+AlphaBetaFlowControl @ 9
+|
+ -> TerminalNode
+	|
+	AlphaBetaEvaluation @ 10 [Evaluator: EvaluatorByMaterial @ 11]
+
+ -> LoopNode
+	|
+	LoopEvaluation @ 12
+
+ -> LeafNode
+	|
+	AlphaBetaEvaluation @ 13 [Evaluator: EvaluatorByMaterial @ 11]
+
+ -> HorizonNode
+	|
+	AlphaBetaEvaluation @ 14 [Evaluator: EvaluatorByMaterial @ 11]
+
+ -> InteriorNode
+	|
+	AlphaBeta @ 15
+	|
+	 -> Sorter
+		|
+		NodeMoveSorter @ 16
+		|
+		 -> Comparator
+			|
+			QuietComparator @ 17
+			|
+			 -> NoQuietComparatorNode
+				|
+				PromotionComparator @ 18
+				|
+				RecaptureMoveComparator @ 19
+				|
+				DefaultMoveComparator @ 20
+
+			 -> QuietComparatorNode
+				|
+				DefaultMoveComparator @ 20
+	|
+	TriangularPV @ 21
+	|
+	AlphaBetaFlowControl @ 9 -> LOOP
+
+
+SearchByCycleListeners:
+	SetGameEvaluator @ 22
+	AlphaBetaFacade @ 2
+	SetSearchContext @ 23
+	SetTrianglePV @ 24
+	AlphaBetaFlowControl @ 9
+	ExtensionFlowControl @ 25
+	TriangularPV @ 21
+	AlphaBeta @ 15
+	NodeMoveSorter @ 16
+	RecaptureMoveComparator @ 19
+	MoveEvaluationTracker @ 7
+	TriangularPV @ 8
+	AlphaBeta @ 3
+	RootMoveSorter @ 4
+
+SearchByDepthListener:
+	AlphaBetaFacade @ 2
+	SetSearchContext @ 23
+	SetTrianglePV @ 24
+	AlphaBetaFlowControl @ 9
+	TriangularPV @ 21
+	MoveEvaluationTracker @ 7
+	TriangularPV @ 8
+	RootMoveSorter @ 4
+
+SearchByWindowsListeners:
+	MoveEvaluationTracker @ 7
+
+StopSearchingListener:
+	AlphaBetaFlowControl @ 9
+	ExtensionFlowControl @ 25
+
+ResetListener:
+

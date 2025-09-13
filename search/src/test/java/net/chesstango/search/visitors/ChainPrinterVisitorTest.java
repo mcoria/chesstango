@@ -28,7 +28,7 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void printChain() throws IOException {
+    public void alphaBetaBuilderChainTest01() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluatorCache()
@@ -55,21 +55,34 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        chainPrinterVisitor.print(search, System.out);
+        assertSearch(search, "alphaBetaBuilderChainTest01.txt");
+    }
+
+    @Test
+    public void alphaBetaBuilderChainTest02() throws IOException {
+        AlphaBetaBuilder builder = new AlphaBetaBuilder()
+                .withGameEvaluator(new EvaluatorByMaterial());
+
+        Search search = builder.build();
+
+        assertSearch(search, "alphaBetaBuilderChainTest02.txt");
+    }
+
+    private void assertSearch(Search search, String resourceName) throws IOException {
+        List<String> expectedPrintChain = readResource(resourceName);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8)) { // true for autoFlush
+        try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
+            //chainPrinterVisitor.print(search, System.out);
             chainPrinterVisitor.print(search, out);
         }
 
-        try(InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());) {
+        try (InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());) {
             List<String> actualPrintChain = readInputStream(inputStream);
-
-            List<String> expectedPrintChain = readResource("printChain.txt");
 
             assertEquals(expectedPrintChain.size(), actualPrintChain.size());
 
-            for (int i = 0; i < expectedPrintChain.size(); i++) {
+            for (int i = 0; i < actualPrintChain.size(); i++) {
                 assertEquals(expectedPrintChain.get(i), actualPrintChain.get(i), "Line " + (i + 1));
             }
         }

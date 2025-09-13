@@ -1,6 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
@@ -12,6 +13,7 @@ import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveCo
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -33,6 +35,9 @@ import net.chesstango.search.smart.sorters.comparators.*;
 public interface Visitor {
 
     default void visit(IterativeDeepening iterativeDeepening) {
+    }
+
+    default void visit(NoIterativeDeepening noIterativeDeepening) {
     }
 
     default void visit(AlphaBetaFacade alphaBetaFacade) {
@@ -60,6 +65,9 @@ public interface Visitor {
     }
 
     default void visit(TranspositionPV transpositionPV) {
+    }
+
+    default void visit(TriangularPV triangularPV) {
     }
 
     default void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
@@ -95,7 +103,8 @@ public interface Visitor {
     default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
     }
 
-    default void visit(DebugFilter debugFilter){}
+    default void visit(DebugFilter debugFilter) {
+    }
 
     /**
      *
@@ -107,7 +116,8 @@ public interface Visitor {
     default void visit(NodeMoveSorter nodeMoveSorter) {
     }
 
-    default void visit(MoveSorterDebug moveSorterDebug){}
+    default void visit(MoveSorterDebug moveSorterDebug) {
+    }
 
     /**
      *
@@ -134,10 +144,12 @@ public interface Visitor {
     default void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
     }
 
-    default void visit(PromotionComparator promotionComparator){}
+    default void visit(PromotionComparator promotionComparator) {
+    }
 
-    default void visit(RecaptureMoveComparator recaptureMoveComparator){}
+    default void visit(RecaptureMoveComparator recaptureMoveComparator) {
+    }
 
-    default void visit(MvvLvaComparator mvvLvaComparator){}
-
+    default void visit(MvvLvaComparator mvvLvaComparator) {
+    }
 }

@@ -3,6 +3,7 @@ package net.chesstango.search.smart.features.pv.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -17,8 +18,14 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     @Setter
     @Getter
     private AlphaBetaFilter next;
+
     private short[][] trianglePV;
     private Game game;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
