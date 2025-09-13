@@ -342,7 +342,7 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
 
         MoveComparator quietNext = quietComparator.getQuietNext();
-        out.print("\n");
+        out.println();
         printChainText(" -> QuietComparatorNode");
         nestedChain++;
         quietNext.accept(this);
@@ -361,35 +361,35 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain++;
         searchListenerMediator.getSearchByCycleListeners()
                 .forEach(this::printNodeObjectText);
-        out.print("\n");
+        out.println();
         nestedChain--;
 
         printChainText("SearchByDepthListener:");
         nestedChain++;
         searchListenerMediator.getSearchByDepthListeners()
                 .forEach(this::printNodeObjectText);
-        out.print("\n");
+        out.println();
         nestedChain--;
 
         printChainText("SearchByWindowsListeners:");
         nestedChain++;
         searchListenerMediator.getSearchByWindowsListeners()
                 .forEach(this::printNodeObjectText);
-        out.print("\n");
+        out.println();
         nestedChain--;
 
         printChainText("StopSearchingListener:");
         nestedChain++;
         searchListenerMediator.getStopSearchingListeners()
                 .forEach(this::printNodeObjectText);
-        out.print("\n");
+        out.println();
         nestedChain--;
 
         printChainText("ResetListener:");
         nestedChain++;
         searchListenerMediator.getResetListeners()
                 .forEach(this::printNodeObjectText);
-        out.print("\n");
+        out.println();
         nestedChain--;
     }
 

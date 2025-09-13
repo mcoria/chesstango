@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -59,24 +60,37 @@ public class ChainPrinterVisitorTest {
             chainPrinterVisitor.print(search, out);
         }
 
-        // Convert the captured bytes to a String
-        String actualPrintChain = baos.toString(StandardCharsets.UTF_8);
+        InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());
+        List<String> actualPrintChain = readInputStream(inputStream);
 
-        //System.out.println("Captured Output:\n" + actualPrintChain);
+        List<String> expectedPrintChain = readResource("printChain.txt");
 
-        String expectedPrintChain = readResource("printChain.txt");
+        assertEquals(expectedPrintChain.size(), actualPrintChain.size());
 
-        assertEquals(expectedPrintChain, actualPrintChain);
-
+        for (int i = 0; i < expectedPrintChain.size(); i++) {
+            assertEquals(expectedPrintChain.get(i), actualPrintChain.get(i), "Line " + (i + 1));
+        }
     }
 
-    private String readResource(String resourceName) {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-        ) {
-            return reader.lines().collect(Collectors.joining("\n"));
+    private List<String> readResource(String resourceName) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);) {
+            return readInputStream(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    private List<String> readInputStream(InputStream inputStream) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line.trim());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return lines;
     }
 }
