@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
@@ -57,8 +58,12 @@ public class ChainPrinterVisitor implements Visitor {
 
     public void print(Search search, PrintStream out) {
         this.out = out;
+        this.nestedChain = 0;
+        this.alphaBetaFlowControlVisited = false;
+        this.extensionFlowControlVisited = false;
         printChainText("ROOT");
         search.accept(this);
+        this.out.flush();
     }
 
     @Override
@@ -131,6 +136,11 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
         print(alphaBetaStatisticsVisited, alphaBetaStatisticsVisited.getNext());
+    }
+
+    @Override
+    public void visit(StopProcessingCatch stopProcessingCatch) {
+        print(stopProcessingCatch, stopProcessingCatch.getNext());
     }
 
     @Override

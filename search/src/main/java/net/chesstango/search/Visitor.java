@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
@@ -50,6 +51,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
+    }
+
+    default void visit(StopProcessingCatch stopProcessingCatch) {
     }
 
     default void visit(MoveEvaluationTracker moveEvaluationTracker) {

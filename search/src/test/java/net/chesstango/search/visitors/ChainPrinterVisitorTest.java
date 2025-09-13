@@ -28,7 +28,7 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void printChain() {
+    public void printChain() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withGameEvaluatorCache()
@@ -47,7 +47,7 @@ public class ChainPrinterVisitorTest {
                 .withAspirationWindows()
                 .withIterativeDeepening()
 
-                //.withStopProcessingCatch()
+                .withStopProcessingCatch()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 .withDebugSearchTree(debugNodeTrap, false, true, true)
@@ -55,20 +55,23 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
+        chainPrinterVisitor.print(search, System.out);
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8)) { // true for autoFlush
             chainPrinterVisitor.print(search, out);
         }
 
-        InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());
-        List<String> actualPrintChain = readInputStream(inputStream);
+        try(InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());) {
+            List<String> actualPrintChain = readInputStream(inputStream);
 
-        List<String> expectedPrintChain = readResource("printChain.txt");
+            List<String> expectedPrintChain = readResource("printChain.txt");
 
-        assertEquals(expectedPrintChain.size(), actualPrintChain.size());
+            assertEquals(expectedPrintChain.size(), actualPrintChain.size());
 
-        for (int i = 0; i < expectedPrintChain.size(); i++) {
-            assertEquals(expectedPrintChain.get(i), actualPrintChain.get(i), "Line " + (i + 1));
+            for (int i = 0; i < expectedPrintChain.size(); i++) {
+                assertEquals(expectedPrintChain.get(i), actualPrintChain.get(i), "Line " + (i + 1));
+            }
         }
     }
 

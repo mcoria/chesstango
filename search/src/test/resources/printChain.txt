@@ -4,6 +4,8 @@ IterativeDeepening
 |
 AlphaBetaFacade
 |
+StopProcessingCatch
+|
 AspirationWindows
 |
 DebugFilter
@@ -233,6 +235,7 @@ SearchByCycleListeners:
 	AspirationWindows
 	DebugFilter
 	MoveSorterDebug
+	StopProcessingCatch
 	TranspositionTableRoot
 	TranspositionPV
 	AlphaBeta
@@ -254,6 +257,7 @@ SearchByDepthListener:
 	PrincipalVariationComparator
 	MoveEvaluationTracker
 	AspirationWindows
+	StopProcessingCatch
 	TranspositionTableRoot
 	TranspositionPV
 	RootMoveSorter
