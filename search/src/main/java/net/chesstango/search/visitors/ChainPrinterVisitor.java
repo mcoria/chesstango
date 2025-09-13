@@ -32,16 +32,31 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 
+import java.io.PrintStream;
+
 /**
  * @author Mauricio Coria
  */
 public class ChainPrinterVisitor implements Visitor {
 
-    int nestedChain = 0;
-    boolean alphaBetaFlowControlVisited;
-    boolean extensionFlowControlVisited;
+    private final boolean printObjectId;
 
-    public void print(Search search) {
+    private PrintStream out;
+
+    private int nestedChain = 0;
+    private boolean alphaBetaFlowControlVisited;
+    private boolean extensionFlowControlVisited;
+
+    public ChainPrinterVisitor(boolean printObjectId) {
+        this.printObjectId = printObjectId;
+    }
+
+    public ChainPrinterVisitor() {
+        this(true);
+    }
+
+    public void print(Search search, PrintStream out) {
+        this.out = out;
         printChainText("ROOT");
         search.accept(this);
     }
@@ -207,34 +222,34 @@ public class ChainPrinterVisitor implements Visitor {
             nestedChain--;
 
             AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
-            System.out.println();
+            out.println();
             printChainText(" -> LoopNode");
             nestedChain++;
             loopNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
-            System.out.println();
+            out.println();
             printChainText(" -> LeafNode");
             nestedChain++;
             leafNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
-            System.out.println();
+            out.println();
             printChainText(" -> HorizonNode");
             nestedChain++;
             horizonNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
-            System.out.println();
+            out.println();
             printChainText(" -> InteriorNode");
             nestedChain++;
             interiorNode.accept(this);
             nestedChain--;
         } else {
-            System.out.printf("%s%s -> LOOP \n", "\t".repeat(nestedChain), objectText(alphaBetaFlowControl));
+            out.printf("%s%s -> LOOP\n", "\t".repeat(nestedChain), objectText(alphaBetaFlowControl));
         }
     }
 
@@ -253,21 +268,21 @@ public class ChainPrinterVisitor implements Visitor {
             nestedChain--;
 
             AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
-            System.out.println();
+            out.println();
             printChainText(" -> LeafNode");
             nestedChain++;
             leafNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter quiescenceNode = extensionFlowControl.getQuiescenceNode();
-            System.out.println();
+            out.println();
             printChainText(" -> QuiescenceNode");
             nestedChain++;
             quiescenceNode.accept(this);
             nestedChain--;
 
         } else {
-            System.out.printf("%s%s -> LOOP \n", "\t".repeat(nestedChain), objectText(extensionFlowControl));
+            out.printf("%s%s -> LOOP\n", "\t".repeat(nestedChain), objectText(extensionFlowControl));
         }
     }
 
@@ -327,7 +342,7 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
 
         MoveComparator quietNext = quietComparator.getQuietNext();
-        System.out.print("\n");
+        out.print("\n");
         printChainText(" -> QuietComparatorNode");
         nestedChain++;
         quietNext.accept(this);
@@ -346,35 +361,35 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain++;
         searchListenerMediator.getSearchByCycleListeners()
                 .forEach(this::printNodeObjectText);
-        System.out.print("\n");
+        out.print("\n");
         nestedChain--;
 
         printChainText("SearchByDepthListener:");
         nestedChain++;
         searchListenerMediator.getSearchByDepthListeners()
                 .forEach(this::printNodeObjectText);
-        System.out.print("\n");
+        out.print("\n");
         nestedChain--;
 
         printChainText("SearchByWindowsListeners:");
         nestedChain++;
         searchListenerMediator.getSearchByWindowsListeners()
                 .forEach(this::printNodeObjectText);
-        System.out.print("\n");
+        out.print("\n");
         nestedChain--;
 
         printChainText("StopSearchingListener:");
         nestedChain++;
         searchListenerMediator.getStopSearchingListeners()
                 .forEach(this::printNodeObjectText);
-        System.out.print("\n");
+        out.print("\n");
         nestedChain--;
 
         printChainText("ResetListener:");
         nestedChain++;
         searchListenerMediator.getResetListeners()
                 .forEach(this::printNodeObjectText);
-        System.out.print("\n");
+        out.print("\n");
         nestedChain--;
     }
 
@@ -398,19 +413,21 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private void printChainDownLine() {
-        System.out.printf("%s|\n", "\t".repeat(nestedChain));
+        out.printf("%s|\n", "\t".repeat(nestedChain));
     }
 
     private void printChainText(String text) {
-        System.out.printf("%s%s\n", "\t".repeat(nestedChain), text);
+        out.printf("%s%s\n", "\t".repeat(nestedChain), text);
     }
 
     private void printNodeObjectText(Object object) {
-        System.out.printf("%s%s\n", "\t".repeat(nestedChain), objectText(object));
+        out.printf("%s%s\n", "\t".repeat(nestedChain), objectText(object));
     }
 
     private String objectText(Object object) {
-        return String.format("%s @ %s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode()));
+        return printObjectId ?
+                String.format("%s @ %s", object.getClass().getSimpleName(), Integer.toHexString(object.hashCode())) :
+                String.format("%s", object.getClass().getSimpleName());
     }
 
     private String printGameEvaluator(Evaluator evaluator) {
