@@ -32,6 +32,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 
@@ -213,6 +214,11 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(DebugFilter debugFilter) {
         print(debugFilter, debugFilter.getNext());
+    }
+
+    @Override
+    public void visit(ZobristTracker zobristTracker) {
+        print(zobristTracker, zobristTracker.getNext());
     }
 
     /**

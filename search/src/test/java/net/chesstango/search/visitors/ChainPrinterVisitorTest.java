@@ -48,10 +48,11 @@ public class ChainPrinterVisitorTest {
                 .withIterativeDeepening()
 
                 .withStopProcessingCatch()
-                //.withZobristTracker()
-                //.withTrackEvaluations() // Consume demasiada memoria
+                .withZobristTracker()
                 .withDebugSearchTree(debugNodeTrap, false, true, true)
-                .withStatistics();
+                .withStatistics()
+                .withTrackEvaluations() // Consume demasiada memoria
+                ;
 
         Search search = builder.build();
 
