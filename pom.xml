@@ -54,7 +54,7 @@
         <native.maven.plugin.version>0.11.0</native.maven.plugin.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.0.10</gardel.version>
+        <gardel.version>1.0.11</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
         <piazzolla.version>1.0.5</piazzolla.version>
