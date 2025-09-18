@@ -54,7 +54,7 @@
         <native.maven.plugin.version>0.11.0</native.maven.plugin.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.0.11</gardel.version>
+        <gardel.version>1.0.12</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
         <piazzolla.version>1.0.5</piazzolla.version>
@@ -156,12 +156,6 @@
             </dependency>
 
             <!-- logback: Este provider es excluyente con slf4j-nop -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-                <scope>runtime</scope>
-            </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
@@ -339,6 +333,12 @@
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-shade-plugin</artifactId>
                             <version>${maven-shade-plugin.version}</version>
+                            <configuration>
+                                <!-- Other shade plugin configurations -->
+                                <createDependencyReducedPom>true</createDependencyReducedPom>
+                                <!-- Optional: Specify a custom location for the reduced POM -->
+                                <!-- <dependencyReducedPomLocation>${project.build.directory}/my-reduced-pom.xml</dependencyReducedPomLocation> -->
+                            </configuration>
                             <executions>
                                 <execution>
                                     <phase>package</phase>
