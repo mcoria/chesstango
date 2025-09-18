@@ -6,6 +6,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
@@ -16,6 +17,11 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 public class PromotionComparator implements MoveComparator {
 
     private MoveComparator next;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {

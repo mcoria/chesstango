@@ -8,7 +8,7 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
  *
  * @author Mauricio Coria
  */
-public interface Search {
+public interface Search extends Acceptor {
 
     /**
      * Set search parameters. For instance:

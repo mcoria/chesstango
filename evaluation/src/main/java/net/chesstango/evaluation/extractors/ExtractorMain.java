@@ -42,9 +42,9 @@ public class ExtractorMain {
     private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
         EPDDecoder EPDDecoder = new EPDDecoder();
 
-        Stream<EPD> epdEntryStream = EPDDecoder.readEdpFile(fileName);
+        List<EPD> epdList = EPDDecoder.readEpdFile(fileName);
 
-        epdEntryStream.forEach(epdEntry -> {
+        epdList.forEach(epdEntry -> {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
                 Game game = Game.from(epdEntry);

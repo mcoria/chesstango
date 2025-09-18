@@ -3,6 +3,7 @@ package net.chesstango.search.smart.features.zobrist.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -22,6 +23,10 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
     private List<String> zobristCollisions;
     private Game game;
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {

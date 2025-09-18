@@ -1,11 +1,12 @@
 **/target/
+*.log
 .project
 .classpath
 .settings/
 .idea/
-
+/**/dependency-reduced-pom.xml
 matches.pgn
 search/DebugSearchTree*.txt
 lichess.log
-*.log
 engine-tools/scripts/venv/
+

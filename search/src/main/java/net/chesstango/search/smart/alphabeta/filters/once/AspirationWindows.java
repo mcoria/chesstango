@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
@@ -22,6 +23,11 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     private SearchListenerMediator searchListenerMediator;
 
     private Integer lastBestValue;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
