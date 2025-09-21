@@ -273,6 +273,34 @@
 
     <profiles>
         <profile>
+            <id>shade</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-shade-plugin</artifactId>
+                            <version>${maven-shade-plugin.version}</version>
+                            <configuration>
+                                <!-- Other shade plugin configurations -->
+                                <createDependencyReducedPom>false</createDependencyReducedPom>
+                                <!-- Optional: Specify a custom location for the reduced POM -->
+                                <!-- <dependencyReducedPomLocation>${project.build.directory}/my-reduced-pom.xml</dependencyReducedPomLocation> -->
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>shade</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
             <id>native</id>
             <build>
                 <pluginManagement>
@@ -316,34 +344,6 @@
                                     <phase>test</phase>
                                     <goals>
                                         <goal>report</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>shade</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-shade-plugin</artifactId>
-                            <version>${maven-shade-plugin.version}</version>
-                            <configuration>
-                                <!-- Other shade plugin configurations -->
-                                <createDependencyReducedPom>true</createDependencyReducedPom>
-                                <!-- Optional: Specify a custom location for the reduced POM -->
-                                <!-- <dependencyReducedPomLocation>${project.build.directory}/my-reduced-pom.xml</dependencyReducedPomLocation> -->
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>shade</goal>
                                     </goals>
                                 </execution>
                             </executions>
