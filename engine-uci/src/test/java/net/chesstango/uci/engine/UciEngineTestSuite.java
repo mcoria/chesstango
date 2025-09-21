@@ -9,6 +9,6 @@ import org.junit.platform.suite.api.Suite;
  *
  */
 @Suite
-@SelectClasses({UciMainTangoTest.class, UciTangoTest.class})
+@SelectClasses({UciMainTangoTest.class, UciTangoTest.class, SearchingStateTest.class})
 public class UciEngineTestSuite {
 }
