@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIService;
 import net.chesstango.goyeneche.stream.UCIActiveStreamReader;
@@ -16,9 +17,8 @@ import java.io.*;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 public class UciMain implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(UciMain.class);
-
     private final UCIService service;
 
     private final InputStream in;
@@ -48,7 +48,7 @@ public class UciMain implements Runnable {
     @Override
     public void run() {
         try {
-            logger.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR, Tango.ENGINE_VERSION);
+            log.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR, Tango.ENGINE_VERSION);
 
             service.open();
 
@@ -60,13 +60,13 @@ public class UciMain implements Runnable {
 
             service.close();
         } catch (RuntimeException e) {
-            logger.error("Error:", e);
+            log.error("Error:", e);
             throw e;
         } finally {
             try {
                 in.close();
             } catch (IOException e) {
-                logger.error("Error:", e);
+                log.error("Error:", e);
             }
             out.close();
         }

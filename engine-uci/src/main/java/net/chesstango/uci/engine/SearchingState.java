@@ -44,7 +44,7 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_isReady(ReqIsReady cmdIsReady) {
-        uciTango.reply(this, UCIResponse.uciok());
+        uciTango.reply(this, UCIResponse.readyok());
     }
 
     @Override

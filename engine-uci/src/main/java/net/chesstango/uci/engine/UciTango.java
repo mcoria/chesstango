@@ -29,8 +29,6 @@ import java.util.function.Function;
 public class UciTango implements UCIService {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
-    private final Function<Config, Tango> tangoFactory;
-
     final Config tangoConfig;
 
     @Setter
@@ -95,7 +93,6 @@ public class UciTango implements UCIService {
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
         this.tangoConfig = new Config();
-        this.tangoFactory = tangoFactory;
 
         // Initialize the chess engine by opening the underlying Tango instance
         this.tango = tangoFactory.apply(tangoConfig);
