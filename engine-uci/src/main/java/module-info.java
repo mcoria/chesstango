@@ -9,4 +9,5 @@ module net.chesstango.uci.engine {
 
     requires org.slf4j;
     requires static lombok;
+    requires java.logging;
 }

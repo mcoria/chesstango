@@ -7,6 +7,5 @@
 /**/dependency-reduced-pom.xml
 matches.pgn
 search/DebugSearchTree*.txt
-lichess.log
 engine-tools/scripts/venv/
 
