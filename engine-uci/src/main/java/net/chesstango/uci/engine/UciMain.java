@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIService;
@@ -9,16 +10,16 @@ import net.chesstango.goyeneche.stream.UCIInputStreamFromStringAdapter;
 import net.chesstango.goyeneche.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.goyeneche.stream.strings.StringConsumer;
 import net.chesstango.goyeneche.stream.strings.StringSupplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.logging.LogManager;
 
 /**
  * @author Mauricio Coria
  */
 @Slf4j
 public class UciMain implements Runnable {
+
     private final UCIService service;
 
     private final InputStream in;
@@ -30,8 +31,20 @@ public class UciMain implements Runnable {
     @Getter
     private volatile boolean isRunning;
 
+    @SneakyThrows
     public static void main(String[] args) {
+        String julFile = System.getProperty("java.util.logging.config.file");
+        if (julFile != null) {
+            try (InputStream configStream = new FileInputStream(julFile)) {
+                LogManager.getLogManager().readConfiguration(configStream);
+            } catch (IOException e) {
+                System.err.println(e);
+                System.exit(1);
+            }
+        }
+
         UciMain uciMain = new UciMain(new UciTango(), System.in, System.out);
+
         uciMain.run();
     }
 

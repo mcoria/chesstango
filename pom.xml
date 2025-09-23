@@ -98,7 +98,6 @@
                 <artifactId>engine-lichess</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>goyeneche</artifactId>
@@ -134,7 +133,6 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-suite</artifactId>
@@ -154,12 +152,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-                <scope>runtime</scope>
-            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -257,6 +249,22 @@
     <profiles>
         <profile>
             <id>shade</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-jdk14</artifactId>
+                        <version>${slf4j.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>${logback.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -285,6 +293,22 @@
         </profile>
         <profile>
             <id>native</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-jdk14</artifactId>
+                        <version>${slf4j.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>${logback.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -336,5 +360,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>
