@@ -136,8 +136,8 @@ public class UciTango implements UCIService {
     // within the same package (e.g., state classes like ReadyState or EndState) to enable state transitions and responses.
     synchronized void reply(UCIEngine newState, UCICommand command) {
         log.trace("tango >> {}", command);
-        currentState = newState;
         outputStream.accept(command);
+        changeState(newState);
     }
 
 

@@ -31,7 +31,7 @@ public class UciMain implements Runnable {
     @Getter
     private volatile boolean isRunning;
 
-    @SneakyThrows
+
     public static void main(String[] args) {
         String julFile = System.getProperty("java.util.logging.config.file");
         if (julFile != null) {
