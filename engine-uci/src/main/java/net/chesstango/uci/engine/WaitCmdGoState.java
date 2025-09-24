@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 
 /**
@@ -9,15 +10,16 @@ import net.chesstango.goyeneche.requests.*;
  *
  * @author Mauricio Coria
  */
-class WaitCmdGoState extends ReadyState {
+class WaitCmdGoState implements UCIEngine {
     private final ReqGoExecutor cmdGoExecutor;
+
+    private final UciTango uciTango;
 
     @Setter
     private SearchingState searchingState;
 
 
     WaitCmdGoState(UciTango uciTango) {
-        super(uciTango);
         this.cmdGoExecutor = new ReqGoExecutor() {
             @Override
             public void go(ReqGoInfinite cmdGoInfinite) {
@@ -39,6 +41,8 @@ class WaitCmdGoState extends ReadyState {
                 uciTango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
+
+        this.uciTango = uciTango;
     }
 
     @Override

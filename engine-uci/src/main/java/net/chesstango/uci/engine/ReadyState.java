@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.engine.Config;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.goyeneche.UCIEngine;
@@ -17,7 +18,9 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  * @author Mauricio Coria
  */
 class ReadyState implements UCIEngine {
-    protected final UciTango uciTango;
+    private final UciTango uciTango;
+
+    private final Config tangoConfig;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
@@ -26,17 +29,18 @@ class ReadyState implements UCIEngine {
 
     volatile private boolean reloadTango;
 
-    ReadyState(UciTango uciTango) {
+    ReadyState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
+        this.tangoConfig = tangoConfig;
         this.reloadTango = true;
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
         if ("PolyglotFile".equals(cmdSetOption.getId())) {
-            uciTango.tangoConfig.setPolyglotFile(cmdSetOption.getValue());
+            tangoConfig.setPolyglotFile(cmdSetOption.getValue());
         } else if ("SyzygyDirectory".equals(cmdSetOption.getId())) {
-            uciTango.tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
+            tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
         }
         this.reloadTango = true;
     }

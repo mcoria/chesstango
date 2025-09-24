@@ -33,9 +33,9 @@ import java.util.function.Function;
 public class UciTango implements UCIService {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
-    final Config tangoConfig;
+    private final Config tangoConfig;
 
-    final Function<Config, Tango> tangoFactory;
+    private final Function<Config, Tango> tangoFactory;
 
     @Setter
     private UCIOutputStream outputStream;
@@ -119,8 +119,8 @@ public class UciTango implements UCIService {
     public void open() {
         // State pattern initialization: different state instances are created and linked with one another to 
         // represent the allowable transitions within the state lifecycle of the engine.
-        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
-        ReadyState readyState = new ReadyState(this);
+        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, tangoConfig);
+        ReadyState readyState = new ReadyState(this, tangoConfig);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
