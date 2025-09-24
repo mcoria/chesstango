@@ -81,9 +81,9 @@ public class UciMainTangoTest {
     }
 
     @Test
-    @Timeout(value = 30000, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     @Disabled
-    public void test_playTango01() throws IOException, InterruptedException {
+    public void test_setOptions() throws IOException, InterruptedException {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
@@ -106,10 +106,6 @@ public class UciMainTangoTest {
         // setoption command
         out.println("setoption name PolyglotFile value C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
         out.println("setoption name SyzygyDirectory value C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
-
-        // isready command
-        out.println("isready");
-        assertEquals("readyok", in.readLine());
 
         // isready command
         out.println("isready");

@@ -27,12 +27,12 @@ class ReadyState implements UCIEngine {
 
     volatile private FEN startPosition;
 
-    volatile private boolean reloadTango;
+    volatile private boolean loadTango;
 
     ReadyState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
         this.tangoConfig = tangoConfig;
-        this.reloadTango = true;
+        this.loadTango = true;
     }
 
     @Override
@@ -42,7 +42,7 @@ class ReadyState implements UCIEngine {
         } else if ("SyzygyDirectory".equals(cmdSetOption.getId())) {
             tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
         }
-        this.reloadTango = true;
+        this.loadTango = true;
     }
 
     @Override
@@ -79,9 +79,9 @@ class ReadyState implements UCIEngine {
     }
 
     private void loadTango() {
-        if (reloadTango) {
+        if (loadTango) {
             uciTango.loadTango();
-            reloadTango = false;
+            loadTango = false;
         }
     }
 }

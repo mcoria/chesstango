@@ -32,7 +32,6 @@ class SearchManagerBuilder {
 
     private boolean asyncInvoker;
 
-
     public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
         return this;
@@ -74,18 +73,34 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
+        if (asyncInvoker && searchExecutor == null) {
+            throw new IllegalArgumentException("SearchExecutor must be provided when asyncInvoker is true");
+        }
+        if (timeOutExecutor == null) {
+            throw new IllegalArgumentException("ScheduledExecutorService must be provided");
+        }
+
+        SearchChain searchChain = buildSearchChain();
+
+        SearchInvoker searchInvoker = asyncInvoker
+                ? new SearchInvokerAsync(searchChain, searchExecutor)
+                : new SearchInvokerSync(searchChain);
+
+        return new SearchManager(infiniteDepth, searchChain, new FivePercentage(), searchInvoker, timeOutExecutor);
+    }
+
+    SearchChain buildSearchChain() {
         List<SearchChain> searchChains = new ArrayList<>();
 
-        SearchByTablebase searchByTablebase = null;
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
             if (searchManagerByOpenBook != null) {
-                searchChains.add(searchByTablebase);
+                searchChains.add(searchManagerByOpenBook);
             }
         }
 
         if (syzygyDirectory != null) {
-            searchByTablebase = SearchByTablebase.open(syzygyDirectory);
+            SearchByTablebase searchByTablebase = SearchByTablebase.open(syzygyDirectory);
             if (searchByTablebase != null) {
                 searchChains.add(searchByTablebase);
             }
@@ -94,34 +109,15 @@ class SearchManagerBuilder {
         if (search != null) {
             searchChains.add(new SearchByAlgorithm(search));
         } else {
-
             SearchBuilder<?> searchBuilder = Search.newSearchBuilder()
                     .withGameEvaluator(evaluator == null ? Evaluator.getInstance() : evaluator);
-
 
             search = searchBuilder.build();
 
             searchChains.add(new SearchByAlgorithm(search));
         }
 
-        SearchChain searchChainHead = linkChain(searchChains);
-
-        SearchInvoker searchInvoker = null;
-
-        if (asyncInvoker) {
-            if (searchExecutor == null) {
-                throw new IllegalArgumentException("SearchExecutor must be provided when asyncInvoker is true");
-            }
-            searchInvoker = new SearchInvokerAsync(searchChainHead, searchExecutor);
-        } else {
-            searchInvoker = new SearchInvokerSync(searchChainHead);
-        }
-
-        if (timeOutExecutor == null) {
-            throw new IllegalArgumentException("ScheduledExecutorService must be provided");
-        }
-
-        return new SearchManager(infiniteDepth, searchChainHead, new FivePercentage(), searchInvoker, timeOutExecutor);
+        return linkChain(searchChains);
     }
 
     SearchChain linkChain(List<SearchChain> searchChains) {

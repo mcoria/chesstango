@@ -63,7 +63,6 @@ public class Tango implements AutoCloseable {
         this.searchManager = searchManager;
     }
 
-
     @Override
     public void close() throws Exception {
         searchExecutor.shutdown();

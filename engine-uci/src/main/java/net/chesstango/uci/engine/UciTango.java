@@ -168,6 +168,7 @@ public class UciTango implements UCIService {
     }
 
     void loadTango() {
+        log.debug("Loading tango");
         try {
             if (tango != null) {
                 tango.close();

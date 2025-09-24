@@ -34,15 +34,17 @@ class SearchByOpenBook implements SearchChain {
     }
 
     static SearchByOpenBook open(String polyglotFile) {
-        try {
-            Path polyglotFilePath = Path.of(polyglotFile);
-            if (Files.exists(polyglotFilePath)) {
-                return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
-            } else {
-                log.error("Book file '{}' not found", polyglotFile);
+        if (polyglotFile != null) {
+            try {
+                Path polyglotFilePath = Path.of(polyglotFile);
+                if (Files.exists(polyglotFilePath)) {
+                    return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
+                } else {
+                    log.warn("Book file '{}' not found", polyglotFile);
+                }
+            } catch (IOException e) {
+                log.error("Error opening book file", e);
             }
-        } catch (IOException e) {
-            log.error("Error opening book file", e);
         }
         return null;
     }
@@ -65,8 +67,7 @@ class SearchByOpenBook implements SearchChain {
             try {
                 book.close();
             } catch (IOException e) {
-                System.err.println("Error closing opening book");
-                e.printStackTrace(System.err);
+                log.error("Error closing opening book", e);
             }
         }
         next.close();
@@ -90,6 +91,7 @@ class SearchByOpenBook implements SearchChain {
                 Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
                 Move move = possibleMoves.getMove(from, to);
                 if (move != null) {
+                    log.debug("Found move {} in book", move);
                     MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
                     return new SearchResult()
                             .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));

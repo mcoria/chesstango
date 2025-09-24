@@ -100,6 +100,7 @@ class SearchByTablebase implements SearchChain {
                 Square to = Square.squareByIdx(toIdx);
                 Move move = game.getMove(from, to);
                 if (move != null) {
+                    log.debug("Found move {} in tablebase", move);
                     MoveEvaluation bestMove = new MoveEvaluation(move, Syzygy.TB_GET_WDL(res), MoveEvaluationType.EXACT);
                     return new SearchResult()
                             .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));

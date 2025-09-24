@@ -140,8 +140,7 @@ public class UciTangoTest {
 
         // position command
         engine.accept(UCIRequest.position((List.of("e2e4"))));
-        assertEquals
-                (WaitCmdGoState.class, engine.getCurrentState().getClass());
+        assertEquals(WaitCmdGoState.class, engine.getCurrentState().getClass());
 
         // quit command
         engine.accept(UCIRequest.quit());
