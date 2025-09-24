@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.timemgmt.FivePercentage;
+import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
@@ -31,6 +32,17 @@ class SearchManagerBuilder {
     private ScheduledExecutorService timeOutExecutor;
 
     private boolean asyncInvoker;
+
+    private final SearchManagerFactory searchManagerFactory;
+
+    public SearchManagerBuilder() {
+        this(new DefaultSearchManagerFactory());
+    }
+
+    SearchManagerBuilder(SearchManagerFactory searchManagerFactory) {
+        this.searchManagerFactory = searchManagerFactory;
+    }
+
 
     public SearchManagerBuilder withSearch(Search search) {
         this.search = search;
@@ -79,43 +91,47 @@ class SearchManagerBuilder {
         if (timeOutExecutor == null) {
             throw new IllegalArgumentException("ScheduledExecutorService must be provided");
         }
+        if (infiniteDepth <= 0) {
+            throw new IllegalArgumentException("Infinite depth must be greater than 0");
+        }
 
         SearchChain searchChain = buildSearchChain();
 
         SearchInvoker searchInvoker = asyncInvoker
-                ? new SearchInvokerAsync(searchChain, searchExecutor)
-                : new SearchInvokerSync(searchChain);
+                ? searchManagerFactory.createSearchInvokerAsync(searchChain, searchExecutor)
+                : searchManagerFactory.createSearchInvokerSync(searchChain);
 
-        return new SearchManager(infiniteDepth, searchChain, new FivePercentage(), searchInvoker, timeOutExecutor);
+        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new FivePercentage(), searchInvoker, timeOutExecutor);
     }
 
     SearchChain buildSearchChain() {
         List<SearchChain> searchChains = new ArrayList<>();
 
         if (polyglotFile != null) {
-            SearchByOpenBook searchManagerByOpenBook = SearchByOpenBook.open(polyglotFile);
+            SearchByOpenBook searchManagerByOpenBook = searchManagerFactory.createSearchByOpenBook(polyglotFile);
             if (searchManagerByOpenBook != null) {
                 searchChains.add(searchManagerByOpenBook);
             }
         }
 
         if (syzygyDirectory != null) {
-            SearchByTablebase searchByTablebase = SearchByTablebase.open(syzygyDirectory);
+            SearchByTablebase searchByTablebase = searchManagerFactory.createSearchByTablebase(syzygyDirectory);
             if (searchByTablebase != null) {
                 searchChains.add(searchByTablebase);
             }
         }
 
-        if (search != null) {
-            searchChains.add(new SearchByAlgorithm(search));
-        } else {
-            SearchBuilder<?> searchBuilder = Search.newSearchBuilder()
+        if (search == null) {
+            SearchBuilder<?> searchBuilder = Search
+                    .newSearchBuilder()
                     .withGameEvaluator(evaluator == null ? Evaluator.getInstance() : evaluator);
 
             search = searchBuilder.build();
-
-            searchChains.add(new SearchByAlgorithm(search));
         }
+
+        SearchByAlgorithm searchByAlgorithm = searchManagerFactory.createSearchByAlgorithm(search);
+
+        searchChains.add(searchByAlgorithm);
 
         return linkChain(searchChains);
     }
@@ -132,5 +148,60 @@ class SearchManagerBuilder {
             }
         }
         return searchChains.getFirst();
+    }
+
+    interface SearchManagerFactory {
+        SearchByOpenBook createSearchByOpenBook(String polyglotFile);
+
+        SearchByTablebase createSearchByTablebase(String syzygyDirectory);
+
+        SearchByAlgorithm createSearchByAlgorithm(Search search);
+
+        SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor);
+
+        SearchInvoker createSearchInvokerSync(SearchChain searchChain);
+
+        SearchManager createSearchManager(int infiniteDepth,
+                                          SearchChain searchChain,
+                                          TimeMgmt timeMgmt,
+                                          SearchInvoker searchInvoker,
+                                          ScheduledExecutorService timeOutExecutor);
+    }
+
+
+    static class DefaultSearchManagerFactory implements SearchManagerFactory {
+        @Override
+        public SearchByOpenBook createSearchByOpenBook(String polyglotFile) {
+            return SearchByOpenBook.open(polyglotFile);
+        }
+
+        @Override
+        public SearchByTablebase createSearchByTablebase(String syzygyDirectory) {
+            return SearchByTablebase.open(syzygyDirectory);
+        }
+
+        @Override
+        public SearchByAlgorithm createSearchByAlgorithm(Search search) {
+            return new SearchByAlgorithm(search);
+        }
+
+        @Override
+        public SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor) {
+            return new SearchInvokerAsync(searchChain, searchExecutor);
+        }
+
+        @Override
+        public SearchInvoker createSearchInvokerSync(SearchChain searchChain) {
+            return new SearchInvokerSync(searchChain);
+        }
+
+        @Override
+        public SearchManager createSearchManager(int infiniteDepth,
+                                                 SearchChain searchChain,
+                                                 TimeMgmt timeMgmt,
+                                                 SearchInvoker searchInvoker,
+                                                 ScheduledExecutorService timeOutExecutor) {
+            return new SearchManager(infiniteDepth, searchChain, timeMgmt, searchInvoker, timeOutExecutor);
+        }
     }
 }
