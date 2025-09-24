@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchResult;
@@ -11,6 +12,7 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchManager implements AutoCloseable {
     private final int infiniteDepth;
     private final SearchChain searchChain;
@@ -99,6 +101,7 @@ class SearchManager implements AutoCloseable {
             searchChain.stopSearching();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
+            log.debug("Interrupted while waiting for search to complete");
         }
     }
 }

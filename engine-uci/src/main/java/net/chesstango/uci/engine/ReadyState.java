@@ -28,7 +28,7 @@ class ReadyState implements UCIEngine {
 
     ReadyState(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.reloadTango = false;
+        this.reloadTango = true;
     }
 
     @Override
@@ -48,10 +48,7 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
-        if (reloadTango) {
-            uciTango.tango.reload(uciTango.tangoConfig);
-            reloadTango = false;
-        }
+        loadTango();
     }
 
     @Override
@@ -61,17 +58,26 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_position(ReqPosition cmdPosition) {
+        loadTango();
+
         FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
                 ? FEN.of(FENParser.INITIAL_FEN)
                 : FEN.of(cmdPosition.getFen());
 
         if (this.startPosition == null || !this.startPosition.equals(startPosition)) {
             this.startPosition = startPosition;
-            this.uciTango.session = uciTango.tango.newSession(startPosition);
+            this.uciTango.newSession(startPosition);
         }
 
-        uciTango.session.setMoves(cmdPosition.getMoves());
+        uciTango.setSessionMoves(cmdPosition.getMoves());
 
         uciTango.changeState(waitCmdGoState);
+    }
+
+    private void loadTango() {
+        if (reloadTango) {
+            uciTango.loadTango();
+            reloadTango = false;
+        }
     }
 }

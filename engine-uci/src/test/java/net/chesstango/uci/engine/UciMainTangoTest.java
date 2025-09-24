@@ -111,6 +111,10 @@ public class UciMainTangoTest {
         out.println("isready");
         assertEquals("readyok", in.readLine());
 
+        // isready command
+        out.println("isready");
+        assertEquals("readyok", in.readLine());
+
         // ucinewgame command
         out.println("ucinewgame");
 

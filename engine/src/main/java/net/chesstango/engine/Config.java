@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 
@@ -10,6 +11,7 @@ import net.chesstango.search.Search;
  */
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Config {
     private boolean syncSearch;
 

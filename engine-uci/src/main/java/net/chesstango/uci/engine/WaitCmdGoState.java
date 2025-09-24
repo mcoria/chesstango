@@ -21,29 +21,29 @@ class WaitCmdGoState extends ReadyState {
         this.cmdGoExecutor = new ReqGoExecutor() {
             @Override
             public void go(ReqGoInfinite cmdGoInfinite) {
-                uciTango.session.goInfinite();
+                uciTango.goInfinite();
             }
 
             @Override
             public void go(ReqGoDepth cmdGoDepth) {
-                uciTango.session.goDepth(cmdGoDepth.getDepth());
+                uciTango.goDepth(cmdGoDepth.getDepth());
             }
 
             @Override
             public void go(ReqGoTime cmdGoTime) {
-                uciTango.session.goTime(cmdGoTime.getTimeOut());
+                uciTango.goTime(cmdGoTime.getTimeOut());
             }
 
             @Override
             public void go(ReqGoFast cmdGoFast) {
-                uciTango.session.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
+                uciTango.goFast(cmdGoFast.getWTime(), cmdGoFast.getBTime(), cmdGoFast.getWInc(), cmdGoFast.getBInc());
             }
         };
     }
 
     @Override
     public void do_go(ReqGo cmdGo) {
-        uciTango.session.setSearchListener(searchingState);
+        uciTango.setSessionSearchListener(searchingState);
 
         uciTango.changeState(searchingState);
 
