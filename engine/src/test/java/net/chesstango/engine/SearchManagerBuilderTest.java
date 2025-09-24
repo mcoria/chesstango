@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import net.chesstango.engine.timemgmt.TimeMgmt;
+import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,9 @@ public class SearchManagerBuilderTest {
 
     @Mock
     private Search search;
+
+    @Mock
+    private Evaluator evaluator;
 
     @Mock
     private SearchManagerBuilder.SearchManagerFactory searchManagerFactory;
@@ -200,5 +204,50 @@ public class SearchManagerBuilderTest {
 
         verify(searchByOpenBook).setNext(eq(searchByTablebase));
         verify(searchByTablebase).setNext(eq(searchByAlgorithm));
+    }
+
+
+    @Test
+    public void testBuildSearchWithSearch() {
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByAlgorithm);
+        when(searchManagerFactory.createSearchInvokerSync(any(SearchChain.class))).thenReturn(searchInvokerSync);
+
+        SearchManager searchManager = builder
+                .withExecutorService(executorService)
+                .withScheduledExecutorService(scheduledExecutorService)
+                .withInfiniteDepth(100)
+                .withSearch(search)
+                .build();
+
+        assertNotNull(searchManager);
+
+        verify(searchManagerFactory, never()).createSearch();
+        verify(searchManagerFactory).createSearchByAlgorithm(eq(search));
+        verify(searchManagerFactory).createSearchInvokerSync(eq(searchByAlgorithm));
+        verify(searchManagerFactory).createSearchManager(eq(100), eq(searchByAlgorithm), any(TimeMgmt.class), eq(searchInvokerSync), eq(scheduledExecutorService));
+    }
+
+
+    @Test
+    public void testBuildSearchWithEvaluator() {
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByAlgorithm);
+        when(searchManagerFactory.createSearchInvokerSync(any(SearchChain.class))).thenReturn(searchInvokerSync);
+        when(searchManagerFactory.createSearch(any(Evaluator.class))).thenReturn(search);
+
+        SearchManager searchManager = builder
+                .withExecutorService(executorService)
+                .withScheduledExecutorService(scheduledExecutorService)
+                .withInfiniteDepth(100)
+                .withEvaluator(evaluator)
+                .build();
+
+        assertNotNull(searchManager);
+
+        verify(searchManagerFactory).createSearch(eq(evaluator));
+        verify(searchManagerFactory).createSearchByAlgorithm(eq(search));
+        verify(searchManagerFactory).createSearchInvokerSync(eq(searchByAlgorithm));
+        verify(searchManagerFactory).createSearchManager(eq(100), eq(searchByAlgorithm), any(TimeMgmt.class), eq(searchInvokerSync), eq(scheduledExecutorService));
     }
 }
