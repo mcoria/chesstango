@@ -5,7 +5,6 @@ import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +93,9 @@ class SearchManagerBuilder {
         if (infiniteDepth <= 0) {
             throw new IllegalArgumentException("Infinite depth must be greater than 0");
         }
+        if (search != null && evaluator != null) {
+            log.warn("Both search and evaluator are set. Evaluator will be ignored");
+        }
 
         SearchChain searchChain = buildSearchChain();
 
@@ -122,11 +124,11 @@ class SearchManagerBuilder {
         }
 
         if (search == null) {
-            SearchBuilder<?> searchBuilder = Search
-                    .newSearchBuilder()
-                    .withGameEvaluator(evaluator == null ? Evaluator.getInstance() : evaluator);
-
-            search = searchBuilder.build();
+            if (evaluator != null) {
+                search = searchManagerFactory.createSearch(evaluator);
+            } else {
+                search = searchManagerFactory.createSearch();
+            }
         }
 
         SearchByAlgorithm searchByAlgorithm = searchManagerFactory.createSearchByAlgorithm(search);
@@ -166,6 +168,10 @@ class SearchManagerBuilder {
                                           TimeMgmt timeMgmt,
                                           SearchInvoker searchInvoker,
                                           ScheduledExecutorService timeOutExecutor);
+
+        Search createSearch();
+
+        Search createSearch(Evaluator evaluator);
     }
 
 
@@ -202,6 +208,22 @@ class SearchManagerBuilder {
                                                  SearchInvoker searchInvoker,
                                                  ScheduledExecutorService timeOutExecutor) {
             return new SearchManager(infiniteDepth, searchChain, timeMgmt, searchInvoker, timeOutExecutor);
+        }
+
+        @Override
+        public Search createSearch() {
+            return Search
+                    .newSearchBuilder()
+                    .withGameEvaluator(Evaluator.getInstance())
+                    .build();
+        }
+
+        @Override
+        public Search createSearch(Evaluator evaluator) {
+            return Search
+                    .newSearchBuilder()
+                    .withGameEvaluator(evaluator)
+                    .build();
         }
     }
 }
