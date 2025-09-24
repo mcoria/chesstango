@@ -5,17 +5,19 @@ import net.chesstango.search.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
 
 /**
  * @author Mauricio Coria
@@ -52,6 +54,8 @@ public class SearchManagerBuilderTest {
     @Mock
     private SearchManagerBuilder.SearchManagerFactory searchManagerFactory;
 
+    @Captor
+    private ArgumentCaptor<SearchChain> searchChainCaptor;
 
     @BeforeEach
     public void setup() {
@@ -117,7 +121,12 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearchByAlgorithm(any(Search.class));
         verify(searchManagerFactory).createSearchByOpenBook(eq("test.bin"));
         verify(searchManagerFactory).createSearchInvokerAsync(any(SearchChain.class), eq(executorService));
-        verify(searchManagerFactory).createSearchManager(eq(100), any(SearchChain.class), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+        verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+
+        SearchChain searchChain = searchChainCaptor.getValue();
+        assertEquals(searchByOpenBook, searchChain);
+
+        verify(searchByOpenBook).setNext(eq(searchByAlgorithm));
     }
 
     @Test
@@ -140,6 +149,44 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearchByAlgorithm(any(Search.class));
         verify(searchManagerFactory).createSearchByTablebase(eq("/tmp/syzygy"));
         verify(searchManagerFactory).createSearchInvokerAsync(any(SearchChain.class), eq(executorService));
-        verify(searchManagerFactory).createSearchManager(eq(100), any(SearchChain.class), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+        verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+
+        SearchChain searchChain = searchChainCaptor.getValue();
+        assertEquals(searchByTablebase, searchChain);
+
+        verify(searchByTablebase).setNext(eq(searchByAlgorithm));
+    }
+
+
+    @Test
+    public void testBuildWithBookAndSyzygyDirectory() {
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByAlgorithm);
+        when(searchManagerFactory.createSearchInvokerAsync(any(SearchChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
+        when(searchManagerFactory.createSearchByOpenBook(anyString())).thenReturn(searchByOpenBook);
+        when(searchManagerFactory.createSearchByTablebase(anyString())).thenReturn(searchByTablebase);
+
+        SearchManager searchManager = builder
+                .withExecutorService(executorService)
+                .withScheduledExecutorService(scheduledExecutorService)
+                .withInfiniteDepth(100)
+                .withPolyglotFile("test.bin")
+                .withSyzygyDirectory("/tmp/syzygy")
+                .withAsyncInvoker()
+                .build();
+
+        assertNotNull(searchManager);
+
+        verify(searchManagerFactory).createSearchByAlgorithm(any(Search.class));
+        verify(searchManagerFactory).createSearchByOpenBook(eq("test.bin"));
+        verify(searchManagerFactory).createSearchByTablebase(eq("/tmp/syzygy"));
+        verify(searchManagerFactory).createSearchInvokerAsync(any(SearchChain.class), eq(executorService));
+        verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+
+        SearchChain searchChain = searchChainCaptor.getValue();
+        assertEquals(searchByOpenBook, searchChain);
+
+        verify(searchByOpenBook).setNext(eq(searchByTablebase));
+        verify(searchByTablebase).setNext(eq(searchByAlgorithm));
     }
 }
