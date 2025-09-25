@@ -84,6 +84,8 @@ class SearchManagerBuilder {
     }
 
     public SearchManager build() {
+        log.info("Building SearchManager");
+
         if (asyncInvoker && searchExecutor == null) {
             throw new IllegalArgumentException("SearchExecutor must be provided when asyncInvoker is true");
         }

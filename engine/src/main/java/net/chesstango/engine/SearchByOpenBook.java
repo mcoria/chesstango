@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import net.chesstango.search.MoveEvaluation;
@@ -24,6 +25,8 @@ import java.util.List;
  */
 @Slf4j
 class SearchByOpenBook implements SearchChain {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     @Setter
     private SearchChain next;
 
@@ -83,19 +86,18 @@ class SearchByOpenBook implements SearchChain {
     }
 
     private SearchResult searchByBook(Game game) {
-        List<PolyglotEntry> bookSearchResult = book.search(game.getPosition().getZobristHash());
-        if (bookSearchResult != null) {
+        List<PolyglotEntry> polyglotEntries = book.search(game.getPosition().getZobristHash());
+        if (polyglotEntries != null && !polyglotEntries.isEmpty()) {
             MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
-            for (PolyglotEntry polyglotEntry : bookSearchResult) {
-                Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
-                Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
-                Move move = possibleMoves.getMove(from, to);
-                if (move != null) {
-                    log.debug("Found move {} in book", move);
-                    MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
-                    return new SearchResult()
-                            .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
-                }
+            PolyglotEntry polyglotEntry = polyglotEntries.getFirst();
+            Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
+            Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
+            Move move = possibleMoves.getMove(from, to);
+            if (move != null) {
+                log.debug("Move found: {}", simpleMoveEncoder.encode(move));
+                MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
+                return new SearchResult()
+                        .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
             }
         }
         return null;

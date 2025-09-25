@@ -85,14 +85,17 @@ class SearchManager implements AutoCloseable {
             }
         };
 
+        log.debug("Searching by time {} ms", timeOut);
         return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchListenerDecorator);
     }
 
     private synchronized Future<SearchResult> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+        log.debug("Searching by depth {}", depth);
         return searchInvoker.searchImp(game, depth, searchPredicate, searchListener);
     }
 
     private void stopSearchingImp() {
+        log.debug("Stopping search");
         try {
             // Espera que al menos se complete un ciclo
             // Aca se puede dar la interrupcion
@@ -101,7 +104,7 @@ class SearchManager implements AutoCloseable {
             searchChain.stopSearching();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
-            log.debug("Interrupted while waiting for search to complete");
+            log.error("Stopping interrupted");
         }
     }
 }

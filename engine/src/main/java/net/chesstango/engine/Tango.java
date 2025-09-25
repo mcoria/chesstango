@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.gardel.fen.FEN;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Mauricio Corial
  */
+@Slf4j
 public class Tango implements AutoCloseable {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
@@ -23,6 +25,8 @@ public class Tango implements AutoCloseable {
 
 
     public static Tango open(Config config) {
+        log.info("Opening Tango engine");
+
         ExecutorService searchExecutor = Executors.newSingleThreadExecutor(new SearchManagerThreadFactory("search"));
 
         ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
