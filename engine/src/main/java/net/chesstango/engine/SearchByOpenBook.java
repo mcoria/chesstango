@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import net.chesstango.search.MoveEvaluation;
@@ -24,6 +25,8 @@ import java.util.List;
  */
 @Slf4j
 class SearchByOpenBook implements SearchChain {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
     @Setter
     private SearchChain next;
 
@@ -34,15 +37,17 @@ class SearchByOpenBook implements SearchChain {
     }
 
     static SearchByOpenBook open(String polyglotFile) {
-        try {
-            Path polyglotFilePath = Path.of(polyglotFile);
-            if (Files.exists(polyglotFilePath)) {
-                return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
-            } else {
-                log.error("Book file '{}' not found", polyglotFile);
+        if (polyglotFile != null) {
+            try {
+                Path polyglotFilePath = Path.of(polyglotFile);
+                if (Files.exists(polyglotFilePath)) {
+                    return new SearchByOpenBook(PolyglotBook.open(polyglotFilePath));
+                } else {
+                    log.warn("Book file '{}' not found", polyglotFile);
+                }
+            } catch (IOException e) {
+                log.error("Error opening book file", e);
             }
-        } catch (IOException e) {
-            log.error("Error opening book file", e);
         }
         return null;
     }
@@ -65,8 +70,7 @@ class SearchByOpenBook implements SearchChain {
             try {
                 book.close();
             } catch (IOException e) {
-                System.err.println("Error closing opening book");
-                e.printStackTrace(System.err);
+                log.error("Error closing opening book", e);
             }
         }
         next.close();
@@ -82,18 +86,18 @@ class SearchByOpenBook implements SearchChain {
     }
 
     private SearchResult searchByBook(Game game) {
-        List<PolyglotEntry> bookSearchResult = book.search(game.getPosition().getZobristHash());
-        if (bookSearchResult != null) {
+        List<PolyglotEntry> polyglotEntries = book.search(game.getPosition().getZobristHash());
+        if (polyglotEntries != null && !polyglotEntries.isEmpty()) {
             MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
-            for (PolyglotEntry polyglotEntry : bookSearchResult) {
-                Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
-                Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
-                Move move = possibleMoves.getMove(from, to);
-                if (move != null) {
-                    MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
-                    return new SearchResult()
-                            .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
-                }
+            PolyglotEntry polyglotEntry = polyglotEntries.getFirst();
+            Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
+            Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
+            Move move = possibleMoves.getMove(from, to);
+            if (move != null) {
+                log.debug("Move found: {}", simpleMoveEncoder.encode(move));
+                MoveEvaluation bestMove = new MoveEvaluation(move, polyglotEntry.weight(), MoveEvaluationType.EXACT);
+                return new SearchResult()
+                        .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
             }
         }
         return null;

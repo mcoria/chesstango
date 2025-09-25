@@ -1,11 +1,14 @@
 package net.chesstango.uci.engine;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
+import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.goyeneche.UCICommand;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.UCIService;
@@ -13,6 +16,7 @@ import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.stream.UCIOutputStream;
 import net.chesstango.goyeneche.stream.UCIOutputStreamEngineExecutor;
 
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -29,26 +33,33 @@ import java.util.function.Function;
 public class UciTango implements UCIService {
     private final UCIOutputStreamEngineExecutor engineExecutor;
 
-    final Config tangoConfig;
+    private final Config tangoConfig;
+
+    private final Function<Config, Tango> tangoFactory;
 
     @Setter
     private UCIOutputStream outputStream;
 
+
     // Represents the current state of the engine. This is the key variable where the state pattern is applied,
     // allowing behavior to change dynamically at runtime based on the current state.
-    volatile UCIEngine currentState;
+    @Getter(AccessLevel.PACKAGE)
+    private volatile UCIEngine currentState;
+
+    private volatile Tango tango;
 
     @Getter
-    final Tango tango;
-
-    @Getter
-    volatile Session session;
+    private volatile Session session;
 
     public UciTango() {
-        this(Tango::open);
+        this(new Config(), Tango::open);
     }
 
-    public UciTango(Function<Config, Tango> tangoFactory) {
+    public UciTango(Config tangoConfig) {
+        this(tangoConfig, Tango::open);
+    }
+
+    UciTango(Config tangoConfig, Function<Config, Tango> tangoFactory) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(ReqUci cmdUci) {
@@ -92,10 +103,10 @@ public class UciTango implements UCIService {
         };
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
-        this.tangoConfig = new Config();
 
-        // Initialize the chess engine by opening the underlying Tango instance
-        this.tango = tangoFactory.apply(tangoConfig);
+        this.tangoConfig = tangoConfig;
+
+        this.tangoFactory = tangoFactory;
     }
 
     @Override
@@ -108,8 +119,8 @@ public class UciTango implements UCIService {
     public void open() {
         // State pattern initialization: different state instances are created and linked with one another to 
         // represent the allowable transitions within the state lifecycle of the engine.
-        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this);
-        ReadyState readyState = new ReadyState(this);
+        WaitCmdUciState waitCmdUciState = new WaitCmdUciState(this, tangoConfig);
+        ReadyState readyState = new ReadyState(this, tangoConfig);
         WaitCmdGoState waitCmdGoState = new WaitCmdGoState(this);
         SearchingState searchingState = new SearchingState(this);
 
@@ -154,5 +165,49 @@ public class UciTango implements UCIService {
      */
     synchronized void changeState(UCIEngine newState) {
         currentState = newState;
+    }
+
+    void loadTango() {
+        log.debug("Loading tango");
+        try {
+            if (tango != null) {
+                tango.close();
+            }
+            tango = tangoFactory.apply(tangoConfig);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void newSession(FEN startPosition) {
+        session = tango.newSession(startPosition);
+    }
+
+    void setSessionMoves(List<String> moves) {
+        session.setMoves(moves);
+    }
+
+    public void stopSearching() {
+        session.stopSearching();
+    }
+
+    void goInfinite() {
+        session.goInfinite();
+    }
+
+    void goDepth(int depth) {
+        session.goDepth(depth);
+    }
+
+    void goTime(int timeOut) {
+        session.goTime(timeOut);
+    }
+
+    void goFast(int wTime, int bTime, int wInc, int bInc) {
+        session.goFast(wTime, bTime, wInc, bInc);
+    }
+
+    void setSessionSearchListener(SearchListener searchListener) {
+        session.setSearchListener(searchListener);
     }
 }

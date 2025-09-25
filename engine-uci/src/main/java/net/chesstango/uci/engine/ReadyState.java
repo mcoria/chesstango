@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.engine.Config;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.goyeneche.UCIEngine;
@@ -17,28 +18,31 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  * @author Mauricio Coria
  */
 class ReadyState implements UCIEngine {
-    protected final UciTango uciTango;
+    private final UciTango uciTango;
+
+    private final Config tangoConfig;
 
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
     volatile private FEN startPosition;
 
-    volatile private boolean reloadTango;
+    volatile private boolean loadTango;
 
-    ReadyState(UciTango uciTango) {
+    ReadyState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
-        this.reloadTango = false;
+        this.tangoConfig = tangoConfig;
+        this.loadTango = true;
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
         if ("PolyglotFile".equals(cmdSetOption.getId())) {
-            uciTango.tangoConfig.setPolyglotFile(cmdSetOption.getValue());
+            tangoConfig.setPolyglotFile(cmdSetOption.getValue());
         } else if ("SyzygyDirectory".equals(cmdSetOption.getId())) {
-            uciTango.tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
+            tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
         }
-        this.reloadTango = true;
+        this.loadTango = true;
     }
 
     @Override
@@ -48,10 +52,7 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
-        if (reloadTango) {
-            uciTango.tango.reload(uciTango.tangoConfig);
-            reloadTango = false;
-        }
+        loadTango();
     }
 
     @Override
@@ -61,17 +62,26 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_position(ReqPosition cmdPosition) {
+        loadTango();
+
         FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
                 ? FEN.of(FENParser.INITIAL_FEN)
                 : FEN.of(cmdPosition.getFen());
 
         if (this.startPosition == null || !this.startPosition.equals(startPosition)) {
             this.startPosition = startPosition;
-            this.uciTango.session = uciTango.tango.newSession(startPosition);
+            this.uciTango.newSession(startPosition);
         }
 
-        uciTango.session.setMoves(cmdPosition.getMoves());
+        uciTango.setSessionMoves(cmdPosition.getMoves());
 
         uciTango.changeState(waitCmdGoState);
+    }
+
+    private void loadTango() {
+        if (loadTango) {
+            uciTango.loadTango();
+            loadTango = false;
+        }
     }
 }

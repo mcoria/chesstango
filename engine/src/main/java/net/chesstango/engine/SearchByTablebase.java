@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
@@ -25,6 +26,7 @@ import static net.chesstango.piazzolla.syzygy.Syzygy.TB_RESULT_FAILED;
  */
 @Slf4j
 class SearchByTablebase implements SearchChain {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter
     private SearchChain next;
@@ -100,6 +102,7 @@ class SearchByTablebase implements SearchChain {
                 Square to = Square.squareByIdx(toIdx);
                 Move move = game.getMove(from, to);
                 if (move != null) {
+                    log.debug("Move found: {}", simpleMoveEncoder.encode(move));
                     MoveEvaluation bestMove = new MoveEvaluation(move, Syzygy.TB_GET_WDL(res), MoveEvaluationType.EXACT);
                     return new SearchResult()
                             .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));

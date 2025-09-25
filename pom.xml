@@ -152,6 +152,20 @@
                 <scope>test</scope>
             </dependency>
 
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -249,22 +263,6 @@
     <profiles>
         <profile>
             <id>shade</id>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-jdk14</artifactId>
-                        <version>${slf4j.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                        <version>${logback.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -293,22 +291,6 @@
         </profile>
         <profile>
             <id>native</id>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-jdk14</artifactId>
-                        <version>${slf4j.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                        <version>${logback.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
             <build>
                 <pluginManagement>
                     <plugins>

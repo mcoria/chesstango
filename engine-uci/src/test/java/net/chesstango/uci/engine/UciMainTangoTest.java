@@ -81,9 +81,9 @@ public class UciMainTangoTest {
     }
 
     @Test
-    @Timeout(value = 30000, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     @Disabled
-    public void test_playTango01() throws IOException, InterruptedException {
+    public void test_setOptions() throws IOException, InterruptedException {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 

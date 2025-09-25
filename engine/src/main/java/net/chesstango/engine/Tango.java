@@ -1,7 +1,7 @@
 package net.chesstango.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.Search;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Mauricio Corial
  */
+@Slf4j
 public class Tango implements AutoCloseable {
     public static final Properties PROPERTIES = loadProperties();
     public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
@@ -22,42 +23,13 @@ public class Tango implements AutoCloseable {
     public static final String ENGINE_AUTHOR = PROPERTIES.getProperty("engine_author");
     public static final String INFINITE_DEPTH = PROPERTIES.getProperty("infinite_depth");
 
-    private static final AtomicInteger executorCounter = new AtomicInteger(0);
-    private static final ExecutorService searchExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new SearchManagerThreadFactory("search"));
-    private static final ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
-
-    private volatile SearchManager searchManager;
-
-    private Tango() {
-    }
 
     public static Tango open(Config config) {
-        executorCounter.incrementAndGet();
+        log.info("Opening Tango engine");
 
-        Tango tango = new Tango();
+        ExecutorService searchExecutor = Executors.newSingleThreadExecutor(new SearchManagerThreadFactory("search"));
 
-        return tango.reload(config);
-    }
-
-    @Override
-    public void close() throws Exception {
-        int currentValue = executorCounter.decrementAndGet();
-        if (currentValue == 0) {
-            stopExecutors();
-        } else if (currentValue < 0) {
-            throw new RuntimeException("Closed too many times");
-        }
-        searchManager.close();
-    }
-
-    public Tango reload(Config config) {
-        if (searchManager != null) {
-            try {
-                searchManager.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        ScheduledExecutorService timeOutExecutor = Executors.newSingleThreadScheduledExecutor(new SearchManagerThreadFactory("timeout"));
 
         SearchManagerBuilder searchManagerBuilder = new SearchManagerBuilder()
                 .withSearch(config.getSearch())
@@ -78,9 +50,28 @@ public class Tango implements AutoCloseable {
                     .withExecutorService(searchExecutor);
         }
 
-        searchManager = searchManagerBuilder.build();
+        SearchManager searchManager = searchManagerBuilder.build();
 
-        return this;
+        return new Tango(searchManager, searchExecutor, timeOutExecutor);
+    }
+
+    private final ExecutorService searchExecutor;
+
+    private final ScheduledExecutorService timeOutExecutor;
+
+    private final SearchManager searchManager;
+
+    private Tango(SearchManager searchManager, ExecutorService searchExecutor, ScheduledExecutorService timeOutExecutor) {
+        this.searchExecutor = searchExecutor;
+        this.timeOutExecutor = timeOutExecutor;
+        this.searchManager = searchManager;
+    }
+
+    @Override
+    public void close() throws Exception {
+        searchExecutor.shutdown();
+        timeOutExecutor.shutdown();
+        searchManager.close();
     }
 
     public Session newSession(FEN fen) {
@@ -100,11 +91,6 @@ public class Tango implements AutoCloseable {
             throw new RuntimeException(e);
         }
         return properties;
-    }
-
-    private synchronized static void stopExecutors() {
-        searchExecutor.shutdownNow();
-        timeOutExecutor.shutdownNow();
     }
 
     private static class SearchManagerThreadFactory implements ThreadFactory {
