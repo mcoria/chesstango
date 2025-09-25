@@ -22,7 +22,11 @@ class SearchManager implements AutoCloseable {
 
     private volatile CountDownLatch countDownLatch;
 
-    public SearchManager(int infiniteDepth, SearchChain searchChain, TimeMgmt timeMgmt, SearchInvoker searchInvoker, ScheduledExecutorService timeOutExecutor) {
+    public SearchManager(int infiniteDepth,
+                         SearchChain searchChain,
+                         TimeMgmt timeMgmt,
+                         SearchInvoker searchInvoker,
+                         ScheduledExecutorService timeOutExecutor) {
         this.infiniteDepth = infiniteDepth;
         this.searchChain = searchChain;
         this.timeMgmt = timeMgmt;
@@ -30,19 +34,19 @@ class SearchManager implements AutoCloseable {
         this.timeOutExecutor = timeOutExecutor;
     }
 
-    public Future<SearchResult> searchInfinite(Game game, SearchListener searchListener) {
+    public synchronized Future<SearchResult> searchInfinite(Game game, SearchListener searchListener) {
         return searchDepthImp(game, infiniteDepth, searchMoveResult -> true, searchListener);
     }
 
-    public Future<SearchResult> searchDepth(Game game, int depth, SearchListener searchListener) {
+    public synchronized Future<SearchResult> searchDepth(Game game, int depth, SearchListener searchListener) {
         return searchDepthImp(game, depth, searchMoveResult -> true, searchListener);
     }
 
-    public Future<SearchResult> searchTime(Game game, int timeOut, SearchListener searchListener) {
+    public synchronized Future<SearchResult> searchTime(Game game, int timeOut, SearchListener searchListener) {
         return searchTimeOutImp(game, timeOut, searchMoveResult -> true, searchListener);
     }
 
-    public Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
+    public synchronized Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
         return searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
@@ -60,7 +64,7 @@ class SearchManager implements AutoCloseable {
         searchChain.close();
     }
 
-    private synchronized Future<SearchResult> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    private Future<SearchResult> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         countDownLatch = new CountDownLatch(1);
 
         ScheduledFuture<?> stopTask = timeOutExecutor.schedule(this::stopSearchingImp, timeOut, TimeUnit.MILLISECONDS);
@@ -79,7 +83,7 @@ class SearchManager implements AutoCloseable {
 
             @Override
             public void searchFinished(SearchResult searchResult) {
-                // Esta lnea garantiza que se cancele stopTask inmediatamente termina la búsqueda
+                // Esta linea garantiza que se cancele stopTask inmediatamente termina la búsqueda
                 stopTask.cancel(false);
                 searchListener.searchFinished(searchResult);
             }
@@ -89,9 +93,29 @@ class SearchManager implements AutoCloseable {
         return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchListenerDecorator);
     }
 
-    private synchronized Future<SearchResult> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    private Future<SearchResult> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+        countDownLatch = new CountDownLatch(1);
+
+        SearchListener searchListenerDecorator = new SearchListener() {
+            @Override
+            public void searchStarted() {
+                searchListener.searchStarted();
+            }
+
+            @Override
+            public void searchInfo(SearchResultByDepth searchResultByDepth) {
+                countDownLatch.countDown();
+                searchListener.searchInfo(searchResultByDepth);
+            }
+
+            @Override
+            public void searchFinished(SearchResult searchResult) {
+                searchListener.searchFinished(searchResult);
+            }
+        };
+
         log.debug("Searching by depth {}", depth);
-        return searchInvoker.searchImp(game, depth, searchPredicate, searchListener);
+        return searchInvoker.searchImp(game, depth, searchPredicate, searchListenerDecorator);
     }
 
     private void stopSearchingImp() {
