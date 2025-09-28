@@ -19,6 +19,7 @@
         <module>engine</module>
         <module>engine-uci</module>
         <module>engine-lichess</module>
+        <module>engine-reports</module>
         <module>coverage</module>
     </modules>
 
