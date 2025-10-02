@@ -8,6 +8,7 @@ import net.chesstango.search.SearchResult;
  * @author Mauricio Coria
  */
 class SearchByOnline implements SearchChain {
+
     @Override
     public SearchResult search(SearchContext context) {
         return null;

@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
@@ -16,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,7 +37,7 @@ public class UciTangoTest {
 
     @BeforeEach
     public void setUp() {
-        engine = new UciTango(config -> tango);
+        engine = new UciTango(new Config(), config -> tango);
 
         when(tango.newSession(any(FEN.class))).thenReturn(session);
 
@@ -58,7 +58,7 @@ public class UciTangoTest {
         engine.accept(UCIRequest.position(List.of("e2e4")));
 
         verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
-        verify(session , times(1)).setMoves(List.of("e2e4"));
+        verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class UciTangoTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
         // Initial state
-        assertEquals(WaitCmdUciState.class, engine.currentState.getClass());
+        assertEquals(WaitCmdUciState.class, engine.getCurrentState().getClass());
 
         // uci command
         engine.accept(UCIRequest.uci());
@@ -122,26 +122,25 @@ public class UciTangoTest {
         assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
         assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
         assertEquals("uciok", in.readLine());
-        assertEquals(ReadyState.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 
         // isready command
         engine.accept(UCIRequest.isready());
         assertEquals("readyok", in.readLine());
-        assertEquals(ReadyState.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 
         // ucinewgame command
         engine.accept(UCIRequest.ucinewgame());
-        assertEquals(ReadyState.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 
         // isready command
         engine.accept(UCIRequest.isready());
         assertEquals("readyok", in.readLine());
-        assertEquals(ReadyState.class, engine.currentState.getClass());
+        assertEquals(ReadyState.class, engine.getCurrentState().getClass());
 
         // position command
         engine.accept(UCIRequest.position((List.of("e2e4"))));
-        assertEquals
-                (WaitCmdGoState.class, engine.currentState.getClass());
+        assertEquals(WaitCmdGoState.class, engine.getCurrentState().getClass());
 
         // quit command
         engine.accept(UCIRequest.quit());

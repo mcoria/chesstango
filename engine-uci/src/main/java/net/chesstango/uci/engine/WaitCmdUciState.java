@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.ReqUci;
@@ -17,12 +18,14 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  */
 class WaitCmdUciState implements UCIEngine {
     private final UciTango uciTango;
+    private final Config tangoConfig;
 
     @Setter
     private ReadyState readyState;
 
-    WaitCmdUciState(UciTango uciTango) {
+    WaitCmdUciState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
+        this.tangoConfig = tangoConfig;
     }
 
 
@@ -30,8 +33,8 @@ class WaitCmdUciState implements UCIEngine {
     public void do_uci(ReqUci cmdUci) {
         uciTango.reply(this, UCIResponse.idName(String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
         uciTango.reply(this, UCIResponse.idAuthor(Tango.ENGINE_AUTHOR));
-        uciTango.reply(this, UCIResponse.createStringOption("PolyglotFile", uciTango.tangoConfig.getPolyglotFile()));
-        uciTango.reply(this, UCIResponse.createStringOption("SyzygyDirectory", uciTango.tangoConfig.getSyzygyDirectory()));
+        uciTango.reply(this, UCIResponse.createStringOption("PolyglotFile", tangoConfig.getPolyglotFile()));
+        uciTango.reply(this, UCIResponse.createStringOption("SyzygyDirectory", tangoConfig.getSyzygyDirectory()));
         uciTango.reply(readyState, UCIResponse.uciok());
     }
 }

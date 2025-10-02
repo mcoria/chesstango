@@ -49,12 +49,12 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_stop(ReqStop cmdStop) {
-        uciTango.session.stopSearching();
+        uciTango.stopSearching();
     }
 
     @Override
     public void do_quit(ReqQuit cmdQuit) {
-        uciTango.session.stopSearching();
+        uciTango.stopSearching();
         uciTango.changeState(new EndState());
     }
 
@@ -62,7 +62,6 @@ class SearchingState implements UCIEngine, SearchListener {
     public void do_position(ReqPosition cmdPosition) {
         throw new RuntimeException("Unable to process position command. Tango is still searching.");
     }
-
 
     @Override
     public void searchInfo(SearchResultByDepth searchResultByDepth) {

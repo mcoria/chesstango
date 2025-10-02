@@ -80,6 +80,55 @@ public class UciMainTangoTest {
         };
     }
 
+    @Test
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
+    @Disabled
+    public void test_setOptions() throws IOException, InterruptedException {
+        PipedOutputStream outputToEngine = new PipedOutputStream();
+        PipedInputStream inputFromEngine = new PipedInputStream();
+
+        UciTango engine = new UciTango();
+
+        UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
+        executorService.submit(uciMain);
+
+        PrintStream out = new PrintStream(outputToEngine, true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
+
+        // uci command
+        out.println("uci");
+        assertTrue(in.readLine().startsWith("id name Tango"));
+        assertEquals("id author Mauricio Coria", in.readLine());
+        assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
+        assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
+        assertEquals("uciok", in.readLine());
+
+        // setoption command
+        out.println("setoption name PolyglotFile value C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
+        out.println("setoption name SyzygyDirectory value C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+
+        // isready command
+        out.println("isready");
+        assertEquals("readyok", in.readLine());
+
+        // ucinewgame command
+        out.println("ucinewgame");
+
+        // isready command
+        out.println("isready");
+        assertEquals("readyok", in.readLine());
+
+        // isrpositioneady command
+        out.println("position startpos");
+
+        // quit command
+        out.println("quit");
+
+        while (uciMain.isRunning()){
+            Thread.sleep(200);
+        };
+    }
+
 
     private List<String> readLastLine(BufferedReader input, Predicate<String> breakCondition) throws IOException {
         List<String> result = new ArrayList<>();
