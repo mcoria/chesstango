@@ -12,12 +12,12 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 
-public class SetSearchByDepthVisitor implements Visitor {
+public class SetSearchByDepthListenerVisitor implements Visitor {
 
 
     private final Consumer<SearchResultByDepth> searchResultByDepthListener;
 
-    public SetSearchByDepthVisitor(Consumer<SearchResultByDepth> searchResultByDepthListener) {
+    public SetSearchByDepthListenerVisitor(Consumer<SearchResultByDepth> searchResultByDepthListener) {
         this.searchResultByDepthListener = searchResultByDepthListener;
     }
 
