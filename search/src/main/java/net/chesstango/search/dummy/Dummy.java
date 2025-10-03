@@ -45,4 +45,8 @@ public class Dummy implements Search {
     public void reset() {
     }
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }
