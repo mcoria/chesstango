@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.minmax;
 
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;

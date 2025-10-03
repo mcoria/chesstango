@@ -9,7 +9,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Test;
 

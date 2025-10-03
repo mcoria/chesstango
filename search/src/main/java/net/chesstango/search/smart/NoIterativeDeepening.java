@@ -61,10 +61,6 @@ public class NoIterativeDeepening implements Search {
     }
 
     @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-    }
-
-    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

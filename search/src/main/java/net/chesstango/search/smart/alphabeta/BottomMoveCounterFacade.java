@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -16,8 +15,6 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
-
-import java.util.Map;
 
 
 /**

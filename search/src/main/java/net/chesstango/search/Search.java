@@ -11,12 +11,6 @@ import net.chesstango.search.builders.AlphaBetaBuilder;
 public interface Search extends Acceptor {
 
     /**
-     * Set search parameters. For instance:
-     * - SearchResultByDepthListener
-     */
-    void setSearchParameter(SearchParameter parameter, Object value);
-
-    /**
      * Start searching. Do not call stopSearch() until at least a SearchResultByDepth = 1 has been completed.
      */
     SearchResult startSearch(Game game);

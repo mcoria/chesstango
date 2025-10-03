@@ -45,8 +45,4 @@ public class Dummy implements Search {
     public void reset() {
     }
 
-    @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-    }
-
 }

@@ -7,7 +7,6 @@ import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
