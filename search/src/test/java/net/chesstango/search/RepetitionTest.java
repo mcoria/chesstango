@@ -3,28 +3,28 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
  */
 public class RepetitionTest {
     private static final boolean PRINT_REPORT = false;
-    private Search moveFinder;
+    private Search search;
     private SearchResult searchResult;
 
     @BeforeEach
     public void setup() {
         searchResult = null;
 
-        moveFinder = new AlphaBetaBuilder()
+        search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
 
                 .withTranspositionTable()
@@ -55,8 +55,8 @@ public class RepetitionTest {
         /**
          * Va ganando, si repite el movimiento de reinda de h7 a g8 es draw por repeticion
          */
-        moveFinder.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
-        searchResult = moveFinder.startSearch(game);
+        search.accept(new SetMaxDepthVisitor(1));
+        searchResult = search.startSearch(game);
 
         Move bestMove = searchResult.getBestMove();
 

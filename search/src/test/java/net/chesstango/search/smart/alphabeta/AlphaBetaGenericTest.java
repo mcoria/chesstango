@@ -4,6 +4,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.GenericTest;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -19,6 +20,6 @@ public class AlphaBetaGenericTest extends GenericTest {
 
                 .build();
 
-        this.search.setSearchParameter(SearchParameter.MAX_DEPTH, 1);
+        this.search.accept(new SetMaxDepthVisitor(1));
     }
 }

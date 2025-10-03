@@ -5,6 +5,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -21,7 +22,7 @@ public class NegaMaxMateIn2Test extends MateIn2Test {
         searchListenerMediator.add(negaMax);
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMax, searchListenerMediator);
-        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH,3);
+        noIterativeDeepening.accept(new SetMaxDepthVisitor(3));
 
         this.search = noIterativeDeepening;
     }

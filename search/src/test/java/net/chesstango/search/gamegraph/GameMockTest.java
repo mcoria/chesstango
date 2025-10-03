@@ -7,6 +7,7 @@ import net.chesstango.search.SearchParameter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.minmax.MinMax;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,7 @@ public class GameMockTest {
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, searchListenerMediator);
 
-        searchMove.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        searchMove.accept(new SetMaxDepthVisitor(4));
         SearchResult searchResult = searchMove.startSearch(game);
         Move bestMove = searchResult.getBestMove();
 

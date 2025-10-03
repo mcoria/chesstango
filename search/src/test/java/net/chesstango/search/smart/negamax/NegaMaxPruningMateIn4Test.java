@@ -7,6 +7,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class NegaMaxPruningMateIn4Test extends MateIn4Test {
         searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, searchListenerMediator);
-        noIterativeDeepening.setSearchParameter(SearchParameter.MAX_DEPTH, 7);
+        noIterativeDeepening.accept(new SetMaxDepthVisitor(7));
 
         this.search = noIterativeDeepening;
     }

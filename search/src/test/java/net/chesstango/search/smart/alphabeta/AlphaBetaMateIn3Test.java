@@ -4,6 +4,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.MateIn3Test;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -17,6 +18,6 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .build();
 
-        this.search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
+        this.search.accept(new SetMaxDepthVisitor(5));
     }
 }

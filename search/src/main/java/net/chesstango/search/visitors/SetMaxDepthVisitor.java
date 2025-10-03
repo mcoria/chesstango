@@ -9,6 +9,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
  *
  * @author Mauricio Coria
  */
+
 public class SetMaxDepthVisitor implements Visitor {
 
     private final int maxDepth;
@@ -16,6 +17,7 @@ public class SetMaxDepthVisitor implements Visitor {
     public SetMaxDepthVisitor(int maxDepth) {
         this.maxDepth = maxDepth;
     }
+
 
     @Override
     public void visit(IterativeDeepening iterativeDeepening) {

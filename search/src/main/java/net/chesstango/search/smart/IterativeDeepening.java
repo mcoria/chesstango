@@ -33,6 +33,7 @@ public class IterativeDeepening implements Search {
 
     private Consumer<SearchResultByDepth> searchResultByDepthListener;
 
+    @Setter
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
     public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
@@ -101,9 +102,7 @@ public class IterativeDeepening implements Search {
 
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (SEARCH_BY_DEPTH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
-        } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
+        if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             this.searchParameters.put(EPD_PARAMS, epd);
         } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {
             this.searchResultByDepthListener = (Consumer<SearchResultByDepth>) searchResultByDepthListenerParam;

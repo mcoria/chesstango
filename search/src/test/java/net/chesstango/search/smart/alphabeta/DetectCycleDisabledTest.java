@@ -4,12 +4,12 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionReader;
-import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.evaluators.EvaluatorByCondition;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,7 +85,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
+        search.accept(new SetMaxDepthVisitor(9));
         SearchResult searchResult = search
                 .startSearch(game);
 
@@ -127,7 +127,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 9);
+        search.accept(new SetMaxDepthVisitor(9));
         SearchResult searchResult = search
                 .startSearch(game);
 
@@ -167,7 +167,7 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 3);
+        search.accept(new SetMaxDepthVisitor(3));
         SearchResult searchResult = search
                 .startSearch(game);
 
@@ -201,7 +201,7 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        search.accept(new SetMaxDepthVisitor(4));
         SearchResult searchResult = search
                 .startSearch(game);
 
