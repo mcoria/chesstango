@@ -19,7 +19,6 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.Map;
 
-import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 
 /**
  * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
@@ -42,16 +41,13 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     private int bottomMoveCounter;
 
+    // Hace falta settear con un visitor
+    private EPD epd;
+
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.game = context.getGame();
 
-        Map<SearchParameter, Object> searchParameters = context.getSearchParameters();
-        if (!searchParameters.containsKey(EPD_PARAMS)) {
-            throw new RuntimeException("EPD_PARAMS not present in searchParameters");
-        }
-
-        EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
         GameMoveDecoder moveDecoder = new GameMoveDecoder();
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");
