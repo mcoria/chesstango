@@ -31,6 +31,7 @@ public class IterativeDeepening implements Search {
     @Setter
     private int maxDepth = Integer.MAX_VALUE / 2;
 
+    @Setter
     private Consumer<SearchResultByDepth> searchResultByDepthListener;
 
     @Setter
@@ -104,8 +105,6 @@ public class IterativeDeepening implements Search {
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             this.searchParameters.put(EPD_PARAMS, epd);
-        } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {
-            this.searchResultByDepthListener = (Consumer<SearchResultByDepth>) searchResultByDepthListenerParam;
         }
     }
 
