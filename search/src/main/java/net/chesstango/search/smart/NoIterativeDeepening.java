@@ -1,6 +1,7 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.*;
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.chesstango.search.SearchParameter.EPD_PARAMS;
-import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -24,6 +24,7 @@ public class NoIterativeDeepening implements Search {
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
+    @Setter
     private int maxDepth = Integer.MAX_VALUE;
 
     public NoIterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
@@ -70,11 +71,6 @@ public class NoIterativeDeepening implements Search {
 
     @Override
     public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
-            maxDepth = maxDepthParam;
-            searchParameters.put(MAX_DEPTH, maxDepthParam);
-        }
-
         if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             searchParameters.put(EPD_PARAMS, epd);
         }

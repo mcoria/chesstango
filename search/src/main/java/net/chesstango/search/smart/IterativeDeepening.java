@@ -1,6 +1,7 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.*;
@@ -27,6 +28,7 @@ public class IterativeDeepening implements Search {
 
     private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
 
+    @Setter
     private int maxDepth = Integer.MAX_VALUE / 2;
 
     private Consumer<SearchResultByDepth> searchResultByDepthListener;
@@ -101,8 +103,6 @@ public class IterativeDeepening implements Search {
     public void setSearchParameter(SearchParameter parameter, Object value) {
         if (SEARCH_BY_DEPTH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
             this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
-        } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
-            this.maxDepth = maxDepthParam;
         } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
             this.searchParameters.put(EPD_PARAMS, epd);
         } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {

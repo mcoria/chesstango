@@ -5,6 +5,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 
 /**
  * @author Mauricio Coria
@@ -42,7 +43,7 @@ class SearchByAlgorithm implements SearchChain {
      */
     @Override
     public SearchResult search(SearchContext context) {
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getDepth());
+        search.accept(new SetMaxDepthVisitor(context.getDepth()));
         search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_PREDICATE, context.getSearchPredicate());
         search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_LISTENER, context.getSearchResultByDepthListener());
         SearchResult result =  search.startSearch(context.getGame());
