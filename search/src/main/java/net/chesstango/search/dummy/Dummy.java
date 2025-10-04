@@ -46,7 +46,7 @@ public class Dummy implements Search {
     }
 
     @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
-
 }

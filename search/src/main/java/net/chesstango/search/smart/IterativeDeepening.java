@@ -1,17 +1,13 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.*;
-import net.chesstango.search.Acceptor;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import static net.chesstango.search.SearchParameter.*;
 
 /**
  * @author Mauricio Coria
@@ -25,12 +21,13 @@ public class IterativeDeepening implements Search {
     @Getter
     private final SearchListenerMediator searchListenerMediator;
 
-    private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
-
+    @Setter
     private int maxDepth = Integer.MAX_VALUE / 2;
 
+    @Setter
     private Consumer<SearchResultByDepth> searchResultByDepthListener;
 
+    @Setter
     private Predicate<SearchResultByDepth> searchPredicateParameter = searchMoveResult -> true;
 
     public IterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
@@ -43,7 +40,6 @@ public class IterativeDeepening implements Search {
         keepProcessing = true;
 
         SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
-        searchByCycleContext.setSearchParameters(searchParameters);
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -95,19 +91,6 @@ public class IterativeDeepening implements Search {
     @Override
     public void reset() {
         searchListenerMediator.triggerReset();
-    }
-
-    @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (SEARCH_BY_DEPTH_PREDICATE.equals(parameter) && value instanceof Predicate<?> searchPredicateArg) {
-            this.searchPredicateParameter = (Predicate<SearchResultByDepth>) searchPredicateArg;
-        } else if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
-            this.maxDepth = maxDepthParam;
-        } else if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
-            this.searchParameters.put(EPD_PARAMS, epd);
-        } else if (SEARCH_BY_DEPTH_LISTENER.equals(parameter) && value instanceof Consumer<?> searchResultByDepthListenerParam) {
-            this.searchResultByDepthListener = (Consumer<SearchResultByDepth>) searchResultByDepthListenerParam;
-        }
     }
 
     @Override

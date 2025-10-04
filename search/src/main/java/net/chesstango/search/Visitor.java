@@ -1,5 +1,6 @@
 package net.chesstango.search;
 
+import net.chesstango.search.dummy.Dummy;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
@@ -34,6 +35,9 @@ import net.chesstango.search.smart.sorters.comparators.*;
  * @author Mauricio Coria
  */
 public interface Visitor {
+
+    default void visit(Dummy dummy) {
+    }
 
     default void visit(IterativeDeepening iterativeDeepening) {
     }
@@ -156,5 +160,4 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
-
 }

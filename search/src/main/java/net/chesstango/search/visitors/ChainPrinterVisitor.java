@@ -41,6 +41,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Esta clase recorre ella misma toda la estructura
+ *
  * @author Mauricio Coria
  */
 public class ChainPrinterVisitor implements Visitor {

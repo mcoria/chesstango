@@ -19,7 +19,7 @@ public class Session {
      * Resultado de las busquedas efectuadas durante el juego.
      */
     @Getter
-    private final List<SearchResult> searches = new ArrayList<>();
+    private final List<SearchResult> searchResults = new ArrayList<>();
 
     private final SearchManager searchManager;
 
@@ -58,7 +58,7 @@ public class Session {
                 if (searchListener != null) {
                     searchListener.searchFinished(searchMoveResult);
                 }
-                searches.add(searchMoveResult);
+                searchResults.add(searchMoveResult);
             }
         };
     }
