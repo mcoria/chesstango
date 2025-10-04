@@ -16,8 +16,11 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCyc
     @Setter
     @Getter
     private AlphaBetaFilter next;
-    private int[] expectedNodesCounters;
+
+    @Setter
     private Game game;
+
+    private int[] expectedNodesCounters;
 
     @Override
     public void accept(Visitor visitor) {

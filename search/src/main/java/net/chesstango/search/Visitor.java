@@ -21,6 +21,7 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
@@ -149,7 +150,9 @@ public interface Visitor {
     }
 
     default void visit(SetTrianglePV setTrianglePV) {
+    }
 
+    default void visit(SetNodeStatistics setNodeStatistics){
     }
 
     /**

@@ -42,6 +42,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     private TTable minMap;
     private TTable qMaxMap;
     private TTable qMinMap;
+    @Setter
     private Game game;
     private int maxPly;
 

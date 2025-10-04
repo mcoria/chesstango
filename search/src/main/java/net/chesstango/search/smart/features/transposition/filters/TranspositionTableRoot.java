@@ -23,18 +23,19 @@ public class TranspositionTableRoot implements AlphaBetaFilter, SearchByCycleLis
     private AlphaBetaFilter next;
     protected TTable maxMap;
     protected TTable minMap;
+    @Setter
     protected Game game;
     protected int maxPly;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

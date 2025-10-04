@@ -7,30 +7,23 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
-import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
@@ -109,8 +102,33 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
+    public  void visit(TranspositionTableRoot transpositionTableRoot) {
+        transpositionTableRoot.setGame(game);
+    }
+
+    @Override
     public void visit(TriangularPV triangularPV) {
         triangularPV.setGame(game);
+    }
+
+    @Override
+    public void visit(TranspositionPV transpositionPV) {
+        transpositionPV.setGame(game);
+    }
+
+    @Override
+    public void visit(TranspositionTable transpositionTable) {
+        transpositionTable.setGame(game);
+    }
+
+    @Override
+    public void visit(TranspositionTableQ transpositionTableQ) {
+        transpositionTableQ.setGame(game);
+    }
+
+    @Override
+    public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
+        alphaBetaStatisticsExpected.setGame(game);
     }
 
     @Override
@@ -135,6 +153,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(SetTrianglePV setTrianglePV) {
         setTrianglePV.setGame(game);
+    }
+
+    @Override
+    public void visit(SetNodeStatistics setNodeStatistics){
+        setNodeStatistics.setGame(game);
     }
 
     /**
