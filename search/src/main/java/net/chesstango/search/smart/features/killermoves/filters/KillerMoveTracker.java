@@ -21,7 +21,9 @@ public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener
     @Getter
     private AlphaBetaFilter next;
 
+    @Setter
     private Game game;
+
     private KillerMoves killerMoves;
 
     @Override

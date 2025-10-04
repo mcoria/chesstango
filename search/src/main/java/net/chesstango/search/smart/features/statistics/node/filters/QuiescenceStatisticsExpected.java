@@ -20,6 +20,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     @Getter
     private AlphaBetaFilter next;
     private int[] expectedNodesCounters;
+    @Setter
     private Game game;
     private int maxPly;
 

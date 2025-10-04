@@ -15,6 +15,7 @@ import net.chesstango.search.smart.features.transposition.TranspositionBound;
  */
 public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycleListener {
 
+    @Setter
     private Game game;
     private TTable maxMap;
     private TTable minMap;
