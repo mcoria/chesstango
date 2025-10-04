@@ -5,9 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
@@ -21,12 +19,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
+public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener, Acceptor {
 
     @Setter
     private Evaluator evaluator;
 
     private final short[][] trianglePV;
+
+    @Setter
     private Game game;
 
     private List<PrincipalVariation> principalVariation;
@@ -34,6 +34,11 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     public SetTrianglePV() {
         trianglePV = new short[40][40];
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -25,6 +25,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     @Getter
     private AlphaBetaFilter alphaBetaFilter;
 
+    @Setter
     private Game game;
 
     private MoveEvaluation bestMoveEvaluation;

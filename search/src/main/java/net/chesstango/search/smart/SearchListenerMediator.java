@@ -1,6 +1,7 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Getter
-public class SearchListenerMediator {
+public class SearchListenerMediator{
 
     private final List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
@@ -23,11 +24,11 @@ public class SearchListenerMediator {
 
     private final List<ResetListener> resetListeners = new LinkedList<>();
 
+    private final List<Acceptor> acceptors = new LinkedList<>();
 
     public void triggerBeforeSearch(SearchByCycleContext context) {
         searchByCycleListeners.forEach(filter -> filter.beforeSearch(context));
     }
-
 
     public void triggerAfterSearch(SearchResult result) {
         searchByCycleListeners.forEach(searchByCycleListener -> searchByCycleListener.afterSearch(result));
@@ -66,7 +67,9 @@ public class SearchListenerMediator {
                 searchByDepthListeners.contains(listener) ||
                 searchByWindowsListeners.contains(listener) ||
                 stopSearchingListeners.contains(listener) ||
-                resetListeners.contains(listener)) {
+                resetListeners.contains(listener) ||
+                acceptors.contains(listener)
+        ) {
             throw new RuntimeException(String.format("Listener already added %s", listener));
         }
 
@@ -88,6 +91,10 @@ public class SearchListenerMediator {
 
         if (listener instanceof ResetListener resetListener) {
             resetListeners.add(resetListener);
+        }
+
+        if (listener instanceof Acceptor acceptor) {
+            acceptors.add(acceptor);
         }
     }
 

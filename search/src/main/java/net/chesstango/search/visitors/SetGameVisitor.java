@@ -5,18 +5,43 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
 import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
+import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
+import net.chesstango.search.smart.sorters.comparators.QuietComparator;
+import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 
 /**
  *
@@ -34,12 +59,26 @@ public class SetGameVisitor implements Visitor {
     public void visit(NoIterativeDeepening noIterativeDeepening) {
         SearchAlgorithm algorithm = noIterativeDeepening.getSearchAlgorithm();
         algorithm.accept(this);
+
+        SearchListenerMediator searchListenerMediator = noIterativeDeepening.getSearchListenerMediator();
+        searchListenerMediator.getAcceptors().forEach(acceptor -> acceptor.accept(this));
     }
 
     @Override
     public void visit(IterativeDeepening iterativeDeepening) {
         SearchAlgorithm algorithm = iterativeDeepening.getSearchAlgorithm();
         algorithm.accept(this);
+
+        SearchListenerMediator searchListenerMediator = iterativeDeepening.getSearchListenerMediator();
+        searchListenerMediator.getAcceptors().forEach(acceptor -> acceptor.accept(this));
+    }
+
+    /**
+     * Facades
+     */
+    @Override
+    public void visit(AlphaBetaFacade alphaBetaFacade) {
+        alphaBetaFacade.setGame(game);
     }
 
     @Override
@@ -55,9 +94,57 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(NegaMaxPruning negaMaxPruning) {
         negaMaxPruning.setGame(game);
-
         MoveSorter sorter = negaMaxPruning.getMoveSorter();
         sorter.accept(this);
+    }
+
+    /**
+     * Alpha Beta filters
+     *
+     */
+
+    @Override
+    public void visit(MoveEvaluationTracker moveEvaluationTracker) {
+        moveEvaluationTracker.setGame(game);
+    }
+
+    @Override
+    public void visit(TriangularPV triangularPV) {
+        triangularPV.setGame(game);
+    }
+
+    @Override
+    public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
+        alphaBetaFlowControl.setGame(game);
+    }
+
+    @Override
+    public void visit(ExtensionFlowControl extensionFlowControl) {
+        extensionFlowControl.setGame(game);
+    }
+
+    /**
+     *
+     * Setter elements
+     */
+    @Override
+    public void visit(SetGameEvaluator setGameEvaluator) {
+        setGameEvaluator.setGame(game);
+    }
+
+    @Override
+    public void visit(SetTrianglePV setTrianglePV) {
+        setTrianglePV.setGame(game);
+    }
+
+    /**
+     *
+     * Sorter elements
+     */
+    @Override
+    public void visit(RootMoveSorter rootMoveSorter) {
+        rootMoveSorter.setGame(game);
+        rootMoveSorter.getNodeMoveSorter().accept(this);
     }
 
     @Override

@@ -20,6 +20,8 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
     private AlphaBetaFilter next;
 
     private short[][] trianglePV;
+
+    @Setter
     private Game game;
 
     @Override

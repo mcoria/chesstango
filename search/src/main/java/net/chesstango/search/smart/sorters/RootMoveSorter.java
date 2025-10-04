@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.sorters;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -26,7 +27,9 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     @Getter
     private final NodeMoveSorter nodeMoveSorter;
 
+    @Setter
     private Game game;
+
     private boolean maximize;
     private int numberOfMove;
     private Move lastBestMove;

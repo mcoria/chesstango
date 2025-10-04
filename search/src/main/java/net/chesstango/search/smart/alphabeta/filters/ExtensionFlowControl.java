@@ -37,6 +37,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter loopNode;
 
+    @Setter
     private Game game;
 
     @Override

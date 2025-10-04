@@ -1,19 +1,20 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
-import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
+public class QuiescenceNull implements AlphaBetaFilter {
 
     private Evaluator evaluator;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -29,5 +30,4 @@ public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
     public void setGameEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
     }
-
 }

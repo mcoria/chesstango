@@ -75,8 +75,8 @@ public class AlphaBetaTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.searchListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
-        this.acceptors = Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade);
+        this.searchListenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade);
     }
 
     @Test

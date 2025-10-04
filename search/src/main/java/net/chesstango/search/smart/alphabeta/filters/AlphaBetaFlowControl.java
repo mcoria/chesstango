@@ -35,8 +35,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter leafNode;
 
-    private int maxPly;
+    @Setter
     private Game game;
+
+    private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {

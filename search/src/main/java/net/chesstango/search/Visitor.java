@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
@@ -15,6 +16,7 @@ import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracke
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -57,10 +59,12 @@ public interface Visitor {
     default void visit(MinMax minMax) {
     }
 
-    default void visit(NegaMax negaMax){
+    default void visit(NegaMax negaMax) {
     }
 
-    default void visit(NegaMaxPruning negaMaxPruning){};
+    default void visit(NegaMaxPruning negaMaxPruning) {
+    }
+
 
     /**
      * Alpha Beta filters
@@ -118,10 +122,13 @@ public interface Visitor {
     default void visit(TranspositionTableQ transpositionTableQ) {
     }
 
-    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
+    default void visit(Quiescence quiescence) {
     }
 
-    default void visit(Quiescence quiescence) {
+    default void visit(QuiescenceNull quiescenceNull) {
+    }
+
+    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
     }
 
     default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
@@ -131,6 +138,18 @@ public interface Visitor {
     }
 
     default void visit(ZobristTracker zobristTracker) {
+    }
+
+
+    /**
+     *
+     * Setter elements
+     */
+    default void visit(SetGameEvaluator setGameEvaluator) {
+    }
+
+    default void visit(SetTrianglePV setTrianglePV) {
+
     }
 
     /**
