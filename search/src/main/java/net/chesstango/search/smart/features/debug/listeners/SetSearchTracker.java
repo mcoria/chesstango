@@ -9,16 +9,22 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
+import net.chesstango.search.visitors.SetSearchListenerMediator;
+import net.chesstango.search.visitors.SetSearchTrackerVisitor;
 
 /**
  * @author Mauricio Coria
  */
 public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private final DebugNodeTrap debugNodeTrap;
+
     private SearchTracker searchTracker;
 
     @Setter
     private Game game;
+
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
 
     public SetSearchTracker(DebugNodeTrap debugNodeTrap) {
         this.debugNodeTrap = debugNodeTrap;
@@ -34,7 +40,7 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
         searchTracker = new SearchTracker();
         searchTracker.setGame(game);
 
-        context.setSearchTracker(searchTracker);
+        searchListenerMediator.accept(new SetSearchTrackerVisitor(searchTracker));
 
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
             debugNodeTrapSearchByCycleListener.beforeSearch(context);

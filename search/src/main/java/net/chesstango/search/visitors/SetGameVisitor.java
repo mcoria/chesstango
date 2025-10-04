@@ -54,7 +54,7 @@ public class SetGameVisitor implements Visitor {
         algorithm.accept(this);
 
         SearchListenerMediator searchListenerMediator = noIterativeDeepening.getSearchListenerMediator();
-        searchListenerMediator.getAcceptors().forEach(acceptor -> acceptor.accept(this));
+        searchListenerMediator.accept(this);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class SetGameVisitor implements Visitor {
         algorithm.accept(this);
 
         SearchListenerMediator searchListenerMediator = iterativeDeepening.getSearchListenerMediator();
-        searchListenerMediator.getAcceptors().forEach(acceptor -> acceptor.accept(this));
+        searchListenerMediator.accept(this);
     }
 
     /**

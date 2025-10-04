@@ -179,11 +179,11 @@ public class MoveSorterBuilder {
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
+            searchListenerMediator.addAcceptor(moveSorterDebug);
         }
 
         if (gameEvaluatorCacheDebug != null) {
-            searchListenerMediator.add(gameEvaluatorCacheDebug);
+            searchListenerMediator.addAcceptor(gameEvaluatorCacheDebug);
         }
 
         if (killerMoveComparator != null) {

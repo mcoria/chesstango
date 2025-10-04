@@ -154,7 +154,7 @@ public class AlphaBetaInteriorChainBuilder {
             searchListenerMediator.add(transpositionTable);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);

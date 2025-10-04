@@ -435,6 +435,13 @@ public class ChainPrinterVisitor implements Visitor {
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
+
+        printChainText("Acceptor:");
+        nestedChain++;
+        searchListenerMediator.getAcceptors()
+                .forEach(this::printNodeObjectText);
+        out.println();
+        nestedChain--;
     }
 
     @Override

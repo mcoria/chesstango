@@ -2,8 +2,9 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 @Getter
-public class SearchListenerMediator{
+public class SearchListenerMediator implements Acceptor {
 
     private final List<SearchByCycleListener> searchByCycleListeners = new LinkedList<>();
 
@@ -25,6 +26,11 @@ public class SearchListenerMediator{
     private final List<ResetListener> resetListeners = new LinkedList<>();
 
     private final List<Acceptor> acceptors = new LinkedList<>();
+
+    @Override
+    public void accept(Visitor visitor) {
+        acceptors.forEach(acceptor -> acceptor.accept(visitor));
+    }
 
     public void triggerBeforeSearch(SearchByCycleContext context) {
         searchByCycleListeners.forEach(filter -> filter.beforeSearch(context));
@@ -52,7 +58,6 @@ public class SearchListenerMediator{
         searchByWindowsListeners.forEach(filter -> filter.afterSearchByWindows(searchByWindowsFinished));
     }
 
-
     public void triggerStopSearching() {
         stopSearchingListeners.forEach(StopSearchingListener::stopSearching);
     }
@@ -62,13 +67,11 @@ public class SearchListenerMediator{
     }
 
     public void add(SearchListener listener) {
-
         if (searchByCycleListeners.contains(listener) ||
                 searchByDepthListeners.contains(listener) ||
                 searchByWindowsListeners.contains(listener) ||
                 stopSearchingListeners.contains(listener) ||
-                resetListeners.contains(listener) ||
-                acceptors.contains(listener)
+                resetListeners.contains(listener)
         ) {
             throw new RuntimeException(String.format("Listener already added %s", listener));
         }
@@ -94,8 +97,17 @@ public class SearchListenerMediator{
         }
 
         if (listener instanceof Acceptor acceptor) {
-            acceptors.add(acceptor);
+            addAcceptor(acceptor);
         }
+    }
+
+    public void addAcceptor(Acceptor acceptor) {
+        if (acceptors.contains(acceptor)
+        ) {
+            throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
+        }
+
+        acceptors.add(acceptor);
     }
 
     public void addAll(List<SearchListener> listeners) {

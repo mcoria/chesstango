@@ -32,7 +32,4 @@ public class SearchByCycleContext {
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
-
-    private SearchTracker searchTracker;
-
 }

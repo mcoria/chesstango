@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -15,17 +17,16 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
 
 @Setter
 @Getter
-public class EvaluatorDebug implements Evaluator, SearchByCycleListener {
+public class EvaluatorDebug implements Evaluator, Acceptor {
 
     private SearchTracker searchTracker;
 
     private Evaluator evaluator;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.searchTracker = context.getSearchTracker();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
-
 
     @Override
     public int evaluate() {

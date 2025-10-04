@@ -132,7 +132,7 @@ public class CheckResolverChainBuilder {
             searchListenerMediator.add(transpositionTableQ);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);

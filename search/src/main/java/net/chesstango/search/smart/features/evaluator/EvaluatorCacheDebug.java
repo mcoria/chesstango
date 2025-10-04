@@ -3,6 +3,8 @@ package net.chesstango.search.smart.features.evaluator;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -17,15 +19,15 @@ import java.util.Optional;
 
 @Setter
 @Getter
-public class EvaluatorCacheDebug implements EvaluatorCacheRead, SearchByCycleListener {
+public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
 
     private SearchTracker searchTracker;
 
     private EvaluatorCacheRead evaluatorCacheRead;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.searchTracker = context.getSearchTracker();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -171,8 +171,8 @@ public class QuiescenceChainBuilder {
             searchListenerMediator.add(transpositionTableQ);
         }
         if (withDebugSearchTree) {
-            searchListenerMediator.add(debugFilter);
-            searchListenerMediator.add(gameEvaluatorDebug);
+            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.addAcceptor(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);

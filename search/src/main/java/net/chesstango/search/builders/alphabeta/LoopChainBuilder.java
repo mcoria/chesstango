@@ -68,7 +68,7 @@ public class LoopChainBuilder {
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
     }
 

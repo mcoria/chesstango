@@ -180,11 +180,11 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
+            searchListenerMediator.addAcceptor(moveSorterDebug);
         }
 
         if (stopProcessingCatch != null) {

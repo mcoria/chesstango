@@ -27,6 +27,7 @@ import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeSta
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
+import net.chesstango.search.visitors.SetSearchListenerMediator;
 
 /**
  * @author Mauricio Corias
@@ -282,8 +283,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         setupListenerMediatorAfterChain();
 
-        Search search;
+        searchListenerMediator.accept(new SetSearchListenerMediator(searchListenerMediator));
 
+        Search search;
         if (withIterativeDeepening) {
             search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
         } else {
@@ -365,10 +367,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setTranspositionTables);
         } else if (setTranspositionTablesDebug != null) {
             searchListenerMediator.add(setTranspositionTablesDebug);
-            searchListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getMinMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMinMap());
         }
 
         if (setZobristMemory != null) {
@@ -391,7 +393,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setKillerMoveTables);
         } else if (setKillerMoveDebug != null) {
             searchListenerMediator.add(setKillerMoveDebug);
-            searchListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
+            searchListenerMediator.addAcceptor(setKillerMoveDebug.getKillerMovesDebug());
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);

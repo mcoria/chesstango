@@ -10,8 +10,12 @@ import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
@@ -23,6 +27,7 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
@@ -153,11 +158,26 @@ public interface Visitor {
     default void visit(SetTrianglePV setTrianglePV) {
     }
 
-    default void visit(SetNodeStatistics setNodeStatistics){
+    default void visit(SetNodeStatistics setNodeStatistics) {
     }
 
-    default void visit(SetSearchTracker setSearchTracker){
+    default void visit(SetSearchTracker setSearchTracker) {
     }
+
+    default void visit(SetDebugOutput setDebugOutput) {
+    }
+
+    default void visit(KillerMovesDebug killerMovesDebug) {
+    }
+
+
+    default void visit(TTableDebug tableDebug) {
+    }
+
+    default void visit(EvaluatorCacheDebug evaluatorCacheDebug){}
+
+
+    default void visit(EvaluatorDebug evaluatorDebug){}
 
     /**
      *

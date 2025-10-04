@@ -1,5 +1,8 @@
 package net.chesstango.search.smart.features.transposition;
 
+import lombok.Setter;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -12,15 +15,22 @@ import java.util.Optional;
 /**
  * @author Mauricio Coria
  */
-public class TTableDebug implements TTable, SearchByCycleListener {
+public class TTableDebug implements TTable, Acceptor {
 
     private final TTable tTable;
     private final DebugOperationTT.TableType tableType;
+
+    @Setter
     private SearchTracker searchTracker;
 
     public TTableDebug(DebugOperationTT.TableType tableType, TTable tTable) {
         this.tableType = tableType;
         this.tTable = tTable;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -41,10 +51,6 @@ public class TTableDebug implements TTable, SearchByCycleListener {
         tTable.clear();
     }
 
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.searchTracker = context.getSearchTracker();
-    }
 
     public void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();

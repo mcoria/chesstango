@@ -91,7 +91,7 @@ public class TerminalChainBuilder {
             searchListenerMediator.add(zobristTracker);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
         if (transpositionTableTerminal != null) {
             searchListenerMediator.add(transpositionTableTerminal);
