@@ -13,6 +13,7 @@ import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
  */
 public class SetNodeStatistics implements SearchByCycleListener {
 
+    private Game game;
     private int executedMoves;
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
@@ -33,7 +34,6 @@ public class SetNodeStatistics implements SearchByCycleListener {
         context.setVisitedNodesCountersQuiescence(visitedNodesCountersQuiescence);
         context.setExpectedNodesCountersQuiescence(expectedNodesCountersQuiescence);
 
-        Game game = context.getGame();
         game.addGameListener(new GameListener() {
             @Override
             public void notifyDoMove(Move move) {

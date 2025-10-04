@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -8,6 +9,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
@@ -20,14 +22,20 @@ import java.util.List;
  */
 public class NegaMaxPruning implements SearchAlgorithm {
     private final NegaQuiescence negaQuiescence;
-    private Game game;
+
     @Setter
+    private Game game;
+
+    @Setter
+    @Getter
     private MoveSorter moveSorter;
+
     @Setter
     private int[] visitedNodesCounter;
-    private int maxPly;
-    private MoveEvaluation bestMoveEvaluation;
 
+    private int maxPly;
+
+    private MoveEvaluation bestMoveEvaluation;
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
         this.negaQuiescence = negaQuiescence;
@@ -107,11 +115,10 @@ public class NegaMaxPruning implements SearchAlgorithm {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         if (moveSorter instanceof SearchByCycleListener moveSorterListener) {
             moveSorterListener.beforeSearch(context);
         }
-        this.negaQuiescence.setupGameEvaluator(context.getGame());
+        this.negaQuiescence.setupGameEvaluator(game);
     }
 
     @Override
@@ -131,6 +138,11 @@ public class NegaMaxPruning implements SearchAlgorithm {
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
                         Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
 

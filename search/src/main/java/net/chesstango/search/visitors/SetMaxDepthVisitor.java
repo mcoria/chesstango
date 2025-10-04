@@ -3,13 +3,13 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.minmax.MinMax;
 
 /**
  * Esta clase recorre ella misma toda la estructura
  *
  * @author Mauricio Coria
  */
-
 public class SetMaxDepthVisitor implements Visitor {
 
     private final int maxDepth;

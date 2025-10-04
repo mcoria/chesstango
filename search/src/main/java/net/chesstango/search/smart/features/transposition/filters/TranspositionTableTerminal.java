@@ -32,7 +32,6 @@ public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycl
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
         this.maxQMap = context.getQMaxMap();

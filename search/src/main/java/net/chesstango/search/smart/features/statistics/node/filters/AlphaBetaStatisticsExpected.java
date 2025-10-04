@@ -26,7 +26,6 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCyc
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 

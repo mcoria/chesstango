@@ -26,6 +26,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     @Getter
     private final NodeMoveSorter nodeMoveSorter;
 
+    private Game game;
     private boolean maximize;
     private int numberOfMove;
     private Move lastBestMove;
@@ -44,7 +45,6 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
         this.nodeMoveSorter.beforeSearch(context);
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();

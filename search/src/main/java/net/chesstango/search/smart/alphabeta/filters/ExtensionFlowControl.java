@@ -46,7 +46,6 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.keepProcessing = true;
     }
 

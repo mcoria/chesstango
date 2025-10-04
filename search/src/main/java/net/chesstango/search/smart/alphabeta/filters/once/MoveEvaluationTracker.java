@@ -32,6 +32,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     private List<MoveEvaluation> currentMoveEvaluations;
 
+    @Setter
     private Game game;
 
     @Override
@@ -41,7 +42,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

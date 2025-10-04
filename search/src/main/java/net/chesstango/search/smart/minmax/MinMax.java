@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.minmax;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -7,6 +8,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchByCycleContext;
@@ -21,7 +23,10 @@ import java.util.List;
 public class MinMax implements SearchAlgorithm {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
+
+    @Setter
     private Game game;
+
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
@@ -96,7 +101,6 @@ public class MinMax implements SearchAlgorithm {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.evaluator.setGame(game);
@@ -119,6 +123,11 @@ public class MinMax implements SearchAlgorithm {
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
                         Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public void setGameEvaluator(Evaluator evaluator) {

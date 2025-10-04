@@ -81,10 +81,11 @@ public class TranspositionHeadMoveComparatorTest {
     }
 
     private void initMoveSorter(Game game) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
         searchByCycleContext.setMaxMap(maxMap);
         searchByCycleContext.setMinMap(minMap);
 
+        headMoveComparator.setGame(game);
         headMoveComparator.beforeSearch(searchByCycleContext);
     }
 

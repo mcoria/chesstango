@@ -41,7 +41,7 @@ public abstract class AbstractNodeSorterTest {
 
         searchListenerMediator = new SearchListenerMediator();
 
-        cycleContext = new SearchByCycleContext(game);
+        cycleContext = new SearchByCycleContext();
 
         maxMap = new TTableMap();
         minMap = new TTableMap();

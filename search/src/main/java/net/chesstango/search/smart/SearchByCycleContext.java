@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -17,8 +16,6 @@ import java.util.Map;
 @Setter
 @Getter
 public class SearchByCycleContext {
-
-    private final Game game;
 
     private TTable maxMap;
     private TTable minMap;
@@ -38,7 +35,4 @@ public class SearchByCycleContext {
 
     private SearchTracker searchTracker;
 
-    public SearchByCycleContext(Game game) {
-        this.game = game;
-    }
 }

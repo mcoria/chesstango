@@ -45,7 +45,6 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.maxMap = fnGetMaxMap.apply(context);
         this.minMap = fnGetMinMap.apply(context);
     }

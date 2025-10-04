@@ -37,8 +37,6 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-
     }
 
     @Override

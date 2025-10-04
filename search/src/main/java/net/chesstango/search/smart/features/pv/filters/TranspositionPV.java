@@ -52,7 +52,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
         this.qMaxMap = context.getQMaxMap();

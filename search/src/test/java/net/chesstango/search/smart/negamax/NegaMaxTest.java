@@ -96,7 +96,9 @@ public class NegaMaxTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        negaMax.setGame(game);
+
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
 
         negaMax.beforeSearch(searchByCycleContext);
 

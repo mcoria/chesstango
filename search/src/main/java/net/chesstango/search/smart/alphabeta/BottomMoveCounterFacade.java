@@ -43,8 +43,6 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-
         GameMoveDecoder moveDecoder = new GameMoveDecoder();
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");

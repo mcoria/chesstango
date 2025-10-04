@@ -33,7 +33,6 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

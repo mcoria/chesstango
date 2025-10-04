@@ -220,8 +220,9 @@ public class DefaultMoveSorterTest {
     }
 
     private void initMoveSorter(NodeMoveSorter nodeMoveSorter, Game game) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        nodeMoveSorter.setGame(game);
 
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
         nodeMoveSorter.beforeSearch(searchByCycleContext);
     }
 

@@ -35,7 +35,6 @@ public class MoveSorterDebug implements MoveSorter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        game = context.getGame();
         searchTracker = context.getSearchTracker();
         killerMoves = context.getKillerMoves();
     }

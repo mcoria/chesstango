@@ -98,8 +98,9 @@ public class MinMaxTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        minMax.setGame(game);
 
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
         minMax.beforeSearch(searchByCycleContext);
 
         SearchByDepthContext context = new SearchByDepthContext(depth);

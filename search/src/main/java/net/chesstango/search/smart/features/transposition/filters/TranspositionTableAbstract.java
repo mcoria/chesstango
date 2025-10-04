@@ -27,7 +27,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter, Sea
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

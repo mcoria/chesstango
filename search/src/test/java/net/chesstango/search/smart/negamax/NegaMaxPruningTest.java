@@ -2,6 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
@@ -12,6 +13,7 @@ import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,8 @@ public class NegaMaxPruningTest {
 
     private SearchListenerMediator searchListenerMediator;
 
+    private List<Acceptor> acceptors;
+
     @BeforeEach
     public void setup() {
         evaluator = new MockEvaluator();
@@ -49,6 +53,7 @@ public class NegaMaxPruningTest {
 
         searchListenerMediator = new SearchListenerMediator();
         searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        acceptors = List.of(moveSorter, negaMaxPruning);
     }
 
     @Test
@@ -116,9 +121,11 @@ public class NegaMaxPruningTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchResult searchResult = new SearchResult();
+        SetGameVisitor setGameVisitor = new SetGameVisitor(game);
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
+
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -131,6 +138,8 @@ public class NegaMaxPruningTest {
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult();
 
         searchResult.addSearchResultByDepth(searchResultByDepth);
 

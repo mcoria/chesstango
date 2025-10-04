@@ -29,7 +29,6 @@ public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, Sea
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

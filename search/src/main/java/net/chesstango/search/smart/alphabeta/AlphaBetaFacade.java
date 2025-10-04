@@ -57,7 +57,6 @@ public class AlphaBetaFacade implements SearchAlgorithm {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.bestMoveEvaluation = null;
     }
 

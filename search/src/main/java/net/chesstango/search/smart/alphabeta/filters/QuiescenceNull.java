@@ -14,7 +14,6 @@ public class QuiescenceNull implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
     }
 
     @Override

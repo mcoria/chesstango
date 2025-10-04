@@ -26,6 +26,9 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.minmax.MinMax;
+import net.chesstango.search.smart.negamax.NegaMax;
+import net.chesstango.search.smart.negamax.NegaMaxPruning;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -45,8 +48,24 @@ public interface Visitor {
     default void visit(NoIterativeDeepening noIterativeDeepening) {
     }
 
+    /**
+     * Facades
+     */
     default void visit(AlphaBetaFacade alphaBetaFacade) {
     }
+
+    default void visit(MinMax minMax) {
+    }
+
+    default void visit(NegaMax negaMax){
+    }
+
+    default void visit(NegaMaxPruning negaMaxPruning){};
+
+    /**
+     * Alpha Beta filters
+     *
+     */
 
     default void visit(AspirationWindows aspirationWindows) {
     }

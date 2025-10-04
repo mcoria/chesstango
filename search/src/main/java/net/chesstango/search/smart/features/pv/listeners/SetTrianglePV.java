@@ -38,7 +38,6 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

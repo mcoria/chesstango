@@ -30,7 +30,6 @@ public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.zobristMaxMap = context.getZobristMaxMap();
         this.zobristMinMap = context.getZobristMinMap();
         this.zobristCollisions = context.getZobristCollisions();

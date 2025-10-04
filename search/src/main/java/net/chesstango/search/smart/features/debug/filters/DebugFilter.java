@@ -35,7 +35,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
         this.searchTracker = context.getSearchTracker();
     }
 

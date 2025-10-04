@@ -22,6 +22,7 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
 
     private final MoveToHashMap moveToZobrist;
 
+    @Setter
     private Game game;
 
     @Getter
@@ -64,6 +65,5 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        game = context.getGame();
     }
 }

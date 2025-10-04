@@ -28,6 +28,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
     @Setter
     private MoveComparator next;
 
+    @Setter
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -45,7 +46,6 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.maxMap = fnGetMaxMap.apply(context);
         this.minMap = fnGetMinMap.apply(context);
     }

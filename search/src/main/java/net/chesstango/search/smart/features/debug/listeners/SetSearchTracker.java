@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.*;
@@ -10,8 +11,9 @@ import net.chesstango.search.smart.features.debug.SearchTracker;
  * @author Mauricio Coria
  */
 public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-    private SearchTracker searchTracker;
     private final DebugNodeTrap debugNodeTrap;
+    private SearchTracker searchTracker;
+    private Game game;
 
     public SetSearchTracker(DebugNodeTrap debugNodeTrap) {
         this.debugNodeTrap = debugNodeTrap;
@@ -20,7 +22,7 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
     @Override
     public void beforeSearch(SearchByCycleContext context) {
         searchTracker = new SearchTracker();
-        searchTracker.setGame(context.getGame());
+        searchTracker.setGame(game);
 
         context.setSearchTracker(searchTracker);
 

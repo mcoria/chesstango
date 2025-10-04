@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
+import net.chesstango.search.visitors.SetGameVisitor;
 
 
 /**
@@ -27,9 +28,9 @@ public class NoIterativeDeepening implements Search {
 
     @Override
     public SearchResult startSearch(Game game) {
-        SearchResult searchResult = new SearchResult();
+        accept(new SetGameVisitor(game));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
 
         searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
 
@@ -42,6 +43,8 @@ public class NoIterativeDeepening implements Search {
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(maxDepth);
 
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult();
 
         searchResult.addSearchResultByDepth(searchResultByDepth);
 

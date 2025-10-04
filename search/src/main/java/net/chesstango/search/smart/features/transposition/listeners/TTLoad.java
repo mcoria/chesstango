@@ -29,7 +29,6 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
 
     @Override
     public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
