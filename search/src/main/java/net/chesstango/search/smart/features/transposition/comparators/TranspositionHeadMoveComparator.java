@@ -30,6 +30,7 @@ public class TranspositionHeadMoveComparator implements MoveComparator, SearchBy
 
     @Setter
     private Game game;
+
     private TTable maxMap;
     private TTable minMap;
     private short bestMoveEncoded;

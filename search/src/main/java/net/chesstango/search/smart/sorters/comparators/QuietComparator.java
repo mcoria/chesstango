@@ -13,6 +13,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 @Setter
 @Getter
 public class QuietComparator implements MoveComparator {
+
     private MoveComparator noQuietNext;
 
     private MoveComparator quietNext;

@@ -24,9 +24,12 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByCyc
     @Getter
     @Setter
     private MoveComparator next;
+
     private List<PrincipalVariation> lastPrincipalVariation;
 
+    @Setter
     private Game game;
+
     private Move pvMove;
 
     @Override

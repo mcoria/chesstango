@@ -26,7 +26,9 @@ public class TranspositionTailMoveComparator implements MoveComparator, SearchBy
     @Setter
     private MoveComparator next;
 
+    @Setter
     private Game game;
+
     private TTable maxMap;
     private TTable minMap;
     private MoveToHashMap moveToZobrist;

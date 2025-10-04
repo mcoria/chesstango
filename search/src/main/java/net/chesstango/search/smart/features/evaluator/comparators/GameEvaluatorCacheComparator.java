@@ -26,7 +26,9 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
     @Setter
     private EvaluatorCacheRead evaluatorCacheRead;
 
+    @Setter
     private Game game;
+
     private MoveToHashMap moveToZobrist;
     private Color currentTurn;
 

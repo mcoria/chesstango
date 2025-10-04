@@ -23,7 +23,9 @@ public class RecaptureMoveComparator implements MoveComparator, SearchByCycleLis
     @Setter
     private MoveComparator next;
 
+    @Setter
     private Game game;
+
     private Square previousMoveToSquare;
 
     @Override
