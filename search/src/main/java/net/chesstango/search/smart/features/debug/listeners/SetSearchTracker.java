@@ -1,8 +1,11 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -10,13 +13,20 @@ import net.chesstango.search.smart.features.debug.SearchTracker;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private final DebugNodeTrap debugNodeTrap;
     private SearchTracker searchTracker;
+
+    @Setter
     private Game game;
 
     public SetSearchTracker(DebugNodeTrap debugNodeTrap) {
         this.debugNodeTrap = debugNodeTrap;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
