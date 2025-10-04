@@ -19,7 +19,9 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
+import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class AlphaBetaRootChainBuilder {
     private final MoveEvaluationTracker moveEvaluationTracker;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
+    private final NodeMoveSorter nodeMoveSorter;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
     private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
     private StopProcessingCatch stopProcessingCatch;
@@ -55,6 +58,7 @@ public class AlphaBetaRootChainBuilder {
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
         rootMoveSorter = new RootMoveSorter();
+        nodeMoveSorter = new NodeMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
     }
 
@@ -118,6 +122,9 @@ public class AlphaBetaRootChainBuilder {
     }
 
     private void buildObjects() {
+        rootMoveSorter.setNodeMoveSorter(nodeMoveSorter);
+        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+
         MoveSorter moveSorter = rootMoveSorter;
 
         if (withStatistics) {
@@ -204,12 +211,12 @@ public class AlphaBetaRootChainBuilder {
             searchListenerMediator.add(alphaBeta);
         }
 
+        searchListenerMediator.add(nodeMoveSorter);
         searchListenerMediator.add(rootMoveSorter);
     }
 
 
     private AlphaBetaFilter createChain() {
-
         List<AlphaBetaFilter> chain = new LinkedList<>();
 
         if (stopProcessingCatch != null) {

@@ -13,8 +13,9 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
         IterativeDeepeningTest.class,
         MoveSelectorTest.class,
-        TranspositionEntryTest.class
+        TranspositionEntryTest.class,
+        SearchesTest.class,
+        RepetitionTest.class
 })
 public class SmartTestSuite {
-
 }

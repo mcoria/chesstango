@@ -25,7 +25,8 @@ import java.util.stream.Stream;
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     @Getter
-    private final NodeMoveSorter nodeMoveSorter;
+    @Setter
+    private NodeMoveSorter nodeMoveSorter;
 
     @Setter
     private Game game;
@@ -35,11 +36,6 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     private Move lastBestMove;
     private List<MoveEvaluation> lastMoveEvaluations;
 
-
-    public RootMoveSorter() {
-        this.nodeMoveSorter = new NodeMoveSorter();
-        this.nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
-    }
 
     @Override
     public void accept(Visitor visitor) {

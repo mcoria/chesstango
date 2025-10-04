@@ -191,15 +191,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
         rootMoveSorter.setGame(game);
-        rootMoveSorter.getNodeMoveSorter().accept(this);
     }
 
     @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
         nodeMoveSorter.setGame(game);
-
-        MoveComparator moveComparator = nodeMoveSorter.getMoveComparator();
-        moveComparator.accept(this);
     }
 
     /**
@@ -209,51 +205,25 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
         principalVariationComparator.setGame(game);
-        principalVariationComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
         transpositionHeadMoveComparator.setGame(game);
-        transpositionHeadMoveComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
         transpositionTailMoveComparator.setGame(game);
-        transpositionTailMoveComparator.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(QuietComparator quietComparator) {
-        quietComparator.getQuietNext().accept(this);
-        quietComparator.getNoQuietNext().accept(this);
-    }
-
-    @Override
-    public void visit(KillerMoveComparator killerMoveComparator) {
-        killerMoveComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         gameEvaluatorCacheComparator.setGame(game);
-        gameEvaluatorCacheComparator.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(PromotionComparator promotionComparator) {
-        promotionComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(RecaptureMoveComparator recaptureMoveComparator) {
         recaptureMoveComparator.setGame(game);
-        recaptureMoveComparator.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(MvvLvaComparator mvvLvaComparator) {
-        mvvLvaComparator.getNext().accept(this);
     }
 }
