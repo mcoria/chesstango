@@ -192,7 +192,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            searchListenerMediator.addAcceptor(zobristTracker);
         }
 
         if (transpositionTableRoot != null) {

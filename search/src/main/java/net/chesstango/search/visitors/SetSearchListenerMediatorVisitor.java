@@ -10,10 +10,10 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
  *
  * @author Mauricio Coria
  */
-public class SetSearchListenerMediator implements Visitor {
+public class SetSearchListenerMediatorVisitor implements Visitor {
     private final SearchListenerMediator searchListenerMediator;
 
-    public SetSearchListenerMediator(SearchListenerMediator searchListenerMediator) {
+    public SetSearchListenerMediatorVisitor(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
     }
 

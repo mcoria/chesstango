@@ -27,7 +27,7 @@ import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeSta
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
-import net.chesstango.search.visitors.SetSearchListenerMediator;
+import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
 /**
  * @author Mauricio Corias
@@ -283,7 +283,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         setupListenerMediatorAfterChain();
 
-        searchListenerMediator.accept(new SetSearchListenerMediator(searchListenerMediator));
+        searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
 
         Search search;
         if (withIterativeDeepening) {

@@ -126,7 +126,7 @@ public class CheckResolverChainBuilder {
             searchListenerMediator.add(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (transpositionTableQ != null) {
             searchListenerMediator.add(transpositionTableQ);

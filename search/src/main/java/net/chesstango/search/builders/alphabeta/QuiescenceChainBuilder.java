@@ -165,7 +165,7 @@ public class QuiescenceChainBuilder {
             searchListenerMediator.add(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (transpositionTableQ != null) {
             searchListenerMediator.add(transpositionTableQ);

@@ -201,11 +201,9 @@ SearchByCycleListeners:
 	SetKillerMoveTablesDebug @ 87
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
-	ZobristTracker @ 19
 	TranspositionTableTerminal @ 20
 	QuiescenceStatisticsExpected @ 44
 	QuiescenceStatisticsVisited @ 58
-	ZobristTracker @ 42
 	TranspositionTableQ @ 43
 	Quiescence @ 45
 	NodeMoveSorter @ 48
@@ -214,14 +212,10 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 49
 	RecaptureMoveComparator @ 53
 	GameEvaluatorCacheComparator @ 55
-	ZobristTracker @ 39
-	ZobristTracker @ 35
 	TranspositionTableTerminal @ 36
-	ZobristTracker @ 31
 	TranspositionTable @ 32
 	AlphaBetaStatisticsExpected @ 62
 	AlphaBetaStatisticsVisited @ 79
-	ZobristTracker @ 60
 	TranspositionTable @ 61
 	AlphaBeta @ 63
 	NodeMoveSorter @ 65
@@ -232,13 +226,11 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 66
 	RecaptureMoveComparator @ 73
 	GameEvaluatorCacheComparator @ 75
-	ZobristTracker @ 26
 	MoveEvaluationTracker @ 15
 	AlphaBetaStatisticsExpected @ 8
 	AlphaBetaStatisticsVisited @ 14
 	AspirationWindows @ 5
 	StopProcessingCatch @ 3
-	ZobristTracker @ 4
 	TranspositionTableRoot @ 7
 	TranspositionPV @ 16
 	AlphaBeta @ 9

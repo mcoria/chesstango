@@ -74,7 +74,7 @@ public class ChainPrinterVisitorTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
-            //chainPrinterVisitor.print(search, System.out);
+            chainPrinterVisitor.print(search, System.out);
             chainPrinterVisitor.print(search, out);
         }
 

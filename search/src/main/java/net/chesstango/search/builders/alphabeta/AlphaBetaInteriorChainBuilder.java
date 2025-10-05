@@ -148,7 +148,7 @@ public class AlphaBetaInteriorChainBuilder {
             searchListenerMediator.add(alphaBetaStatisticsVisited);
         }
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            searchListenerMediator.addAcceptor(zobristTracker);
         }
         if (transpositionTable != null) {
             searchListenerMediator.add(transpositionTable);

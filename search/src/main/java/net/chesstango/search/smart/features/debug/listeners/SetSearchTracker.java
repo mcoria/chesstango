@@ -9,7 +9,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
-import net.chesstango.search.visitors.SetSearchListenerMediator;
 import net.chesstango.search.visitors.SetSearchTrackerVisitor;
 
 /**

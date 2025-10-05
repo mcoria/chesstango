@@ -26,8 +26,4 @@ public class SearchByCycleContext {
     private int[] expectedNodesCounters;
     private int[] visitedNodesCountersQuiescence;
     private int[] expectedNodesCountersQuiescence;
-
-    private Map<Long, String> zobristMaxMap;
-    private Map<Long, String> zobristMinMap;
-    private List<String> zobristCollisions;
 }
