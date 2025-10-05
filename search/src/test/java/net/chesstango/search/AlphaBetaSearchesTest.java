@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
-public class SearchesTest {
+public class AlphaBetaSearchesTest {
     private AlphaBetaBuilder alphaBetaBuilder;
 
     @BeforeEach

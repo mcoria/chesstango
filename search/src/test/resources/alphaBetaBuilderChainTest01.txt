@@ -198,7 +198,7 @@ SearchByCycleListeners:
 	SetZobristMemory @ 85
 	SetNodeStatistics @ 86
 	EvaluatorStatisticsWrapper @ 22
-	SetKillerMoveDebug @ 87
+	SetKillerMoveTablesDebug @ 87
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
 	ZobristTracker @ 19
@@ -223,7 +223,6 @@ SearchByCycleListeners:
 	AlphaBetaStatisticsVisited @ 79
 	ZobristTracker @ 60
 	TranspositionTable @ 61
-	KillerMoveTracker @ 80
 	AlphaBeta @ 63
 	NodeMoveSorter @ 65
 	TranspositionHeadMoveComparator @ 67
@@ -233,7 +232,6 @@ SearchByCycleListeners:
 	PrincipalVariationComparator @ 66
 	RecaptureMoveComparator @ 73
 	GameEvaluatorCacheComparator @ 75
-	KillerMoveComparator @ 78
 	ZobristTracker @ 26
 	MoveEvaluationTracker @ 15
 	AlphaBetaStatisticsExpected @ 8
@@ -292,6 +290,7 @@ Acceptor:
 	TTableDebug @ 92
 	TTableDebug @ 93
 	SetNodeStatistics @ 86
+	SetKillerMoveTablesDebug @ 87
 	KillerMovesDebug @ 94
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33

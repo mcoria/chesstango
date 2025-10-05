@@ -18,7 +18,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
@@ -56,7 +56,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
-    private SetKillerMoveDebug setKillerMoveDebug;
+    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
@@ -343,7 +343,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withKillerMoveSorter) {
             if (withDebugSearchTree) {
-                setKillerMoveDebug = new SetKillerMoveDebug();
+                setKillerMoveTablesDebug = new SetKillerMoveTablesDebug();
             } else {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
@@ -391,9 +391,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
-        } else if (setKillerMoveDebug != null) {
-            searchListenerMediator.add(setKillerMoveDebug);
-            searchListenerMediator.addAcceptor(setKillerMoveDebug.getKillerMovesDebug());
+        } else if (setKillerMoveTablesDebug != null) {
+            searchListenerMediator.add(setKillerMoveTablesDebug);
+            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);

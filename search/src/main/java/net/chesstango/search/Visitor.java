@@ -18,6 +18,8 @@ import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorC
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -178,6 +180,10 @@ public interface Visitor {
 
 
     default void visit(EvaluatorDebug evaluatorDebug){}
+
+    default void visit(SetKillerMoveTables setKillerMoveTables){}
+
+    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug){}
 
     /**
      *

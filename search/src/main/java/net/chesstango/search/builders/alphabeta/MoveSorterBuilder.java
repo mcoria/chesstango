@@ -187,7 +187,7 @@ public class MoveSorterBuilder {
         }
 
         if (killerMoveComparator != null) {
-            searchListenerMediator.add(killerMoveComparator);
+            searchListenerMediator.addAcceptor(killerMoveComparator);
         }
 
         /*

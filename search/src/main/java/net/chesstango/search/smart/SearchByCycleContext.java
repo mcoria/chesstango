@@ -22,8 +22,6 @@ public class SearchByCycleContext {
     private TTable qMaxMap;
     private TTable qMinMap;
 
-    private KillerMoves killerMoves;
-
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
     private int[] visitedNodesCountersQuiescence;

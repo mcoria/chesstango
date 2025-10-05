@@ -53,7 +53,6 @@ public abstract class AbstractNodeSorterTest {
         cycleContext.setQMinMap(qMinMap);
 
         killerMovesTable = new KillerMovesTable();
-        cycleContext.setKillerMoves(killerMovesTable);
 
         depthContext = new SearchByDepthContext(getMaxSearchPly());
 
