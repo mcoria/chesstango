@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -20,16 +20,12 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCyc
     @Setter
     private Game game;
 
+    @Setter
     private int[] expectedNodesCounters;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
 

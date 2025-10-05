@@ -144,8 +144,8 @@ public class AlphaBetaInteriorChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.add(alphaBetaStatisticsExpected);
-            searchListenerMediator.add(alphaBetaStatisticsVisited);
+            searchListenerMediator.addAcceptor(alphaBetaStatisticsExpected);
+            searchListenerMediator.addAcceptor(alphaBetaStatisticsVisited);
         }
         if (zobristTracker != null) {
             searchListenerMediator.addAcceptor(zobristTracker);

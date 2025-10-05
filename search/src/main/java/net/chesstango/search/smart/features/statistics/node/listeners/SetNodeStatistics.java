@@ -9,7 +9,9 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
+import net.chesstango.search.visitors.SetStaticCountersVisitor;
 
 /**
  * @author Mauricio Coria
@@ -24,6 +26,9 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
     private int[] visitedNodesCountersQuiescence;
     private int[] expectedNodesCountersQuiescence;
 
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -37,11 +42,13 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
         this.visitedNodesCountersQuiescence = new int[30];
         this.expectedNodesCountersQuiescence = new int[30];
 
-        context.setVisitedNodesCounters(visitedNodesCounters);
-        context.setExpectedNodesCounters(expectedNodesCounters);
+        searchListenerMediator.accept(
+                new SetStaticCountersVisitor(
+                        visitedNodesCounters, expectedNodesCounters,
+                        visitedNodesCountersQuiescence, expectedNodesCountersQuiescence
+                )
+        );
 
-        context.setVisitedNodesCountersQuiescence(visitedNodesCountersQuiescence);
-        context.setExpectedNodesCountersQuiescence(expectedNodesCountersQuiescence);
 
         game.addGameListener(new GameListener() {
             @Override

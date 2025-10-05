@@ -171,8 +171,8 @@ public class AlphaBetaRootChainBuilder {
         searchListenerMediator.add(moveEvaluationTracker);
 
         if (withStatistics) {
-            searchListenerMediator.add(alphaBetaStatisticsExpected);
-            searchListenerMediator.add(alphaBetaStatisticsVisited);
+            searchListenerMediator.addAcceptor(alphaBetaStatisticsExpected);
+            searchListenerMediator.addAcceptor(alphaBetaStatisticsVisited);
         }
 
         if (aspirationWindows != null) {

@@ -5,6 +5,7 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 
 /**
  *
@@ -30,5 +31,10 @@ public class SetSearchListenerMediatorVisitor implements Visitor {
     @Override
     public void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
         setKillerMoveTablesDebug.setSearchListenerMediator(searchListenerMediator);
+    }
+
+    @Override
+    public void visit(SetNodeStatistics setNodeStatistics) {
+        setNodeStatistics.setSearchListenerMediator(searchListenerMediator);
     }
 }

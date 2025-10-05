@@ -10,9 +10,9 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener {
-    @Setter
-    @Getter
+@Setter
+@Getter
+public class AlphaBetaStatisticsVisited implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private int[] visitedNodesCounters;
@@ -20,11 +20,6 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycl
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCounters();
     }
 
     @Override
