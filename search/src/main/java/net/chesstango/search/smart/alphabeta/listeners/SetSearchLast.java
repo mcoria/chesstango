@@ -5,7 +5,6 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.visitors.SetSearchLastNullVisitor;
@@ -31,7 +30,7 @@ public class SetSearchLast implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         if (lastSearchResultByDepth != null) {
             searchListenerMediator.accept(new SetSearchLastVisitor(
                     lastSearchResultByDepth.getBestMoveEvaluation(),

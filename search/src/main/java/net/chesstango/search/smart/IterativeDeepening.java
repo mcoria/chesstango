@@ -51,9 +51,7 @@ public class IterativeDeepening implements Search {
         do {
             searchListenerMediator.accept(new SetSearchMaxPlyVisitor(currentSearchDepth));
 
-            SearchByDepthContext context = new SearchByDepthContext();
-
-            searchListenerMediator.triggerBeforeSearchByDepth(context);
+            searchListenerMediator.triggerBeforeSearchByDepth();
 
             searchAlgorithm.search();
 

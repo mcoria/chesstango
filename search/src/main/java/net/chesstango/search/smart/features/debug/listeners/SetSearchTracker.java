@@ -54,9 +54,9 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
-            debugNodeTrapSearchByDepthListener.beforeSearchByDepth(context);
+            debugNodeTrapSearchByDepthListener.beforeSearchByDepth();
         }
         searchTracker.reset();
     }

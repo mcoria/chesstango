@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.listeners;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 
 import java.time.Duration;
@@ -27,7 +26,7 @@ public class SetSearchTimers implements SearchByCycleListener, SearchByDepthList
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         startDepthInstant = Instant.now();
     }
 

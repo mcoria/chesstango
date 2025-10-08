@@ -41,8 +41,8 @@ public class SearchListenerMediator implements Acceptor {
     }
 
 
-    public void triggerBeforeSearchByDepth(SearchByDepthContext context) {
-        searchByDepthListeners.forEach(filter -> filter.beforeSearchByDepth(context));
+    public void triggerBeforeSearchByDepth() {
+        searchByDepthListeners.forEach(SearchByDepthListener::beforeSearchByDepth);
     }
 
     public void triggerAfterSearchByDepth(SearchResultByDepth result) {

@@ -86,7 +86,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         debugOut.printf("Search by depth %d started\n", maxPly);
     }
 

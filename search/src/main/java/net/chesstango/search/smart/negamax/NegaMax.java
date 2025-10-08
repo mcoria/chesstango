@@ -89,7 +89,7 @@ public class NegaMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 

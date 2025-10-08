@@ -11,7 +11,6 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByDepthContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +106,7 @@ public class MinMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 

@@ -7,7 +7,6 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -103,9 +102,7 @@ public class MinMaxTest {
 
         minMax.setMaxPly(depth);
 
-        SearchByDepthContext context = new SearchByDepthContext();
-
-        minMax.beforeSearchByDepth(context);
+        minMax.beforeSearchByDepth();
 
         minMax.search();
 

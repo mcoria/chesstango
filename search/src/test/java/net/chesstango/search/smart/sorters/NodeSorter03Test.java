@@ -41,7 +41,7 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         searchListenerMediator.triggerBeforeSearch();
 
         searchListenerMediator.accept(new SetSearchMaxPlyVisitor(3));
-        searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
 

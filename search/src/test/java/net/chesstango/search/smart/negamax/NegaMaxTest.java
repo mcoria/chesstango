@@ -7,7 +7,6 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -101,9 +100,7 @@ public class NegaMaxTest {
 
         negaMax.setMaxPly(depth);
 
-        SearchByDepthContext context = new SearchByDepthContext();
-
-        negaMax.beforeSearchByDepth(context);
+        negaMax.beforeSearchByDepth();
 
         negaMax.search();
 

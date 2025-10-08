@@ -123,7 +123,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 
