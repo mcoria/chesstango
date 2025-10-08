@@ -5,14 +5,12 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByDepthListener {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -24,16 +22,12 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByDe
     @Setter
     private Game game;
 
+    @Setter
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
 

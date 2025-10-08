@@ -33,6 +33,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
     @Setter
     private int[] visitedNodesCounter;
 
+    @Setter
     private int maxPly;
 
     private MoveEvaluation bestMoveEvaluation;
@@ -122,8 +123,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 

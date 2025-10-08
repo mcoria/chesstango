@@ -3,8 +3,6 @@ package net.chesstango.search.smart.features.statistics.node.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
@@ -12,7 +10,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
  */
 @Setter
 @Getter
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByDepthListener {
+public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
@@ -23,11 +21,6 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByDep
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override

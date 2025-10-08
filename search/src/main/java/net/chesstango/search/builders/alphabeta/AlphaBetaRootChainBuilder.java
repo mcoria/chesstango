@@ -176,7 +176,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (aspirationWindows != null) {
-            searchListenerMediator.add(aspirationWindows);
+            searchListenerMediator.addAcceptor(aspirationWindows);
         }
 
         if (debugFilter != null) {
@@ -188,7 +188,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (stopProcessingCatch != null) {
-            searchListenerMediator.add(stopProcessingCatch);
+            searchListenerMediator.addAcceptor(stopProcessingCatch);
         }
 
         if (zobristTracker != null) {
@@ -196,7 +196,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (transpositionTableRoot != null) {
-            searchListenerMediator.add(transpositionTableRoot);
+            searchListenerMediator.addAcceptor(transpositionTableRoot);
         }
 
         if (transpositionPV != null) {
@@ -204,7 +204,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
 
         if (alphaBeta != null) {

@@ -3,8 +3,6 @@ package net.chesstango.search.smart.features.transposition.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
@@ -15,19 +13,16 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
  */
 @Setter
 @Getter
-public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByDepthListener {
+public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
 
     private AlphaBetaFilter next;
     protected TTable maxMap;
     protected TTable minMap;
     private Game game;
-    protected int maxPly;
 
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
-    }
+    @Setter
+    private int maxPly;
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
 

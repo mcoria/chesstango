@@ -193,66 +193,55 @@ SearchByCycleListeners:
 	SetGameEvaluator @ 81
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 82
-	SetSearchTracker @ 83
-	SetTranspositionTablesDebug @ 84
-	SetZobristMemory @ 85
-	SetNodeStatistics @ 86
+	SetSearchLast @ 83
+	SetSearchTracker @ 84
+	SetTranspositionTablesDebug @ 85
+	SetZobristMemory @ 86
+	SetNodeStatistics @ 87
 	EvaluatorStatisticsWrapper @ 22
-	SetKillerMoveTablesDebug @ 87
+	SetKillerMoveTablesDebug @ 88
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
-	AspirationWindows @ 5
-	StopProcessingCatch @ 3
 	RootMoveSorter @ 11
-	SetPVStatistics @ 88
-	SetDebugOutput @ 89
+	SetPVStatistics @ 89
+	SetDebugOutput @ 90
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 82
-	SetSearchTracker @ 83
-	AlphaBetaFlowControl @ 17
-	QuiescenceStatisticsExpected @ 44
-	QuiescenceStatisticsVisited @ 58
-	TranspositionTableQ @ 43
-	PrincipalVariationComparator @ 49
-	TranspositionTable @ 32
-	TranspositionTable @ 61
-	PrincipalVariationComparator @ 66
+	SetSearchLast @ 83
+	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	AspirationWindows @ 5
-	StopProcessingCatch @ 3
-	TranspositionTableRoot @ 7
 	TranspositionPV @ 16
-	RootMoveSorter @ 11
-	SetPVStatistics @ 88
-	SetDebugOutput @ 89
+	SetPVStatistics @ 89
+	SetDebugOutput @ 90
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 83
+	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	SetDebugOutput @ 89
+	SetDebugOutput @ 90
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
 
 ResetListener:
-	SetTranspositionTablesDebug @ 84
-	SetZobristMemory @ 85
+	SetTranspositionTablesDebug @ 85
+	SetZobristMemory @ 86
 
 Acceptor:
 	SetGameEvaluator @ 81
 	AlphaBetaFacade @ 2
-	SetSearchTracker @ 83
-	SetTranspositionTablesDebug @ 84
-	TTableDebug @ 90
+	SetSearchLast @ 83
+	SetSearchTracker @ 84
+	SetTranspositionTablesDebug @ 85
 	TTableDebug @ 91
 	TTableDebug @ 92
 	TTableDebug @ 93
-	SetNodeStatistics @ 86
-	SetKillerMoveTablesDebug @ 87
-	KillerMovesDebug @ 94
+	TTableDebug @ 94
+	SetNodeStatistics @ 87
+	SetKillerMoveTablesDebug @ 88
+	KillerMovesDebug @ 95
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
 	ZobristTracker @ 19
@@ -315,5 +304,5 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 89
+	SetDebugOutput @ 90
 

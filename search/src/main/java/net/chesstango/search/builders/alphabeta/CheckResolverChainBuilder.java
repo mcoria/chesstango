@@ -122,20 +122,20 @@ public class CheckResolverChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.add(quiescenceStatisticsExpected);
-            searchListenerMediator.add(quiescenceStatisticsVisited);
+            searchListenerMediator.addAcceptor(quiescenceStatisticsExpected);
+            searchListenerMediator.addAcceptor(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
             searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (transpositionTableQ != null) {
-            searchListenerMediator.add(transpositionTableQ);
+            searchListenerMediator.addAcceptor(transpositionTableQ);
         }
         if (debugFilter != null) {
             searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
         searchListenerMediator.addAcceptor(alphaBeta);
     }

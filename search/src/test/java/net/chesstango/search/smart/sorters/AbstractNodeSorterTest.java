@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -21,7 +20,6 @@ import java.util.List;
  */
 public abstract class AbstractNodeSorterTest {
     protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-    protected SearchByDepthContext depthContext;
 
     protected SearchListenerMediator searchListenerMediator;
     protected MoveSorterBuilder moveSorterBuilder;
@@ -45,15 +43,12 @@ public abstract class AbstractNodeSorterTest {
 
         killerMovesTable = new KillerMovesTable();
 
-        depthContext = new SearchByDepthContext(getMaxSearchPly());
-
         moveSorterBuilder = new MoveSorterBuilder()
                 .withSmartListenerMediator(searchListenerMediator);
     }
 
     protected abstract Game createGame();
 
-    protected abstract int getMaxSearchPly();
 
     protected List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();

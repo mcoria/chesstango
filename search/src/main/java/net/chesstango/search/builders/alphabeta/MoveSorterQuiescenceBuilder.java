@@ -146,7 +146,7 @@ public class MoveSorterQuiescenceBuilder {
         }
 
         if (principalVariationComparator != null) {
-            searchListenerMediator.add(principalVariationComparator);
+            searchListenerMediator.addAcceptor(principalVariationComparator);
         }
 
         if (recaptureMoveComparator != null) {

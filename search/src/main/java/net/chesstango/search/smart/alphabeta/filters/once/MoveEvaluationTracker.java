@@ -41,7 +41,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         this.currentMoveEvaluations = new LinkedList<>();
     }
 

@@ -35,7 +35,7 @@ public class TTDump implements SearchByDepthListener, Acceptor {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateDumped) {
             dumpTables(0);
             initialStateDumped = true;

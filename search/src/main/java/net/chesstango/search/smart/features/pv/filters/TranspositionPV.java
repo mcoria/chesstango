@@ -9,7 +9,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -51,6 +50,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
     @Setter
     private Game game;
 
+    @Setter
     private int maxPly;
 
     @Override
@@ -59,8 +59,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
+    public void beforeSearchByDepth() {
     }
 
     @Override

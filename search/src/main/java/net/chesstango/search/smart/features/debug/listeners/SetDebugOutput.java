@@ -38,6 +38,9 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private PrintStream debugOut;
 
     @Setter
+    private int maxPly;
+
+    @Setter
     private SearchTracker searchTracker;
 
     private List<String> debugErrorMessages;
@@ -83,8 +86,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        debugOut.printf("Search by depth %d started\n", context.getMaxPly());
+    public void beforeSearchByDepth() {
+        debugOut.printf("Search by depth %d started\n", maxPly);
     }
 
     @Override

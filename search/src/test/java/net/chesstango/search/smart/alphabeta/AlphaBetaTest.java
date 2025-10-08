@@ -8,7 +8,6 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
@@ -18,6 +17,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -147,9 +147,9 @@ public class AlphaBetaTest {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(depth);
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(depth));
 
-        searchListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         alphaBetaFacade.search();
 

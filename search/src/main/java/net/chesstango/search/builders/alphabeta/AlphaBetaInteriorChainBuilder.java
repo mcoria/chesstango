@@ -151,13 +151,13 @@ public class AlphaBetaInteriorChainBuilder {
             searchListenerMediator.addAcceptor(zobristTracker);
         }
         if (transpositionTable != null) {
-            searchListenerMediator.add(transpositionTable);
+            searchListenerMediator.addAcceptor(transpositionTable);
         }
         if (debugFilter != null) {
             searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
         if (killerMoveTracker != null) {
             searchListenerMediator.addAcceptor(killerMoveTracker);

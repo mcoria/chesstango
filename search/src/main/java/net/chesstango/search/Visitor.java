@@ -9,9 +9,11 @@ import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.features.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -202,6 +204,10 @@ public interface Visitor {
     default void visit(SetTranspositionTables setTranspositionTables) {
     }
 
+    default void visit(LeafNodeTrap leafNodeTrap){}
+
+    default void visit(SetSearchLast setSearchLast){}
+
     /**
      *
      * Sorter elements
@@ -253,5 +259,4 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
-
 }
