@@ -15,19 +15,16 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
  */
 @Setter
 @Getter
-public abstract class TranspositionTableAbstract implements AlphaBetaFilter, SearchByDepthListener {
+public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
 
     private AlphaBetaFilter next;
     protected TTable maxMap;
     protected TTable minMap;
     private Game game;
-    protected int maxPly;
 
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
-    }
+    @Setter
+    private int maxPly;
 
     protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
 

@@ -45,7 +45,7 @@ public abstract class AbstractNodeSorterTest {
 
         killerMovesTable = new KillerMovesTable();
 
-        depthContext = new SearchByDepthContext(getMaxSearchPly());
+        depthContext = new SearchByDepthContext();
 
         moveSorterBuilder = new MoveSorterBuilder()
                 .withSmartListenerMediator(searchListenerMediator);
@@ -53,7 +53,6 @@ public abstract class AbstractNodeSorterTest {
 
     protected abstract Game createGame();
 
-    protected abstract int getMaxSearchPly();
 
     protected List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();

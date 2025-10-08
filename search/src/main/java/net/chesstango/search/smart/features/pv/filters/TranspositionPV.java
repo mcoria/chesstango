@@ -51,6 +51,7 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
     @Setter
     private Game game;
 
+    @Setter
     private int maxPly;
 
     @Override
@@ -60,7 +61,6 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override

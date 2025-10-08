@@ -26,6 +26,7 @@ public class MinMax implements SearchAlgorithm {
     @Setter
     private Game game;
 
+    @Setter
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
@@ -107,7 +108,6 @@ public class MinMax implements SearchAlgorithm {
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
         this.bestMoveEvaluation = null;
     }
 

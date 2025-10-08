@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
 import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPly;
 
 
 /**
@@ -32,7 +33,9 @@ public class NoIterativeDeepening implements Search {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(maxDepth);
+        searchListenerMediator.accept(new SetSearchMaxPly(maxDepth));
+
+        SearchByDepthContext context = new SearchByDepthContext();
 
         searchListenerMediator.triggerBeforeSearchByDepth(context);
 

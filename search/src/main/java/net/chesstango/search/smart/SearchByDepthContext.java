@@ -15,8 +15,6 @@ import java.util.List;
 @Getter
 public class SearchByDepthContext {
 
-    private final int maxPly;
-
     private MoveEvaluation lastBestMoveEvaluation;
 
     private List<MoveEvaluation> lastMoveEvaluations;
@@ -28,7 +26,4 @@ public class SearchByDepthContext {
      */
     private short[][] trianglePV;
 
-    public SearchByDepthContext(int maxPly) {
-        this.maxPly = maxPly;
-    }
 }

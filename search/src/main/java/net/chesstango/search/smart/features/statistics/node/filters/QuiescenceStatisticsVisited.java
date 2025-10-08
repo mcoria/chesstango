@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
  */
 @Setter
 @Getter
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByDepthListener {
+public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
@@ -23,11 +23,6 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByDep
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override

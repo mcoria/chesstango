@@ -80,7 +80,6 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
 	SetTrianglePV @ 24
-	AlphaBetaFlowControl @ 9
 	TriangularPV @ 21
 	MoveEvaluationTracker @ 7
 	TriangularPV @ 8

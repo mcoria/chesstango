@@ -36,7 +36,7 @@ public class MoveEvaluationTrackerTest {
 
     @Test
     public void test01() {
-        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext());
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.EXACT));
@@ -67,7 +67,7 @@ public class MoveEvaluationTrackerTest {
 
     @Test
     public void test02() {
-        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext());
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
         moveEvaluationTracker.trackMoveEvaluation(new MoveEvaluation(move1, 1000, MoveEvaluationType.LOWER_BOUND));
@@ -110,7 +110,7 @@ public class MoveEvaluationTrackerTest {
 
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         moveEvaluationTracker.setGame(game);
-        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
+        moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext());
 
         game.executeMove(Square.a2, Square.a3);
         moveEvaluationTracker.process(0, -500, 500, fn);

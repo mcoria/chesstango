@@ -99,7 +99,9 @@ public class NegaMaxTest {
 
         negaMax.beforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(depth);
+        negaMax.setMaxPly(depth);
+
+        SearchByDepthContext context = new SearchByDepthContext();
 
         negaMax.beforeSearchByDepth(context);
 

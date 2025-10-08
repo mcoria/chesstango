@@ -211,18 +211,11 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 82
 	SetSearchTracker @ 83
-	AlphaBetaFlowControl @ 17
-	QuiescenceStatisticsExpected @ 44
-	QuiescenceStatisticsVisited @ 58
-	TranspositionTableQ @ 43
 	PrincipalVariationComparator @ 49
-	TranspositionTable @ 32
-	TranspositionTable @ 61
 	PrincipalVariationComparator @ 66
 	MoveEvaluationTracker @ 15
 	AspirationWindows @ 5
 	StopProcessingCatch @ 3
-	TranspositionTableRoot @ 7
 	TranspositionPV @ 16
 	RootMoveSorter @ 11
 	SetPVStatistics @ 88

@@ -196,7 +196,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (transpositionTableRoot != null) {
-            searchListenerMediator.add(transpositionTableRoot);
+            searchListenerMediator.addAcceptor(transpositionTableRoot);
         }
 
         if (transpositionPV != null) {

@@ -12,7 +12,7 @@ import net.chesstango.search.smart.*;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, StopSearchingListener {
+public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter
@@ -38,6 +38,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Setter
     private Game game;
 
+    @Setter
     private int maxPly;
 
     @Override
@@ -48,11 +49,6 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Override
     public void beforeSearch() {
         this.keepProcessing = true;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override

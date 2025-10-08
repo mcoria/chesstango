@@ -26,6 +26,7 @@ public class NegaMax implements SearchAlgorithm {
 
     private Evaluator evaluator;
 
+    @Setter
     private int maxPly;
 
     private MoveEvaluation bestMoveEvaluation;
@@ -89,7 +90,6 @@ public class NegaMax implements SearchAlgorithm {
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
         this.bestMoveEvaluation = null;
     }
 

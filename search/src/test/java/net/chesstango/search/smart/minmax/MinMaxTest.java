@@ -101,7 +101,9 @@ public class MinMaxTest {
 
         minMax.beforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(depth);
+        minMax.setMaxPly(depth);
+
+        SearchByDepthContext context = new SearchByDepthContext();
 
         minMax.beforeSearchByDepth(context);
 
