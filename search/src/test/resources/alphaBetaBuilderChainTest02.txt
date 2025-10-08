@@ -70,17 +70,15 @@ AlphaBetaFlowControl @ 9
 SearchByCycleListeners:
 	SetGameEvaluator @ 22
 	AlphaBetaFacade @ 2
-	SetSearchContext @ 23
+	SetSearchTimers @ 23
 	SetTrianglePV @ 24
 	AlphaBetaFlowControl @ 9
 	ExtensionFlowControl @ 25
-	AlphaBeta @ 15
-	AlphaBeta @ 3
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchContext @ 23
+	SetSearchTimers @ 23
 	SetTrianglePV @ 24
 	AlphaBetaFlowControl @ 9
 	TriangularPV @ 21
