@@ -71,33 +71,35 @@ SearchByCycleListeners:
 	SetGameEvaluator @ 22
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
-	SetTrianglePV @ 24
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 25
+	ExtensionFlowControl @ 26
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
-	SetTrianglePV @ 24
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	MoveEvaluationTracker @ 7
-	RootMoveSorter @ 4
 
 SearchByWindowsListeners:
 	MoveEvaluationTracker @ 7
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 25
+	ExtensionFlowControl @ 26
 
 ResetListener:
 
 Acceptor:
 	SetGameEvaluator @ 22
 	AlphaBetaFacade @ 2
-	SetTrianglePV @ 24
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 25
+	ExtensionFlowControl @ 26
 	TriangularPV @ 21
 	AlphaBeta @ 15
 	NodeMoveSorter @ 16

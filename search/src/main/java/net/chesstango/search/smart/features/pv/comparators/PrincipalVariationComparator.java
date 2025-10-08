@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator, SearchByDepthListener {
-
+public class PrincipalVariationComparator implements MoveComparator {
 
     @Getter
     @Setter
     private MoveComparator next;
 
+    @Setter
     private List<PrincipalVariation> lastPrincipalVariation;
 
     @Setter
@@ -34,11 +34,6 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.lastPrincipalVariation = context.getLastPrincipalVariation();
     }
 
     @Override

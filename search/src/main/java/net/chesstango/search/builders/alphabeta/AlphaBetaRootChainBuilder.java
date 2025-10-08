@@ -176,7 +176,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (aspirationWindows != null) {
-            searchListenerMediator.add(aspirationWindows);
+            searchListenerMediator.addAcceptor(aspirationWindows);
         }
 
         if (debugFilter != null) {
@@ -188,7 +188,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (stopProcessingCatch != null) {
-            searchListenerMediator.add(stopProcessingCatch);
+            searchListenerMediator.addAcceptor(stopProcessingCatch);
         }
 
         if (zobristTracker != null) {

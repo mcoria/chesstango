@@ -14,11 +14,4 @@ import java.util.List;
 @Setter
 @Getter
 public class SearchByDepthContext {
-
-    private MoveEvaluation lastBestMoveEvaluation;
-
-    private List<MoveEvaluation> lastMoveEvaluations;
-
-    private List<PrincipalVariation> lastPrincipalVariation;
-
 }

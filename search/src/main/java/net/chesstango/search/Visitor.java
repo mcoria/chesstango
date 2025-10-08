@@ -9,6 +9,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
@@ -204,6 +205,8 @@ public interface Visitor {
     }
 
     default void visit(LeafNodeTrap leafNodeTrap){}
+
+    default void visit(SetSearchLast setSearchLast){}
 
     /**
      *

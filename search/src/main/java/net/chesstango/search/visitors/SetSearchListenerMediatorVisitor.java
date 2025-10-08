@@ -2,6 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
@@ -50,4 +51,8 @@ public class SetSearchListenerMediatorVisitor implements Visitor {
         setTrianglePV.setSearchListenerMediator(searchListenerMediator);
     }
 
+    @Override
+    public void visit(SetSearchLast setSearchLast) {
+        setSearchLast.setSearchListenerMediator(searchListenerMediator);
+    }
 }
