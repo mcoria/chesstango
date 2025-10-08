@@ -175,7 +175,7 @@ public class QuiescenceChainBuilder {
             searchListenerMediator.addAcceptor(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
         searchListenerMediator.addAcceptor(quiescence);
     }

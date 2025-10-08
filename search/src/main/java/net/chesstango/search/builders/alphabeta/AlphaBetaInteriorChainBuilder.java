@@ -157,7 +157,7 @@ public class AlphaBetaInteriorChainBuilder {
             searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
         if (killerMoveTracker != null) {
             searchListenerMediator.addAcceptor(killerMoveTracker);

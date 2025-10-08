@@ -9,6 +9,8 @@ import net.chesstango.search.*;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.visitors.SetTrianglePVVisitor;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -21,6 +23,9 @@ import java.util.List;
 public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener, Acceptor {
 
     @Setter
+    private SearchListenerMediator searchListenerMediator;
+
+    @Setter
     private Evaluator evaluator;
 
     private final short[][] trianglePV;
@@ -29,6 +34,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     private Game game;
 
     private List<PrincipalVariation> principalVariation;
+
     private boolean pvComplete;
 
     public SetTrianglePV() {
@@ -46,7 +52,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void beforeSearchByDepth(SearchByDepthContext context) {
-        context.setTrianglePV(trianglePV);
+        searchListenerMediator.accept(new SetTrianglePVVisitor(trianglePV));
     }
 
     @Override

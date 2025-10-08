@@ -13,7 +13,7 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetSearchMaxPly;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -128,7 +128,7 @@ public class NegaMaxPruningTest {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetSearchMaxPly(depth));
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(depth));
 
         SearchByDepthContext context = new SearchByDepthContext();
 

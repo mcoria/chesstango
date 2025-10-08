@@ -80,9 +80,7 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
 	SetTrianglePV @ 24
-	TriangularPV @ 21
 	MoveEvaluationTracker @ 7
-	TriangularPV @ 8
 	RootMoveSorter @ 4
 
 SearchByWindowsListeners:

@@ -21,9 +21,4 @@ public class SearchByDepthContext {
 
     private List<PrincipalVariation> lastPrincipalVariation;
 
-    /**
-     * Se utiliza para el calculo de PV
-     */
-    private short[][] trianglePV;
-
 }

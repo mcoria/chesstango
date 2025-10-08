@@ -204,7 +204,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (triangularPV != null) {
-            searchListenerMediator.add(triangularPV);
+            searchListenerMediator.addAcceptor(triangularPV);
         }
 
         if (alphaBeta != null) {

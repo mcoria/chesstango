@@ -17,10 +17,10 @@ import net.chesstango.search.smart.negamax.NegaMaxPruning;
  *
  * @author Mauricio Coria
  */
-public class SetSearchMaxPly implements Visitor {
+public class SetSearchMaxPlyVisitor implements Visitor {
     private final int maxPly;
 
-    public SetSearchMaxPly(int maxPly) {
+    public SetSearchMaxPlyVisitor(int maxPly) {
         this.maxPly = maxPly;
     }
 
