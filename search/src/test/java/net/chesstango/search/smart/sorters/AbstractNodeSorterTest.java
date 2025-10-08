@@ -4,11 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.*;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableMap;
@@ -23,7 +21,6 @@ import java.util.List;
  */
 public abstract class AbstractNodeSorterTest {
     protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-    protected SearchByCycleContext cycleContext;
     protected SearchByDepthContext depthContext;
 
     protected SearchListenerMediator searchListenerMediator;
@@ -40,8 +37,6 @@ public abstract class AbstractNodeSorterTest {
         game = createGame();
 
         searchListenerMediator = new SearchListenerMediator();
-
-        cycleContext = new SearchByCycleContext();
 
         maxMap = new TTableMap();
         minMap = new TTableMap();

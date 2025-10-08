@@ -46,7 +46,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.keepProcessing = true;
     }
 

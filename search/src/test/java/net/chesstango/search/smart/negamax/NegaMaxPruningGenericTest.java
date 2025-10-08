@@ -29,7 +29,7 @@ public class NegaMaxPruningGenericTest extends GenericTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAll(List.of(negaMaxPruning, moveSorter));
+        searchListenerMediator.addAllAcceptor(List.of(negaMaxPruning, moveSorter));
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, searchListenerMediator);
         noIterativeDeepening.accept(new SetMaxDepthVisitor(1));

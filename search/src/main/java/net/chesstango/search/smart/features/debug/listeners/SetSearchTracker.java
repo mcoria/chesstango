@@ -35,14 +35,14 @@ public class SetSearchTracker implements SearchByCycleListener, SearchByDepthLis
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         searchTracker = new SearchTracker();
         searchTracker.setGame(game);
 
         searchListenerMediator.accept(new SetSearchTrackerVisitor(searchTracker));
 
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.beforeSearch(context);
+            debugNodeTrapSearchByCycleListener.beforeSearch();
         }
     }
 

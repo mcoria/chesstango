@@ -38,7 +38,7 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         searchListenerMediator.accept(new SetGameVisitor(game));
         searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
+        searchListenerMediator.triggerBeforeSearch();
         searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);

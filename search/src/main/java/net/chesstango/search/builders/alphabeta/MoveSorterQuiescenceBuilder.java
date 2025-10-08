@@ -135,7 +135,7 @@ public class MoveSorterQuiescenceBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.addAcceptor(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
             searchListenerMediator.addAcceptor(transpositionHeadMoveComparator);
@@ -150,11 +150,11 @@ public class MoveSorterQuiescenceBuilder {
         }
 
         if (recaptureMoveComparator != null) {
-            searchListenerMediator.add(recaptureMoveComparator);
+            searchListenerMediator.addAcceptor(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            searchListenerMediator.add(gameEvaluatorCacheComparator);
+            searchListenerMediator.addAcceptor(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {

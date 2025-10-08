@@ -1,7 +1,6 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.EvaluatorCacheRead;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -150,7 +149,7 @@ public class MoveSorterBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.addAcceptor(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
             searchListenerMediator.addAcceptor(transpositionHeadMoveComparator);
@@ -173,11 +172,11 @@ public class MoveSorterBuilder {
         }
 
         if (recaptureMoveComparator != null) {
-            searchListenerMediator.add(recaptureMoveComparator);
+            searchListenerMediator.addAcceptor(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            searchListenerMediator.add(gameEvaluatorCacheComparator);
+            searchListenerMediator.addAcceptor(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {

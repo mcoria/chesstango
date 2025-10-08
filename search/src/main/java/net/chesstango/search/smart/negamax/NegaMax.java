@@ -83,7 +83,7 @@ public class NegaMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.evaluator.setGame(game);
     }
 

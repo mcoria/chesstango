@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -41,7 +40,7 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListen
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.lastBestMoveEvaluation = null;
     }
 

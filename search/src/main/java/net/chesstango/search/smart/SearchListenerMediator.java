@@ -32,8 +32,8 @@ public class SearchListenerMediator implements Acceptor {
         acceptors.forEach(acceptor -> acceptor.accept(visitor));
     }
 
-    public void triggerBeforeSearch(SearchByCycleContext context) {
-        searchByCycleListeners.forEach(filter -> filter.beforeSearch(context));
+    public void triggerBeforeSearch() {
+        searchByCycleListeners.forEach(filter -> filter.beforeSearch());
     }
 
     public void triggerAfterSearch(SearchResult result) {
@@ -101,6 +101,10 @@ public class SearchListenerMediator implements Acceptor {
         }
     }
 
+    public void addAll(List<SearchListener> listeners) {
+        listeners.forEach(this::add);
+    }
+
     public void addAcceptor(Acceptor acceptor) {
         if (acceptors.contains(acceptor)
         ) {
@@ -110,7 +114,7 @@ public class SearchListenerMediator implements Acceptor {
         acceptors.add(acceptor);
     }
 
-    public void addAll(List<SearchListener> listeners) {
-        listeners.forEach(this::add);
+    public void addAllAcceptor(List<Acceptor> listeners) {
+        listeners.forEach(this::addAcceptor);
     }
 }

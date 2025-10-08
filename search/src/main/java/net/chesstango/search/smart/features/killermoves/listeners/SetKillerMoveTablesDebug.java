@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
@@ -15,7 +14,7 @@ import net.chesstango.search.visitors.SetKillerMovesVisitor;
  * @author Mauricio Coria
  */
 @Getter
-public class SetKillerMoveTablesDebug implements SearchByCycleListener, Acceptor {
+public class SetKillerMoveTablesDebug implements Acceptor {
 
     private final KillerMovesDebug killerMovesDebug;
 
@@ -32,10 +31,5 @@ public class SetKillerMoveTablesDebug implements SearchByCycleListener, Acceptor
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesDebug));
     }
 }

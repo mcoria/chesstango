@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -221,9 +220,6 @@ public class DefaultMoveSorterTest {
 
     private void initMoveSorter(NodeMoveSorter nodeMoveSorter, Game game) {
         nodeMoveSorter.setGame(game);
-
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-        nodeMoveSorter.beforeSearch(searchByCycleContext);
     }
 
 }

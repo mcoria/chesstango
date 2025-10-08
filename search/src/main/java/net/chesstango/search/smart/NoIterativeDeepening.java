@@ -30,9 +30,7 @@ public class NoIterativeDeepening implements Search {
     public SearchResult startSearch(Game game) {
         accept(new SetGameVisitor(game));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         SearchByDepthContext context = new SearchByDepthContext(maxDepth);
 

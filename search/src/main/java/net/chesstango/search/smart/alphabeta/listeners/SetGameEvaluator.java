@@ -5,7 +5,6 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
@@ -15,6 +14,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 public class SetGameEvaluator implements SearchByCycleListener, Acceptor {
 
     private Game game;
+
     private Evaluator evaluator;
 
     @Override
@@ -23,7 +23,7 @@ public class SetGameEvaluator implements SearchByCycleListener, Acceptor {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         evaluator.setGame(game);
     }
 

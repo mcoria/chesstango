@@ -56,7 +56,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.txt", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);

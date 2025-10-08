@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
@@ -35,7 +34,7 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.executedMoves = 0;
         this.visitedNodesCounters = new int[30];
         this.expectedNodesCounters = new int[30];

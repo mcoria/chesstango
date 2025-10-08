@@ -10,7 +10,7 @@ public interface SearchByCycleListener extends SearchListener {
     /**
      * Invoked once before searching
      */
-    void beforeSearch(SearchByCycleContext context);
+    void beforeSearch();
 
 
     /**

@@ -10,7 +10,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -37,7 +36,6 @@ public class MoveEvaluationTrackerTest {
 
     @Test
     public void test01() {
-        moveEvaluationTracker.beforeSearch(new SearchByCycleContext());
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
@@ -69,7 +67,6 @@ public class MoveEvaluationTrackerTest {
 
     @Test
     public void test02() {
-        moveEvaluationTracker.beforeSearch(new SearchByCycleContext());
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
@@ -113,7 +110,6 @@ public class MoveEvaluationTrackerTest {
 
         Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
         moveEvaluationTracker.setGame(game);
-        moveEvaluationTracker.beforeSearch(new SearchByCycleContext());
         moveEvaluationTracker.beforeSearchByDepth(new SearchByDepthContext(1));
 
         game.executeMove(Square.a2, Square.a3);

@@ -114,9 +114,9 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         if (moveSorter instanceof SearchByCycleListener moveSorterListener) {
-            moveSorterListener.beforeSearch(context);
+            moveSorterListener.beforeSearch();
         }
         this.negaQuiescence.setupGameEvaluator(game);
     }

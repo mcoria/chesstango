@@ -11,7 +11,6 @@ import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -57,7 +56,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.bestMoveEvaluation = null;
     }
 

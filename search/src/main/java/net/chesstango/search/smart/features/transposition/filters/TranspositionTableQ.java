@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.features.transposition.filters;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**

@@ -392,7 +392,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
         } else if (setKillerMoveTablesDebug != null) {
-            searchListenerMediator.add(setKillerMoveTablesDebug);
+            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug);
             searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 

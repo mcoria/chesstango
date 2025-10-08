@@ -11,7 +11,6 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 
 import java.util.ArrayList;
@@ -100,7 +99,7 @@ public class MinMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.evaluator.setGame(game);

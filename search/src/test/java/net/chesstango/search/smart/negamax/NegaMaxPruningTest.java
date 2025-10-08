@@ -8,7 +8,6 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -52,7 +51,7 @@ public class NegaMaxPruningTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator.addAllAcceptor(List.of(moveSorter, negaMaxPruning));
         acceptors = List.of(moveSorter, negaMaxPruning);
     }
 
@@ -125,9 +124,7 @@ public class NegaMaxPruningTest {
 
         acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 

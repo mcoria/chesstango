@@ -74,14 +74,8 @@ SearchByCycleListeners:
 	SetTrianglePV @ 24
 	AlphaBetaFlowControl @ 9
 	ExtensionFlowControl @ 25
-	TriangularPV @ 21
 	AlphaBeta @ 15
-	NodeMoveSorter @ 16
-	RecaptureMoveComparator @ 19
-	MoveEvaluationTracker @ 7
-	TriangularPV @ 8
 	AlphaBeta @ 3
-	NodeMoveSorter @ 5
 	RootMoveSorter @ 4
 
 SearchByDepthListener:

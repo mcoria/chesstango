@@ -7,7 +7,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.visitors.SetKillerMovesVisitor;
 
@@ -31,7 +30,7 @@ public class SetKillerMoveTables implements SearchByCycleListener, Acceptor {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         searchListenerMediator.accept(new SetKillerMovesVisitor(killerMoves));
     }
 

@@ -7,7 +7,6 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.LinkedHashSet;
@@ -55,7 +54,7 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();

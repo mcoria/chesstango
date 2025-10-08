@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthListener, SearchByWindowsListener {
 
     @Setter
     @Getter
@@ -38,10 +38,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
     }
 
     @Override

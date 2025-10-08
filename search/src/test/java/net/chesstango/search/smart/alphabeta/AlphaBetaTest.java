@@ -8,7 +8,6 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
@@ -23,7 +22,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,7 +73,7 @@ public class AlphaBetaTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.searchListenerMediator.addAll(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.searchListenerMediator.addAllAcceptor(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
         this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade);
     }
 
@@ -147,8 +145,7 @@ public class AlphaBetaTest {
         SetGameVisitor setGameVisitor = new SetGameVisitor(game);
         acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 

@@ -31,7 +31,7 @@ public class BestMovesWhiteTest extends AbstractBestMovesWhiteTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator.addAllAcceptor(List.of(moveSorter, negaMaxPruning));
 
         IterativeDeepening iterativeDeepening = new IterativeDeepening(negaMaxPruning, searchListenerMediator);
 

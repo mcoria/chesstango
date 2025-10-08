@@ -211,7 +211,7 @@ public class AlphaBetaRootChainBuilder {
             searchListenerMediator.add(alphaBeta);
         }
 
-        searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.addAcceptor(nodeMoveSorter);
         searchListenerMediator.add(rootMoveSorter);
     }
 

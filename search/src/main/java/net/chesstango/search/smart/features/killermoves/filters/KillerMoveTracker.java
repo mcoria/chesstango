@@ -7,8 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**

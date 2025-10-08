@@ -42,8 +42,7 @@ public class IterativeDeepening implements Search {
 
         accept(new SetGameVisitor(game));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         int currentSearchDepth = 1;
         SearchResult searchResult = new SearchResult();

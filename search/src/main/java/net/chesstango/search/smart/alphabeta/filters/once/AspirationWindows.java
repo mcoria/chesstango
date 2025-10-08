@@ -30,7 +30,7 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         lastBestValue = null;
     }
 

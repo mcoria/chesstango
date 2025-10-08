@@ -2,8 +2,6 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 
 /**
  * @author Mauricio Coria
