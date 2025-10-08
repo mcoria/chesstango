@@ -1,7 +1,10 @@
 package net.chesstango.search.smart.features.transposition.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -18,7 +21,8 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class TTDump implements SearchByCycleListener, SearchByDepthListener {
+@Setter
+public class TTDump implements SearchByDepthListener, Acceptor {
     private Game game;
     private TTable maxMap;
     private TTable minMap;
@@ -26,10 +30,8 @@ public class TTDump implements SearchByCycleListener, SearchByDepthListener {
     private boolean initialStateDumped = false;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

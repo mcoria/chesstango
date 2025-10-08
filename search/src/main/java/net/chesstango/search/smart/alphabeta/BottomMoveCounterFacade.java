@@ -10,7 +10,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
@@ -42,9 +41,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     private EPD epd;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-
+    public void beforeSearch() {
         GameMoveDecoder moveDecoder = new GameMoveDecoder();
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");

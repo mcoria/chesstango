@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
+import net.chesstango.search.visitors.SetGameVisitor;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -39,9 +40,9 @@ public class IterativeDeepening implements Search {
     public SearchResult startSearch(final Game game) {
         keepProcessing = true;
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        accept(new SetGameVisitor(game));
 
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         int currentSearchDepth = 1;
         SearchResult searchResult = new SearchResult();

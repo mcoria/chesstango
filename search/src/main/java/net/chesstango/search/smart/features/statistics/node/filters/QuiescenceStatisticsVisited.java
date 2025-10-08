@@ -2,33 +2,27 @@ package net.chesstango.search.smart.features.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
-import net.chesstango.search.Visitor;
-
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+@Setter
+@Getter
+public class QuiescenceStatisticsVisited implements AlphaBetaFilter, SearchByDepthListener {
 
-    @Setter
-    @Getter
     private AlphaBetaFilter next;
+
     private int[] visitedNodesCounters;
+
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCountersQuiescence();
     }
 
     @Override

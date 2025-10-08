@@ -1,10 +1,9 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
@@ -25,7 +24,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
@@ -37,7 +36,10 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
+
+    @Setter
     private SearchTracker searchTracker;
+
     private List<String> debugErrorMessages;
 
     public SetDebugOutput(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
@@ -49,9 +51,12 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        searchTracker = context.getSearchTracker();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
+    @Override
+    public void beforeSearch() {
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.txt", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);

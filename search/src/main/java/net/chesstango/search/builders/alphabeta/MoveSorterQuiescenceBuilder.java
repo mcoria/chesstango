@@ -1,18 +1,23 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.sorters.MoveComparator;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.*;
+import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.smart.sorters.comparators.MvvLvaComparator;
+import net.chesstango.search.smart.sorters.comparators.PromotionComparator;
+import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,8 +30,8 @@ public class MoveSorterQuiescenceBuilder {
     private SearchListenerMediator searchListenerMediator;
     private DefaultMoveComparator defaultMoveComparator;
     private RecaptureMoveComparator recaptureMoveComparator;
-    private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
-    private TranspositionTailMoveComparator transpositionTailMoveComparator;
+    private TranspositionHeadMoveComparatorQ transpositionHeadMoveComparator;
+    private TranspositionTailMoveComparatorQ transpositionTailMoveComparator;
     private MvvLvaComparator mvvLvaComparator;
     private PromotionComparator promotionComparator;
     private PrincipalVariationComparator principalVariationComparator;
@@ -96,8 +101,8 @@ public class MoveSorterQuiescenceBuilder {
         defaultMoveComparator = new DefaultMoveComparator();
 
         if (withTranspositionTable) {
-            transpositionHeadMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
-            transpositionTailMoveComparator = new TranspositionTailMoveComparator(SearchByCycleContext::getQMaxMap, SearchByCycleContext::getQMinMap);
+            transpositionHeadMoveComparator = new TranspositionHeadMoveComparatorQ();
+            transpositionTailMoveComparator = new TranspositionTailMoveComparatorQ();
 
             principalVariationComparator = new PrincipalVariationComparator();
         }
@@ -130,14 +135,14 @@ public class MoveSorterQuiescenceBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.add(nodeMoveSorter);
+        searchListenerMediator.addAcceptor(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
-            searchListenerMediator.add(transpositionHeadMoveComparator);
+            searchListenerMediator.addAcceptor(transpositionHeadMoveComparator);
         }
 
         if (transpositionTailMoveComparator != null) {
-            searchListenerMediator.add(transpositionTailMoveComparator);
+            searchListenerMediator.addAcceptor(transpositionTailMoveComparator);
         }
 
         if (principalVariationComparator != null) {
@@ -145,19 +150,19 @@ public class MoveSorterQuiescenceBuilder {
         }
 
         if (recaptureMoveComparator != null) {
-            searchListenerMediator.add(recaptureMoveComparator);
+            searchListenerMediator.addAcceptor(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            searchListenerMediator.add(gameEvaluatorCacheComparator);
+            searchListenerMediator.addAcceptor(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
+            searchListenerMediator.addAcceptor(moveSorterDebug);
         }
 
         if (gameEvaluatorCacheDebug != null) {
-            searchListenerMediator.add(gameEvaluatorCacheDebug);
+            searchListenerMediator.addAcceptor(gameEvaluatorCacheDebug);
         }
 
     }
@@ -193,16 +198,16 @@ public class MoveSorterQuiescenceBuilder {
             MoveComparator next = chain.get(i + 1);
 
             switch (currentComparator) {
-                case TranspositionHeadMoveComparator headMoveComparator ->
-                        transpositionHeadMoveComparator.setNext(next);
-                case TranspositionTailMoveComparator tailMoveComparator ->
-                        transpositionTailMoveComparator.setNext(next);
-                case RecaptureMoveComparator moveComparator -> recaptureMoveComparator.setNext(next);
-                case GameEvaluatorCacheComparator evaluatorCacheComparator ->
-                        gameEvaluatorCacheComparator.setNext(next);
-                case MvvLvaComparator lvaComparator -> mvvLvaComparator.setNext(next);
-                case PromotionComparator comparator -> promotionComparator.setNext(next);
-                case PrincipalVariationComparator variationComparator -> principalVariationComparator.setNext(next);
+                case TranspositionHeadMoveComparator headMoveComparator -> headMoveComparator.setNext(next);
+                case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
+                case TranspositionHeadMoveComparatorQ headMoveComparatorQ  -> headMoveComparatorQ.setNext(next);
+                case TranspositionTailMoveComparatorQ tailMoveComparatorQ  -> tailMoveComparatorQ.setNext(next);
+                case RecaptureMoveComparator recaptureMoveComparatorFilter -> recaptureMoveComparatorFilter.setNext(next);
+                case GameEvaluatorCacheComparator gameEvaluatorCacheComparatorFilter -> gameEvaluatorCacheComparatorFilter.setNext(next);
+                case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
+                case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
+                case PromotionComparator promotionComparatorFilter -> promotionComparatorFilter.setNext(next);
+                case PrincipalVariationComparator variationComparator -> variationComparator.setNext(next);
                 case null, default -> throw new RuntimeException("Unknow MoveComparator");
             }
         }

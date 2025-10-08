@@ -25,5 +25,4 @@ public class SetSearchByDepthListenerVisitor implements Visitor {
     public void visit(IterativeDeepening iterativeDeepening) {
         iterativeDeepening.setSearchResultByDepthListener(searchResultByDepthListener);
     }
-
 }

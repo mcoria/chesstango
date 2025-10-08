@@ -88,13 +88,13 @@ public class TerminalChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            searchListenerMediator.addAcceptor(zobristTracker);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
         if (transpositionTableTerminal != null) {
-            searchListenerMediator.add(transpositionTableTerminal);
+            searchListenerMediator.addAcceptor(transpositionTableTerminal);
         }
     }
 

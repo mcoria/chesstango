@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -14,22 +13,19 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 /**
  * @author Mauricio Coria
  */
-public class TriangularPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class TriangularPV implements AlphaBetaFilter, SearchByDepthListener {
     @Setter
     @Getter
     private AlphaBetaFilter next;
 
     private short[][] trianglePV;
+
+    @Setter
     private Game game;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
     }
 
     @Override

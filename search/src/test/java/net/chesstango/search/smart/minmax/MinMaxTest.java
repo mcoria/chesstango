@@ -7,7 +7,6 @@ import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -98,9 +97,9 @@ public class MinMaxTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        minMax.setGame(game);
 
-        minMax.beforeSearch(searchByCycleContext);
+        minMax.beforeSearch();
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 

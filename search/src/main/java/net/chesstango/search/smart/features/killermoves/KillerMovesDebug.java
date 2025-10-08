@@ -3,8 +3,8 @@ package net.chesstango.search.smart.features.killermoves;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 
@@ -15,15 +15,15 @@ import java.util.List;
  */
 @Setter
 @Getter
-public class KillerMovesDebug implements KillerMoves, SearchByCycleListener {
+public class KillerMovesDebug implements KillerMoves, Acceptor {
 
     private SearchTracker searchTracker;
 
     private KillerMoves killerMovesImp;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.searchTracker = context.getSearchTracker();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

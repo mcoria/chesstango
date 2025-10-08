@@ -13,11 +13,11 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
@@ -29,7 +29,7 @@ import net.chesstango.search.smart.features.transposition.listeners.SetTransposi
  * @author Mauricio Corias
  */
 public class BottomMoveCounterBuilder implements SearchBuilder {
-    private final SetSearchContext setSearchContext;
+    private final SetSearchTimers setSearchTimers;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
     private final TerminalChainBuilder quiescenceTerminalChainBuilder;
@@ -51,7 +51,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
-    private SetKillerMoveDebug setKillerMoveDebug;
+    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
     private SetDebugOutput setDebugOutput;
@@ -87,7 +87,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
 
-        setSearchContext = new SetSearchContext();
+        setSearchTimers = new SetSearchTimers();
 
         terminalChainBuilder = new TerminalChainBuilder();
         quiescenceTerminalChainBuilder = new TerminalChainBuilder();
@@ -263,7 +263,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         if (withKillerMoveSorter) {
             if (withDebugSearchTree) {
-                setKillerMoveDebug = new SetKillerMoveDebug();
+                setKillerMoveTablesDebug = new SetKillerMoveTablesDebug();
             } else {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
@@ -277,7 +277,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         searchListenerMediator.add(bottomMoveCounterFacade);
 
-        searchListenerMediator.add(setSearchContext);
+        searchListenerMediator.add(setSearchTimers);
 
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);
@@ -287,10 +287,10 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
             searchListenerMediator.add(setTranspositionTables);
         } else if (setTranspositionTablesDebug != null) {
             searchListenerMediator.add(setTranspositionTablesDebug);
-            searchListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getMinMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMinMap());
         }
 
         if (setNodeStatistics != null) {
@@ -303,9 +303,9 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
-        } else if (setKillerMoveDebug != null) {
-            searchListenerMediator.add(setKillerMoveDebug);
-            searchListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
+        } else if (setKillerMoveTablesDebug != null) {
+            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug);
+            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);

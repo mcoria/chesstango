@@ -8,6 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -32,7 +35,9 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
+        searchListenerMediator.accept(new SetGameVisitor(game));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+
         searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);
@@ -55,7 +60,10 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
+        searchListenerMediator.accept(new SetGameVisitor(game));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
+
         searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);

@@ -1,17 +1,16 @@
 package net.chesstango.search.smart.sorters;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -24,7 +23,11 @@ import java.util.stream.Stream;
  */
 public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
     @Getter
-    private final NodeMoveSorter nodeMoveSorter;
+    @Setter
+    private NodeMoveSorter nodeMoveSorter;
+
+    @Setter
+    private Game game;
 
     private boolean maximize;
     private int numberOfMove;
@@ -32,27 +35,15 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     private List<MoveEvaluation> lastMoveEvaluations;
 
 
-    public RootMoveSorter() {
-        this.nodeMoveSorter = new NodeMoveSorter();
-        this.nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
-    }
-
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
-        this.nodeMoveSorter.beforeSearch(context);
+    public void beforeSearch() {
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
-    }
-
-    @Override
-    public void afterSearch(SearchResult result) {
-        this.nodeMoveSorter.afterSearch(result);
     }
 
     @Override

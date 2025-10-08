@@ -63,7 +63,7 @@ public class QuiescenceNullChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
+            searchListenerMediator.addAcceptor(zobristTracker);
         }
     }
 

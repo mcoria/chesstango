@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.ArrayList;
@@ -17,11 +16,12 @@ import java.util.function.Predicate;
 /**
  * @author Mauricio Coria
  */
-public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
+public class NodeMoveSorter implements MoveSorter {
     private final Predicate<Move> filter;
 
     private final MoveToHashMap moveToZobrist;
 
+    @Setter
     private Game game;
 
     @Getter
@@ -60,10 +60,5 @@ public class NodeMoveSorter implements MoveSorter, SearchByCycleListener {
         moveComparator.afterSort(currentPly, moveToZobrist);
 
         return moveList;
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        game = context.getGame();
     }
 }

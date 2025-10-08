@@ -8,7 +8,6 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
@@ -34,7 +33,7 @@ public class TranspositionHeadMoveComparatorTest {
     public void setup() {
         maxMap = new TTableMap();
         minMap = new TTableMap();
-        headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+        headMoveComparator = new TranspositionHeadMoveComparator();
         headMoveComparator.setNext(new DefaultMoveComparator());
     }
 
@@ -81,11 +80,9 @@ public class TranspositionHeadMoveComparatorTest {
     }
 
     private void initMoveSorter(Game game) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
-        searchByCycleContext.setMaxMap(maxMap);
-        searchByCycleContext.setMinMap(minMap);
-
-        headMoveComparator.beforeSearch(searchByCycleContext);
+        headMoveComparator.setGame(game);
+        headMoveComparator.setMaxMap(maxMap);
+        headMoveComparator.setMinMap(minMap);
     }
 
 }

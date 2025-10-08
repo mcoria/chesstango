@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -14,13 +13,13 @@ import java.util.LinkedList;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchContext implements SearchByCycleListener, SearchByDepthListener {
+public class SetSearchTimers implements SearchByCycleListener, SearchByDepthListener {
     private SearchResultByDepth lastSearchResultByDepth;
     private Instant startInstant;
     private Instant startDepthInstant;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         this.lastSearchResultByDepth = null;
         this.startInstant = Instant.now();
     }

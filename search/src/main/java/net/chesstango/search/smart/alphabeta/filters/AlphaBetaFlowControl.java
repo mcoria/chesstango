@@ -35,8 +35,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter leafNode;
 
-    private int maxPly;
+    @Setter
     private Game game;
+
+    private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
@@ -44,8 +46,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void beforeSearch() {
         this.keepProcessing = true;
     }
 

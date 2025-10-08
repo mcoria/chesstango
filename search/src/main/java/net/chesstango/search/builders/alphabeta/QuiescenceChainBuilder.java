@@ -165,19 +165,19 @@ public class QuiescenceChainBuilder {
             searchListenerMediator.add(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (transpositionTableQ != null) {
             searchListenerMediator.add(transpositionTableQ);
         }
         if (withDebugSearchTree) {
-            searchListenerMediator.add(debugFilter);
-            searchListenerMediator.add(gameEvaluatorDebug);
+            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.addAcceptor(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.add(quiescence);
+        searchListenerMediator.addAcceptor(quiescence);
     }
 
     private AlphaBetaFilter createChain() {

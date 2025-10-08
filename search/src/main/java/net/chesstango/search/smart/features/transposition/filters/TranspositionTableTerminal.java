@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
@@ -13,30 +11,22 @@ import net.chesstango.search.smart.features.transposition.TranspositionBound;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycleListener {
+@Setter
+public class TranspositionTableTerminal implements AlphaBetaFilter {
 
     private Game game;
+
     private TTable maxMap;
     private TTable minMap;
     private TTable maxQMap;
     private TTable minQMap;
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.maxQMap = context.getQMaxMap();
-        this.minQMap = context.getQMinMap();
     }
 
 

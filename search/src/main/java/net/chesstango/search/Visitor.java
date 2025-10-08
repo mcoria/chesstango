@@ -8,24 +8,43 @@ import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.TTDump;
+import net.chesstango.search.smart.features.transposition.listeners.TTLoad;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.minmax.MinMax;
+import net.chesstango.search.smart.negamax.NegaMax;
+import net.chesstango.search.smart.negamax.NegaMaxPruning;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -45,8 +64,26 @@ public interface Visitor {
     default void visit(NoIterativeDeepening noIterativeDeepening) {
     }
 
+    /**
+     * Facades
+     */
     default void visit(AlphaBetaFacade alphaBetaFacade) {
     }
+
+    default void visit(MinMax minMax) {
+    }
+
+    default void visit(NegaMax negaMax) {
+    }
+
+    default void visit(NegaMaxPruning negaMaxPruning) {
+    }
+
+
+    /**
+     * Alpha Beta filters
+     *
+     */
 
     default void visit(AspirationWindows aspirationWindows) {
     }
@@ -99,10 +136,13 @@ public interface Visitor {
     default void visit(TranspositionTableQ transpositionTableQ) {
     }
 
-    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
+    default void visit(Quiescence quiescence) {
     }
 
-    default void visit(Quiescence quiescence) {
+    default void visit(QuiescenceNull quiescenceNull) {
+    }
+
+    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
     }
 
     default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
@@ -112,6 +152,54 @@ public interface Visitor {
     }
 
     default void visit(ZobristTracker zobristTracker) {
+    }
+
+    default void visit(TTDump ttDump) {
+    }
+
+    default void visit(TTLoad ttLoad) {
+    }
+
+    /**
+     *
+     * Setter elements
+     */
+    default void visit(SetGameEvaluator setGameEvaluator) {
+    }
+
+    default void visit(SetTrianglePV setTrianglePV) {
+    }
+
+    default void visit(SetNodeStatistics setNodeStatistics) {
+    }
+
+    default void visit(SetSearchTracker setSearchTracker) {
+    }
+
+    default void visit(SetDebugOutput setDebugOutput) {
+    }
+
+    default void visit(KillerMovesDebug killerMovesDebug) {
+    }
+
+
+    default void visit(TTableDebug tableDebug) {
+    }
+
+    default void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
+    }
+
+
+    default void visit(EvaluatorDebug evaluatorDebug) {
+    }
+
+    default void visit(SetKillerMoveTables setKillerMoveTables) {
+    }
+
+    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
+    }
+
+    default void visit(SetTranspositionTables setTranspositionTables) {
     }
 
     /**
@@ -143,6 +231,11 @@ public interface Visitor {
     default void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
     }
 
+    default void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
+    }
+
+    default void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ){}
+
     default void visit(QuietComparator quietComparator) {
     }
 
@@ -160,4 +253,5 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
+
 }

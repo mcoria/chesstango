@@ -1,31 +1,48 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
+import net.chesstango.search.visitors.SetSearchTrackerVisitor;
 
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
-    private SearchTracker searchTracker;
+public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private final DebugNodeTrap debugNodeTrap;
+
+    private SearchTracker searchTracker;
+
+    @Setter
+    private Game game;
+
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
 
     public SetSearchTracker(DebugNodeTrap debugNodeTrap) {
         this.debugNodeTrap = debugNodeTrap;
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        searchTracker = new SearchTracker();
-        searchTracker.setGame(context.getGame());
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
-        context.setSearchTracker(searchTracker);
+    @Override
+    public void beforeSearch() {
+        searchTracker = new SearchTracker();
+        searchTracker.setGame(game);
+
+        searchListenerMediator.accept(new SetSearchTrackerVisitor(searchTracker));
 
         if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.beforeSearch(context);
+            debugNodeTrapSearchByCycleListener.beforeSearch();
         }
     }
 

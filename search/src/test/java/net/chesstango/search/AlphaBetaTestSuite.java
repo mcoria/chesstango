@@ -29,7 +29,8 @@ import org.junit.platform.suite.api.Suite;
         BestMovesWhiteTest.class,
 
         TranspositionEntryTableTest.class,
-        MoveEvaluationTrackerTest.class
+        MoveEvaluationTrackerTest.class,
+        AlphaBetaSearchesTest.class,
 })
 public class AlphaBetaTestSuite {
 

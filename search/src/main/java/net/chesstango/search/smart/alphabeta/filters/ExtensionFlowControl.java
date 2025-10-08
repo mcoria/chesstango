@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.StopSearchingListener;
 
@@ -37,6 +36,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter loopNode;
 
+    @Setter
     private Game game;
 
     @Override
@@ -45,8 +45,7 @@ public class ExtensionFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void beforeSearch() {
         this.keepProcessing = true;
     }
 

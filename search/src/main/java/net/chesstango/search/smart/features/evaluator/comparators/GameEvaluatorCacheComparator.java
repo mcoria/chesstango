@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -16,7 +15,7 @@ import net.chesstango.search.smart.sorters.MoveComparator;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCycleListener {
+public class GameEvaluatorCacheComparator implements MoveComparator {
 
     @Getter
     @Setter
@@ -26,19 +25,15 @@ public class GameEvaluatorCacheComparator implements MoveComparator, SearchByCyc
     @Setter
     private EvaluatorCacheRead evaluatorCacheRead;
 
+    @Setter
     private Game game;
+
     private MoveToHashMap moveToZobrist;
     private Color currentTurn;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-
     }
 
     @Override

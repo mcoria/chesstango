@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -7,6 +8,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.*;
 
 import java.util.ArrayList;
@@ -18,9 +20,14 @@ import java.util.List;
 public class NegaMax implements SearchAlgorithm {
 
     private static final int DEFAULT_MAX_PLIES = 4;
-    private Evaluator evaluator;
+
+    @Setter
     private Game game;
+
+    private Evaluator evaluator;
+
     private int maxPly;
+
     private MoveEvaluation bestMoveEvaluation;
 
     @Override
@@ -76,9 +83,8 @@ public class NegaMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.evaluator.setGame(context.getGame());
+    public void beforeSearch() {
+        this.evaluator.setGame(game);
     }
 
     @Override
@@ -97,6 +103,11 @@ public class NegaMax implements SearchAlgorithm {
                 Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
                         Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
         );
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public void setGameEvaluator(Evaluator evaluator) {

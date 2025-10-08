@@ -7,32 +7,26 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class KillerMoveTracker implements AlphaBetaFilter, SearchByCycleListener {
-
+public class KillerMoveTracker implements AlphaBetaFilter {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
 
+    @Setter
     private Game game;
+
+    @Setter
     private KillerMoves killerMoves;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.killerMoves = context.getKillerMoves();
     }
 
     @Override

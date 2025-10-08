@@ -2,12 +2,12 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
@@ -17,11 +17,12 @@ import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.visitors.SetGameVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,6 +38,8 @@ public class AlphaBetaTest {
     private AlphaBetaFacade alphaBetaFacade;
 
     private SearchListenerMediator searchListenerMediator;
+
+    private List<Acceptor> acceptors;
 
     @BeforeEach
     public void setup() {
@@ -70,7 +73,8 @@ public class AlphaBetaTest {
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.searchListenerMediator.addAll(Arrays.asList(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.searchListenerMediator.addAllAcceptor(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
+        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade);
     }
 
     @Test
@@ -138,9 +142,10 @@ public class AlphaBetaTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        SetGameVisitor setGameVisitor = new SetGameVisitor(game);
+        acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
 
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
         SearchByDepthContext context = new SearchByDepthContext(depth);
 

@@ -126,18 +126,18 @@ public class CheckResolverChainBuilder {
             searchListenerMediator.add(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (transpositionTableQ != null) {
             searchListenerMediator.add(transpositionTableQ);
         }
         if (debugFilter != null) {
-            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.addAcceptor(debugFilter);
         }
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.add(alphaBeta);
+        searchListenerMediator.addAcceptor(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {

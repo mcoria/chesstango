@@ -27,7 +27,9 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
@@ -341,8 +343,18 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
+    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
+        print(transpositionHeadMoveComparatorQ, transpositionHeadMoveComparatorQ.getNext());
+    }
+
+    @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
         print(transpositionTailMoveComparator, transpositionTailMoveComparator.getNext());
+    }
+
+    @Override
+    public void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ) {
+        print(transpositionTailMoveComparatorQ, transpositionTailMoveComparatorQ.getNext());
     }
 
     @Override
@@ -432,6 +444,13 @@ public class ChainPrinterVisitor implements Visitor {
         printChainText("ResetListener:");
         nestedChain++;
         searchListenerMediator.getResetListeners()
+                .forEach(this::printNodeObjectText);
+        out.println();
+        nestedChain--;
+
+        printChainText("Acceptor:");
+        nestedChain++;
+        searchListenerMediator.getAcceptors()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;

@@ -14,11 +14,11 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveDebug;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
@@ -27,12 +27,13 @@ import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeSta
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
+import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
 /**
  * @author Mauricio Corias
  */
 public class AlphaBetaBuilder implements SearchBuilder {
-    private final SetSearchContext setSearchContext;
+    private final SetSearchTimers setSearchTimers;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
@@ -55,7 +56,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
-    private SetKillerMoveDebug setKillerMoveDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
@@ -63,6 +63,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
+    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private DebugNodeTrap debugNodeTrap;
 
     private boolean withIterativeDeepening;
@@ -98,7 +99,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
 
-        setSearchContext = new SetSearchContext();
+        setSearchTimers = new SetSearchTimers();
 
         terminalChainBuilder = new TerminalChainBuilder();
         quiescenceTerminalChainBuilder = new TerminalChainBuilder();
@@ -282,8 +283,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         setupListenerMediatorAfterChain();
 
-        Search search;
+        searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
 
+        Search search;
         if (withIterativeDeepening) {
             search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
         } else {
@@ -341,7 +343,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withKillerMoveSorter) {
             if (withDebugSearchTree) {
-                setKillerMoveDebug = new SetKillerMoveDebug();
+                setKillerMoveTablesDebug = new SetKillerMoveTablesDebug();
             } else {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
@@ -355,7 +357,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         searchListenerMediator.add(alphaBetaFacade);
 
-        searchListenerMediator.add(setSearchContext);
+        searchListenerMediator.add(setSearchTimers);
 
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);
@@ -365,10 +367,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setTranspositionTables);
         } else if (setTranspositionTablesDebug != null) {
             searchListenerMediator.add(setTranspositionTablesDebug);
-            searchListenerMediator.add(setTranspositionTablesDebug.getMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getMinMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMaxMap());
-            searchListenerMediator.add(setTranspositionTablesDebug.getQMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMinMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMaxMap());
+            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMinMap());
         }
 
         if (setZobristMemory != null) {
@@ -389,9 +391,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
-        } else if (setKillerMoveDebug != null) {
-            searchListenerMediator.add(setKillerMoveDebug);
-            searchListenerMediator.add(setKillerMoveDebug.getKillerMovesDebug());
+        } else if (setKillerMoveTablesDebug != null) {
+            searchListenerMediator.add(setKillerMoveTablesDebug);
+            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);

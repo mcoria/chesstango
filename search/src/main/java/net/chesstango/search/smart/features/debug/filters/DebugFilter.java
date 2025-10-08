@@ -2,25 +2,23 @@ package net.chesstango.search.smart.features.debug.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
-public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
-
-    private SearchTracker searchTracker;
+public class DebugFilter implements AlphaBetaFilter {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
+
+    @Setter
+    private SearchTracker searchTracker;
 
     private final DebugNode.NodeTopology topology;
 
@@ -31,12 +29,6 @@ public class DebugFilter implements AlphaBetaFilter, SearchByCycleListener {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
-        this.searchTracker = context.getSearchTracker();
     }
 
     @Override

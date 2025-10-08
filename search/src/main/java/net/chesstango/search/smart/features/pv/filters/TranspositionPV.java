@@ -9,8 +9,6 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -26,7 +24,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
 
 
     @Setter
@@ -38,25 +36,26 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
+    @Setter
     private TTable maxMap;
+
+    @Setter
     private TTable minMap;
+
+    @Setter
     private TTable qMaxMap;
+
+    @Setter
     private TTable qMinMap;
+
+    @Setter
     private Game game;
+
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
     }
 
     @Override
