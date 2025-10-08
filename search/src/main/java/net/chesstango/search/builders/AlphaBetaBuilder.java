@@ -14,7 +14,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.alphabeta.listeners.SetSearchContext;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
@@ -33,7 +33,7 @@ import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
  * @author Mauricio Corias
  */
 public class AlphaBetaBuilder implements SearchBuilder {
-    private final SetSearchContext setSearchContext;
+    private final SetSearchTimers setSearchTimers;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
@@ -99,7 +99,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
 
-        setSearchContext = new SetSearchContext();
+        setSearchTimers = new SetSearchTimers();
 
         terminalChainBuilder = new TerminalChainBuilder();
         quiescenceTerminalChainBuilder = new TerminalChainBuilder();
@@ -357,7 +357,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         searchListenerMediator.add(alphaBetaFacade);
 
-        searchListenerMediator.add(setSearchContext);
+        searchListenerMediator.add(setSearchTimers);
 
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);

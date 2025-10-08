@@ -192,26 +192,24 @@ AlphaBetaFlowControl @ 17
 SearchByCycleListeners:
 	SetGameEvaluator @ 81
 	AlphaBetaFacade @ 2
-	SetSearchContext @ 82
+	SetSearchTimers @ 82
 	SetSearchTracker @ 83
 	SetTranspositionTablesDebug @ 84
 	SetZobristMemory @ 85
 	SetNodeStatistics @ 86
 	EvaluatorStatisticsWrapper @ 22
+	SetKillerMoveTablesDebug @ 87
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
-	Quiescence @ 45
-	AlphaBeta @ 63
 	AspirationWindows @ 5
 	StopProcessingCatch @ 3
-	AlphaBeta @ 9
 	RootMoveSorter @ 11
-	SetPVStatistics @ 87
-	SetDebugOutput @ 88
+	SetPVStatistics @ 88
+	SetDebugOutput @ 89
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchContext @ 82
+	SetSearchTimers @ 82
 	SetSearchTracker @ 83
 	AlphaBetaFlowControl @ 17
 	QuiescenceStatisticsExpected @ 44
@@ -227,13 +225,13 @@ SearchByDepthListener:
 	TranspositionTableRoot @ 7
 	TranspositionPV @ 16
 	RootMoveSorter @ 11
-	SetPVStatistics @ 87
-	SetDebugOutput @ 88
+	SetPVStatistics @ 88
+	SetDebugOutput @ 89
 
 SearchByWindowsListeners:
 	SetSearchTracker @ 83
 	MoveEvaluationTracker @ 15
-	SetDebugOutput @ 88
+	SetDebugOutput @ 89
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
@@ -248,12 +246,12 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTracker @ 83
 	SetTranspositionTablesDebug @ 84
-	TTableDebug @ 89
 	TTableDebug @ 90
 	TTableDebug @ 91
 	TTableDebug @ 92
+	TTableDebug @ 93
 	SetNodeStatistics @ 86
-	SetKillerMoveTablesDebug @ 93
+	SetKillerMoveTablesDebug @ 87
 	KillerMovesDebug @ 94
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
@@ -317,5 +315,5 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 88
+	SetDebugOutput @ 89
 

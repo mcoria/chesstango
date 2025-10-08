@@ -137,7 +137,7 @@ public class CheckResolverChainBuilder {
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.add(alphaBeta);
+        searchListenerMediator.addAcceptor(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {

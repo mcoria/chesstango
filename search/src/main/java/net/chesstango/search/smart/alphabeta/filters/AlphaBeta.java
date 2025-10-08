@@ -15,7 +15,7 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBeta implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -30,10 +30,6 @@ public class AlphaBeta implements AlphaBetaFilter, SearchByCycleListener {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch() {
     }
 
     @Override

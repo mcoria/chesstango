@@ -13,7 +13,7 @@ import java.util.LinkedList;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchContext implements SearchByCycleListener, SearchByDepthListener {
+public class SetSearchTimers implements SearchByCycleListener, SearchByDepthListener {
     private SearchResultByDepth lastSearchResultByDepth;
     private Instant startInstant;
     private Instant startDepthInstant;

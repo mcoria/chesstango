@@ -177,7 +177,7 @@ public class QuiescenceChainBuilder {
         if (triangularPV != null) {
             searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.add(quiescence);
+        searchListenerMediator.addAcceptor(quiescence);
     }
 
     private AlphaBetaFilter createChain() {

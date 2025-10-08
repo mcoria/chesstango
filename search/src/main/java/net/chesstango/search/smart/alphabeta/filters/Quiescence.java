@@ -14,7 +14,7 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
+public class Quiescence implements AlphaBetaFilter {
     @Setter
     @Getter
     private AlphaBetaFilter next;
@@ -30,10 +30,6 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch() {
     }
 
     @Override

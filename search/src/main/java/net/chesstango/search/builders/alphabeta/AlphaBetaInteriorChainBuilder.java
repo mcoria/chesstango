@@ -164,7 +164,7 @@ public class AlphaBetaInteriorChainBuilder {
         }
 
 
-        searchListenerMediator.add(alphaBeta);
+        searchListenerMediator.addAcceptor(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {
