@@ -277,8 +277,8 @@ public class MoveSorterBuilder {
                 case TranspositionTailMoveComparator tailMoveComparator -> tailMoveComparator.setNext(next);
                 case TranspositionHeadMoveComparatorQ headMoveComparatorQ  -> headMoveComparatorQ.setNext(next);
                 case TranspositionTailMoveComparatorQ tailMoveComparatorQ  -> tailMoveComparatorQ.setNext(next);
-                case RecaptureMoveComparator recaptureMoveComparator -> recaptureMoveComparator.setNext(next);
-                case GameEvaluatorCacheComparator gameEvaluatorCacheComparator -> gameEvaluatorCacheComparator.setNext(next);
+                case RecaptureMoveComparator recaptureMoveComparatorFilter -> recaptureMoveComparatorFilter.setNext(next);
+                case GameEvaluatorCacheComparator gameEvaluatorCacheComparatorFilter -> gameEvaluatorCacheComparatorFilter.setNext(next);
                 case KillerMoveComparator moveComparator -> moveComparator.setNext(next);
                 case MvvLvaComparator lvaComparator -> lvaComparator.setNext(next);
                 case PromotionComparator comparator -> comparator.setNext(next);

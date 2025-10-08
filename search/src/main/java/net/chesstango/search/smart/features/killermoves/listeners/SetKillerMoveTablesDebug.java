@@ -14,7 +14,7 @@ import net.chesstango.search.visitors.SetKillerMovesVisitor;
  * @author Mauricio Coria
  */
 @Getter
-public class SetKillerMoveTablesDebug implements Acceptor {
+public class SetKillerMoveTablesDebug implements SearchByCycleListener, Acceptor {
 
     private final KillerMovesDebug killerMovesDebug;
 
@@ -31,5 +31,10 @@ public class SetKillerMoveTablesDebug implements Acceptor {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearch() {
+        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesDebug));
     }
 }

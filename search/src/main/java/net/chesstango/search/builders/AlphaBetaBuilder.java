@@ -56,7 +56,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
-    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
@@ -64,6 +63,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
+    private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private DebugNodeTrap debugNodeTrap;
 
     private boolean withIterativeDeepening;
@@ -392,7 +392,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (setKillerMoveTables != null) {
             searchListenerMediator.add(setKillerMoveTables);
         } else if (setKillerMoveTablesDebug != null) {
-            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug);
+            searchListenerMediator.add(setKillerMoveTablesDebug);
             searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 

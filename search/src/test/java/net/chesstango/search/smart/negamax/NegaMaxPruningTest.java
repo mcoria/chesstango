@@ -51,7 +51,8 @@ public class NegaMaxPruningTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAllAcceptor(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator.add(negaMaxPruning);
+        searchListenerMediator.addAcceptor(moveSorter);
         acceptors = List.of(moveSorter, negaMaxPruning);
     }
 

@@ -29,7 +29,8 @@ public class NegaMaxPruningMateIn4Test extends MateIn4Test {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAllAcceptor(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator.add(negaMaxPruning);
+        searchListenerMediator.addAcceptor(moveSorter);
 
         NoIterativeDeepening noIterativeDeepening = new NoIterativeDeepening(negaMaxPruning, searchListenerMediator);
         noIterativeDeepening.accept(new SetMaxDepthVisitor(7));
