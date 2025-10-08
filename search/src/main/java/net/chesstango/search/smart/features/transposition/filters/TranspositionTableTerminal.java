@@ -13,30 +13,22 @@ import net.chesstango.search.smart.features.transposition.TranspositionBound;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTableTerminal implements AlphaBetaFilter, SearchByCycleListener {
+@Setter
+public class TranspositionTableTerminal implements AlphaBetaFilter {
 
-    @Setter
     private Game game;
+
     private TTable maxMap;
     private TTable minMap;
     private TTable maxQMap;
     private TTable minQMap;
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.maxQMap = context.getQMaxMap();
-        this.minQMap = context.getQMinMap();
     }
 
 

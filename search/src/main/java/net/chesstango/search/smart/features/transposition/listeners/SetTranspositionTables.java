@@ -1,25 +1,30 @@
 package net.chesstango.search.smart.features.transposition.listeners;
 
 import lombok.Setter;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleContext;
 import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.visitors.SetTTableVisitor;
 
 /**
  * @author Mauricio Coria
  */
-public class SetTranspositionTables implements SearchByCycleListener, ResetListener {
+@Setter
+public class SetTranspositionTables implements SearchByCycleListener, ResetListener, Acceptor {
     protected final TTable maxMap;
-
     protected final TTable minMap;
     protected final TTable qMaxMap;
     protected final TTable qMinMap;
 
-    @Setter
     protected boolean reuseTranspositionTable;
+
+    private SearchListenerMediator searchListenerMediator;
 
     public SetTranspositionTables() {
         this.maxMap = createMaxTTable();
@@ -29,11 +34,13 @@ public class SetTranspositionTables implements SearchByCycleListener, ResetListe
     }
 
     @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public void beforeSearch(SearchByCycleContext context) {
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
-        context.setQMaxMap(qMaxMap);
-        context.setQMinMap(qMinMap);
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
     }
 
     @Override

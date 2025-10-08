@@ -23,7 +23,9 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
@@ -216,6 +218,16 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
         transpositionTailMoveComparator.setGame(game);
+    }
+
+    @Override
+    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ){
+        transpositionHeadMoveComparatorQ.setGame(game);
+    }
+
+    @Override
+    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ){
+        transpositionHeadMoveComparatorQ.setGame(game);
     }
 
     @Override

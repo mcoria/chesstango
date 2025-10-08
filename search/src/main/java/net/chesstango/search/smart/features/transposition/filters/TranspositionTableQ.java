@@ -14,13 +14,6 @@ public class TranspositionTableQ extends TranspositionTableAbstract {
         visitor.visit(this);
     }
 
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        super.beforeSearch(context);
-        this.maxMap = context.getQMaxMap();
-        this.minMap = context.getQMinMap();
-    }
-
 
     @Override
     protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {

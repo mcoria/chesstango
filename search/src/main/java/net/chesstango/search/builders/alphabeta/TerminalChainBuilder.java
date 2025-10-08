@@ -94,7 +94,7 @@ public class TerminalChainBuilder {
             searchListenerMediator.addAcceptor(debugFilter);
         }
         if (transpositionTableTerminal != null) {
-            searchListenerMediator.add(transpositionTableTerminal);
+            searchListenerMediator.addAcceptor(transpositionTableTerminal);
         }
     }
 

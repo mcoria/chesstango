@@ -47,10 +47,6 @@ public abstract class AbstractNodeSorterTest {
         minMap = new TTableMap();
         qMaxMap = new TTableMap();
         qMinMap = new TTableMap();
-        cycleContext.setMaxMap(maxMap);
-        cycleContext.setMinMap(minMap);
-        cycleContext.setQMaxMap(qMaxMap);
-        cycleContext.setQMinMap(qMinMap);
 
         killerMovesTable = new KillerMovesTable();
 

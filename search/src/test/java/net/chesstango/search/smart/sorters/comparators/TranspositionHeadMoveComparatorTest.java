@@ -34,7 +34,7 @@ public class TranspositionHeadMoveComparatorTest {
     public void setup() {
         maxMap = new TTableMap();
         minMap = new TTableMap();
-        headMoveComparator = new TranspositionHeadMoveComparator(SearchByCycleContext::getMaxMap, SearchByCycleContext::getMinMap);
+        headMoveComparator = new TranspositionHeadMoveComparator();
         headMoveComparator.setNext(new DefaultMoveComparator());
     }
 
@@ -81,12 +81,9 @@ public class TranspositionHeadMoveComparatorTest {
     }
 
     private void initMoveSorter(Game game) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext();
-        searchByCycleContext.setMaxMap(maxMap);
-        searchByCycleContext.setMinMap(minMap);
-
         headMoveComparator.setGame(game);
-        headMoveComparator.beforeSearch(searchByCycleContext);
+        headMoveComparator.setMaxMap(maxMap);
+        headMoveComparator.setMinMap(minMap);
     }
 
 }

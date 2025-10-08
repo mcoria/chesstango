@@ -5,7 +5,7 @@ import net.chesstango.search.Visitor;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTailMoveComparator extends TranspositionTailMoveComparatorAbstract {
+public class TranspositionHeadMoveComparatorQ extends TranspositionHeadMoveComparatorAbstract {
 
     @Override
     public void accept(Visitor visitor) {

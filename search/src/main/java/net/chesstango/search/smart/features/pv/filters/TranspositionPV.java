@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class TranspositionPV implements AlphaBetaFilter, SearchByDepthListener {
 
 
     @Setter
@@ -38,25 +38,26 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
     private List<PrincipalVariation> principalVariation;
     private boolean pvComplete;
 
+    @Setter
     private TTable maxMap;
+
+    @Setter
     private TTable minMap;
+
+    @Setter
     private TTable qMaxMap;
+
+    @Setter
     private TTable qMinMap;
+
     @Setter
     private Game game;
+
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
     }
 
     @Override

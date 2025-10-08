@@ -112,9 +112,9 @@ AlphaBetaFlowControl @ 17
 				|
 				PrincipalVariationComparator @ 49
 				|
-				TranspositionHeadMoveComparator @ 50
+				TranspositionHeadMoveComparatorQ @ 50
 				|
-				TranspositionTailMoveComparator @ 51
+				TranspositionTailMoveComparatorQ @ 51
 				|
 				PromotionComparator @ 52
 				|
@@ -160,9 +160,9 @@ AlphaBetaFlowControl @ 17
 			|
 			 -> NoQuietComparatorNode
 				|
-				TranspositionHeadMoveComparator @ 70
+				TranspositionHeadMoveComparatorQ @ 70
 				|
-				TranspositionTailMoveComparator @ 71
+				TranspositionTailMoveComparatorQ @ 71
 				|
 				PromotionComparator @ 72
 				|
@@ -201,32 +201,19 @@ SearchByCycleListeners:
 	SetKillerMoveTablesDebug @ 87
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
-	TranspositionTableTerminal @ 20
-	TranspositionTableQ @ 43
 	Quiescence @ 45
 	NodeMoveSorter @ 48
-	TranspositionHeadMoveComparator @ 50
-	TranspositionTailMoveComparator @ 51
 	PrincipalVariationComparator @ 49
 	RecaptureMoveComparator @ 53
 	GameEvaluatorCacheComparator @ 55
-	TranspositionTableTerminal @ 36
-	TranspositionTable @ 32
-	TranspositionTable @ 61
 	AlphaBeta @ 63
 	NodeMoveSorter @ 65
-	TranspositionHeadMoveComparator @ 67
-	TranspositionHeadMoveComparator @ 70
-	TranspositionTailMoveComparator @ 68
-	TranspositionTailMoveComparator @ 71
 	PrincipalVariationComparator @ 66
 	RecaptureMoveComparator @ 73
 	GameEvaluatorCacheComparator @ 75
 	MoveEvaluationTracker @ 15
 	AspirationWindows @ 5
 	StopProcessingCatch @ 3
-	TranspositionTableRoot @ 7
-	TranspositionPV @ 16
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
@@ -271,6 +258,7 @@ Acceptor:
 	SetGameEvaluator @ 81
 	AlphaBetaFacade @ 2
 	SetSearchTracker @ 83
+	SetTranspositionTablesDebug @ 84
 	TTableDebug @ 90
 	TTableDebug @ 91
 	TTableDebug @ 92
@@ -292,8 +280,8 @@ Acceptor:
 	EvaluatorDebug @ 46
 	Quiescence @ 45
 	NodeMoveSorter @ 48
-	TranspositionHeadMoveComparator @ 50
-	TranspositionTailMoveComparator @ 51
+	TranspositionHeadMoveComparatorQ @ 50
+	TranspositionTailMoveComparatorQ @ 51
 	PrincipalVariationComparator @ 49
 	RecaptureMoveComparator @ 53
 	GameEvaluatorCacheComparator @ 55
@@ -316,9 +304,9 @@ Acceptor:
 	AlphaBeta @ 63
 	NodeMoveSorter @ 65
 	TranspositionHeadMoveComparator @ 67
-	TranspositionHeadMoveComparator @ 70
+	TranspositionHeadMoveComparatorQ @ 70
 	TranspositionTailMoveComparator @ 68
-	TranspositionTailMoveComparator @ 71
+	TranspositionTailMoveComparatorQ @ 71
 	PrincipalVariationComparator @ 66
 	RecaptureMoveComparator @ 73
 	GameEvaluatorCacheComparator @ 75

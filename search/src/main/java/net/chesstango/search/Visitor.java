@@ -18,8 +18,8 @@ import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorC
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -31,11 +31,16 @@ import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceSt
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.TTDump;
+import net.chesstango.search.smart.features.transposition.listeners.TTLoad;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
@@ -149,6 +154,11 @@ public interface Visitor {
     default void visit(ZobristTracker zobristTracker) {
     }
 
+    default void visit(TTDump ttDump) {
+    }
+
+    default void visit(TTLoad ttLoad) {
+    }
 
     /**
      *
@@ -176,14 +186,21 @@ public interface Visitor {
     default void visit(TTableDebug tableDebug) {
     }
 
-    default void visit(EvaluatorCacheDebug evaluatorCacheDebug){}
+    default void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
+    }
 
 
-    default void visit(EvaluatorDebug evaluatorDebug){}
+    default void visit(EvaluatorDebug evaluatorDebug) {
+    }
 
-    default void visit(SetKillerMoveTables setKillerMoveTables){}
+    default void visit(SetKillerMoveTables setKillerMoveTables) {
+    }
 
-    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug){}
+    default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
+    }
+
+    default void visit(SetTranspositionTables setTranspositionTables) {
+    }
 
     /**
      *
@@ -214,6 +231,11 @@ public interface Visitor {
     default void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
     }
 
+    default void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
+    }
+
+    default void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ){}
+
     default void visit(QuietComparator quietComparator) {
     }
 
@@ -231,4 +253,5 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
+
 }
