@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.pv.listeners;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -32,8 +33,10 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     @Setter
     private Game game;
 
+    @Getter
     private List<PrincipalVariation> principalVariation;
 
+    @Getter
     private boolean pvComplete;
 
     public SetTrianglePV() {
@@ -54,14 +57,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         searchListenerMediator.accept(new SetTrianglePVVisitor(trianglePV));
     }
 
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth searchResultByDepth) {
-        calculatePrincipalVariation(searchResultByDepth.getBestMoveEvaluation());
-        searchResultByDepth.setPrincipalVariation(principalVariation);
-        searchResultByDepth.setPvComplete(pvComplete);
-    }
-
-    protected void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
+    public void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
         principalVariation = new ArrayList<>();
         pvComplete = false;
 

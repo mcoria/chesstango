@@ -26,6 +26,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     @Setter
     private Game game;
 
+    @Getter
     private MoveEvaluation bestMoveEvaluation;
 
     @Override
@@ -62,20 +63,6 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     @Override
     public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setBestMoveEvaluation(bestMoveEvaluation);
-
-        /**
-         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-         * Deberiamos continuar buscando hasta que se encuentre un mate antes del horizonte
-         */
-        result.setContinueDeepening(
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
-        );
     }
 
     @Override

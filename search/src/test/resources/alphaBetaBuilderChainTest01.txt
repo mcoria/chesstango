@@ -212,7 +212,6 @@ SearchByDepthListener:
 	SetSearchLast @ 83
 	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	TranspositionPV @ 16
 	SetPVStatistics @ 89
 	SetDebugOutput @ 90
 
