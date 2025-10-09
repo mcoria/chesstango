@@ -53,6 +53,8 @@ public class NoIterativeDeepening implements Search {
 
         searchResult.addSearchResultByDepth(searchResultByDepth);
 
+        searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+
         searchListenerMediator.triggerAfterSearch(searchResult);
 
         return searchResult;
