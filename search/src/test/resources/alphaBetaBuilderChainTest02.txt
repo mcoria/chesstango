@@ -96,6 +96,7 @@ ResetListener:
 Acceptor:
 	SetGameEvaluator @ 22
 	AlphaBetaFacade @ 2
+	SetSearchTimers @ 23
 	SetSearchLast @ 24
 	SetTrianglePV @ 25
 	AlphaBetaFlowControl @ 9

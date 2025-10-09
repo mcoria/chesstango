@@ -6,7 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.*;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -50,6 +53,11 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
 
     @Override
     public void beforeSearch() {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 40; j++) {
+                trianglePV[i][j] = 0;
+            }
+        }
     }
 
     @Override

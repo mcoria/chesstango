@@ -5,11 +5,16 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
+
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  *
@@ -94,6 +99,17 @@ public class SearchResultByDepthCollectorVisitor implements Visitor {
         setTrianglePV.calculatePrincipalVariation(searchResultByDepth.getBestMoveEvaluation());
         searchResultByDepth.setPrincipalVariation(setTrianglePV.getPrincipalVariation());
         searchResultByDepth.setPvComplete(setTrianglePV.isPvComplete());
+    }
+
+    @Override
+    public void visit(MoveEvaluationTracker moveEvaluationTracker) {
+        searchResultByDepth.setMoveEvaluations(moveEvaluationTracker.getCurrentMoveEvaluations());
+    }
+
+    @Override
+    public void visit(SetSearchTimers setSearchTimers) {
+        searchResultByDepth.setTimeSearching(setSearchTimers.getTimeSearching());
+        searchResultByDepth.setTimeSearchingLastDepth(setSearchTimers.getTimeSearchingLastDepth());
     }
 
 }
