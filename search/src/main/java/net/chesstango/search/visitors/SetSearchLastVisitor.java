@@ -6,7 +6,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 
 import java.util.List;

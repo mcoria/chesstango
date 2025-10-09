@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.*;
+import net.chesstango.search.visitors.SearchResultByDepthCollectorVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 
@@ -56,6 +57,8 @@ public class IterativeDeepening implements Search {
             searchAlgorithm.search();
 
             searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
+
+            searchListenerMediator.accept(new SearchResultByDepthCollectorVisitor(searchResultByDepth));
 
             searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -7,9 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class NegaMax implements SearchAlgorithm {
     @Setter
     private int maxPly;
 
+    @Getter
     private MoveEvaluation bestMoveEvaluation;
 
     @Override
@@ -59,7 +61,7 @@ public class NegaMax implements SearchAlgorithm {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        bestMoveEvaluation =  new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation, MoveEvaluationType.EXACT);
+        bestMoveEvaluation = new MoveEvaluation(bestMove, minOrMax ? -betterEvaluation : betterEvaluation, MoveEvaluationType.EXACT);
     }
 
 
@@ -91,18 +93,6 @@ public class NegaMax implements SearchAlgorithm {
     @Override
     public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setBestMoveEvaluation(bestMoveEvaluation);
-        /**
-         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-         */
-        result.setContinueDeepening(
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
-        );
     }
 
     @Override

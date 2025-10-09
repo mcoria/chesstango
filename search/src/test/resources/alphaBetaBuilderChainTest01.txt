@@ -212,7 +212,6 @@ SearchByDepthListener:
 	SetSearchLast @ 83
 	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	TranspositionPV @ 16
 	SetPVStatistics @ 89
 	SetDebugOutput @ 90
 
@@ -232,6 +231,7 @@ ResetListener:
 Acceptor:
 	SetGameEvaluator @ 81
 	AlphaBetaFacade @ 2
+	SetSearchTimers @ 82
 	SetSearchLast @ 83
 	SetSearchTracker @ 84
 	SetTranspositionTablesDebug @ 85

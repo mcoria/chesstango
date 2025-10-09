@@ -200,7 +200,7 @@ public class AlphaBetaRootChainBuilder {
         }
 
         if (transpositionPV != null) {
-            searchListenerMediator.add(transpositionPV);
+            searchListenerMediator.addAcceptor(transpositionPV);
         }
 
         if (triangularPV != null) {

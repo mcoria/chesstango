@@ -30,6 +30,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
     @Getter
     private AlphaBetaFilter next;
 
+    @Getter
     private List<MoveEvaluation> currentMoveEvaluations;
 
     @Setter
@@ -56,11 +57,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
         }
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setMoveEvaluations(currentMoveEvaluations);
     }
 
 
