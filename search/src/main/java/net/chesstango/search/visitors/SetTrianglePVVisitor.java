@@ -1,7 +1,6 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 
 /**

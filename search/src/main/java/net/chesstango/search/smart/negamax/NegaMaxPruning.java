@@ -8,9 +8,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        bestMoveEvaluation =  new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
+        bestMoveEvaluation = new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {

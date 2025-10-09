@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
@@ -56,7 +56,7 @@ public class TTDump implements SearchByDepthListener, Acceptor {
         Future<?> task1 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "maxMap", searchCycle), maxMap));
         Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle), minMap));
 
-        while(! ( task1.isDone() && task2.isDone() ) ){
+        while (!(task1.isDone() && task2.isDone())) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -76,7 +76,7 @@ public class TTDump implements SearchByDepthListener, Acceptor {
             int counter = 0;
 
             Set<Map.Entry<Long, TranspositionEntry>> entries = null; //map.entrySet();
-            for (Map.Entry<Long, TranspositionEntry> entry: entries) {
+            for (Map.Entry<Long, TranspositionEntry> entry : entries) {
                 dos.writeLong(entry.getKey());
 
                 TranspositionEntry tableEntry = entry.getValue();
@@ -100,7 +100,7 @@ public class TTDump implements SearchByDepthListener, Acceptor {
             fos.close();
 
             System.out.printf("Done file %s, entries %d%n", fileName, counter);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new RuntimeException(e);
         }

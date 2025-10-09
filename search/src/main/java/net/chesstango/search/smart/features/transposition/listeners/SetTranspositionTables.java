@@ -7,8 +7,8 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.visitors.SetTTableVisitor;
 
 /**

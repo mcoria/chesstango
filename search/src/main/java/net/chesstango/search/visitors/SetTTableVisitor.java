@@ -72,31 +72,31 @@ public class SetTTableVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTLoad ttLoad){
+    public void visit(TTLoad ttLoad) {
         ttLoad.setMaxMap(maxMap);
         ttLoad.setMinMap(minMap);
     }
 
     @Override
-    public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator){
+    public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
         transpositionHeadMoveComparator.setMaxMap(maxMap);
         transpositionHeadMoveComparator.setMinMap(minMap);
     }
 
     @Override
-    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ){
+    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
         transpositionHeadMoveComparatorQ.setMaxMap(qMaxMap);
         transpositionHeadMoveComparatorQ.setMinMap(qMinMap);
     }
 
     @Override
-    public void visit(TranspositionTailMoveComparator transpositionHeadMoveComparator){
+    public void visit(TranspositionTailMoveComparator transpositionHeadMoveComparator) {
         transpositionHeadMoveComparator.setMaxMap(maxMap);
         transpositionHeadMoveComparator.setMinMap(minMap);
     }
 
     @Override
-    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ){
+    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ) {
         transpositionHeadMoveComparatorQ.setMaxMap(qMaxMap);
         transpositionHeadMoveComparatorQ.setMinMap(qMinMap);
     }

@@ -50,7 +50,7 @@ public class DefaultMoveComparator implements MoveComparator {
 
 
     private static int compare(final PiecePositioned move1From, final PiecePositioned move1To, final Piece move1PiecePromotion,
-                        final PiecePositioned move2From, final PiecePositioned move2To, final Piece move2PiecePromotion) {
+                               final PiecePositioned move2From, final PiecePositioned move2To, final Piece move2PiecePromotion) {
 
         int result = 0;
 

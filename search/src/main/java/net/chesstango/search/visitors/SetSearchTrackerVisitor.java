@@ -32,12 +32,12 @@ public class SetSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public  void visit(SetDebugOutput setDebugOutput){
+    public void visit(SetDebugOutput setDebugOutput) {
         setDebugOutput.setSearchTracker(searchTracker);
     }
 
     @Override
-    public void visit(KillerMovesDebug killerMovesDebug){
+    public void visit(KillerMovesDebug killerMovesDebug) {
         killerMovesDebug.setSearchTracker(searchTracker);
     }
 
@@ -47,12 +47,12 @@ public class SetSearchTrackerVisitor implements Visitor {
     }
 
     @Override
-    public void visit(EvaluatorCacheDebug evaluatorCacheDebug){
+    public void visit(EvaluatorCacheDebug evaluatorCacheDebug) {
         evaluatorCacheDebug.setSearchTracker(searchTracker);
     }
 
     @Override
-    public void visit(EvaluatorDebug evaluatorDebug){
+    public void visit(EvaluatorDebug evaluatorDebug) {
         evaluatorDebug.setSearchTracker(searchTracker);
     }
 }

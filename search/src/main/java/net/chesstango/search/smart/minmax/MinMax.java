@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;

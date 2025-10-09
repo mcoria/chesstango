@@ -1,8 +1,8 @@
 package net.chesstango.search.smart.features.transposition.listeners;
 
-import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TTableDebug;
 
 /**
  * @author Mauricio Coria

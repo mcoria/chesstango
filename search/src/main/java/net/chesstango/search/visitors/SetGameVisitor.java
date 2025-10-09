@@ -109,7 +109,7 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public  void visit(TranspositionTableRoot transpositionTableRoot) {
+    public void visit(TranspositionTableRoot transpositionTableRoot) {
         transpositionTableRoot.setGame(game);
     }
 
@@ -178,12 +178,12 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(SetNodeStatistics setNodeStatistics){
+    public void visit(SetNodeStatistics setNodeStatistics) {
         setNodeStatistics.setGame(game);
     }
 
     @Override
-    public void visit(SetSearchTracker setSearchTracker){
+    public void visit(SetSearchTracker setSearchTracker) {
         setSearchTracker.setGame(game);
     }
 
@@ -221,12 +221,12 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ){
+    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
         transpositionHeadMoveComparatorQ.setGame(game);
     }
 
     @Override
-    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ){
+    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ) {
         transpositionHeadMoveComparatorQ.setGame(game);
     }
 

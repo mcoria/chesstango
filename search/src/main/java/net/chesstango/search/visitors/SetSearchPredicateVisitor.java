@@ -1,11 +1,9 @@
 package net.chesstango.search.visitors;
 
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
 
 import java.util.function.Predicate;
 

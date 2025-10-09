@@ -13,9 +13,6 @@ import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
 
-import java.time.Duration;
-import java.time.Instant;
-
 /**
  *
  * @author Mauricio Coria

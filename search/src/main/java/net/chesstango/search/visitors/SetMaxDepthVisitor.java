@@ -3,7 +3,6 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.minmax.MinMax;
 
 /**
  * Esta clase recorre ella misma toda la estructura

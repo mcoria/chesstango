@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.ArrayList;
 import java.util.List;

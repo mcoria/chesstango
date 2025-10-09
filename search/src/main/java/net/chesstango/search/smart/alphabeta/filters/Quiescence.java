@@ -5,9 +5,8 @@ import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
 

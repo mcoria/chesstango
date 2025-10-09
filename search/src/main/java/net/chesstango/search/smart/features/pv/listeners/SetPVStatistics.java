@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.features.pv.listeners;
 
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 
