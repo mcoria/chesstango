@@ -17,11 +17,11 @@ import net.chesstango.search.smart.negamax.NegaMaxPruning;
  *
  * @author Mauricio Coria
  */
-public class SearchResultByDepthCollectorVisitor implements Visitor {
+public class CollectSearchResultByDepthVisitor implements Visitor {
 
     private final SearchResultByDepth searchResultByDepth;
 
-    public SearchResultByDepthCollectorVisitor(SearchResultByDepth searchResultByDepth) {
+    public CollectSearchResultByDepthVisitor(SearchResultByDepth searchResultByDepth) {
         this.searchResultByDepth = searchResultByDepth;
     }
 

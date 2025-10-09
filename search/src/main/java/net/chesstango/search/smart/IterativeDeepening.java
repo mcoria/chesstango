@@ -7,7 +7,7 @@ import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.visitors.SearchResultByDepthCollectorVisitor;
+import net.chesstango.search.visitors.CollectSearchResultByDepthVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 
@@ -61,7 +61,7 @@ public class IterativeDeepening implements Search {
 
             searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
 
-            searchListenerMediator.accept(new SearchResultByDepthCollectorVisitor(searchResultByDepth));
+            searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
 
             searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
