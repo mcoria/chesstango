@@ -3,6 +3,7 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 
 /**
  *
@@ -19,5 +20,14 @@ public class CollectSearchResultVisitor implements Visitor {
     @Override
     public void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper) {
         searchResult.setEvaluationStatistics(evaluatorStatisticsWrapper.getEvaluationStatistics());
+    }
+
+
+
+    @Override
+    public void visit(SetNodeStatistics setNodeStatistics) {
+        searchResult.setExecutedMoves(setNodeStatistics.getExecutedMoves());
+        searchResult.setRegularNodeStatistics(setNodeStatistics.getRegularNodeStatistics());
+        searchResult.setQuiescenceNodeStatistics(setNodeStatistics.getQuiescenceNodeStatistics());
     }
 }

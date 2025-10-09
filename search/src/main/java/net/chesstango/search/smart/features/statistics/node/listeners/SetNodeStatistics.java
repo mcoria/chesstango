@@ -1,11 +1,11 @@
 package net.chesstango.search.smart.features.statistics.node.listeners;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameListener;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -19,6 +19,7 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
 
     @Setter
     private Game game;
+    @Getter
     private int executedMoves;
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
@@ -61,12 +62,12 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
         });
     }
 
-    @Override
-    public void afterSearch(SearchResult result) {
-        if (result != null) {
-            result.setExecutedMoves(executedMoves);
-            result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
-            result.setQuiescenceNodeStatistics(new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence));
-        }
+
+    public NodeStatistics getRegularNodeStatistics() {
+        return new NodeStatistics(expectedNodesCounters, visitedNodesCounters);
+    }
+
+    public NodeStatistics getQuiescenceNodeStatistics() {
+        return new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence);
     }
 }
