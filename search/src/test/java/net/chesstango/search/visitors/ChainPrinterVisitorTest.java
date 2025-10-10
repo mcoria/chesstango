@@ -28,6 +28,17 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
+    public void alphaBetaBuilderChainDefault() throws IOException {
+        AlphaBetaBuilder builder = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial());
+
+        Search search = builder.build();
+
+        assertSearchTree(search, "alphaBetaBuilderDefault.txt");
+    }
+
+    @Test
     public void alphaBetaBuilderChainTest01() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
@@ -57,7 +68,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearch(search, "alphaBetaBuilderChainTest01.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainTest01.txt");
     }
 
     @Test
@@ -67,10 +78,10 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearch(search, "alphaBetaBuilderChainTest02.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainTest02.txt");
     }
 
-    private void assertSearch(Search search, String resourceName) throws IOException {
+    private void assertSearchTree(Search search, String resourceName) throws IOException {
         List<String> expectedPrintChain = readResource(resourceName);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
