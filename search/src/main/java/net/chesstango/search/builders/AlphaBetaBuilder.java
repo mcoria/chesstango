@@ -258,7 +258,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugNodeTrap(EndGameTableBase endGameTableBase) {
+    public AlphaBetaBuilder withEndGameTableBase(EndGameTableBase endGameTableBase) {
         this.endGameTableBase = endGameTableBase;
         return this;
     }

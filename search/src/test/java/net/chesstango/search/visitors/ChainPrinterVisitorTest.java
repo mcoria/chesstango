@@ -1,9 +1,11 @@
 package net.chesstango.search.visitors;
 
+import net.chesstango.board.Game;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.egtb.EndGameTableBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +38,19 @@ public class ChainPrinterVisitorTest {
         Search search = builder.build();
 
         assertSearchTree(search, "alphaBetaBuilderDefault.txt");
+    }
+
+    @Test
+    public void alphaBetaBuilderChainWithEGTB() throws IOException {
+        AlphaBetaBuilder builder = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withEndGameTableBase(new MyEndGameTableBaseExtension())
+                ;
+
+        Search search = builder.build();
+
+        assertSearchTree(search, "alphaBetaBuilderChainWithEGTB.txt");
     }
 
     @Test
@@ -121,5 +136,23 @@ public class ChainPrinterVisitorTest {
             throw new RuntimeException(e);
         }
         return lines;
+    }
+
+    private static class MyEndGameTableBaseExtension implements EndGameTableBase{
+
+        @Override
+        public boolean isProbeAvailable() {
+            return false;
+        }
+
+        @Override
+        public int evaluate() {
+            return 0;
+        }
+
+        @Override
+        public void setGame(Game game) {
+
+        }
     }
 }
