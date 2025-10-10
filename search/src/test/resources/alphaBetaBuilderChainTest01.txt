@@ -240,6 +240,7 @@ Acceptor:
 	TTableDebug @ 93
 	TTableDebug @ 94
 	SetNodeStatistics @ 87
+	EvaluatorStatisticsWrapper @ 22
 	SetKillerMoveTablesDebug @ 88
 	KillerMovesDebug @ 95
 	AlphaBetaFlowControl @ 17

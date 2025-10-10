@@ -4,6 +4,7 @@ import net.chesstango.search.dummy.Dummy;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -83,6 +84,7 @@ public interface Visitor {
     default void visit(NegaMaxPruning negaMaxPruning) {
     }
 
+    default void visit(BottomMoveCounterFacade bottomMoveCounterFacade){}
 
     /**
      * Alpha Beta filters
@@ -265,5 +267,4 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
-
 }

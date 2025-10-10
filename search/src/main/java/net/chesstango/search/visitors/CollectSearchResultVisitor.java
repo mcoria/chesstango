@@ -2,6 +2,8 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
+import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 
@@ -22,12 +24,21 @@ public class CollectSearchResultVisitor implements Visitor {
         searchResult.setEvaluationStatistics(evaluatorStatisticsWrapper.getEvaluationStatistics());
     }
 
-
-
     @Override
     public void visit(SetNodeStatistics setNodeStatistics) {
         searchResult.setExecutedMoves(setNodeStatistics.getExecutedMoves());
         searchResult.setRegularNodeStatistics(setNodeStatistics.getRegularNodeStatistics());
         searchResult.setQuiescenceNodeStatistics(setNodeStatistics.getQuiescenceNodeStatistics());
     }
+
+    @Override
+    public void visit(SetSearchTimers setSearchTimers) {
+        searchResult.setTimeSearching(setSearchTimers.getTimeSearching());
+    }
+
+    @Override
+    public void visit(BottomMoveCounterFacade bottomMoveCounterFacade) {
+        searchResult.setBottomMoveCounter(bottomMoveCounterFacade.getBottomMoveCounter());
+    }
+
 }
