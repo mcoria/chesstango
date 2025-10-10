@@ -9,6 +9,7 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.StopSearchingListener;
+import net.chesstango.search.smart.features.egtb.EndGameTableBase;
 
 /**
  * @author Mauricio Coria
@@ -37,10 +38,17 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     private AlphaBetaFilter leafNode;
 
     @Setter
+    @Getter
+    private AlphaBetaFilter egtbNode;
+
+    @Setter
     private Game game;
 
     @Setter
     private int maxPly;
+
+    @Setter
+    private EndGameTableBase endGameTableBase;
 
     @Override
     public void accept(Visitor visitor) {
@@ -71,6 +79,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return loopNode.maximize(currentPly, alpha, beta);
         }
 
+        if(endGameTableBase.isProbeAvailable()){
+            return egtbNode.maximize(currentPly, alpha, beta);
+        }
+
         if (currentPly == maxPly) {
             if (isCurrentPositionQuiet()) {
                 return leafNode.maximize(currentPly, alpha, beta);
@@ -94,6 +106,10 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
         if (game.getState().getRepetitionCounter() > 1) {
             return loopNode.minimize(currentPly, alpha, beta);
+        }
+
+        if(endGameTableBase.isProbeAvailable()){
+            return egtbNode.minimize(currentPly, alpha, beta);
         }
 
         if (currentPly == maxPly) {

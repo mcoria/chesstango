@@ -21,6 +21,9 @@ import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.features.egtb.EndGameTableBase;
+import net.chesstango.search.smart.features.egtb.EndGameTableBaseNull;
+import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
@@ -54,6 +57,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
+    private final EgtbEvaluation egtbEvaluation;
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
@@ -67,6 +71,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetKillerMoveTables setKillerMoveTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private DebugNodeTrap debugNodeTrap;
+    private EndGameTableBase endGameTableBase;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -112,6 +117,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         loopChainBuilder = new LoopChainBuilder();
         quiescenceLoopChainBuilder = new LoopChainBuilder();
+
+        egtbEvaluation = new EgtbEvaluation();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -251,6 +258,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withDebugNodeTrap(EndGameTableBase endGameTableBase) {
+        this.endGameTableBase = endGameTableBase;
+        return this;
+    }
+
     public AlphaBetaBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
@@ -358,11 +370,24 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
         }
 
+        if (endGameTableBase == null) {
+            endGameTableBase = new EndGameTableBaseNull();
+        }
+
+        /**
+         * Static wiring
+         */
+        alphaBetaFlowControl.setEndGameTableBase(endGameTableBase);
+
+        setGameEvaluator.setEvaluator(evaluator);
+        setGameEvaluator.setEndGameTableBase(endGameTableBase);
+
+        egtbEvaluation.setEndGameTableBase(endGameTableBase);
     }
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.add(setGameEvaluator);
+        searchListenerMediator.addAcceptor(setGameEvaluator);
 
         searchListenerMediator.add(alphaBetaFacade);
 
@@ -425,8 +450,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     private AlphaBetaFilter createChain() {
-        setGameEvaluator.setEvaluator(evaluator);
-
         terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
         terminalChainBuilder.withGameEvaluator(evaluator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();
@@ -434,7 +457,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         leafChainBuilder.withGameEvaluator(evaluator);
         leafChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
-
 
         AlphaBetaFilter extensionChain = createExtensionChain();
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(searchListenerMediator);
@@ -455,6 +477,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaFlowControl.setTerminalNode(terminalChain);
         alphaBetaFlowControl.setLoopNode(loopChain);
         alphaBetaFlowControl.setLeafNode(leafChain);
+        alphaBetaFlowControl.setEgtbNode(egtbEvaluation);
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);

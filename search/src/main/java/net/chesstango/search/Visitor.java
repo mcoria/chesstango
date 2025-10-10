@@ -16,6 +16,7 @@ import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.debug.traps.LeafNodeTrap;
+import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
@@ -84,7 +85,8 @@ public interface Visitor {
     default void visit(NegaMaxPruning negaMaxPruning) {
     }
 
-    default void visit(BottomMoveCounterFacade bottomMoveCounterFacade){}
+    default void visit(BottomMoveCounterFacade bottomMoveCounterFacade) {
+    }
 
     /**
      * Alpha Beta filters
@@ -128,6 +130,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+    }
+
+    default void visit(EgtbEvaluation egtbEvaluation) {
     }
 
     default void visit(TranspositionTable transpositionTable) {
@@ -208,11 +213,14 @@ public interface Visitor {
     default void visit(SetTranspositionTables setTranspositionTables) {
     }
 
-    default void visit(LeafNodeTrap leafNodeTrap){}
+    default void visit(LeafNodeTrap leafNodeTrap) {
+    }
 
-    default void visit(SetSearchLast setSearchLast){}
+    default void visit(SetSearchLast setSearchLast) {
+    }
 
-    default void visit(SetSearchTimers setSearchTimers){}
+    default void visit(SetSearchTimers setSearchTimers) {
+    }
 
     /**
      *
@@ -227,7 +235,8 @@ public interface Visitor {
     default void visit(MoveSorterDebug moveSorterDebug) {
     }
 
-    default void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper){}
+    default void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper) {
+    }
 
     /**
      *
@@ -248,7 +257,8 @@ public interface Visitor {
     default void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
     }
 
-    default void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ){}
+    default void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ) {
+    }
 
     default void visit(QuietComparator quietComparator) {
     }

@@ -279,7 +279,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.add(setGameEvaluator);
+        searchListenerMediator.addAcceptor(setGameEvaluator);
 
         searchListenerMediator.add(bottomMoveCounterFacade);
 

@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
@@ -214,7 +215,6 @@ public class ChainPrinterVisitor implements Visitor {
         print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
     }
 
-
     @Override
     public void visit(DebugFilter debugFilter) {
         print(debugFilter, debugFilter.getNext());
@@ -272,6 +272,13 @@ public class ChainPrinterVisitor implements Visitor {
             printChainText(" -> LoopNode");
             nestedChain++;
             loopNode.accept(this);
+            nestedChain--;
+
+            AlphaBetaFilter egtbNode = alphaBetaFlowControl.getEgtbNode();
+            out.println();
+            printChainText(" -> EgtbNode");
+            nestedChain++;
+            egtbNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();
@@ -466,6 +473,12 @@ public class ChainPrinterVisitor implements Visitor {
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         printChainDownLine();
         printChainText(String.format("%s [Evaluator: %s]", objectText(alphaBetaEvaluation), printGameEvaluator(alphaBetaEvaluation.getEvaluator())));
+    }
+
+    @Override
+    public void visit(EgtbEvaluation egtbEvaluation) {
+        printChainDownLine();
+        printChainText(String.format("%s [EndGameTableBase: %s]", objectText(egtbEvaluation), printGameEvaluator(egtbEvaluation.getEndGameTableBase())));
     }
 
     public void print(Object object, Acceptor acceptor) {
