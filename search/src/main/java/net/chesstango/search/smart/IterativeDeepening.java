@@ -12,8 +12,6 @@ import net.chesstango.search.visitors.CollectSearchResultVisitor;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
