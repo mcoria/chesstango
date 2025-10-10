@@ -27,11 +27,6 @@ public class SetSearchTimers implements Acceptor, SearchByCycleListener, SearchB
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        result.setTimeSearching(Duration.between(startInstant, Instant.now()).toMillis());
-    }
-
-    @Override
     public void beforeSearchByDepth() {
         startDepthInstant = Instant.now();
     }

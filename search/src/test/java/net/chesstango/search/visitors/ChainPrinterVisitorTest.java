@@ -49,7 +49,8 @@ public class ChainPrinterVisitorTest {
 
                 .withStopProcessingCatch()
                 .withZobristTracker()
-                .withDebugSearchTree(debugNodeTrap, false, true, true)
+                .withDebugSearchTree(false, true, true)
+                .withDebugNodeTrap(debugNodeTrap)
                 .withStatistics()
                 .withTrackEvaluations() // Consume demasiada memoria
                 ;
@@ -74,7 +75,7 @@ public class ChainPrinterVisitorTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
-            //chainPrinterVisitor.print(search, System.out);
+            chainPrinterVisitor.print(search, System.out);
             chainPrinterVisitor.print(search, out);
         }
 

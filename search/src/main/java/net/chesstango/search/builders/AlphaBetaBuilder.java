@@ -23,7 +23,6 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
-import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
@@ -61,7 +60,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetTranspositionTables setTranspositionTables;
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetNodeStatistics setNodeStatistics;
-    private SetPVStatistics setPVStatistics;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -338,7 +336,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
-            setPVStatistics = new SetPVStatistics();
         }
 
         if (withZobristTracker) {
@@ -416,9 +413,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     private void setupListenerMediatorAfterChain() {
-        if (setPVStatistics != null) {
-            searchListenerMediator.add(setPVStatistics);
-        }
         if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
             searchListenerMediator.add(debugNodeTrapSearchListener);
         } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
