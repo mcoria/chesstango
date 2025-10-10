@@ -4,6 +4,7 @@ import net.chesstango.search.dummy.Dummy;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
+import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
@@ -27,6 +28,7 @@ import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationCom
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -82,6 +84,7 @@ public interface Visitor {
     default void visit(NegaMaxPruning negaMaxPruning) {
     }
 
+    default void visit(BottomMoveCounterFacade bottomMoveCounterFacade){}
 
     /**
      * Alpha Beta filters
@@ -223,6 +226,8 @@ public interface Visitor {
 
     default void visit(MoveSorterDebug moveSorterDebug) {
     }
+
+    default void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper){}
 
     /**
      *

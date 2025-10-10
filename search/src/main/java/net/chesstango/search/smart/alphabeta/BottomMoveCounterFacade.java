@@ -9,6 +9,7 @@ import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
@@ -34,10 +35,16 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     private Move targetMove;
 
+    @Getter
     private int bottomMoveCounter;
 
     // Hace falta settear con un visitor
     private EPD epd;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void beforeSearch() {
@@ -55,11 +62,6 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
         }
 
         this.bottomMoveCounter = 0;
-    }
-
-    @Override
-    public void afterSearch(SearchResult result) {
-        result.setBottomMoveCounter(bottomMoveCounter);
     }
 
     @Override

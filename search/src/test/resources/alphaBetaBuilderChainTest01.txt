@@ -203,8 +203,7 @@ SearchByCycleListeners:
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
 	RootMoveSorter @ 11
-	SetPVStatistics @ 89
-	SetDebugOutput @ 90
+	SetDebugOutput @ 89
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
@@ -212,13 +211,12 @@ SearchByDepthListener:
 	SetSearchLast @ 83
 	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	SetPVStatistics @ 89
-	SetDebugOutput @ 90
+	SetDebugOutput @ 89
 
 SearchByWindowsListeners:
 	SetSearchTracker @ 84
 	MoveEvaluationTracker @ 15
-	SetDebugOutput @ 90
+	SetDebugOutput @ 89
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
@@ -235,13 +233,14 @@ Acceptor:
 	SetSearchLast @ 83
 	SetSearchTracker @ 84
 	SetTranspositionTablesDebug @ 85
+	TTableDebug @ 90
 	TTableDebug @ 91
 	TTableDebug @ 92
 	TTableDebug @ 93
-	TTableDebug @ 94
 	SetNodeStatistics @ 87
+	EvaluatorStatisticsWrapper @ 22
 	SetKillerMoveTablesDebug @ 88
-	KillerMovesDebug @ 95
+	KillerMovesDebug @ 94
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 33
 	ZobristTracker @ 19
@@ -304,5 +303,5 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 90
+	SetDebugOutput @ 89
 

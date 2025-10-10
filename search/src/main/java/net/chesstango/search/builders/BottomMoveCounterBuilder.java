@@ -3,10 +3,12 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -20,7 +22,6 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
-import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
@@ -55,7 +56,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private SetTranspositionTablesDebug setTranspositionTablesDebug;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
-    private SetPVStatistics setPVStatistics;
     private SetDebugOutput setDebugOutput;
     private SetSearchTracker setSearchTracker;
     private SetKillerMoveTables setKillerMoveTables;
@@ -194,7 +194,12 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         return this;
     }
 
-    public BottomMoveCounterBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public BottomMoveCounterBuilder withDebugNodeTrap(DebugNodeTrap debugNodeTrap) {
+        this.debugNodeTrap = debugNodeTrap;
+        return this;
+    }
+
+    public BottomMoveCounterBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
@@ -208,7 +213,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         quiescenceLoopChainBuilder.withZobristTracker();
 
         this.withDebugSearchTree = true;
-        this.debugNodeTrap = debugNodeTrap;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
         return this;
@@ -256,12 +260,11 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         if (withStatistics) {
             setNodeStatistics = new SetNodeStatistics();
-            setPVStatistics = new SetPVStatistics();
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker(debugNodeTrap);
-            setDebugOutput = new SetDebugOutput(false, debugNodeTrap, false, showNodeTranspositionAccess, showSorterOperations);
+            setSearchTracker = new SetSearchTracker();
+            setDebugOutput = new SetDebugOutput(false, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
         if (withKillerMoveSorter) {
@@ -319,8 +322,10 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     }
 
     private void setupListenerMediatorAfterChain() {
-        if (setPVStatistics != null) {
-            searchListenerMediator.add(setPVStatistics);
+        if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
+            searchListenerMediator.add(debugNodeTrapSearchListener);
+        } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
+            searchListenerMediator.addAcceptor(debugNodeTrapAcceptor);
         }
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);

@@ -15,14 +15,10 @@ import net.chesstango.search.visitors.SetKillerMovesVisitor;
  */
 public class SetKillerMoveTables implements SearchByCycleListener, Acceptor {
 
-    private final KillerMoves killerMoves;
+    private KillerMoves killerMoves;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
-
-    public SetKillerMoveTables() {
-        killerMoves = new KillerMovesTable();
-    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -31,12 +27,12 @@ public class SetKillerMoveTables implements SearchByCycleListener, Acceptor {
 
     @Override
     public void beforeSearch() {
-        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMoves));
-    }
-
-    @Override
-    public void afterSearch(SearchResult result) {
-        killerMoves.reset();
+        if(killerMoves == null) {
+            killerMoves = new KillerMovesTable();
+            searchListenerMediator.accept(new SetKillerMovesVisitor(killerMoves));
+        } else {
+            killerMoves.reset();
+        }
     }
 }
 
