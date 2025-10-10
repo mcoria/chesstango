@@ -9,7 +9,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +26,7 @@ public abstract class AbstractBestMovesWhiteTest {
         // hay que sacar a la reina blanca de donde esta, sino se la morfa el caballo
         Game game = Game.from(FEN.of("r1bqkb1r/ppp2ppp/5n2/3p4/1n1p3P/N2Q1N2/PPP1PPP1/R1B1KB1R w KQkq - 1 1"));
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
+        search.accept(new SetMaxDepthVisitor(2));
         SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();
@@ -46,7 +46,7 @@ public abstract class AbstractBestMovesWhiteTest {
         // White will be in checkmate in the next 1 move
         Game game = Game.from(FEN.of("6k1/3r4/1b3p2/8/1Pp5/8/2Kq2p1/8 w - - 1 1"));
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 2);
+        search.accept(new SetMaxDepthVisitor(2));
         SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();
@@ -64,7 +64,7 @@ public abstract class AbstractBestMovesWhiteTest {
         // White will be in checkmate in the next 2 move
         Game game = Game.from(FEN.of("6k1/3r4/1b3p2/8/1Pp5/6p1/2Kq4/8 w - - 1 1"));
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 4);
+        search.accept(new SetMaxDepthVisitor(4));
         SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();
@@ -81,7 +81,7 @@ public abstract class AbstractBestMovesWhiteTest {
         // White can win the game in the next move
         Game game = Game.from(FEN.of("1Q6/8/8/k1K5/3P4/2P1PP2/6P1/5r2 w - - 1 1"));
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, 5);
+        search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();
@@ -100,7 +100,7 @@ public abstract class AbstractBestMovesWhiteTest {
 
         Game game = Game.from(FEN.of("r1b1r1k1/pp2bp1p/5p2/q2p4/3N3Q/4R3/3N1PPP/4R1K1 w - - 0 1"));
 
-        search.setSearchParameter(SearchParameter.MAX_DEPTH , 5);
+        search.accept(new SetMaxDepthVisitor(5));
         SearchResult searchResult = search.startSearch(game);
 
         Move smartMove = searchResult.getBestMove();

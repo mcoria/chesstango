@@ -2,21 +2,18 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
  */
-public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
+public class Quiescence implements AlphaBetaFilter {
     @Setter
     @Getter
     private AlphaBetaFilter next;
@@ -32,11 +29,6 @@ public class Quiescence implements AlphaBetaFilter, SearchByCycleListener {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        Game game = context.getGame();
     }
 
     @Override

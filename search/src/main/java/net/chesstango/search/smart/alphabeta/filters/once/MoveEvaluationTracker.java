@@ -6,9 +6,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -24,14 +24,16 @@ import java.util.stream.Stream;
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthListener, SearchByWindowsListener {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
 
+    @Getter
     private List<MoveEvaluation> currentMoveEvaluations;
 
+    @Setter
     private Game game;
 
     @Override
@@ -40,12 +42,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         this.currentMoveEvaluations = new LinkedList<>();
     }
 
@@ -60,11 +57,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByCycleList
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
             currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
         }
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setMoveEvaluations(currentMoveEvaluations);
     }
 
 

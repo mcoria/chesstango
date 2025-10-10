@@ -1,59 +1,49 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.SearchTracker;
+import net.chesstango.search.visitors.SetSearchTrackerVisitor;
 
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private SearchTracker searchTracker;
-    private final DebugNodeTrap debugNodeTrap;
 
-    public SetSearchTracker(DebugNodeTrap debugNodeTrap) {
-        this.debugNodeTrap = debugNodeTrap;
+    @Setter
+    private Game game;
+
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         searchTracker = new SearchTracker();
-        searchTracker.setGame(context.getGame());
 
-        context.setSearchTracker(searchTracker);
+        searchTracker.setGame(game);
 
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.beforeSearch(context);
-        }
+        searchListenerMediator.accept(new SetSearchTrackerVisitor(searchTracker));
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByCycleListener debugNodeTrapSearchByCycleListener) {
-            debugNodeTrapSearchByCycleListener.afterSearch(result);
-        }
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
-            debugNodeTrapSearchByDepthListener.beforeSearchByDepth(context);
-        }
+    public void beforeSearchByDepth() {
         searchTracker.reset();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        if (debugNodeTrap != null && debugNodeTrap instanceof SearchByDepthListener debugNodeTrapSearchByDepthListener) {
-            debugNodeTrapSearchByDepthListener.afterSearchByDepth(result);
-        }
     }
 
     @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
         searchTracker.reset();
     }
-
 }

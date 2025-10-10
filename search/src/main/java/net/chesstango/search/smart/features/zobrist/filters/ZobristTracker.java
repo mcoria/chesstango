@@ -2,10 +2,7 @@ package net.chesstango.search.smart.features.zobrist.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 import java.util.List;
@@ -14,26 +11,17 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class ZobristTracker implements AlphaBetaFilter, SearchByCycleListener {
-    @Setter
-    @Getter
+@Setter
+@Getter
+public class ZobristTracker implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private Map<Long, String> zobristMaxMap;
     private Map<Long, String> zobristMinMap;
     private List<String> zobristCollisions;
-    private Game game;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.zobristMaxMap = context.getZobristMaxMap();
-        this.zobristMinMap = context.getZobristMinMap();
-        this.zobristCollisions = context.getZobristCollisions();
     }
 
     @Override

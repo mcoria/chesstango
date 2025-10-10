@@ -1,15 +1,17 @@
 package net.chesstango.search.smart;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.*;
+import net.chesstango.search.Search;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.visitors.CollectSearchResultByDepthVisitor;
+import net.chesstango.search.visitors.CollectSearchResultVisitor;
+import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static net.chesstango.search.SearchParameter.EPD_PARAMS;
-import static net.chesstango.search.SearchParameter.MAX_DEPTH;
 
 /**
  * @author Mauricio Coria
@@ -22,8 +24,7 @@ public class NoIterativeDeepening implements Search {
     @Getter
     private final SearchListenerMediator searchListenerMediator;
 
-    private final Map<SearchParameter, Object> searchParameters = new HashMap<>();
-
+    @Setter
     private int maxDepth = Integer.MAX_VALUE;
 
     public NoIterativeDeepening(SearchAlgorithm searchAlgorithm, SearchListenerMediator searchListenerMediator) {
@@ -33,25 +34,27 @@ public class NoIterativeDeepening implements Search {
 
     @Override
     public SearchResult startSearch(Game game) {
-        SearchResult searchResult = new SearchResult();
+        accept(new SetGameVisitor(game));
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        searchListenerMediator.triggerBeforeSearch();
 
-        searchByCycleContext.setSearchParameters(searchParameters);
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(maxDepth));
 
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
-
-        SearchByDepthContext context = new SearchByDepthContext(maxDepth);
-
-        searchListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         searchAlgorithm.search();
 
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(maxDepth);
 
+        searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
+
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
 
+        SearchResult searchResult = new SearchResult();
+
         searchResult.addSearchResultByDepth(searchResultByDepth);
+
+        searchListenerMediator.accept(new CollectSearchResultVisitor(searchResult));
 
         searchListenerMediator.triggerAfterSearch(searchResult);
 
@@ -66,18 +69,6 @@ public class NoIterativeDeepening implements Search {
     @Override
     public void reset() {
         this.searchListenerMediator.triggerReset();
-    }
-
-    @Override
-    public void setSearchParameter(SearchParameter parameter, Object value) {
-        if (MAX_DEPTH.equals(parameter) && value instanceof Integer maxDepthParam) {
-            maxDepth = maxDepthParam;
-            searchParameters.put(MAX_DEPTH, maxDepthParam);
-        }
-
-        if (EPD_PARAMS.equals(parameter) && value instanceof EPD epd) {
-            searchParameters.put(EPD_PARAMS, epd);
-        }
     }
 
     @Override

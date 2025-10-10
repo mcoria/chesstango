@@ -6,8 +6,9 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
 import java.util.LinkedHashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListener {
+public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListener, Acceptor {
 
     @Setter
     @Getter
@@ -38,6 +39,11 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
 
 
     @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public int evaluate() {
         evaluationsCounter++;
         int evaluation = imp.evaluate();
@@ -55,7 +61,7 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
+    public void beforeSearch() {
         evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
@@ -65,10 +71,9 @@ public class EvaluatorStatisticsWrapper implements Evaluator, SearchByCycleListe
         }
     }
 
-    @Override
-    public void afterSearch(SearchResult result) {
+    public EvaluationStatistics getEvaluationStatistics() {
         long cacheHitsCounter = gameEvaluatorCache != null ? gameEvaluatorCache.getCacheHitsCounter() : 0;
-        result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
+        return new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations);
     }
 
 }

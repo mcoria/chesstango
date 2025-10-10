@@ -3,8 +3,10 @@ package net.chesstango.engine;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Search;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
+import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
+import net.chesstango.search.visitors.SetSearchPredicateVisitor;
 
 /**
  * @author Mauricio Coria
@@ -42,10 +44,12 @@ class SearchByAlgorithm implements SearchChain {
      */
     @Override
     public SearchResult search(SearchContext context) {
-        search.setSearchParameter(SearchParameter.MAX_DEPTH, context.getDepth());
-        search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_PREDICATE, context.getSearchPredicate());
-        search.setSearchParameter(SearchParameter.SEARCH_BY_DEPTH_LISTENER, context.getSearchResultByDepthListener());
-        SearchResult result =  search.startSearch(context.getGame());
+        search.accept(new SetMaxDepthVisitor(context.getDepth()));
+        search.accept(new SetSearchPredicateVisitor(context.getSearchPredicate()));
+
+        search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthListener()));
+
+        SearchResult result = search.startSearch(context.getGame());
         log.debug("Move found: {}", simpleMoveEncoder.encode(result.getBestMove()));
         return result;
     }

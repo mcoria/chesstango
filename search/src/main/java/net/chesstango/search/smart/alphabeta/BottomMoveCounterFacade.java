@@ -8,18 +8,13 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
-import java.util.Map;
-
-import static net.chesstango.search.SearchParameter.EPD_PARAMS;
 
 /**
  * Valida una hipotesis: que expectedRootBestMove es el mejor movimiento posible.
@@ -40,18 +35,19 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
 
     private Move targetMove;
 
+    @Getter
     private int bottomMoveCounter;
 
+    // Hace falta settear con un visitor
+    private EPD epd;
+
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
-        Map<SearchParameter, Object> searchParameters = context.getSearchParameters();
-        if (!searchParameters.containsKey(EPD_PARAMS)) {
-            throw new RuntimeException("EPD_PARAMS not present in searchParameters");
-        }
-
-        EPD epd = (EPD) searchParameters.get(EPD_PARAMS);
+    @Override
+    public void beforeSearch() {
         GameMoveDecoder moveDecoder = new GameMoveDecoder();
         if (epd.getBestMovesStr() != null) {
             String[] bestMoves = epd.getBestMovesStr().split(" ");
@@ -69,12 +65,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     }
 
     @Override
-    public void afterSearch(SearchResult result) {
-        result.setBottomMoveCounter(bottomMoveCounter);
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
     }
 
     @Override

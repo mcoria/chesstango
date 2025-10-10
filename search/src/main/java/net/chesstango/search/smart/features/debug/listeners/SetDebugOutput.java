@@ -1,11 +1,12 @@
 package net.chesstango.search.smart.features.debug.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.*;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -25,33 +26,43 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
+public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
     private final boolean withAspirationWindows;
-    private final DebugNodeTrap debugNodeTrap;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     private FileOutputStream fos;
     private BufferedOutputStream bos;
     private PrintStream debugOut;
+
+    @Setter
+    private int maxPly;
+
+    @Setter
     private SearchTracker searchTracker;
+
+    @Setter
+    private DebugNodeTrap debugNodeTrap;
+
     private List<String> debugErrorMessages;
 
-    public SetDebugOutput(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public SetDebugOutput(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
-        this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        searchTracker = context.getSearchTracker();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
+    @Override
+    public void beforeSearch() {
         try {
             fos = new FileOutputStream(String.format("DebugSearchTree-%s.txt", dtFormatter.format(Instant.now())));
             bos = new BufferedOutputStream(fos);
@@ -78,8 +89,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        debugOut.printf("Search by depth %d started\n", context.getMaxPly());
+    public void beforeSearchByDepth() {
+        debugOut.printf("Search by depth %d started\n", maxPly);
     }
 
     @Override

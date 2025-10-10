@@ -7,8 +7,6 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -96,13 +94,13 @@ public class NegaMaxTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        negaMax.setGame(game);
 
-        negaMax.beforeSearch(searchByCycleContext);
+        negaMax.beforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(depth);
+        negaMax.setMaxPly(depth);
 
-        negaMax.beforeSearchByDepth(context);
+        negaMax.beforeSearchByDepth();
 
         negaMax.search();
 

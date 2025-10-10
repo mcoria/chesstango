@@ -7,9 +7,9 @@ import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchParameter;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,10 +74,10 @@ public class TranspositionEntryTableTest {
         Game game01 = Game.from(FEN.of(fen));
         Game game02 = Game.from(FEN.of(fen));
 
-        searchWithoutTT.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+        searchWithoutTT.accept(new SetMaxDepthVisitor(depth));
         searchResultWithoutTT = searchWithoutTT.startSearch(game01);
 
-        searchWithTT.setSearchParameter(SearchParameter.MAX_DEPTH, depth);
+        searchWithTT.accept(new SetMaxDepthVisitor(depth));
         searchResultWithTT = searchWithTT.startSearch(game02);
 
         //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString() , searchResult01.getEvaluation(), depth - 1, searchWithoutTT, searchWithTT);

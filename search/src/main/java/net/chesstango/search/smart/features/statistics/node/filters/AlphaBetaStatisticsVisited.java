@@ -3,16 +3,14 @@ package net.chesstango.search.smart.features.statistics.node.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycleListener {
-    @Setter
-    @Getter
+@Setter
+@Getter
+public class AlphaBetaStatisticsVisited implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private int[] visitedNodesCounters;
@@ -20,11 +18,6 @@ public class AlphaBetaStatisticsVisited implements AlphaBetaFilter, SearchByCycl
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.visitedNodesCounters = context.getVisitedNodesCounters();
     }
 
     @Override

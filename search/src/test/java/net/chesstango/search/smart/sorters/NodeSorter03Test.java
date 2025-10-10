@@ -8,6 +8,9 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
+import net.chesstango.search.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -33,8 +36,12 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
-        searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
+        searchListenerMediator.accept(new SetGameVisitor(game));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.triggerBeforeSearch();
+
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(3));
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);
 
@@ -49,11 +56,6 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         return Game.from(FEN.of("3b1rk1/1bq3pp/5pn1/1p2rN2/2p1p3/2P1B2Q/1PB2PPP/R2R2K1 w - - 0 1"))
                 .executeMove(Square.h3, Square.h5)
                 .executeMove(Square.b7, Square.d5);
-    }
-
-    @Override
-    protected int getMaxSearchPly() {
-        return 3;
     }
 
     protected void loadTranspositionTables() {

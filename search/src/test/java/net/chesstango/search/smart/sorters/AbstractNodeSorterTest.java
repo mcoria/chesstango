@@ -4,12 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.*;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
@@ -23,8 +20,6 @@ import java.util.List;
  */
 public abstract class AbstractNodeSorterTest {
     protected final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-    protected SearchByCycleContext cycleContext;
-    protected SearchByDepthContext depthContext;
 
     protected SearchListenerMediator searchListenerMediator;
     protected MoveSorterBuilder moveSorterBuilder;
@@ -41,21 +36,12 @@ public abstract class AbstractNodeSorterTest {
 
         searchListenerMediator = new SearchListenerMediator();
 
-        cycleContext = new SearchByCycleContext(game);
-
         maxMap = new TTableMap();
         minMap = new TTableMap();
         qMaxMap = new TTableMap();
         qMinMap = new TTableMap();
-        cycleContext.setMaxMap(maxMap);
-        cycleContext.setMinMap(minMap);
-        cycleContext.setQMaxMap(qMaxMap);
-        cycleContext.setQMinMap(qMinMap);
 
         killerMovesTable = new KillerMovesTable();
-        cycleContext.setKillerMoves(killerMovesTable);
-
-        depthContext = new SearchByDepthContext(getMaxSearchPly());
 
         moveSorterBuilder = new MoveSorterBuilder()
                 .withSmartListenerMediator(searchListenerMediator);
@@ -63,7 +49,6 @@ public abstract class AbstractNodeSorterTest {
 
     protected abstract Game createGame();
 
-    protected abstract int getMaxSearchPly();
 
     protected List<String> convertMoveListToStringList(Iterable<Move> moves) {
         List<String> sortedMovesStr = new ArrayList<>();

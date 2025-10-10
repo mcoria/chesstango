@@ -7,12 +7,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
@@ -26,8 +21,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
-
+public class TranspositionPV implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -35,39 +29,34 @@ public class TranspositionPV implements AlphaBetaFilter, SearchByCycleListener, 
 
     @Setter
     private Evaluator evaluator;
+
+    @Getter
     private List<PrincipalVariation> principalVariation;
+
+    @Getter
     private boolean pvComplete;
 
+    @Setter
     private TTable maxMap;
+
+    @Setter
     private TTable minMap;
+
+    @Setter
     private TTable qMaxMap;
+
+    @Setter
     private TTable qMinMap;
+
+    @Setter
     private Game game;
+
+    @Setter
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
-    }
-
-    @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setPrincipalVariation(principalVariation);
-        result.setPvComplete(pvComplete);
     }
 
     @Override

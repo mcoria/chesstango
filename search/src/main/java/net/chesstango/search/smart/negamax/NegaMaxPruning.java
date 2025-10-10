@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.negamax;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -7,8 +8,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchAlgorithm;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.ArrayList;
@@ -20,14 +23,22 @@ import java.util.List;
  */
 public class NegaMaxPruning implements SearchAlgorithm {
     private final NegaQuiescence negaQuiescence;
-    private Game game;
+
     @Setter
+    private Game game;
+
+    @Setter
+    @Getter
     private MoveSorter moveSorter;
+
     @Setter
     private int[] visitedNodesCounter;
-    private int maxPly;
-    private MoveEvaluation bestMoveEvaluation;
 
+    @Setter
+    private int maxPly;
+
+    @Getter
+    private MoveEvaluation bestMoveEvaluation;
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
         this.negaQuiescence = negaQuiescence;
@@ -72,7 +83,7 @@ public class NegaMaxPruning implements SearchAlgorithm {
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        bestMoveEvaluation =  new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
+        bestMoveEvaluation = new MoveEvaluation(bestMove, minOrMax ? -bestValue : bestValue, MoveEvaluationType.EXACT);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
@@ -106,31 +117,21 @@ public class NegaMaxPruning implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void beforeSearch() {
         if (moveSorter instanceof SearchByCycleListener moveSorterListener) {
-            moveSorterListener.beforeSearch(context);
+            moveSorterListener.beforeSearch();
         }
-        this.negaQuiescence.setupGameEvaluator(context.getGame());
+        this.negaQuiescence.setupGameEvaluator(game);
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 
     @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setBestMoveEvaluation(bestMoveEvaluation);
-
-        /**
-         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-         */
-        result.setContinueDeepening(
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
-        );
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
 

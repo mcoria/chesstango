@@ -1,17 +1,19 @@
 package net.chesstango.search.smart.features.pv.listeners;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResultByDepth;
-import net.chesstango.search.smart.SearchByCycleContext;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchByDepthListener;
+import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.visitors.SetTrianglePVVisitor;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -21,15 +23,23 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
+public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener, Acceptor {
+
+    @Setter
+    private SearchListenerMediator searchListenerMediator;
 
     @Setter
     private Evaluator evaluator;
 
     private final short[][] trianglePV;
+
+    @Setter
     private Game game;
 
+    @Getter
     private List<PrincipalVariation> principalVariation;
+
+    @Getter
     private boolean pvComplete;
 
     public SetTrianglePV() {
@@ -37,23 +47,25 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        context.setTrianglePV(trianglePV);
+    public void beforeSearch() {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 40; j++) {
+                trianglePV[i][j] = 0;
+            }
+        }
     }
 
     @Override
-    public void afterSearchByDepth(SearchResultByDepth searchResultByDepth) {
-        calculatePrincipalVariation(searchResultByDepth.getBestMoveEvaluation());
-        searchResultByDepth.setPrincipalVariation(principalVariation);
-        searchResultByDepth.setPvComplete(pvComplete);
+    public void beforeSearchByDepth() {
+        searchListenerMediator.accept(new SetTrianglePVVisitor(trianglePV));
     }
 
-    protected void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
+    public void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
         principalVariation = new ArrayList<>();
         pvComplete = false;
 

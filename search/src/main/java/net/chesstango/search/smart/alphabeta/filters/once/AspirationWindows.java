@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -13,13 +13,12 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+@Setter
+public class AspirationWindows implements AlphaBetaFilter {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     private SearchListenerMediator searchListenerMediator;
 
     private Integer lastBestValue;
@@ -27,20 +26,6 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        lastBestValue = null;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        if(Objects.nonNull(context.getLastBestMoveEvaluation())) {
-            lastBestValue = context.getLastBestMoveEvaluation().evaluation();
-        } else {
-            lastBestValue = null;
-        }
     }
 
     @Override

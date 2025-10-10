@@ -6,8 +6,11 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
+import net.chesstango.search.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -32,8 +35,11 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
-        searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
+        searchListenerMediator.accept(new SetGameVisitor(game));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(2));
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);
 
@@ -55,8 +61,11 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
 
         MoveSorter moveSorter = moveSorterBuilder.build();
 
-        searchListenerMediator.triggerBeforeSearch(cycleContext);
-        searchListenerMediator.triggerBeforeSearchByDepth(depthContext);
+        searchListenerMediator.accept(new SetGameVisitor(game));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
+
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(1);
 
@@ -70,11 +79,6 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
     protected Game createGame() {
         return Game.from(FEN.of("1R3b1k/2p3pp/4qr2/Q7/3p2P1/3P3K/6NP/8 b - - 0 1"))
                 .executeMove(Square.e6, Square.e2);
-    }
-
-    @Override
-    protected int getMaxSearchPly() {
-        return 2;
     }
 
     protected void loadTranspositionTables() {

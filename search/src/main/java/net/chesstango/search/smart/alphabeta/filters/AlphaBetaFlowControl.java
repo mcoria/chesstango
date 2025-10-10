@@ -7,12 +7,13 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.SearchByCycleListener;
+import net.chesstango.search.smart.StopSearchingListener;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener, StopSearchingListener {
+public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListener, StopSearchingListener {
     private volatile boolean keepProcessing;
 
     @Setter
@@ -35,8 +36,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     @Getter
     private AlphaBetaFilter leafNode;
 
-    private int maxPly;
+    @Setter
     private Game game;
+
+    @Setter
+    private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
@@ -44,14 +48,8 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void beforeSearch() {
         this.keepProcessing = true;
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
     @Override

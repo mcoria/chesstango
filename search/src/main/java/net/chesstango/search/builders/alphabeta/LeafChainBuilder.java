@@ -73,10 +73,10 @@ public class LeafChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+            searchListenerMediator.addAcceptor(zobristQTracker);
         }
         if (debugSearchTree != null) {
-            searchListenerMediator.add(debugSearchTree);
+            searchListenerMediator.addAcceptor(debugSearchTree);
         }
     }
 

@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.features.debug.traps;
 
-import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 
 import java.io.PrintStream;
 import java.util.function.BiConsumer;

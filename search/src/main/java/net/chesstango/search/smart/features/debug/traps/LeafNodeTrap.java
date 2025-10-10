@@ -1,17 +1,25 @@
 package net.chesstango.search.smart.features.debug.traps;
 
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
+import lombok.Setter;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 
 import java.io.PrintStream;
 
 /**
  * @author Mauricio Coria
  */
-public class LeafNodeTrap implements DebugNodeTrap, SearchByDepthListener {
+public class LeafNodeTrap implements DebugNodeTrap, Acceptor {
+
+    @Setter
     private int maxPly;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public boolean test(DebugNode debugNode) {
@@ -32,10 +40,5 @@ public class LeafNodeTrap implements DebugNodeTrap, SearchByDepthListener {
     @Override
     public void debugAction(DebugNode debugNode, PrintStream debugOut) {
         debugOut.printf("%s %d POSIBLE NODO\n", ">\t".repeat(debugNode.getPly()), debugNode.getPly());
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        maxPly = context.getMaxPly();
     }
 }

@@ -1,9 +1,9 @@
 package net.chesstango.search.smart.features.transposition.listeners;
 
+import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -19,7 +19,8 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
+@Setter
+public class TTLoad implements SearchByDepthListener, Acceptor {
 
     private Game game;
     private TTable maxMap;
@@ -28,13 +29,12 @@ public class TTLoad implements SearchByCycleListener, SearchByDepthListener {
     private boolean initialStateLoaded = false;
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
+
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
+    public void beforeSearchByDepth() {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateLoaded) {
             loadTables();
             initialStateLoaded = true;

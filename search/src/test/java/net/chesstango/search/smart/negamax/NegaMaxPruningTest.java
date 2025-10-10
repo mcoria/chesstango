@@ -2,16 +2,17 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
+import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ public class NegaMaxPruningTest {
 
     private SearchListenerMediator searchListenerMediator;
 
+    private List<Acceptor> acceptors;
+
     @BeforeEach
     public void setup() {
         evaluator = new MockEvaluator();
@@ -48,7 +51,9 @@ public class NegaMaxPruningTest {
         negaMaxPruning.setMoveSorter(moveSorter);
 
         searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.addAll(List.of(moveSorter, negaMaxPruning));
+        searchListenerMediator.add(negaMaxPruning);
+        searchListenerMediator.addAcceptor(moveSorter);
+        acceptors = List.of(moveSorter, negaMaxPruning);
     }
 
     @Test
@@ -116,21 +121,23 @@ public class NegaMaxPruningTest {
     }
 
     private SearchResult search(GameMock game, int depth) {
-        SearchResult searchResult = new SearchResult();
+        SetGameVisitor setGameVisitor = new SetGameVisitor(game);
 
-        SearchByCycleContext searchByCycleContext = new SearchByCycleContext(game);
+        acceptors.forEach(acceptor -> acceptor.accept(setGameVisitor));
 
-        searchListenerMediator.triggerBeforeSearch(searchByCycleContext);
+        searchListenerMediator.triggerBeforeSearch();
 
-        SearchByDepthContext context = new SearchByDepthContext(depth);
+        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(depth));
 
-        searchListenerMediator.triggerBeforeSearchByDepth(context);
+        searchListenerMediator.triggerBeforeSearchByDepth();
 
         negaMaxPruning.search();
 
         SearchResultByDepth searchResultByDepth = new SearchResultByDepth(depth);
 
         searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+
+        SearchResult searchResult = new SearchResult();
 
         searchResult.addSearchResultByDepth(searchResultByDepth);
 

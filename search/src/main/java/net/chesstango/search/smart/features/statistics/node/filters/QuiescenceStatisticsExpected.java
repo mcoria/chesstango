@@ -5,38 +5,29 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
-import net.chesstango.search.smart.SearchByDepthContext;
-import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener, SearchByDepthListener {
+public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
+
+    @Setter
     private int[] expectedNodesCounters;
+
+    @Setter
     private Game game;
+
+    @Setter
     private int maxPly;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.expectedNodesCounters = context.getExpectedNodesCountersQuiescence();
-    }
-
-    @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
     }
 
 
@@ -55,7 +46,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter, SearchByCy
     protected void updateCounters(final int currentPly) {
         final int qLevel = currentPly - maxPly;
         int expectedMoves = 0;
-        if(game.getStatus().isCheck()){
+        if (game.getStatus().isCheck()) {
             expectedMoves = game.getPossibleMoves().size();
         } else {
             for (Move move : game.getPossibleMoves()) {

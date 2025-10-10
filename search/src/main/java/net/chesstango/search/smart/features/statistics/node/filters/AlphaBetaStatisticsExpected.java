@@ -4,30 +4,26 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsExpected implements AlphaBetaFilter, SearchByCycleListener {
+public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
-    private int[] expectedNodesCounters;
+
+    @Setter
     private Game game;
+
+    @Setter
+    private int[] expectedNodesCounters;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
-        this.expectedNodesCounters = context.getExpectedNodesCounters();
     }
 
 

@@ -1,16 +1,16 @@
 package net.chesstango.search.smart.minmax;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.SearchByCycleContext;
-import net.chesstango.search.smart.SearchByDepthContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,17 @@ import java.util.List;
 public class MinMax implements SearchAlgorithm {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
+
+    @Setter
     private Game game;
+
+    @Setter
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
     private Evaluator evaluator;
+
+    @Getter
     private MoveEvaluation bestMoveEvaluation;
 
     @Override
@@ -95,30 +101,20 @@ public class MinMax implements SearchAlgorithm {
     }
 
     @Override
-    public void beforeSearch(SearchByCycleContext context) {
-        this.game = context.getGame();
+    public void beforeSearch() {
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.evaluator.setGame(game);
     }
 
     @Override
-    public void beforeSearchByDepth(SearchByDepthContext context) {
-        this.maxPly = context.getMaxPly();
+    public void beforeSearchByDepth() {
         this.bestMoveEvaluation = null;
     }
 
     @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
-        result.setBestMoveEvaluation(bestMoveEvaluation);
-
-        /**
-         * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
-         */
-        result.setContinueDeepening(
-                Evaluator.WHITE_WON != bestMoveEvaluation.evaluation() &&
-                        Evaluator.BLACK_WON != bestMoveEvaluation.evaluation()
-        );
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public void setGameEvaluator(Evaluator evaluator) {
