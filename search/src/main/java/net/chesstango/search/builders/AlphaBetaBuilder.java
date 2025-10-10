@@ -3,11 +3,13 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchBuilder;
 import net.chesstango.search.builders.alphabeta.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -19,8 +21,8 @@ import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
+import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetPVStatistics;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
@@ -246,7 +248,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public AlphaBetaBuilder withDebugNodeTrap(DebugNodeTrap debugNodeTrap) {
+        this.debugNodeTrap = debugNodeTrap;
+        return this;
+    }
+
+    public AlphaBetaBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
@@ -261,7 +268,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         quiescenceLoopChainBuilder.withZobristTracker();
 
         this.withDebugSearchTree = true;
-        this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
@@ -340,8 +346,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker(debugNodeTrap);
-            setDebugOutput = new SetDebugOutput(withAspirationWindows, debugNodeTrap, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            setSearchTracker = new SetSearchTracker();
+            setDebugOutput = new SetDebugOutput(withAspirationWindows, showOnlyPV, showNodeTranspositionAccess, showSorterOperations);
+            if (debugNodeTrap != null) {
+                setDebugOutput.setDebugNodeTrap(debugNodeTrap);
+            }
         }
 
         if (withKillerMoveSorter) {
@@ -409,6 +418,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private void setupListenerMediatorAfterChain() {
         if (setPVStatistics != null) {
             searchListenerMediator.add(setPVStatistics);
+        }
+        if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
+            searchListenerMediator.add(debugNodeTrapSearchListener);
+        } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
+            searchListenerMediator.addAcceptor(debugNodeTrapAcceptor);
         }
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);

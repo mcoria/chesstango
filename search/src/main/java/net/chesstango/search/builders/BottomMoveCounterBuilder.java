@@ -194,7 +194,12 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         return this;
     }
 
-    public BottomMoveCounterBuilder withDebugSearchTree(DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public BottomMoveCounterBuilder withDebugNodeTrap(DebugNodeTrap debugNodeTrap) {
+        this.debugNodeTrap = debugNodeTrap;
+        return this;
+    }
+
+    public BottomMoveCounterBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
         alphaBetaHorizonChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
@@ -208,7 +213,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         quiescenceLoopChainBuilder.withZobristTracker();
 
         this.withDebugSearchTree = true;
-        this.debugNodeTrap = debugNodeTrap;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
         return this;
@@ -260,8 +264,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withDebugSearchTree) {
-            setSearchTracker = new SetSearchTracker(debugNodeTrap);
-            setDebugOutput = new SetDebugOutput(false, debugNodeTrap, false, showNodeTranspositionAccess, showSorterOperations);
+            setSearchTracker = new SetSearchTracker();
+            setDebugOutput = new SetDebugOutput(false, false, showNodeTranspositionAccess, showSorterOperations);
         }
 
         if (withKillerMoveSorter) {

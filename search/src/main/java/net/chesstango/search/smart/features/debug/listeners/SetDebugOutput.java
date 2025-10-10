@@ -31,7 +31,6 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;
     private final boolean withAspirationWindows;
-    private final DebugNodeTrap debugNodeTrap;
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").withZone(ZoneId.systemDefault());
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
@@ -45,11 +44,13 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     @Setter
     private SearchTracker searchTracker;
 
+    @Setter
+    private DebugNodeTrap debugNodeTrap;
+
     private List<String> debugErrorMessages;
 
-    public SetDebugOutput(boolean withAspirationWindows, DebugNodeTrap debugNodeTrap, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
+    public SetDebugOutput(boolean withAspirationWindows, boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         this.withAspirationWindows = withAspirationWindows;
-        this.debugNodeTrap = debugNodeTrap;
         this.showOnlyPV = showOnlyPV;
         this.showNodeTranspositionAccess = showNodeTranspositionAccess;
         this.showSorterOperations = showSorterOperations;
