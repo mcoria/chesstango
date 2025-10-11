@@ -1,10 +1,10 @@
-package net.chesstango.search.visitors;
+package net.chesstango.search.smart.features.egtb.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.egtb.EndGameTableBase;
 import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
@@ -29,6 +29,11 @@ public class SetEndGameTableBaseVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
         alphaBetaFlowControl.setEndGameTableBase(endGameTableBase);
+    }
+
+    @Override
+    public void visit(ExtensionFlowControl extensionFlowControl) {
+        extensionFlowControl.setEndGameTableBase(endGameTableBase);
     }
 
     @Override

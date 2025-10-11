@@ -24,11 +24,11 @@ public class EgtbEvaluation implements AlphaBetaFilter, Acceptor {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(null, 0);
+        return TranspositionEntry.encode(endGameTableBase.evaluate());
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(null, 0);
+        return TranspositionEntry.encode(endGameTableBase.evaluate());
     }
 }

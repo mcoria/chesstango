@@ -217,13 +217,13 @@ public class QuiescenceChainBuilder {
             AlphaBetaFilter next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case ZobristTracker zobristTracker -> zobristQTracker.setNext(next);
-                case TranspositionTableQ tableQ -> transpositionTableQ.setNext(next);
-                case QuiescenceStatisticsExpected statisticsExpected -> quiescenceStatisticsExpected.setNext(next);
-                case Quiescence quiescence1 -> quiescence.setNext(next);
-                case QuiescenceStatisticsVisited statisticsVisited -> quiescenceStatisticsVisited.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case TriangularPV pv -> triangularPV.setNext(next);
+                case ZobristTracker zobristTracker -> zobristTracker.setNext(next);
+                case TranspositionTableQ tableQ -> tableQ.setNext(next);
+                case QuiescenceStatisticsExpected statisticsExpected -> statisticsExpected.setNext(next);
+                case Quiescence quiescence1 -> quiescence1.setNext(next);
+                case QuiescenceStatisticsVisited statisticsVisited -> statisticsVisited.setNext(next);
+                case DebugFilter filter -> filter.setNext(next);
+                case TriangularPV pv -> pv.setNext(next);
                 case null, default -> throw new RuntimeException("filter not found");
             }
         }

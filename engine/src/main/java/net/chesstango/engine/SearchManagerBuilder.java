@@ -7,7 +7,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
 import net.chesstango.search.smart.features.egtb.EndGameTableBase;
-import net.chesstango.search.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

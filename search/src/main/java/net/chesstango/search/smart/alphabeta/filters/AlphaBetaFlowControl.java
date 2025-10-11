@@ -75,12 +75,12 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return terminalNode.maximize(currentPly, alpha, beta);
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.maximize(currentPly, alpha, beta);
-        }
-
         if(endGameTableBase.isProbeAvailable()){
             return egtbNode.maximize(currentPly, alpha, beta);
+        }
+
+        if (game.getState().getRepetitionCounter() > 1) {
+            return loopNode.maximize(currentPly, alpha, beta);
         }
 
         if (currentPly == maxPly) {
@@ -104,12 +104,12 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return terminalNode.minimize(currentPly, alpha, beta);
         }
 
-        if (game.getState().getRepetitionCounter() > 1) {
-            return loopNode.minimize(currentPly, alpha, beta);
-        }
-
         if(endGameTableBase.isProbeAvailable()){
             return egtbNode.minimize(currentPly, alpha, beta);
+        }
+
+        if (game.getState().getRepetitionCounter() > 1) {
+            return loopNode.minimize(currentPly, alpha, beta);
         }
 
         if (currentPly == maxPly) {
