@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
@@ -31,6 +32,7 @@ class SearchByTablebase implements SearchChain {
     @Setter
     private SearchChain next;
 
+    @Getter
     private final Syzygy syzygy;
 
     private SearchByTablebase(Syzygy syzygy) {

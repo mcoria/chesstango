@@ -167,6 +167,11 @@ public class PositionImp implements Position {
     }
 
     @Override
+    public long getKingPositions() {
+        return bitBoard.getKingPositions();
+    }
+
+    @Override
     public long getKnightPositions() {
         return bitBoard.getKnightPositions();
     }

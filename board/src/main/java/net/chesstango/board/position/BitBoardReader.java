@@ -23,6 +23,8 @@ public interface BitBoardReader {
 
     long getQueenPositions();
 
+    long getKingPositions();
+
     long getKnightPositions();
 
     long getPawnPositions();

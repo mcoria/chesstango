@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.timemgmt.FivePercentage;
 import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
+import net.chesstango.search.smart.features.egtb.EndGameTableBase;
+import net.chesstango.search.visitors.SetEndGameTableBaseVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +113,7 @@ class SearchManagerBuilder {
 
     SearchChain buildSearchChain() {
         List<SearchChain> searchChains = new ArrayList<>();
+        Syzygy syzygy = null;
 
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = searchManagerFactory.createSearchByOpenBook(polyglotFile);
@@ -122,6 +126,7 @@ class SearchManagerBuilder {
             SearchByTablebase searchByTablebase = searchManagerFactory.createSearchByTablebase(syzygyDirectory);
             if (searchByTablebase != null) {
                 searchChains.add(searchByTablebase);
+                syzygy = searchByTablebase.getSyzygy();
             }
         }
 
@@ -130,6 +135,10 @@ class SearchManagerBuilder {
                 search = searchManagerFactory.createSearch(evaluator);
             } else {
                 search = searchManagerFactory.createSearch();
+            }
+
+            if (syzygy != null) {
+                search.accept(new SetEndGameTableBaseVisitor(searchManagerFactory.createSyzygyTableBaseAdapter(syzygy)));
             }
         }
 
@@ -174,6 +183,8 @@ class SearchManagerBuilder {
         Search createSearch();
 
         Search createSearch(Evaluator evaluator);
+
+        EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy);
     }
 
 
@@ -226,6 +237,11 @@ class SearchManagerBuilder {
                     .newSearchBuilder()
                     .withGameEvaluator(evaluator)
                     .build();
+        }
+
+        @Override
+        public EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy) {
+            return new SyzygyTableBaseAdapter(syzygy);
         }
     }
 }
