@@ -15,7 +15,6 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 @Setter
 public class EgtbEvaluation implements AlphaBetaFilter, Acceptor {
 
-
     private EndGameTableBase endGameTableBase;
 
     @Override

@@ -39,6 +39,8 @@ module net.chesstango.search {
     exports net.chesstango.search.builders.alphabeta;
     exports net.chesstango.search.visitors;
     exports net.chesstango.search.smart.features.pv.comparators;
+    exports net.chesstango.search.smart.features.egtb;
+    exports net.chesstango.search.smart.features.egtb.filters;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;

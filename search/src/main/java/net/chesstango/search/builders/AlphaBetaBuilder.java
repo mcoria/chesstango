@@ -21,7 +21,6 @@ import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.egtb.EndGameTableBase;
 import net.chesstango.search.smart.features.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
@@ -32,6 +31,7 @@ import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeSta
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
+import net.chesstango.search.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
 /**
@@ -71,7 +71,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private SetKillerMoveTables setKillerMoveTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private DebugNodeTrap debugNodeTrap;
-    private EndGameTableBase endGameTableBase;
 
     private boolean withIterativeDeepening;
     private boolean withStatistics;
@@ -258,11 +257,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withEndGameTableBase(EndGameTableBase endGameTableBase) {
-        this.endGameTableBase = endGameTableBase;
-        return this;
-    }
-
     public AlphaBetaBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
@@ -303,6 +297,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         setupListenerMediatorAfterChain();
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
+        searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
         Search search;
         if (withIterativeDeepening) {
@@ -370,19 +365,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
         }
 
-        if (endGameTableBase == null) {
-            endGameTableBase = new EndGameTableBaseNull();
-        }
-
         /**
          * Static wiring
          */
-        alphaBetaFlowControl.setEndGameTableBase(endGameTableBase);
-
         setGameEvaluator.setEvaluator(evaluator);
-        setGameEvaluator.setEndGameTableBase(endGameTableBase);
-
-        egtbEvaluation.setEndGameTableBase(endGameTableBase);
     }
 
 
@@ -431,6 +417,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setKillerMoveTablesDebug);
             searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
+
+        searchListenerMediator.addAcceptor(egtbEvaluation);
 
         searchListenerMediator.add(alphaBetaFlowControl);
 

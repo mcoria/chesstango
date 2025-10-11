@@ -45,10 +45,11 @@ public class ChainPrinterVisitorTest {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withEndGameTableBase(new MyEndGameTableBaseExtension())
                 ;
 
         Search search = builder.build();
+
+        search.accept(new SetEndGameTableBaseVisitor(new MyEndGameTableBaseExtension()));
 
         assertSearchTree(search, "alphaBetaBuilderChainWithEGTB.txt");
     }
@@ -101,7 +102,7 @@ public class ChainPrinterVisitorTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
-            chainPrinterVisitor.print(search, System.out);
+            //chainPrinterVisitor.print(search, System.out);
             chainPrinterVisitor.print(search, out);
         }
 
