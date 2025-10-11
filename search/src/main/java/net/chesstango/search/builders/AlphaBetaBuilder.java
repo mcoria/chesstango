@@ -31,7 +31,7 @@ import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeSta
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
-import net.chesstango.search.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 
 /**
@@ -511,6 +511,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             extensionFlowControl.setTerminalNode(quiescenceTerminalChain);
             extensionFlowControl.setQuiescenceNode(quiescenceChain);
             extensionFlowControl.setLeafNode(quiescenceLeaf);
+            extensionFlowControl.setEgtbNode(egtbEvaluation);
             extensionFlowControl.setCheckResolverNode(checkResolverChain);
             extensionFlowControl.setLoopNode(loopChain);
 

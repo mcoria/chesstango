@@ -58,6 +58,10 @@ AlphaBetaFlowControl @ 12
 		|
 		AlphaBetaEvaluation @ 24 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
 
+	 -> EgtbNode
+		|
+		EgtbEvaluation @ 17 [EndGameTableBase: EndGameTableBaseNull @ 18]
+
 	 -> LeafNode
 		|
 		AlphaBetaEvaluation @ 25 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]

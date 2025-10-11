@@ -320,6 +320,13 @@ public class ChainPrinterVisitor implements Visitor {
             terminalNode.accept(this);
             nestedChain--;
 
+            AlphaBetaFilter egtbNode = extensionFlowControl.getEgtbNode();
+            out.println();
+            printChainText(" -> EgtbNode");
+            nestedChain++;
+            egtbNode.accept(this);
+            nestedChain--;
+
             AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
             out.println();
             printChainText(" -> LeafNode");
