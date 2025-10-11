@@ -26,13 +26,13 @@ AlphaBetaFlowControl @ 9
 	|
 	AlphaBetaEvaluation @ 10 [Evaluator: EvaluatorByMaterial @ 11]
 
- -> LoopNode
-	|
-	LoopEvaluation @ 12
-
  -> EgtbNode
 	|
-	EgtbEvaluation @ 13 [EndGameTableBase: EndGameTableBaseNull @ 14]
+	EgtbEvaluation @ 12 [EndGameTableBase: EndGameTableBaseNull @ 13]
+
+ -> LoopNode
+	|
+	LoopEvaluation @ 14
 
  -> LeafNode
 	|
@@ -102,7 +102,7 @@ Acceptor:
 	SetSearchTimers @ 24
 	SetSearchLast @ 25
 	SetTrianglePV @ 26
-	EgtbEvaluation @ 13
+	EgtbEvaluation @ 12
 	AlphaBetaFlowControl @ 9
 	ExtensionFlowControl @ 27
 	TriangularPV @ 23

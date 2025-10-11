@@ -34,13 +34,13 @@ AlphaBetaFlowControl @ 12
 	|
 	AlphaBetaEvaluation @ 14 [Evaluator: EvaluatorCache @ 15 -> EvaluatorByMaterial @ 16]
 
- -> LoopNode
-	|
-	LoopEvaluation @ 17
-
  -> EgtbNode
 	|
-	EgtbEvaluation @ 18 [EndGameTableBase: EndGameTableBaseNull @ 19]
+	EgtbEvaluation @ 17 [EndGameTableBase: EndGameTableBaseNull @ 18]
+
+ -> LoopNode
+	|
+	LoopEvaluation @ 19
 
  -> LeafNode
 	|
@@ -174,7 +174,7 @@ Acceptor:
 	SetSearchLast @ 54
 	SetTranspositionTables @ 55
 	SetKillerMoveTables @ 56
-	EgtbEvaluation @ 18
+	EgtbEvaluation @ 17
 	AlphaBetaFlowControl @ 12
 	ExtensionFlowControl @ 22
 	TranspositionTableTerminal @ 13

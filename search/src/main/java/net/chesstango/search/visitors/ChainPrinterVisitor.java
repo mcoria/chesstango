@@ -267,18 +267,18 @@ public class ChainPrinterVisitor implements Visitor {
             terminalNode.accept(this);
             nestedChain--;
 
-            AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
-            out.println();
-            printChainText(" -> LoopNode");
-            nestedChain++;
-            loopNode.accept(this);
-            nestedChain--;
-
             AlphaBetaFilter egtbNode = alphaBetaFlowControl.getEgtbNode();
             out.println();
             printChainText(" -> EgtbNode");
             nestedChain++;
             egtbNode.accept(this);
+            nestedChain--;
+
+            AlphaBetaFilter loopNode = alphaBetaFlowControl.getLoopNode();
+            out.println();
+            printChainText(" -> LoopNode");
+            nestedChain++;
+            loopNode.accept(this);
             nestedChain--;
 
             AlphaBetaFilter leafNode = alphaBetaFlowControl.getLeafNode();

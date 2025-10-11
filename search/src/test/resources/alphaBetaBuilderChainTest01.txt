@@ -48,17 +48,17 @@ AlphaBetaFlowControl @ 17
 	|
 	AlphaBetaEvaluation @ 21 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
 
- -> LoopNode
-	|
-	DebugFilter @ 25
-	|
-	ZobristTracker @ 26
-	|
-	LoopEvaluation @ 27
-
  -> EgtbNode
 	|
-	EgtbEvaluation @ 28 [EndGameTableBase: EndGameTableBaseNull @ 29]
+	EgtbEvaluation @ 25 [EndGameTableBase: EndGameTableBaseNull @ 26]
+
+ -> LoopNode
+	|
+	DebugFilter @ 27
+	|
+	ZobristTracker @ 28
+	|
+	LoopEvaluation @ 29
 
  -> LeafNode
 	|
@@ -244,7 +244,7 @@ Acceptor:
 	EvaluatorStatisticsWrapper @ 22
 	SetKillerMoveTablesDebug @ 89
 	KillerMovesDebug @ 96
-	EgtbEvaluation @ 28
+	EgtbEvaluation @ 25
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 35
 	ZobristTracker @ 19
@@ -292,8 +292,8 @@ Acceptor:
 	MoveSorterDebug @ 66
 	EvaluatorCacheDebug @ 78
 	KillerMoveComparator @ 80
-	ZobristTracker @ 26
-	DebugFilter @ 25
+	ZobristTracker @ 28
+	DebugFilter @ 27
 	MoveEvaluationTracker @ 15
 	AlphaBetaStatisticsExpected @ 8
 	AlphaBetaStatisticsVisited @ 14

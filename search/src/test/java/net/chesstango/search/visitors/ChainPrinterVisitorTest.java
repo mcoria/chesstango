@@ -6,6 +6,7 @@ import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.egtb.EndGameTableBase;
+import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
