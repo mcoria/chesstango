@@ -1,8 +1,10 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
@@ -65,6 +67,24 @@ public class SearchByTablebaseTest {
 
         assertEquals(Square.c2, move.getFrom().square());
         assertEquals(Square.c4, move.getTo().square());
+    }
+
+    @Test
+    public void test_promotion() {
+        when(syzygy.tb_largest()).thenReturn(5);
+        when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x1DBE2);
+
+        Game game = Game.from(FEN.of("8/6P1/8/7K/3k4/8/8/1q6 w - - 0 1"));
+        SearchContext searchContext = new SearchContext()
+                .setGame(game);
+
+        SearchResult result = searchByTablebase.search(searchContext);
+
+        MovePromotion move = (MovePromotion) result.getBestMove();
+
+        assertEquals(Square.g7, move.getFrom().square());
+        assertEquals(Square.g8, move.getTo().square());
+        assertEquals(Piece.QUEEN_WHITE, move.getPromotion());
     }
 
     @Test
