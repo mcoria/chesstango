@@ -77,6 +77,7 @@ public class SyzygyTableBaseAdapter implements EndGameTableBase {
         syzygyPosition.setKings(position.getKingPositions());
         syzygyPosition.setWhite(position.getPositions(Color.WHITE));
         syzygyPosition.setBlack(position.getPositions(Color.BLACK));
+        syzygyPosition.setRule50(position.getHalfMoveClock());
         syzygyPosition.setTurn(Color.WHITE.equals(position.getCurrentTurn()));
 
         return syzygyPosition;

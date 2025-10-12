@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
+import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
 import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +31,11 @@ public class SearchByTablebaseTest {
     @BeforeEach
     public void setup() {
         searchByTablebase = new SearchByTablebase(syzygy);
-        when(syzygy.tb_largest()).thenReturn(5);
     }
 
     @Test
     public void test01() {
+        when(syzygy.tb_largest()).thenReturn(5);
         when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x2002D30);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
@@ -51,6 +52,7 @@ public class SearchByTablebaseTest {
 
     @Test
     public void test02() {
+        when(syzygy.tb_largest()).thenReturn(5);
         when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x1B029A4);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
@@ -63,5 +65,31 @@ public class SearchByTablebaseTest {
 
         assertEquals(Square.c2, move.getFrom().square());
         assertEquals(Square.c4, move.getTo().square());
+    }
+
+    @Test
+    public void testBindSyzygyPosition01() {
+        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
+
+        SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+        game.getPosition().export(positionBuilder);
+        SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
+
+        SyzygyPosition syzygyPositionActual = searchByTablebase.bindSyzygyPosition(game);
+
+        assertEquals(syzygyPositionExpected, syzygyPositionActual);
+    }
+
+    @Test
+    public void testBindSyzygyPosition02() {
+        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
+
+        SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+        game.getPosition().export(positionBuilder);
+        SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
+
+        SyzygyPosition syzygyPositionActual = searchByTablebase.bindSyzygyPosition(game);
+
+        assertEquals(syzygyPositionExpected, syzygyPositionActual);
     }
 }

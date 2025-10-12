@@ -5,6 +5,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
+import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,5 +71,33 @@ public class SyzygyTableBaseAdapterTest {
         syzygyTableBaseAdapter.setGame(game);
         assertTrue(syzygyTableBaseAdapter.isProbeAvailable());
         assertEquals(Evaluator.BLACK_LOST, syzygyTableBaseAdapter.evaluate());
+    }
+
+    @Test
+    public void testBindSyzygyPosition01() {
+        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
+
+        SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+        game.getPosition().export(positionBuilder);
+        SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
+
+        syzygyTableBaseAdapter.setGame(game);
+        SyzygyPosition syzygyPositionActual = syzygyTableBaseAdapter.bindSyzygyPosition();
+
+        assertEquals(syzygyPositionExpected, syzygyPositionActual);
+    }
+
+    @Test
+    public void testBindSyzygyPosition02() {
+        Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 3 10"));
+
+        SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+        game.getPosition().export(positionBuilder);
+        SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
+
+        syzygyTableBaseAdapter.setGame(game);
+        SyzygyPosition syzygyPositionActual = syzygyTableBaseAdapter.bindSyzygyPosition();
+
+        assertEquals(syzygyPositionExpected, syzygyPositionActual);
     }
 }
