@@ -3,13 +3,14 @@ package net.chesstango.engine;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
-import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.SearchResult;
@@ -29,14 +30,17 @@ import static net.chesstango.piazzolla.syzygy.Syzygy.TB_RESULT_FAILED;
 class SearchByTablebase implements SearchChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
+    private final SyzygyPosition syzygyPosition;
+
     @Setter
     private SearchChain next;
 
     @Getter
     private final Syzygy syzygy;
 
-    private SearchByTablebase(Syzygy syzygy) {
+    SearchByTablebase(Syzygy syzygy) {
         this.syzygy = syzygy;
+        this.syzygyPosition = new SyzygyPosition();
     }
 
     static SearchByTablebase open(String syzygyDirectory) {
@@ -88,12 +92,10 @@ class SearchByTablebase implements SearchChain {
     SearchResult searchByBook(Game game) {
         final int tbLargest = syzygy.tb_largest();
         if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions())) {
-            SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
-            game.getPosition().export(positionBuilder);
-            SyzygyPosition syzygyPosition = positionBuilder.getPositionRepresentation();
+
+            bindSyzygyPosition(game);
 
             int[] results = new int[TB_MAX_MOVES];
-
             int res = syzygy.tb_probe_root(syzygyPosition, results);
 
             if (res != TB_RESULT_FAILED) {
@@ -111,7 +113,20 @@ class SearchByTablebase implements SearchChain {
                 }
             }
         }
-
         return null;
+    }
+
+
+    void bindSyzygyPosition(Game game) {
+        PositionReader position = game.getPosition();
+        syzygyPosition.setPawns(position.getPawnPositions());
+        syzygyPosition.setKnights(position.getKnightPositions());
+        syzygyPosition.setBishops(position.getBishopPositions());
+        syzygyPosition.setQueens(position.getQueenPositions());
+        syzygyPosition.setRooks(position.getRookPositions());
+        syzygyPosition.setKings(position.getKingPositions());
+        syzygyPosition.setWhite(position.getPositions(Color.WHITE));
+        syzygyPosition.setBlack(position.getPositions(Color.BLACK));
+        syzygyPosition.setTurn(Color.WHITE.equals(position.getCurrentTurn()));
     }
 }

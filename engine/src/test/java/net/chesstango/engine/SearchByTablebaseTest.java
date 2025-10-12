@@ -4,29 +4,39 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.piazzolla.syzygy.Syzygy;
+import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Mauricio Coria
  */
-@Disabled
+@ExtendWith(MockitoExtension.class)
 public class SearchByTablebaseTest {
     private SearchByTablebase searchByTablebase;
 
-    private String zygosityTableDirectory = "C:/java/projects/chess/chess-utils/books/syzygy/3-4-5";
+    @Mock
+    private Syzygy syzygy;
 
     @BeforeEach
     public void setup() {
-        searchByTablebase = SearchByTablebase.open(zygosityTableDirectory);
+        searchByTablebase = new SearchByTablebase(syzygy);
+        when(syzygy.tb_largest()).thenReturn(5);
     }
 
     @Test
     public void test01() {
+        when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x2002D30);
+
         Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setGame(game);
@@ -41,6 +51,8 @@ public class SearchByTablebaseTest {
 
     @Test
     public void test02() {
+        when(syzygy.tb_probe_root(any(SyzygyPosition.class), any(int[].class))).thenReturn(0x1B029A4);
+
         Game game = Game.from(FEN.of("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
                 .setGame(game);

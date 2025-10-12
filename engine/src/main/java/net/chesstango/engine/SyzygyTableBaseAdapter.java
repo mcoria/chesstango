@@ -33,11 +33,11 @@ public class SyzygyTableBaseAdapter implements EndGameTableBase {
 
     @Override
     public int evaluate() {
-        bindSyzygyPosition();
+        SyzygyPosition syzygyPosition = bindSyzygyPosition();
         int res = syzygy.tb_probe_wdl(syzygyPosition);
         if (res != Syzygy.TB_RESULT_FAILED) {
             int wdl = Syzygy.TB_GET_WDL(res);
-            if (Color.WHITE.equals(game.getPosition().getCurrentTurn())) {
+            if (syzygyPosition.isTurn()) {
                 return switch (wdl) {
                     case TB_WIN -> Evaluator.WHITE_WON;
                     case TB_CURSED_WIN -> Evaluator.WHITE_WON - 1;
@@ -66,8 +66,9 @@ public class SyzygyTableBaseAdapter implements EndGameTableBase {
         this.game = game;
     }
 
-    private void bindSyzygyPosition() {
+    SyzygyPosition bindSyzygyPosition() {
         PositionReader position = game.getPosition();
+
         syzygyPosition.setPawns(position.getPawnPositions());
         syzygyPosition.setKnights(position.getKnightPositions());
         syzygyPosition.setBishops(position.getBishopPositions());
@@ -77,5 +78,7 @@ public class SyzygyTableBaseAdapter implements EndGameTableBase {
         syzygyPosition.setWhite(position.getPositions(Color.WHITE));
         syzygyPosition.setBlack(position.getPositions(Color.BLACK));
         syzygyPosition.setTurn(Color.WHITE.equals(position.getCurrentTurn()));
+
+        return syzygyPosition;
     }
 }
