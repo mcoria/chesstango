@@ -229,6 +229,74 @@ public class PGNToGameTest {
     }
 
     @Test
+    public void testToGame07() throws IOException {
+        String lines = "[Event \"Freestyle Chess Grand Slam Tour 2025 - Paris | Round Robin\"]\n" +
+                "[Site \"?\"]\n" +
+                "[Date \"2025.04.08\"]\n" +
+                "[Round \"7\"]\n" +
+                "[White \"Nakamura, Hikaru\"]\n" +
+                "[Black \"Caruana, Fabiano\"]\n" +
+                "[FEN \"rbbqknnr/pppppppp/8/8/8/8/PPPPPPPP/RBBQKNNR w KQkq - 0 1\"]\n" +
+                "[Result \"1/2-1/2\"]\n" +
+                "\n" +
+                "1. c4 c6 2. Nf3 d5 3. cxd5 cxd5 4. d4 Nf6 5. Ng3 Ng6\n" +
+                "6. O-O O-O 7. Bd3 Bg4 8. Bg5 Qb6 9. Qb3 Nf4 10. Qxb6 axb6\n" +
+                "11. Bxf4 Bxf4 12. e3 Bd6 13. Nf5 Bxf5 14. Bxf5 b5 15. a3 b4\n" +
+                "16. axb4 Bxb4 17. Rfc1 e6 18. Bd3 Bd6 19. g3 g6 20. Kg2 Kg7\n" +
+                "21. Kg1 Kg8 22. Kg2 Kg7 23. Kg1 Kg8 24. Kg2 Kg7 25. Kg1 Kg8 1/2-1/2";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
+
+        Game game = pgnToGame.encode(pgn);
+
+        assertEquals(Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
+    }
+
+    @Test
+    public void testToGame08() throws IOException {
+        String lines = "[Event \"British Rapidplay Championship 2025 | Boards 1-80\"]\n" +
+                "[Site \"?\"]\n" +
+                "[Date \"2025.03.01\"]\n" +
+                "[Round \"6\"]\n" +
+                "[White \"Boswell, Jacob Connor\"]\n" +
+                "[Black \"Bowers, Francis J\"]\n" +
+                "[Result \"1-0\"]\n" +
+                "\n" +
+                "1. a3 Nf6 2. Nf3 g6 3. g3 Bg7 4. Bg2 O-O 5. O-O d6\n" +
+                "6. d4 Nbd7 7. c4 c5 8. d5 a6 9. a4 Qb6 10. Qc2 Ne8\n" +
+                "11. Ra2 Ndf6 12. Nc3 e5 13. e4 h6 14. Nh4 Nh7 15. Kh1 Qd8\n" +
+                "16. Bd2 g5 17. Nf5 Bxf5 18. exf5 Nhf6 19. Ra3 b6 20. a5 bxa5\n" +
+                "21. Rfa1 Nc7 22. Nd1 Qe7 23. Be4 Nfe8 24. Bxa5 g4 25. f3 gxf3\n" +
+                "26. Rxf3 Nf6 27. Nf2 Rfb8 28. Rg1 Nce8 29. g4 Nxe4 30. Nxe4 Nf6\n" +
+                "31. Bc3 Nxe4 32. Qxe4 Bf6 33. g5 hxg5 34. h4 Kg7 35. Rg2 Rh8\n" +
+                "36. Kg1 Rag8 37. hxg5 Kf8 38. gxf6 Qxf6 39. Rfg3 Qh6 40. Rxg8+ Rxg8\n" +
+                "41. Rxg8+ Kxg8 42. Kf1 Qc1+ 43. Ke2 a5 44. f6 Qg5 45. Qf3 a4\n" +
+                "46. Kf2 Kf8 47. Ke2 Ke8 48. Kd1 Qg1+ 49. Kc2 Qg6+ 50. Kc1 Qg1+\n" +
+                "51. Qd1 Qg5+ 52. Kb1 Qxf6 53. Qxa4+ Kf8 54. Qd1 Qf5+ 55. Ka2 Qc8\n" +
+                "56. b3 Qa8+ 57. Kb2 Qc8 58. Qh5 Qd7 59. Bd2 f6 60. Qh8+ Kf7\n" +
+                "61. Qh7+ Ke8 62. Qg8+ Ke7 63. Qg7+ Ke8 64. Qxf6 Qe7 65. Qxe7+ Kxe7\n" +
+                "66. Bg5+ Kf7 67. Kc2 Ke8 68. Kd3 Kf7 69. Ke4 Ke8 70. Bf6 Kf7\n" +
+                "71. Bxe5 Ke7 72. Bxd6+ Kxd6 73. Kf5 Kd7 74. Ke5 Ke7 75. d6+ Kd7\n" +
+                "76. Kd5 Kd8 77. Kxc5 Kd7 78. b4 Kd8 79. b5 Kd7 80. b6 Kd8\n" +
+                "81. b7 Kd7 82. Kd5 Ke8 83. Ke6 Kf8 84. Kf6 Kg8 85. b8=R+ Kh7\n" +
+                "86. Ra8 Kh6 87. Rh8# 1-0";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
+
+        Game game = pgnToGame.encode(pgn);
+
+        assertEquals(Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
+    }
+
+    @Test
     public void testOf01() throws IOException {
         Game game = Game.from(FEN.of("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
         game.executeMove(Square.a7, Square.a6);

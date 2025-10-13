@@ -18,11 +18,13 @@ public class PGNToGame {
         Game game = Game.from(fen);
         SANDecoder<Move> sanDecoder = new SANDecoder<>(new TangoMoveSupplier(game));
         pgn.getMoveList().forEach(moveStr -> {
-            Move move = sanDecoder.decode(moveStr, game.getCurrentFEN());
-            if (move != null) {
-                move.executeMove();
-            } else {
-                throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", pgn.getEvent(), moveStr, game.getCurrentFEN().toString()));
+            if (game.getState().getStatus().isInProgress()) {
+                Move move = sanDecoder.decode(moveStr, game.getCurrentFEN());
+                if (move != null) {
+                    move.executeMove();
+                } else {
+                    throw new RuntimeException(String.format("[%s] %s is not in the list of legal moves for %s", pgn.getEvent(), moveStr, game.getCurrentFEN().toString()));
+                }
             }
         });
         return game;
