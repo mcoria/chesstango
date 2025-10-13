@@ -293,7 +293,7 @@ public class PGNToGameTest {
 
         Game game = pgnToGame.encode(pgn);
 
-        assertEquals(Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
+        assertEquals(Status.MATE, game.getStatus());
     }
 
     @Test

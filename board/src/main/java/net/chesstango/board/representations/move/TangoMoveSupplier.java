@@ -24,9 +24,9 @@ public class TangoMoveSupplier implements MoveSupplier<Move> {
                     move.getTo().square().getFile() == toFile && move.getTo().square().getRank() == toRank) {
                 if (move instanceof MovePromotion movePromotion && promotion != 0) {
                     int promotionFilter = switch (movePromotion.getPromotion()) {
-                        case ROOK_WHITE, ROOK_BLACK -> 1;
-                        case KNIGHT_WHITE, KNIGHT_BLACK -> 2;
-                        case BISHOP_WHITE, BISHOP_BLACK -> 3;
+                        case KNIGHT_WHITE, KNIGHT_BLACK -> 1;
+                        case BISHOP_WHITE, BISHOP_BLACK -> 2;
+                        case ROOK_WHITE, ROOK_BLACK -> 3;
                         case QUEEN_WHITE, QUEEN_BLACK -> 4;
                         default -> -1;
                     };
