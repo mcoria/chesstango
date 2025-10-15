@@ -142,9 +142,9 @@ class SearchManagerBuilder {
             }
         }
 
-        SearchByAlgorithm searchByAlgorithm = searchManagerFactory.createSearchByAlgorithm(search);
+        SearchByTree searchByTree = searchManagerFactory.createSearchByAlgorithm(search);
 
-        searchChains.add(searchByAlgorithm);
+        searchChains.add(searchByTree);
 
         return linkChain(searchChains);
     }
@@ -168,7 +168,7 @@ class SearchManagerBuilder {
 
         SearchByTablebase createSearchByTablebase(String syzygyDirectory);
 
-        SearchByAlgorithm createSearchByAlgorithm(Search search);
+        SearchByTree createSearchByAlgorithm(Search search);
 
         SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor);
 
@@ -200,8 +200,8 @@ class SearchManagerBuilder {
         }
 
         @Override
-        public SearchByAlgorithm createSearchByAlgorithm(Search search) {
-            return new SearchByAlgorithm(search);
+        public SearchByTree createSearchByAlgorithm(Search search) {
+            return new SearchByTree(search);
         }
 
         @Override
