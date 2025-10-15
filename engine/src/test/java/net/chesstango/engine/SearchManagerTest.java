@@ -1,7 +1,6 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.SearchResult;

@@ -2,7 +2,6 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 

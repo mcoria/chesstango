@@ -1,4 +1,4 @@
-package net.chesstango.engine.timemgmt;
+package net.chesstango.engine;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;

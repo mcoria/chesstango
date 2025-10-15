@@ -1,8 +1,6 @@
 package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.engine.timemgmt.FivePercentage;
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;

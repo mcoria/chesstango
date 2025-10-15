@@ -1,4 +1,4 @@
-package net.chesstango.engine.timemgmt;
+package net.chesstango.engine;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

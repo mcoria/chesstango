@@ -1,6 +1,5 @@
 package net.chesstango.engine;
 
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Search;
 import org.junit.jupiter.api.BeforeEach;

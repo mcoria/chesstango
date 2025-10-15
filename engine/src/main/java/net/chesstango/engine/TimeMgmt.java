@@ -1,4 +1,4 @@
-package net.chesstango.engine.timemgmt;
+package net.chesstango.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
