@@ -7,7 +7,7 @@ import net.chesstango.search.SearchResultByDepth;
 /**
  * @author Mauricio Coria
  */
-public class FivePercentage implements TimeMgmt {
+public class TimeFivePercentage implements TimeMgmt {
     @Override
     public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
         return Color.WHITE.equals(game.getPosition().getCurrentTurn()) ?

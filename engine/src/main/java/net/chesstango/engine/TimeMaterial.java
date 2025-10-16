@@ -7,7 +7,7 @@ import net.chesstango.search.SearchResultByDepth;
 /**
  * @author Mauricio Coria
  */
-public class Material implements TimeMgmt {
+public class TimeMaterial implements TimeMgmt {
     @Override
     public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
         int numberOfPieces = Long.bitCount(game.getPosition().getAllPositions());

@@ -47,7 +47,7 @@ class SearchManager implements AutoCloseable {
 
     public synchronized Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        return searchTimeOutImp(game, timeOut, searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
+        return searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
     public synchronized void stopSearching() {

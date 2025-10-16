@@ -7,15 +7,15 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Mauricio Coria
  */
-public class FivePercentageTest {
+public class TimeFivePercentageTest {
 
     private final static int TIME_OUT = 1000; // Cuando resta 1 segundo lo considero como time-out
 
-    private FivePercentage fivePercentage;
+    private TimeFivePercentage timeFivePercentage;
 
     @BeforeEach
     public void setup() {
-        fivePercentage = new FivePercentage();
+        timeFivePercentage = new TimeFivePercentage();
     }
 
     @Test
@@ -25,7 +25,7 @@ public class FivePercentageTest {
         int time = 1000 * 60 * MINUTES;
         int moveNumber = 1;
         while (time > TIME_OUT) {
-            int moveTime = fivePercentage.calculateTimeOut(time, 0);
+            int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
             System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
             moveNumber++;
@@ -39,7 +39,7 @@ public class FivePercentageTest {
         int time = 1000 * 60 * MINUTES;
         int moveNumber = 1;
         while (time > TIME_OUT) {
-            int moveTime = fivePercentage.calculateTimeOut(time, 0);
+            int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
             System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
             moveNumber++;
@@ -54,7 +54,7 @@ public class FivePercentageTest {
         int time = 1000 * 60 * MINUTES;
         int moveNumber = 1;
         while (time > TIME_OUT) {
-            int moveTime = fivePercentage.calculateTimeOut(time, 0);
+            int moveTime = timeFivePercentage.calculateTimeOut(time, 0);
             time -= moveTime;
             System.out.println(String.format("Move %d, timeToMove = %d; time left = %d", moveNumber, moveTime, time));
             moveNumber++;

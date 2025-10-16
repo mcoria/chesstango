@@ -106,7 +106,7 @@ class SearchManagerBuilder {
                 ? searchManagerFactory.createSearchInvokerAsync(searchChain, searchExecutor)
                 : searchManagerFactory.createSearchInvokerSync(searchChain);
 
-        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new FivePercentage(), searchInvoker, timeOutExecutor);
+        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new TimeFivePercentage(), searchInvoker, timeOutExecutor);
     }
 
     SearchChain buildSearchChain() {
