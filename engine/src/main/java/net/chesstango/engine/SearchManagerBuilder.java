@@ -239,7 +239,7 @@ class SearchManagerBuilder {
 
         @Override
         public EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy) {
-            return new SyzygyTableBaseAdapter(syzygy);
+            return new SyzygyAdapter(syzygy);
         }
     }
 }
