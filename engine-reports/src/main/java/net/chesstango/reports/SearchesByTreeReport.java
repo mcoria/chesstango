@@ -49,7 +49,7 @@ public class SearchesByTreeReport {
         return this;
     }
 
-    private void addReportAggregator(String reportTitle, List<SearchResult> searchResultList) {
+    public void addReportAggregator(String reportTitle, List<SearchResult> searchResultList) {
         NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(reportTitle, searchResultList);
         EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(reportTitle, searchResultList);
         PrincipalVariationReportModel principalVariationReportModel = PrincipalVariationReportModel.collectStatics(reportTitle, searchResultList);
