@@ -48,8 +48,6 @@ public class SearchManagerTest {
 
     private ScheduledExecutorService timeOutExecutor;
 
-    private SearchResultByDepth expectedResultByDepth;
-
     private SearchResponse expectedResult;
 
     private Game game;
@@ -58,7 +56,6 @@ public class SearchManagerTest {
     @BeforeEach
     public void setup() {
         timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
-        expectedResultByDepth = new SearchResultByDepth(1);
         expectedResult = () -> null;
 
         game = Game.from(FEN.of(FENParser.INITIAL_FEN));
@@ -68,7 +65,7 @@ public class SearchManagerTest {
                     SearchListener listener = invocation.getArgument(3);
                     listener.searchStarted();
                     Thread.sleep(1000);
-                    listener.searchInfo(expectedResultByDepth);
+                    listener.searchInfo("Info");
                     Thread.sleep(1000);
                     listener.searchFinished(expectedResult);
                     return CompletableFuture.completedFuture(expectedResult);
@@ -139,7 +136,7 @@ public class SearchManagerTest {
 
     private void assertSearchListener() {
         verify(listener).searchStarted();
-        verify(listener).searchInfo(expectedResultByDepth);
+        verify(listener).searchInfo("Info");
         verify(listener).searchFinished(expectedResult);
     }
 }

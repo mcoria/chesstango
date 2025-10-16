@@ -74,9 +74,9 @@ class SearchManager implements AutoCloseable {
             }
 
             @Override
-            public void searchInfo(SearchResultByDepth searchResultByDepth) {
+            public void searchInfo(String searchInfo) {
                 countDownLatch.countDown();
-                searchListener.searchInfo(searchResultByDepth);
+                searchListener.searchInfo(searchInfo);
             }
 
             @Override
@@ -101,9 +101,9 @@ class SearchManager implements AutoCloseable {
             }
 
             @Override
-            public void searchInfo(SearchResultByDepth searchResultByDepth) {
+            public void searchInfo(String searchInfo) {
                 countDownLatch.countDown();
-                searchListener.searchInfo(searchResultByDepth);
+                searchListener.searchInfo(searchInfo);
             }
 
             @Override

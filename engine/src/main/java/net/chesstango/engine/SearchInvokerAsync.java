@@ -1,10 +1,13 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -13,6 +16,7 @@ import java.util.function.Predicate;
 class SearchInvokerAsync implements SearchInvoker {
     private final ExecutorService searchExecutor;
     private final SearchChain searchChain;
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private volatile Future<SearchResponse> currentSearchTask;
 
@@ -35,7 +39,7 @@ class SearchInvokerAsync implements SearchInvoker {
                         .setGame(game)
                         .setDepth(depth)
                         .setSearchPredicate(searchPredicate)
-                        .setSearchResultByDepthListener(searchListener::searchInfo);
+                        .setSearchResultByDepthListener(createSearchListener(searchListener));
 
                 SearchResponse searchResponse = searchChain.search(context);
 
@@ -49,5 +53,20 @@ class SearchInvokerAsync implements SearchInvoker {
         });
 
         return currentSearchTask;
+    }
+
+    private Consumer<SearchResultByDepth> createSearchListener(SearchListener searchListener) {
+        return searchResultByDepth -> {
+            String pv = simpleMoveEncoder
+                    .encodeMoves(searchResultByDepth
+                            .getPrincipalVariation()
+                            .stream()
+                            .map(PrincipalVariation::move)
+                            .toList()
+                    );
+            String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
+
+            searchListener.searchInfo(infoStr);
+        };
     }
 }

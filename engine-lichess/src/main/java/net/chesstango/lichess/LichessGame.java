@@ -12,11 +12,6 @@ import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.time.ZonedDateTime;
@@ -106,9 +101,10 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     @Override
-    public void searchInfo(SearchResultByDepth searchResultByDepth) {
-        String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResultByDepth.isPvComplete() ? "" : "*");
-        log.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchResultByDepth.getDepth()), String.format("%2d", searchResultByDepth.getDepth()), String.format("%8d", searchResultByDepth.getBestEvaluation()), pvString);
+    public void searchInfo(String searchInfo) {
+        //String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchInfo.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchInfo.isPvComplete() ? "" : "*");
+        //log.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchInfo.getDepth()), String.format("%2d", searchInfo.getDepth()), String.format("%8d", searchInfo.getBestEvaluation()), pvString);
+        log.info("[{}] {}", gameId, searchInfo);
     }
 
     @Override

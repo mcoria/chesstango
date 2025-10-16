@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.SearchResultByDepth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class Session {
             }
 
             @Override
-            public void searchInfo(SearchResultByDepth searchByDepthResult) {
+            public void searchInfo(String searchByDepthResult) {
                 if (searchListener != null) {
                     searchListener.searchInfo(searchByDepthResult);
                 }
