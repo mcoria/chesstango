@@ -10,7 +10,7 @@ import net.chesstango.search.SearchResultByDepth;
  *
  * @author Mauricio Coria
  */
-public interface TimeMgmt {
+interface TimeMgmt {
     /**
      * Calculates the time allocation for the current position search.
      *
