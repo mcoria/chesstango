@@ -1,7 +1,5 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.SearchResult;
-
 /**
  * Podria buscar OnLine
  *
@@ -10,7 +8,7 @@ import net.chesstango.search.SearchResult;
 class SearchByOnline implements SearchChain {
 
     @Override
-    public SearchResult search(SearchContext context) {
+    public SearchResponse search(SearchContext context) {
         return null;
     }
 

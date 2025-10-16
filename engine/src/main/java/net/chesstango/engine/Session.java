@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class Session {
      * Resultado de las busquedas efectuadas durante el juego.
      */
     @Getter
-    private final List<SearchResult> searchResults = new ArrayList<>();
+    private final List<SearchResponse> searchResults = new ArrayList<>();
 
     private final SearchManager searchManager;
 
@@ -54,7 +53,7 @@ public class Session {
             }
 
             @Override
-            public void searchFinished(SearchResult searchMoveResult) {
+            public void searchFinished(SearchResponse searchMoveResult) {
                 if (searchListener != null) {
                     searchListener.searchFinished(searchMoveResult);
                 }
@@ -63,19 +62,19 @@ public class Session {
         };
     }
 
-    public Future<SearchResult> goInfinite() {
+    public Future<SearchResponse> goInfinite() {
         return searchManager.searchInfinite(getGame(), sessionSearchListener);
     }
 
-    public Future<SearchResult> goDepth(int depth) {
+    public Future<SearchResponse> goDepth(int depth) {
         return searchManager.searchDepth(getGame(), depth, sessionSearchListener);
     }
 
-    public Future<SearchResult> goTime(int timeOut) {
+    public Future<SearchResponse> goTime(int timeOut) {
         return searchManager.searchTime(getGame(), timeOut, sessionSearchListener);
     }
 
-    public Future<SearchResult> goFast(int wTime, int bTime, int wInc, int bInc) {
+    public Future<SearchResponse> goFast(int wTime, int bTime, int wInc, int bInc) {
         return searchManager.searchFast(getGame(), wTime, bTime, wInc, bInc, sessionSearchListener);
     }
 

@@ -43,14 +43,17 @@ class SearchByTree implements SearchChain {
      * @return
      */
     @Override
-    public SearchResult search(SearchContext context) {
+    public SearchResponse search(SearchContext context) {
         search.accept(new SetMaxDepthVisitor(context.getDepth()));
+
         search.accept(new SetSearchPredicateVisitor(context.getSearchPredicate()));
 
         search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthListener()));
 
-        SearchResult result = search.startSearch(context.getGame());
-        log.debug("Move found: {}", simpleMoveEncoder.encode(result.getBestMove()));
-        return result;
+        SearchResult searchResult = search.startSearch(context.getGame());
+
+        log.debug("Move found: {}", simpleMoveEncoder.encode(searchResult.getBestMove()));
+
+        return new SearchByTreeResult(searchResult.getBestMove(), searchResult);
     }
 }

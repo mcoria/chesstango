@@ -3,6 +3,7 @@ package net.chesstango.uci.engine;
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
+import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
@@ -74,8 +75,8 @@ class SearchingState implements UCIEngine, SearchListener {
 
 
     @Override
-    public void searchFinished(SearchResult searchResult) {
-        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
+    public void searchFinished(SearchResponse searchResult) {
+        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getMove());
 
         uciTango.reply(readyState, UCIResponse.bestMove(selectedMoveStr));
     }

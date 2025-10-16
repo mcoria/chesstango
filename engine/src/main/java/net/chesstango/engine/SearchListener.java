@@ -1,6 +1,5 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 /**
@@ -13,6 +12,6 @@ public interface SearchListener {
     default void searchInfo(SearchResultByDepth searchResultByDepth){
     }
 
-    default void searchFinished(SearchResult searchResult) {
+    default void searchFinished(SearchResponse searchResponse) {
     }
 }

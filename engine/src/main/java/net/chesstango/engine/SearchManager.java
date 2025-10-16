@@ -2,7 +2,6 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.*;
@@ -33,19 +32,19 @@ class SearchManager implements AutoCloseable {
         this.timeOutExecutor = timeOutExecutor;
     }
 
-    public synchronized Future<SearchResult> searchInfinite(Game game, SearchListener searchListener) {
+    public synchronized Future<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
         return searchDepthImp(game, infiniteDepth, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResult> searchDepth(Game game, int depth, SearchListener searchListener) {
+    public synchronized Future<SearchResponse> searchDepth(Game game, int depth, SearchListener searchListener) {
         return searchDepthImp(game, depth, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResult> searchTime(Game game, int timeOut, SearchListener searchListener) {
+    public synchronized Future<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
         return searchTimeOutImp(game, timeOut, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResult> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
+    public synchronized Future<SearchResponse> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
         return searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
@@ -63,7 +62,7 @@ class SearchManager implements AutoCloseable {
         searchChain.close();
     }
 
-    private Future<SearchResult> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    private Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         countDownLatch = new CountDownLatch(1);
 
         ScheduledFuture<?> stopTask = timeOutExecutor.schedule(this::stopSearchingImp, timeOut, TimeUnit.MILLISECONDS);
@@ -81,7 +80,7 @@ class SearchManager implements AutoCloseable {
             }
 
             @Override
-            public void searchFinished(SearchResult searchResult) {
+            public void searchFinished(SearchResponse searchResult) {
                 // Esta linea garantiza que se cancele stopTask inmediatamente termina la búsqueda
                 stopTask.cancel(false);
                 searchListener.searchFinished(searchResult);
@@ -92,7 +91,7 @@ class SearchManager implements AutoCloseable {
         return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchListenerDecorator);
     }
 
-    private Future<SearchResult> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    private Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         countDownLatch = new CountDownLatch(1);
 
         SearchListener searchListenerDecorator = new SearchListener() {
@@ -108,7 +107,7 @@ class SearchManager implements AutoCloseable {
             }
 
             @Override
-            public void searchFinished(SearchResult searchResult) {
+            public void searchFinished(SearchResponse searchResult) {
                 searchListener.searchFinished(searchResult);
             }
         };

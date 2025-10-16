@@ -12,10 +12,6 @@ import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.MoveEvaluationType;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -81,66 +77,76 @@ class SearchByTablebase implements SearchChain {
     }
 
     @Override
-    public SearchResult search(SearchContext context) {
-        SearchResult searchResult = null;
+    public SearchResponse search(SearchContext context) {
+        SearchResponse searchResponse = null;
         if (syzygy != null) {
-            searchResult = searchByBook(context.getGame());
+            int syzygyResult = searchSyzygyTableBases(context.getGame());
+            if (syzygyResult != TB_RESULT_FAILED) {
+                searchResponse = createSearchResponse(context.getGame(), syzygyResult);
+            }
         }
-        return searchResult == null ? next.search(context) : searchResult;
+        return searchResponse == null ? next.search(context) : searchResponse;
     }
 
-    SearchResult searchByBook(Game game) {
+    int searchSyzygyTableBases(Game game) {
+        int result = TB_RESULT_FAILED;
         final int tbLargest = syzygy.tb_largest();
         if (tbLargest >= 3 && tbLargest >= Long.bitCount(game.getPosition().getAllPositions())) {
 
             SyzygyPosition syzygyPosition = bindSyzygyPosition(game);
 
             int[] results = new int[TB_MAX_MOVES];
-            int res = syzygy.tb_probe_root(syzygyPosition, results);
 
-            if (res != TB_RESULT_FAILED) {
-                final int fromIdx = Syzygy.TB_GET_FROM(res);
-                final int toIdx = Syzygy.TB_GET_TO(res);
-                final int promotion = Syzygy.TB_GET_PROMOTES(res);
+            result = syzygy.tb_probe_root(syzygyPosition, results);
 
-                Square from = Square.squareByIdx(fromIdx);
-                Square to = Square.squareByIdx(toIdx);
-                Piece promotionPiece = switch (promotion) {
-                    case TB_PROMOTES_QUEEN -> syzygyPosition.isTurn() ? Piece.QUEEN_WHITE : Piece.QUEEN_BLACK;
-                    case TB_PROMOTES_KNIGHT -> syzygyPosition.isTurn() ? Piece.KNIGHT_WHITE : Piece.KNIGHT_BLACK;
-                    case TB_PROMOTES_ROOK -> syzygyPosition.isTurn() ? Piece.ROOK_WHITE : Piece.ROOK_BLACK;
-                    case TB_PROMOTES_BISHOP -> syzygyPosition.isTurn() ? Piece.BISHOP_WHITE : Piece.BISHOP_BLACK;
-                    default -> null;
-                };
-
-                Move move = promotionPiece == null ? game.getMove(from, to) : game.getMove(from, to, promotionPiece);
-                if (move != null) {
-                    int tb_result = TB_GET_WDL(res);
-                    String tb_resultStr = switch (tb_result) {
-                        case TB_WIN -> "TB_WIN";
-                        case TB_CURSED_WIN -> "TB_CURSED_WIN";
-                        case TB_DRAW -> "TB_DRAW";
-                        case TB_BLESSED_LOSS -> "TB_BLESSED_LOSS";
-                        case TB_LOSS -> "TB_LOSS";
-                        default -> "UNKNOWN";
-                    };
-
-                    log.debug("Move: {} - {}", simpleMoveEncoder.encode(move), tb_resultStr);
-
-                    MoveEvaluation bestMove = new MoveEvaluation(move, tb_result, MoveEvaluationType.EXACT);
-
-                    return new SearchResult()
-                            .addSearchResultByDepth(new SearchResultByDepth(1).setBestMoveEvaluation(bestMove));
-
-                } else {
-                    log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.getCurrentFEN());
-                }
-            } else {
+            if (result == TB_RESULT_FAILED) {
                 log.warn("Syzygy lookup failed: {}", game.getCurrentFEN());
             }
         }
-        return null;
+        return result;
     }
+
+    private SearchResponse createSearchResponse(Game game, int syzygyResult) {
+        SearchResponse searchResponse = null;
+
+        final int fromIdx = Syzygy.TB_GET_FROM(syzygyResult);
+        final int toIdx = Syzygy.TB_GET_TO(syzygyResult);
+        final int promotion = Syzygy.TB_GET_PROMOTES(syzygyResult);
+
+        Square from = Square.squareByIdx(fromIdx);
+        Square to = Square.squareByIdx(toIdx);
+        Piece promotionPiece = switch (promotion) {
+            case TB_PROMOTES_QUEEN -> syzygyPosition.isTurn() ? Piece.QUEEN_WHITE : Piece.QUEEN_BLACK;
+            case TB_PROMOTES_KNIGHT -> syzygyPosition.isTurn() ? Piece.KNIGHT_WHITE : Piece.KNIGHT_BLACK;
+            case TB_PROMOTES_ROOK -> syzygyPosition.isTurn() ? Piece.ROOK_WHITE : Piece.ROOK_BLACK;
+            case TB_PROMOTES_BISHOP -> syzygyPosition.isTurn() ? Piece.BISHOP_WHITE : Piece.BISHOP_BLACK;
+            default -> null;
+        };
+
+        Move move = promotionPiece == null ? game.getMove(from, to) : game.getMove(from, to, promotionPiece);
+
+        if (move != null) {
+            log.debug("Move found: {} - {}", simpleMoveEncoder.encode(move), wdlToString(syzygyResult));
+            searchResponse = new SearchByTablebaseResult(move, syzygyResult);
+        } else {
+            log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.getCurrentFEN());
+        }
+
+        return searchResponse;
+    }
+
+    String wdlToString(int syzygyResult) {
+        int tb_result = TB_GET_WDL(syzygyResult);
+        return switch (tb_result) {
+            case TB_WIN -> "TB_WIN";
+            case TB_CURSED_WIN -> "TB_CURSED_WIN";
+            case TB_DRAW -> "TB_DRAW";
+            case TB_BLESSED_LOSS -> "TB_BLESSED_LOSS";
+            case TB_LOSS -> "TB_LOSS";
+            default -> "UNKNOWN";
+        };
+    }
+
 
 
     SyzygyPosition bindSyzygyPosition(Game game) {

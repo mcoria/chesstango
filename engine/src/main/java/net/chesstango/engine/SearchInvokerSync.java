@@ -1,12 +1,10 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 /**
@@ -20,7 +18,7 @@ class SearchInvokerSync implements SearchInvoker {
     }
 
     @Override
-    public Future<SearchResult> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         try {
             searchListener.searchStarted();
 
@@ -30,7 +28,7 @@ class SearchInvokerSync implements SearchInvoker {
                     .setSearchPredicate(searchPredicate)
                     .setSearchResultByDepthListener(searchListener::searchInfo);
 
-            SearchResult searchResult = searchChain.search(context);
+            SearchResponse searchResult = searchChain.search(context);
 
             searchListener.searchFinished(searchResult);
 

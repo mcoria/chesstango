@@ -7,6 +7,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
+import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
@@ -111,9 +112,9 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     @Override
-    public void searchFinished(SearchResult searchResult) {
-        String moveUci = simpleMoveEncoder.encode(searchResult.getBestMove());
-        log.info("[{}] Search finished: eval {} move {}", gameId, String.format("%8d", searchResult.getBestEvaluation()), moveUci);
+    public void searchFinished(SearchResponse searchResult) {
+        String moveUci = simpleMoveEncoder.encode(searchResult.getMove());
+        log.info("[{}] Search finished: move {}", gameId, moveUci);
         client.gameMove(gameId, moveUci);
         MDC.remove("gameId");
     }

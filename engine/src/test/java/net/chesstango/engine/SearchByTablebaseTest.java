@@ -44,9 +44,9 @@ public class SearchByTablebaseTest {
         SearchContext searchContext = new SearchContext()
                 .setGame(game);
 
-        SearchResult result = searchByTablebase.search(searchContext);
+        SearchResponse result = searchByTablebase.search(searchContext);
 
-        Move move = result.getBestMove();
+        Move move = result.getMove();
 
         assertEquals(Square.d2, move.getFrom().square());
         assertEquals(Square.d3, move.getTo().square());
@@ -61,9 +61,9 @@ public class SearchByTablebaseTest {
         SearchContext searchContext = new SearchContext()
                 .setGame(game);
 
-        SearchResult result = searchByTablebase.search(searchContext);
+        SearchResponse result = searchByTablebase.search(searchContext);
 
-        Move move = result.getBestMove();
+        Move move = result.getMove();
 
         assertEquals(Square.c2, move.getFrom().square());
         assertEquals(Square.c4, move.getTo().square());
@@ -78,9 +78,9 @@ public class SearchByTablebaseTest {
         SearchContext searchContext = new SearchContext()
                 .setGame(game);
 
-        SearchResult result = searchByTablebase.search(searchContext);
+        SearchResponse result = searchByTablebase.search(searchContext);
 
-        MovePromotion move = (MovePromotion) result.getBestMove();
+        MovePromotion move = (MovePromotion) result.getMove();
 
         assertEquals(Square.g7, move.getFrom().square());
         assertEquals(Square.g8, move.getTo().square());
