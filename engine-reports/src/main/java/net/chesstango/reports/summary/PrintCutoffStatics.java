@@ -9,26 +9,26 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class PrintCutoffStatics {
-    private final List<SearchesByTreeSummaryModel> reportRows;
+    private final List<SearchesSummaryModel> reportRows;
     private final PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public PrintCutoffStatics(PrintStream out, List<SearchesByTreeSummaryModel> reportRows) {
+    public PrintCutoffStatics(PrintStream out, List<SearchesSummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SearchesByTreeSummaryModel searchesByTreeSummaryModel : reportRows) {
-            if (maxRLevelVisited < searchesByTreeSummaryModel.maxSearchRLevel) {
-                maxRLevelVisited = searchesByTreeSummaryModel.maxSearchRLevel;
+        for (SearchesSummaryModel searchesSummaryModel : reportRows) {
+            if (maxRLevelVisited < searchesSummaryModel.maxSearchRLevel) {
+                maxRLevelVisited = searchesSummaryModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < searchesByTreeSummaryModel.maxSearchQLevel) {
-                maxQLevelVisited = searchesByTreeSummaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < searchesSummaryModel.maxSearchQLevel) {
+                maxQLevelVisited = searchesSummaryModel.maxSearchQLevel;
             }
         }
 

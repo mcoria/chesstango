@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesByTreeSummaryModel {
+public class SearchesSummaryModel {
     public String engineName;
     public long searches;
 
@@ -43,14 +43,14 @@ public class SearchesByTreeSummaryModel {
 
     /// ////////////////// END VISITED QUIESCENCE NODES
 
-    public static SearchesByTreeSummaryModel collectStatics(String engineName, List<SearchResult> searchResults) {
-        SearchesByTreeSummaryModel searchesByTreeSummaryModel = new SearchesByTreeSummaryModel();
+    public static SearchesSummaryModel collectStatics(String engineName, List<SearchResult> searchResults) {
+        SearchesSummaryModel searchesSummaryModel = new SearchesSummaryModel();
 
-        searchesByTreeSummaryModel.engineName = engineName;
+        searchesSummaryModel.engineName = engineName;
 
-        searchesByTreeSummaryModel.load(searchResults);
+        searchesSummaryModel.load(searchResults);
 
-        return searchesByTreeSummaryModel;
+        return searchesSummaryModel;
     }
 
     private void load(List<SearchResult> searchResults) {

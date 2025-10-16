@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SearchesByTreeSummaryReport {
-    private final List<SearchesByTreeSummaryModel> searchesByTreeSummaryModels = new LinkedList<>();
+public class SearchesSummaryReport {
+    private final List<SearchesSummaryModel> searchesSummaryModels = new LinkedList<>();
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private boolean breakByColor;
     private PrintStream out;
 
-    public SearchesByTreeSummaryReport printReport(PrintStream output) {
+    public SearchesSummaryReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -29,10 +29,10 @@ public class SearchesByTreeSummaryReport {
     public void addSearchesByTreeSummaryModel(String engineName, List<SearchResult> searchesWhite, List<SearchResult> searchesBlack) {
         if (breakByColor) {
             if (!searchesWhite.isEmpty()) {
-                searchesByTreeSummaryModels.add(SearchesByTreeSummaryModel.collectStatics(String.format("%s white", engineName), searchesWhite));
+                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(String.format("%s white", engineName), searchesWhite));
             }
             if (!searchesBlack.isEmpty()) {
-                searchesByTreeSummaryModels.add(SearchesByTreeSummaryModel.collectStatics(String.format("%s black", engineName), searchesBlack));
+                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(String.format("%s black", engineName), searchesBlack));
             }
         } else {
             List<SearchResult> searches = new ArrayList<>();
@@ -40,14 +40,14 @@ public class SearchesByTreeSummaryReport {
             searches.addAll(searchesBlack);
 
             if (!searches.isEmpty()) {
-                searchesByTreeSummaryModels.add(SearchesByTreeSummaryModel.collectStatics(engineName, searches));
+                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(engineName, searches));
             }
         }
     }
 
     private void print() {
         if (printNodesVisitedStatistics) {
-            new PrintNodesVisitedStatistics(out, searchesByTreeSummaryModels)
+            new PrintNodesVisitedStatistics(out, searchesSummaryModels)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics()
                     .printNodesVisitedStaticsAvg();
@@ -55,23 +55,23 @@ public class SearchesByTreeSummaryReport {
 
 
         if (printCutoffStatistics) {
-            new PrintCutoffStatics(out, searchesByTreeSummaryModels)
+            new PrintCutoffStatics(out, searchesSummaryModels)
                     .printCutoffStatics();
         }
     }
 
 
-    public SearchesByTreeSummaryReport withNodesVisitedStatistics() {
+    public SearchesSummaryReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public SearchesByTreeSummaryReport withCutoffStatistics() {
+    public SearchesSummaryReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public SearchesByTreeSummaryReport breakByColor() {
+    public SearchesSummaryReport breakByColor() {
         this.breakByColor = true;
         return this;
     }
