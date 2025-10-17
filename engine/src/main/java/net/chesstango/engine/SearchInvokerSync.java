@@ -1,12 +1,13 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchResult;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -14,13 +15,14 @@ import java.util.function.Predicate;
  */
 class SearchInvokerSync implements SearchInvoker {
     private final SearchChain searchChain;
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     SearchInvokerSync(SearchChain searchChain) {
         this.searchChain = searchChain;
     }
 
     @Override
-    public Future<SearchResult> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         try {
             searchListener.searchStarted();
 
@@ -28,9 +30,9 @@ class SearchInvokerSync implements SearchInvoker {
                     .setGame(game)
                     .setDepth(depth)
                     .setSearchPredicate(searchPredicate)
-                    .setSearchResultByDepthListener(searchListener::searchInfo);
+                    .setSearchResultByDepthListener(createSearchListener(searchListener));
 
-            SearchResult searchResult = searchChain.search(context);
+            SearchResponse searchResult = searchChain.search(context);
 
             searchListener.searchFinished(searchResult);
 
@@ -40,4 +42,21 @@ class SearchInvokerSync implements SearchInvoker {
             throw new RuntimeException(e);
         }
     }
+
+    private Consumer<SearchResultByDepth> createSearchListener(SearchListener searchListener) {
+        return searchResultByDepth -> {
+            String pv = simpleMoveEncoder
+                    .encodeMoves(searchResultByDepth
+                            .getPrincipalVariation()
+                            .stream()
+                            .map(PrincipalVariation::move)
+                            .toList()
+                    );
+            String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
+
+            searchListener.searchInfo(infoStr);
+        };
+    }
 }
+
+

@@ -1,4 +1,4 @@
-package net.chesstango.engine.timemgmt;
+package net.chesstango.engine;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -7,7 +7,7 @@ import net.chesstango.search.SearchResultByDepth;
 /**
  * @author Mauricio Coria
  */
-public class Material implements TimeMgmt {
+class TimeMaterial implements TimeMgmt {
     @Override
     public int getTimeOut(Game game, int wTime, int bTime, int wInc, int bInc) {
         int numberOfPieces = Long.bitCount(game.getPosition().getAllPositions());

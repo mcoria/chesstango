@@ -1,11 +1,13 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchResult;
+import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -14,8 +16,9 @@ import java.util.function.Predicate;
 class SearchInvokerAsync implements SearchInvoker {
     private final ExecutorService searchExecutor;
     private final SearchChain searchChain;
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-    private volatile Future<SearchResult> currentSearchTask;
+    private volatile Future<SearchResponse> currentSearchTask;
 
     SearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor) {
         this.searchChain = searchChain;
@@ -23,7 +26,7 @@ class SearchInvokerAsync implements SearchInvoker {
     }
 
     @Override
-    public Future<SearchResult> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
+    public Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         if (currentSearchTask != null && !currentSearchTask.isDone()) {
             throw new IllegalStateException("Another search is running");
         }
@@ -36,13 +39,13 @@ class SearchInvokerAsync implements SearchInvoker {
                         .setGame(game)
                         .setDepth(depth)
                         .setSearchPredicate(searchPredicate)
-                        .setSearchResultByDepthListener(searchListener::searchInfo);
+                        .setSearchResultByDepthListener(createSearchListener(searchListener));
 
-                SearchResult searchResult = searchChain.search(context);
+                SearchResponse searchResponse = searchChain.search(context);
 
-                searchListener.searchFinished(searchResult);
+                searchListener.searchFinished(searchResponse);
 
-                return searchResult;
+                return searchResponse;
             } catch (RuntimeException e) {
                 e.printStackTrace(System.err);
                 throw new RuntimeException(e);
@@ -50,5 +53,20 @@ class SearchInvokerAsync implements SearchInvoker {
         });
 
         return currentSearchTask;
+    }
+
+    private Consumer<SearchResultByDepth> createSearchListener(SearchListener searchListener) {
+        return searchResultByDepth -> {
+            String pv = simpleMoveEncoder
+                    .encodeMoves(searchResultByDepth
+                            .getPrincipalVariation()
+                            .stream()
+                            .map(PrincipalVariation::move)
+                            .toList()
+                    );
+            String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
+
+            searchListener.searchInfo(infoStr);
+        };
     }
 }

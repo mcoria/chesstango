@@ -21,8 +21,8 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class SyzygyTableBaseAdapterTest {
-    private SyzygyTableBaseAdapter syzygyTableBaseAdapter;
+public class SyzygyAdapterTest {
+    private SyzygyAdapter syzygyAdapter;
 
     @Mock
     private Syzygy syzygy;
@@ -30,7 +30,7 @@ public class SyzygyTableBaseAdapterTest {
     @BeforeEach
     public void setup() {
         when(syzygy.tb_largest()).thenReturn(5);
-        syzygyTableBaseAdapter = new SyzygyTableBaseAdapter(syzygy);
+        syzygyAdapter = new SyzygyAdapter(syzygy);
     }
 
     @Test
@@ -38,9 +38,9 @@ public class SyzygyTableBaseAdapterTest {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_WIN);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2R5/1K6 w - - 0 1"));
-        syzygyTableBaseAdapter.setGame(game);
-        assertTrue(syzygyTableBaseAdapter.isProbeAvailable());
-        assertEquals(Evaluator.WHITE_WON, syzygyTableBaseAdapter.evaluate());
+        syzygyAdapter.setGame(game);
+        assertTrue(syzygyAdapter.isProbeAvailable());
+        assertEquals(Evaluator.WHITE_WON, syzygyAdapter.evaluate());
     }
 
     @Test
@@ -48,9 +48,9 @@ public class SyzygyTableBaseAdapterTest {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_LOSS);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2r5/1K6 w - - 0 1"));
-        syzygyTableBaseAdapter.setGame(game);
-        assertTrue(syzygyTableBaseAdapter.isProbeAvailable());
-        assertEquals(Evaluator.WHITE_LOST, syzygyTableBaseAdapter.evaluate());
+        syzygyAdapter.setGame(game);
+        assertTrue(syzygyAdapter.isProbeAvailable());
+        assertEquals(Evaluator.WHITE_LOST, syzygyAdapter.evaluate());
     }
 
     @Test
@@ -58,9 +58,9 @@ public class SyzygyTableBaseAdapterTest {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_WIN);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/3k4/2r5/1K6 b - - 0 1"));
-        syzygyTableBaseAdapter.setGame(game);
-        assertTrue(syzygyTableBaseAdapter.isProbeAvailable());
-        assertEquals(Evaluator.BLACK_WON, syzygyTableBaseAdapter.evaluate());
+        syzygyAdapter.setGame(game);
+        assertTrue(syzygyAdapter.isProbeAvailable());
+        assertEquals(Evaluator.BLACK_WON, syzygyAdapter.evaluate());
     }
 
     @Test
@@ -68,9 +68,9 @@ public class SyzygyTableBaseAdapterTest {
         when(syzygy.tb_probe_wdl(any(SyzygyPosition.class))).thenReturn(Syzygy.TB_LOSS);
 
         Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
-        syzygyTableBaseAdapter.setGame(game);
-        assertTrue(syzygyTableBaseAdapter.isProbeAvailable());
-        assertEquals(Evaluator.BLACK_LOST, syzygyTableBaseAdapter.evaluate());
+        syzygyAdapter.setGame(game);
+        assertTrue(syzygyAdapter.isProbeAvailable());
+        assertEquals(Evaluator.BLACK_LOST, syzygyAdapter.evaluate());
     }
 
     @Test
@@ -81,8 +81,8 @@ public class SyzygyTableBaseAdapterTest {
         game.getPosition().export(positionBuilder);
         SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
 
-        syzygyTableBaseAdapter.setGame(game);
-        SyzygyPosition syzygyPositionActual = syzygyTableBaseAdapter.bindSyzygyPosition();
+        syzygyAdapter.setGame(game);
+        SyzygyPosition syzygyPositionActual = syzygyAdapter.bindSyzygyPosition();
 
         assertEquals(syzygyPositionExpected, syzygyPositionActual);
     }
@@ -95,8 +95,8 @@ public class SyzygyTableBaseAdapterTest {
         game.getPosition().export(positionBuilder);
         SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
 
-        syzygyTableBaseAdapter.setGame(game);
-        SyzygyPosition syzygyPositionActual = syzygyTableBaseAdapter.bindSyzygyPosition();
+        syzygyAdapter.setGame(game);
+        SyzygyPosition syzygyPositionActual = syzygyAdapter.bindSyzygyPosition();
 
         assertEquals(syzygyPositionExpected, syzygyPositionActual);
     }

@@ -1,7 +1,9 @@
 module net.chesstango.reports {
-    exports net.chesstango.reports.evaluation;
-    exports net.chesstango.reports.nodes;
-    exports net.chesstango.reports.pv;
+    exports net.chesstango.reports.detail.evaluation;
+    exports net.chesstango.reports.detail.nodes;
+    exports net.chesstango.reports.detail.pv;
+    exports net.chesstango.reports.summary;
+    exports net.chesstango.reports.detail;
 
     requires net.chesstango.search;
     requires net.chesstango.board;

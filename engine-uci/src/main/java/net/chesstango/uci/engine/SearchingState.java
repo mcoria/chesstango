@@ -3,13 +3,10 @@ package net.chesstango.uci.engine;
 import lombok.Setter;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
-import net.chesstango.engine.Tango;
+import net.chesstango.engine.SearchResponse;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
-import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 
 /**
  * This class represents a specific state in the State design pattern for the UCI engine's lifecycle.
@@ -64,18 +61,14 @@ class SearchingState implements UCIEngine, SearchListener {
     }
 
     @Override
-    public void searchInfo(SearchResultByDepth searchResultByDepth) {
-        String pv = simpleMoveEncoder.encodeMoves(searchResultByDepth.getPrincipalVariation().stream().map(PrincipalVariation::move).toList());
-
-        String infoStr = String.format("depth %d seldepth %d pv %s", searchResultByDepth.getDepth(), searchResultByDepth.getDepth(), pv);
-
-        uciTango.reply(this, UCIResponse.info(infoStr));
+    public void searchInfo(String searchInfo) {
+        uciTango.reply(this, UCIResponse.info(searchInfo));
     }
 
 
     @Override
-    public void searchFinished(SearchResult searchResult) {
-        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getBestMove());
+    public void searchFinished(SearchResponse searchResult) {
+        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getMove());
 
         uciTango.reply(readyState, UCIResponse.bestMove(selectedMoveStr));
     }

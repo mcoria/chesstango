@@ -1,8 +1,6 @@
 package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.engine.timemgmt.FivePercentage;
-import net.chesstango.engine.timemgmt.TimeMgmt;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.search.Search;
@@ -108,7 +106,7 @@ class SearchManagerBuilder {
                 ? searchManagerFactory.createSearchInvokerAsync(searchChain, searchExecutor)
                 : searchManagerFactory.createSearchInvokerSync(searchChain);
 
-        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new FivePercentage(), searchInvoker, timeOutExecutor);
+        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new TimeFivePercentage(), searchInvoker, timeOutExecutor);
     }
 
     SearchChain buildSearchChain() {
@@ -142,9 +140,9 @@ class SearchManagerBuilder {
             }
         }
 
-        SearchByAlgorithm searchByAlgorithm = searchManagerFactory.createSearchByAlgorithm(search);
+        SearchByTree searchByTree = searchManagerFactory.createSearchByAlgorithm(search);
 
-        searchChains.add(searchByAlgorithm);
+        searchChains.add(searchByTree);
 
         return linkChain(searchChains);
     }
@@ -168,7 +166,7 @@ class SearchManagerBuilder {
 
         SearchByTablebase createSearchByTablebase(String syzygyDirectory);
 
-        SearchByAlgorithm createSearchByAlgorithm(Search search);
+        SearchByTree createSearchByAlgorithm(Search search);
 
         SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor);
 
@@ -200,8 +198,8 @@ class SearchManagerBuilder {
         }
 
         @Override
-        public SearchByAlgorithm createSearchByAlgorithm(Search search) {
-            return new SearchByAlgorithm(search);
+        public SearchByTree createSearchByAlgorithm(Search search) {
+            return new SearchByTree(search);
         }
 
         @Override
@@ -241,7 +239,7 @@ class SearchManagerBuilder {
 
         @Override
         public EndGameTableBase createSyzygyTableBaseAdapter(Syzygy syzygy) {
-            return new SyzygyTableBaseAdapter(syzygy);
+            return new SyzygyAdapter(syzygy);
         }
     }
 }
