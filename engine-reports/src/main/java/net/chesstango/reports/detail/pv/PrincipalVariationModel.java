@@ -22,21 +22,6 @@ public class PrincipalVariationModel {
     public List<PrincipalVariationReportModelDetail> moveDetails;
 
 
-    public static class PrincipalVariationReportModelDetail {
-        public String id;
-
-        public String move;
-        public String principalVariation;
-
-        /**
-         * Que porcentaje de PVs estan completos del total de busquedas por depth
-         */
-        public int pvAccuracyPercentage;
-
-        public int evaluation;
-    }
-
-
     public static PrincipalVariationModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
         PrincipalVariationModel principalVariationModel = new PrincipalVariationModel();
 
@@ -68,6 +53,20 @@ public class PrincipalVariationModel {
         reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchesByDepthCounter());
 
         moveDetails.add(reportModelDetail);
+    }
+
+    public static class PrincipalVariationReportModelDetail {
+        public String id;
+
+        public String move;
+        public String principalVariation;
+
+        /**
+         * Que porcentaje de PVs estan completos del total de busquedas por depth
+         */
+        public int pvAccuracyPercentage;
+
+        public int evaluation;
     }
 
 }
