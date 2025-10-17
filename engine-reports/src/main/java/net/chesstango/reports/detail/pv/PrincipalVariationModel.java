@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationModel {
+class PrincipalVariationModel {
     public String reportTitle;
 
     /**
@@ -20,6 +20,20 @@ public class PrincipalVariationModel {
     public int pvAccuracyAvgPercentageTotal;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
+
+    public static class PrincipalVariationReportModelDetail {
+        public String id;
+
+        public String move;
+        public String principalVariation;
+
+        /**
+         * Que porcentaje de PVs estan completos del total de busquedas por depth
+         */
+        public int pvAccuracyPercentage;
+
+        public int evaluation;
+    }
 
 
     public static PrincipalVariationModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
@@ -53,20 +67,6 @@ public class PrincipalVariationModel {
         reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchesByDepthCounter());
 
         moveDetails.add(reportModelDetail);
-    }
-
-    public static class PrincipalVariationReportModelDetail {
-        public String id;
-
-        public String move;
-        public String principalVariation;
-
-        /**
-         * Que porcentaje de PVs estan completos del total de busquedas por depth
-         */
-        public int pvAccuracyPercentage;
-
-        public int evaluation;
     }
 
 }

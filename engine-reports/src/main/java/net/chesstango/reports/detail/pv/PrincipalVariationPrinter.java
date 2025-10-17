@@ -8,16 +8,19 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationPrinter {
+class PrincipalVariationPrinter {
     private final PrintStream out;
     private final PrincipalVariationModel reportModel;
 
-    public PrincipalVariationPrinter(PrintStream out, PrincipalVariationModel reportModel) {
+    PrincipalVariationPrinter(PrintStream out, PrincipalVariationModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
 
-    public void printPrincipalVariation() {
+    void printPrincipalVariation() {
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("PrincipalVariationReport: %s\n\n", reportModel.reportTitle);
+
         out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
 
         out.print("Principal Variations\n");

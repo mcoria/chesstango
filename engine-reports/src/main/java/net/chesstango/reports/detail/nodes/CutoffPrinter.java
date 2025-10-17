@@ -6,17 +6,17 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class CutoffPrinter {
+class CutoffPrinter {
 
     private final PrintStream out;
     private final NodesModel reportModel;
 
-    public CutoffPrinter(PrintStream out, NodesModel reportModel) {
+    CutoffPrinter(PrintStream out, NodesModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
 
-    public void printCutoff() {
+    void printCutoff() {
         out.printf("Cutoff per search level (higher is better)\n");
 
         // Marco superior de la tabla

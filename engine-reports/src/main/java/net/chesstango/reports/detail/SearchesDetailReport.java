@@ -3,11 +3,8 @@ package net.chesstango.reports.detail;
 
 import net.chesstango.reports.Report;
 import net.chesstango.reports.detail.evaluation.EvaluationReport;
-import net.chesstango.reports.detail.evaluation.EvaluationModel;
 import net.chesstango.reports.detail.nodes.NodesReport;
-import net.chesstango.reports.detail.nodes.NodesModel;
 import net.chesstango.reports.detail.pv.PrincipalVariationReport;
-import net.chesstango.reports.detail.pv.PrincipalVariationModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -20,54 +17,58 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesDetailReport implements Report {
-    private final EvaluationReport evaluationReport = new EvaluationReport();
-    private final NodesReport nodesReport = new NodesReport();
-    private final PrincipalVariationReport principalVariationReport = new PrincipalVariationReport();
+    private final List<ReportAggregator> reportData = new LinkedList<>();
 
-    private final List<ReportAggregator> reportModels = new LinkedList<>();
-
-    private boolean withPrincipalVariation;
+    private boolean withPrincipalVariationReport;
     private boolean withEvaluationReport;
-    private boolean withNodesReport;
+    private boolean withCutoffStatistics;
+    private boolean withNodesVisitedStatistics;
 
     @Override
     public SearchesDetailReport printReport(PrintStream out) {
-        reportModels.forEach(reportModel -> {
-            if (withNodesReport) {
-                nodesReport.setReportModel(reportModel.nodesModel())
-                        .printReport(out);
+        reportData.forEach(reportModel -> {
+            if (withCutoffStatistics || withNodesVisitedStatistics) {
+                NodesReport nodesReport = new NodesReport()
+                        .withMoveResults(reportModel.searchResultList())
+                        .setReportTitle(reportModel.reportTitle());
+
+                if (withCutoffStatistics) {
+                    nodesReport.withCutoffStatistics();
+                }
+                if (withNodesVisitedStatistics) {
+                    nodesReport.withNodesVisitedStatistics();
+                }
+                nodesReport.printReport(out);
             }
 
             if (withEvaluationReport) {
-                evaluationReport.setReportModel(reportModel.evaluationModel())
+                new EvaluationReport()
+                        .withMoveResults(reportModel.searchResultList())
+                        .setReportTitle(reportModel.reportTitle())
                         .printReport(out);
             }
 
-            if (withPrincipalVariation) {
-                principalVariationReport.setReportModel(reportModel.principalVariationModel())
-                        .printReport(out);
+            if (withPrincipalVariationReport) {
+                new PrincipalVariationReport()
+                        .withMoveResults(reportModel.searchResultList())
+                        .setReportTitle(reportModel.reportTitle());
             }
         });
         return this;
     }
 
     public void addReportAggregator(String reportTitle, List<SearchResult> searchResultList) {
-        NodesModel nodesModel = NodesModel.collectStatistics(reportTitle, searchResultList);
-        EvaluationModel evaluationModel = EvaluationModel.collectStatistics(reportTitle, searchResultList);
-        PrincipalVariationModel principalVariationModel = PrincipalVariationModel.collectStatics(reportTitle, searchResultList);
-        reportModels.add(new ReportAggregator(nodesModel, evaluationModel, principalVariationModel));
+        reportData.add(new ReportAggregator(reportTitle, searchResultList));
     }
 
 
     public SearchesDetailReport withCutoffStatistics() {
-        nodesReport.withCutoffStatistics();
-        this.withNodesReport = true;
+        this.withCutoffStatistics = true;
         return this;
     }
 
     public SearchesDetailReport withNodesVisitedStatistics() {
-        nodesReport.withNodesVisitedStatistics();
-        this.withNodesReport = true;
+        this.withNodesVisitedStatistics = true;
         return this;
     }
 
@@ -77,13 +78,11 @@ public class SearchesDetailReport implements Report {
         return this;
     }
 
-    public SearchesDetailReport withPrincipalVariation() {
-        this.withPrincipalVariation = true;
+    public SearchesDetailReport withPrincipalVariationReport() {
+        this.withPrincipalVariationReport = true;
         return this;
     }
 
-    private record ReportAggregator(NodesModel nodesModel,
-                                    EvaluationModel evaluationModel,
-                                    PrincipalVariationModel principalVariationModel) {
+    private record ReportAggregator(String reportTitle, List<SearchResult> searchResultList) {
     }
 }

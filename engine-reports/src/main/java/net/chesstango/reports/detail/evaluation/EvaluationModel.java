@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationModel {
+class EvaluationModel {
     public String reportTitle;
 
     /**
@@ -27,7 +27,6 @@ public class EvaluationModel {
     public int evaluationCollisionPercentageTotal;
 
     ///////////////////// END TOTALS
-
 
     public List<EvaluationReportModelDetail> moveDetails;
 

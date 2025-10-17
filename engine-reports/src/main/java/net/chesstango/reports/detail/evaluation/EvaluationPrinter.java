@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationPrinter {
+class EvaluationPrinter {
     private final PrintStream out;
     private final EvaluationModel reportModel;
 

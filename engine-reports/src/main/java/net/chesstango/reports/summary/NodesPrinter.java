@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class NodesPrinter {
+class NodesPrinter {
     private final List<SearchesSummaryModel> reportRows;
     private final PrintStream out;
 

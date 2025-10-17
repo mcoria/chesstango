@@ -61,6 +61,7 @@ public class NodesReport implements Report {
         out.printf("\n");
     }
 
+
     public NodesReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;

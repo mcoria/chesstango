@@ -21,21 +21,11 @@ public class PrincipalVariationReport implements Report {
     @Accessors(chain = true)
     private PrincipalVariationModel reportModel;
 
-    private PrintStream out;
 
     @Override
     public PrincipalVariationReport printReport(PrintStream output) {
-        out = output;
-        print();
+        new PrincipalVariationPrinter(output, reportModel).printPrincipalVariation();
         return this;
-    }
-
-    protected void print() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("PrincipalVariationReport: %s\n\n", reportModel.reportTitle);
-
-        new PrincipalVariationPrinter(out, reportModel).printPrincipalVariation();
     }
 
 

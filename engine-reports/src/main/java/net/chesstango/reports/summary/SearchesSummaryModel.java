@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesSummaryModel {
+class SearchesSummaryModel {
     public String engineName;
     public long searches;
 
