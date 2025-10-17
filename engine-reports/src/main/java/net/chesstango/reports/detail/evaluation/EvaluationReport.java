@@ -15,15 +15,12 @@ public class EvaluationReport implements Report {
     private boolean exportEvaluations;
     private boolean printEvaluationsStatistics;
 
+    private EvaluationModel reportModel;
+    private PrintStream out;
+
     @Setter
     @Accessors(chain = true)
     private String reportTitle = "EvaluationReport";
-
-    @Setter
-    @Accessors(chain = true)
-    private EvaluationModel reportModel;
-
-    private PrintStream out;
 
     @Override
     public EvaluationReport printReport(PrintStream output) {

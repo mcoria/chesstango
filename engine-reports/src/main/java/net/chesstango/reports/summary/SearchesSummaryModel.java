@@ -9,7 +9,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 class SearchesSummaryModel {
-    public String engineName;
+    public String searchesName;
+
     public long searches;
 
     /// ////// START TOTALS
@@ -43,10 +44,10 @@ class SearchesSummaryModel {
 
     /// ////////////////// END VISITED QUIESCENCE NODES
 
-    public static SearchesSummaryModel collectStatics(String engineName, List<SearchResult> searchResults) {
+    public static SearchesSummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {
         SearchesSummaryModel searchesSummaryModel = new SearchesSummaryModel();
 
-        searchesSummaryModel.engineName = engineName;
+        searchesSummaryModel.searchesName = searchesName;
 
         searchesSummaryModel.load(searchResults);
 

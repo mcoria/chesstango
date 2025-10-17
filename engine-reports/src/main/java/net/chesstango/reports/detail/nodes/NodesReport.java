@@ -15,16 +15,13 @@ public class NodesReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
+    private NodesModel reportModel;
+    private PrintStream out;
+
     @Setter
     @Accessors(chain = true)
     private String reportTitle = "NodesReport";
 
-    @Setter
-    @Accessors(chain = true)
-    private NodesModel reportModel;
-
-
-    private PrintStream out;
 
     @Override
     public NodesReport printReport(PrintStream output) {
@@ -47,7 +44,7 @@ public class NodesReport implements Report {
     }
 
     private void printSummary() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
         out.printf("Searches              : %8d\n", reportModel.searches);
         out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
@@ -57,7 +54,7 @@ public class NodesReport implements Report {
         out.printf("Visited          Nodes: %8d\n", reportModel.visitedNodesTotal);
         out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
         out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
-        out.printf("\n");
+        out.print("\n");
     }
 
 
@@ -73,11 +70,6 @@ public class NodesReport implements Report {
 
     public NodesReport withMoveResults(List<SearchResult> searchResults) {
         this.reportModel = NodesModel.collectStatistics(this.reportTitle, searchResults);
-        return this;
-    }
-
-    public NodesReport withReportModel(NodesModel nodesModel) {
-        this.reportModel = nodesModel;
         return this;
     }
 

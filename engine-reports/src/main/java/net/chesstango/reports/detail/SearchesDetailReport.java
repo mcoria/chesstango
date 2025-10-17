@@ -27,10 +27,11 @@ public class SearchesDetailReport implements Report {
     @Override
     public SearchesDetailReport printReport(PrintStream out) {
         reportData.forEach(reportModel -> {
+
             if (withCutoffStatistics || withNodesVisitedStatistics) {
                 NodesReport nodesReport = new NodesReport()
-                        .withMoveResults(reportModel.searchResultList())
-                        .setReportTitle(reportModel.reportTitle());
+                        .setReportTitle(reportModel.reportTitle())
+                        .withMoveResults(reportModel.searchResultList());
 
                 if (withCutoffStatistics) {
                     nodesReport.withCutoffStatistics();
@@ -53,6 +54,7 @@ public class SearchesDetailReport implements Report {
                         .withMoveResults(reportModel.searchResultList())
                         .setReportTitle(reportModel.reportTitle());
             }
+
         });
         return this;
     }

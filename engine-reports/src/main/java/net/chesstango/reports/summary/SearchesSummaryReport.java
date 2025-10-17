@@ -27,8 +27,8 @@ public class SearchesSummaryReport implements Report {
     }
 
 
-    public void addSearchesByTreeSummaryModel(String reportTitle, List<SearchResult> searches) {
-        searchesSummaryModels.add(SearchesSummaryModel.collectStatics(reportTitle, searches));
+    public void addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
+        searchesSummaryModels.add(SearchesSummaryModel.collectStatics(searchesName, searches));
     }
 
     private void print() {

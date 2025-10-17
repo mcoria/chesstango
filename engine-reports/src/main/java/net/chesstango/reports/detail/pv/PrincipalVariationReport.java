@@ -12,14 +12,11 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PrincipalVariationReport implements Report {
+    private PrincipalVariationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private String reportTitle = "PrincipalVariationReport";
-
-    @Setter
-    @Accessors(chain = true)
-    private PrincipalVariationModel reportModel;
 
 
     @Override

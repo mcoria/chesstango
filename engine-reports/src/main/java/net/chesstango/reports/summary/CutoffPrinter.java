@@ -56,7 +56,7 @@ class CutoffPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("|%35s|%9d ", row.searchesName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
             out.printf("| %7d %% ", row.cutoffPercentage);
