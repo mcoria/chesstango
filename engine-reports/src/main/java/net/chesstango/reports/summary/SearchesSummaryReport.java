@@ -17,7 +17,6 @@ public class SearchesSummaryReport implements Report {
     private final List<SearchesSummaryModel> searchesSummaryModels = new LinkedList<>();
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
-    private boolean breakByColor;
     private PrintStream out;
 
     @Override
@@ -28,23 +27,8 @@ public class SearchesSummaryReport implements Report {
     }
 
 
-    public void addSearchesByTreeSummaryModel(String engineName, List<SearchResult> searchesWhite, List<SearchResult> searchesBlack) {
-        if (breakByColor) {
-            if (!searchesWhite.isEmpty()) {
-                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(String.format("%s white", engineName), searchesWhite));
-            }
-            if (!searchesBlack.isEmpty()) {
-                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(String.format("%s black", engineName), searchesBlack));
-            }
-        } else {
-            List<SearchResult> searches = new ArrayList<>();
-            searches.addAll(searchesWhite);
-            searches.addAll(searchesBlack);
-
-            if (!searches.isEmpty()) {
-                searchesSummaryModels.add(SearchesSummaryModel.collectStatics(engineName, searches));
-            }
-        }
+    public void addSearchesByTreeSummaryModel(String reportTitle, List<SearchResult> searches) {
+        searchesSummaryModels.add(SearchesSummaryModel.collectStatics(reportTitle, searches));
     }
 
     private void print() {
@@ -70,11 +54,6 @@ public class SearchesSummaryReport implements Report {
 
     public SearchesSummaryReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
-        return this;
-    }
-
-    public SearchesSummaryReport breakByColor() {
-        this.breakByColor = true;
         return this;
     }
 

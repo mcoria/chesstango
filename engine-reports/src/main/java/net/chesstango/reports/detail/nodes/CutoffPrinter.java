@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 class CutoffPrinter {
-
     private final PrintStream out;
     private final NodesModel reportModel;
 

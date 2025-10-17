@@ -7,6 +7,9 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNStringDecoder;
+import net.chesstango.reports.detail.evaluation.EvaluationReport;
+import net.chesstango.reports.detail.nodes.NodesReport;
+import net.chesstango.reports.detail.pv.PrincipalVariationReport;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -20,12 +23,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
 
@@ -51,7 +55,7 @@ public class SearchesTest {
                 .withAspirationWindows()
                 .withIterativeDeepening()
 
-                //.withStatistics()
+                .withStatistics()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
@@ -59,14 +63,13 @@ public class SearchesTest {
                 //.withPrintChain()
                 //.withDebugSearchTree(null)
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 .build();
     }
 
     @AfterEach
     public void printReport() {
-        /*
         if (PRINT_REPORT) {
             new NodesReport()
                     .withMoveResults(List.of(searchResult))
@@ -79,11 +82,11 @@ public class SearchesTest {
                     //.withExportEvaluations()
                     .withEvaluationsStatistics()
                     .printReport(System.out);
+
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }
-         */
     }
 
     @Test

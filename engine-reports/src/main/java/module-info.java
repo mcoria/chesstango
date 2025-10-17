@@ -8,6 +8,7 @@ module net.chesstango.reports {
     requires net.chesstango.search;
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
+    requires net.chesstango.gardel;
 
     requires static lombok;
 }
