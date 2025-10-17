@@ -2,6 +2,7 @@ package net.chesstango.reports.detail.evaluation;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationReport {
+public class EvaluationReport implements Report {
     private boolean exportEvaluations;
     private boolean printEvaluationsStatistics;
 
@@ -20,10 +21,11 @@ public class EvaluationReport {
 
     @Setter
     @Accessors(chain = true)
-    private EvaluationReportModel reportModel;
+    private EvaluationModel reportModel;
 
     private PrintStream out;
 
+    @Override
     public EvaluationReport printReport(PrintStream output) {
         out = output;
         print();
@@ -34,7 +36,7 @@ public class EvaluationReport {
         printSummary();
 
         if (printEvaluationsStatistics) {
-            new EvaluationStatisticsReport(out, reportModel)
+            new EvaluationPrinter(out, reportModel)
                     .printEvaluationsStatistics();
         }
 
@@ -68,7 +70,7 @@ public class EvaluationReport {
     }
 
     public EvaluationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = EvaluationModel.collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 

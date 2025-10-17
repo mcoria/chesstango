@@ -1,5 +1,6 @@
 package net.chesstango.reports.summary;
 
+import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -12,13 +13,14 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SearchesSummaryReport {
+public class SearchesSummaryReport implements Report {
     private final List<SearchesSummaryModel> searchesSummaryModels = new LinkedList<>();
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private boolean breakByColor;
     private PrintStream out;
 
+    @Override
     public SearchesSummaryReport printReport(PrintStream output) {
         out = output;
         print();
@@ -47,7 +49,7 @@ public class SearchesSummaryReport {
 
     private void print() {
         if (printNodesVisitedStatistics) {
-            new PrintNodesVisitedStatistics(out, searchesSummaryModels)
+            new NodesPrinter(out, searchesSummaryModels)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics()
                     .printNodesVisitedStaticsAvg();
@@ -55,7 +57,7 @@ public class SearchesSummaryReport {
 
 
         if (printCutoffStatistics) {
-            new PrintCutoffStatics(out, searchesSummaryModels)
+            new CutoffPrinter(out, searchesSummaryModels)
                     .printCutoffStatics();
         }
     }

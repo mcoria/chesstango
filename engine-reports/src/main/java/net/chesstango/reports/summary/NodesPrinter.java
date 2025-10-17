@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintNodesVisitedStatistics {
+public class NodesPrinter {
     private final List<SearchesSummaryModel> reportRows;
     private final PrintStream out;
 
@@ -16,7 +16,7 @@ public class PrintNodesVisitedStatistics {
 
     private int maxQLevelVisited;
 
-    public PrintNodesVisitedStatistics(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public NodesPrinter(PrintStream out, List<SearchesSummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
@@ -36,7 +36,7 @@ public class PrintNodesVisitedStatistics {
         this.maxQLevelVisited = maxQLevelVisited;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStatics() {
+    public NodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");
 
         // Marco superior de la tabla
@@ -73,7 +73,7 @@ public class PrintNodesVisitedStatistics {
         return this;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStaticsByType() {
+    public NodesPrinter printNodesVisitedStaticsByType() {
         out.println("\n Nodes visited per type");
 
         // Marco superior de la tabla
@@ -103,7 +103,7 @@ public class PrintNodesVisitedStatistics {
         return this;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStaticsAvg() {
+    public NodesPrinter printNodesVisitedStaticsAvg() {
         out.println("\n Nodes visited per search level AVG");
 
         // Marco superior de la tabla

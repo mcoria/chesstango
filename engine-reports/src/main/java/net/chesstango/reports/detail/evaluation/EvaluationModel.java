@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationReportModel {
+public class EvaluationModel {
     public String reportTitle;
 
     /**
@@ -77,8 +77,8 @@ public class EvaluationReportModel {
     }
 
 
-    public static EvaluationReportModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        EvaluationReportModel searchesReportModel = new EvaluationReportModel();
+    public static EvaluationModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        EvaluationModel searchesReportModel = new EvaluationModel();
 
         searchesReportModel.reportTitle = reportTitle;
 

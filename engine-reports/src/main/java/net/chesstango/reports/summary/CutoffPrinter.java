@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintCutoffStatics {
+public class CutoffPrinter {
     private final List<SearchesSummaryModel> reportRows;
     private final PrintStream out;
 
@@ -16,7 +16,7 @@ public class PrintCutoffStatics {
 
     private int maxQLevelVisited;
 
-    public PrintCutoffStatics(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public CutoffPrinter(PrintStream out, List<SearchesSummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 

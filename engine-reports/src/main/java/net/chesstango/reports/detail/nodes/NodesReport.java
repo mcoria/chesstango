@@ -2,6 +2,7 @@ package net.chesstango.reports.detail.nodes;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesReport {
+public class NodesReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
@@ -20,11 +21,12 @@ public class NodesReport {
 
     @Setter
     @Accessors(chain = true)
-    private NodesReportModel reportModel;
+    private NodesModel reportModel;
 
 
     private PrintStream out;
 
+    @Override
     public NodesReport printReport(PrintStream output) {
         out = output;
         print();
@@ -35,11 +37,11 @@ public class NodesReport {
         printSummary();
 
         if (printNodesVisitedStatistics) {
-            new PrintVisitedNodes(out, reportModel).printVisitedNodes();
+            new NodesPrinter(out, reportModel).printVisitedNodes();
         }
 
         if (printCutoffStatistics) {
-            new PrintCutoff(out, reportModel).printCutoff();
+            new CutoffPrinter(out, reportModel).printCutoff();
         }
 
     }
@@ -70,12 +72,12 @@ public class NodesReport {
     }
 
     public NodesReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = NodesReportModel.collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = NodesModel.collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
-    public NodesReport withReportModel(NodesReportModel nodesReportModel) {
-        this.reportModel = nodesReportModel;
+    public NodesReport withReportModel(NodesModel nodesModel) {
+        this.reportModel = nodesModel;
         return this;
     }
 

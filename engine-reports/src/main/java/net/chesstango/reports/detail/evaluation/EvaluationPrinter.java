@@ -6,11 +6,11 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationStatisticsReport {
+public class EvaluationPrinter {
     private final PrintStream out;
-    private final EvaluationReportModel reportModel;
+    private final EvaluationModel reportModel;
 
-    public EvaluationStatisticsReport(PrintStream out, EvaluationReportModel reportModel) {
+    public EvaluationPrinter(PrintStream out, EvaluationModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -54,7 +54,7 @@ public class EvaluationStatisticsReport {
         out.printf("|\n");
 
         // Cuerpo
-        for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (EvaluationModel.EvaluationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
             //out.printf("| %10d ", moveDetail.possibleCollisionsCounter);
             out.printf("| %11d ", moveDetail.evaluationCounter);

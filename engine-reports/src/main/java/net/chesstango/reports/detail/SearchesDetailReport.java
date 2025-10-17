@@ -1,12 +1,13 @@
 package net.chesstango.reports.detail;
 
 
+import net.chesstango.reports.Report;
 import net.chesstango.reports.detail.evaluation.EvaluationReport;
-import net.chesstango.reports.detail.evaluation.EvaluationReportModel;
+import net.chesstango.reports.detail.evaluation.EvaluationModel;
 import net.chesstango.reports.detail.nodes.NodesReport;
-import net.chesstango.reports.detail.nodes.NodesReportModel;
+import net.chesstango.reports.detail.nodes.NodesModel;
 import net.chesstango.reports.detail.pv.PrincipalVariationReport;
-import net.chesstango.reports.detail.pv.PrincipalVariationReportModel;
+import net.chesstango.reports.detail.pv.PrincipalVariationModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SearchesDetailReport {
+public class SearchesDetailReport implements Report {
     private final EvaluationReport evaluationReport = new EvaluationReport();
     private final NodesReport nodesReport = new NodesReport();
     private final PrincipalVariationReport principalVariationReport = new PrincipalVariationReport();
@@ -29,20 +30,21 @@ public class SearchesDetailReport {
     private boolean withEvaluationReport;
     private boolean withNodesReport;
 
+    @Override
     public SearchesDetailReport printReport(PrintStream out) {
         reportModels.forEach(reportModel -> {
             if (withNodesReport) {
-                nodesReport.setReportModel(reportModel.nodesReportModel())
+                nodesReport.setReportModel(reportModel.nodesModel())
                         .printReport(out);
             }
 
             if (withEvaluationReport) {
-                evaluationReport.setReportModel(reportModel.evaluationReportModel())
+                evaluationReport.setReportModel(reportModel.evaluationModel())
                         .printReport(out);
             }
 
             if (withPrincipalVariation) {
-                principalVariationReport.setReportModel(reportModel.principalVariationReportModel())
+                principalVariationReport.setReportModel(reportModel.principalVariationModel())
                         .printReport(out);
             }
         });
@@ -50,10 +52,10 @@ public class SearchesDetailReport {
     }
 
     public void addReportAggregator(String reportTitle, List<SearchResult> searchResultList) {
-        NodesReportModel nodesReportModel = NodesReportModel.collectStatistics(reportTitle, searchResultList);
-        EvaluationReportModel evaluationReportModel = EvaluationReportModel.collectStatistics(reportTitle, searchResultList);
-        PrincipalVariationReportModel principalVariationReportModel = PrincipalVariationReportModel.collectStatics(reportTitle, searchResultList);
-        reportModels.add(new ReportAggregator(nodesReportModel, evaluationReportModel, principalVariationReportModel));
+        NodesModel nodesModel = NodesModel.collectStatistics(reportTitle, searchResultList);
+        EvaluationModel evaluationModel = EvaluationModel.collectStatistics(reportTitle, searchResultList);
+        PrincipalVariationModel principalVariationModel = PrincipalVariationModel.collectStatics(reportTitle, searchResultList);
+        reportModels.add(new ReportAggregator(nodesModel, evaluationModel, principalVariationModel));
     }
 
 
@@ -80,8 +82,8 @@ public class SearchesDetailReport {
         return this;
     }
 
-    private record ReportAggregator(NodesReportModel nodesReportModel,
-                                    EvaluationReportModel evaluationReportModel,
-                                    PrincipalVariationReportModel principalVariationReportModel) {
+    private record ReportAggregator(NodesModel nodesModel,
+                                    EvaluationModel evaluationModel,
+                                    PrincipalVariationModel principalVariationModel) {
     }
 }

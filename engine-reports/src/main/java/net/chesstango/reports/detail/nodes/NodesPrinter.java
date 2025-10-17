@@ -7,12 +7,12 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintVisitedNodes {
+public class NodesPrinter {
 
     private final PrintStream out;
-    private final NodesReportModel reportModel;
+    private final NodesModel reportModel;
 
-    public PrintVisitedNodes(PrintStream out, NodesReportModel reportModel) {
+    public NodesPrinter(PrintStream out, NodesModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -56,7 +56,7 @@ public class PrintVisitedNodes {
         out.printf("|\n");
 
         // Cuerpo
-        for (NodesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (NodesModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
 
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));

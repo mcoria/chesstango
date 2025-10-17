@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationReportModel {
+public class PrincipalVariationModel {
     public String reportTitle;
 
     /**
@@ -37,16 +37,16 @@ public class PrincipalVariationReportModel {
     }
 
 
-    public static PrincipalVariationReportModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
-        PrincipalVariationReportModel principalVariationReportModel = new PrincipalVariationReportModel();
+    public static PrincipalVariationModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
+        PrincipalVariationModel principalVariationModel = new PrincipalVariationModel();
 
-        principalVariationReportModel.reportTitle = reportTitle;
+        principalVariationModel.reportTitle = reportTitle;
 
-        principalVariationReportModel.load(searchResults);
+        principalVariationModel.load(searchResults);
 
-        principalVariationReportModel.pvAccuracyAvgPercentageTotal = principalVariationReportModel.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / principalVariationReportModel.moveDetails.size();
+        principalVariationModel.pvAccuracyAvgPercentageTotal = principalVariationModel.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / principalVariationModel.moveDetails.size();
 
-        return principalVariationReportModel;
+        return principalVariationModel;
     }
 
     private void load(List<SearchResult> searchResults) {

@@ -6,12 +6,12 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintCutoff {
+public class CutoffPrinter {
 
     private final PrintStream out;
-    private final NodesReportModel reportModel;
+    private final NodesModel reportModel;
 
-    public PrintCutoff(PrintStream out, NodesReportModel reportModel) {
+    public CutoffPrinter(PrintStream out, NodesModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
@@ -34,7 +34,7 @@ public class PrintCutoff {
         out.printf("|\n");
 
         // Cuerpo
-        for (NodesReportModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (NodesModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffRPercentages[depth]));
             IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffQPercentages[depth]));

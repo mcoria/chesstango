@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesReportModel {
+public class NodesModel {
     public String reportTitle;
 
     public int searches;
@@ -77,14 +77,14 @@ public class NodesReportModel {
     }
 
 
-    public static NodesReportModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        NodesReportModel nodesReportModel = new NodesReportModel();
+    public static NodesModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        NodesModel nodesModel = new NodesModel();
 
-        nodesReportModel.reportTitle = reportTitle;
+        nodesModel.reportTitle = reportTitle;
 
-        nodesReportModel.load(searchResults);
+        nodesModel.load(searchResults);
 
-        return nodesReportModel;
+        return nodesModel;
     }
 
     private void load(List<SearchResult> searchResults) {
