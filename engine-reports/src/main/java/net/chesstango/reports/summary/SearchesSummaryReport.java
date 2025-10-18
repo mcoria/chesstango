@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class SearchesSummaryReport implements Report {
     private final List<SearchesSummaryModel> searchesSummaryModels = new LinkedList<>();
+
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private PrintStream out;

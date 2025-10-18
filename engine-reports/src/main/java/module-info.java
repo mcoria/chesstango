@@ -9,6 +9,7 @@ module net.chesstango.reports {
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
+    requires net.chesstango.engine;
 
     requires static lombok;
 }

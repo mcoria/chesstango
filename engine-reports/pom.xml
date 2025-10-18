@@ -23,6 +23,10 @@
             <artifactId>search</artifactId>
         </dependency>
         <dependency>
+            <groupId>net.chesstango</groupId>
+            <artifactId>engine</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
             <scope>test</scope>
