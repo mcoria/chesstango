@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-class NodesModel {
+public class NodesModel {
     public String reportTitle;
 
     public int searches;

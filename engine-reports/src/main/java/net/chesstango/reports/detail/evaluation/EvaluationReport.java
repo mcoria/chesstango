@@ -15,7 +15,10 @@ public class EvaluationReport implements Report {
     private boolean exportEvaluations;
     private boolean printEvaluationsStatistics;
 
+    @Setter
+    @Accessors(chain = true)
     private EvaluationModel reportModel;
+
     private PrintStream out;
 
     @Setter

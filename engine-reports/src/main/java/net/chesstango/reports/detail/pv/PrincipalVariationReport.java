@@ -12,6 +12,9 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PrincipalVariationReport implements Report {
+
+    @Setter
+    @Accessors(chain = true)
     private PrincipalVariationModel reportModel;
 
     @Setter

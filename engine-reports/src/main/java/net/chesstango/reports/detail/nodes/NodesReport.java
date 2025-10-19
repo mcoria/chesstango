@@ -15,7 +15,10 @@ public class NodesReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
+    @Setter
+    @Accessors(chain = true)
     private NodesModel reportModel;
+
     private PrintStream out;
 
     @Setter

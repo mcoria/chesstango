@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-class EvaluationModel {
+public class EvaluationModel {
     public String reportTitle;
 
     /**

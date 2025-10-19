@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-class PrincipalVariationModel {
+public class PrincipalVariationModel {
     public String reportTitle;
 
     /**
