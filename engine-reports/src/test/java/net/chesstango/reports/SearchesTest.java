@@ -33,8 +33,6 @@ public class SearchesTest {
     private Search search;
     private SearchResult searchResult;
 
-    private SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
-
     @BeforeEach
     public void setup() {
         searchResult = null;
@@ -173,49 +171,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
-    }
-
-    @Test
-    @Disabled
-    public void testSearch_10() throws IOException {
-        String lines = "[Event \"Rated Rapid game\"]\n" +
-                "[Site \"https://lichess.org/cjatYH5c\"]\n" +
-                "[Date \"2024.02.20\"]\n" +
-                "[White \"ChessChildren\"]\n" +
-                "[Black \"chesstango_bot\"]\n" +
-                "[Result \"1-0\"]\n" +
-                "[UTCDate \"2024.02.20\"]\n" +
-                "[UTCTime \"21:23:34\"]\n" +
-                "[WhiteElo \"1765\"]\n" +
-                "[BlackElo \"1863\"]\n" +
-                "[WhiteRatingDiff \"+7\"]\n" +
-                "[BlackRatingDiff \"-7\"]\n" +
-                "[WhiteTitle \"BOT\"]\n" +
-                "[BlackTitle \"BOT\"]\n" +
-                "[Variant \"Standard\"]\n" +
-                "[TimeControl \"600+0\"]\n" +
-                "[ECO \"E25\"]\n" +
-                "[Opening \"Nimzo-Indian Defense: Sämisch Variation, Keres Variation\"]\n" +
-                "[Termination \"Time forfeit\"]\n" +
-                "[Annotator \"lichess.org\"]\n" +
-                "\n" +
-                "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 d5 7. cxd5 Nxd5 8. dxc5 { E25 Nimzo-Indian Defense: Sämisch Variation, Keres Variation } Qa5 9. Bd2 Qxc5 10. e4 Nf6 11. Qb3 O-O 12. Qb4 *";
-        Reader reader = new StringReader(lines);
-
-        BufferedReader bufferReader = new BufferedReader(reader);
-
-        PGNStringDecoder decoder = new PGNStringDecoder();
-
-        PGN pgn = decoder.decodePGN(bufferReader);
-
-        Game game = Game.from(pgn);
-
-        search.accept(new SetMaxDepthVisitor(7));
-        searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
     @Test
@@ -225,8 +180,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(4));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
 
@@ -237,8 +190,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
 }

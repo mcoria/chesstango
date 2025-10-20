@@ -52,7 +52,6 @@ public class NodesModel {
         public String move;
         public int executedMoves;
 
-
         /**
          * Node Statistics
          */

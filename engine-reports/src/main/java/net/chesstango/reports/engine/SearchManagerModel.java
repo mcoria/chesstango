@@ -6,29 +6,39 @@ import net.chesstango.engine.SearchByTablebaseResult;
 import net.chesstango.engine.SearchByTreeResult;
 import net.chesstango.engine.SearchResponse;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import static net.chesstango.reports.engine.SearchManagerModel.MoveType.*;
 
 /**
  *
  * @author Mauricio Coria
  */
 public class SearchManagerModel {
-    String searchesName;
-    int searchByOpenBookCounter;
-    int SearchByTablebaseCounter;
-    int searchByTreeCounter;
+    public enum MoveType {
+        OpenBook,
+        Tablebase,
+        Tree
+    }
 
-    List<SearchManagerModelDetail> moveList;
+    String reportTitle;
+    int searchByOpenBookCounter;
+    int searchByTreeCounter;
+    int searchByTablebaseCounter;
+
+
+    List<SearchManagerModelDetail> moveDetail = new LinkedList<>();
 
     static class SearchManagerModelDetail {
         String move;
-        String type;
+        MoveType type;
     }
 
 
-    public static SearchManagerModel collectStatics(String searchesName, List<SearchResponse> searchResponses) {
+    public static SearchManagerModel collectStatics(String reportTitle, List<SearchResponse> searchResponses) {
         SearchManagerModel model = new SearchManagerModel();
-        model.searchesName = searchesName;
+        model.reportTitle = reportTitle;
 
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
@@ -37,19 +47,19 @@ public class SearchManagerModel {
             SearchManagerModelDetail searchManagerModelDetail = new SearchManagerModelDetail();
 
             if (searchResponse instanceof SearchByOpenBookResult) {
-                searchManagerModelDetail.type = "Open Book";
+                searchManagerModelDetail.type = OpenBook;
                 model.searchByOpenBookCounter++;
             } else if (searchResponse instanceof SearchByTablebaseResult) {
-                searchManagerModelDetail.type = "Tablebase";
-                model.SearchByTablebaseCounter++;
+                searchManagerModelDetail.type = Tablebase;
+                model.searchByTablebaseCounter++;
             } else if (searchResponse instanceof SearchByTreeResult) {
-                searchManagerModelDetail.type = "Tree";
+                searchManagerModelDetail.type = Tree;
                 model.searchByTreeCounter++;
             }
 
             searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.getMove());
 
-            model.moveList.add(searchManagerModelDetail);
+            model.moveDetail.add(searchManagerModelDetail);
         });
 
         return model;

@@ -17,13 +17,13 @@ public class EvaluationReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private EvaluationModel reportModel;
-
-    private PrintStream out;
+    private String reportTitle = "EvaluationReport";
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "EvaluationReport";
+    private EvaluationModel reportModel;
+
+    private PrintStream out;
 
     @Override
     public EvaluationReport printReport(PrintStream output) {
@@ -48,13 +48,13 @@ public class EvaluationReport implements Report {
     }
 
     private void printSummary() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("EvaluationReport: %s\n\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
         out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
-        out.printf("\n");
+        out.print("\n");
     }
 
 

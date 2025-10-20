@@ -18,7 +18,7 @@ class NodesPrinter {
     }
 
     public void printVisitedNodes() {
-        out.printf("Visited Nodes Statistics\n");
+        out.print("Visited Nodes Statistics\n");
 
         int longestId = 0;
         for (int i = 0; i < reportModel.moveDetails.size(); i++) {
