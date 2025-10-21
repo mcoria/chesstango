@@ -1,4 +1,4 @@
-package net.chesstango.reports.summary;
+package net.chesstango.reports.tree;
 
 
 import java.io.PrintStream;

@@ -1,4 +1,4 @@
-package net.chesstango.reports.summary;
+package net.chesstango.reports.tree;
 
 import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;

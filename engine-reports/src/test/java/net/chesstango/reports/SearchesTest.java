@@ -1,15 +1,12 @@
 package net.chesstango.reports;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.pgn.PGN;
-import net.chesstango.gardel.pgn.PGNStringDecoder;
-import net.chesstango.reports.detail.evaluation.EvaluationReport;
-import net.chesstango.reports.detail.nodes.NodesReport;
-import net.chesstango.reports.detail.pv.PrincipalVariationReport;
+import net.chesstango.reports.tree.evaluation.EvaluationReport;
+import net.chesstango.reports.tree.nodes.NodesReport;
+import net.chesstango.reports.tree.pv.PrincipalVariationReport;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -19,10 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.List;
 
 /**

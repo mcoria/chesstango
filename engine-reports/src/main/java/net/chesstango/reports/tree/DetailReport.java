@@ -1,12 +1,12 @@
-package net.chesstango.reports.detail;
+package net.chesstango.reports.tree;
 
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
-import net.chesstango.reports.detail.evaluation.EvaluationReport;
-import net.chesstango.reports.detail.nodes.NodesReport;
-import net.chesstango.reports.detail.pv.PrincipalVariationReport;
+import net.chesstango.reports.tree.evaluation.EvaluationReport;
+import net.chesstango.reports.tree.nodes.NodesReport;
+import net.chesstango.reports.tree.pv.PrincipalVariationReport;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SearchesDetailReport implements Report {
+public class DetailReport implements Report {
     private boolean withPrincipalVariationReport;
     private boolean withEvaluationReport;
     private boolean withCutoffStatistics;
@@ -25,12 +25,12 @@ public class SearchesDetailReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "SearchesDetailReport";
+    private String reportTitle = "DetailReport";
 
     private List<SearchResult> searchResultList;
 
     @Override
-    public SearchesDetailReport printReport(PrintStream out) {
+    public DetailReport printReport(PrintStream out) {
         if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesReport nodesReport = new NodesReport()
                     .setReportTitle(reportTitle)
@@ -61,27 +61,27 @@ public class SearchesDetailReport implements Report {
         return this;
     }
 
-    public SearchesDetailReport withMoveResults(List<SearchResult> searchResultList) {
+    public DetailReport withMoveResults(List<SearchResult> searchResultList) {
         this.searchResultList = searchResultList;
         return this;
     }
 
-    public SearchesDetailReport withCutoffStatistics() {
+    public DetailReport withCutoffStatistics() {
         this.withCutoffStatistics = true;
         return this;
     }
 
-    public SearchesDetailReport withNodesVisitedStatistics() {
+    public DetailReport withNodesVisitedStatistics() {
         this.withNodesVisitedStatistics = true;
         return this;
     }
 
-    public SearchesDetailReport withEvaluationReport() {
+    public DetailReport withEvaluationReport() {
         this.withEvaluationReport = true;
         return this;
     }
 
-    public SearchesDetailReport withPrincipalVariationReport() {
+    public DetailReport withPrincipalVariationReport() {
         this.withPrincipalVariationReport = true;
         return this;
     }
