@@ -21,10 +21,10 @@ public class SearchManagerReport implements Report {
 
     @Override
     public Report printReport(PrintStream out) {
-        new SearchManagerPrinter()
-                .setReportModel(reportModel)
-                .setOut(out)
-                .print();
+        SearchManagerPrinter searchManagerPrinter = new SearchManagerPrinter();
+        searchManagerPrinter.setReportModel(reportModel);
+        searchManagerPrinter.setOut(out);
+        searchManagerPrinter.print();
         return this;
     }
 

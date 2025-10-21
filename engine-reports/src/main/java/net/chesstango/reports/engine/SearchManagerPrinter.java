@@ -2,6 +2,7 @@ package net.chesstango.reports.engine;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
 
 import java.io.PrintStream;
 
@@ -9,15 +10,19 @@ import java.io.PrintStream;
  *
  * @author Mauricio Coria
  */
-public class SearchManagerPrinter {
-    @Setter
-    @Accessors(chain = true)
+public class SearchManagerPrinter implements Printer {
     private PrintStream out;
 
     @Setter
     @Accessors(chain = true)
     private SearchManagerModel reportModel;
 
+    @Override
+    public void setOut(PrintStream out) {
+        this.out = out;
+    }
+
+    @Override
     public void print() {
         out.print("Search Manager Statistics\n");
 

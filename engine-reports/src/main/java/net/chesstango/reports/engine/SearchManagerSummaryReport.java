@@ -16,10 +16,10 @@ public class SearchManagerSummaryReport implements Report {
 
     @Override
     public Report printReport(PrintStream out) {
-        new SearchManagerSummaryPrinter()
-                .setOut(out)
-                .setReportModel(reportModelList)
-                .print();
+        SearchManagerSummaryPrinter searchManagerPrinter = new SearchManagerSummaryPrinter();
+        searchManagerPrinter.setReportModel(reportModelList);
+        searchManagerPrinter.setOut(out);
+        searchManagerPrinter.print();;
         return this;
     }
 
