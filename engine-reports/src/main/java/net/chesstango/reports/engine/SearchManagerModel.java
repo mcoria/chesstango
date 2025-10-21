@@ -22,11 +22,13 @@ public class SearchManagerModel {
         Tree
     }
 
-    String reportTitle;
+    String searchesName;
+
+    long searches;
+
     int searchByOpenBookCounter;
     int searchByTreeCounter;
     int searchByTablebaseCounter;
-
 
     List<SearchManagerModelDetail> moveDetail = new LinkedList<>();
 
@@ -38,7 +40,7 @@ public class SearchManagerModel {
 
     public static SearchManagerModel collectStatics(String reportTitle, List<SearchResponse> searchResponses) {
         SearchManagerModel model = new SearchManagerModel();
-        model.reportTitle = reportTitle;
+        model.searchesName = reportTitle;
 
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
@@ -56,6 +58,7 @@ public class SearchManagerModel {
                 searchManagerModelDetail.type = Tree;
                 model.searchByTreeCounter++;
             }
+            model.searches++;
 
             searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.getMove());
 
