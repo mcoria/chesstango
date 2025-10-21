@@ -4,7 +4,6 @@ import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,15 +12,18 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SearchesSummaryReport implements Report {
-    private final List<SearchesSummaryModel> searchesSummaryModels = new LinkedList<>();
+public class SummaryReport implements Report {
+    /**
+     * Observar que es una lista a diferencia de detail
+     */
+    private final List<SummaryModel> summaryModels = new LinkedList<>();
 
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private PrintStream out;
 
     @Override
-    public SearchesSummaryReport printReport(PrintStream output) {
+    public SummaryReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -29,12 +31,12 @@ public class SearchesSummaryReport implements Report {
 
 
     public void addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
-        searchesSummaryModels.add(SearchesSummaryModel.collectStatics(searchesName, searches));
+        summaryModels.add(SummaryModel.collectStatics(searchesName, searches));
     }
 
     private void print() {
         if (printNodesVisitedStatistics) {
-            new NodesPrinter(out, searchesSummaryModels)
+            new SummaryNodesPrinter(out, summaryModels)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics()
                     .printNodesVisitedStaticsAvg();
@@ -42,18 +44,18 @@ public class SearchesSummaryReport implements Report {
 
 
         if (printCutoffStatistics) {
-            new CutoffPrinter(out, searchesSummaryModels)
+            new SummaryCutoffPrinter(out, summaryModels)
                     .printCutoffStatics();
         }
     }
 
 
-    public SearchesSummaryReport withNodesVisitedStatistics() {
+    public SummaryReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public SearchesSummaryReport withCutoffStatistics() {
+    public SummaryReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }

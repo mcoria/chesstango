@@ -8,27 +8,27 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class CutoffPrinter {
-    private final List<SearchesSummaryModel> reportRows;
+class SummaryCutoffPrinter {
+    private final List<SummaryModel> reportRows;
     private final PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    CutoffPrinter(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public SummaryCutoffPrinter(PrintStream out, List<SummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SearchesSummaryModel searchesSummaryModel : reportRows) {
-            if (maxRLevelVisited < searchesSummaryModel.maxSearchRLevel) {
-                maxRLevelVisited = searchesSummaryModel.maxSearchRLevel;
+        for (SummaryModel summaryModel : reportRows) {
+            if (maxRLevelVisited < summaryModel.maxSearchRLevel) {
+                maxRLevelVisited = summaryModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < searchesSummaryModel.maxSearchQLevel) {
-                maxQLevelVisited = searchesSummaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < summaryModel.maxSearchQLevel) {
+                maxQLevelVisited = summaryModel.maxSearchQLevel;
             }
         }
 

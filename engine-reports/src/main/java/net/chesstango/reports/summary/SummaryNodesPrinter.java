@@ -8,27 +8,28 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class NodesPrinter {
-    private final List<SearchesSummaryModel> reportRows;
+class SummaryNodesPrinter {
+    private final List<SummaryModel> reportRows;
+
     private final PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public NodesPrinter(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public SummaryNodesPrinter(PrintStream out, List<SummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SearchesSummaryModel searchesSummaryModel : reportRows) {
-            if (maxRLevelVisited < searchesSummaryModel.maxSearchRLevel) {
-                maxRLevelVisited = searchesSummaryModel.maxSearchRLevel;
+        for (SummaryModel summaryModel : reportRows) {
+            if (maxRLevelVisited < summaryModel.maxSearchRLevel) {
+                maxRLevelVisited = summaryModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < searchesSummaryModel.maxSearchQLevel) {
-                maxQLevelVisited = searchesSummaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < summaryModel.maxSearchQLevel) {
+                maxQLevelVisited = summaryModel.maxSearchQLevel;
             }
         }
 
@@ -36,7 +37,7 @@ class NodesPrinter {
         this.maxQLevelVisited = maxQLevelVisited;
     }
 
-    public NodesPrinter printNodesVisitedStatics() {
+    public SummaryNodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");
 
         // Marco superior de la tabla
@@ -73,7 +74,7 @@ class NodesPrinter {
         return this;
     }
 
-    public NodesPrinter printNodesVisitedStaticsByType() {
+    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
         out.println("\n Nodes visited per type");
 
         // Marco superior de la tabla
@@ -103,7 +104,7 @@ class NodesPrinter {
         return this;
     }
 
-    public NodesPrinter printNodesVisitedStaticsAvg() {
+    public SummaryNodesPrinter printNodesVisitedStaticsAvg() {
         out.println("\n Nodes visited per search level AVG");
 
         // Marco superior de la tabla

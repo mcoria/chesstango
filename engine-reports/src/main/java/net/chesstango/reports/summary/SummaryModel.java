@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesSummaryModel {
+public class SummaryModel {
     public String searchesName;
 
     public long searches;
@@ -25,7 +25,6 @@ public class SearchesSummaryModel {
     public int visitedRNodesAvg;
     public int visitedQNodesAvg;
     //////// END TOTALS
-
 
     /// ////////////////// START VISITED REGULAR NODES
     public int maxSearchRLevel;
@@ -44,14 +43,14 @@ public class SearchesSummaryModel {
 
     /// ////////////////// END VISITED QUIESCENCE NODES
 
-    public static SearchesSummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {
-        SearchesSummaryModel searchesSummaryModel = new SearchesSummaryModel();
+    public static SummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {
+        SummaryModel summaryModel = new SummaryModel();
 
-        searchesSummaryModel.searchesName = searchesName;
+        summaryModel.searchesName = searchesName;
 
-        searchesSummaryModel.load(searchResults);
+        summaryModel.load(searchResults);
 
-        return searchesSummaryModel;
+        return summaryModel;
     }
 
     private void load(List<SearchResult> searchResults) {
