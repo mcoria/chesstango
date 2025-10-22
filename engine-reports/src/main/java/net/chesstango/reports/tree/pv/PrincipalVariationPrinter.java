@@ -1,4 +1,4 @@
-package net.chesstango.reports.detail.pv;
+package net.chesstango.reports.tree.pv;
 
 import net.chesstango.evaluation.Evaluator;
 
@@ -8,21 +8,24 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationReportPrinter {
+class PrincipalVariationPrinter {
     private final PrintStream out;
-    private final PrincipalVariationReportModel reportModel;
+    private final PrincipalVariationModel reportModel;
 
-    public PrincipalVariationReportPrinter(PrintStream out, PrincipalVariationReportModel reportModel) {
+    PrincipalVariationPrinter(PrintStream out, PrincipalVariationModel reportModel) {
         this.out = out;
         this.reportModel = reportModel;
     }
 
-    public void printPrincipalVariation() {
+    void printPrincipalVariation() {
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("PrincipalVariationReport: %s\n\n", reportModel.reportTitle);
+
         out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
 
         out.print("Principal Variations\n");
         // Cuerpo
-        for (PrincipalVariationReportModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (PrincipalVariationModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s: %s", moveDetail.move, moveDetail.principalVariation);
 
             out.printf("; eval=%d", moveDetail.evaluation);

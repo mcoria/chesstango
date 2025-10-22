@@ -1,4 +1,4 @@
-package net.chesstango.reports.summary;
+package net.chesstango.reports.tree;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
@@ -8,8 +8,9 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SearchesSummaryModel {
-    public String engineName;
+public class SummaryModel {
+    public String searchesName;
+
     public long searches;
 
     /// ////// START TOTALS
@@ -24,7 +25,6 @@ public class SearchesSummaryModel {
     public int visitedRNodesAvg;
     public int visitedQNodesAvg;
     //////// END TOTALS
-
 
     /// ////////////////// START VISITED REGULAR NODES
     public int maxSearchRLevel;
@@ -43,14 +43,14 @@ public class SearchesSummaryModel {
 
     /// ////////////////// END VISITED QUIESCENCE NODES
 
-    public static SearchesSummaryModel collectStatics(String engineName, List<SearchResult> searchResults) {
-        SearchesSummaryModel searchesSummaryModel = new SearchesSummaryModel();
+    public static SummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {
+        SummaryModel summaryModel = new SummaryModel();
 
-        searchesSummaryModel.engineName = engineName;
+        summaryModel.searchesName = searchesName;
 
-        searchesSummaryModel.load(searchResults);
+        summaryModel.load(searchResults);
 
-        return searchesSummaryModel;
+        return summaryModel;
     }
 
     private void load(List<SearchResult> searchResults) {

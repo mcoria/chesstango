@@ -1,12 +1,12 @@
 package net.chesstango.reports;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.pgn.PGN;
-import net.chesstango.gardel.pgn.PGNStringDecoder;
+import net.chesstango.reports.tree.evaluation.EvaluationReport;
+import net.chesstango.reports.tree.nodes.NodesReport;
+import net.chesstango.reports.tree.pv.PrincipalVariationReport;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -16,20 +16,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
-
-    private SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @BeforeEach
     public void setup() {
@@ -51,7 +46,7 @@ public class SearchesTest {
                 .withAspirationWindows()
                 .withIterativeDeepening()
 
-                //.withStatistics()
+                .withStatistics()
                 //.withZobristTracker()
                 //.withTrackEvaluations() // Consume demasiada memoria
                 //.withMoveEvaluation()
@@ -59,14 +54,13 @@ public class SearchesTest {
                 //.withPrintChain()
                 //.withDebugSearchTree(null)
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 .build();
     }
 
     @AfterEach
     public void printReport() {
-        /*
         if (PRINT_REPORT) {
             new NodesReport()
                     .withMoveResults(List.of(searchResult))
@@ -79,11 +73,11 @@ public class SearchesTest {
                     //.withExportEvaluations()
                     .withEvaluationsStatistics()
                     .printReport(System.out);
+
             new PrincipalVariationReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }
-         */
     }
 
     @Test
@@ -170,49 +164,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
-    }
-
-    @Test
-    @Disabled
-    public void testSearch_10() throws IOException {
-        String lines = "[Event \"Rated Rapid game\"]\n" +
-                "[Site \"https://lichess.org/cjatYH5c\"]\n" +
-                "[Date \"2024.02.20\"]\n" +
-                "[White \"ChessChildren\"]\n" +
-                "[Black \"chesstango_bot\"]\n" +
-                "[Result \"1-0\"]\n" +
-                "[UTCDate \"2024.02.20\"]\n" +
-                "[UTCTime \"21:23:34\"]\n" +
-                "[WhiteElo \"1765\"]\n" +
-                "[BlackElo \"1863\"]\n" +
-                "[WhiteRatingDiff \"+7\"]\n" +
-                "[BlackRatingDiff \"-7\"]\n" +
-                "[WhiteTitle \"BOT\"]\n" +
-                "[BlackTitle \"BOT\"]\n" +
-                "[Variant \"Standard\"]\n" +
-                "[TimeControl \"600+0\"]\n" +
-                "[ECO \"E25\"]\n" +
-                "[Opening \"Nimzo-Indian Defense: Sämisch Variation, Keres Variation\"]\n" +
-                "[Termination \"Time forfeit\"]\n" +
-                "[Annotator \"lichess.org\"]\n" +
-                "\n" +
-                "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 d5 7. cxd5 Nxd5 8. dxc5 { E25 Nimzo-Indian Defense: Sämisch Variation, Keres Variation } Qa5 9. Bd2 Qxc5 10. e4 Nf6 11. Qb3 O-O 12. Qb4 *";
-        Reader reader = new StringReader(lines);
-
-        BufferedReader bufferReader = new BufferedReader(reader);
-
-        PGNStringDecoder decoder = new PGNStringDecoder();
-
-        PGN pgn = decoder.decodePGN(bufferReader);
-
-        Game game = Game.from(pgn);
-
-        search.accept(new SetMaxDepthVisitor(7));
-        searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
     @Test
@@ -222,8 +173,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(4));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
 
@@ -234,8 +183,6 @@ public class SearchesTest {
 
         search.accept(new SetMaxDepthVisitor(7));
         searchResult = search.startSearch(game);
-
-        System.out.println(searchResult.getBestEvaluation());
     }
 
 }

@@ -1,7 +1,8 @@
-package net.chesstango.reports.detail.evaluation;
+package net.chesstango.reports.tree.evaluation;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationReport {
+public class EvaluationReport implements Report {
     private boolean exportEvaluations;
     private boolean printEvaluationsStatistics;
 
@@ -20,10 +21,11 @@ public class EvaluationReport {
 
     @Setter
     @Accessors(chain = true)
-    private EvaluationReportModel reportModel;
+    private EvaluationModel reportModel;
 
     private PrintStream out;
 
+    @Override
     public EvaluationReport printReport(PrintStream output) {
         out = output;
         print();
@@ -34,7 +36,7 @@ public class EvaluationReport {
         printSummary();
 
         if (printEvaluationsStatistics) {
-            new EvaluationStatisticsReport(out, reportModel)
+            new EvaluationPrinter(out, reportModel)
                     .printEvaluationsStatistics();
         }
 
@@ -46,14 +48,13 @@ public class EvaluationReport {
     }
 
     private void printSummary() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("EvaluationReport: %s\n\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
         out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
-        out.printf("\n");
+        out.print("\n");
     }
 
 
@@ -68,7 +69,7 @@ public class EvaluationReport {
     }
 
     public EvaluationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = EvaluationReportModel.collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = EvaluationModel.collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 

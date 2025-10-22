@@ -1,4 +1,4 @@
-package net.chesstango.reports.detail.evaluation;
+package net.chesstango.reports.tree.evaluation;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;
@@ -12,16 +12,16 @@ import java.util.HexFormat;
  * @author Mauricio Coria
  */
 public class ExportEvaluations {
-    private final EvaluationReportModel evaluationReportModel;
+    private final EvaluationModel evaluationModel;
 
-    public ExportEvaluations(EvaluationReportModel evaluationReportModel) {
-        this.evaluationReportModel = evaluationReportModel;
+    public ExportEvaluations(EvaluationModel evaluationModel) {
+        this.evaluationModel = evaluationModel;
     }
 
     public void exportEvaluations() {
         int fileCounter = 0;
         // Cuerpo
-        for (EvaluationReportModel.EvaluationReportModelDetail moveDetail : evaluationReportModel.moveDetails) {
+        for (EvaluationModel.EvaluationReportModelDetail moveDetail : evaluationModel.moveDetails) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s ; Points = %d ", moveDetail.move, moveDetail.evaluation));

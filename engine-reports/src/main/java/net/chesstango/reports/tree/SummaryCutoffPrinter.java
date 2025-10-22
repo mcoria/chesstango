@@ -1,4 +1,4 @@
-package net.chesstango.reports.summary;
+package net.chesstango.reports.tree;
 
 
 import java.io.PrintStream;
@@ -8,27 +8,27 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintCutoffStatics {
-    private final List<SearchesSummaryModel> reportRows;
+class SummaryCutoffPrinter {
+    private final List<SummaryModel> reportRows;
     private final PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public PrintCutoffStatics(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public SummaryCutoffPrinter(PrintStream out, List<SummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SearchesSummaryModel searchesSummaryModel : reportRows) {
-            if (maxRLevelVisited < searchesSummaryModel.maxSearchRLevel) {
-                maxRLevelVisited = searchesSummaryModel.maxSearchRLevel;
+        for (SummaryModel summaryModel : reportRows) {
+            if (maxRLevelVisited < summaryModel.maxSearchRLevel) {
+                maxRLevelVisited = summaryModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < searchesSummaryModel.maxSearchQLevel) {
-                maxQLevelVisited = searchesSummaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < summaryModel.maxSearchQLevel) {
+                maxQLevelVisited = summaryModel.maxSearchQLevel;
             }
         }
 
@@ -56,7 +56,7 @@ public class PrintCutoffStatics {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("|%35s|%9d ", row.searchesName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
             out.printf("| %7d %% ", row.cutoffPercentage);

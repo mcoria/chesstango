@@ -1,4 +1,4 @@
-package net.chesstango.reports.detail.evaluation;
+package net.chesstango.reports.tree.evaluation;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationReportModel {
+public class EvaluationModel {
     public String reportTitle;
 
     /**
@@ -27,7 +27,6 @@ public class EvaluationReportModel {
     public int evaluationCollisionPercentageTotal;
 
     ///////////////////// END TOTALS
-
 
     public List<EvaluationReportModelDetail> moveDetails;
 
@@ -77,8 +76,8 @@ public class EvaluationReportModel {
     }
 
 
-    public static EvaluationReportModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        EvaluationReportModel searchesReportModel = new EvaluationReportModel();
+    public static EvaluationModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        EvaluationModel searchesReportModel = new EvaluationModel();
 
         searchesReportModel.reportTitle = reportTitle;
 

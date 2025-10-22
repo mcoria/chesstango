@@ -1,4 +1,4 @@
-package net.chesstango.reports.summary;
+package net.chesstango.reports.tree;
 
 
 import java.io.PrintStream;
@@ -8,27 +8,28 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-public class PrintNodesVisitedStatistics {
-    private final List<SearchesSummaryModel> reportRows;
+class SummaryNodesPrinter {
+    private final List<SummaryModel> reportRows;
+
     private final PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public PrintNodesVisitedStatistics(PrintStream out, List<SearchesSummaryModel> reportRows) {
+    public SummaryNodesPrinter(PrintStream out, List<SummaryModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SearchesSummaryModel searchesSummaryModel : reportRows) {
-            if (maxRLevelVisited < searchesSummaryModel.maxSearchRLevel) {
-                maxRLevelVisited = searchesSummaryModel.maxSearchRLevel;
+        for (SummaryModel summaryModel : reportRows) {
+            if (maxRLevelVisited < summaryModel.maxSearchRLevel) {
+                maxRLevelVisited = summaryModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < searchesSummaryModel.maxSearchQLevel) {
-                maxQLevelVisited = searchesSummaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < summaryModel.maxSearchQLevel) {
+                maxQLevelVisited = summaryModel.maxSearchQLevel;
             }
         }
 
@@ -36,7 +37,7 @@ public class PrintNodesVisitedStatistics {
         this.maxQLevelVisited = maxQLevelVisited;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStatics() {
+    public SummaryNodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");
 
         // Marco superior de la tabla
@@ -56,7 +57,7 @@ public class PrintNodesVisitedStatistics {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("|%35s|%9d ", row.searchesName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCounters[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCounters[depth]));
             out.printf("| %11d ", row.visitedNodesTotal);
@@ -73,7 +74,7 @@ public class PrintNodesVisitedStatistics {
         return this;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStaticsByType() {
+    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
         out.println("\n Nodes visited per type");
 
         // Marco superior de la tabla
@@ -86,7 +87,7 @@ public class PrintNodesVisitedStatistics {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("|%35s|%9d ", row.searchesName, row.searches);
             out.printf("| %12d ", row.visitedRNodesTotal);
             out.printf("| %12d ", row.visitedQNodesTotal);
             out.printf("| %12d ", row.visitedNodesTotal);
@@ -103,7 +104,7 @@ public class PrintNodesVisitedStatistics {
         return this;
     }
 
-    public PrintNodesVisitedStatistics printNodesVisitedStaticsAvg() {
+    public SummaryNodesPrinter printNodesVisitedStaticsAvg() {
         out.println("\n Nodes visited per search level AVG");
 
         // Marco superior de la tabla
@@ -123,7 +124,7 @@ public class PrintNodesVisitedStatistics {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.engineName, row.searches);
+            out.printf("|%35s|%9d ", row.searchesName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
             out.printf("| %11d ", row.visitedNodesTotalAvg);

@@ -1,7 +1,8 @@
-package net.chesstango.reports.detail.nodes;
+package net.chesstango.reports.tree.nodes;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.reports.Report;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -10,21 +11,22 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesReport {
+public class NodesReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "NodesReport";
-
-    @Setter
-    @Accessors(chain = true)
-    private NodesReportModel reportModel;
-
+    private NodesModel reportModel;
 
     private PrintStream out;
 
+    @Setter
+    @Accessors(chain = true)
+    private String reportTitle = "NodesReport";
+
+
+    @Override
     public NodesReport printReport(PrintStream output) {
         out = output;
         print();
@@ -35,18 +37,17 @@ public class NodesReport {
         printSummary();
 
         if (printNodesVisitedStatistics) {
-            new PrintVisitedNodes(out, reportModel).printVisitedNodes();
+            new NodesPrinter(out, reportModel).printVisitedNodes();
         }
 
         if (printCutoffStatistics) {
-            new PrintCutoff(out, reportModel).printCutoff();
+            new CutoffPrinter(out, reportModel).printCutoff();
         }
 
     }
 
     private void printSummary() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("NodesReport: %s\n\n", reportModel.reportTitle);
         out.printf("Searches              : %8d\n", reportModel.searches);
         out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
@@ -56,8 +57,9 @@ public class NodesReport {
         out.printf("Visited          Nodes: %8d\n", reportModel.visitedNodesTotal);
         out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
         out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
-        out.printf("\n");
+        out.print("\n");
     }
+
 
     public NodesReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
@@ -70,12 +72,7 @@ public class NodesReport {
     }
 
     public NodesReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = NodesReportModel.collectStatistics(this.reportTitle, searchResults);
-        return this;
-    }
-
-    public NodesReport withReportModel(NodesReportModel nodesReportModel) {
-        this.reportModel = nodesReportModel;
+        this.reportModel = NodesModel.collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
