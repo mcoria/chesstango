@@ -269,7 +269,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         quiescenceLeafChainBuilder.withDebugSearchTree();
         checkResolverChainBuilder.withDebugSearchTree();
         quiescenceTerminalChainBuilder.withDebugSearchTree();
-        quiescenceLoopChainBuilder.withZobristTracker();
+        quiescenceLoopChainBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
         this.showOnlyPV = showOnlyPV;

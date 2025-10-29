@@ -134,10 +134,10 @@ class SearchManagerBuilder {
             } else {
                 search = searchManagerFactory.createSearch();
             }
+        }
 
-            if (syzygy != null) {
-                search.accept(new SetEndGameTableBaseVisitor(searchManagerFactory.createSyzygyTableBaseAdapter(syzygy)));
-            }
+        if (syzygy != null) {
+            search.accept(new SetEndGameTableBaseVisitor(searchManagerFactory.createSyzygyTableBaseAdapter(syzygy)));
         }
 
         SearchByTree searchByTree = searchManagerFactory.createSearchByAlgorithm(search);
