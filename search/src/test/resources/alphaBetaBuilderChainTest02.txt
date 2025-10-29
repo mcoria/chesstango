@@ -102,13 +102,13 @@ Acceptor:
 	SetSearchTimers @ 24
 	SetSearchLast @ 25
 	SetTrianglePV @ 26
-	EgtbEvaluation @ 12
 	AlphaBetaFlowControl @ 9
 	ExtensionFlowControl @ 27
 	TriangularPV @ 23
 	AlphaBeta @ 17
 	NodeMoveSorter @ 18
 	RecaptureMoveComparator @ 21
+	EgtbEvaluation @ 12
 	MoveEvaluationTracker @ 7
 	TriangularPV @ 8
 	AlphaBeta @ 3

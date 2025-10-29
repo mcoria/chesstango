@@ -52,12 +52,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final LeafChainBuilder leafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
+    private final EgtbChainBuilder egtbChainBuilder;
+    private final EgtbChainBuilder quiescencEgtbChainBuilder;
+
     private final SetGameEvaluator setGameEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
-    private final EgtbEvaluation egtbEvaluation;
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
@@ -117,7 +119,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         loopChainBuilder = new LoopChainBuilder();
         quiescenceLoopChainBuilder = new LoopChainBuilder();
 
-        egtbEvaluation = new EgtbEvaluation();
+        egtbChainBuilder = new EgtbChainBuilder();
+        quiescencEgtbChainBuilder = new EgtbChainBuilder();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -264,12 +267,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
         terminalChainBuilder.withDebugSearchTree();
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
+        egtbChainBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         quiescenceLeafChainBuilder.withDebugSearchTree();
         checkResolverChainBuilder.withDebugSearchTree();
         quiescenceTerminalChainBuilder.withDebugSearchTree();
         quiescenceLoopChainBuilder.withDebugSearchTree();
+        quiescencEgtbChainBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
         this.showOnlyPV = showOnlyPV;
@@ -418,8 +423,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 
-        searchListenerMediator.addAcceptor(egtbEvaluation);
-
         searchListenerMediator.add(alphaBetaFlowControl);
 
         searchListenerMediator.add(extensionFlowControl);
@@ -460,12 +463,15 @@ public class AlphaBetaBuilder implements SearchBuilder {
         loopChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter loopChain = loopChainBuilder.build();
 
+        egtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        AlphaBetaFilter egtbChain = egtbChainBuilder.build();
+
         alphaBetaFlowControl.setHorizonNode(horizonChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
         alphaBetaFlowControl.setTerminalNode(terminalChain);
         alphaBetaFlowControl.setLoopNode(loopChain);
         alphaBetaFlowControl.setLeafNode(leafChain);
-        alphaBetaFlowControl.setEgtbNode(egtbEvaluation);
+        alphaBetaFlowControl.setEgtbNode(egtbChain);
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
@@ -495,6 +501,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
             quiescenceTerminalChainBuilder.withGameEvaluator(evaluator);
             AlphaBetaFilter quiescenceTerminalChain = quiescenceTerminalChainBuilder.build();
 
+            quiescencEgtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
+            AlphaBetaFilter egtbChain = quiescencEgtbChainBuilder.build();
+
             if (withExtensionCheckResolver) {
                 checkResolverChainBuilder.withSmartListenerMediator(searchListenerMediator);
                 checkResolverChainBuilder.withGameEvaluator(evaluator);
@@ -511,7 +520,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             extensionFlowControl.setTerminalNode(quiescenceTerminalChain);
             extensionFlowControl.setQuiescenceNode(quiescenceChain);
             extensionFlowControl.setLeafNode(quiescenceLeaf);
-            extensionFlowControl.setEgtbNode(egtbEvaluation);
+            extensionFlowControl.setEgtbNode(egtbChain);
             extensionFlowControl.setCheckResolverNode(checkResolverChain);
             extensionFlowControl.setLoopNode(loopChain);
 
