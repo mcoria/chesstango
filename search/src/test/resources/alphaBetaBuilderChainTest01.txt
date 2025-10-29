@@ -50,254 +50,261 @@ AlphaBetaFlowControl @ 17
 
  -> EgtbNode
 	|
-	EgtbEvaluation @ 25 [EndGameTableBase: EndGameTableBaseNull @ 26]
+	DebugFilter @ 25
+	|
+	EgtbEvaluation @ 26 [EndGameTableBase: EndGameTableBaseNull @ 27]
 
  -> LoopNode
 	|
-	DebugFilter @ 27
+	DebugFilter @ 28
 	|
-	ZobristTracker @ 28
+	ZobristTracker @ 29
 	|
-	LoopEvaluation @ 29
+	LoopEvaluation @ 30
 
  -> LeafNode
 	|
-	DebugFilter @ 30
+	DebugFilter @ 31
 	|
-	AlphaBetaEvaluation @ 31 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
+	AlphaBetaEvaluation @ 32 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
 
  -> HorizonNode
 	|
-	DebugFilter @ 32
+	DebugFilter @ 33
 	|
-	ZobristTracker @ 33
+	ZobristTracker @ 34
 	|
-	TranspositionTable @ 34
+	TranspositionTable @ 35
 	|
-	ExtensionFlowControl @ 35
+	ExtensionFlowControl @ 36
 	|
 	 -> TerminalNode
 		|
-		DebugFilter @ 36
+		DebugFilter @ 37
 		|
-		ZobristTracker @ 37
+		ZobristTracker @ 38
 		|
-		TranspositionTableTerminal @ 38
+		TranspositionTableTerminal @ 39
 		|
-		AlphaBetaEvaluation @ 39 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
+		AlphaBetaEvaluation @ 40 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
 
 	 -> EgtbNode
 		|
-		EgtbEvaluation @ 25 [EndGameTableBase: EndGameTableBaseNull @ 26]
+		DebugFilter @ 41
+		|
+		EgtbEvaluation @ 42 [EndGameTableBase: EndGameTableBaseNull @ 27]
 
 	 -> LeafNode
-		|
-		DebugFilter @ 40
-		|
-		ZobristTracker @ 41
-		|
-		AlphaBetaEvaluation @ 42 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
-
-	 -> QuiescenceNode
 		|
 		DebugFilter @ 43
 		|
 		ZobristTracker @ 44
 		|
-		TranspositionTableQ @ 45
+		AlphaBetaEvaluation @ 45 [Evaluator: EvaluatorStatisticsWrapper @ 22 -> EvaluatorCache @ 23 -> EvaluatorByMaterial @ 24]
+
+	 -> QuiescenceNode
 		|
-		QuiescenceStatisticsExpected @ 46
+		DebugFilter @ 46
 		|
-		Quiescence @ 47 [Evaluator: EvaluatorDebug @ 48]
+		ZobristTracker @ 47
+		|
+		TranspositionTableQ @ 48
+		|
+		QuiescenceStatisticsExpected @ 49
+		|
+		Quiescence @ 50 [Evaluator: EvaluatorDebug @ 51]
 		|
 		 -> Sorter
 			|
-			MoveSorterDebug @ 49
+			MoveSorterDebug @ 52
 			|
-			NodeMoveSorter @ 50
+			NodeMoveSorter @ 53
 			|
 			 -> Comparator
 				|
-				PrincipalVariationComparator @ 51
+				PrincipalVariationComparator @ 54
 				|
-				TranspositionHeadMoveComparatorQ @ 52
+				TranspositionHeadMoveComparatorQ @ 55
 				|
-				TranspositionTailMoveComparatorQ @ 53
+				TranspositionTailMoveComparatorQ @ 56
 				|
-				PromotionComparator @ 54
+				PromotionComparator @ 57
 				|
-				RecaptureMoveComparator @ 55
+				RecaptureMoveComparator @ 58
 				|
-				MvvLvaComparator @ 56
+				MvvLvaComparator @ 59
 				|
-				GameEvaluatorCacheComparator @ 57 [EvaluatorCacheRead: EvaluatorCacheDebug @ 58]
+				GameEvaluatorCacheComparator @ 60 [EvaluatorCacheRead: EvaluatorCacheDebug @ 61]
 				|
-				DefaultMoveComparator @ 59
+				DefaultMoveComparator @ 62
 		|
-		QuiescenceStatisticsVisited @ 60
+		QuiescenceStatisticsVisited @ 63
 		|
-		ExtensionFlowControl @ 35 -> LOOP
+		ExtensionFlowControl @ 36 -> LOOP
 
  -> InteriorNode
 	|
-	DebugFilter @ 61
+	DebugFilter @ 64
 	|
-	ZobristTracker @ 62
+	ZobristTracker @ 65
 	|
-	TranspositionTable @ 63
+	TranspositionTable @ 66
 	|
-	AlphaBetaStatisticsExpected @ 64
+	AlphaBetaStatisticsExpected @ 67
 	|
-	AlphaBeta @ 65
+	AlphaBeta @ 68
 	|
 	 -> Sorter
 		|
-		MoveSorterDebug @ 66
+		MoveSorterDebug @ 69
 		|
-		NodeMoveSorter @ 67
+		NodeMoveSorter @ 70
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 68
+			PrincipalVariationComparator @ 71
 			|
-			TranspositionHeadMoveComparator @ 69
+			TranspositionHeadMoveComparator @ 72
 			|
-			TranspositionTailMoveComparator @ 70
+			TranspositionTailMoveComparator @ 73
 			|
-			QuietComparator @ 71
+			QuietComparator @ 74
 			|
 			 -> NoQuietComparatorNode
 				|
-				TranspositionHeadMoveComparatorQ @ 72
+				TranspositionHeadMoveComparatorQ @ 75
 				|
-				TranspositionTailMoveComparatorQ @ 73
+				TranspositionTailMoveComparatorQ @ 76
 				|
-				PromotionComparator @ 74
+				PromotionComparator @ 77
 				|
-				RecaptureMoveComparator @ 75
+				RecaptureMoveComparator @ 78
 				|
-				MvvLvaComparator @ 76
+				MvvLvaComparator @ 79
 				|
-				GameEvaluatorCacheComparator @ 77 [EvaluatorCacheRead: EvaluatorCacheDebug @ 78]
+				GameEvaluatorCacheComparator @ 80 [EvaluatorCacheRead: EvaluatorCacheDebug @ 81]
 				|
-				DefaultMoveComparator @ 79
+				DefaultMoveComparator @ 82
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 80
+				KillerMoveComparator @ 83
 				|
-				GameEvaluatorCacheComparator @ 77 [EvaluatorCacheRead: EvaluatorCacheDebug @ 78]
+				GameEvaluatorCacheComparator @ 80 [EvaluatorCacheRead: EvaluatorCacheDebug @ 81]
 				|
-				DefaultMoveComparator @ 79
+				DefaultMoveComparator @ 82
 	|
-	AlphaBetaStatisticsVisited @ 81
+	AlphaBetaStatisticsVisited @ 84
 	|
-	KillerMoveTracker @ 82
+	KillerMoveTracker @ 85
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
 
 SearchByCycleListeners:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 83
-	SetSearchLast @ 84
-	SetSearchTracker @ 85
-	SetTranspositionTablesDebug @ 86
-	SetZobristMemory @ 87
-	SetNodeStatistics @ 88
+	SetSearchTimers @ 86
+	SetSearchLast @ 87
+	SetSearchTracker @ 88
+	SetTranspositionTablesDebug @ 89
+	SetZobristMemory @ 90
+	SetNodeStatistics @ 91
 	EvaluatorStatisticsWrapper @ 22
-	SetKillerMoveTablesDebug @ 89
+	SetKillerMoveTablesDebug @ 92
 	AlphaBetaFlowControl @ 17
-	ExtensionFlowControl @ 35
+	ExtensionFlowControl @ 36
 	RootMoveSorter @ 11
-	SetDebugOutput @ 90
+	SetDebugOutput @ 93
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 83
-	SetSearchLast @ 84
-	SetSearchTracker @ 85
+	SetSearchTimers @ 86
+	SetSearchLast @ 87
+	SetSearchTracker @ 88
 	MoveEvaluationTracker @ 15
-	SetDebugOutput @ 90
+	SetDebugOutput @ 93
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 85
+	SetSearchTracker @ 88
 	MoveEvaluationTracker @ 15
-	SetDebugOutput @ 90
+	SetDebugOutput @ 93
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 17
-	ExtensionFlowControl @ 35
+	ExtensionFlowControl @ 36
 
 ResetListener:
-	SetTranspositionTablesDebug @ 86
-	SetZobristMemory @ 87
+	SetTranspositionTablesDebug @ 89
+	SetZobristMemory @ 90
 
 Acceptor:
-	SetGameEvaluator @ 91
+	SetGameEvaluator @ 94
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 83
-	SetSearchLast @ 84
-	SetSearchTracker @ 85
-	SetTranspositionTablesDebug @ 86
-	TTableDebug @ 92
-	TTableDebug @ 93
-	TTableDebug @ 94
+	SetSearchTimers @ 86
+	SetSearchLast @ 87
+	SetSearchTracker @ 88
+	SetTranspositionTablesDebug @ 89
 	TTableDebug @ 95
-	SetNodeStatistics @ 88
+	TTableDebug @ 96
+	TTableDebug @ 97
+	TTableDebug @ 98
+	SetNodeStatistics @ 91
 	EvaluatorStatisticsWrapper @ 22
-	SetKillerMoveTablesDebug @ 89
-	KillerMovesDebug @ 96
-	EgtbEvaluation @ 25
+	SetKillerMoveTablesDebug @ 92
+	KillerMovesDebug @ 99
 	AlphaBetaFlowControl @ 17
-	ExtensionFlowControl @ 35
+	ExtensionFlowControl @ 36
 	ZobristTracker @ 19
 	DebugFilter @ 18
 	TranspositionTableTerminal @ 20
-	DebugFilter @ 30
-	QuiescenceStatisticsExpected @ 46
-	QuiescenceStatisticsVisited @ 60
+	DebugFilter @ 31
+	QuiescenceStatisticsExpected @ 49
+	QuiescenceStatisticsVisited @ 63
+	ZobristTracker @ 47
+	TranspositionTableQ @ 48
+	DebugFilter @ 46
+	EvaluatorDebug @ 51
+	Quiescence @ 50
+	NodeMoveSorter @ 53
+	TranspositionHeadMoveComparatorQ @ 55
+	TranspositionTailMoveComparatorQ @ 56
+	PrincipalVariationComparator @ 54
+	RecaptureMoveComparator @ 58
+	GameEvaluatorCacheComparator @ 60
+	MoveSorterDebug @ 52
+	EvaluatorCacheDebug @ 61
 	ZobristTracker @ 44
-	TranspositionTableQ @ 45
 	DebugFilter @ 43
-	EvaluatorDebug @ 48
-	Quiescence @ 47
-	NodeMoveSorter @ 50
-	TranspositionHeadMoveComparatorQ @ 52
-	TranspositionTailMoveComparatorQ @ 53
-	PrincipalVariationComparator @ 51
-	RecaptureMoveComparator @ 55
-	GameEvaluatorCacheComparator @ 57
-	MoveSorterDebug @ 49
-	EvaluatorCacheDebug @ 58
-	ZobristTracker @ 41
-	DebugFilter @ 40
-	ZobristTracker @ 37
-	DebugFilter @ 36
-	TranspositionTableTerminal @ 38
-	DebugFilter @ 32
-	ZobristTracker @ 33
-	TranspositionTable @ 34
-	AlphaBetaStatisticsExpected @ 64
-	AlphaBetaStatisticsVisited @ 81
-	ZobristTracker @ 62
-	TranspositionTable @ 63
-	DebugFilter @ 61
-	KillerMoveTracker @ 82
-	AlphaBeta @ 65
-	NodeMoveSorter @ 67
-	TranspositionHeadMoveComparator @ 69
-	TranspositionHeadMoveComparatorQ @ 72
-	TranspositionTailMoveComparator @ 70
-	TranspositionTailMoveComparatorQ @ 73
-	PrincipalVariationComparator @ 68
-	RecaptureMoveComparator @ 75
-	GameEvaluatorCacheComparator @ 77
-	MoveSorterDebug @ 66
-	EvaluatorCacheDebug @ 78
-	KillerMoveComparator @ 80
-	ZobristTracker @ 28
-	DebugFilter @ 27
+	ZobristTracker @ 38
+	DebugFilter @ 37
+	TranspositionTableTerminal @ 39
+	DebugFilter @ 41
+	EgtbEvaluation @ 42
+	DebugFilter @ 33
+	ZobristTracker @ 34
+	TranspositionTable @ 35
+	AlphaBetaStatisticsExpected @ 67
+	AlphaBetaStatisticsVisited @ 84
+	ZobristTracker @ 65
+	TranspositionTable @ 66
+	DebugFilter @ 64
+	KillerMoveTracker @ 85
+	AlphaBeta @ 68
+	NodeMoveSorter @ 70
+	TranspositionHeadMoveComparator @ 72
+	TranspositionHeadMoveComparatorQ @ 75
+	TranspositionTailMoveComparator @ 73
+	TranspositionTailMoveComparatorQ @ 76
+	PrincipalVariationComparator @ 71
+	RecaptureMoveComparator @ 78
+	GameEvaluatorCacheComparator @ 80
+	MoveSorterDebug @ 69
+	EvaluatorCacheDebug @ 81
+	KillerMoveComparator @ 83
+	ZobristTracker @ 29
+	DebugFilter @ 28
+	DebugFilter @ 25
+	EgtbEvaluation @ 26
 	MoveEvaluationTracker @ 15
 	AlphaBetaStatisticsExpected @ 8
 	AlphaBetaStatisticsVisited @ 14
@@ -311,5 +318,5 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 90
+	SetDebugOutput @ 93
 
