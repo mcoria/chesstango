@@ -17,7 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class DebugNode {
 
-    public enum NodeTopology {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF}
+    public enum NodeTopology {ROOT, INTERIOR, TERMINAL, HORIZON, LOOP, QUIESCENCE, CHECK_EXTENSION, LEAF, EGTB}
 
     /**
      * PV-Node Knuth's Type 1

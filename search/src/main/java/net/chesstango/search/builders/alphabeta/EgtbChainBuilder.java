@@ -47,7 +47,7 @@ public class EgtbChainBuilder {
 
     private void buildObjects() {
         if (withDebugSearchTree) {
-            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
+            this.debugFilter = new DebugFilter(DebugNode.NodeTopology.EGTB);
         }
     }
 

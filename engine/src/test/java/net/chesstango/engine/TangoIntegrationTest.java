@@ -45,7 +45,7 @@ public class TangoIntegrationTest {
     public void testSearch() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.getInstance())
-                .withDebugSearchTree(true, false, false)
+                .withDebugSearchTree(false, false, false)
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
@@ -57,7 +57,7 @@ public class TangoIntegrationTest {
             new ChainPrinterVisitor().print(search, System.out);
             Session session = tango.newSession(FEN.of("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 6 "));
             session.setMoves(List.of());
-            Future<SearchResponse> searchResponseFuture =  session.goDepth(2);
+            Future<SearchResponse> searchResponseFuture =  session.goDepth(1);
             SearchResponse searchResponse = searchResponseFuture.get();
             System.out.println(searchResponse.getMove());
         } catch (Exception e) {
