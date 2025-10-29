@@ -54,7 +54,7 @@ public class TangoIntegrationTest {
         config.setSyncSearch(true);
 
         try (Tango tango = Tango.open(config)) {
-            new ChainPrinterVisitor().print(search, System.out);
+            //new ChainPrinterVisitor().print(search, System.out);
             Session session = tango.newSession(FEN.of("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 6 "));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(1);
