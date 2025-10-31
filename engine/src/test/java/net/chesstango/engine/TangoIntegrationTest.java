@@ -42,7 +42,7 @@ public class TangoIntegrationTest {
 
     @Test
     @Disabled
-    public void testSearch() {
+    public void testSearch01() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
                 .withGameEvaluator(Evaluator.getInstance())
                 .withDebugSearchTree(false, false, false)
@@ -55,9 +55,34 @@ public class TangoIntegrationTest {
 
         try (Tango tango = Tango.open(config)) {
             //new ChainPrinterVisitor().print(search, System.out);
-            Session session = tango.newSession(FEN.of("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 6 "));
+            Session session = tango.newSession(FEN.of("8/8/2P5/8/8/pP6/K2k4/3r4 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(1);
+            SearchResponse searchResponse = searchResponseFuture.get();
+            System.out.println(searchResponse.getMove());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @Disabled
+    public void testSearch02() {
+        Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.getInstance())
+                .withDebugSearchTree(false, false, false)
+                .build();
+
+        //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
+        config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        config.setSearch(search);
+        config.setSyncSearch(true);
+
+        try (Tango tango = Tango.open(config)) {
+            //new ChainPrinterVisitor().print(search, System.out);
+            Session session = tango.newSession(FEN.of("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
+            session.setMoves(List.of());
+            Future<SearchResponse> searchResponseFuture =  session.goDepth(5);
             SearchResponse searchResponse = searchResponseFuture.get();
             System.out.println(searchResponse.getMove());
         } catch (Exception e) {
