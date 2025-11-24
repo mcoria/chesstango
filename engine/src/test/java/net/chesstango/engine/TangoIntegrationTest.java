@@ -5,7 +5,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.visitors.ChainPrinterVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -83,6 +82,31 @@ public class TangoIntegrationTest {
             Session session = tango.newSession(FEN.of("8/8/3P4/8/5k2/p2K1p2/P7/8 b - - 0 1"));
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(5);
+            SearchResponse searchResponse = searchResponseFuture.get();
+            System.out.println(searchResponse.getMove());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @Disabled
+    public void testSearch03() {
+        Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
+                .withGameEvaluator(Evaluator.getInstance())
+                .withDebugSearchTree(true, false, false)
+                .build();
+
+        //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
+        config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        config.setSearch(search);
+        config.setSyncSearch(true);
+
+        try (Tango tango = Tango.open(config)) {
+            //new ChainPrinterVisitor().print(search, System.out);
+            Session session = tango.newSession(FEN.of("8/8/8/8/8/2k2KNp/5P1r/2R5 b - - 6 69"));
+            session.setMoves(List.of());
+            Future<SearchResponse> searchResponseFuture =  session.goDepth(4);
             SearchResponse searchResponse = searchResponseFuture.get();
             System.out.println(searchResponse.getMove());
         } catch (Exception e) {

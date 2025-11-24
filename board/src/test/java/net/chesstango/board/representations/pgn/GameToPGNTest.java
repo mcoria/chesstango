@@ -48,15 +48,17 @@ public class GameToPGNTest {
 
         overrideHeaders(pgn);
 
-        String expectedResult = "[Event \"Computer chess game\"]\n" +
-                "[Site \"KANO-COMPUTER\"]\n" +
-                "[Date \"2022.06.17\"]\n" +
-                "[Round \"?\"]\n" +
-                "[White \"mauricio\"]\n" +
-                "[Black \"opponent\"]\n" +
-                "[Result \"*\"]\n" +
-                "\n" +
-                "1. e4 d5 2. Nf3 dxe4 *";
+        String expectedResult = """
+                [Event "Computer chess game"]
+                [Site "KANO-COMPUTER"]
+                [Date "2022.06.17"]
+                [Round "?"]
+                [White "mauricio"]
+                [Black "opponent"]
+                [Result "*"]
+                
+                1. e4 d5 2. Nf3 dxe4 *
+                """;
         String encodedGame = new PGNStringEncoder().encode(pgn);
         assertEquals(expectedResult, encodedGame);
     }
@@ -91,15 +93,17 @@ public class GameToPGNTest {
         PGN pgn = gameToPGN.decode(game);
         overrideHeaders(pgn);
 
-        String expectedResult = "[Event \"Computer chess game\"]\n" +
-                "[Site \"KANO-COMPUTER\"]\n" +
-                "[Date \"2022.06.17\"]\n" +
-                "[Round \"?\"]\n" +
-                "[White \"mauricio\"]\n" +
-                "[Black \"opponent\"]\n" +
-                "[Result \"1-0\"]\n" +
-                "\n" +
-                "1. e4 e5 2. Bc4 Nc6 3. Qf3 Bc5 4. Qxf7# 1-0";
+        String expectedResult = """
+                [Event "Computer chess game"]
+                [Site "KANO-COMPUTER"]
+                [Date "2022.06.17"]
+                [Round "?"]
+                [White "mauricio"]
+                [Black "opponent"]
+                [Result "1-0"]
+                
+                1. e4 e5 2. Bc4 Nc6 3. Qf3 Bc5 4. Qxf7# 1-0
+                """;
 
 
         String encodedGame = new PGNStringEncoder().encode(pgn);
@@ -115,16 +119,18 @@ public class GameToPGNTest {
         PGN pgn = gameToPGN.decode(game);
         overrideHeaders(pgn);
 
-        String expectedResult = "[Event \"Computer chess game\"]\n" +
-                "[Site \"KANO-COMPUTER\"]\n" +
-                "[Date \"2022.06.17\"]\n" +
-                "[Round \"?\"]\n" +
-                "[White \"mauricio\"]\n" +
-                "[Black \"opponent\"]\n" +
-                "[FEN \"k7/7Q/K7/8/8/8/8/8 w - - 0 1\"]\n" +
-                "[Result \"1/2-1/2\"]\n" +
-                "\n" +
-                "1. Qc7 1/2-1/2";
+        String expectedResult = """
+                [Event "Computer chess game"]
+                [Site "KANO-COMPUTER"]
+                [Date "2022.06.17"]
+                [Round "?"]
+                [White "mauricio"]
+                [Black "opponent"]
+                [FEN "k7/7Q/K7/8/8/8/8/8 w - - 0 1"]
+                [Result "1/2-1/2"]
+                
+                1. Qc7 1/2-1/2
+                """;
 
 
         String encodedGame = new PGNStringEncoder().encode(pgn);
@@ -154,7 +160,7 @@ public class GameToPGNTest {
                 "[FEN \"k7/8/K7/2Q5/8/8/8/8 w - - 1 1\"]\n" +
                 "[Result \"1/2-1/2\"]\n" +
                 "\n" +
-                "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2";
+                "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2\n";
 
 
         String encodedGame = new PGNStringEncoder().encode(pgn);

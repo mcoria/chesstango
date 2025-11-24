@@ -2,10 +2,9 @@ package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchResultByDepth;
 
-import java.util.concurrent.*;
-import java.util.function.Predicate;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author Mauricio Coria
@@ -18,42 +17,43 @@ class SearchManager implements AutoCloseable {
     private final SearchInvoker searchInvoker;
     private final ScheduledExecutorService timeOutExecutor;
 
-    private volatile CountDownLatch countDownLatch;
+    private volatile SearchManagerState currentSearchManagerState;
 
-    public SearchManager(int infiniteDepth,
-                         SearchChain searchChain,
-                         TimeMgmt timeMgmt,
-                         SearchInvoker searchInvoker,
-                         ScheduledExecutorService timeOutExecutor) {
+    SearchManager(int infiniteDepth,
+                  SearchChain searchChain,
+                  TimeMgmt timeMgmt,
+                  SearchInvoker searchInvoker,
+                  ScheduledExecutorService timeOutExecutor) {
         this.infiniteDepth = infiniteDepth;
         this.searchChain = searchChain;
         this.timeMgmt = timeMgmt;
         this.searchInvoker = searchInvoker;
         this.timeOutExecutor = timeOutExecutor;
+        setSearchManagerReady();
     }
 
-    public synchronized Future<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
-        return searchDepthImp(game, infiniteDepth, searchMoveResult -> true, searchListener);
+    synchronized Future<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
+        return currentSearchManagerState.searchDepthImp(game, infiniteDepth, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResponse> searchDepth(Game game, int depth, SearchListener searchListener) {
-        return searchDepthImp(game, depth, searchMoveResult -> true, searchListener);
+    synchronized Future<SearchResponse> searchDepth(Game game, int depth, SearchListener searchListener) {
+        return currentSearchManagerState.searchDepthImp(game, depth, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
-        return searchTimeOutImp(game, timeOut, searchMoveResult -> true, searchListener);
+    synchronized Future<SearchResponse> searchTime(Game game, int timeOut, SearchListener searchListener) {
+        return currentSearchManagerState.searchTimeOutImp(game, timeOut, searchMoveResult -> true, searchListener);
     }
 
-    public synchronized Future<SearchResponse> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
+    synchronized Future<SearchResponse> searchFast(Game game, int wTime, int bTime, int wInc, int bInc, SearchListener searchListener) {
         int timeOut = timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc);
-        return searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
+        return currentSearchManagerState.searchTimeOutImp(game, timeMgmt.getTimeOut(game, wTime, bTime, wInc, bInc), searchInfo -> timeMgmt.keepSearching(timeOut, searchInfo), searchListener);
     }
 
-    public synchronized void stopSearching() {
-        stopSearchingImp();
+    synchronized void stopSearching() {
+        currentSearchManagerState.stopSearchingImp();
     }
 
-    public synchronized void reset() {
+    synchronized void reset() {
         searchChain.reset();
     }
 
@@ -62,71 +62,19 @@ class SearchManager implements AutoCloseable {
         searchChain.close();
     }
 
-    private Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        countDownLatch = new CountDownLatch(1);
-
-        ScheduledFuture<?> stopTask = timeOutExecutor.schedule(this::stopSearchingImp, timeOut, TimeUnit.MILLISECONDS);
-
-        SearchListener searchListenerDecorator = new SearchListener() {
-            @Override
-            public void searchStarted() {
-                searchListener.searchStarted();
-            }
-
-            @Override
-            public void searchInfo(String searchInfo) {
-                countDownLatch.countDown();
-                searchListener.searchInfo(searchInfo);
-            }
-
-            @Override
-            public void searchFinished(SearchResponse searchResult) {
-                // Esta linea garantiza que se cancele stopTask inmediatamente termina la búsqueda
-                stopTask.cancel(false);
-                searchListener.searchFinished(searchResult);
-            }
-        };
-
-        log.debug("Searching by time {} ms", timeOut);
-        return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchListenerDecorator);
+    void setSearchManagerReady() {
+        this.currentSearchManagerState = new SearchManagerReady(this, searchInvoker, infiniteDepth);
     }
 
-    private Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        countDownLatch = new CountDownLatch(1);
-
-        SearchListener searchListenerDecorator = new SearchListener() {
-            @Override
-            public void searchStarted() {
-                searchListener.searchStarted();
-            }
-
-            @Override
-            public void searchInfo(String searchInfo) {
-                countDownLatch.countDown();
-                searchListener.searchInfo(searchInfo);
-            }
-
-            @Override
-            public void searchFinished(SearchResponse searchResult) {
-                searchListener.searchFinished(searchResult);
-            }
-        };
-
-        log.debug("Searching by depth {}", depth);
-        return searchInvoker.searchImp(game, depth, searchPredicate, searchListenerDecorator);
+    SearchManagerSearchingByTime setSearchManagerSearchingByTime(int timeOut, SearchListener searchListener) {
+        SearchManagerSearchingByTime searchManagerSearchingByTime = new SearchManagerSearchingByTime(this, searchChain, timeOutExecutor, searchListener, timeOut);
+        this.currentSearchManagerState = searchManagerSearchingByTime;
+        return searchManagerSearchingByTime;
     }
 
-    private void stopSearchingImp() {
-        log.debug("Stopping search");
-        try {
-            // Espera que al menos se complete un ciclo
-            // Aca se puede dar la interrupcion
-            countDownLatch.await();
-
-            searchChain.stopSearching();
-        } catch (InterruptedException e) {
-            // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
-            log.error("Stopping interrupted");
-        }
+    SearchManagerSearchingByDepth setSearchManagerSearchingByDepth(SearchListener searchListener) {
+        SearchManagerSearchingByDepth searchManagerSearchingByDepth = new SearchManagerSearchingByDepth(this, searchChain, searchListener);
+        this.currentSearchManagerState = searchManagerSearchingByDepth;
+        return searchManagerSearchingByDepth;
     }
 }

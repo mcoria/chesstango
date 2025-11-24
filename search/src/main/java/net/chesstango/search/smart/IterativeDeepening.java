@@ -90,7 +90,6 @@ public class IterativeDeepening implements Search {
 
     /**
      * No podemos detener si al menos no se buscó con DEPTH = 1
-     * TODO: LA LOGICA DEBERIA MOVERSE A SEARCH MANAGER
      *
      */
     @Override

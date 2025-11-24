@@ -39,7 +39,7 @@ class SearchInvokerAsync implements SearchInvoker {
                         .setGame(game)
                         .setDepth(depth)
                         .setSearchPredicate(searchPredicate)
-                        .setSearchResultByDepthListener(createSearchListener(searchListener));
+                        .setSearchResultByDepthListener(wrappSearchListener(searchListener));
 
                 SearchResponse searchResponse = searchChain.search(context);
 
@@ -55,7 +55,7 @@ class SearchInvokerAsync implements SearchInvoker {
         return currentSearchTask;
     }
 
-    private Consumer<SearchResultByDepth> createSearchListener(SearchListener searchListener) {
+    private Consumer<SearchResultByDepth> wrappSearchListener(SearchListener searchListener) {
         return searchResultByDepth -> {
             String pv = simpleMoveEncoder
                     .encodeMoves(searchResultByDepth

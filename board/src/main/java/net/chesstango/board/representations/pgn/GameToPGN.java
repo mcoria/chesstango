@@ -22,7 +22,9 @@ public class GameToPGN {
 
     public PGN decode(Game game) {
         PGN pgn = new PGN();
+
         pgn.setResult(encodeGameResult(game));
+
         if (!game.getInitialFEN().toString().equals(FENParser.INITIAL_FEN)) {
             pgn.setFen(game.getInitialFEN());
         }
