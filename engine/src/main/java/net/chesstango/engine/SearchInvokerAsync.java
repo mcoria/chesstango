@@ -38,8 +38,8 @@ class SearchInvokerAsync implements SearchInvoker {
                 SearchContext context = new SearchContext()
                         .setGame(game)
                         .setDepth(depth)
-                        .setSearchPredicate(searchPredicate)
-                        .setSearchResultByDepthListener(wrappSearchListener(searchListener));
+                        .setSearchResultByDepthPredicate(searchPredicate)
+                        .setSearchResultByDepthConsumer(wrappSearchListener(searchListener));
 
                 SearchResponse searchResponse = searchChain.search(context);
 

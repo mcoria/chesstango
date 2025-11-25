@@ -58,7 +58,7 @@ public class TangoIntegrationTest {
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(1);
             SearchResponse searchResponse = searchResponseFuture.get();
-            System.out.println(searchResponse.getMove());
+            System.out.println(searchResponse.move());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +83,7 @@ public class TangoIntegrationTest {
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(5);
             SearchResponse searchResponse = searchResponseFuture.get();
-            System.out.println(searchResponse.getMove());
+            System.out.println(searchResponse.move());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -108,7 +108,7 @@ public class TangoIntegrationTest {
             session.setMoves(List.of());
             Future<SearchResponse> searchResponseFuture =  session.goDepth(4);
             SearchResponse searchResponse = searchResponseFuture.get();
-            System.out.println(searchResponse.getMove());
+            System.out.println(searchResponse.move());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

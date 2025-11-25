@@ -9,7 +9,6 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 import net.chesstango.piazzolla.syzygy.SyzygyPositionBuilder;
-import net.chesstango.search.SearchResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +45,7 @@ public class SearchByTablebaseTest {
 
         SearchResponse result = searchByTablebase.search(searchContext);
 
-        Move move = result.getMove();
+        Move move = result.move();
 
         assertEquals(Square.d2, move.getFrom().square());
         assertEquals(Square.d3, move.getTo().square());
@@ -63,7 +62,7 @@ public class SearchByTablebaseTest {
 
         SearchResponse result = searchByTablebase.search(searchContext);
 
-        Move move = result.getMove();
+        Move move = result.move();
 
         assertEquals(Square.c2, move.getFrom().square());
         assertEquals(Square.c4, move.getTo().square());
@@ -80,7 +79,7 @@ public class SearchByTablebaseTest {
 
         SearchResponse result = searchByTablebase.search(searchContext);
 
-        MovePromotion move = (MovePromotion) result.getMove();
+        MovePromotion move = (MovePromotion) result.move();
 
         assertEquals(Square.g7, move.getFrom().square());
         assertEquals(Square.g8, move.getTo().square());

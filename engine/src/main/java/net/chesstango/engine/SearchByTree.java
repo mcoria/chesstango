@@ -46,9 +46,9 @@ class SearchByTree implements SearchChain {
     public SearchResponse search(SearchContext context) {
         search.accept(new SetMaxDepthVisitor(context.getDepth()));
 
-        search.accept(new SetSearchPredicateVisitor(context.getSearchPredicate()));
+        search.accept(new SetSearchPredicateVisitor(context.getSearchResultByDepthPredicate()));
 
-        search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthListener()));
+        search.accept(new SetSearchByDepthListenerVisitor(context.getSearchResultByDepthConsumer()));
 
         SearchResult searchResult = search.startSearch(context.getGame());
 

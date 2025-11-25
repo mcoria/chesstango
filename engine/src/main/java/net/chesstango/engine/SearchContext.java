@@ -19,9 +19,9 @@ class SearchContext {
 
     private Game game;
 
-    private Predicate<SearchResultByDepth> searchPredicate;
-
-    private Consumer<SearchResultByDepth> searchResultByDepthListener;
-
     private int depth;
+
+    private Predicate<SearchResultByDepth> searchResultByDepthPredicate;
+
+    private Consumer<SearchResultByDepth> searchResultByDepthConsumer;
 }

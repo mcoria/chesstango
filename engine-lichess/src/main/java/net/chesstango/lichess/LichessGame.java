@@ -109,7 +109,7 @@ public class LichessGame implements Runnable, SearchListener {
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        String moveUci = simpleMoveEncoder.encode(searchResult.getMove());
+        String moveUci = simpleMoveEncoder.encode(searchResult.move());
         log.info("[{}] Search finished: move {}", gameId, moveUci);
         client.gameMove(gameId, moveUci);
         MDC.remove("gameId");
