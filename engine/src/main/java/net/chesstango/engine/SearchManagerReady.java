@@ -16,7 +16,6 @@ class SearchManagerReady implements SearchManagerState {
     private final SearchInvoker searchInvoker;
     private final int infiniteDepth;
 
-
     SearchManagerReady(SearchManager searchManager,
                        SearchInvoker searchInvoker,
                        int infiniteDepth) {
@@ -25,27 +24,34 @@ class SearchManagerReady implements SearchManagerState {
         this.infiniteDepth = infiniteDepth;
     }
 
-
     @Override
-    public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        log.debug("Searching by time {} ms", timeOut);
+    public Future<SearchResponse> searchDepthImp(Game game,
+                                                 int depth,
+                                                 Predicate<SearchResultByDepth> searchResultByDepthPredicate,
+                                                 SearchListener searchListener) {
 
-        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.createSearchingByTimeState(timeOut, searchListener);
-
-        searchManager.setCurrentSearchManagerState(searchManagerSearchingByTime);
-
-        return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchManagerSearchingByTime);
-    }
-
-    @Override
-    public Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         log.debug("Searching by depth {}", depth);
 
         SearchManagerSearchingByDepth searchManagerSearchingByDepth = searchManager.createSearchingByDepthState(searchListener);
 
         searchManager.setCurrentSearchManagerState(searchManagerSearchingByDepth);
 
-        return searchInvoker.searchImp(game, depth, searchPredicate, searchManagerSearchingByDepth);
+        return searchInvoker.searchImp(game, depth, searchResultByDepthPredicate, searchManagerSearchingByDepth);
+    }
+
+    @Override
+    public Future<SearchResponse> searchTimeOutImp(Game game,
+                                                   int timeOut,
+                                                   Predicate<SearchResultByDepth> searchResultByDepthPredicate,
+                                                   SearchListener searchListener) {
+
+        log.debug("Searching by time {} ms", timeOut);
+
+        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.createSearchingByTimeState(timeOut, searchListener);
+
+        searchManager.setCurrentSearchManagerState(searchManagerSearchingByTime);
+
+        return searchInvoker.searchImp(game, infiniteDepth, searchResultByDepthPredicate, searchManagerSearchingByTime);
     }
 
     @Override
