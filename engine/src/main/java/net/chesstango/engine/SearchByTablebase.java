@@ -23,13 +23,13 @@ import static net.chesstango.piazzolla.syzygy.Syzygy.*;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByTablebase implements SearchChain {
+class SearchByTablebase implements SearchByChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final SyzygyPosition syzygyPosition;
 
     @Setter
-    private SearchChain next;
+    private SearchByChain next;
 
     @Getter
     private final Syzygy syzygy;

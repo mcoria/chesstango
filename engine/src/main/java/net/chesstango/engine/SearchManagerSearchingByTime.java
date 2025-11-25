@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 class SearchManagerSearchingByTime implements SearchManagerState, SearchListener {
     private final SearchManager searchManager;
 
-    private final SearchChain searchChain;
+    private final SearchByChain searchByChain;
 
     private final ScheduledExecutorService timeOutExecutor;
 
@@ -28,12 +28,12 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
 
     SearchManagerSearchingByTime(SearchManager searchManager,
-                                 SearchChain searchChain,
+                                 SearchByChain searchByChain,
                                  ScheduledExecutorService timeOutExecutor,
                                  SearchListener searchListener,
                                  int timeOut) {
         this.searchManager = searchManager;
-        this.searchChain = searchChain;
+        this.searchByChain = searchByChain;
         this.timeOutExecutor = timeOutExecutor;
         this.searchListener = searchListener;
         this.timeOut = timeOut;
@@ -59,7 +59,7 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
             // Aca se puede dar la interrupcion
             countDownLatch.await();
 
-            searchChain.stopSearching();
+            searchByChain.stopSearching();
         } catch (InterruptedException e) {
             // Si ocurre la excepcion quiere decir que terminó normalmente y el thread fué interrumpido, por lo tanto no es necesario triggerStopSearching()
             log.warn("Stopping interrupted");

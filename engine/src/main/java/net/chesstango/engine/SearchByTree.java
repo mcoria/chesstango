@@ -12,7 +12,7 @@ import net.chesstango.search.visitors.SetSearchPredicateVisitor;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByTree implements SearchChain {
+class SearchByTree implements SearchByChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private final Search search;

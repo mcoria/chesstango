@@ -5,7 +5,7 @@ package net.chesstango.engine;
  *
  * @author Mauricio Coria
  */
-class SearchByOnline implements SearchChain {
+class SearchByOnline implements SearchByChain {
 
     @Override
     public SearchResponse search(SearchContext context) {

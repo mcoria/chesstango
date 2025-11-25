@@ -15,13 +15,13 @@ import java.util.function.Predicate;
  */
 class SearchInvokerAsync implements SearchInvoker {
     private final ExecutorService searchExecutor;
-    private final SearchChain searchChain;
+    private final SearchByChain searchByChain;
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     private volatile Future<SearchResponse> currentSearchTask;
 
-    SearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor) {
-        this.searchChain = searchChain;
+    SearchInvokerAsync(SearchByChain searchByChain, ExecutorService searchExecutor) {
+        this.searchByChain = searchByChain;
         this.searchExecutor = searchExecutor;
     }
 
@@ -41,7 +41,7 @@ class SearchInvokerAsync implements SearchInvoker {
                         .setSearchResultByDepthPredicate(searchPredicate)
                         .setSearchResultByDepthConsumer(wrappSearchListener(searchListener));
 
-                SearchResponse searchResponse = searchChain.search(context);
+                SearchResponse searchResponse = searchByChain.search(context);
 
                 searchListener.searchFinished(searchResponse);
 

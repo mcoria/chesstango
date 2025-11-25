@@ -1,11 +1,8 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.SearchResultByDepth;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +29,7 @@ public class SearchManagerTest {
     private SearchManager searchManager;
 
     @Mock
-    private SearchChain searchChain;
+    private SearchByChain searchByChain;
 
     @Mock
     private TimeMgmt timeMgmt;
@@ -71,7 +68,7 @@ public class SearchManagerTest {
                     return CompletableFuture.completedFuture(expectedResult);
                 });
 
-        searchManager = new SearchManager(10, searchChain, timeMgmt, searchInvoker, timeOutExecutor);
+        searchManager = new SearchManager(10, searchByChain, timeMgmt, searchInvoker, timeOutExecutor);
     }
 
     @AfterEach
@@ -85,7 +82,7 @@ public class SearchManagerTest {
         Future<SearchResponse> searchResultFuture = searchManager.searchInfinite(game, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
-        verify(searchChain, never()).stopSearching();
+        verify(searchByChain, never()).stopSearching();
 
         assertSearchListener();
         assertResult(searchResultFuture);
@@ -97,7 +94,7 @@ public class SearchManagerTest {
         Future<SearchResponse> searchResultFuture = searchManager.searchDepth(game, 3, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(3), any(Predicate.class), any(SearchListener.class));
-        verify(searchChain, never()).stopSearching();
+        verify(searchByChain, never()).stopSearching();
 
         assertResult(searchResultFuture);
         assertSearchListener();
@@ -108,7 +105,7 @@ public class SearchManagerTest {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 10000, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
-        verify(searchChain, never()).stopSearching();
+        verify(searchByChain, never()).stopSearching();
 
         assertResult(searchResultFuture);
         assertSearchListener();
@@ -119,7 +116,7 @@ public class SearchManagerTest {
         Future<SearchResponse> searchResultFuture = searchManager.searchTime(game, 100, listener);
 
         verify(searchInvoker).searchImp(eq(game), eq(10), any(Predicate.class), any(SearchListener.class));
-        verify(searchChain).stopSearching();
+        verify(searchByChain).stopSearching();
 
         assertResult(searchResultFuture);
         assertSearchListener();

@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 class SearchManager implements AutoCloseable {
     private final int infiniteDepth;
-    private final SearchChain searchChain;
+    private final SearchByChain searchByChain;
     private final TimeMgmt timeMgmt;
     private final SearchInvoker searchInvoker;
     private final ScheduledExecutorService timeOutExecutor;
@@ -20,12 +20,12 @@ class SearchManager implements AutoCloseable {
     private volatile SearchManagerState currentSearchManagerState;
 
     SearchManager(int infiniteDepth,
-                  SearchChain searchChain,
+                  SearchByChain searchByChain,
                   TimeMgmt timeMgmt,
                   SearchInvoker searchInvoker,
                   ScheduledExecutorService timeOutExecutor) {
         this.infiniteDepth = infiniteDepth;
-        this.searchChain = searchChain;
+        this.searchByChain = searchByChain;
         this.timeMgmt = timeMgmt;
         this.searchInvoker = searchInvoker;
         this.timeOutExecutor = timeOutExecutor;
@@ -54,12 +54,16 @@ class SearchManager implements AutoCloseable {
     }
 
     synchronized void reset() {
-        searchChain.reset();
+        searchByChain.reset();
+    }
+
+    synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
+        this.currentSearchManagerState = currentSearchManagerState;
     }
 
     @Override
     public synchronized void close() throws Exception {
-        searchChain.close();
+        searchByChain.close();
     }
 
     SearchManagerReady createReadyState() {
@@ -67,14 +71,10 @@ class SearchManager implements AutoCloseable {
     }
 
     SearchManagerSearchingByTime createSearchingByTimeState(int timeOut, SearchListener searchListener) {
-        return new SearchManagerSearchingByTime(this, searchChain, timeOutExecutor, searchListener, timeOut);
+        return new SearchManagerSearchingByTime(this, searchByChain, timeOutExecutor, searchListener, timeOut);
     }
 
     SearchManagerSearchingByDepth createSearchingByDepthState(SearchListener searchListener) {
-        return new SearchManagerSearchingByDepth(this, searchChain, searchListener);
-    }
-
-    synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
-        this.currentSearchManagerState = currentSearchManagerState;
+        return new SearchManagerSearchingByDepth(this, searchByChain, searchListener);
     }
 }
