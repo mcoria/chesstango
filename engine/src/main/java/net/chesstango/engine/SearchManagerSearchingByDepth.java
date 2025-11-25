@@ -66,6 +66,6 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
     @Override
     public void searchFinished(SearchResponse searchResult) {
         searchListener.searchFinished(searchResult);
-        searchManager.setSearchManagerReady();
+        searchManager.setCurrentSearchManagerState(searchManager.createReadyState());
     }
 }

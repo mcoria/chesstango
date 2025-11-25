@@ -85,6 +85,6 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
         if (!stopTask.isDone()) {
             stopTask.cancel(false);
         }
-        searchManager.setSearchManagerReady();
+        searchManager.createReadyState();
     }
 }

@@ -29,7 +29,7 @@ class SearchManager implements AutoCloseable {
         this.timeMgmt = timeMgmt;
         this.searchInvoker = searchInvoker;
         this.timeOutExecutor = timeOutExecutor;
-        setSearchManagerReady();
+        setCurrentSearchManagerState(createReadyState());
     }
 
     synchronized Future<SearchResponse> searchInfinite(Game game, SearchListener searchListener) {
@@ -62,19 +62,19 @@ class SearchManager implements AutoCloseable {
         searchChain.close();
     }
 
-    void setSearchManagerReady() {
-        this.currentSearchManagerState = new SearchManagerReady(this, searchInvoker, infiniteDepth);
+    SearchManagerReady createReadyState() {
+        return new SearchManagerReady(this, searchInvoker, infiniteDepth);
     }
 
-    SearchManagerSearchingByTime setSearchManagerSearchingByTime(int timeOut, SearchListener searchListener) {
-        SearchManagerSearchingByTime searchManagerSearchingByTime = new SearchManagerSearchingByTime(this, searchChain, timeOutExecutor, searchListener, timeOut);
-        this.currentSearchManagerState = searchManagerSearchingByTime;
-        return searchManagerSearchingByTime;
+    SearchManagerSearchingByTime createSearchingByTimeState(int timeOut, SearchListener searchListener) {
+        return new SearchManagerSearchingByTime(this, searchChain, timeOutExecutor, searchListener, timeOut);
     }
 
-    SearchManagerSearchingByDepth setSearchManagerSearchingByDepth(SearchListener searchListener) {
-        SearchManagerSearchingByDepth searchManagerSearchingByDepth = new SearchManagerSearchingByDepth(this, searchChain, searchListener);
-        this.currentSearchManagerState = searchManagerSearchingByDepth;
-        return searchManagerSearchingByDepth;
+    SearchManagerSearchingByDepth createSearchingByDepthState(SearchListener searchListener) {
+        return new SearchManagerSearchingByDepth(this, searchChain, searchListener);
+    }
+
+    synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
+        this.currentSearchManagerState = currentSearchManagerState;
     }
 }

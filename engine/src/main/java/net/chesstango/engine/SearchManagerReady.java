@@ -30,7 +30,9 @@ class SearchManagerReady implements SearchManagerState {
     public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         log.debug("Searching by time {} ms", timeOut);
 
-        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.setSearchManagerSearchingByTime(timeOut, searchListener);
+        SearchManagerSearchingByTime searchManagerSearchingByTime = searchManager.createSearchingByTimeState(timeOut, searchListener);
+
+        searchManager.setCurrentSearchManagerState(searchManagerSearchingByTime);
 
         return searchInvoker.searchImp(game, infiniteDepth, searchPredicate, searchManagerSearchingByTime);
     }
@@ -39,7 +41,9 @@ class SearchManagerReady implements SearchManagerState {
     public Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
         log.debug("Searching by depth {}", depth);
 
-        SearchManagerSearchingByDepth searchManagerSearchingByDepth = searchManager.setSearchManagerSearchingByDepth(searchListener);
+        SearchManagerSearchingByDepth searchManagerSearchingByDepth = searchManager.createSearchingByDepthState(searchListener);
+
+        searchManager.setCurrentSearchManagerState(searchManagerSearchingByDepth);
 
         return searchInvoker.searchImp(game, depth, searchPredicate, searchManagerSearchingByDepth);
     }
