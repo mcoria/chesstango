@@ -60,7 +60,7 @@ public class SearchManagerModel {
             }
             model.searches++;
 
-            searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.getMove());
+            searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.move());
 
             model.moveDetail.add(searchManagerModelDetail);
         });

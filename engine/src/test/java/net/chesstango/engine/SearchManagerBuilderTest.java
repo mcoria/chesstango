@@ -60,7 +60,7 @@ public class SearchManagerBuilderTest {
     private SearchManagerBuilder.SearchManagerFactory searchManagerFactory;
 
     @Captor
-    private ArgumentCaptor<SearchChain> searchChainCaptor;
+    private ArgumentCaptor<SearchByChain> searchChainCaptor;
 
     @BeforeEach
     public void setup() {
@@ -69,9 +69,9 @@ public class SearchManagerBuilderTest {
 
     @Test
     public void testBuildSearchInvokerSync() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerSync(any(SearchChain.class))).thenReturn(searchInvokerSync);
+        when(searchManagerFactory.createSearchInvokerSync(any(SearchByChain.class))).thenReturn(searchInvokerSync);
         when(searchManagerFactory.createSearch()).thenReturn(search);
 
         SearchManager searchManager = builder
@@ -90,9 +90,9 @@ public class SearchManagerBuilderTest {
 
     @Test
     public void testBuildSearchInvokerAsync() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerAsync(any(SearchChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
+        when(searchManagerFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
         when(searchManagerFactory.createSearch()).thenReturn(search);
 
         SearchManager searchManager = builder
@@ -107,14 +107,14 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearch();
         verify(searchManagerFactory).createSearchByAlgorithm(eq(search));
         verify(searchManagerFactory).createSearchInvokerAsync(eq(searchByTree), eq(executorService));
-        verify(searchManagerFactory).createSearchManager(eq(100), any(SearchChain.class), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
+        verify(searchManagerFactory).createSearchManager(eq(100), any(SearchByChain.class), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
     }
 
     @Test
     public void testBuildWithBook() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerAsync(any(SearchChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
+        when(searchManagerFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
         when(searchManagerFactory.createSearchByOpenBook(anyString())).thenReturn(searchByOpenBook);
         when(searchManagerFactory.createSearch()).thenReturn(search);
 
@@ -134,17 +134,17 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearchInvokerAsync(eq(searchByOpenBook), eq(executorService));
         verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
 
-        SearchChain searchChain = searchChainCaptor.getValue();
-        assertEquals(searchByOpenBook, searchChain);
+        SearchByChain searchByChain = searchChainCaptor.getValue();
+        assertEquals(searchByOpenBook, searchByChain);
 
         verify(searchByOpenBook).setNext(eq(searchByTree));
     }
 
     @Test
     public void testBuildWithSyzygyDirectory() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerAsync(any(SearchChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
+        when(searchManagerFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
         when(searchManagerFactory.createSearchByTablebase(anyString())).thenReturn(searchByTablebase);
         when(searchManagerFactory.createSearch()).thenReturn(search);
 
@@ -164,8 +164,8 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearchInvokerAsync(eq(searchByTablebase), eq(executorService));
         verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
 
-        SearchChain searchChain = searchChainCaptor.getValue();
-        assertEquals(searchByTablebase, searchChain);
+        SearchByChain searchByChain = searchChainCaptor.getValue();
+        assertEquals(searchByTablebase, searchByChain);
 
         verify(searchByTablebase).setNext(eq(searchByTree));
     }
@@ -173,9 +173,9 @@ public class SearchManagerBuilderTest {
 
     @Test
     public void testBuildWithBookAndSyzygyDirectory() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerAsync(any(SearchChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
+        when(searchManagerFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
         when(searchManagerFactory.createSearchByOpenBook(anyString())).thenReturn(searchByOpenBook);
         when(searchManagerFactory.createSearchByTablebase(anyString())).thenReturn(searchByTablebase);
         when(searchManagerFactory.createSearch()).thenReturn(search);
@@ -198,8 +198,8 @@ public class SearchManagerBuilderTest {
         verify(searchManagerFactory).createSearchInvokerAsync(eq(searchByOpenBook), eq(executorService));
         verify(searchManagerFactory).createSearchManager(eq(100), searchChainCaptor.capture(), any(TimeMgmt.class), eq(searchInvokerAsync), eq(scheduledExecutorService));
 
-        SearchChain searchChain = searchChainCaptor.getValue();
-        assertEquals(searchByOpenBook, searchChain);
+        SearchByChain searchByChain = searchChainCaptor.getValue();
+        assertEquals(searchByOpenBook, searchByChain);
 
         verify(searchByOpenBook).setNext(eq(searchByTablebase));
         verify(searchByTablebase).setNext(eq(searchByTree));
@@ -208,9 +208,9 @@ public class SearchManagerBuilderTest {
 
     @Test
     public void testBuildSearchWithSearch() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerSync(any(SearchChain.class))).thenReturn(searchInvokerSync);
+        when(searchManagerFactory.createSearchInvokerSync(any(SearchByChain.class))).thenReturn(searchInvokerSync);
 
         SearchManager searchManager = builder
                 .withExecutorService(executorService)
@@ -230,9 +230,9 @@ public class SearchManagerBuilderTest {
 
     @Test
     public void testBuildSearchWithEvaluator() {
-        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
+        when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
-        when(searchManagerFactory.createSearchInvokerSync(any(SearchChain.class))).thenReturn(searchInvokerSync);
+        when(searchManagerFactory.createSearchInvokerSync(any(SearchByChain.class))).thenReturn(searchInvokerSync);
         when(searchManagerFactory.createSearch(any(Evaluator.class))).thenReturn(search);
 
         SearchManager searchManager = builder

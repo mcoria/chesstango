@@ -11,5 +11,8 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 interface SearchInvoker {
-    Future<SearchResponse> searchImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener);
+    Future<SearchResponse> searchImp(Game game,
+                                     int depth,
+                                     Predicate<SearchResultByDepth> searchPredicate,
+                                     SearchListener searchListener);
 }

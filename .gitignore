@@ -9,3 +9,4 @@ matches.pgn
 search/DebugSearchTree*.txt
 engine-tools/scripts/venv/
 
+/engine/DebugSearchTree-*

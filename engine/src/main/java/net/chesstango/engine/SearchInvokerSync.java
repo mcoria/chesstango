@@ -14,11 +14,11 @@ import java.util.function.Predicate;
  * @author Mauricio Coria
  */
 class SearchInvokerSync implements SearchInvoker {
-    private final SearchChain searchChain;
+    private final SearchByChain searchByChain;
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
-    SearchInvokerSync(SearchChain searchChain) {
-        this.searchChain = searchChain;
+    SearchInvokerSync(SearchByChain searchByChain) {
+        this.searchByChain = searchByChain;
     }
 
     @Override
@@ -29,10 +29,10 @@ class SearchInvokerSync implements SearchInvoker {
             SearchContext context = new SearchContext()
                     .setGame(game)
                     .setDepth(depth)
-                    .setSearchPredicate(searchPredicate)
-                    .setSearchResultByDepthListener(createSearchListener(searchListener));
+                    .setSearchResultByDepthPredicate(searchPredicate)
+                    .setSearchResultByDepthConsumer(wrappSearchListener(searchListener));
 
-            SearchResponse searchResult = searchChain.search(context);
+            SearchResponse searchResult = searchByChain.search(context);
 
             searchListener.searchFinished(searchResult);
 
@@ -43,7 +43,7 @@ class SearchInvokerSync implements SearchInvoker {
         }
     }
 
-    private Consumer<SearchResultByDepth> createSearchListener(SearchListener searchListener) {
+    private Consumer<SearchResultByDepth> wrappSearchListener(SearchListener searchListener) {
         return searchResultByDepth -> {
             String pv = simpleMoveEncoder
                     .encodeMoves(searchResultByDepth
@@ -58,5 +58,3 @@ class SearchInvokerSync implements SearchInvoker {
         };
     }
 }
-
-

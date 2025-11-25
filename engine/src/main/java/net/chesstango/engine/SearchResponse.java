@@ -8,5 +8,5 @@ import java.io.Serializable;
  * @author Mauricio Coria
  */
 public interface SearchResponse extends Serializable {
-    Move getMove();
+    Move move();
 }

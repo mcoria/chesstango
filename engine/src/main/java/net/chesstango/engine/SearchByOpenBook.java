@@ -21,11 +21,11 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 @Slf4j
-class SearchByOpenBook implements SearchChain {
+class SearchByOpenBook implements SearchByChain {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter
-    private SearchChain next;
+    private SearchByChain next;
 
     private final PolyglotBook book;
 

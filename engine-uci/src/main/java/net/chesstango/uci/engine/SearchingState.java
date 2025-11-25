@@ -68,7 +68,7 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.getMove());
+        String selectedMoveStr = simpleMoveEncoder.encode(searchResult.move());
 
         uciTango.reply(readyState, UCIResponse.bestMove(selectedMoveStr));
     }

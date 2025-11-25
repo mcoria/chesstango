@@ -100,30 +100,30 @@ class SearchManagerBuilder {
             log.warn("Both search and evaluator are set. Evaluator will be ignored");
         }
 
-        SearchChain searchChain = buildSearchChain();
+        SearchByChain searchByChain = buildSearchChain();
 
         SearchInvoker searchInvoker = asyncInvoker
-                ? searchManagerFactory.createSearchInvokerAsync(searchChain, searchExecutor)
-                : searchManagerFactory.createSearchInvokerSync(searchChain);
+                ? searchManagerFactory.createSearchInvokerAsync(searchByChain, searchExecutor)
+                : searchManagerFactory.createSearchInvokerSync(searchByChain);
 
-        return searchManagerFactory.createSearchManager(infiniteDepth, searchChain, new TimeFivePercentage(), searchInvoker, timeOutExecutor);
+        return searchManagerFactory.createSearchManager(infiniteDepth, searchByChain, new TimeFivePercentage(), searchInvoker, timeOutExecutor);
     }
 
-    SearchChain buildSearchChain() {
-        List<SearchChain> searchChains = new ArrayList<>();
+    SearchByChain buildSearchChain() {
+        List<SearchByChain> searchByChains = new ArrayList<>();
         Syzygy syzygy = null;
 
         if (polyglotFile != null) {
             SearchByOpenBook searchManagerByOpenBook = searchManagerFactory.createSearchByOpenBook(polyglotFile);
             if (searchManagerByOpenBook != null) {
-                searchChains.add(searchManagerByOpenBook);
+                searchByChains.add(searchManagerByOpenBook);
             }
         }
 
         if (syzygyDirectory != null) {
             SearchByTablebase searchByTablebase = searchManagerFactory.createSearchByTablebase(syzygyDirectory);
             if (searchByTablebase != null) {
-                searchChains.add(searchByTablebase);
+                searchByChains.add(searchByTablebase);
                 syzygy = searchByTablebase.getSyzygy();
             }
         }
@@ -142,23 +142,23 @@ class SearchManagerBuilder {
 
         SearchByTree searchByTree = searchManagerFactory.createSearchByAlgorithm(search);
 
-        searchChains.add(searchByTree);
+        searchByChains.add(searchByTree);
 
-        return linkChain(searchChains);
+        return linkChain(searchByChains);
     }
 
-    SearchChain linkChain(List<SearchChain> searchChains) {
-        SearchChain previousChain = searchChains.getFirst();
-        for (int i = 1; i < searchChains.size(); i++) {
+    SearchByChain linkChain(List<SearchByChain> searchByChains) {
+        SearchByChain previousChain = searchByChains.getFirst();
+        for (int i = 1; i < searchByChains.size(); i++) {
             if (previousChain instanceof SearchByOpenBook searchByOpenBook) {
-                searchByOpenBook.setNext(searchChains.get(i));
-                previousChain = searchChains.get(i);
+                searchByOpenBook.setNext(searchByChains.get(i));
+                previousChain = searchByChains.get(i);
             } else if (previousChain instanceof SearchByTablebase searchByTablebase) {
-                searchByTablebase.setNext(searchChains.get(i));
-                previousChain = searchChains.get(i);
+                searchByTablebase.setNext(searchByChains.get(i));
+                previousChain = searchByChains.get(i);
             }
         }
-        return searchChains.getFirst();
+        return searchByChains.getFirst();
     }
 
     interface SearchManagerFactory {
@@ -168,12 +168,12 @@ class SearchManagerBuilder {
 
         SearchByTree createSearchByAlgorithm(Search search);
 
-        SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor);
+        SearchInvoker createSearchInvokerAsync(SearchByChain searchByChain, ExecutorService searchExecutor);
 
-        SearchInvoker createSearchInvokerSync(SearchChain searchChain);
+        SearchInvoker createSearchInvokerSync(SearchByChain searchByChain);
 
         SearchManager createSearchManager(int infiniteDepth,
-                                          SearchChain searchChain,
+                                          SearchByChain searchByChain,
                                           TimeMgmt timeMgmt,
                                           SearchInvoker searchInvoker,
                                           ScheduledExecutorService timeOutExecutor);
@@ -203,22 +203,22 @@ class SearchManagerBuilder {
         }
 
         @Override
-        public SearchInvoker createSearchInvokerAsync(SearchChain searchChain, ExecutorService searchExecutor) {
-            return new SearchInvokerAsync(searchChain, searchExecutor);
+        public SearchInvoker createSearchInvokerAsync(SearchByChain searchByChain, ExecutorService searchExecutor) {
+            return new SearchInvokerAsync(searchByChain, searchExecutor);
         }
 
         @Override
-        public SearchInvoker createSearchInvokerSync(SearchChain searchChain) {
-            return new SearchInvokerSync(searchChain);
+        public SearchInvoker createSearchInvokerSync(SearchByChain searchByChain) {
+            return new SearchInvokerSync(searchByChain);
         }
 
         @Override
         public SearchManager createSearchManager(int infiniteDepth,
-                                                 SearchChain searchChain,
+                                                 SearchByChain searchByChain,
                                                  TimeMgmt timeMgmt,
                                                  SearchInvoker searchInvoker,
                                                  ScheduledExecutorService timeOutExecutor) {
-            return new SearchManager(infiniteDepth, searchChain, timeMgmt, searchInvoker, timeOutExecutor);
+            return new SearchManager(infiniteDepth, searchByChain, timeMgmt, searchInvoker, timeOutExecutor);
         }
 
         @Override
