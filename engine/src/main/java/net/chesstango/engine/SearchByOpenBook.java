@@ -2,10 +2,13 @@ package net.chesstango.engine;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.polyglot.PolyglotBook;
 import net.chesstango.piazzolla.polyglot.PolyglotEntry;
@@ -22,16 +25,12 @@ import java.util.Optional;
  */
 @Slf4j
 class SearchByOpenBook implements SearchByChain {
-    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    private static final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
     @Setter
     private SearchByChain next;
 
     private final PolyglotBook book;
-
-    private SearchByOpenBook(PolyglotBook book) {
-        this.book = book;
-    }
 
     static SearchByOpenBook open(String polyglotFile) {
         if (polyglotFile != null) {
@@ -47,6 +46,10 @@ class SearchByOpenBook implements SearchByChain {
             }
         }
         return null;
+    }
+
+    SearchByOpenBook(PolyglotBook book) {
+        this.book = book;
     }
 
     @Override
@@ -77,29 +80,12 @@ class SearchByOpenBook implements SearchByChain {
     public SearchResponse search(SearchContext context) {
         SearchResponse searchResponse = null;
         if (book != null) {
-            Optional<PolyglotEntry>  polyglotEntryOpt = searchByBook(context.getGame());
+            Optional<PolyglotEntry> polyglotEntryOpt = searchByBook(context.getGame());
             if (polyglotEntryOpt.isPresent()) {
                 searchResponse = createSearchResponse(context.getGame(), polyglotEntryOpt.get());
             }
         }
         return searchResponse == null ? next.search(context) : searchResponse;
-    }
-
-    private SearchResponse createSearchResponse(Game game, PolyglotEntry polyglotEntry) {
-        SearchResponse searchResponse = null;
-
-        Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
-        Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
-
-        MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
-        Move move = possibleMoves.getMove(from, to);
-        if (move != null) {
-            log.debug("Move found: {}", simpleMoveEncoder.encode(move));
-            searchResponse = new SearchByOpenBookResult(move, polyglotEntry);
-        } else {
-            log.warn("Move not found fromIdx={} toIdx={} fen={}", from, to, game.getCurrentFEN());
-        }
-        return searchResponse;
     }
 
     private Optional<PolyglotEntry> searchByBook(Game game) {
@@ -108,5 +94,57 @@ class SearchByOpenBook implements SearchByChain {
             return Optional.of(polyglotEntries.getFirst());
         }
         return Optional.empty();
+    }
+
+
+    static SearchResponse createSearchResponse(Game game, PolyglotEntry polyglotEntry) {
+        SearchResponse searchResponse = null;
+
+        Optional<Move> optMove = polyglotEntryToMove(game, polyglotEntry);
+
+        if (optMove.isPresent()) {
+            searchResponse = new SearchByOpenBookResult(optMove.get(), polyglotEntry);
+        }
+
+        return searchResponse;
+    }
+
+    static Optional<Move> polyglotEntryToMove(Game game, PolyglotEntry polyglotEntry) {
+        MoveContainerReader<Move> possibleMoves = game.getPossibleMoves();
+
+        Square from = Square.of(polyglotEntry.from_file(), polyglotEntry.from_rank());
+
+        Square to = Square.of(polyglotEntry.to_file(), polyglotEntry.to_rank());
+
+        PositionReader position = game.getPosition();
+        if (position.getCurrentTurn() == Color.WHITE) {
+            if (Square.e1.equals(from) && Piece.KING_WHITE.equals(position.getPosition(from).piece())) {
+                if (Square.h1.equals(to) && Piece.ROOK_WHITE.equals(position.getPosition(to).piece()) && position.isCastlingWhiteKingAllowed()) {
+                    to = Square.g1;
+                } else if (Square.a1.equals(to) && Piece.ROOK_WHITE.equals(position.getPosition(to).piece()) && position.isCastlingWhiteQueenAllowed()) {
+                    to = Square.c1;
+                }
+            }
+        } else {
+            if (Square.e8.equals(from) && Piece.KING_BLACK.equals(position.getPosition(from).piece())) {
+                if (Square.h8.equals(to) && Piece.ROOK_BLACK.equals(position.getPosition(to).piece()) && position.isCastlingBlackKingAllowed()) {
+                    to = Square.g8;
+                } else if (Square.a8.equals(to) && Piece.ROOK_BLACK.equals(position.getPosition(to).piece()) && position.isCastlingBlackQueenAllowed()) {
+                    to = Square.c8;
+                }
+            }
+        }
+
+        Move move = possibleMoves.getMove(from, to);
+
+        if (move != null) {
+            log.debug("Move found: {}", simpleMoveEncoder.encode(move));
+
+            return Optional.of(move);
+        } else {
+            log.warn("Move not found fromIdx={} toIdx={} fen={}", from, to, game.getCurrentFEN());
+
+            return Optional.empty();
+        }
     }
 }
