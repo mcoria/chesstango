@@ -55,10 +55,10 @@
         <native.maven.plugin.version>0.11.0</native.maven.plugin.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
-        <gardel.version>1.0.15-SNAPSHOT</gardel.version>
+        <gardel.version>1.0.15</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
-        <piazzolla.version>1.0.9-SNAPSHOT</piazzolla.version>
+        <piazzolla.version>1.0.10</piazzolla.version>
 
         <!-- UCI communication protocol-->
         <goyeneche.version>1.0.9</goyeneche.version>
