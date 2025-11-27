@@ -25,8 +25,6 @@ spec:
           image: coriamauricio/chesstango:0.0.25
           imagePullPolicy: IfNotPresent
           env:
-            - name: CHALLENGE_BOTS
-              value: "true"
             - name: POLYGLOT_BOOK
               value: "/books/polyglot/komodo.bin"
             - name: SYZYGY_DIRECTORY
