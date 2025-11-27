@@ -64,7 +64,7 @@
         <goyeneche.version>1.0.9</goyeneche.version>
 
         <!-- Lichess communication protocol -->
-        <chariot.version>0.1.20</chariot.version>
+        <chariot.version>0.1.21</chariot.version>
     </properties>
 
     <dependencyManagement>
