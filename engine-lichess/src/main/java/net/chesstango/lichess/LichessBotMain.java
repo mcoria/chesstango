@@ -47,6 +47,9 @@ public class LichessBotMain {
                 config.setSyzygyDirectory(syzygyDirectory);
             }
 
+            // Durante la busqueda se bloquea el thread principal
+            config.setSyncSearch(true);
+
             try (Tango tango = Tango.open(config)) {
                 new LichessBot(lichessClient, tango)
                         .run();

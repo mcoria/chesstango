@@ -106,10 +106,8 @@ public class LichessBot implements Runnable, LichessBotMBean {
 
             onlineGame.run();
 
-            if(!gameWatchDog.isDone()) {
-                log.info("Cancelling gameWatchDog");
-                gameWatchDog.cancel(true);
-            }
+            log.info("Cancelling gameWatchDog");
+            gameWatchDog.cancel(false);
 
         } catch (RuntimeException e) {
             log.error("Error executing onlineGame", e);
