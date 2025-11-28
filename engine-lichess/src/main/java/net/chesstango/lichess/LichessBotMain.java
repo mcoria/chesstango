@@ -5,8 +5,6 @@ import chariot.ClientAuth;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Config;
 import net.chesstango.engine.Tango;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +18,7 @@ public class LichessBotMain {
 
     private static String BOT_TOKEN;
 
-    private static boolean CHALLENGE_BOTS;
-
-    private static final String POLYGLOT_BOOK_FILE = "POLYGLOT_BOOK_FILE";
+    private static final String POLYGLOT_FILE = "POLYGLOT_FILE";
 
     private static final String SYZYGY_DIRECTORY = "SYZYGY_DIRECTORY";
 
@@ -41,7 +37,7 @@ public class LichessBotMain {
 
             Config config = new Config();
 
-            String polyglotFile = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_BOOK_FILE);
+            String polyglotFile = (String) PROPERTIES.get(LichessBotMain.POLYGLOT_FILE);
             if (Objects.nonNull(polyglotFile)) {
                 config.setPolyglotFile(polyglotFile);
             }
@@ -51,8 +47,11 @@ public class LichessBotMain {
                 config.setSyzygyDirectory(syzygyDirectory);
             }
 
+            // Durante la busqueda se bloquea el thread principal
+            config.setSyncSearch(true);
+
             try (Tango tango = Tango.open(config)) {
-                new LichessBot(lichessClient, CHALLENGE_BOTS, tango)
+                new LichessBot(lichessClient, tango)
                         .run();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -69,14 +68,9 @@ public class LichessBotMain {
             throw new RuntimeException("BOT_TOKEN is missing");
         }
 
-        String challengeBots = System.getenv("CHALLENGE_BOTS");
-        if (challengeBots != null && !challengeBots.isEmpty()) {
-            CHALLENGE_BOTS = Boolean.parseBoolean(challengeBots);
-        }
-
-        String polyglotBookPath = System.getenv(POLYGLOT_BOOK_FILE);
+        String polyglotBookPath = System.getenv(POLYGLOT_FILE);
         if (Objects.nonNull(polyglotBookPath)) {
-            PROPERTIES.put(POLYGLOT_BOOK_FILE, polyglotBookPath);
+            PROPERTIES.put(POLYGLOT_FILE, polyglotBookPath);
         }
 
         String syzygyDirectory = System.getenv(SYZYGY_DIRECTORY);

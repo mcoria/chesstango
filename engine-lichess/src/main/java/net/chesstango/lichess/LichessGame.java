@@ -16,6 +16,7 @@ import org.slf4j.MDC;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 /**
@@ -97,7 +98,7 @@ public class LichessGame implements Runnable, SearchListener {
 
     @Override
     public void searchStarted() {
-        MDC.put("gameId", gameId);
+        log.info("[{}] Search started", gameId);
     }
 
     @Override
@@ -109,10 +110,7 @@ public class LichessGame implements Runnable, SearchListener {
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        String moveUci = simpleMoveEncoder.encode(searchResult.move());
-        log.info("[{}] Search finished: move {}", gameId, moveUci);
-        client.gameMove(gameId, moveUci);
-        MDC.remove("gameId");
+        log.info("[{}] Search finished {}", gameId, searchResult);
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
@@ -173,7 +171,18 @@ public class LichessGame implements Runnable, SearchListener {
             long wInc = state.winc().toMillis();
             long bInc = state.binc().toMillis();
 
-            session.goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc);
+            try {
+                SearchResponse searchResponse = session
+                        .goFast((int) wTime, (int) bTime, (int) wInc, (int) bInc)
+                        .get();
+
+                String moveUci = simpleMoveEncoder.encode(searchResponse.move());
+
+                client.gameMove(gameId, moveUci);
+
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

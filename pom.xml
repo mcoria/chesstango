@@ -45,7 +45,7 @@
         <!-- Dependencies -->
         <lombok.version>1.18.30</lombok.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <logback.version>1.5.18</logback.version>
+        <logback.version>1.5.21</logback.version>
         <jackson.version>2.17.1</jackson.version>
         <commons-cli.version>1.8.0</commons-cli.version>
 
@@ -64,7 +64,7 @@
         <goyeneche.version>1.0.9</goyeneche.version>
 
         <!-- Lichess communication protocol -->
-        <chariot.version>0.1.20</chariot.version>
+        <chariot.version>0.1.21</chariot.version>
     </properties>
 
     <dependencyManagement>
