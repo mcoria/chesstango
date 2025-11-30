@@ -13,7 +13,7 @@ import net.chesstango.search.Search;
 @Setter
 @Accessors(chain = true)
 public class Config {
-    private boolean syncSearch;
+    private Boolean syncSearch;
 
     private Search search;
 

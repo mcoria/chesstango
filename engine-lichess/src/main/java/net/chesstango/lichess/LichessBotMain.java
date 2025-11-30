@@ -54,11 +54,13 @@ public class LichessBotMain {
                 new LichessBot(lichessClient, tango)
                         .run();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace(System.err);
+                System.exit(-1);
             }
 
         } else {
-            throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
+            System.err.println("BOT_TOKEN is missing scope bot:play");
+            System.exit(-1);
         }
     }
 

@@ -39,7 +39,7 @@ public class UciTangoTest {
     public void setUp() {
         engine = new UciTango(new Config(), config -> tango);
 
-        when(tango.newSession(any(FEN.class))).thenReturn(session);
+        when(tango.newSession()).thenReturn(session);
 
         engine.open();
     }
@@ -57,7 +57,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position(List.of("e2e4")));
 
-        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(tango, times(1)).newSession();
+        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 
@@ -69,7 +70,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position(moveList));
 
-        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(tango, times(1)).newSession();
+        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
         verify(session, times(1)).setMoves(moveList);
     }
 
@@ -85,7 +87,8 @@ public class UciTangoTest {
 
         engine.accept(UCIRequest.position(moveList));
 
-        verify(tango, times(1)).newSession(FEN.of(FENParser.INITIAL_FEN));
+        verify(tango, times(1)).newSession();
+        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
         verify(session, times(1)).setMoves(moveList);
     }
 
@@ -98,7 +101,8 @@ public class UciTangoTest {
         engine.accept(UCIRequest.ucinewgame());
         engine.accept(UCIRequest.position("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", List.of("e2e4")));
 
-        verify(tango, times(1)).newSession(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+        verify(tango, times(1)).newSession();
+        verify(session, times(1)).setFen(FEN.of("rnbqkbrr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 

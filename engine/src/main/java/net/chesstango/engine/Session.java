@@ -21,19 +21,19 @@ public class Session {
 
     private final SearchManager searchManager;
 
-    private final FEN fen;
-
     private final SearchListener sessionSearchListener;
 
     @Setter
     private SearchListener searchListener;
 
+
+    @Setter
+    private FEN fen;
+
     @Setter
     private List<String> moves;
 
-    Session(FEN fen, SearchManager searchManager) {
-        this.fen = fen;
-
+    Session(SearchManager searchManager) {
         this.searchManager = searchManager;
 
         this.sessionSearchListener = new SearchListener() {

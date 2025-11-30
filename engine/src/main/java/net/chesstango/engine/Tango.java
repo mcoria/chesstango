@@ -41,10 +41,9 @@ public class Tango implements AutoCloseable {
 
 
         // Configure search execution mode:
-        // - Async mode: Executes search by ExecutorService
-        // - Sync mode: Executes search in the calling thread
-        // - Default: Async mode
-        if (!config.isSyncSearch()) {
+        // - Async mode: Executes search asynchronously
+        // - Sync mode: Executes search synchronously in the calling thread
+        if (!config.getSyncSearch()) {
             searchManagerBuilder
                     .withAsyncInvoker()
                     .withExecutorService(searchExecutor);
@@ -74,9 +73,9 @@ public class Tango implements AutoCloseable {
         searchManager.close();
     }
 
-    public Session newSession(FEN fen) {
+    public Session newSession() {
         searchManager.reset();
-        return new Session(fen, searchManager);
+        return new Session(searchManager);
     }
 
     private static Properties loadProperties() {

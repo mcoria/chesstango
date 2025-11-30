@@ -28,48 +28,26 @@ public class LichessGame implements Runnable, SearchListener {
 
     private final LichessClient client;
     private final String gameId;
-    private final Tango tango;
+    private final Session session;
     private final Color myColor;
-
-
-    private GameStateEvent.Full gameFullEvent;
-
-    private Session session;
 
     private FEN startPosition;
 
-    private volatile int moveCounter;
-
-    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Tango tango) {
+    public LichessGame(LichessClient client, Event.GameStartEvent gameStartEvent, Session session) {
         this.client = client;
         this.gameId = gameStartEvent.gameId();
 
         GameInfo gameInfo = gameStartEvent.game();
 
-        // gameInfo.color() indica con que colo juego
+        // gameInfo.color() indica con que color juego
         if (Enums.Color.white == gameInfo.color()) {
             this.myColor = Color.WHITE;
         } else {
             this.myColor = Color.BLACK;
         }
 
-        this.tango = tango;
-    }
-
-    public void gameWatchDog() {
-        MDC.put("gameId", gameId);
-        if (gameFullEvent != null) {
-            ZonedDateTime createdAt = gameFullEvent.createdAt();
-            ZonedDateTime now = ZonedDateTime.now();
-            long diff = now.toEpochSecond() - createdAt.toEpochSecond();
-            if (diff > 60 && moveCounter < 2) {
-                log.info("[{}] Game watchdog: game is over after {} minutes", gameId, diff / 60);
-                client.gameAbort(gameId);
-            } else {
-                log.info("[{}] Game watchdog: game is still running", gameId);
-            }
-        }
-        MDC.remove("gameId");
+        this.session = session;
+        this.session.setSearchListener(this);
     }
 
     @Override
@@ -103,8 +81,6 @@ public class LichessGame implements Runnable, SearchListener {
 
     @Override
     public void searchInfo(String searchInfo) {
-        //String pvString = String.format("%s %s", simpleMoveEncoder.encodeMoves(searchInfo.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchInfo.isPvComplete() ? "" : "*");
-        //log.info("[{}] Depth {} seldepth {} eval {} pv {}", gameId, String.format("%2d", searchInfo.getDepth()), String.format("%2d", searchInfo.getDepth()), String.format("%8d", searchInfo.getBestEvaluation()), pvString);
         log.info("[{}] {}", gameId, searchInfo);
     }
 
@@ -116,9 +92,8 @@ public class LichessGame implements Runnable, SearchListener {
     private void gameFull(GameStateEvent.Full gameFullEvent) {
         log.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
-        this.gameFullEvent = gameFullEvent;
-
         GameType gameType = gameFullEvent.gameType();
+
         Variant gameVariant = gameType.variant();
 
         if (Variant.Basic.standard.equals(gameType.variant())) {
@@ -130,9 +105,7 @@ public class LichessGame implements Runnable, SearchListener {
             throw new RuntimeException("GameVariant not supported variant");
         }
 
-        this.session = tango.newSession(startPosition);
-
-        this.session.setSearchListener(this);
+        this.session.setFen(startPosition);
 
         gameState(gameFullEvent.state());
     }
@@ -155,8 +128,6 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     private void play(GameStateEvent.State state) {
-        moveCounter = state.moveList().size();
-
         Game game = Game.from(startPosition, state.moveList());
 
         PositionReader currentChessPosition = game

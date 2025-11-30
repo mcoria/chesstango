@@ -52,7 +52,7 @@ public class UciTango implements UCIService {
     private volatile Session session;
 
     public UciTango() {
-        this(new Config(), Tango::open);
+        this(new Config().setSyncSearch(false), Tango::open);
     }
 
     public UciTango(Config tangoConfig) {
@@ -179,8 +179,12 @@ public class UciTango implements UCIService {
         }
     }
 
-    void newSession(FEN startPosition) {
-        session = tango.newSession(startPosition);
+    void newSession() {
+        session = tango.newSession();
+    }
+
+    void setSessionFEN(FEN fen) {
+        session.setFen(fen);
     }
 
     void setSessionMoves(List<String> moves) {

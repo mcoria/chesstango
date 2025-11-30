@@ -25,9 +25,7 @@ class ReadyState implements UCIEngine {
     @Setter
     private WaitCmdGoState waitCmdGoState;
 
-    volatile private FEN startPosition;
-
-    volatile private boolean loadTango;
+    private volatile boolean loadTango;
 
     ReadyState(UciTango uciTango, Config tangoConfig) {
         this.uciTango = uciTango;
@@ -53,6 +51,7 @@ class ReadyState implements UCIEngine {
     @Override
     public void do_newGame(ReqUciNewGame reqUciNewGame) {
         loadTango();
+        uciTango.newSession();
     }
 
     @Override
@@ -68,10 +67,7 @@ class ReadyState implements UCIEngine {
                 ? FEN.of(FENParser.INITIAL_FEN)
                 : FEN.of(cmdPosition.getFen());
 
-        if (this.startPosition == null || !this.startPosition.equals(startPosition)) {
-            this.startPosition = startPosition;
-            this.uciTango.newSession(startPosition);
-        }
+        uciTango.setSessionFEN(startPosition);
 
         uciTango.setSessionMoves(cmdPosition.getMoves());
 
