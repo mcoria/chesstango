@@ -34,6 +34,10 @@ public class NoIterativeDeepening implements Search {
 
     @Override
     public SearchResult startSearch(Game game) {
+        if (game.getStatus().isFinalStatus()) {
+            throw new RuntimeException("Game is already finished");
+        }
+
         accept(new SetGameVisitor(game));
 
         searchListenerMediator.triggerBeforeSearch();

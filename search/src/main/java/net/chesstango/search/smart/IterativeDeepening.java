@@ -44,6 +44,10 @@ public class IterativeDeepening implements Search {
 
     @Override
     public SearchResult startSearch(final Game game) {
+        if (game.getStatus().isFinalStatus()) {
+            throw new RuntimeException("Game is already finished");
+        }
+
         keepProcessing = true;
 
         accept(new SetGameVisitor(game));
