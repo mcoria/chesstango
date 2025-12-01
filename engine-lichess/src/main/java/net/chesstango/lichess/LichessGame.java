@@ -9,12 +9,10 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Session;
-import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENParser;
 import org.slf4j.MDC;
 
-import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
@@ -90,7 +88,7 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
-        log.info("[{}] gameFull: {}", gameId, gameFullEvent);
+        log.info("[{}] GameStateEvent.Full: {}", gameId, gameFullEvent);
 
         GameType gameType = gameFullEvent.gameType();
 
@@ -111,7 +109,7 @@ public class LichessGame implements Runnable, SearchListener {
     }
 
     private void gameState(GameStateEvent.State state) {
-        log.info("[{}] gameState: {}", gameId, state);
+        log.info("[{}] GameStateEvent.State: {}", gameId, state);
 
         Enums.Status status = state.status();
 
@@ -133,7 +131,9 @@ public class LichessGame implements Runnable, SearchListener {
         PositionReader currentChessPosition = game
                 .getPosition();
 
-        if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())) {
+        if (Objects.equals(myColor, currentChessPosition.getCurrentTurn())
+                && !game.getStatus().isFinalStatus()) {
+
             session.setMoves(state.moveList());
 
             long wTime = state.wtime().toMillis();
