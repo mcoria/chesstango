@@ -520,7 +520,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             extensionFlowControl.setTerminalNode(quiescenceTerminalChain);
             extensionFlowControl.setQuiescenceNode(quiescenceChain);
             extensionFlowControl.setLeafNode(quiescenceLeaf);
-            extensionFlowControl.setEgtbNode(egtbChain);
             extensionFlowControl.setCheckResolverNode(checkResolverChain);
             extensionFlowControl.setLoopNode(loopChain);
 

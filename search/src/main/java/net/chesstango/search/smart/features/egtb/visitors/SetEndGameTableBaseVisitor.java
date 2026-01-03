@@ -32,11 +32,6 @@ public class SetEndGameTableBaseVisitor implements Visitor {
     }
 
     @Override
-    public void visit(ExtensionFlowControl extensionFlowControl) {
-        extensionFlowControl.setEndGameTableBase(endGameTableBase);
-    }
-
-    @Override
     public void visit(EgtbEvaluation egtbEvaluation) {
         egtbEvaluation.setEndGameTableBase(endGameTableBase);
     }
