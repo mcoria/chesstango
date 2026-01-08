@@ -36,9 +36,7 @@ public class GameDebugEncoderTest {
                 "31. Rg6+ Kb5 32. Qe8+ Ka5 33. a3 Rf1 34. d6 Rhf7 35. d7 R7f2+\n" +
                 "36. Kb3 c4+ 37. Ka2 Rd1 38. d8=Q+ Rxd8 39. Qxd8+ Kb5 40. Qd5+ Ka4\n" +
                 "41. Qxc4+ Ka5 42. Qb4# 1-0";
-        Reader reader = new StringReader(lines);
-        BufferedReader bufferReader = new BufferedReader(reader);
-        PGN pgn = new PGNStringDecoder().decodePGN(bufferReader);
+        PGN pgn = new PGNStringDecoder().decodePGN(lines);
         Game game = Game.from(pgn);
 
         GameDebugEncoder gameDebugEncoder = new GameDebugEncoder();
