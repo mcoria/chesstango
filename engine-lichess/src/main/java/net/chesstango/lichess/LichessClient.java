@@ -33,6 +33,7 @@ public class LichessClient {
     public synchronized void challenge(User user, Consumer<ChallengesApiAuthCommon.ChallengeBuilder> challengeBuilderConsumer) {
         client.bot()
                 .challenge(user.id(), challengeBuilderConsumer)
+                .maybe()
                 .ifPresentOrElse(challenge -> {
                     log.info("Challenge sent successfully to {}", challenge);
                 }, () -> {
