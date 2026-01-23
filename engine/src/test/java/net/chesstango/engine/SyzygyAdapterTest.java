@@ -100,4 +100,18 @@ public class SyzygyAdapterTest {
 
         assertEquals(syzygyPositionExpected, syzygyPositionActual);
     }
+
+    @Test
+    public void testBindSyzygyPosition03() {
+        Game game = Game.from(FEN.of("8/5K2/5p2/5Pp1/8/8/3k4/8 w - g6 0 1"));
+
+        SyzygyPositionBuilder positionBuilder = new SyzygyPositionBuilder();
+        game.getPosition().export(positionBuilder);
+        SyzygyPosition syzygyPositionExpected = positionBuilder.getPositionRepresentation();
+
+        syzygyAdapter.setGame(game);
+        SyzygyPosition syzygyPositionActual = syzygyAdapter.bindSyzygyPosition();
+
+        assertEquals(syzygyPositionExpected, syzygyPositionActual);
+    }
 }

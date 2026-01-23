@@ -2,6 +2,7 @@ package net.chesstango.engine;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
@@ -115,7 +116,11 @@ class SyzygyAdapter implements EndGameTableBase {
         syzygyPosition.setKings(position.getKingPositions());
         syzygyPosition.setWhite(position.getPositions(Color.WHITE));
         syzygyPosition.setBlack(position.getPositions(Color.BLACK));
-        syzygyPosition.setRule50(position.getHalfMoveClock());
+        syzygyPosition.setRule50((byte) position.getHalfMoveClock());
+
+        Square ep = position.getEnPassantSquare();
+        syzygyPosition.setEp(ep == null ? 0 : (byte) ep.idx());
+
         syzygyPosition.setTurn(Color.WHITE.equals(position.getCurrentTurn()));
 
         return syzygyPosition;

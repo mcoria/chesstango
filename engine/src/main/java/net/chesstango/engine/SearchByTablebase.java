@@ -159,8 +159,13 @@ class SearchByTablebase implements SearchByChain {
         syzygyPosition.setKings(position.getKingPositions());
         syzygyPosition.setWhite(position.getPositions(Color.WHITE));
         syzygyPosition.setBlack(position.getPositions(Color.BLACK));
-        syzygyPosition.setRule50(position.getHalfMoveClock());
+        syzygyPosition.setRule50((byte) position.getHalfMoveClock());
+
+        Square ep = position.getEnPassantSquare();
+        syzygyPosition.setEp(ep == null ? 0 : (byte) ep.idx());
+
         syzygyPosition.setTurn(Color.WHITE.equals(position.getCurrentTurn()));
+
         return syzygyPosition;
     }
 }
