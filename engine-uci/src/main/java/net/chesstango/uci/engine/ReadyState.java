@@ -8,6 +8,9 @@ import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
 
+import static net.chesstango.uci.engine.UciOption.POLYGLOT_FILE;
+import static net.chesstango.uci.engine.UciOption.SYZYGY_PATH;
+
 
 /**
  * This class represents one of the possible states in the state design pattern for the UCI engine.
@@ -35,10 +38,10 @@ class ReadyState implements UCIEngine {
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        if ("PolyglotFile".equals(cmdSetOption.getId())) {
+        if (POLYGLOT_FILE.getId().equals(cmdSetOption.getId())) {
             tangoConfig.setPolyglotFile(cmdSetOption.getValue());
-        } else if ("SyzygyDirectory".equals(cmdSetOption.getId())) {
-            tangoConfig.setSyzygyDirectory(cmdSetOption.getValue());
+        } else if (SYZYGY_PATH.getId().equals(cmdSetOption.getId())) {
+            tangoConfig.setSyzygyPath(cmdSetOption.getValue());
         }
         this.loadTango = true;
     }

@@ -21,5 +21,5 @@ public class Config {
 
     private String polyglotFile;
 
-    private String syzygyDirectory;
+    private String syzygyPath;
 }

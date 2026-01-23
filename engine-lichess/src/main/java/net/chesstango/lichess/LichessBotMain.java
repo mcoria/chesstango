@@ -20,7 +20,7 @@ public class LichessBotMain {
 
     private static final String POLYGLOT_FILE = "POLYGLOT_FILE";
 
-    private static final String SYZYGY_DIRECTORY = "SYZYGY_DIRECTORY";
+    private static final String SYZYGY_PATH = "SYZYGY_PATH";
 
     private static final Map<String, Object> PROPERTIES = new HashMap<>();
 
@@ -42,9 +42,9 @@ public class LichessBotMain {
                 config.setPolyglotFile(polyglotFile);
             }
 
-            String syzygyDirectory = (String) PROPERTIES.get(LichessBotMain.SYZYGY_DIRECTORY);
+            String syzygyPath = (String) PROPERTIES.get(LichessBotMain.SYZYGY_PATH);
             if (Objects.nonNull(polyglotFile)) {
-                config.setSyzygyDirectory(syzygyDirectory);
+                config.setSyzygyPath(syzygyPath);
             }
 
             // Durante la busqueda se bloquea el thread principal
@@ -75,9 +75,9 @@ public class LichessBotMain {
             PROPERTIES.put(POLYGLOT_FILE, polyglotBookPath);
         }
 
-        String syzygyDirectory = System.getenv(SYZYGY_DIRECTORY);
+        String syzygyPath = System.getenv(SYZYGY_PATH);
         if (Objects.nonNull(polyglotBookPath)) {
-            PROPERTIES.put(SYZYGY_DIRECTORY, syzygyDirectory);
+            PROPERTIES.put(SYZYGY_PATH, syzygyPath);
         }
     }
 

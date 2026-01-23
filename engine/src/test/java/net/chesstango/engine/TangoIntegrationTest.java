@@ -32,7 +32,7 @@ public class TangoIntegrationTest {
     @Disabled
     public void testOpenTango() {
         config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        //config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        //config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         //config.setSyncSearch(true);
 
         try (Tango tango = Tango.open(config);) {
@@ -52,7 +52,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         config.setSearch(search);
         config.setSyncSearch(true);
 
@@ -78,7 +78,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         config.setSearch(search);
         config.setSyncSearch(true);
 
@@ -104,7 +104,7 @@ public class TangoIntegrationTest {
                 .build();
 
         //config.setPolyglotFile("C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        config.setSyzygyDirectory("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        config.setSyzygyPath("C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
         config.setSearch(search);
         config.setSyncSearch(true);
 
