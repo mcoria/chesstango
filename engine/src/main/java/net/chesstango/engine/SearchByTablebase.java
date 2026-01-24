@@ -40,15 +40,7 @@ class SearchByTablebase implements SearchByChain {
     }
 
     static SearchByTablebase open(String syzygyPath) {
-        if (syzygyPath != null) {
-            Path syzygyDirectoryPath = Path.of(syzygyPath);
-            if (Files.isDirectory(syzygyDirectoryPath)) {
-                return new SearchByTablebase(Syzygy.open(syzygyDirectoryPath));
-            } else {
-                log.error("Syzygy path '{}' not found", syzygyPath);
-            }
-        }
-        return null;
+        return new SearchByTablebase(Syzygy.open(syzygyPath));
     }
 
     @Override
