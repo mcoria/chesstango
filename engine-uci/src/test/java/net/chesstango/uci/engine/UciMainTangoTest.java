@@ -55,7 +55,7 @@ public class UciMainTangoTest {
         assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
-        assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
+        assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
         assertEquals("uciok", in.readLine());
 
         // isready command
@@ -100,12 +100,12 @@ public class UciMainTangoTest {
         assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("option name PolyglotFile type string default <empty>", in.readLine());
-        assertEquals("option name SyzygyDirectory type string default <empty>", in.readLine());
+        assertEquals("option name SyzygyPath type string default <empty>", in.readLine());
         assertEquals("uciok", in.readLine());
 
         // setoption command
         out.println("setoption name PolyglotFile value C:/java/projects/chess/chess-utils/books/openings/polyglot-collection/komodo.bin");
-        out.println("setoption name SyzygyDirectory value C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
+        out.println("setoption name SyzygyPath value C:/java/projects/chess/chess-utils/books/syzygy/3-4-5");
 
         // isready command
         out.println("isready");

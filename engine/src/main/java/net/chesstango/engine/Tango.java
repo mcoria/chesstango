@@ -1,7 +1,6 @@
 package net.chesstango.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import net.chesstango.gardel.fen.FEN;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,7 @@ public class Tango implements AutoCloseable {
                 .withSearch(config.getSearch())
                 .withEvaluator(config.getEvaluator())
                 .withPolyglotFile(config.getPolyglotFile())
-                .withSyzygyDirectory(config.getSyzygyDirectory())
+                .withSyzygyPath(config.getSyzygyPath())
                 .withInfiniteDepth(Integer.parseInt(INFINITE_DEPTH))
                 .withScheduledExecutorService(timeOutExecutor);
 

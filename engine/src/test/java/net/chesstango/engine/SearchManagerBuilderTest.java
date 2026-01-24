@@ -141,7 +141,7 @@ public class SearchManagerBuilderTest {
     }
 
     @Test
-    public void testBuildWithSyzygyDirectory() {
+    public void testBuildWithSyzygyPath() {
         when(searchManagerFactory.createSearchManager(anyInt(), any(SearchByChain.class), any(TimeMgmt.class), any(SearchInvoker.class), any(ScheduledExecutorService.class))).thenReturn(searchManager);
         when(searchManagerFactory.createSearchByAlgorithm(any(Search.class))).thenReturn(searchByTree);
         when(searchManagerFactory.createSearchInvokerAsync(any(SearchByChain.class), any(ExecutorService.class))).thenReturn(searchInvokerAsync);
@@ -152,7 +152,7 @@ public class SearchManagerBuilderTest {
                 .withExecutorService(executorService)
                 .withScheduledExecutorService(scheduledExecutorService)
                 .withInfiniteDepth(100)
-                .withSyzygyDirectory("/tmp/syzygy")
+                .withSyzygyPath("/tmp/syzygy")
                 .withAsyncInvoker()
                 .build();
 
@@ -185,7 +185,7 @@ public class SearchManagerBuilderTest {
                 .withScheduledExecutorService(scheduledExecutorService)
                 .withInfiniteDepth(100)
                 .withPolyglotFile("test.bin")
-                .withSyzygyDirectory("/tmp/syzygy")
+                .withSyzygyPath("/tmp/syzygy")
                 .withAsyncInvoker()
                 .build();
 

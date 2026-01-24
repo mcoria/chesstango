@@ -25,7 +25,7 @@ class SearchManagerBuilder {
 
     private String polyglotFile;
 
-    private String syzygyDirectory;
+    private String syzygyPath;
 
     private ExecutorService searchExecutor;
 
@@ -59,8 +59,8 @@ class SearchManagerBuilder {
         return this;
     }
 
-    public SearchManagerBuilder withSyzygyDirectory(String syzygyDirectory) {
-        this.syzygyDirectory = syzygyDirectory;
+    public SearchManagerBuilder withSyzygyPath(String syzygyPath) {
+        this.syzygyPath = syzygyPath;
         return this;
     }
 
@@ -120,8 +120,8 @@ class SearchManagerBuilder {
             }
         }
 
-        if (syzygyDirectory != null) {
-            SearchByTablebase searchByTablebase = searchManagerFactory.createSearchByTablebase(syzygyDirectory);
+        if (syzygyPath != null) {
+            SearchByTablebase searchByTablebase = searchManagerFactory.createSearchByTablebase(syzygyPath);
             if (searchByTablebase != null) {
                 searchByChains.add(searchByTablebase);
                 syzygy = searchByTablebase.getSyzygy();
@@ -193,8 +193,8 @@ class SearchManagerBuilder {
         }
 
         @Override
-        public SearchByTablebase createSearchByTablebase(String syzygyDirectory) {
-            return SearchByTablebase.open(syzygyDirectory);
+        public SearchByTablebase createSearchByTablebase(String syzygyPath) {
+            return SearchByTablebase.open(syzygyPath);
         }
 
         @Override

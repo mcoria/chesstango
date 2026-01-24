@@ -39,13 +39,13 @@ class SearchByTablebase implements SearchByChain {
         this.syzygyPosition = new SyzygyPosition();
     }
 
-    static SearchByTablebase open(String syzygyDirectory) {
-        if (syzygyDirectory != null) {
-            Path syzygyDirectoryPath = Path.of(syzygyDirectory);
+    static SearchByTablebase open(String syzygyPath) {
+        if (syzygyPath != null) {
+            Path syzygyDirectoryPath = Path.of(syzygyPath);
             if (Files.isDirectory(syzygyDirectoryPath)) {
                 return new SearchByTablebase(Syzygy.open(syzygyDirectoryPath));
             } else {
-                log.error("Syzygy directory '{}' not found", syzygyDirectory);
+                log.error("Syzygy path '{}' not found", syzygyPath);
             }
         }
         return null;
