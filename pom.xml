@@ -49,7 +49,7 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <junit-platform-suite.version>1.13.4</junit-platform-suite.version>
         <mockito-junit-jupiter.version>5.18.0</mockito-junit-jupiter.version>
-        <native.maven.plugin.version>0.11.0</native.maven.plugin.version>
+        <native.maven.plugin.version>0.11.4</native.maven.plugin.version>
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
         <gardel.version>1.0.17</gardel.version>
