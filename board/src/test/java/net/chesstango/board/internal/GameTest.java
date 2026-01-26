@@ -11,7 +11,6 @@ import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.piazzolla.polyglot.PolyglotKeyBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ public class GameTest {
 
     @Test
     public void testInitialPosition() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
 
         Assertions.assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertTrue(game.getPosition().isCastlingWhiteQueenAllowed());
@@ -42,7 +41,7 @@ public class GameTest {
 
     @Test
     public void test_mate() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
 
@@ -64,7 +63,7 @@ public class GameTest {
 
     @Test
     public void testMateAndUndo() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
 
@@ -99,7 +98,7 @@ public class GameTest {
 
     @Test
     public void testJuegoJaque() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
@@ -182,7 +181,7 @@ public class GameTest {
 
     @Test
     public void testDrawByThreeFoldRepetition() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertEquals(Status.NO_CHECK, game.getStatus());
@@ -258,7 +257,7 @@ public class GameTest {
 
     @Test
     public void testGetRepetitionCounter() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
 
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
         assertEquals(Status.NO_CHECK, game.getStatus());
@@ -311,7 +310,7 @@ public class GameTest {
 
     @Test
     public void test_undo() {
-        Game game = getGame(FENParser.INITIAL_FEN);
+        Game game = getGame(FEN.START_POSITION_STRING);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getPosition().getCurrentTurn());
@@ -917,7 +916,7 @@ public class GameTest {
     public void test_encode_with_clocks1() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         game.getPosition().export(coder);
 
@@ -930,7 +929,7 @@ public class GameTest {
     public void test_encode_with_clocks2() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         game.executeMove(Square.g1, Square.f3);
 
@@ -946,7 +945,7 @@ public class GameTest {
     public void test_encode_with_clocks3() {
         FENBuilder coder = new FENBuilder();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         game.executeMove(Square.g1, Square.f3)
                 .executeMove(Square.g8, Square.f6);
@@ -977,7 +976,7 @@ public class GameTest {
     }
 
 
-    private long getPolyglotKey(Game game){
+    private long getPolyglotKey(Game game) {
         PolyglotKeyBuilder polyglotKeyBuilder = new PolyglotKeyBuilder();
         game.getPosition().export(polyglotKeyBuilder);
         return polyglotKeyBuilder.getPositionRepresentation();

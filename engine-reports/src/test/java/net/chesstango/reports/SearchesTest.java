@@ -3,7 +3,7 @@ package net.chesstango.reports;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
+
 import net.chesstango.reports.tree.evaluation.EvaluationReport;
 import net.chesstango.reports.tree.nodes.NodesReport;
 import net.chesstango.reports.tree.pv.PrincipalVariationReport;
@@ -83,7 +83,7 @@ public class SearchesTest {
     @Test
     @Disabled
     public void testSearch_00() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         search.accept(new SetMaxDepthVisitor(6));
         searchResult = search.startSearch(game);

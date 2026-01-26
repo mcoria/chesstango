@@ -3,7 +3,7 @@ package net.chesstango.uci.engine;
 import lombok.Setter;
 import net.chesstango.engine.Config;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
+
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
 import net.chesstango.goyeneche.responses.UCIResponse;
@@ -67,7 +67,7 @@ class ReadyState implements UCIEngine {
         loadTango();
 
         FEN startPosition = ReqPosition.CmdType.STARTPOS == cmdPosition.getType()
-                ? FEN.of(FENParser.INITIAL_FEN)
+                ? FEN.START_POSITION
                 : FEN.of(cmdPosition.getFen());
 
         uciTango.setSessionFEN(startPosition);

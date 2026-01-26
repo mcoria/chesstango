@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -30,7 +29,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         moveFinder.accept(new SetMaxDepthVisitor(2));
 
         searchResult = moveFinder.startSearch(game);
@@ -60,7 +59,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         moveFinder.accept(new SetMaxDepthVisitor(2));
 
         searchResult = moveFinder.startSearch(game);
@@ -82,7 +81,7 @@ public class AlphaBetaStatisticsTest {
                 .withIterativeDeepening()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         moveFinder.accept(new SetMaxDepthVisitor(2));
         searchResult = moveFinder.startSearch(game);
@@ -103,7 +102,7 @@ public class AlphaBetaStatisticsTest {
                 .withIterativeDeepening()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         
         moveFinder.accept(new SetMaxDepthVisitor(2));
         searchResult = moveFinder.startSearch(game);
@@ -125,7 +124,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
@@ -151,7 +150,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
@@ -183,7 +182,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
@@ -210,7 +209,7 @@ public class AlphaBetaStatisticsTest {
                 .withStatistics()
                 .build();
 
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);

@@ -2,9 +2,8 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.evaluation.evaluators.EvaluatorImp04;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -51,7 +50,7 @@ public class TranspositionEntryTableTest {
 
     @Test
     public void test_01() {
-        executeTest(FENParser.INITIAL_FEN, 6);
+        executeTest(FEN.START_POSITION_STRING, 6);
     }
 
     @Test

@@ -2,7 +2,6 @@ package net.chesstango.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +54,7 @@ public class SearchManagerTest {
         timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
         expectedResult = () -> null;
 
-        game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        game = Game.from(FEN.START_POSITION);
 
         when(searchInvoker.searchImp(any(Game.class), any(Integer.class), any(Predicate.class), any(SearchListener.class)))
                 .thenAnswer(invocation -> {

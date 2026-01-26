@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.Search;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +41,7 @@ public abstract class GenericTest {
 
     @Test
     public void testDeterministicMove() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         Move bestMove = search.startSearch(game).getBestMove();
 

@@ -6,7 +6,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -154,7 +153,7 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testInitial() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         initMoveSorter(nodeMoveSorter, game);
 
@@ -170,7 +169,7 @@ public class DefaultMoveSorterTest {
 
     @Test
     public void testGamesMirror() {
-        testMirror(Game.from(FEN.of(FENParser.INITIAL_FEN)));
+        testMirror(Game.from(FEN.START_POSITION));
         testMirror(Game.from(FEN.of("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14")));
         testMirror(Game.from(FEN.of("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1")));
         testMirror(Game.from(FEN.of("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1")));

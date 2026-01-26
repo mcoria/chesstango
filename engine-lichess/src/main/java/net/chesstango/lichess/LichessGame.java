@@ -10,7 +10,7 @@ import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.engine.Session;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
+
 import org.slf4j.MDC;
 
 import java.util.Objects;
@@ -95,7 +95,7 @@ public class LichessGame implements Runnable, SearchListener {
         Variant gameVariant = gameType.variant();
 
         if (Variant.Basic.standard.equals(gameType.variant())) {
-            this.startPosition = FEN.of(FENParser.INITIAL_FEN);
+            this.startPosition = FEN.START_POSITION;
         } else if (gameVariant instanceof Variant.FromPosition fromPositionVariant) {
             Opt<String> someFen = fromPositionVariant.fen();
             this.startPosition = FEN.of(someFen.get());

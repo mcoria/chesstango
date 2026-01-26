@@ -6,7 +6,7 @@ import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.GameHistoryRecord;
-import net.chesstango.gardel.fen.FENParser;
+import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.move.SANEncoder;
 import net.chesstango.gardel.pgn.PGN;
 
@@ -25,7 +25,7 @@ public class GameToPGN {
 
         pgn.setResult(encodeGameResult(game));
 
-        if (!game.getInitialFEN().toString().equals(FENParser.INITIAL_FEN)) {
+        if (!game.getInitialFEN().toString().equals(FEN.START_POSITION_STRING)) {
             pgn.setFen(game.getInitialFEN());
         }
 
