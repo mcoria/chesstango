@@ -2,9 +2,9 @@ package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.gardel.fen.FENParser;
-import net.chesstango.gardel.fen.FENBuilder;
 import net.chesstango.evaluation.Evaluator;
+import net.chesstango.gardel.fen.FEN;
+import net.chesstango.gardel.fen.FENBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class EvaluatorByFEN implements Evaluator {
     public static EvaluatorByFEN loadEvaluations() {
         EvaluatorByFEN mock = new EvaluatorByFEN();
         mock.setDefaultValue(0);
-        mock.addEvaluation(FENParser.INITIAL_FEN, 0);
+        mock.addEvaluation(FEN.START_POSITION_STRING, 0);
 
         return mock;
     }

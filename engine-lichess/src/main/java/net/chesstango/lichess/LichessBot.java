@@ -3,14 +3,7 @@ package net.chesstango.lichess;
 import chariot.model.Event;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Tango;
-import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**

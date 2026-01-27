@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.TangoMoveSupplier;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.gardel.move.SANDecoder;
 import net.chesstango.gardel.pgn.PGN;
 
@@ -14,7 +13,7 @@ import net.chesstango.gardel.pgn.PGN;
 public class PGNToGame {
 
     public Game encode(PGN pgn) {
-        FEN fen = pgn.getFen() == null ? FEN.of(FENParser.INITIAL_FEN) : pgn.getFen();
+        FEN fen = pgn.getFen() == null ? FEN.START_POSITION : pgn.getFen();
         Game game = Game.from(fen);
         SANDecoder<Move> sanDecoder = new SANDecoder<>(new TangoMoveSupplier(game));
         pgn.getMoveList().forEach(moveStr -> {

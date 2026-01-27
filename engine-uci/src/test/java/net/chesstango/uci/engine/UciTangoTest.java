@@ -4,7 +4,7 @@ import net.chesstango.engine.Config;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
+
 import net.chesstango.goyeneche.requests.UCIRequest;
 import net.chesstango.goyeneche.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.goyeneche.stream.strings.StringConsumer;
@@ -58,7 +58,7 @@ public class UciTangoTest {
         engine.accept(UCIRequest.position(List.of("e2e4")));
 
         verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
+        verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(List.of("e2e4"));
     }
 
@@ -71,7 +71,7 @@ public class UciTangoTest {
         engine.accept(UCIRequest.position(moveList));
 
         verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
+        verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(moveList);
     }
 
@@ -88,7 +88,7 @@ public class UciTangoTest {
         engine.accept(UCIRequest.position(moveList));
 
         verify(tango, times(1)).newSession();
-        verify(session, times(1)).setFen(FEN.of(FENParser.INITIAL_FEN));
+        verify(session, times(1)).setFen(FEN.START_POSITION);
         verify(session, times(1)).setMoves(moveList);
     }
 

@@ -3,7 +3,6 @@ package net.chesstango.evaluation.evaluators;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Supplier;
@@ -35,7 +34,7 @@ public abstract class EvaluatorTestCollection {
 
     protected void testGenericFeature(Evaluator evaluator, Supplier<Integer> evaluationFunction, String fen) {
         // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         evaluator.setGame(game);
         final int eval = evaluationFunction.get();
         assertEquals(0, eval);

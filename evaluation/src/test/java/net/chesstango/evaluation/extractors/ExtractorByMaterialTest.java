@@ -3,7 +3,6 @@ package net.chesstango.evaluation.extractors;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ public class ExtractorByMaterialTest {
 
     @Test
     public void testExtractInitialPosition() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         extractorByMaterial.extractFeatures(game, featuresMap);
 

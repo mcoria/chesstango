@@ -4,11 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.gardel.epd.EPD;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.gardel.pgn.PGN;
 import net.chesstango.gardel.pgn.PGNStringEncoder;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -31,7 +29,7 @@ public class GameToPGNTest {
 
     @Test
     public void test_encodeGame1() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         game.executeMove(Square.e2, Square.e4)
                 .executeMove(Square.d7, Square.d5)
@@ -66,7 +64,7 @@ public class GameToPGNTest {
 
     @Test
     public void testToEpd() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         game.executeMove(a2, a4);
 
         PGN pgn = game.encode();
@@ -80,7 +78,7 @@ public class GameToPGNTest {
 
     @Test
     public void test_check_mate() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
 
         game.executeMove(Square.e2, Square.e4)
                 .executeMove(Square.e7, Square.e5)

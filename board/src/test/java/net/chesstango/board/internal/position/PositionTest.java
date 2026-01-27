@@ -7,7 +7,6 @@ import net.chesstango.board.builders.GameBuilderDebug;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -208,7 +207,7 @@ public class PositionTest {
 
 
     private void setupWithDefaultBoard() {
-        setupWithBoard(FENParser.INITIAL_FEN);
+        setupWithBoard(FEN.START_POSITION_STRING);
     }
 
 

@@ -4,7 +4,6 @@ package net.chesstango.evaluation.evaluators;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -52,7 +51,7 @@ public class EvaluatorImp02Test extends EvaluatorTestCollection {
     @Test
     public void testEvaluateByMaterial() {
         // El puntaje de cada termino es 0 en la posicion inicial
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         evaluator.setGame(game);
         final int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);
@@ -78,7 +77,7 @@ public class EvaluatorImp02Test extends EvaluatorTestCollection {
 
     @Test
     public void testEvaluateByMaterial02() {
-        Game game = Game.from(FEN.of(FENParser.INITIAL_FEN));
+        Game game = Game.from(FEN.START_POSITION);
         evaluator.setGame(game);
         int eval = evaluator.evaluateByMaterial();
         assertEquals(0, eval);

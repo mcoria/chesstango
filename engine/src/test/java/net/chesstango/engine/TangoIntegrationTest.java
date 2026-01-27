@@ -2,7 +2,6 @@ package net.chesstango.engine;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.gardel.fen.FENParser;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,7 +130,7 @@ public class TangoIntegrationTest {
 
             try (Tango tango = Tango.open(config)) {
                 Session session = tango.newSession();
-                session.setFen(FEN.of(FENParser.INITIAL_FEN));
+                session.setFen(FEN.START_POSITION);
                 session.setMoves(Arrays.asList(movesArray));
                 session.goDepth(1);
             }
