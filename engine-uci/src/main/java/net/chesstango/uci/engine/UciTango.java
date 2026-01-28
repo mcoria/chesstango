@@ -110,12 +110,6 @@ public class UciTango implements UCIService {
     }
 
     @Override
-    public synchronized void accept(UCICommand command) {
-        log.trace("tango << {}", command);
-        engineExecutor.accept(command);
-    }
-
-    @Override
     public void open() {
         // State pattern initialization: different state instances are created and linked with one another to 
         // represent the allowable transitions within the state lifecycle of the engine.
@@ -143,12 +137,18 @@ public class UciTango implements UCIService {
         }
     }
 
+    @Override
+    public synchronized void accept(UCICommand command) {
+        log.trace("tango << {}", command);
+        engineExecutor.accept(command);
+    }
+
     // Package visibility is used here because this method is intended to be accessed only by other engine-state classes
     // within the same package (e.g., state classes like ReadyState or EndState) to enable state transitions and responses.
     synchronized void reply(UCIEngine newState, UCICommand command) {
         log.trace("tango >> {}", command);
-        outputStream.accept(command);
         changeState(newState);
+        outputStream.accept(command);
     }
 
 
