@@ -164,6 +164,7 @@ public class UciTango implements UCIService {
      * within the same package.
      */
     synchronized void changeState(UCIEngine newState) {
+        log.trace("Changing state from {} to {}", currentState.getClass().getSimpleName(), newState.getClass().getSimpleName());
         currentState = newState;
     }
 
