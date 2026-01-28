@@ -191,7 +191,7 @@ public class UciTango implements UCIService {
         session.setMoves(moves);
     }
 
-    public void stopSearching() {
+    void stopSearching() {
         session.stopSearching();
     }
 

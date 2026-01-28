@@ -53,4 +53,9 @@ class WaitCmdGoState implements UCIEngine {
 
         cmdGo.execute(cmdGoExecutor);
     }
+
+    @Override
+    public void do_quit(ReqQuit cmdQuit) {
+        uciTango.changeState(new EndState());
+    }
 }
