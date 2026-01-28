@@ -76,14 +76,12 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
     @Override
     public void searchInfo(String searchInfo) {
-        log.debug(searchInfo);
         countDownLatch.countDown();
         searchListener.searchInfo(searchInfo);
     }
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        log.debug(searchResult.toString());
         // Esta linea garantiza que se cancele stopTask inmediatamente termina la búsqueda
         if (!stopTask.isDone()) {
             stopTask.cancel(false);

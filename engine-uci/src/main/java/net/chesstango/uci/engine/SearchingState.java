@@ -63,6 +63,11 @@ class SearchingState implements UCIEngine, SearchListener {
     }
 
     @Override
+    public void searchStarted() {
+        log.debug("Search started");
+    }
+
+    @Override
     public void searchInfo(String searchInfo) {
         uciTango.reply(this, UCIResponse.info(searchInfo));
     }
