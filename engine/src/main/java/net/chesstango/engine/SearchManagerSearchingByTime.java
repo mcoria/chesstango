@@ -43,12 +43,14 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
     @Override
     public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        throw new RuntimeException("Search is in progress");
+        log.warn("Search is in progress");
+        return null;
     }
 
     @Override
     public Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        throw new RuntimeException("Search is in progress");
+        log.warn("Search is in progress");
+        return null;
     }
 
     @Override
@@ -68,23 +70,23 @@ class SearchManagerSearchingByTime implements SearchManagerState, SearchListener
 
     @Override
     public void searchStarted() {
-        searchListener.searchStarted();
         stopTask = timeOutExecutor.schedule(this::stopSearchingImp, timeOut, TimeUnit.MILLISECONDS);
+        searchListener.searchStarted();
     }
 
     @Override
     public void searchInfo(String searchInfo) {
-        searchListener.searchInfo(searchInfo);
         countDownLatch.countDown();
+        searchListener.searchInfo(searchInfo);
     }
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        searchListener.searchFinished(searchResult);
         // Esta linea garantiza que se cancele stopTask inmediatamente termina la búsqueda
         if (!stopTask.isDone()) {
             stopTask.cancel(false);
         }
         searchManager.setCurrentSearchManagerState(searchManager.createReadyState());
+        searchListener.searchFinished(searchResult);
     }
 }

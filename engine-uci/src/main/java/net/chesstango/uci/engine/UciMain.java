@@ -38,7 +38,7 @@ public class UciMain implements Runnable {
             try (InputStream configStream = new FileInputStream(julFile)) {
                 LogManager.getLogManager().readConfiguration(configStream);
             } catch (IOException e) {
-                System.err.println(e);
+                log.error("e: ", e);
                 System.exit(1);
             }
         }

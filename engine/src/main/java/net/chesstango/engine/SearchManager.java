@@ -58,6 +58,7 @@ class SearchManager implements AutoCloseable {
     }
 
     synchronized void setCurrentSearchManagerState(SearchManagerState currentSearchManagerState) {
+        log.trace("Changing state from {} to {}", this.currentSearchManagerState != null ? this.currentSearchManagerState.getClass().getSimpleName() : "-", currentSearchManagerState.getClass().getSimpleName());
         this.currentSearchManagerState = currentSearchManagerState;
     }
 

@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.engine.SearchListener;
 import net.chesstango.engine.SearchResponse;
@@ -17,6 +18,7 @@ import net.chesstango.goyeneche.responses.UCIResponse;
  *
  * @author Mauricio Coria
  */
+@Slf4j
 class SearchingState implements UCIEngine, SearchListener {
     private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
@@ -31,12 +33,12 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_uci(ReqUci cmdUci) {
-        throw new RuntimeException("Unable to process position command. Tango is still searching.");
+        log.warn("Unable to process uci command. Tango is still searching.");
     }
 
     @Override
     public void do_setOption(ReqSetOption cmdSetOption) {
-        throw new RuntimeException("Unable to process position command. Tango is still searching.");
+        log.warn("Unable to process option command. Tango is still searching.");
     }
 
     @Override
@@ -57,7 +59,12 @@ class SearchingState implements UCIEngine, SearchListener {
 
     @Override
     public void do_position(ReqPosition cmdPosition) {
-        throw new RuntimeException("Unable to process position command. Tango is still searching.");
+        log.warn("Unable to process position command. Tango is still searching.");
+    }
+
+    @Override
+    public void searchStarted() {
+        log.debug("Search started");
     }
 
     @Override

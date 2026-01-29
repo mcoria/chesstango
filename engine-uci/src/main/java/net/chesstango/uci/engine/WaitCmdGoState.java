@@ -3,6 +3,7 @@ package net.chesstango.uci.engine;
 import lombok.Setter;
 import net.chesstango.goyeneche.UCIEngine;
 import net.chesstango.goyeneche.requests.*;
+import net.chesstango.goyeneche.responses.UCIResponse;
 
 /**
  * The WaitCmdGoState class represents a specific state in the State design pattern implementation for the UCI engine workflow in a chess engine.
@@ -52,5 +53,15 @@ class WaitCmdGoState implements UCIEngine {
         uciTango.changeState(searchingState);
 
         cmdGo.execute(cmdGoExecutor);
+    }
+
+    @Override
+    public void do_isReady(ReqIsReady cmdIsReady) {
+        uciTango.reply(this, UCIResponse.readyok());
+    }
+
+    @Override
+    public void do_quit(ReqQuit cmdQuit) {
+        uciTango.changeState(new EndState());
     }
 }

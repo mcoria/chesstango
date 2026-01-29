@@ -29,12 +29,14 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
 
     @Override
     public Future<SearchResponse> searchTimeOutImp(Game game, int timeOut, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        throw new RuntimeException("Search is in progress");
+        log.warn("Search is in progress");
+        return null;
     }
 
     @Override
     public Future<SearchResponse> searchDepthImp(Game game, int depth, Predicate<SearchResultByDepth> searchPredicate, SearchListener searchListener) {
-        throw new RuntimeException("Search is in progress");
+        log.warn("Search is in progress");
+        return null;
     }
 
     @Override
@@ -59,13 +61,13 @@ class SearchManagerSearchingByDepth implements SearchManagerState, SearchListene
 
     @Override
     public void searchInfo(String searchInfo) {
-        searchListener.searchInfo(searchInfo);
         countDownLatch.countDown();
+        searchListener.searchInfo(searchInfo);
     }
 
     @Override
     public void searchFinished(SearchResponse searchResult) {
-        searchListener.searchFinished(searchResult);
         searchManager.setCurrentSearchManagerState(searchManager.createReadyState());
+        searchListener.searchFinished(searchResult);
     }
 }
