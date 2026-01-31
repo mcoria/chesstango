@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 
 /**
@@ -25,7 +26,7 @@ import java.util.Optional;
  */
 @Slf4j
 class SearchByOpenBook implements SearchByChain {
-    private static final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+    private final Random random = new Random();
 
     @Setter
     private SearchByChain next;
@@ -91,9 +92,30 @@ class SearchByOpenBook implements SearchByChain {
     private Optional<PolyglotEntry> searchByBook(Game game) {
         List<PolyglotEntry> polyglotEntries = book.search(game.getPosition().getZobristHash());
         if (polyglotEntries != null && !polyglotEntries.isEmpty()) {
-            return Optional.of(polyglotEntries.getFirst());
+            return Optional.of(selectRandomEntry(polyglotEntries));
         }
         return Optional.empty();
+    }
+
+    /**
+     * Selects weighted random entry from available entries
+     */
+    private PolyglotEntry selectRandomEntry(List<PolyglotEntry> entries) {
+        long totalWeight = entries.stream()
+                .mapToLong(PolyglotEntry::weight)
+                .sum();
+
+        long randomValue = random.nextLong(totalWeight);
+        int cumulative = 0;
+
+        for (PolyglotEntry entry : entries) {
+            cumulative += entry.weight();
+            if (randomValue < cumulative) {
+                return entry;
+            }
+        }
+
+        return entries.getFirst();
     }
 
 
@@ -104,6 +126,8 @@ class SearchByOpenBook implements SearchByChain {
 
         if (optMove.isPresent()) {
             searchResponse = new SearchByOpenBookResult(optMove.get(), polyglotEntry);
+        } else {
+            log.warn("Move not found for game='{}' and polyglotEntry='{}'", game.getCurrentFEN(), polyglotEntry);
         }
 
         return searchResponse;
@@ -138,7 +162,8 @@ class SearchByOpenBook implements SearchByChain {
         Move move = possibleMoves.getMove(from, to);
 
         if (move != null) {
-            log.debug("Move found: {}", simpleMoveEncoder.encode(move));
+
+            log.debug("Move found: {}", SimpleMoveEncoder.INSTANCE.encode(move));
 
             return Optional.of(move);
         } else {
