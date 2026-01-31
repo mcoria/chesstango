@@ -100,7 +100,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         }
         debugOut.print("Search by depth completed\n");
         debugOut.printf("bestMove=%s; evaluation=%d; ", simpleMoveEncoder.encode(result.getBestMove()), result.getBestEvaluation());
-        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encodeMoves(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
+        debugOut.printf("depth %d seldepth %d pv %s\n\n", result.getDepth(), result.getDepth(), simpleMoveEncoder.encode(result.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()));
     }
 
     @Override

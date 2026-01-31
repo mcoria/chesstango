@@ -6,8 +6,6 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -47,7 +45,7 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
     Consumer<SearchResultByDepth> wrapSearchListener(SearchListener searchListener) {
         return searchResultByDepth -> {
             String pv = simpleMoveEncoder
-                    .encodeMoves(searchResultByDepth
+                    .encode(searchResultByDepth
                             .getPrincipalVariation()
                             .stream()
                             .map(PrincipalVariation::move)

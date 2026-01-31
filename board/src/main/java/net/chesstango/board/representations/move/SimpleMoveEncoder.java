@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class SimpleMoveEncoder {
 
+    public static final SimpleMoveEncoder INSTANCE = new SimpleMoveEncoder();
+
     public String encode(Move move) {
         String promotionStr = "";
         if (move instanceof MovePromotion movePromotion) {
@@ -24,7 +26,7 @@ public class SimpleMoveEncoder {
         return String.format("%s%s%s", move.getFrom().square().toString(), move.getTo().square().toString(), promotionStr);
     }
 
-    public String encodeMoves(List<Move> moves) {
+    public String encode(List<Move> moves) {
         if (moves == null) {
             return "-";
         } else {
