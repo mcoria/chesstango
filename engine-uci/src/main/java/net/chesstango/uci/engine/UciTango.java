@@ -131,7 +131,9 @@ public class UciTango implements UCIService {
     @Override
     public void close() {
         try {
-            tango.close();
+            if (tango != null) {
+                tango.close();
+            }
         } catch (Exception e) {
             log.error("Failed to close tango", e);
         }
@@ -171,9 +173,7 @@ public class UciTango implements UCIService {
     void loadTango() {
         log.debug("Loading tango");
         try {
-            if (tango != null) {
-                tango.close();
-            }
+            close();
             tango = tangoFactory.apply(tangoConfig);
         } catch (Exception e) {
             throw new RuntimeException(e);
