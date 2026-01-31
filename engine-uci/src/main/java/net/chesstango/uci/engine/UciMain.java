@@ -1,7 +1,6 @@
 package net.chesstango.uci.engine;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.chesstango.engine.Tango;
 import net.chesstango.goyeneche.UCIService;
@@ -12,7 +11,9 @@ import net.chesstango.goyeneche.stream.strings.StringConsumer;
 import net.chesstango.goyeneche.stream.strings.StringSupplier;
 
 import java.io.*;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * @author Mauricio Coria
@@ -34,7 +35,15 @@ public class UciMain implements Runnable {
 
     public static void main(String[] args) {
         String julFile = System.getProperty("java.util.logging.config.file");
-        if (julFile != null) {
+        if (julFile == null) {
+            // Get the root logger
+            Logger rootLogger = LogManager.getLogManager().getLogger("");
+            // By default set the level to OFF
+            rootLogger.setLevel(Level.OFF);
+        } else {
+            // GralVM hace caso omiso de java.util.logging.config.file y configura LogManager a su antojo (loggea a consola)
+            // Aca basicamente forzamos el mecanismo del JDK
+            // NO QUITAR ESTA SECCION DE LO CONTRARIO NO CARGA el archivo de configuracion cuando se ejecuta una imagen nativa
             try (InputStream configStream = new FileInputStream(julFile)) {
                 LogManager.getLogManager().readConfiguration(configStream);
             } catch (IOException e) {
