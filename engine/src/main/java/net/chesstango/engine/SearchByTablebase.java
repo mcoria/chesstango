@@ -13,8 +13,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.IOException;
 
 import static net.chesstango.piazzolla.syzygy.Syzygy.*;
 
@@ -56,15 +55,14 @@ class SearchByTablebase implements SearchByChain {
 
     @Override
     public void close() throws Exception {
-        /*
         try {
-            syzygy.close();
-            System.err.println("Error closing opening book");
+            if (syzygy != null) {
+                syzygy.close();
+            }
         } catch (IOException e) {
-            System.err.println("Error closing opening book");
+            log.error("Error closing syzygy tablebases", e);
             e.printStackTrace(System.err);
         }
-         */
         next.close();
     }
 
@@ -138,7 +136,6 @@ class SearchByTablebase implements SearchByChain {
             default -> "UNKNOWN";
         };
     }
-
 
 
     SyzygyPosition bindSyzygyPosition(Game game) {

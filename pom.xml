@@ -55,7 +55,7 @@
         <gardel.version>1.1.1</gardel.version>
 
         <!-- Polyglot opening books and Syzygy endgame tablebases -->
-        <piazzolla.version>1.1.1</piazzolla.version>
+        <piazzolla.version>1.1.2</piazzolla.version>
 
         <!-- UCI communication protocol-->
         <goyeneche.version>1.0.11</goyeneche.version>

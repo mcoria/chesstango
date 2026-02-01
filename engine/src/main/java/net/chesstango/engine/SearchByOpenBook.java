@@ -72,6 +72,7 @@ class SearchByOpenBook implements SearchByChain {
                 book.close();
             } catch (IOException e) {
                 log.error("Error closing opening book", e);
+                e.printStackTrace(System.err);
             }
         }
         next.close();
