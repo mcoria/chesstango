@@ -4,11 +4,11 @@
     <groupId>net.chesstango</groupId>
     <artifactId>engine-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.0</version>
+    <version>1.4.0-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/mcoria/chesstango.git</developerConnection>
-        <tag>v1.3.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>
@@ -69,37 +69,37 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>board</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>evaluation</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>search</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine-uci</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine-lichess</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>engine-reports</artifactId>
-                <version>1.3.0</version>
+                <version>1.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
