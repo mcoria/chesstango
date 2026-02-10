@@ -24,7 +24,7 @@ public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
         Map<Integer, List<DebugOperationTT>> valueToDebugNodeTTMap = new HashMap<>();
 
         sorterReads.forEach(debugNodeTT -> {
-            int ttValue = AlphaBetaHelper.decodeValue(debugNodeTT.getEntry().getMovesAndValue());
+            int ttValue = AlphaBetaHelper.decodeValue(debugNodeTT.getEntry().getMoveAndValue());
             List<DebugOperationTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);
         });

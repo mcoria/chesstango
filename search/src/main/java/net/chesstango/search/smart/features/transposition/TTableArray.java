@@ -38,7 +38,7 @@ public class TTableArray implements TTable {
         TranspositionEntry entry = getForWrite(hash);
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.movesAndValue = movesAndValue;
+        entry.moveAndValue = movesAndValue;
         entry.transpositionBound = bound;
         return entry;
     }

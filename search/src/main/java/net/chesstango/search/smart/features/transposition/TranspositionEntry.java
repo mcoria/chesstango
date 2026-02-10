@@ -17,14 +17,14 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
 
     public long hash;
     public int searchDepth;
-    public long movesAndValue;
+    public long moveAndValue;
     public TranspositionBound transpositionBound;
 
 
     public void reset() {
         hash = 0;
         searchDepth = 0;
-        movesAndValue = 0;
+        moveAndValue = 0;
         transpositionBound = null;
     }
 
@@ -33,14 +33,14 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
         return new TranspositionEntry()
                 .setHash(hash)
                 .setSearchDepth(searchDepth)
-                .setMovesAndValue(movesAndValue)
+                .setMoveAndValue(moveAndValue)
                 .setTranspositionBound(transpositionBound);
     }
 
     @Override
     public int compareTo(TranspositionEntry other) {
-        int moveValue1 = AlphaBetaHelper.decodeValue(movesAndValue);
-        int moveValue2 = AlphaBetaHelper.decodeValue(other.movesAndValue);
+        int moveValue1 = AlphaBetaHelper.decodeValue(moveAndValue);
+        int moveValue2 = AlphaBetaHelper.decodeValue(other.moveAndValue);
 
         int result = Integer.compare(moveValue1, moveValue2);
 

@@ -82,7 +82,7 @@ public class TTableDebug implements TTable, Acceptor {
                 TranspositionEntry entryWrite = new TranspositionEntry()
                         .setHash(hash)
                         .setSearchDepth(searchDepth)
-                        .setMovesAndValue(movesAndValue)
+                        .setMoveAndValue(movesAndValue)
                         .setTranspositionBound(transpositionBound);
 
                 currentNode.getEntryWrite().add(new DebugOperationTT()

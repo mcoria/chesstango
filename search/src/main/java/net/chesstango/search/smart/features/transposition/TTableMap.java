@@ -20,7 +20,7 @@ public class TTableMap implements TTable {
         TranspositionEntry entry = table.computeIfAbsent(hash, key -> new TranspositionEntry());
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.movesAndValue = movesAndValue;
+        entry.moveAndValue = movesAndValue;
         entry.transpositionBound = bound;
         return entry;
     }

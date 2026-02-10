@@ -64,7 +64,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                             table,
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getSearchDepth(),
-                            entry.getMovesAndValue(),
+                            entry.getMoveAndValue(),
                             entry.getTranspositionBound(),
                             ttOperation.getMove()
                     );

@@ -37,7 +37,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                     DebugOperationTT candidateWriteTT = candidate.getEntryWrite().getFirst();
                     DebugOperationTT debugNodeReadTT = debugNode.getEntryRead().getFirst();
                     if (candidateWriteTT.getTableType().equals(debugNodeReadTT.getTableType()) &&
-                            candidateWriteTT.getEntry().getMovesAndValue() == debugNodeReadTT.getEntry().getMovesAndValue()) {
+                            candidateWriteTT.getEntry().getMoveAndValue() == debugNodeReadTT.getEntry().getMoveAndValue()) {
                         DebugNode qNode = candidate.getChildNodes().getFirst();
                         for (int i = 0; i < Math.min(qNode.getChildNodes().size(), debugNode.getChildNodes().size()); i++) {
                             if (qNode.getChildNodes().get(i).getZobristHash() != debugNode.getChildNodes().get(i).getZobristHash()) {
