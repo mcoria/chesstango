@@ -33,7 +33,7 @@ public class AlphaBetaHelper {
         return (int) (encodedMovesAndValue & INTEGER_MASK);
     }
 
-    public static short decodeBestMove(long encodedMovesAndValue) {
+    public static short decodeMove(long encodedMovesAndValue) {
         return (short) ((encodedMovesAndValue >> MOVE_SHIFT) & SHORT_MASK);
     }
 }

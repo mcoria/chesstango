@@ -43,7 +43,7 @@ public class TranspositionEntryTest {
     public void testDecodeMovesAndValue() {
         long encodedMoveAndValue = 0b00000000_10101010_10101010_00000000_11111111_11111111_11111111_11111111L;
 
-        short bestMove = AlphaBetaHelper.decodeBestMove(encodedMoveAndValue);
+        short bestMove = AlphaBetaHelper.decodeMove(encodedMoveAndValue);
         int value = AlphaBetaHelper.decodeValue(encodedMoveAndValue);
 
         assertEquals((short) 0b10101010_10101010, bestMove);

@@ -96,7 +96,7 @@ public class TranspositionPV implements AlphaBetaFilter {
         principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
         final int bestValue = AlphaBetaHelper.decodeValue(moveAndValue);
-        final short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(moveAndValue);
+        final short bestMoveEncoded = AlphaBetaHelper.decodeMove(moveAndValue);
 
 
         long currentHash = game.getPosition().getZobristHash();
@@ -139,7 +139,7 @@ public class TranspositionPV implements AlphaBetaFilter {
             long hash = game.getPosition().getZobristHash();
             TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
             if (entry != null && TranspositionBound.EXACT.equals(entry.transpositionBound)) {
-                short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(entry.movesAndValue);
+                short bestMoveEncoded = AlphaBetaHelper.decodeMove(entry.movesAndValue);
                 result = getMove(bestMoveEncoded);
             }
         }

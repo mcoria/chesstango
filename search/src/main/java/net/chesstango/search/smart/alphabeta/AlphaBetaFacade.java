@@ -37,7 +37,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
                 alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
         final int bestValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
-        final short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(bestMoveAndValue);
+        final short bestMoveEncoded = AlphaBetaHelper.decodeMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {
