@@ -39,7 +39,7 @@ public abstract class TranspositionHeadMoveComparatorAbstract implements MoveCom
                 maxMap.read(hash) : minMap.read(hash);
 
         if (Objects.nonNull(entry)) {
-            bestMoveEncoded = AlphaBetaHelper.decodeMove(entry.moveAndValue);
+            bestMoveEncoded = entry.getMove();
         } else {
             bestMoveEncoded = 0;
         }

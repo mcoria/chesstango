@@ -36,14 +36,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = maxMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = AlphaBetaHelper.decodeValue(entry.moveAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.moveAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.moveAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.moveAndValue;
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
             }
         }
 
@@ -67,14 +66,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = minMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = AlphaBetaHelper.decodeValue(entry.moveAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.moveAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.moveAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.moveAndValue;
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
             }
         }
 

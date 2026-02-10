@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.features.debug.traps.predicates;
 
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
@@ -24,7 +23,7 @@ public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
         Map<Integer, List<DebugOperationTT>> valueToDebugNodeTTMap = new HashMap<>();
 
         sorterReads.forEach(debugNodeTT -> {
-            int ttValue = AlphaBetaHelper.decodeValue(debugNodeTT.getEntry().getMoveAndValue());
+            int ttValue = debugNodeTT.getEntry().getValue();
             List<DebugOperationTT> list = valueToDebugNodeTTMap.computeIfAbsent(ttValue, key -> new ArrayList<>());
             list.add(debugNodeTT);
         });

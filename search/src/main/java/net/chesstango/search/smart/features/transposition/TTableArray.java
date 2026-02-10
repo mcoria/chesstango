@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.features.transposition;
 
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+
 /**
  * @author Mauricio Coria
  */
@@ -38,7 +40,8 @@ public class TTableArray implements TTable {
         TranspositionEntry entry = getForWrite(hash);
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.moveAndValue = movesAndValue;
+        entry.move = AlphaBetaHelper.decodeMove(movesAndValue);
+        entry.value = AlphaBetaHelper.decodeValue(movesAndValue);
         entry.transpositionBound = bound;
         return entry;
     }

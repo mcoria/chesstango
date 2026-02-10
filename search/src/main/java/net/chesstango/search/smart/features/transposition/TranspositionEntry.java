@@ -3,7 +3,6 @@ package net.chesstango.search.smart.features.transposition;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 import java.io.Serializable;
 
@@ -17,14 +16,17 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
 
     public long hash;
     public int searchDepth;
-    public long moveAndValue;
+    public short move;
+    public int value;
+    ;
     public TranspositionBound transpositionBound;
 
 
     public void reset() {
         hash = 0;
         searchDepth = 0;
-        moveAndValue = 0;
+        move = 0;
+        value = 0;
         transpositionBound = null;
     }
 
@@ -33,16 +35,14 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
         return new TranspositionEntry()
                 .setHash(hash)
                 .setSearchDepth(searchDepth)
-                .setMoveAndValue(moveAndValue)
+                .setMove(move)
+                .setValue(value)
                 .setTranspositionBound(transpositionBound);
     }
 
     @Override
     public int compareTo(TranspositionEntry other) {
-        int moveValue1 = AlphaBetaHelper.decodeValue(moveAndValue);
-        int moveValue2 = AlphaBetaHelper.decodeValue(other.moveAndValue);
-
-        int result = Integer.compare(moveValue1, moveValue2);
+        int result = Integer.compare(value, other.value);
 
         if (result == 0) {
             if (TranspositionBound.LOWER_BOUND.equals(transpositionBound) && !TranspositionBound.LOWER_BOUND.equals(other.transpositionBound)) {

@@ -115,11 +115,11 @@ public class SearchTracker {
             final short moveEncoded = move.binaryEncoding();
 
             entryReads.stream()
-                    .filter(debugNodeTT -> moveEncoded == AlphaBetaHelper.decodeMove(debugNodeTT.getEntry().getMoveAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             entryWrites.stream()
-                    .filter(debugNodeTT -> moveEncoded == AlphaBetaHelper.decodeMove(debugNodeTT.getEntry().getMoveAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
         }
@@ -131,12 +131,12 @@ public class SearchTracker {
         entryReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(AlphaBetaHelper.decodeMove(debugNodeTT.getEntry().getMoveAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
 
         entryWrites
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(AlphaBetaHelper.decodeMove(debugNodeTT.getEntry().getMoveAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
     }
 
 
@@ -165,7 +165,7 @@ public class SearchTracker {
             // Transposition Head Access
             sorterReads.stream()
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                    .filter(debugNodeTT -> moveEncoded == AlphaBetaHelper.decodeMove(debugNodeTT.getEntry().getMoveAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             // Transposition Tail Access

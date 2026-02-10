@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.features.transposition;
 
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,8 @@ public class TTableMap implements TTable {
         TranspositionEntry entry = table.computeIfAbsent(hash, key -> new TranspositionEntry());
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.moveAndValue = movesAndValue;
+        entry.move = AlphaBetaHelper.decodeMove(movesAndValue);
+        entry.value = AlphaBetaHelper.decodeValue(movesAndValue);
         entry.transpositionBound = bound;
         return entry;
     }

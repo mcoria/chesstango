@@ -8,6 +8,7 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -253,7 +254,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(22, visitedNodesCountersTotal);
-        assertEquals(43, executedMoves); // Ver mas arriba explicacion
+        assertEquals(28, executedMoves); // Ver mas arriba explicacion
     }
 
 

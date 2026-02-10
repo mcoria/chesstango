@@ -81,8 +81,8 @@ public class TTDump implements SearchByDepthListener, Acceptor {
 
                 TranspositionEntry tableEntry = entry.getValue();
                 dos.writeInt(tableEntry.searchDepth);
-                dos.writeLong(tableEntry.moveAndValue);
-                //dos.writeInt(tableEntry.value);
+                dos.writeShort(tableEntry.move);
+                dos.writeInt(tableEntry.value);
                 //dos.writeByte(TranspositionType.encode(tableEntry.transpositionType));
 
                 //dos.writeLong(tableEntry.qBestMoveAndValue);
