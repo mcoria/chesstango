@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
@@ -30,7 +30,7 @@ public class TriangularPV implements AlphaBetaFilter {
         cleanNextWorkingArray(currentPly);
 
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         if (currentValue < beta) {
             updatePVTable(currentPly);
@@ -44,7 +44,7 @@ public class TriangularPV implements AlphaBetaFilter {
         cleanNextWorkingArray(currentPly);
 
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         if (currentValue > alpha) {
             updatePVTable(currentPly);

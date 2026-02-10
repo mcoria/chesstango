@@ -11,7 +11,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -84,7 +84,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
 
         for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {
-                return TranspositionEntry.encode(evaluatedMove.move(), evaluatedMove.evaluation());
+                return AlphaBetaHelper.encode(evaluatedMove.move(), evaluatedMove.evaluation());
             }
         }
 
@@ -97,7 +97,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
 
 
     protected void trackMoveEvaluation(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         MoveEvaluationType moveEvaluationType = null;
 

@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -37,7 +37,7 @@ public class DebugFilter implements AlphaBetaFilter {
 
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         debugNode.setValue(currentValue);
 
@@ -61,7 +61,7 @@ public class DebugFilter implements AlphaBetaFilter {
 
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         debugNode.setValue(currentValue);
 

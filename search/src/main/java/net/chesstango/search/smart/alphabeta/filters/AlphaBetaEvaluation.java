@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -21,11 +20,11 @@ public class AlphaBetaEvaluation implements AlphaBetaFilter {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(evaluator.evaluate());
+        return AlphaBetaHelper.encode(evaluator.evaluate());
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(evaluator.evaluate());
+        return AlphaBetaHelper.encode(evaluator.evaluate());
     }
 }

@@ -10,7 +10,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -102,8 +102,8 @@ public class MoveEvaluationTrackerTest {
     public void test03() {
         AlphaBetaFunction fn = mock(AlphaBetaFunction.class);
         when(fn.search(0, -500, 500))
-                .thenReturn(TranspositionEntry.encode(-1000))
-                .thenReturn(TranspositionEntry.encode(1000));
+                .thenReturn(AlphaBetaHelper.encode(-1000))
+                .thenReturn(AlphaBetaHelper.encode(1000));
 
 
         Game game = Game.from(FEN.START_POSITION);

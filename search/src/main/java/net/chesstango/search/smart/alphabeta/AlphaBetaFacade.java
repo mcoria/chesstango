@@ -11,7 +11,7 @@ import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
@@ -36,8 +36,8 @@ public class AlphaBetaFacade implements SearchAlgorithm {
                 alphaBetaFilter.maximize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE) :
                 alphaBetaFilter.minimize(0, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
 
-        final int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
-        final short bestMoveEncoded = TranspositionEntry.decodeBestMove(bestMoveAndValue);
+        final int bestValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
+        final short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {

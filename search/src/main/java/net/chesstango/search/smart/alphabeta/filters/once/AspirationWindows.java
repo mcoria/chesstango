@@ -6,7 +6,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 import java.util.Objects;
 
@@ -59,7 +59,7 @@ public class AspirationWindows implements AlphaBetaFilter {
 
             bestMoveAndValue = fn.search(currentPly, alphaBound, betaBound);
 
-            bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+            bestValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
             if (bestValue <= alphaBound) {
                 if (alpha < bestValue) {

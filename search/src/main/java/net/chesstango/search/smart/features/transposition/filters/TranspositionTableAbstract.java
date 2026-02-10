@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -35,7 +36,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = maxMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
+            int value = AlphaBetaHelper.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
                 return entry.movesAndValue;
@@ -66,7 +67,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = minMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
+            int value = AlphaBetaHelper.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
                 return entry.movesAndValue;
@@ -89,7 +90,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     }
 
     protected void writeTransposition(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
-        int value = TranspositionEntry.decodeValue(moveAndValue);
+        int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;
         if (beta <= value) {

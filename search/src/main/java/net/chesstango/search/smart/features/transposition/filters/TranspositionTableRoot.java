@@ -5,9 +5,9 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -59,7 +59,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     }
 
     protected void updateEntry(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
-        int value = TranspositionEntry.decodeValue(moveAndValue);
+        int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         //TranspositionBound transpositionBound;
         if (beta <= value) {

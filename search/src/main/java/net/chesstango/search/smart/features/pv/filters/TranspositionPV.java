@@ -9,6 +9,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -75,7 +76,7 @@ public class TranspositionPV implements AlphaBetaFilter {
 
 
     private long process(int alpha, int beta, long moveAndValue) {
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
             calculatePrincipalVariation(moveAndValue);
@@ -94,8 +95,8 @@ public class TranspositionPV implements AlphaBetaFilter {
         final Move lastMove = game.getHistory().peekLastRecord().playedMove();
         principalVariation.add(new PrincipalVariation(lastHash, lastMove));
 
-        final int bestValue = TranspositionEntry.decodeValue(moveAndValue);
-        final short bestMoveEncoded = TranspositionEntry.decodeBestMove(moveAndValue);
+        final int bestValue = AlphaBetaHelper.decodeValue(moveAndValue);
+        final short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(moveAndValue);
 
 
         long currentHash = game.getPosition().getZobristHash();
@@ -138,7 +139,7 @@ public class TranspositionPV implements AlphaBetaFilter {
             long hash = game.getPosition().getZobristHash();
             TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
             if (entry != null && TranspositionBound.EXACT.equals(entry.transpositionBound)) {
-                short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+                short bestMoveEncoded = AlphaBetaHelper.decodeBestMove(entry.movesAndValue);
                 result = getMove(bestMoveEncoded);
             }
         }

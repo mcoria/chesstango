@@ -7,6 +7,7 @@ import net.chesstango.search.*;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -180,7 +181,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private void showNodeTranspositionAccess(DebugNode currentNode) {
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
-            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+            int ttValue = AlphaBetaHelper.decodeValue(entry.getMovesAndValue());
             debugOut.printf("%s ReadTT[ %s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     readOp.getTableType(),
@@ -197,7 +198,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
-            int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+            int ttValue = AlphaBetaHelper.decodeValue(entry.getMovesAndValue());
             debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
@@ -245,7 +246,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getSearchDepth(),
                                 moveStr,
-                                TranspositionEntry.decodeValue(entry.getMovesAndValue()),
+                                AlphaBetaHelper.decodeValue(entry.getMovesAndValue()),
                                 moveStr);
                         debugOut.print("\n");
                     });
@@ -263,7 +264,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                                 entry.getTranspositionBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getSearchDepth(),
-                                TranspositionEntry.decodeValue(entry.getMovesAndValue()),
+                                AlphaBetaHelper.decodeValue(entry.getMovesAndValue()),
                                 moveStr);
                         debugOut.print("\n");
                     });
@@ -299,7 +300,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                 .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
-                    int ttValue = TranspositionEntry.decodeValue(entry.getMovesAndValue());
+                    int ttValue = AlphaBetaHelper.decodeValue(entry.getMovesAndValue());
                     debugOut.printf("%s Sorter ReadTT[ %s %s 0x%s depth=%d value=%d ] NO_MOVE",
                             ">\t".repeat(currentNode.getPly()),
                             ttOperation.getTableType(),

@@ -7,10 +7,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ public class TranspositionHeadMoveComparatorTest {
 
         long hash = game.getPosition().getZobristHash();
 
-        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
+        long bestMoveAndValue = AlphaBetaHelper.encode(bestMove, 1);
 
         maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
 
