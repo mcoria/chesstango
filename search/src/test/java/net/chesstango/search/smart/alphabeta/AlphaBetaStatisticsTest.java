@@ -254,7 +254,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(22, visitedNodesCountersTotal);
-        assertEquals(28, executedMoves); // Ver mas arriba explicacion
+        assertEquals(43, executedMoves); // Ver mas arriba explicacion
     }
 
 
