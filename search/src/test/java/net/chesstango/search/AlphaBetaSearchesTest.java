@@ -11,8 +11,7 @@ import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -93,7 +92,7 @@ public class AlphaBetaSearchesTest {
 
         Search search = alphaBetaBuilder
                 //.withStatistics()
-                .withDebugSearchTree(false, true, true)
+                .withDebugSearchTree(true, true, false)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(3));
@@ -106,6 +105,7 @@ public class AlphaBetaSearchesTest {
         assertEquals(Piece.QUEEN_WHITE, bm.getFrom().piece());
         assertEquals(Square.d8, bm.getFrom().square());
         assertEquals(Square.f6, bm.getTo().square());
+        assertTrue(searchResult.isPvComplete());
     }
 
 }
