@@ -7,7 +7,6 @@ import net.chesstango.search.*;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
@@ -182,16 +181,17 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s ReadTT[ %s %s depth=%d move=%s value=%d ]",
+            debugOut.printf("%s ReadTT[ %s 0x%s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     readOp.getTableType(),
+                    hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
                     entry.getSearchDepth(),
                     readOp.getMove(),
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY %s", currentNode.getZobristHash()));
+                debugErrorMessages.add(String.format("0x%s: WRONG TT_READ ENTRY ", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
             }
             debugOut.print("\n");
         });
