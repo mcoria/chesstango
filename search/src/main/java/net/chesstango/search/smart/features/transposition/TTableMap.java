@@ -18,12 +18,12 @@ public class TTableMap implements TTable {
     }
 
     @Override
-    public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
+    public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
         TranspositionEntry entry = table.computeIfAbsent(hash, key -> new TranspositionEntry());
         entry.hash = hash;
         entry.searchDepth = searchDepth;
-        entry.move = AlphaBetaHelper.decodeMove(movesAndValue);
-        entry.value = AlphaBetaHelper.decodeValue(movesAndValue);
+        entry.move = move;
+        entry.value = value;
         entry.transpositionBound = bound;
         return entry;
     }

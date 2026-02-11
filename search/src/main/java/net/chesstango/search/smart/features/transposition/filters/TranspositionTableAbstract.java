@@ -88,6 +88,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     }
 
     protected void writeTransposition(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
+        short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;
@@ -99,6 +100,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             transpositionBound = TranspositionBound.EXACT;
         }
 
-        table.write(hash, depth, moveAndValue, transpositionBound);
+        table.write(hash, transpositionBound, depth, move, value);
     }
 }

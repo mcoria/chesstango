@@ -52,18 +52,20 @@ public class TranspositionHeadMoveComparatorTest {
         long hash = game.getPosition().getZobristHash();
 
         long bestMoveAndValue = AlphaBetaHelper.encode(bestMove, 1);
+        short move = AlphaBetaHelper.decodeMove(bestMoveAndValue);
+        int value = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
-        maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
+        maxMap.write(hash, TranspositionBound.EXACT, 1, move, value);
 
         initMoveSorter(game);
 
         List<Move> movesSorted = getSortedMoves(game);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        Move move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
-        assertEquals(Square.c2, move.getFrom().square());
-        assertEquals(Square.c3, move.getTo().square());
+        Move theMove = movesSortedIt.next();
+        assertEquals(Piece.PAWN_WHITE, theMove.getFrom().piece());
+        assertEquals(Square.c2, theMove.getFrom().square());
+        assertEquals(Square.c3, theMove.getTo().square());
     }
 
     private List<Move> getSortedMoves(Game game) {

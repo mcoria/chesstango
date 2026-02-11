@@ -40,9 +40,9 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        trackWriteTranspositionEntry(hash, searchDepth, movesAndValue, bound);
-        return tTable.write(hash, searchDepth, movesAndValue, bound);
+    public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
+        trackWriteTranspositionEntry(hash, searchDepth, move, bound);
+        return tTable.write(hash, bound, searchDepth, move, value);
     }
 
     @Override
