@@ -18,7 +18,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
     public int searchDepth;
     public short move;
     public int value;
-    ;
+
     public TranspositionBound transpositionBound;
 
 
