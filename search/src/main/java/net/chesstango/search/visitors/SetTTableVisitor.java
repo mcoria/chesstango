@@ -1,7 +1,7 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
@@ -38,11 +38,11 @@ public class SetTTableVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPV transpositionPV) {
-        transpositionPV.setMaxMap(maxMap);
-        transpositionPV.setMinMap(minMap);
-        transpositionPV.setQMaxMap(qMaxMap);
-        transpositionPV.setQMinMap(qMinMap);
+    public void visit(TTPVReader ttpvReader) {
+        ttpvReader.setMaxMap(maxMap);
+        ttpvReader.setMinMap(minMap);
+        ttpvReader.setQMaxMap(qMaxMap);
+        ttpvReader.setQMinMap(qMinMap);
     }
 
     @Override

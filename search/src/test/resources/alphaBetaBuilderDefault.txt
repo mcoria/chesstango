@@ -210,6 +210,7 @@ Acceptor:
 	StopProcessingCatch @ 3
 	TranspositionTableRoot @ 5
 	TranspositionPV @ 11
+	TTPVReader @ 59
 	AlphaBeta @ 6
 	NodeMoveSorter @ 8
 	RootMoveSorter @ 7

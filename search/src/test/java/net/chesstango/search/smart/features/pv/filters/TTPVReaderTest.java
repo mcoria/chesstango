@@ -7,6 +7,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.transposition.TTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class TranspositionPVTest {
+public class TTPVReaderTest {
 
     @Mock
     private AlphaBetaFilter nextFilter;
@@ -44,19 +45,19 @@ public class TranspositionPVTest {
     @Mock
     private TTable qMinMap;
 
-    private TranspositionPV transpositionPV = new TranspositionPV();
+    private TTPVReader ttPvReader;
 
     private Game game;
 
     @BeforeEach
     public void setup() {
-        transpositionPV = new TranspositionPV();
-        transpositionPV.setNext(nextFilter);
-        transpositionPV.setEvaluator(evaluator);
-        transpositionPV.setMaxMap(maxMap);
-        transpositionPV.setMinMap(minMap);
-        transpositionPV.setQMaxMap(qMaxMap);
-        transpositionPV.setQMinMap(qMinMap);
+        ttPvReader = new TTPVReader();
+
+        ttPvReader.setEvaluator(evaluator);
+        ttPvReader.setMaxMap(maxMap);
+        ttPvReader.setMinMap(minMap);
+        ttPvReader.setQMaxMap(qMaxMap);
+        ttPvReader.setQMinMap(qMinMap);
     }
 
     /**
@@ -67,8 +68,8 @@ public class TranspositionPVTest {
     @Test
     void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
-        transpositionPV.setGame(game);
-        transpositionPV.setMaxPly(1);
+        ttPvReader.setGame(game);
+        ttPvReader.setMaxPly(1);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -83,9 +84,9 @@ public class TranspositionPVTest {
         when(evaluator.evaluate()).thenReturn(bestValue);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.calculatePrincipalVariation()
-        transpositionPV.calculatePrincipalVariation(bestMove, bestValue);
+        ttPvReader.readPrincipalVariation(bestMove, bestValue);
 
-        List<PrincipalVariation> pv = transpositionPV.getPrincipalVariation();
+        List<PrincipalVariation> pv = ttPvReader.getPrincipalVariation();
 
         assertEquals(1, pv.size());
 
@@ -93,7 +94,7 @@ public class TranspositionPVTest {
         assertEquals(startZobrist, firstPV.hash());
         assertEquals(startExecutedMove, firstPV.move());
 
-        assertTrue(transpositionPV.isPvComplete());
+        assertTrue(ttPvReader.isPvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(nextZobrist, game.getPosition().getZobristHash());
@@ -107,8 +108,8 @@ public class TranspositionPVTest {
     @Test
     void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
-        transpositionPV.setGame(game);
-        transpositionPV.setMaxPly(2);
+        ttPvReader.setGame(game);
+        ttPvReader.setMaxPly(2);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -123,9 +124,9 @@ public class TranspositionPVTest {
         when(evaluator.evaluate()).thenReturn(bestValue);
 
         // Llegamos a este punto antes de llamar a TranspositionPV.calculatePrincipalVariation()
-        transpositionPV.calculatePrincipalVariation(bestMove, bestValue);
+        ttPvReader.readPrincipalVariation(bestMove, bestValue);
 
-        List<PrincipalVariation> pv = transpositionPV.getPrincipalVariation();
+        List<PrincipalVariation> pv = ttPvReader.getPrincipalVariation();
 
         assertEquals(2, pv.size());
 
@@ -137,7 +138,7 @@ public class TranspositionPVTest {
         assertEquals(nextZobrist, lastPV.hash());
         assertEquals(nextExecutedMove, lastPV.move());
 
-        assertTrue(transpositionPV.isPvComplete());
+        assertTrue(ttPvReader.isPvComplete());
 
         // Verifica que el undo fué correcto
         assertEquals(nextZobrist, game.getPosition().getZobristHash());

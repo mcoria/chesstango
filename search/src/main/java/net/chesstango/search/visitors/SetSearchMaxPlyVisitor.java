@@ -3,7 +3,7 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
@@ -49,8 +49,8 @@ public class SetSearchMaxPlyVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPV transpositionPV) {
-        transpositionPV.setMaxPly(maxPly);
+    public void visit(TTPVReader ttpvReader) {
+        ttpvReader.setMaxPly(maxPly);
     }
 
     @Override
