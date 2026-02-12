@@ -191,7 +191,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("0x%s: WRONG TT_READ ENTRY ", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
+                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
             }
             debugOut.print("\n");
         });
@@ -199,22 +199,25 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
+            debugOut.printf("%s WriteTT[ %s 0x%s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
+                    hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
                     entry.getSearchDepth(),
                     writeOp.getMove(),
                     ttValue);
 
             if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
+                String message = String.format(" WRONG TT_WRITE_HASH_REQUESTED ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
+                debugOut.print(message);
+                debugErrorMessages.add(message);
             }
 
             if (currentNode.getValue() != ttValue) {
-                debugOut.print(" WRONG TT_WRITE_VALUE");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.getZobristHash()));
+                String message = String.format(" WRONG TT_WRITE_VALUE %s", currentNode.getValue());
+                debugOut.print(message);
+                debugErrorMessages.add(message);
             }
             debugOut.print("\n");
         });

@@ -3,7 +3,6 @@ package net.chesstango.search.smart.features.transposition;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
@@ -41,7 +40,7 @@ public class TTableDebug implements TTable, Acceptor {
 
     @Override
     public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
-        trackWriteTranspositionEntry(hash, searchDepth, move, bound);
+        trackWriteTranspositionEntry(hash, bound, searchDepth, move, value);
         return tTable.write(hash, bound, searchDepth, move, value);
     }
 
@@ -74,7 +73,7 @@ public class TTableDebug implements TTable, Acceptor {
         }
     }
 
-    void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    void trackWriteTranspositionEntry(long hash, TranspositionBound transpositionBound, int searchDepth, short move, int value) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (searchTracker.isSorting()) {
@@ -83,8 +82,8 @@ public class TTableDebug implements TTable, Acceptor {
                 TranspositionEntry entryWrite = new TranspositionEntry()
                         .setHash(hash)
                         .setSearchDepth(searchDepth)
-                        .setMove(AlphaBetaHelper.decodeMove(movesAndValue))
-                        .setValue(AlphaBetaHelper.decodeValue(movesAndValue))
+                        .setMove(move)
+                        .setValue(value)
                         .setTranspositionBound(transpositionBound);
 
                 currentNode.getEntryWrite().add(new DebugOperationTT()

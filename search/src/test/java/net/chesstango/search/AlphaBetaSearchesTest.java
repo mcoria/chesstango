@@ -28,12 +28,14 @@ public class AlphaBetaSearchesTest {
 
 
     @Test
-    public void testSearch_00() {
+    public void test_START_POSITION() {
         Game game = Game.from(FEN.START_POSITION);
 
-        Search search = alphaBetaBuilder.build();
+        Search search = alphaBetaBuilder
+                .withDebugSearchTree(true, true, true)
+                .build();
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(3));
         SearchResult searchResult = search.startSearch(game);
 
         Move bm = searchResult.getBestMove();
@@ -92,7 +94,7 @@ public class AlphaBetaSearchesTest {
 
         Search search = alphaBetaBuilder
                 //.withStatistics()
-                .withDebugSearchTree(true, true, false)
+                .withDebugSearchTree(false, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(3));
