@@ -34,6 +34,7 @@ import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
@@ -199,6 +200,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
         nodeMoveSorter.setGame(game);
+    }
+
+    @Override
+    public void visit(MoveSorterDebug moveSorterDebug) {
+        moveSorterDebug.setGame(game);
     }
 
     /**

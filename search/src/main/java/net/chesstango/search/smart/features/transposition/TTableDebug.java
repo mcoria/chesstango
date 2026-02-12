@@ -51,7 +51,7 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
 
-    public void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
+    void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (entry != null) {
@@ -74,7 +74,7 @@ public class TTableDebug implements TTable, Acceptor {
         }
     }
 
-    public void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (searchTracker.isSorting()) {

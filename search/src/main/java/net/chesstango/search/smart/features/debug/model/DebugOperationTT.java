@@ -16,7 +16,10 @@ public class DebugOperationTT {
 
     private TableType tableType;
 
-    TranspositionEntry entry;
+    /**
+     * Este field es clonado del TranspositionEntry original
+     */
+    private TranspositionEntry entry;
 
     /**
      * En caso de sorting cual es el movimiento por el cual llegamos a esta entrada
