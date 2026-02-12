@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
@@ -57,7 +58,10 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
     }
 
     protected void loadTranspositionTables() {
-        minMap.write(0xF91593D0EB65C164L, 1, 3147906084927624L, TranspositionBound.UPPER_BOUND); // e6h6
+        long moveAndValue = 3147906084927624L;
+        short move = AlphaBetaHelper.decodeMove(moveAndValue);
+        int value = AlphaBetaHelper.decodeValue(moveAndValue);
+        minMap.write(0xF91593D0EB65C164L, TranspositionBound.UPPER_BOUND, 1, move, value); // e6h6
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

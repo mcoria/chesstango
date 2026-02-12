@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -35,14 +36,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = maxMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.movesAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.movesAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.movesAndValue;
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
             }
         }
 
@@ -66,14 +66,13 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         TranspositionEntry entry = minMap.read(hash);
 
         if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
-            int value = TranspositionEntry.decodeValue(entry.movesAndValue);
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return entry.movesAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= value) {
-                return entry.movesAndValue;
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && value <= alpha) {
-                return entry.movesAndValue;
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
+            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
+                return AlphaBetaHelper.encode(entry.move, entry.value);
             }
         }
 
@@ -89,7 +88,8 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     }
 
     protected void writeTransposition(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
-        int value = TranspositionEntry.decodeValue(moveAndValue);
+        short move = AlphaBetaHelper.decodeMove(moveAndValue);
+        int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         TranspositionBound transpositionBound;
         if (beta <= value) {
@@ -100,6 +100,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             transpositionBound = TranspositionBound.EXACT;
         }
 
-        table.write(hash, depth, moveAndValue, transpositionBound);
+        table.write(hash, transpositionBound, depth, move, value);
     }
 }

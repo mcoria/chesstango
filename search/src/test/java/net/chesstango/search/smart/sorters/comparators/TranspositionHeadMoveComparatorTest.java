@@ -7,10 +7,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,19 +51,21 @@ public class TranspositionHeadMoveComparatorTest {
 
         long hash = game.getPosition().getZobristHash();
 
-        long bestMoveAndValue = TranspositionEntry.encode(bestMove, 1);
+        long bestMoveAndValue = AlphaBetaHelper.encode(bestMove, 1);
+        short move = AlphaBetaHelper.decodeMove(bestMoveAndValue);
+        int value = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
-        maxMap.write(hash, 1, bestMoveAndValue, TranspositionBound.EXACT);
+        maxMap.write(hash, TranspositionBound.EXACT, 1, move, value);
 
         initMoveSorter(game);
 
         List<Move> movesSorted = getSortedMoves(game);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        Move move = movesSortedIt.next();
-        assertEquals(Piece.PAWN_WHITE, move.getFrom().piece());
-        assertEquals(Square.c2, move.getFrom().square());
-        assertEquals(Square.c3, move.getTo().square());
+        Move theMove = movesSortedIt.next();
+        assertEquals(Piece.PAWN_WHITE, theMove.getFrom().piece());
+        assertEquals(Square.c2, theMove.getFrom().square());
+        assertEquals(Square.c3, theMove.getTo().square());
     }
 
     private List<Move> getSortedMoves(Game game) {

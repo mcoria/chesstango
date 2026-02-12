@@ -6,6 +6,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.sorters.MoveComparator;
@@ -38,7 +39,7 @@ public abstract class TranspositionHeadMoveComparatorAbstract implements MoveCom
                 maxMap.read(hash) : minMap.read(hash);
 
         if (Objects.nonNull(entry)) {
-            bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+            bestMoveEncoded = entry.getMove();
         } else {
             bestMoveEncoded = 0;
         }

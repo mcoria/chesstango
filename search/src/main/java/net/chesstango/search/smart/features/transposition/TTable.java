@@ -7,7 +7,7 @@ public interface TTable {
 
     TranspositionEntry read(long hash);
 
-    TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound);
+    TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value);
 
     void clear();
 }

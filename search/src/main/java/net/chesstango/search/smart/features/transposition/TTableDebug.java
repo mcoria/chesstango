@@ -3,6 +3,7 @@ package net.chesstango.search.smart.features.transposition;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
@@ -39,9 +40,9 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public TranspositionEntry write(long hash, int searchDepth, long movesAndValue, TranspositionBound bound) {
-        trackWriteTranspositionEntry(hash, searchDepth, movesAndValue, bound);
-        return tTable.write(hash, searchDepth, movesAndValue, bound);
+    public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
+        trackWriteTranspositionEntry(hash, searchDepth, move, bound);
+        return tTable.write(hash, bound, searchDepth, move, value);
     }
 
     @Override
@@ -82,7 +83,8 @@ public class TTableDebug implements TTable, Acceptor {
                 TranspositionEntry entryWrite = new TranspositionEntry()
                         .setHash(hash)
                         .setSearchDepth(searchDepth)
-                        .setMovesAndValue(movesAndValue)
+                        .setMove(AlphaBetaHelper.decodeMove(movesAndValue))
+                        .setValue(AlphaBetaHelper.decodeValue(movesAndValue))
                         .setTranspositionBound(transpositionBound);
 
                 currentNode.getEntryWrite().add(new DebugOperationTT()

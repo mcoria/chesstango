@@ -71,7 +71,7 @@ public class AlphaBetaSearchesTest {
 
         Search search = alphaBetaBuilder
                 .withStatistics()
-                .withDebugSearchTree(false, true, true)
+                //.withDebugSearchTree(false, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(6));

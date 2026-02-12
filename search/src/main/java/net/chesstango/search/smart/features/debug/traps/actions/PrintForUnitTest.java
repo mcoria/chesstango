@@ -60,11 +60,12 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                         case MIN_MAP_Q -> "qMinMap";
                     };
 
-                    printStream.printf("%s.write(0x%sL, %d, %dL, TranspositionBound.%s); // %s \n",
+                    printStream.printf("%s.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",
                             table,
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getSearchDepth(),
-                            entry.getMovesAndValue(),
+                            entry.getMove(),
+                            entry.getValue(),
                             entry.getTranspositionBound(),
                             ttOperation.getMove()
                     );

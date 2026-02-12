@@ -8,12 +8,11 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.GameMoveDecoder;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.epd.EPD;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 
 /**
@@ -81,7 +80,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
     protected int targetMoveEvaluation(final AlphaBetaFunction alphaBetaFn) {
         targetMove.executeMove();
         long bestMoveAndValue = alphaBetaFn.search(1, Evaluator.INFINITE_NEGATIVE, Evaluator.INFINITE_POSITIVE);
-        int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
         targetMove.undoMove();
         return currentValue;
     }
@@ -91,7 +90,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.minimize(1, maxValue - 1, maxValue);
-                int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue < maxValue) {
                     this.bottomMoveCounter++;
                 }
@@ -105,7 +104,7 @@ public class BottomMoveCounterFacade implements SearchAlgorithm {
             if (!move.equals(targetMove)) {
                 move.executeMove();
                 long bestMoveAndValue = alphaBetaFilter.maximize(1, minValue, minValue + 1);
-                int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+                int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
                 if (currentValue > minValue) {
                     this.bottomMoveCounter++;
                 }

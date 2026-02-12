@@ -9,6 +9,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
@@ -74,32 +75,32 @@ public class TranspositionPV implements AlphaBetaFilter {
     }
 
 
-    private long process(int alpha, int beta, long moveAndValue) {
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
+    protected long process(int alpha, int beta, long moveAndValue) {
+        final short currentMove = AlphaBetaHelper.decodeMove(moveAndValue);
+        final int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (alpha < currentValue && currentValue < beta) {
-            calculatePrincipalVariation(moveAndValue);
+            calculatePrincipalVariation(currentMove, currentValue);
         }
 
         return moveAndValue;
     }
 
 
-    protected void calculatePrincipalVariation(long moveAndValue) {
-        Deque<Move> moves = new LinkedList<>();
+    void calculatePrincipalVariation(final short bestMove, final int bestValue) {
         principalVariation = new ArrayList<>();
         pvComplete = false;
 
-        final long lastHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
-        final Move lastMove = game.getHistory().peekLastRecord().playedMove();
-        principalVariation.add(new PrincipalVariation(lastHash, lastMove));
-
-        final int bestValue = TranspositionEntry.decodeValue(moveAndValue);
-        final short bestMoveEncoded = TranspositionEntry.decodeBestMove(moveAndValue);
+        // First PV move
+        final long previousHash = game.getHistory().peekLastRecord().zobristHash().getZobristHash();
+        final Move previousMove = game.getHistory().peekLastRecord().playedMove();
+        principalVariation.add(new PrincipalVariation(previousHash, previousMove));
 
 
+        // Next PV moves
+        Deque<Move> moves = new LinkedList<>();
         long currentHash = game.getPosition().getZobristHash();
-        Move currentMove = getMove(bestMoveEncoded);
+        Move currentMove = getMove(bestMove);
         while (currentMove != null) {
 
             principalVariation.add(new PrincipalVariation(currentHash, currentMove));
@@ -132,20 +133,20 @@ public class TranspositionPV implements AlphaBetaFilter {
         }
     }
 
-    private Move readMoveFromTT(TTable maxMap, TTable minMap) {
+    Move readMoveFromTT(TTable maxMap, TTable minMap) {
         Move result = null;
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
             TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
             if (entry != null && TranspositionBound.EXACT.equals(entry.transpositionBound)) {
-                short bestMoveEncoded = TranspositionEntry.decodeBestMove(entry.movesAndValue);
+                short bestMoveEncoded = entry.move;
                 result = getMove(bestMoveEncoded);
             }
         }
         return result;
     }
 
-    private Move getMove(short moveEncoded) {
+    Move getMove(short moveEncoded) {
         Move result = null;
         for (Move posibleMove : game.getPossibleMoves()) {
             if (posibleMove.binaryEncoding() == moveEncoded) {

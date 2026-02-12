@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 
@@ -36,10 +37,10 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
         if (maxMap.read(hash) == null) {
-            maxMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
+            maxMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
         if (maxQMap.read(hash) == null) {
-            maxQMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
+            maxQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
 
         return bestMoveAndValue;
@@ -51,10 +52,10 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
         if (minMap.read(hash) == null) {
-            minMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
+            minMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
         if (minQMap.read(hash) == null) {
-            minQMap.write(hash, 0, bestMoveAndValue, TranspositionBound.EXACT);
+            minQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
 
         return bestMoveAndValue;

@@ -6,10 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 import java.util.List;
 import java.util.Objects;
@@ -115,11 +115,11 @@ public class SearchTracker {
             final short moveEncoded = move.binaryEncoding();
 
             entryReads.stream()
-                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             entryWrites.stream()
-                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
         }
@@ -131,12 +131,12 @@ public class SearchTracker {
         entryReads
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
 
         entryWrites
                 .stream()
                 .filter(debugNodeTT -> Objects.isNull(debugNodeTT.getMove()))
-                .forEach(debugNodeTT -> debugNodeTT.setMove(TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()) == 0 ? "NO_MOVE" : "UNKNOWN"));
+                .forEach(debugNodeTT -> debugNodeTT.setMove(debugNodeTT.getEntry().getMove() == 0 ? "NO_MOVE" : "UNKNOWN"));
     }
 
 
@@ -165,7 +165,7 @@ public class SearchTracker {
             // Transposition Head Access
             sorterReads.stream()
                     .filter(debugNodeTT -> positionHash == debugNodeTT.getEntry().getHash())
-                    .filter(debugNodeTT -> moveEncoded == TranspositionEntry.decodeBestMove(debugNodeTT.getEntry().getMovesAndValue()))
+                    .filter(debugNodeTT -> moveEncoded == debugNodeTT.getEntry().getMove())
                     .forEach(debugNodeTT -> debugNodeTT.setMove(moveStr));
 
             // Transposition Tail Access

@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 /**
@@ -57,8 +57,8 @@ public class GameEvaluatorCacheComparator implements MoveComparator {
         final Integer moveEvaluation2 = evaluatorCacheRead.readFromCache(getZobristHashMove(o2));
 
         if (moveEvaluation1 != null && moveEvaluation2 != null) {
-            int evaluation1 = TranspositionEntry.decodeValue(moveEvaluation1);
-            int evaluation2 = TranspositionEntry.decodeValue(moveEvaluation2);
+            int evaluation1 = AlphaBetaHelper.decodeValue(moveEvaluation1);
+            int evaluation2 = AlphaBetaHelper.decodeValue(moveEvaluation2);
             result = Color.WHITE.equals(currentTurn) ? Integer.compare(evaluation1, evaluation2) : Integer.compare(evaluation2, evaluation1);
         } else if (moveEvaluation1 != null) {
             return 1;

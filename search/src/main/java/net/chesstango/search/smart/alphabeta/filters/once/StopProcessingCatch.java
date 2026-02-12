@@ -9,7 +9,7 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFunction;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 import java.util.Optional;
 
@@ -67,7 +67,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         if (bestEvaluationResult != null) {
             Move bestMove = bestEvaluationResult.move();
             int bestValue = bestEvaluationResult.evaluation();
-            return TranspositionEntry.encode(bestMove, bestValue);
+            return AlphaBetaHelper.encode(bestMove, bestValue);
         }
 
         throw new RuntimeException("Stopped too early");

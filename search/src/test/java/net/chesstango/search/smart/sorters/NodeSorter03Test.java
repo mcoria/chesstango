@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
@@ -59,20 +60,20 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
     }
 
     protected void loadTranspositionTables() {
-        minMap.write(0xC23A9796AF1A652FL, 0, 4294896611L, TranspositionBound.UPPER_BOUND); // h5e2
-        minMap.write(0x1154F9546860B223L, 0, 4294894301L, TranspositionBound.UPPER_BOUND); // h5h3
-        minMap.write(0x7A3B2C64C1AB8AB1L, 0, 4294889071L, TranspositionBound.UPPER_BOUND); // h5g5
-        minMap.write(0xD8727DF238E25CA3L, 0, 4294886221L, TranspositionBound.UPPER_BOUND); // h5h4
-        minMap.write(0xEE1E6387CD236810L, 0, 4294886201L, TranspositionBound.UPPER_BOUND); // h5f3
-        minMap.write(0xE38DB33F8781BF41L, 0, 3920862759355397L, TranspositionBound.UPPER_BOUND); // h5g6
+        minMap.write(0xC23A9796AF1A652FL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294896611L), AlphaBetaHelper.decodeValue(4294896611L)); // h5e2
+        minMap.write(0x1154F9546860B223L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294894301L), AlphaBetaHelper.decodeValue(4294894301L)); // h5h3
+        minMap.write(0x7A3B2C64C1AB8AB1L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294889071L), AlphaBetaHelper.decodeValue(4294889071L)); // h5g5
+        minMap.write(0xD8727DF238E25CA3L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294886221L), AlphaBetaHelper.decodeValue(4294886221L)); // h5h4
+        minMap.write(0xEE1E6387CD236810L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294886201L), AlphaBetaHelper.decodeValue(4294886201L)); // h5f3
+        minMap.write(0xE38DB33F8781BF41L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(3920862759355397L), AlphaBetaHelper.decodeValue(3920862759355397L)); // h5g6
 
-        qMinMap.write(0x5809B10F4AEFE9B8L, 1, 2571761992221855L, TranspositionBound.UPPER_BOUND); // d1d5
-        qMinMap.write(0xEE7E1C867AC579F6L, 1, 2493696666611559L, TranspositionBound.UPPER_BOUND); // c2e4
-        qMinMap.write(0xE5878EF506AAEC8AL, 1, 4422240061729033L, TranspositionBound.UPPER_BOUND); // f5g7
-        qMinMap.write(0x591BAC29C5110DE5L, 1, 4423339573088489L, TranspositionBound.UPPER_BOUND); // h5h7
+        qMinMap.write(0x5809B10F4AEFE9B8L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(2571761992221855L), AlphaBetaHelper.decodeValue(2571761992221855L)); // d1d5
+        qMinMap.write(0xEE7E1C867AC579F6L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(2493696666611559L), AlphaBetaHelper.decodeValue(2493696666611559L)); // c2e4
+        qMinMap.write(0xE5878EF506AAEC8AL, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(4422240061729033L), AlphaBetaHelper.decodeValue(4422240061729033L)); // f5g7
+        qMinMap.write(0x591BAC29C5110DE5L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(4423339573088489L), AlphaBetaHelper.decodeValue(4423339573088489L)); // h5h7
 
-        maxMap.write(0x0CE7DD3862149D3EL, 0, 4294899481L, TranspositionBound.UPPER_BOUND); // NO_MOVE
-        qMaxMap.write(0x0CE7DD3862149D3EL, 0, 4294899481L, TranspositionBound.UPPER_BOUND); // NO_MOVE
+        maxMap.write(0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294899481L), AlphaBetaHelper.decodeValue(4294899481L)); // NO_MOVE
+        qMaxMap.write(0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294899481L), AlphaBetaHelper.decodeValue(4294899481L)); // NO_MOVE
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

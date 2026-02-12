@@ -5,8 +5,8 @@ import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.egtb.EndGameTableBase;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -24,11 +24,11 @@ public class EgtbEvaluation implements AlphaBetaFilter, Acceptor {
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(endGameTableBase.evaluate());
+        return AlphaBetaHelper.encode(endGameTableBase.evaluate());
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        return TranspositionEntry.encode(endGameTableBase.evaluate());
+        return AlphaBetaHelper.encode(endGameTableBase.evaluate());
     }
 }

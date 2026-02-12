@@ -6,8 +6,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +32,7 @@ public class KillerMoveTracker implements AlphaBetaFilter {
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
         long moveAndValue = next.maximize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
 
         if (currentValue < alpha) {
             Move previousMove = game.getHistory().peekLastRecord().playedMove();
@@ -45,7 +45,7 @@ public class KillerMoveTracker implements AlphaBetaFilter {
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
         long moveAndValue = next.minimize(currentPly, alpha, beta);
-        int currentValue = TranspositionEntry.decodeValue(moveAndValue);
+        int currentValue = AlphaBetaHelper.decodeValue(moveAndValue);
         if (beta < currentValue) {
             Move previousMove = game.getHistory().peekLastRecord().playedMove();
             killerMoves.trackKillerMove(previousMove, currentPly);
