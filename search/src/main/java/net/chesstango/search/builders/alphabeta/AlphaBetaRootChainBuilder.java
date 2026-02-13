@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.pv.TTPVReader;
+import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
@@ -49,6 +50,7 @@ public class AlphaBetaRootChainBuilder {
     private AlphaBetaFilter alphaBetaFlowControl;
     private Evaluator evaluator;
     private TTPVReader ttPvReader;
+    private TTPVReaderDebug ttpvReaderDebug;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -143,11 +145,10 @@ public class AlphaBetaRootChainBuilder {
         if (withTranspositionTable) {
             transpositionTableRoot = new TranspositionTableRoot();
 
+            transpositionPV = new TranspositionPV();
+
             ttPvReader = new TTPVReader();
             ttPvReader.setEvaluator(evaluator);
-
-            transpositionPV = new TranspositionPV();
-            transpositionPV.setTtPvReader(ttPvReader);
         }
 
         if (withZobristTracker) {
@@ -160,6 +161,18 @@ public class AlphaBetaRootChainBuilder {
             moveSorterDebug.setMoveSorterImp(moveSorter);
             moveSorter = moveSorterDebug;
         }
+
+        if (transpositionPV != null) {
+            if (withDebugSearchTree) {
+                ttpvReaderDebug = new TTPVReaderDebug();
+                ttpvReaderDebug.setImp(ttPvReader);
+
+                transpositionPV.setTtPvReader(ttpvReaderDebug);
+            } else {
+                transpositionPV.setTtPvReader(ttPvReader);
+            }
+        }
+
 
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
@@ -215,6 +228,10 @@ public class AlphaBetaRootChainBuilder {
 
         if (ttPvReader != null) {
             searchListenerMediator.addAcceptor(ttPvReader);
+        }
+
+        if (ttpvReaderDebug != null) {
+            searchListenerMediator.addAcceptor(ttpvReaderDebug);
         }
 
         searchListenerMediator.addAcceptor(alphaBeta);

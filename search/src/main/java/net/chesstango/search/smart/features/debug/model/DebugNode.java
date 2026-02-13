@@ -77,6 +77,9 @@ public class DebugNode {
     private List<DebugNode> childNodes = new LinkedList<>();
 
 
+
+    private List<DebugOperationTT> pvReads = new ArrayList<>();
+
     private List<DebugOperationTT> currentEntryRead = entryRead;
     private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
@@ -99,6 +102,16 @@ public class DebugNode {
     }
 
     public void sortingOFF() {
+        currentEntryRead = entryRead;
+        currentEntryWrite = entryWrite;
+    }
+
+    public void readingPrincipalVariationON() {
+        currentEntryRead = pvReads;
+        currentEntryWrite = null;
+    }
+
+    public void readingPrincipalVariationOFF() {
         currentEntryRead = entryRead;
         currentEntryWrite = entryWrite;
     }

@@ -26,6 +26,7 @@ import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracke
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.TTPVReader;
+import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -195,6 +196,9 @@ public interface Visitor {
     }
 
     default void visit(TTPVReader ttpvReader) {
+    }
+
+    default void visit(TTPVReaderDebug ttpvReaderDebug) {
     }
 
     default void visit(TTableDebug tableDebug) {

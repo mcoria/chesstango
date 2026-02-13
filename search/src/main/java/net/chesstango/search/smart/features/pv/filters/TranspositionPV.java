@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
-import net.chesstango.search.smart.features.pv.TTPVReader;
+import net.chesstango.search.smart.features.pv.PVReader;
 
 /**
  * @author Mauricio Coria
@@ -17,7 +17,7 @@ public class TranspositionPV implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Setter
-    private TTPVReader ttPvReader;
+    private PVReader ttPvReader;
 
     @Override
     public void accept(Visitor visitor) {

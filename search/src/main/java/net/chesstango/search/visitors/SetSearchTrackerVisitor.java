@@ -7,6 +7,7 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
+import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 
@@ -55,4 +56,10 @@ public class SetSearchTrackerVisitor implements Visitor {
     public void visit(EvaluatorDebug evaluatorDebug) {
         evaluatorDebug.setSearchTracker(searchTracker);
     }
+
+    @Override
+    public void visit(TTPVReaderDebug ttpvReaderDebug) {
+        ttpvReaderDebug.setSearchTracker(searchTracker);
+    }
+
 }
