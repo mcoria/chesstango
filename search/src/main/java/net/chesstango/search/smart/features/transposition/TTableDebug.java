@@ -57,7 +57,7 @@ public class TTableDebug implements TTable, Acceptor {
                 assert hashRequested == entry.hash;
                 TranspositionEntry entryCloned = entry.clone();
 
-                List<DebugOperationTT> readList = searchTracker.isSorting() ? currentNode.getSorterReads() : currentNode.getEntryRead();
+                List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
 
                 Optional<DebugOperationTT> previousReadOpt = readList
                         .stream()
@@ -76,20 +76,20 @@ public class TTableDebug implements TTable, Acceptor {
     void trackWriteTranspositionEntry(long hash, TranspositionBound transpositionBound, int searchDepth, short move, int value) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
-            if (searchTracker.isSorting()) {
-                throw new RuntimeException("Writing TT while sorting");
-            } else {
-                TranspositionEntry entryWrite = new TranspositionEntry()
-                        .setHash(hash)
-                        .setSearchDepth(searchDepth)
-                        .setMove(move)
-                        .setValue(value)
-                        .setTranspositionBound(transpositionBound);
+            // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
+            TranspositionEntry entryWrite = new TranspositionEntry()
+                    .setHash(hash)
+                    .setSearchDepth(searchDepth)
+                    .setMove(move)
+                    .setValue(value)
+                    .setTranspositionBound(transpositionBound);
 
-                currentNode.getEntryWrite().add(new DebugOperationTT()
-                        .setTableType(tableType)
-                        .setEntry(entryWrite));
-            }
+            List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
+
+            writeList.add(new DebugOperationTT()
+                    .setTableType(tableType)
+                    .setEntry(entryWrite));
+
         }
     }
 }

@@ -38,18 +38,21 @@ public class MoveSorterDebug implements MoveSorter {
 
     @Override
     public Iterable<Move> getOrderedMoves(final int currentPly) {
-        searchTracker.sortingON();
+        DebugNode currentNode = searchTracker.getCurrentNode();
+
+        currentNode.sortingON();
 
         Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
 
-        DebugNode currentNode = searchTracker.getCurrentNode();
         currentNode.setSortedPly(currentPly);
+
         currentNode.setSortedMoves(convertMoveListToStringList(sortedMoves));
 
-        trackComparatorsEvalCacheReads();
-        trackComparatorsTranspositionReads();
+        currentNode.sortingOFF();
 
-        searchTracker.sortingOFF();
+        trackComparatorsEvalCacheReads();
+
+        trackComparatorsTranspositionReads();
 
         return sortedMoves;
     }

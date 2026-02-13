@@ -25,9 +25,6 @@ public class SearchTracker {
     @Getter
     private DebugNode currentNode;
 
-    @Getter
-    private boolean sorting;
-
     @Setter
     private Game game;
 
@@ -70,15 +67,6 @@ public class SearchTracker {
         newNode.setPly(currentPly);
         newNode.setParent(currentNode);
         return newNode;
-    }
-
-
-    public void sortingON() {
-        sorting = true;
-    }
-
-    public void sortingOFF() {
-        sorting = false;
     }
 
     public void save() {
