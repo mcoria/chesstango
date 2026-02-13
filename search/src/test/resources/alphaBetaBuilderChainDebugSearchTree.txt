@@ -268,6 +268,7 @@ Acceptor:
 	TranspositionTableRoot @ 6
 	TranspositionPV @ 13
 	TTPVReader @ 83
+	TTPVReaderDebug @ 84
 	AlphaBeta @ 7
 	NodeMoveSorter @ 10
 	RootMoveSorter @ 9
