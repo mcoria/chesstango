@@ -7,7 +7,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
@@ -86,9 +86,9 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPV transpositionPV) {
-        searchResultByDepth.setPrincipalVariation(transpositionPV.getPrincipalVariation());
-        searchResultByDepth.setPvComplete(transpositionPV.isPvComplete());
+    public void visit(TTPVReader ttpvReader) {
+        searchResultByDepth.setPrincipalVariation(ttpvReader.getPrincipalVariation());
+        searchResultByDepth.setPvComplete(ttpvReader.isPvComplete());
     }
 
     @Override

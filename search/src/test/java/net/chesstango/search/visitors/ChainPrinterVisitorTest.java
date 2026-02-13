@@ -5,6 +5,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.egtb.EndGameTableBase;
 import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +23,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class ChainPrinterVisitorTest {
 
+    /**
+     * Controls whether the output of the chain structure will be printed during testing.
+     * If set to {@code true}, detailed chain-related information is printed;
+     * otherwise, chain-related output is suppressed.
+     * Used for debugging purposes within the test class.
+     */
+    private static final boolean PRINT_CHAIN = true;
+
     private ChainPrinterVisitor chainPrinterVisitor;
     private DebugNodeTrap debugNodeTrap;
 
     @BeforeEach
     public void setup() {
         chainPrinterVisitor = new ChainPrinterVisitor(false);
+        debugNodeTrap = new DebugNodeTrap() {
+            @Override
+            public boolean test(DebugNode debugNode) {
+                return false;
+            }
+
+            @Override
+            public void debugAction(DebugNode debugNode, PrintStream debugOut) {
+
+            }
+        };
     }
 
     @Test
@@ -45,8 +65,7 @@ public class ChainPrinterVisitorTest {
     public void alphaBetaBuilderChainWithEGTB() throws IOException {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                ;
+                .withGameEvaluator(new EvaluatorByMaterial());
 
         Search search = builder.build();
 
@@ -89,13 +108,25 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void alphaBetaBuilderChainTest02() throws IOException {
+    public void alphaBetaBuilderChainNoOption() throws IOException {
         AlphaBetaBuilder builder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial());
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainTest02.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainNoOption.txt");
+    }
+
+    @Test
+    public void alphaBetaBuilderChainDebugSearchTree() throws IOException {
+        AlphaBetaBuilder builder = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .withDebugSearchTree(false, true, true);
+
+        Search search = builder.build();
+
+        assertSearchTree(search, "alphaBetaBuilderChainDebugSearchTree.txt");
     }
 
     private void assertSearchTree(Search search, String resourceName) throws IOException {
@@ -103,7 +134,9 @@ public class ChainPrinterVisitorTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
-            //chainPrinterVisitor.print(search, System.out);
+            if (PRINT_CHAIN) {
+                chainPrinterVisitor.print(search, System.out);
+            }
             chainPrinterVisitor.print(search, out);
         }
 
@@ -140,7 +173,7 @@ public class ChainPrinterVisitorTest {
         return lines;
     }
 
-    private static class MyEndGameTableBaseExtension implements EndGameTableBase{
+    private static class MyEndGameTableBaseExtension implements EndGameTableBase {
 
         @Override
         public boolean isProbeAvailable() {

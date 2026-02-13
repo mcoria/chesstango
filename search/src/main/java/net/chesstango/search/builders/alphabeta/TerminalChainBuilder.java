@@ -120,10 +120,10 @@ public class TerminalChainBuilder {
             AlphaBetaFilter next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case ZobristTracker tracker -> zobristTracker.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case TranspositionTableTerminal tableTerminal -> transpositionTableTerminal.setNext(next);
-                case AlphaBetaEvaluation betaEvaluation -> {
+                case ZobristTracker filter -> filter.setNext(next);
+                case DebugFilter filter -> filter.setNext(next);
+                case TranspositionTableTerminal filter -> filter.setNext(next);
+                case AlphaBetaEvaluation filter -> {
                     //alphaBetaEvaluation.setNext(next);
                 }
                 case null, default -> throw new RuntimeException("filter not found");

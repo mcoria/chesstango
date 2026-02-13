@@ -74,8 +74,12 @@ public class DebugNode {
     // Movimientos que estan presentes en KM table
     private List<Move> sorterKm = new ArrayList<>();
 
-
     private List<DebugNode> childNodes = new LinkedList<>();
+
+    private List<DebugOperationTT> pvReads = new ArrayList<>();
+
+    private List<DebugOperationTT> currentEntryRead = entryRead;
+    private List<DebugOperationTT> currentEntryWrite = entryWrite;
 
     public void setDebugSearch(String fnString, int alpha, int beta) {
         this.fnString = fnString;
@@ -88,5 +92,25 @@ public class DebugNode {
         if (childNodes.stream().mapToLong(DebugNode::getZobristHash).distinct().count() != this.childNodes.size()) {
             throw new RuntimeException("Duplicated Node");
         }
+    }
+
+    public void sortingON() {
+        currentEntryRead = sorterReads;
+        currentEntryWrite = null;
+    }
+
+    public void sortingOFF() {
+        currentEntryRead = entryRead;
+        currentEntryWrite = entryWrite;
+    }
+
+    public void readingPrincipalVariationON() {
+        currentEntryRead = pvReads;
+        currentEntryWrite = null;
+    }
+
+    public void readingPrincipalVariationOFF() {
+        currentEntryRead = entryRead;
+        currentEntryWrite = entryWrite;
     }
 }

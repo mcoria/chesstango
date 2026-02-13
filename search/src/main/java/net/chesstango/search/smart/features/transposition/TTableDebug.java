@@ -3,7 +3,6 @@ package net.chesstango.search.smart.features.transposition;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.SearchTracker;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
@@ -41,7 +40,7 @@ public class TTableDebug implements TTable, Acceptor {
 
     @Override
     public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
-        trackWriteTranspositionEntry(hash, searchDepth, move, bound);
+        trackWriteTranspositionEntry(hash, bound, searchDepth, move, value);
         return tTable.write(hash, bound, searchDepth, move, value);
     }
 
@@ -51,14 +50,14 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
 
-    public void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
+    void trackReadTranspositionEntry(long hashRequested, TranspositionEntry entry) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             if (entry != null) {
                 assert hashRequested == entry.hash;
                 TranspositionEntry entryCloned = entry.clone();
 
-                List<DebugOperationTT> readList = searchTracker.isSorting() ? currentNode.getSorterReads() : currentNode.getEntryRead();
+                List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
 
                 Optional<DebugOperationTT> previousReadOpt = readList
                         .stream()
@@ -74,23 +73,23 @@ public class TTableDebug implements TTable, Acceptor {
         }
     }
 
-    public void trackWriteTranspositionEntry(long hash, int searchDepth, long movesAndValue, TranspositionBound transpositionBound) {
+    void trackWriteTranspositionEntry(long hash, TranspositionBound transpositionBound, int searchDepth, short move, int value) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
-            if (searchTracker.isSorting()) {
-                throw new RuntimeException("Writing TT while sorting");
-            } else {
-                TranspositionEntry entryWrite = new TranspositionEntry()
-                        .setHash(hash)
-                        .setSearchDepth(searchDepth)
-                        .setMove(AlphaBetaHelper.decodeMove(movesAndValue))
-                        .setValue(AlphaBetaHelper.decodeValue(movesAndValue))
-                        .setTranspositionBound(transpositionBound);
+            // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
+            TranspositionEntry entryWrite = new TranspositionEntry()
+                    .setHash(hash)
+                    .setSearchDepth(searchDepth)
+                    .setMove(move)
+                    .setValue(value)
+                    .setTranspositionBound(transpositionBound);
 
-                currentNode.getEntryWrite().add(new DebugOperationTT()
-                        .setTableType(tableType)
-                        .setEntry(entryWrite));
-            }
+            List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
+
+            writeList.add(new DebugOperationTT()
+                    .setTableType(tableType)
+                    .setEntry(entryWrite));
+
         }
     }
 }

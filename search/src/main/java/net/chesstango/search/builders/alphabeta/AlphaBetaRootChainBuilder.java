@@ -11,6 +11,8 @@ import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
+import net.chesstango.search.smart.features.pv.TTPVReader;
+import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
@@ -47,6 +49,8 @@ public class AlphaBetaRootChainBuilder {
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
     private Evaluator evaluator;
+    private TTPVReader ttPvReader;
+    private TTPVReaderDebug ttpvReaderDebug;
 
     private boolean withStatistics;
     private boolean withAspirationWindows;
@@ -54,6 +58,7 @@ public class AlphaBetaRootChainBuilder {
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
     private boolean withTriangularPV;
+
 
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
@@ -141,7 +146,9 @@ public class AlphaBetaRootChainBuilder {
             transpositionTableRoot = new TranspositionTableRoot();
 
             transpositionPV = new TranspositionPV();
-            transpositionPV.setEvaluator(evaluator);
+
+            ttPvReader = new TTPVReader();
+            ttPvReader.setEvaluator(evaluator);
         }
 
         if (withZobristTracker) {
@@ -155,6 +162,18 @@ public class AlphaBetaRootChainBuilder {
             moveSorter = moveSorterDebug;
         }
 
+        if (transpositionPV != null) {
+            if (withDebugSearchTree) {
+                ttpvReaderDebug = new TTPVReaderDebug();
+                ttpvReaderDebug.setImp(ttPvReader);
+
+                transpositionPV.setTtPvReader(ttpvReaderDebug);
+            } else {
+                transpositionPV.setTtPvReader(ttPvReader);
+            }
+        }
+
+
         if (withTriangularPV) {
             triangularPV = new TriangularPV();
         }
@@ -162,7 +181,7 @@ public class AlphaBetaRootChainBuilder {
         if (stopProcessingCatch != null) {
             stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
         }
-        
+
         alphaBeta.setMoveSorter(moveSorter);
     }
 
@@ -207,10 +226,15 @@ public class AlphaBetaRootChainBuilder {
             searchListenerMediator.addAcceptor(triangularPV);
         }
 
-        if (alphaBeta != null) {
-            searchListenerMediator.addAcceptor(alphaBeta);
+        if (ttPvReader != null) {
+            searchListenerMediator.addAcceptor(ttPvReader);
         }
 
+        if (ttpvReaderDebug != null) {
+            searchListenerMediator.addAcceptor(ttpvReaderDebug);
+        }
+
+        searchListenerMediator.addAcceptor(alphaBeta);
         searchListenerMediator.addAcceptor(nodeMoveSorter);
         searchListenerMediator.add(rootMoveSorter);
     }
@@ -267,17 +291,17 @@ public class AlphaBetaRootChainBuilder {
             AlphaBetaFilter next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case StopProcessingCatch processingCatch -> stopProcessingCatch.setNext(next);
-                case ZobristTracker tracker -> zobristTracker.setNext(next);
-                case TranspositionTableRoot tableRoot -> transpositionTableRoot.setNext(next);
-                case AspirationWindows windows -> aspirationWindows.setNext(next);
-                case AlphaBetaStatisticsExpected betaStatisticsExpected -> alphaBetaStatisticsExpected.setNext(next);
-                case AlphaBeta beta -> alphaBeta.setNext(next);
-                case MoveEvaluationTracker evaluationTracker -> moveEvaluationTracker.setNext(next);
-                case AlphaBetaStatisticsVisited betaStatisticsVisited -> alphaBetaStatisticsVisited.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case TriangularPV pv -> triangularPV.setNext(next);
-                case TranspositionPV pv -> transpositionPV.setNext(next);
+                case StopProcessingCatch filer -> filer.setNext(next);
+                case ZobristTracker filer -> filer.setNext(next);
+                case TranspositionTableRoot filer -> filer.setNext(next);
+                case AspirationWindows filer -> filer.setNext(next);
+                case AlphaBetaStatisticsExpected filer -> filer.setNext(next);
+                case AlphaBeta filer -> filer.setNext(next);
+                case MoveEvaluationTracker filer -> filer.setNext(next);
+                case AlphaBetaStatisticsVisited filer -> filer.setNext(next);
+                case DebugFilter filer -> filer.setNext(next);
+                case TriangularPV filer -> filer.setNext(next);
+                case TranspositionPV filer -> filer.setNext(next);
                 case null, default -> throw new RuntimeException("filter not found");
             }
         }

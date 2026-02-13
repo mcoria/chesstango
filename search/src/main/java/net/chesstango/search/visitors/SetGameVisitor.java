@@ -15,8 +15,8 @@ import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
@@ -34,6 +34,7 @@ import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.negamax.NegaMax;
 import net.chesstango.search.smart.negamax.NegaMaxPruning;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
@@ -119,8 +120,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionPV transpositionPV) {
-        transpositionPV.setGame(game);
+    public void visit(TTPVReader ttpvReader) {
+        ttpvReader.setGame(game);
     }
 
     @Override
@@ -199,6 +200,11 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(NodeMoveSorter nodeMoveSorter) {
         nodeMoveSorter.setGame(game);
+    }
+
+    @Override
+    public void visit(MoveSorterDebug moveSorterDebug) {
+        moveSorterDebug.setGame(game);
     }
 
     /**

@@ -42,6 +42,7 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.features.egtb;
     exports net.chesstango.search.smart.features.egtb.filters;
     exports net.chesstango.search.smart.features.egtb.visitors;
+    exports net.chesstango.search.smart.features.pv;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;

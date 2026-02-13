@@ -129,7 +129,6 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
         if (currentNode.getSortedMoves() != null) {
             debugOut.printf("%s Exploring: %s\n", ">\t".repeat(currentNode.getPly()), currentNode.getSortedMoves());
-
             if (showSorterOperations) {
                 dumpSorterOperations(currentNode);
             }
@@ -149,6 +148,10 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             } else {
                 dumpNode(childNode);
             }
+        }
+
+        if (showNodeTranspositionAccess) {
+            showNodePVTranspositionAccess(currentNode);
         }
     }
 
@@ -191,7 +194,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
                 debugOut.print(" WRONG TT_READ ENTRY");
-                debugErrorMessages.add(String.format("0x%s: WRONG TT_READ ENTRY ", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
+                debugErrorMessages.add(String.format("WRONG TT_READ ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash()))));
             }
             debugOut.print("\n");
         });
@@ -199,22 +202,25 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ %s %s depth=%d move=%s value=%d ]",
+            debugOut.printf("%s WriteTT[ %s 0x%s %s depth=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
+                    hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
                     entry.getSearchDepth(),
                     writeOp.getMove(),
                     ttValue);
 
             if (currentNode.getZobristHash() != entry.getHash()) {
-                debugOut.print(" WRONG TT_WRITE_HASH_REQUESTED");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_HASH_REQUESTED %s", currentNode.getZobristHash()));
+                String message = String.format(" WRONG TT_WRITE_HASH_REQUESTED ENTRY 0x%s", hexFormat.formatHex(longToByte(currentNode.getZobristHash())));
+                debugOut.print(message);
+                debugErrorMessages.add(message);
             }
 
             if (currentNode.getValue() != ttValue) {
-                debugOut.print(" WRONG TT_WRITE_VALUE");
-                debugErrorMessages.add(String.format("WRONG TT_WRITE_VALUE %s", currentNode.getZobristHash()));
+                String message = String.format(" WRONG TT_WRITE_VALUE %s", currentNode.getValue());
+                debugOut.print(message);
+                debugErrorMessages.add(message);
             }
             debugOut.print("\n");
         });
@@ -234,39 +240,18 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         sortedMoves.forEach(moveStr -> {
             sortedReads
                     .stream()
-                    .filter(debugNodeTT -> Objects.equals(currentNode.getZobristHash(), debugNodeTT.getEntry().getHash()))
                     .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter ReadTT[ %s %s 0x%s depth=%d move=%s value=%d ]  %s",
+                        debugOut.printf("%s Sorter %s ReadTT[ %s %s 0x%s depth=%d move=? value=%d ]\n",
                                 ">\t".repeat(currentNode.getPly()),
-                                ttOperation.getTableType(),
-                                entry.getTranspositionBound(),
-                                hexFormat.formatHex(longToByte(entry.getHash())),
-                                entry.getSearchDepth(),
                                 moveStr,
-                                entry.getValue(),
-                                moveStr);
-                        debugOut.print("\n");
-                    });
-
-            sortedReads
-                    .stream()
-                    .filter(debugNodeTT -> !Objects.equals(currentNode.getZobristHash(), debugNodeTT.getEntry().getHash()))
-                    .filter(debugNodeTT -> Objects.equals(moveStr, debugNodeTT.getMove()))
-                    .forEach(ttOperation ->
-                    {
-                        TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter ReadTT[ %s %s 0x%s depth=%d value=%d ] %s",
-                                ">\t".repeat(currentNode.getPly()),
                                 ttOperation.getTableType(),
                                 entry.getTranspositionBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getSearchDepth(),
-                                entry.getValue(),
-                                moveStr);
-                        debugOut.print("\n");
+                                entry.getValue());
                     });
 
 
@@ -274,12 +259,11 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     .filter(debugOperationEval -> Objects.equals(moveStr, debugOperationEval.getMove()))
                     .forEach(debugOperationEval ->
                     {
-                        debugOut.printf("%s Sorter CacheRead[ 0x%s value=%d ] %s",
+                        debugOut.printf("%s Sorter %s CacheRead[ 0x%s value=%d ]\n",
                                 ">\t".repeat(currentNode.getPly()),
+                                moveStr,
                                 hexFormat.formatHex(longToByte(debugOperationEval.getHashRequested())),
-                                debugOperationEval.getEvaluation(),
-                                moveStr);
-                        debugOut.print("\n");
+                                debugOperationEval.getEvaluation());
                     });
 
             sorterKms.stream()
@@ -287,21 +271,23 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     .filter(kmStr -> Objects.equals(kmStr, moveStr))
                     .forEach(kmStr ->
                     {
-                        debugOut.printf("%s Sorter KillerMove %s",
+                        debugOut.printf("%s Sorter %s KillerMove\n",
                                 ">\t".repeat(currentNode.getPly()),
-                                kmStr);
-                        debugOut.print("\n");
+                                moveStr);
                     });
         });
 
 
+        /**
+         * NO ME QUEDA CLARO PARA QUE MOVIMIENTO LEEMOS EN ESTE CASO
+         */
         sortedReads
                 .stream()
                 .filter(ttOperation -> "NO_MOVE".equals(ttOperation.getMove()))
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.printf("%s Sorter ReadTT[ %s %s 0x%s depth=%d value=%d ] NO_MOVE",
+                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s depth=%d move=? value=%d ]",
                             ">\t".repeat(currentNode.getPly()),
                             ttOperation.getTableType(),
                             entry.getTranspositionBound(),
@@ -311,6 +297,18 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     debugOut.print("\n");
                 });
 
+    }
+
+    private void showNodePVTranspositionAccess(DebugNode currentNode) {
+        currentNode.getPvReads().forEach(readOp -> {
+            TranspositionEntry entry = readOp.getEntry();
+            debugOut.printf(" PV ReadTT[ %s 0x%s %s depth=%d move=? value=%d ]\n",
+                    readOp.getTableType(),
+                    hexFormat.formatHex(longToByte(entry.hash)),
+                    entry.getTranspositionBound(),
+                    entry.getSearchDepth(),
+                    entry.getValue());
+        });
     }
 
     private byte[] longToByte(long lng) {
