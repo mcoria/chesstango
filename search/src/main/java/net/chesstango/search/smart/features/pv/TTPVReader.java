@@ -66,7 +66,7 @@ public class TTPVReader implements PVReader, Acceptor {
         principalVariation.add(new PrincipalVariation(previousHash, previousMove));
 
 
-        // Next PV moves
+        // Second PV move
         Deque<Move> moves = new LinkedList<>();
         long currentHash = game.getPosition().getZobristHash();
         Move currentMove = getMove(bestMove);
@@ -78,6 +78,7 @@ public class TTPVReader implements PVReader, Acceptor {
 
             moves.push(currentMove);
 
+            // Third PV move and onward
             currentHash = game.getPosition().getZobristHash();
             currentMove = principalVariation.size() < maxPly
                     ? readMoveFromTT(maxMap, minMap)

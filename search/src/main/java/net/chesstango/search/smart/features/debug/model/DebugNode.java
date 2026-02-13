@@ -76,8 +76,6 @@ public class DebugNode {
 
     private List<DebugNode> childNodes = new LinkedList<>();
 
-
-
     private List<DebugOperationTT> pvReads = new ArrayList<>();
 
     private List<DebugOperationTT> currentEntryRead = entryRead;

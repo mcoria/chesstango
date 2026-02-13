@@ -8,6 +8,9 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.pv.PVReader;
 
 /**
+ * Este filtro se ejecuta luego de AlphaBeta para capturar tempranamente el PV.
+ * Busquedas sucesivas a PV ocacionan que TT se ensucie y su precision disminuya considerablemente
+ *
  * @author Mauricio Coria
  */
 public class TranspositionPV implements AlphaBetaFilter {

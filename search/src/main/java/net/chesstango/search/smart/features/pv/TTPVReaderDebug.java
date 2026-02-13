@@ -12,7 +12,7 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
 public class TTPVReaderDebug implements PVReader, Acceptor {
 
     @Setter
-    private PVReader imp;
+    private TTPVReader imp;
 
     @Setter
     private SearchTracker searchTracker;
@@ -24,7 +24,7 @@ public class TTPVReaderDebug implements PVReader, Acceptor {
 
     @Override
     public void readPrincipalVariation(short bestMove, int bestValue) {
-        DebugNode currentNode = searchTracker.getCurrentNode();
+        DebugNode currentNode = searchTracker.getCurrentNode(); //El root node
 
         currentNode.readingPrincipalVariationON();
 
