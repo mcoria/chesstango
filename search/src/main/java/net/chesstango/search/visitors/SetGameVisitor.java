@@ -36,6 +36,10 @@ import net.chesstango.search.smart.sorters.RootMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.RecaptureMoveComparator;
 
 /**
+ * Visitor implementation that propagates a Game instance to all components in the search algorithm chain.
+ * This visitor traverses the entire search structure and sets the game reference on all components that
+ * need access to the current game state, including filters, evaluators, sorters, and comparators.
+ * It is typically used during search initialization to ensure all components have the necessary game context.
  *
  * @author Mauricio Coria
  */

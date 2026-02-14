@@ -16,7 +16,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
 
     private int[] visitedNodesCounters;
 
-    private int maxPly;
+    private int depth;
 
     @Override
     public void accept(Visitor visitor) {
@@ -36,7 +36,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        final int qLevel = currentPly - maxPly;
+        final int qLevel = currentPly - depth;
         visitedNodesCounters[qLevel - 1]++;
     }
 }

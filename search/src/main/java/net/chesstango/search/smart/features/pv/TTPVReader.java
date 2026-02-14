@@ -42,7 +42,7 @@ public class TTPVReader implements PVReader, Acceptor {
     private Game game;
 
     @Setter
-    private int maxPly;
+    private int depth;
 
     @Getter
     private boolean pvComplete;
@@ -80,7 +80,7 @@ public class TTPVReader implements PVReader, Acceptor {
 
             // Third PV move and onward
             currentHash = game.getPosition().getZobristHash();
-            currentMove = principalVariation.size() < maxPly
+            currentMove = principalVariation.size() < depth
                     ? readMoveFromTT(maxMap, minMap)
                     : readMoveFromTT(qMaxMap, qMinMap);
 

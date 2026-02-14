@@ -63,7 +63,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                     printStream.printf("%s.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",
                             table,
                             hexFormat.formatHex(longToByte(entry.getHash())),
-                            entry.getSearchDepth(),
+                            entry.getDraft(),
                             entry.getMove(),
                             entry.getValue(),
                             entry.getTranspositionBound(),

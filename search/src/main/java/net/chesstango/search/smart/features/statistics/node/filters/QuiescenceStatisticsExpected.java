@@ -23,7 +23,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     private Game game;
 
     @Setter
-    private int maxPly;
+    private int depth;
 
     @Override
     public void accept(Visitor visitor) {
@@ -44,7 +44,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        final int qLevel = currentPly - maxPly;
+        final int qLevel = currentPly - depth;
         int expectedMoves = 0;
         if (game.getStatus().isCheck()) {
             expectedMoves = game.getPossibleMoves().size();

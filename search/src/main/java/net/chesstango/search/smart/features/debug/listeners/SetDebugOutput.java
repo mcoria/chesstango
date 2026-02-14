@@ -39,7 +39,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private PrintStream debugOut;
 
     @Setter
-    private int maxPly;
+    private int depth;
 
     @Setter
     private SearchTracker searchTracker;
@@ -90,7 +90,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
 
     @Override
     public void beforeSearchByDepth() {
-        debugOut.printf("Search by depth %d started\n", maxPly);
+        debugOut.printf("Search by depth %d started\n", depth);
     }
 
     @Override
@@ -184,12 +184,12 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryRead().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s ReadTT[ %s 0x%s %s depth=%d move=%s value=%d ]",
+            debugOut.printf("%s ReadTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     readOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
-                    entry.getSearchDepth(),
+                    entry.getDraft(),
                     readOp.getMove(),
                     ttValue);
             if (currentNode.getZobristHash() != entry.getHash()) {
@@ -202,12 +202,12 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         currentNode.getEntryWrite().forEach(writeOp -> {
             TranspositionEntry entry = writeOp.getEntry();
             int ttValue = entry.getValue();
-            debugOut.printf("%s WriteTT[ %s 0x%s %s depth=%d move=%s value=%d ]",
+            debugOut.printf("%s WriteTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
-                    entry.getSearchDepth(),
+                    entry.getDraft(),
                     writeOp.getMove(),
                     ttValue);
 
@@ -244,13 +244,13 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     .forEach(ttOperation ->
                     {
                         TranspositionEntry entry = ttOperation.getEntry();
-                        debugOut.printf("%s Sorter %s ReadTT[ %s %s 0x%s depth=%d move=? value=%d ]\n",
+                        debugOut.printf("%s Sorter %s ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]\n",
                                 ">\t".repeat(currentNode.getPly()),
                                 moveStr,
                                 ttOperation.getTableType(),
                                 entry.getTranspositionBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
-                                entry.getSearchDepth(),
+                                entry.getDraft(),
                                 entry.getValue());
                     });
 
@@ -287,12 +287,12 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                 .forEach(ttOperation -> {
                     TranspositionEntry entry = ttOperation.getEntry();
                     int ttValue = entry.getValue();
-                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s depth=%d move=? value=%d ]",
+                    debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]",
                             ">\t".repeat(currentNode.getPly()),
                             ttOperation.getTableType(),
                             entry.getTranspositionBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
-                            entry.getSearchDepth(),
+                            entry.getDraft(),
                             ttValue);
                     debugOut.print("\n");
                 });
@@ -302,11 +302,11 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     private void showNodePVTranspositionAccess(DebugNode currentNode) {
         currentNode.getPvReads().forEach(readOp -> {
             TranspositionEntry entry = readOp.getEntry();
-            debugOut.printf(" PV ReadTT[ %s 0x%s %s depth=%d move=? value=%d ]\n",
+            debugOut.printf(" PV ReadTT[ %s 0x%s %s draft=%d move=? value=%d ]\n",
                     readOp.getTableType(),
                     hexFormat.formatHex(longToByte(entry.hash)),
                     entry.getTranspositionBound(),
-                    entry.getSearchDepth(),
+                    entry.getDraft(),
                     entry.getValue());
         });
     }

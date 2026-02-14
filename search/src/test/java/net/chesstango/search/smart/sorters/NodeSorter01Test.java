@@ -7,7 +7,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(3));
+        searchListenerMediator.accept(new SetDepthVisitor(3));
         searchListenerMediator.triggerBeforeSearchByDepth();
 
         Iterable<Move> orderedMoves = moveSorter.getOrderedMoves(2);

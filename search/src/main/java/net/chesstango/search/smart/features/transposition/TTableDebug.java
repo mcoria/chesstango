@@ -39,9 +39,9 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public TranspositionEntry write(long hash, TranspositionBound bound, int searchDepth, short move, int value) {
-        trackWriteTranspositionEntry(hash, bound, searchDepth, move, value);
-        return tTable.write(hash, bound, searchDepth, move, value);
+    public TranspositionEntry write(long hash, TranspositionBound bound, int draft, short move, int value) {
+        trackWriteTranspositionEntry(hash, bound, draft, move, value);
+        return tTable.write(hash, bound, draft, move, value);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class TTableDebug implements TTable, Acceptor {
             // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
             TranspositionEntry entryWrite = new TranspositionEntry()
                     .setHash(hash)
-                    .setSearchDepth(searchDepth)
+                    .setDraft(searchDepth)
                     .setMove(move)
                     .setValue(value)
                     .setTranspositionBound(transpositionBound);
