@@ -12,9 +12,14 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 
 
 /**
- * La profundidad que busca en este ciclo
+ * The search depth for the current iteration cycle.
+ * This visitor is responsible for propagating the current search depth to all components
+ * that need to be aware of it during a specific search iteration. The depth value represents
+ * how many plies (half-moves) deep the search algorithm will explore from the current position.
+ * This is typically used in iterative deepening search, where the depth increases with each cycle.
  *
  * @author Mauricio Coria
+ * @see SetMaxDepthVisitor
  */
 public class SetDepthVisitor implements Visitor {
     private final int depth;
@@ -23,9 +28,6 @@ public class SetDepthVisitor implements Visitor {
         this.depth = depth;
     }
 
-    /**
-     * Facades
-     */
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
         transpositionTableRoot.setDepth(depth);
