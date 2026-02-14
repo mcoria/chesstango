@@ -69,7 +69,7 @@ public class TTPVReaderTest {
     void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
-        ttPvReader.setMaxPly(1);
+        ttPvReader.setDepth(1);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -109,7 +109,7 @@ public class TTPVReaderTest {
     void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
-        ttPvReader.setMaxPly(2);
+        ttPvReader.setDepth(2);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);

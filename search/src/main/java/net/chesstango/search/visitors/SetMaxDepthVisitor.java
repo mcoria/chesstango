@@ -5,7 +5,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 
 /**
- * Esta clase recorre ella misma toda la estructura
+ * La maxima profundidad (depth) que debe buscar
  *
  * @author Mauricio Coria
  */

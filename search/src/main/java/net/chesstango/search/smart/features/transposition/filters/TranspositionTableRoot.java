@@ -28,7 +28,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     protected Game game;
 
     @Setter
-    protected int maxPly;
+    protected int depth;
 
     @Override
     public void accept(Visitor visitor) {
@@ -42,7 +42,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        updateEntry(maxMap, hash, maxPly, alpha, beta, moveAndValue);
+        updateEntry(maxMap, hash, depth, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
@@ -53,7 +53,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        updateEntry(minMap, hash, maxPly, alpha, beta, moveAndValue);
+        updateEntry(minMap, hash, depth, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }

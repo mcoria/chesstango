@@ -17,7 +17,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetSearchMaxPlyVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -147,7 +147,7 @@ public class AlphaBetaTest {
 
         searchListenerMediator.triggerBeforeSearch();
 
-        searchListenerMediator.accept(new SetSearchMaxPlyVisitor(depth));
+        searchListenerMediator.accept(new SetDepthVisitor(depth));
 
         searchListenerMediator.triggerBeforeSearchByDepth();
 

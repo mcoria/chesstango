@@ -10,15 +10,17 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 
+
 /**
+ * La profundidad que busca en este ciclo
  *
  * @author Mauricio Coria
  */
-public class SetSearchMaxPlyVisitor implements Visitor {
-    private final int maxPly;
+public class SetDepthVisitor implements Visitor {
+    private final int depth;
 
-    public SetSearchMaxPlyVisitor(int maxPly) {
-        this.maxPly = maxPly;
+    public SetDepthVisitor(int depth) {
+        this.depth = depth;
     }
 
     /**
@@ -26,42 +28,42 @@ public class SetSearchMaxPlyVisitor implements Visitor {
      */
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
-        transpositionTableRoot.setMaxPly(maxPly);
+        transpositionTableRoot.setDepth(depth);
     }
 
     @Override
     public void visit(TTPVReader ttpvReader) {
-        ttpvReader.setMaxPly(maxPly);
+        ttpvReader.setDepth(depth);
     }
 
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
-        alphaBetaFlowControl.setMaxPly(maxPly);
+        alphaBetaFlowControl.setDepth(depth);
     }
 
     @Override
     public void visit(TranspositionTable transpositionTable) {
-        transpositionTable.setMaxPly(maxPly);
+        transpositionTable.setDepth(depth);
     }
 
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
-        transpositionTableQ.setMaxPly(maxPly);
+        transpositionTableQ.setDepth(depth);
     }
 
     @Override
     public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-        quiescenceStatisticsExpected.setMaxPly(maxPly);
+        quiescenceStatisticsExpected.setDepth(depth);
     }
 
     @Override
     public void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
-        quiescenceStatisticsVisited.setMaxPly(maxPly);
+        quiescenceStatisticsVisited.setDepth(depth);
     }
 
     @Override
     public void visit(SetDebugOutput setDebugOutput) {
-        setDebugOutput.setMaxPly(maxPly);
+        setDebugOutput.setDepth(depth);
     }
 
 }

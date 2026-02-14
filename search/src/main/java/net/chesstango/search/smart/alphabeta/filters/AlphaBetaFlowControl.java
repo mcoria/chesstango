@@ -45,7 +45,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
     private Game game;
 
     @Setter
-    private int maxPly;
+    private int depth;
 
     @Setter
     private EndGameTableBase endGameTableBase;
@@ -83,7 +83,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return loopNode.maximize(currentPly, alpha, beta);
         }
 
-        if (currentPly == maxPly) {
+        if (currentPly == depth) {
             if (isCurrentPositionQuiet()) {
                 return leafNode.maximize(currentPly, alpha, beta);
             } else {
@@ -112,7 +112,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return loopNode.minimize(currentPly, alpha, beta);
         }
 
-        if (currentPly == maxPly) {
+        if (currentPly == depth) {
             if (isCurrentPositionQuiet()) {
                 return leafNode.minimize(currentPly, alpha, beta);
             } else {
