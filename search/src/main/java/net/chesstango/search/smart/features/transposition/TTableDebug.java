@@ -79,7 +79,7 @@ public class TTableDebug implements TTable, Acceptor {
             // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
             TranspositionEntry entryWrite = new TranspositionEntry()
                     .setHash(hash)
-                    .setSearchDepth(searchDepth)
+                    .setDraft(searchDepth)
                     .setMove(move)
                     .setValue(value)
                     .setTranspositionBound(transpositionBound);

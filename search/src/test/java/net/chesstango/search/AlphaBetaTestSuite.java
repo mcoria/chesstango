@@ -4,6 +4,7 @@ package net.chesstango.search;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.alphabeta.filters.MoveEvaluationTrackerTest;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionEntryTableTest;
+import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindowsTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -31,6 +32,8 @@ import org.junit.platform.suite.api.Suite;
         TranspositionEntryTableTest.class,
         MoveEvaluationTrackerTest.class,
         AlphaBetaSearchesTest.class,
+        AspirationWindowsTest.class,
+        MoveEvaluationTrackerTest.class
 })
 public class AlphaBetaTestSuite {
 

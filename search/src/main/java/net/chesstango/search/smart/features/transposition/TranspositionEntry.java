@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class TranspositionEntry implements Serializable, Cloneable, Comparable<TranspositionEntry> {
 
     public long hash;
-    public int searchDepth;
+    public int draft; // Distance to the horizon
     public short move;
     public int value;
 
@@ -24,7 +24,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
 
     public void reset() {
         hash = 0;
-        searchDepth = 0;
+        draft = 0;
         move = 0;
         value = 0;
         transpositionBound = null;
@@ -34,7 +34,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
     public TranspositionEntry clone() {
         return new TranspositionEntry()
                 .setHash(hash)
-                .setSearchDepth(searchDepth)
+                .setDraft(draft)
                 .setMove(move)
                 .setValue(value)
                 .setTranspositionBound(transpositionBound);
