@@ -30,10 +30,6 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
-import net.chesstango.search.smart.minmax.MinMax;
-import net.chesstango.search.smart.negamax.NegaMax;
-import net.chesstango.search.smart.negamax.NegaMaxPruning;
-import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -75,23 +71,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaFacade alphaBetaFacade) {
         alphaBetaFacade.setGame(game);
-    }
-
-    @Override
-    public void visit(MinMax minMax) {
-        minMax.setGame(game);
-    }
-
-    @Override
-    public void visit(NegaMax negaMax) {
-        negaMax.setGame(game);
-    }
-
-    @Override
-    public void visit(NegaMaxPruning negaMaxPruning) {
-        negaMaxPruning.setGame(game);
-        MoveSorter sorter = negaMaxPruning.getMoveSorter();
-        sorter.accept(this);
     }
 
     /**

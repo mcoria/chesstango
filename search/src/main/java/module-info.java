@@ -3,8 +3,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.sorters.comparators;
-    exports net.chesstango.search.smart.negamax;
-    exports net.chesstango.search.smart.minmax;
     exports net.chesstango.search.smart.features.zobrist.listeners;
     exports net.chesstango.search.smart.features.zobrist.filters;
     exports net.chesstango.search.smart.features.transposition;

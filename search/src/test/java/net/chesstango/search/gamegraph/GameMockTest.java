@@ -1,19 +1,13 @@
 package net.chesstango.search.gamegraph;
 
-import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.minmax.MinMax;
-import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.Reader;
 import java.io.StringReader;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Mauricio Coria
@@ -21,17 +15,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @Disabled
 public class GameMockTest {
 
+    /*
     @Test
     public void loadFromFile() {
         GameMock game = GameMockLoader.loadFromFile("GameGraph.json");
         MockEvaluator evaluator = new MockEvaluator();
 
-        MinMax minMax = new MinMax();
+        //MinMax minMax = new MinMax();
 
-        minMax.setGameEvaluator(evaluator);
+       // minMax.setGameEvaluator(evaluator);
 
         SearchListenerMediator searchListenerMediator = new SearchListenerMediator();
-        searchListenerMediator.add(minMax);
+        //searchListenerMediator.add(minMax);
 
         NoIterativeDeepening searchMove = new NoIterativeDeepening(minMax, searchListenerMediator);
 
@@ -46,6 +41,7 @@ public class GameMockTest {
         assertEquals(5, game.getNodesVisited());
         assertEquals(2, evaluator.getNodesEvaluated());
     }
+    */
 
     @Test
     public void repeatedMoves() {

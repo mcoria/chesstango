@@ -9,9 +9,6 @@ import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceSt
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.minmax.MinMax;
-import net.chesstango.search.smart.negamax.NegaMax;
-import net.chesstango.search.smart.negamax.NegaMaxPruning;
 
 /**
  *
@@ -27,22 +24,6 @@ public class SetSearchMaxPlyVisitor implements Visitor {
     /**
      * Facades
      */
-
-    @Override
-    public void visit(MinMax minMax) {
-        minMax.setMaxPly(maxPly);
-    }
-
-    @Override
-    public void visit(NegaMax negaMax) {
-        negaMax.setMaxPly(maxPly);
-    }
-
-    @Override
-    public void visit(NegaMaxPruning negaMaxPruning) {
-        negaMaxPruning.setMaxPly(maxPly);
-    }
-
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
         transpositionTableRoot.setMaxPly(maxPly);
