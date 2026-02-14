@@ -16,7 +16,6 @@ import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 @Getter
 public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
-
     private AlphaBetaFilter next;
     protected TTable maxMap;
     protected TTable minMap;
@@ -25,17 +24,17 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
     @Setter
     private int depth;
 
-    protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth);
+    protected abstract boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int draft);
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = Math.abs(depth - currentPly);
+        int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
 
         TranspositionEntry entry = maxMap.read(hash);
 
-        if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
+        if (entry != null && isTranspositionEntryValid(entry, hash, draft)) {
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
                 return AlphaBetaHelper.encode(entry.move, entry.value);
@@ -52,20 +51,20 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(maxMap, hash, searchDepth, alpha, beta, moveAndValue);
+        writeTransposition(maxMap, hash, draft, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        int searchDepth = Math.abs(depth - currentPly);
+        int draft = depth - currentPly;
 
         long hash = game.getPosition().getZobristHash();
 
         TranspositionEntry entry = minMap.read(hash);
 
-        if (entry != null && isTranspositionEntryValid(entry, hash, searchDepth)) {
+        if (entry != null && isTranspositionEntryValid(entry, hash, draft)) {
             // Es un valor exacto
             if (entry.transpositionBound == TranspositionBound.EXACT) {
                 return AlphaBetaHelper.encode(entry.move, entry.value);
@@ -82,12 +81,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
          * Aca deberiamos llamar a la estrategia para deterimanr si reemplazamos o no
          */
 
-        writeTransposition(minMap, hash, searchDepth, alpha, beta, moveAndValue);
+        writeTransposition(minMap, hash, draft, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
 
-    protected void writeTransposition(TTable table, long hash, int depth, int alpha, int beta, long moveAndValue) {
+    protected void writeTransposition(TTable table, long hash, int draft, int alpha, int beta, long moveAndValue) {
         short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
@@ -100,6 +99,6 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
             transpositionBound = TranspositionBound.EXACT;
         }
 
-        table.write(hash, transpositionBound, depth, move, value);
+        table.write(hash, transpositionBound, draft, move, value);
     }
 }

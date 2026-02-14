@@ -15,7 +15,7 @@ public class TranspositionTableQ extends TranspositionTableAbstract {
 
 
     @Override
-    protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int searchDepth) {
+    protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int draft) {
         return true;
     }
 
