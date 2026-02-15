@@ -14,12 +14,12 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class TranspositionEntry implements Serializable, Cloneable, Comparable<TranspositionEntry> {
 
-    public long hash;
-    public int draft; // Distance to the horizon
-    public short move;
-    public int value;
+    long hash;
+    int draft; // Distance to the horizon
+    short move;
+    int value;
 
-    public TranspositionBound transpositionBound;
+    TranspositionBound bound;
 
 
     public void reset() {
@@ -27,7 +27,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
         draft = 0;
         move = 0;
         value = 0;
-        transpositionBound = null;
+        bound = null;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
                 .setDraft(draft)
                 .setMove(move)
                 .setValue(value)
-                .setTranspositionBound(transpositionBound);
+                .setBound(bound);
     }
 
     @Override
@@ -45,15 +45,15 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
         int result = Integer.compare(value, other.value);
 
         if (result == 0) {
-            if (TranspositionBound.LOWER_BOUND.equals(transpositionBound) && !TranspositionBound.LOWER_BOUND.equals(other.transpositionBound)) {
+            if (TranspositionBound.LOWER_BOUND.equals(bound) && !TranspositionBound.LOWER_BOUND.equals(other.bound)) {
                 result = 1;
-            } else if (TranspositionBound.EXACT.equals(transpositionBound)) {
-                if (TranspositionBound.UPPER_BOUND.equals(other.transpositionBound)) {
+            } else if (TranspositionBound.EXACT.equals(bound)) {
+                if (TranspositionBound.UPPER_BOUND.equals(other.bound)) {
                     result = 1;
-                } else if (TranspositionBound.LOWER_BOUND.equals(other.transpositionBound)) {
+                } else if (TranspositionBound.LOWER_BOUND.equals(other.bound)) {
                     result = -1;
                 }
-            } else if (TranspositionBound.UPPER_BOUND.equals(transpositionBound) && !TranspositionBound.UPPER_BOUND.equals(other.transpositionBound)) {
+            } else if (TranspositionBound.UPPER_BOUND.equals(bound) && !TranspositionBound.UPPER_BOUND.equals(other.bound)) {
                 result = -1;
             }
         }

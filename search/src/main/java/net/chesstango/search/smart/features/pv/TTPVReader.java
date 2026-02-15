@@ -108,8 +108,8 @@ public class TTPVReader implements PVReader, Acceptor {
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
             TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
-            if (entry != null && TranspositionBound.EXACT.equals(entry.transpositionBound)) {
-                short bestMoveEncoded = entry.move;
+            if (entry != null && TranspositionBound.EXACT.equals(entry.getBound())) {
+                short bestMoveEncoded = entry.getMove();
                 result = getMove(bestMoveEncoded);
             }
         }

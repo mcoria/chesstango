@@ -36,12 +36,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         if (entry != null && isTranspositionEntryValid(entry, hash, draft)) {
             // Es un valor exacto
-            if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
+            if (entry.getBound() == TranspositionBound.EXACT) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
+            } else if (entry.getBound() == TranspositionBound.LOWER_BOUND && beta <= entry.getValue()) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
+            } else if (entry.getBound() == TranspositionBound.UPPER_BOUND && entry.getValue() <= alpha) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
             }
         }
 
@@ -66,12 +66,12 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
 
         if (entry != null && isTranspositionEntryValid(entry, hash, draft)) {
             // Es un valor exacto
-            if (entry.transpositionBound == TranspositionBound.EXACT) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
-            } else if (entry.transpositionBound == TranspositionBound.LOWER_BOUND && beta <= entry.value) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
-            } else if (entry.transpositionBound == TranspositionBound.UPPER_BOUND && entry.value <= alpha) {
-                return AlphaBetaHelper.encode(entry.move, entry.value);
+            if (entry.getBound() == TranspositionBound.EXACT) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
+            } else if (entry.getBound() == TranspositionBound.LOWER_BOUND && beta <= entry.getValue()) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
+            } else if (entry.getBound() == TranspositionBound.UPPER_BOUND && entry.getValue() <= alpha) {
+                return AlphaBetaHelper.encode(entry.getMove(), entry.getValue());
             }
         }
 

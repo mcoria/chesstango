@@ -61,11 +61,11 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     protected void updateEntry(TTable table, long hash, int alpha, int beta, long moveAndValue) {
         short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
-        //TranspositionBound transpositionBound;
+        //TranspositionBound bound;
         if (beta <= value) {
-            //transpositionBound = TranspositionBound.LOWER_BOUND;
+            //bound = TranspositionBound.LOWER_BOUND;
         } else if (value <= alpha) {
-            //transpositionBound = TranspositionBound.UPPER_BOUND;
+            //bound = TranspositionBound.UPPER_BOUND;
         } else {
             table.write(hash, TranspositionBound.EXACT, depth, move, value);
         }

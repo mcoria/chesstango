@@ -187,8 +187,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             debugOut.printf("%s ReadTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     readOp.getTableType(),
-                    hexFormat.formatHex(longToByte(entry.hash)),
-                    entry.getTranspositionBound(),
+                    hexFormat.formatHex(longToByte(entry.getHash())),
+                    entry.getBound(),
                     entry.getDraft(),
                     readOp.getMove(),
                     ttValue);
@@ -205,8 +205,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             debugOut.printf("%s WriteTT[ %s 0x%s %s draft=%d move=%s value=%d ]",
                     ">\t".repeat(currentNode.getPly()),
                     writeOp.getTableType(),
-                    hexFormat.formatHex(longToByte(entry.hash)),
-                    entry.getTranspositionBound(),
+                    hexFormat.formatHex(longToByte(entry.getHash())),
+                    entry.getBound(),
                     entry.getDraft(),
                     writeOp.getMove(),
                     ttValue);
@@ -248,7 +248,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                                 ">\t".repeat(currentNode.getPly()),
                                 moveStr,
                                 ttOperation.getTableType(),
-                                entry.getTranspositionBound(),
+                                entry.getBound(),
                                 hexFormat.formatHex(longToByte(entry.getHash())),
                                 entry.getDraft(),
                                 entry.getValue());
@@ -290,7 +290,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
                     debugOut.printf("%s Sorter NO_MOVE ReadTT[ %s %s 0x%s draft=%d move=? value=%d ]",
                             ">\t".repeat(currentNode.getPly()),
                             ttOperation.getTableType(),
-                            entry.getTranspositionBound(),
+                            entry.getBound(),
                             hexFormat.formatHex(longToByte(entry.getHash())),
                             entry.getDraft(),
                             ttValue);
@@ -304,8 +304,8 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
             TranspositionEntry entry = readOp.getEntry();
             debugOut.printf(" PV ReadTT[ %s 0x%s %s draft=%d move=? value=%d ]\n",
                     readOp.getTableType(),
-                    hexFormat.formatHex(longToByte(entry.hash)),
-                    entry.getTranspositionBound(),
+                    hexFormat.formatHex(longToByte(entry.getHash())),
+                    entry.getBound(),
                     entry.getDraft(),
                     entry.getValue());
         });
