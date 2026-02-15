@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -25,6 +26,12 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
+    private final TranspositionEntry entryWorkspace;
+
+    public TranspositionTableTerminal() {
+        entryWorkspace = new TranspositionEntry();
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -36,10 +43,10 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
-        if (maxMap.read(hash) == null) {
+        if (!maxMap.load(hash, entryWorkspace)) {
             maxMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
-        if (maxQMap.read(hash) == null) {
+        if (!maxQMap.load(hash, entryWorkspace)) {
             maxQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
 
@@ -51,10 +58,10 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
-        if (minMap.read(hash) == null) {
+        if (!minMap.load(hash, entryWorkspace)) {
             minMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
-        if (minQMap.read(hash) == null) {
+        if (!minQMap.load(hash, entryWorkspace)) {
             minQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
         }
 

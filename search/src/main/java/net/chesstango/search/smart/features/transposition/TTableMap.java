@@ -11,8 +11,21 @@ public class TTableMap implements TTable {
     private final Map<Long, TranspositionEntry> table = new HashMap<>();
 
     @Override
-    public TranspositionEntry read(long hash) {
-        return table.get(hash);
+    public boolean load(long hash, TranspositionEntry entry) {
+        TranspositionEntry storedEntry = table.get(hash);
+
+        if (storedEntry == null) {
+            return false;
+        }
+
+        // Copy stored entry fields to the output entry
+        entry.hash = storedEntry.hash;
+        entry.draft = storedEntry.draft;
+        entry.move = storedEntry.move;
+        entry.value = storedEntry.value;
+        entry.bound = storedEntry.bound;
+
+        return true;
     }
 
     @Override

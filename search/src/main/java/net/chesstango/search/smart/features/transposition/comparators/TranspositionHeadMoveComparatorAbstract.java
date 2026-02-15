@@ -6,12 +6,9 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.sorters.MoveComparator;
-
-import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -29,17 +26,23 @@ public abstract class TranspositionHeadMoveComparatorAbstract implements MoveCom
 
     private short bestMoveEncoded;
 
+    private final TranspositionEntry entryWorkspace;
+
+    public TranspositionHeadMoveComparatorAbstract() {
+        entryWorkspace = new TranspositionEntry();
+    }
+
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         final Color currentTurn = game.getPosition().getCurrentTurn();
 
         long hash = game.getPosition().getZobristHash();
 
-        TranspositionEntry entry = Color.WHITE.equals(currentTurn) ?
-                maxMap.read(hash) : minMap.read(hash);
+        boolean load = Color.WHITE.equals(currentTurn) ?
+                maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
 
-        if (Objects.nonNull(entry)) {
-            bestMoveEncoded = entry.getMove();
+        if (load) {
+            bestMoveEncoded = entryWorkspace.getMove();
         } else {
             bestMoveEncoded = 0;
         }

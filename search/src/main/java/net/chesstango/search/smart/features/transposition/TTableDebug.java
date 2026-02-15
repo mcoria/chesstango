@@ -32,10 +32,10 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public TranspositionEntry read(long hash) {
-        TranspositionEntry entry = tTable.read(hash);
-        trackReadTranspositionEntry(hash, entry);
-        return entry;
+    public boolean load(long hash, TranspositionEntry entry) {
+        boolean load = tTable.load(hash, entry);
+        trackReadTranspositionEntry(hash, load ? entry : null);
+        return load;
     }
 
     @Override
@@ -55,6 +55,7 @@ public class TTableDebug implements TTable, Acceptor {
         if (currentNode != null) {
             if (entry != null) {
                 assert hashRequested == entry.hash;
+
                 TranspositionEntry entryCloned = entry.clone();
 
                 List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();

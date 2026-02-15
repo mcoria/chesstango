@@ -21,16 +21,23 @@ public class TTableArray implements TTable {
     }
 
     @Override
-    public TranspositionEntry read(long hash) {
+    public boolean load(long hash, TranspositionEntry entry) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 
-        TranspositionEntry entry = transpositionArray[idx];
+        TranspositionEntry storedEntry = transpositionArray[idx];
 
-        if (sessionArray[idx] != currentSessionId || !entry.isStored(hash)) {
-            return null;
+        if (sessionArray[idx] != currentSessionId || !storedEntry.isStored(hash)) {
+            return false;
         }
 
-        return entry;
+        // Copy stored entry fields to the output entry
+        entry.hash = storedEntry.hash;
+        entry.draft = storedEntry.draft;
+        entry.move = storedEntry.move;
+        entry.value = storedEntry.value;
+        entry.bound = storedEntry.bound;
+
+        return true;
     }
 
     @Override

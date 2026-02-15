@@ -22,10 +22,11 @@ public interface TTable {
     /**
      * Retrieves a transposition table entry for the given position hash.
      *
-     * @param hash the Zobrist hash value of the chess position to look up
-     * @return the TranspositionEntry associated with the hash, or null if no entry exists
+     * @param hash  the Zobrist hash value of the chess position to look up
+     * @param entry the TranspositionEntry to populate with the result
+     * @return true if the entry was found, false otherwise
      */
-    TranspositionEntry read(long hash);
+    boolean load(long hash, TranspositionEntry entry);
 
     /**
      * Stores or updates a transposition table entry for the given position.

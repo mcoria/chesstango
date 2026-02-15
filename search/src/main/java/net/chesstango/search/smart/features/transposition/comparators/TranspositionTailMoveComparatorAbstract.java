@@ -33,6 +33,14 @@ public abstract class TranspositionTailMoveComparatorAbstract implements MoveCom
     private Color currentTurn;
     private TTable currentMap;
 
+    private final TranspositionEntry moveEntry1;
+    private final TranspositionEntry moveEntry2;
+
+    public TranspositionTailMoveComparatorAbstract() {
+        moveEntry1 = new TranspositionEntry();
+        moveEntry2 = new TranspositionEntry();
+    }
+
     @Override
     public void beforeSort(final int currentPly, MoveToHashMap moveToZobrist) {
         this.moveToZobrist = moveToZobrist;
@@ -51,14 +59,14 @@ public abstract class TranspositionTailMoveComparatorAbstract implements MoveCom
     public int compare(Move o1, Move o2) {
         int result = 0;
 
-        final TranspositionEntry moveEntry1 = currentMap.read(getZobristHashMove(o1));
-        final TranspositionEntry moveEntry2 = currentMap.read(getZobristHashMove(o2));
+        boolean load01 = currentMap.load(getZobristHashMove(o1), moveEntry1);
+        boolean load02 = currentMap.load(getZobristHashMove(o2), moveEntry2);
 
-        if (moveEntry1 != null && moveEntry2 != null) {
+        if (load01 && load02) {
             result = Color.WHITE.equals(currentTurn) ? moveEntry1.compareTo(moveEntry2) : -moveEntry1.compareTo(moveEntry2);
-        } else if (moveEntry1 != null) {
+        } else if (load01) {
             return 1;
-        } else if (moveEntry2 != null) {
+        } else if (load02) {
             return -1;
         }
 
