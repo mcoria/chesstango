@@ -27,6 +27,8 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
@@ -122,8 +124,12 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
-        print(transpositionTableRoot, transpositionTableRoot.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableRoot), printTTable(transpositionTableRoot.getMaxMap())));
+
+        transpositionTableRoot.getNext().accept(this);
     }
+
 
     @Override
     public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
@@ -523,6 +529,14 @@ public class ChainPrinterVisitor implements Visitor {
         }
 
         return objectText(evaluator);
+    }
+
+    private String printTTable(TTable ttable) {
+        if (ttable instanceof TTableDebug ttableDebug) {
+            return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
+        }
+
+        return objectText(ttable);
     }
 
 }

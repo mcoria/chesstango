@@ -20,9 +20,11 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Setter
+    @Getter
     protected TTable maxMap;
 
     @Setter
+    @Getter
     protected TTable minMap;
 
     @Setter
