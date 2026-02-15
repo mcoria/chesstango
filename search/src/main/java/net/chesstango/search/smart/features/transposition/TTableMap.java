@@ -22,7 +22,7 @@ public class TTableMap implements TTable {
         entry.draft = draft;
         entry.move = move;
         entry.value = value;
-        entry.transpositionBound = bound;
+        entry.bound = bound;
         return entry;
     }
 
