@@ -8,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetKillerMovesVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
@@ -83,10 +84,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
     }
 
     protected void loadTranspositionTables() {
-        long moveAndValue = 4078092922146620L;
-        short move = AlphaBetaHelper.decodeMove(moveAndValue);
-        int value = AlphaBetaHelper.decodeValue(moveAndValue);
-        maxMap.write(0x337D4750B1C4CD1AL, TranspositionBound.LOWER_BOUND, 1, move, value); // b8f8
+        saveEntry(maxMap, 0x337D4750B1C4CD1AL, TranspositionBound.LOWER_BOUND, 1, 4078092922146620L);
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

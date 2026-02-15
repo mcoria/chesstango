@@ -61,9 +61,4 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
         return result;
     }
 
-    public boolean isStored(long hash) {
-        return this.hash == hash;
-    }
-
-
 }

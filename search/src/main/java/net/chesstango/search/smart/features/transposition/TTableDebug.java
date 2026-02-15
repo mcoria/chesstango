@@ -32,16 +32,17 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public TranspositionEntry read(long hash) {
-        TranspositionEntry entry = tTable.read(hash);
-        trackReadTranspositionEntry(hash, entry);
-        return entry;
+    public boolean load(long hash, TranspositionEntry entry) {
+        boolean load = tTable.load(hash, entry);
+        trackReadTranspositionEntry(hash, load ? entry : null);
+        return load;
     }
 
     @Override
-    public TranspositionEntry write(long hash, TranspositionBound bound, int draft, short move, int value) {
-        trackWriteTranspositionEntry(hash, bound, draft, move, value);
-        return tTable.write(hash, bound, draft, move, value);
+    public InsertResult save(TranspositionEntry entry) {
+        InsertResult insertResult = tTable.save(entry);
+        trackWriteTranspositionEntry(entry, insertResult);
+        return insertResult;
     }
 
     @Override
@@ -55,7 +56,8 @@ public class TTableDebug implements TTable, Acceptor {
         if (currentNode != null) {
             if (entry != null) {
                 assert hashRequested == entry.hash;
-                TranspositionEntry entryCloned = entry.clone();
+
+                TranspositionEntry entryRead = entry.clone();
 
                 List<DebugOperationTT> readList = currentNode.getCurrentEntryRead();
 
@@ -67,22 +69,17 @@ public class TTableDebug implements TTable, Acceptor {
                 if (previousReadOpt.isEmpty()) {
                     readList.add(new DebugOperationTT()
                             .setTableType(tableType)
-                            .setEntry(entryCloned));
+                            .setEntry(entryRead));
                 }
             }
         }
     }
 
-    void trackWriteTranspositionEntry(long hash, TranspositionBound transpositionBound, int searchDepth, short move, int value) {
+    void trackWriteTranspositionEntry(TranspositionEntry entry, InsertResult insertResult) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             // Si intenta grabar mientras esta ordenando lanza NULLPOINTER
-            TranspositionEntry entryWrite = new TranspositionEntry()
-                    .setHash(hash)
-                    .setDraft(searchDepth)
-                    .setMove(move)
-                    .setValue(value)
-                    .setBound(transpositionBound);
+            TranspositionEntry entryWrite = entry.clone();
 
             List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
 

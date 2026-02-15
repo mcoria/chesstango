@@ -6,8 +6,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.visitors.SetGameVisitor;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.visitors.SetDepthVisitor;
+import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
 
     @Test
     public void test01() {
-        loadTranspositionTables();
+        saveEntry(minMap, 0xF91593D0EB65C164L, TranspositionBound.UPPER_BOUND, 1, 3147906084927624L);
 
         moveSorterBuilder
                 .withTranspositionTable()
@@ -55,13 +56,6 @@ public class NodeSorter01Test extends AbstractNodeSorterTest {
                 .executeMove(Square.f6, Square.f3)
                 .executeMove(Square.h3, Square.h4);
 
-    }
-
-    protected void loadTranspositionTables() {
-        long moveAndValue = 3147906084927624L;
-        short move = AlphaBetaHelper.decodeMove(moveAndValue);
-        int value = AlphaBetaHelper.decodeValue(moveAndValue);
-        minMap.write(0xF91593D0EB65C164L, TranspositionBound.UPPER_BOUND, 1, move, value); // e6h6
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

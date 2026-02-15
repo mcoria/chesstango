@@ -14,8 +14,8 @@ public class TranspositionTable extends TranspositionTableAbstract {
     }
 
     @Override
-    protected boolean isTranspositionEntryValid(TranspositionEntry entry, long hash, int draft) {
-        return draft <= entry.getDraft();
+    protected boolean isTranspositionEntryValid(int draft) {
+        return draft <= entryWorkspace.getDraft();
     }
 
 }

@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -30,6 +31,12 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
     @Setter
     protected int depth;
 
+    private final TranspositionEntry entryWorkspace;
+
+    public TranspositionTableRoot() {
+        entryWorkspace = new TranspositionEntry();
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -42,7 +49,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        updateEntry(maxMap, hash, alpha, beta, moveAndValue);
+        saveEntry(maxMap, hash, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
@@ -53,12 +60,12 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
 
         long hash = game.getPosition().getZobristHash();
 
-        updateEntry(minMap, hash, alpha, beta, moveAndValue);
+        saveEntry(minMap, hash, alpha, beta, moveAndValue);
 
         return moveAndValue;
     }
 
-    protected void updateEntry(TTable table, long hash, int alpha, int beta, long moveAndValue) {
+    protected void saveEntry(TTable table, long hash, int alpha, int beta, long moveAndValue) {
         short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
         //TranspositionBound bound;
@@ -67,7 +74,13 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
         } else if (value <= alpha) {
             //bound = TranspositionBound.UPPER_BOUND;
         } else {
-            table.write(hash, TranspositionBound.EXACT, depth, move, value);
+            entryWorkspace.setHash(hash);
+            entryWorkspace.setBound(TranspositionBound.EXACT);
+            entryWorkspace.setDraft(depth);
+            entryWorkspace.setMove(move);
+            entryWorkspace.setValue(value);
+
+            table.save(entryWorkspace);
         }
     }
 }

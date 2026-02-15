@@ -50,6 +50,12 @@ public class TTPVReader implements PVReader, Acceptor {
     @Getter
     private List<PrincipalVariation> principalVariation;
 
+    private final TranspositionEntry entryWorkspace;
+
+    public TTPVReader() {
+        entryWorkspace = new TranspositionEntry();
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -107,9 +113,9 @@ public class TTPVReader implements PVReader, Acceptor {
         Move result = null;
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
-            TranspositionEntry entry = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.read(hash) : minMap.read(hash);
-            if (entry != null && TranspositionBound.EXACT.equals(entry.getBound())) {
-                short bestMoveEncoded = entry.getMove();
+            boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
+            if (load && TranspositionBound.EXACT.equals(entryWorkspace.getBound())) {
+                short bestMoveEncoded = entryWorkspace.getMove();
                 result = getMove(bestMoveEncoded);
             }
         }

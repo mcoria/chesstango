@@ -8,6 +8,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -25,6 +26,12 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
+    private final TranspositionEntry entryWorkspace;
+
+    public TranspositionTableTerminal() {
+        entryWorkspace = new TranspositionEntry();
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -36,11 +43,18 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
-        if (maxMap.read(hash) == null) {
-            maxMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
+        entryWorkspace.setHash(hash);
+        entryWorkspace.setBound(TranspositionBound.EXACT);
+        entryWorkspace.setDraft(0);
+        entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+        entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
+        if (!maxMap.load(hash, entryWorkspace)) {
+            maxMap.save(entryWorkspace);
         }
-        if (maxQMap.read(hash) == null) {
-            maxQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+        if (!maxQMap.load(hash, entryWorkspace)) {
+            maxQMap.save(entryWorkspace);
         }
 
         return bestMoveAndValue;
@@ -51,11 +65,18 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
-        if (minMap.read(hash) == null) {
-            minMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
+        entryWorkspace.setHash(hash);
+        entryWorkspace.setBound(TranspositionBound.EXACT);
+        entryWorkspace.setDraft(0);
+        entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+        entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
+        if (!minMap.load(hash, entryWorkspace)) {
+            minMap.save(entryWorkspace);
         }
-        if (minQMap.read(hash) == null) {
-            minQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+        if (!minQMap.load(hash, entryWorkspace)) {
+            minQMap.save(entryWorkspace);
         }
 
         return bestMoveAndValue;
