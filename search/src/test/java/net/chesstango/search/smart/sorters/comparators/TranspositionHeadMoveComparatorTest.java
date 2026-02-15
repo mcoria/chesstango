@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,14 @@ public class TranspositionHeadMoveComparatorTest {
         short move = AlphaBetaHelper.decodeMove(bestMoveAndValue);
         int value = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
-        maxMap.write(hash, TranspositionBound.EXACT, 1, move, value);
+        TranspositionEntry entry = new TranspositionEntry()
+                .setHash(hash)
+                .setBound(TranspositionBound.EXACT)
+                .setDraft(1)
+                .setMove(move)
+                .setValue(value);
+
+        maxMap.save(entry);
 
         initMoveSorter(game);
 

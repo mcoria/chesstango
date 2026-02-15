@@ -29,14 +29,15 @@ public class TTableMap implements TTable {
     }
 
     @Override
-    public TranspositionEntry write(long hash, TranspositionBound bound, int draft, short move, int value) {
-        TranspositionEntry entry = table.computeIfAbsent(hash, key -> new TranspositionEntry());
-        entry.hash = hash;
-        entry.draft = draft;
-        entry.move = move;
-        entry.value = value;
-        entry.bound = bound;
-        return entry;
+    public InsertResult save(TranspositionEntry entry) {
+        TranspositionEntry storedEntry = table.computeIfAbsent(entry.hash, key -> new TranspositionEntry());
+        InsertResult result = storedEntry.hash == entry.hash ? InsertResult.UPDATED : InsertResult.INSERTED;
+        storedEntry.hash = entry.hash;
+        storedEntry.draft = entry.draft;
+        storedEntry.move = entry.move;
+        storedEntry.value = entry.value;
+        storedEntry.bound = entry.bound;
+        return result;
     }
 
     @Override

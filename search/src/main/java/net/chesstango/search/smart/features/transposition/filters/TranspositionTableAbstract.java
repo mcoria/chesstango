@@ -96,15 +96,19 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         short move = AlphaBetaHelper.decodeMove(moveAndValue);
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
-        TranspositionBound transpositionBound;
+        entryWorkspace.setHash(hash);
+        entryWorkspace.setDraft(draft);
+        entryWorkspace.setMove(move);
+        entryWorkspace.setValue(value);
+
         if (beta <= value) {
-            transpositionBound = TranspositionBound.LOWER_BOUND;
+            entryWorkspace.setBound(TranspositionBound.LOWER_BOUND);
         } else if (value <= alpha) {
-            transpositionBound = TranspositionBound.UPPER_BOUND;
+            entryWorkspace.setBound(TranspositionBound.UPPER_BOUND);
         } else {
-            transpositionBound = TranspositionBound.EXACT;
+            entryWorkspace.setBound(TranspositionBound.EXACT);
         }
 
-        table.write(hash, transpositionBound, draft, move, value);
+        table.save(entryWorkspace);
     }
 }

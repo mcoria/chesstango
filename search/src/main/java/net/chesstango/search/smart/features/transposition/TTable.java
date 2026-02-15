@@ -19,11 +19,22 @@ package net.chesstango.search.smart.features.transposition;
  */
 public interface TTable {
 
+    enum InsertResult {
+        INSERTED, // The entry was not found in the table
+        UPDATED,  // The entry was found in the table and was updated
+        REPLACED  // Another entry was found in the table and was replaced
+    }
+
     /**
      * Retrieves a transposition table entry for the given position hash.
      *
+     * <p>This method searches for a previously stored evaluation of the chess position
+     * identified by the given hash. If found, it populates the provided entry object
+     * with the cached data, which may include the best move, evaluation value, search
+     * depth, and bound type.</p>
+     *
      * @param hash  the Zobrist hash value of the chess position to look up
-     * @param entry the TranspositionEntry to populate with the result
+     * @param entry the TranspositionEntry object to populate with the cached data if found
      * @return true if the entry was found, false otherwise
      */
     boolean load(long hash, TranspositionEntry entry);
@@ -31,14 +42,14 @@ public interface TTable {
     /**
      * Stores or updates a transposition table entry for the given position.
      *
-     * @param hash  the Zobrist hash value of the chess position
-     * @param bound the type of bound for the value (EXACT, LOWER_BOUND, or UPPER_BOUND)
-     * @param draft the search depth at which this position was evaluated (higher is deeper)
-     * @param move  the best move found for this position, encoded as a short
-     * @param value the evaluation score for this position
-     * @return the TranspositionEntry that was written to the table
+     * <p>This method inserts a new entry or replaces an existing one in the transposition table.
+     * The replacement strategy typically depends on factors such as search depth (draft) and
+     * entry age, with deeper searches generally taking priority over shallower ones.</p>
+     *
+     * @param entry the TranspositionEntry containing the evaluation data to save
+     * @return true if the entry was replaced, false if a new entry was created
      */
-    TranspositionEntry write(long hash, TranspositionBound bound, int draft, short move, int value);
+    InsertResult save(TranspositionEntry entry);
 
     /**
      * Removes all entries from the transposition table, resetting it to an empty state.

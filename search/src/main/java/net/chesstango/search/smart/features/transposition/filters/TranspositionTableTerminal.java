@@ -43,11 +43,18 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
+
+        entryWorkspace.setHash(hash);
+        entryWorkspace.setBound(TranspositionBound.EXACT);
+        entryWorkspace.setDraft(0);
+        entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+        entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
         if (!maxMap.load(hash, entryWorkspace)) {
-            maxMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            maxMap.save(entryWorkspace);
         }
         if (!maxQMap.load(hash, entryWorkspace)) {
-            maxQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            maxQMap.save(entryWorkspace);
         }
 
         return bestMoveAndValue;
@@ -58,11 +65,18 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
         long hash = game.getPosition().getZobristHash();
+
+        entryWorkspace.setHash(hash);
+        entryWorkspace.setBound(TranspositionBound.EXACT);
+        entryWorkspace.setDraft(0);
+        entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
+        entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
+
         if (!minMap.load(hash, entryWorkspace)) {
-            minMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            minMap.save(entryWorkspace);
         }
         if (!minQMap.load(hash, entryWorkspace)) {
-            minQMap.write(hash, TranspositionBound.EXACT, 0, AlphaBetaHelper.decodeMove(bestMoveAndValue), AlphaBetaHelper.decodeValue(bestMoveAndValue));
+            minQMap.save(entryWorkspace);
         }
 
         return bestMoveAndValue;

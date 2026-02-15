@@ -6,10 +6,13 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.transposition.TTableMap;
 import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TranspositionBound;
+import net.chesstango.search.smart.features.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
@@ -56,6 +59,20 @@ public abstract class AbstractNodeSorterTest {
             sortedMovesStr.add(simpleMoveEncoder.encode(move));
         }
         return sortedMovesStr;
+    }
+
+    protected void saveEntry(TTable table, long hash, TranspositionBound bound, int draft, long moveAndValue) {
+        short move = AlphaBetaHelper.decodeMove(moveAndValue);
+        int value = AlphaBetaHelper.decodeValue(moveAndValue);
+
+        TranspositionEntry entry = new TranspositionEntry()
+                .setHash(hash)
+                .setBound(bound)
+                .setDraft(draft)
+                .setMove(move)
+                .setValue(value);
+
+        table.save(entry);
     }
 
 

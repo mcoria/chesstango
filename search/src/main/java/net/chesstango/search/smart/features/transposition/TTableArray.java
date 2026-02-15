@@ -26,7 +26,7 @@ public class TTableArray implements TTable {
 
         TranspositionEntry storedEntry = transpositionArray[idx];
 
-        if (sessionArray[idx] != currentSessionId || !storedEntry.isStored(hash)) {
+        if (sessionArray[idx] != currentSessionId || storedEntry.hash != hash) {
             return false;
         }
 
@@ -41,28 +41,32 @@ public class TTableArray implements TTable {
     }
 
     @Override
-    public TranspositionEntry write(long hash, TranspositionBound bound, int draft, short move, int value) {
-        TranspositionEntry entry = getForWrite(hash);
-        entry.hash = hash;
-        entry.draft = draft;
-        entry.move = move;
-        entry.value = value;
-        entry.bound = bound;
-        return entry;
-    }
+    public InsertResult save(TranspositionEntry entry) {
+        int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
-    private TranspositionEntry getForWrite(long hash) {
-        int idx = (int) Math.abs(hash % ARRAY_SIZE);
+        TranspositionEntry storedEntry = transpositionArray[idx];
 
-        TranspositionEntry entry = transpositionArray[idx];
-
+        InsertResult result;
         if (sessionArray[idx] != currentSessionId) {
-            entry.reset();
             sessionArray[idx] = currentSessionId;
+            result = InsertResult.INSERTED;
+        } else {
+            if (storedEntry.hash == entry.hash) {
+                result = InsertResult.UPDATED;
+            } else {
+                result = InsertResult.REPLACED;
+            }
         }
 
-        return entry;
+        storedEntry.hash = entry.hash;
+        storedEntry.draft = entry.draft;
+        storedEntry.move = entry.move;
+        storedEntry.value = entry.value;
+        storedEntry.bound = entry.bound;
+
+        return result;
     }
+
 
     @Override
     public void clear() {

@@ -60,20 +60,20 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
     }
 
     protected void loadTranspositionTables() {
-        minMap.write(0xC23A9796AF1A652FL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294896611L), AlphaBetaHelper.decodeValue(4294896611L)); // h5e2
-        minMap.write(0x1154F9546860B223L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294894301L), AlphaBetaHelper.decodeValue(4294894301L)); // h5h3
-        minMap.write(0x7A3B2C64C1AB8AB1L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294889071L), AlphaBetaHelper.decodeValue(4294889071L)); // h5g5
-        minMap.write(0xD8727DF238E25CA3L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294886221L), AlphaBetaHelper.decodeValue(4294886221L)); // h5h4
-        minMap.write(0xEE1E6387CD236810L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294886201L), AlphaBetaHelper.decodeValue(4294886201L)); // h5f3
-        minMap.write(0xE38DB33F8781BF41L, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(3920862759355397L), AlphaBetaHelper.decodeValue(3920862759355397L)); // h5g6
+        saveEntry(minMap, 0xC23A9796AF1A652FL, TranspositionBound.UPPER_BOUND, 0, 4294896611L); // h5e2
+        saveEntry(minMap,0x1154F9546860B223L, TranspositionBound.UPPER_BOUND, 0, 4294894301L); // h5h3
+        saveEntry(minMap,0x7A3B2C64C1AB8AB1L, TranspositionBound.UPPER_BOUND, 0, 4294889071L); // h5g5
+        saveEntry(minMap,0xD8727DF238E25CA3L, TranspositionBound.UPPER_BOUND, 0, 4294886221L); // h5h4
+        saveEntry(minMap,0xEE1E6387CD236810L, TranspositionBound.UPPER_BOUND, 0, 4294886201L); // h5f3
+        saveEntry(minMap,0xE38DB33F8781BF41L, TranspositionBound.UPPER_BOUND, 0, 3920862759355397L); // h5g6
 
-        qMinMap.write(0x5809B10F4AEFE9B8L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(2571761992221855L), AlphaBetaHelper.decodeValue(2571761992221855L)); // d1d5
-        qMinMap.write(0xEE7E1C867AC579F6L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(2493696666611559L), AlphaBetaHelper.decodeValue(2493696666611559L)); // c2e4
-        qMinMap.write(0xE5878EF506AAEC8AL, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(4422240061729033L), AlphaBetaHelper.decodeValue(4422240061729033L)); // f5g7
-        qMinMap.write(0x591BAC29C5110DE5L, TranspositionBound.UPPER_BOUND, 1, AlphaBetaHelper.decodeMove(4423339573088489L), AlphaBetaHelper.decodeValue(4423339573088489L)); // h5h7
+        saveEntry(qMinMap,0x5809B10F4AEFE9B8L, TranspositionBound.UPPER_BOUND, 0, 2571761992221855L); // d1d5
+        saveEntry(qMinMap,0xEE7E1C867AC579F6L, TranspositionBound.UPPER_BOUND, 0, 2493696666611559L); // c2e4
+        saveEntry(qMinMap,0xE5878EF506AAEC8AL, TranspositionBound.UPPER_BOUND, 0, 4422240061729033L); // f5g7
+        saveEntry(qMinMap,0x591BAC29C5110DE5L, TranspositionBound.UPPER_BOUND, 0, 4423339573088489L); // h5h7
 
-        maxMap.write(0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294899481L), AlphaBetaHelper.decodeValue(4294899481L)); // NO_MOVE
-        qMaxMap.write(0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, AlphaBetaHelper.decodeMove(4294899481L), AlphaBetaHelper.decodeValue(4294899481L)); // NO_MOVE
+        saveEntry(maxMap,0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, 4294899481L); // NO_MOVE
+        saveEntry(qMaxMap,0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, 4294899481L); // NO_MOVE
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {
