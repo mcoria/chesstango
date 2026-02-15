@@ -82,7 +82,7 @@ public class TTableDebug implements TTable, Acceptor {
                     .setDraft(searchDepth)
                     .setMove(move)
                     .setValue(value)
-                    .setTranspositionBound(transpositionBound);
+                    .setBound(transpositionBound);
 
             List<DebugOperationTT> writeList = currentNode.getCurrentEntryWrite();
 

@@ -32,7 +32,7 @@ public class SorterReadsTrapRepeated implements Predicate<DebugNode> {
         for (Map.Entry<Integer, List<DebugOperationTT>> entry : valueToDebugNodeTTMap.entrySet()) {
             List<DebugOperationTT> entryList = entry.getValue();
             if (entryList.size() > 1 &&
-                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getEntry().getTranspositionBound()))) {
+                    entryList.stream().anyMatch(debugNodeTT -> TranspositionBound.EXACT.equals(debugNodeTT.getEntry().getBound()))) {
                 return true;
             }
         }

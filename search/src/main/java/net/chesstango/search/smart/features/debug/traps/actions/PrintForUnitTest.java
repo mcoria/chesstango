@@ -66,7 +66,7 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                             entry.getDraft(),
                             entry.getMove(),
                             entry.getValue(),
-                            entry.getTranspositionBound(),
+                            entry.getBound(),
                             ttOperation.getMove()
                     );
 
