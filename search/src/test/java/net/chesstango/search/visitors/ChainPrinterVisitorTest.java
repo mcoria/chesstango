@@ -105,7 +105,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainDebugSearchTree.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainDebug.txt");
     }
 
     private void assertSearchTree(Search search, String resourceName) throws IOException {
