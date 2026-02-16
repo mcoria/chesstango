@@ -8,7 +8,6 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
 
 /**
  *
@@ -41,10 +40,6 @@ public class SetSearchListenerMediatorVisitor implements Visitor {
         setNodeStatistics.setSearchListenerMediator(searchListenerMediator);
     }
 
-    @Override
-    public void visit(SetTranspositionTables setTranspositionTables) {
-        setTranspositionTables.setSearchListenerMediator(searchListenerMediator);
-    }
 
     @Override
     public void visit(SetTrianglePV setTrianglePV) {

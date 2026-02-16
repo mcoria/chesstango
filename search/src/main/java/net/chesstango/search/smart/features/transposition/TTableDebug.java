@@ -22,11 +22,13 @@ public class TTableDebug implements TTable, Acceptor {
     private final TTable tTable;
 
     @Setter
+    private TTable tTable;
+
+    @Setter
     private SearchTracker searchTracker;
 
-    public TTableDebug(DebugOperationTT.TableType tableType, TTable tTable) {
+    public TTableDebug(DebugOperationTT.TableType tableType) {
         this.tableType = tableType;
-        this.tTable = tTable;
     }
 
     @Override

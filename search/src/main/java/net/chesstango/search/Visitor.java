@@ -46,7 +46,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.TTDump;
 import net.chesstango.search.smart.features.transposition.listeners.TTLoad;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
@@ -205,7 +205,7 @@ public interface Visitor {
     default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
     }
 
-    default void visit(SetTranspositionTables setTranspositionTables) {
+    default void visit(ResetTranspositionTables resetTranspositionTables) {
     }
 
     default void visit(LeafNodeTrap leafNodeTrap) {
