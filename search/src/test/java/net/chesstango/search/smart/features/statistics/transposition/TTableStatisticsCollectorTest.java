@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -74,5 +74,43 @@ public class TTableStatisticsCollectorTest {
         assertEquals(TTable.InsertResult.REPLACED, result);
         assertEquals(1, collector.getTableCollisions());
         verify(mockTTable, times(1)).save(entry);
+    }
+
+    @Test
+    public void testLoad_SuccessfulLoadIncrementsTableHits() {
+        // Arrange
+        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        collector.setTTable(mockTTable);
+
+        TranspositionEntry entry = new TranspositionEntry();
+        long hash = 123L;
+        when(mockTTable.load(hash, entry)).thenReturn(true);
+
+        // Act
+        boolean result = collector.load(hash, entry);
+
+        // Assert
+        assertTrue(result);
+        assertEquals(1, collector.getTableHits());
+        verify(mockTTable, times(1)).load(hash, entry);
+    }
+
+    @Test
+    public void testLoad_UnsuccessfulLoadDoesNotIncrementTableHits() {
+        // Arrange
+        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        collector.setTTable(mockTTable);
+
+        TranspositionEntry entry = new TranspositionEntry();
+        long hash = 456L;
+        when(mockTTable.load(hash, entry)).thenReturn(false);
+
+        // Act
+        boolean result = collector.load(hash, entry);
+
+        // Assert
+        assertFalse(result);
+        assertEquals(0, collector.getTableHits());
+        verify(mockTTable, times(1)).load(hash, entry);
     }
 }
