@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree;
+package net.chesstango.reports.tree.summary;
 
 import lombok.Getter;
 import net.chesstango.reports.tree.nodes.NodesModel;
