@@ -7,7 +7,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -111,7 +111,7 @@ public class TranspositionEntryTableTest {
 
 
     private Search createSearchWithoutTT() {
-        EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
+        EvaluatorStatisticsCollector gameEvaluator = new EvaluatorStatisticsCollector()
                 .setImp(new EvaluatorImp04());
 
         return new AlphaBetaBuilder()
@@ -120,7 +120,7 @@ public class TranspositionEntryTableTest {
     }
 
     private Search createSearchWithTT() {
-        EvaluatorStatisticsWrapper gameEvaluator = new EvaluatorStatisticsWrapper()
+        EvaluatorStatisticsCollector gameEvaluator = new EvaluatorStatisticsCollector()
                 .setImp(new EvaluatorImp04());
 
         return new AlphaBetaBuilder()

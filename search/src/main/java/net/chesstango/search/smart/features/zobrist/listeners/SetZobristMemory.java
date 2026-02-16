@@ -5,7 +5,7 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.visitors.SetZobristMemoryVisitor;
+import net.chesstango.search.smart.features.zobrist.visitors.SetZobristMemoryVisitor;
 
 import java.util.HashMap;
 import java.util.LinkedList;

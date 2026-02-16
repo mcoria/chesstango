@@ -3,18 +3,16 @@ package net.chesstango.reports;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-
+import net.chesstango.reports.tree.SummaryReport;
 import net.chesstango.reports.tree.evaluation.EvaluationReport;
 import net.chesstango.reports.tree.nodes.NodesReport;
 import net.chesstango.reports.tree.pv.PrincipalVariationReport;
+import net.chesstango.reports.tree.transposition.TranspositionReport;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class SearchesTest {
         searchResult = null;
 
         search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
                 .withGameEvaluatorCache()
 
                 .withQuiescence()
@@ -60,23 +58,40 @@ public class SearchesTest {
     }
 
     @AfterEach
-    public void printReport() {
+    public void printReport(TestInfo testInfo) {
         if (PRINT_REPORT) {
-            new NodesReport()
-                    .withMoveResults(List.of(searchResult))
-                    .withCutoffStatistics()
+            new SummaryReport()
+                    .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
+                    //.withCutoffStatistics()
                     .printReport(System.out);
 
+
+            new NodesReport()
+                    .setReportTitle(testInfo.getDisplayName())
+                    .withMoveResults(List.of(searchResult))
+                    .withNodesVisitedStatistics()
+                    //.withCutoffStatistics()
+                    .printReport(System.out);
+
+            /*
             new EvaluationReport()
+            .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     //.withExportEvaluations()
                     .withEvaluationsStatistics()
                     .printReport(System.out);
 
             new PrincipalVariationReport()
+            .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
+
+            new TranspositionReport()
+            .setReportTitle(testInfo.getDisplayName())
+                    .withMoveResults(List.of(searchResult))
+                    .printReport(System.out);
+             */
         }
     }
 

@@ -1,4 +1,4 @@
-package net.chesstango.search.visitors;
+package net.chesstango.search.smart.features.zobrist.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;

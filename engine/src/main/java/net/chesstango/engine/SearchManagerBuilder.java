@@ -225,7 +225,7 @@ class SearchManagerBuilder {
         public Search createSearch() {
             return Search
                     .newSearchBuilder()
-                    .withGameEvaluator(Evaluator.getInstance())
+                    .withGameEvaluator(Evaluator.createInstance())
                     .build();
         }
 

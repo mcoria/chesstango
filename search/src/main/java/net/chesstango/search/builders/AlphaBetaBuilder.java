@@ -26,7 +26,7 @@ import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVis
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
@@ -62,7 +62,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final ExtensionFlowControl extensionFlowControl;
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
-    private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
+    private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
     private ResetTranspositionTables resetTranspositionTables;
     private SetNodeStatistics setNodeStatistics;
     private SetTrianglePV setTrianglePV;
@@ -157,6 +157,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
         checkResolverChainBuilder.withStatistics();
+        tTableBuilder.withStatistics();
         return this;
     }
 
@@ -166,7 +167,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withTranspositionTable();
         alphaBetaHorizonChainBuilder.withTranspositionTable();
         terminalChainBuilder.withTranspositionTable();
-
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
@@ -336,12 +336,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            gameEvaluatorStatisticsWrapper = new EvaluatorStatisticsWrapper()
+            gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setImp(evaluator)
                     .setGameEvaluatorCache(gameEvaluatorCache)
                     .setTrackEvaluations(withTrackEvaluations);
 
-            evaluator = gameEvaluatorStatisticsWrapper;
+            evaluator = gameEvaluatorStatisticsCollector;
         }
 
         if (withTranspositionTable) {
@@ -417,8 +417,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setNodeStatistics);
         }
 
-        if (gameEvaluatorStatisticsWrapper != null) {
-            searchListenerMediator.add(gameEvaluatorStatisticsWrapper);
+        if (gameEvaluatorStatisticsCollector != null) {
+            searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
 
         if (setKillerMoveTables != null) {

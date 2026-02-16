@@ -22,7 +22,7 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 
@@ -50,7 +50,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private final ExtensionFlowControl extensionFlowControl;
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
-    private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
+    private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
     private ResetTranspositionTables resetTranspositionTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
@@ -237,12 +237,12 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withStatistics) {
-            gameEvaluatorStatisticsWrapper = new EvaluatorStatisticsWrapper()
+            gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
                     .setImp(evaluator)
                     .setGameEvaluatorCache(gameEvaluatorCache)
                     .setTrackEvaluations(withTrackEvaluations);
 
-            evaluator = gameEvaluatorStatisticsWrapper;
+            evaluator = gameEvaluatorStatisticsCollector;
         }
 
         if (withTranspositionTable) {
@@ -293,8 +293,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
             searchListenerMediator.add(setNodeStatistics);
         }
 
-        if (gameEvaluatorStatisticsWrapper != null) {
-            searchListenerMediator.add(gameEvaluatorStatisticsWrapper);
+        if (gameEvaluatorStatisticsCollector != null) {
+            searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
 
         if (setKillerMoveTables != null) {

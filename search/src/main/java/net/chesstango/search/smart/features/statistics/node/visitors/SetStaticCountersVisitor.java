@@ -1,4 +1,4 @@
-package net.chesstango.search.visitors;
+package net.chesstango.search.smart.features.statistics.node.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;

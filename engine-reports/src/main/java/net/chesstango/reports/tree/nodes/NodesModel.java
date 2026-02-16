@@ -44,9 +44,9 @@ public class NodesModel {
     public long expectedQNodesTotal;
     ///////////////////// END VISITED QUIESCENCE NODES
 
-    public List<SearchesReportModelDetail> moveDetails;
+    public List<NodesModelDetail> nodesModelDetails;
 
-    public static class SearchesReportModelDetail {
+    public static class NodesModelDetail {
         public String id;
 
         public String move;
@@ -89,7 +89,7 @@ public class NodesModel {
     private void load(List<SearchResult> searchResults) {
         this.searches = searchResults.size();
 
-        this.moveDetails = new LinkedList<>();
+        this.nodesModelDetails = new LinkedList<>();
         this.expectedRNodesCounters = new long[30];
         this.visitedRNodesCounters = new long[30];
         this.cutoffRPercentages = new int[30];
@@ -127,12 +127,13 @@ public class NodesModel {
     }
 
     private void loadModelDetail(SearchResult searchResult) {
-        SearchesReportModelDetail reportModelDetail = new SearchesReportModelDetail();
+        NodesModelDetail reportModelDetail = new NodesModelDetail();
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = bestMove != null ? simpleMoveEncoder.encode(bestMove) : "";
+
         reportModelDetail.executedMoves = searchResult.getExecutedMoves();
 
         if (searchResult.getRegularNodeStatistics() != null) {
@@ -148,10 +149,10 @@ public class NodesModel {
         reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
 
         this.executedMovesTotal += reportModelDetail.executedMoves;
-        this.moveDetails.add(reportModelDetail);
+        this.nodesModelDetails.add(reportModelDetail);
     }
 
-    private void collectRegularNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchResult searchResult) {
+    private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
         NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
@@ -176,7 +177,7 @@ public class NodesModel {
         }
     }
 
-    private void collectQuiescenceNodeStatistics(SearchesReportModelDetail reportModelDetail, SearchResult searchResult) {
+    private void collectQuiescenceNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
         NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
         reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();

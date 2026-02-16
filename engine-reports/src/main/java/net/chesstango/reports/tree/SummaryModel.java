@@ -40,7 +40,6 @@ public class SummaryModel {
     public long[] expectedQNodesCounters;
     public int[] cutoffQPercentages;
     public int[] visitedQNodesCountersAvg;
-
     /// ////////////////// END VISITED QUIESCENCE NODES
 
     public static SummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {

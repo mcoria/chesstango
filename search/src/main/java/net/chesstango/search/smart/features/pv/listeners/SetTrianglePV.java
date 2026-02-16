@@ -13,7 +13,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.visitors.SetTrianglePVVisitor;
+import net.chesstango.search.smart.features.pv.visitors.SetTrianglePVVisitor;
 
 import java.util.ArrayList;
 import java.util.Deque;

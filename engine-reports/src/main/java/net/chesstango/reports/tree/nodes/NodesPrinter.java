@@ -21,8 +21,8 @@ class NodesPrinter {
         out.print("Visited Nodes Statistics\n");
 
         int longestId = 0;
-        for (int i = 0; i < reportModel.moveDetails.size(); i++) {
-            String epdId = reportModel.moveDetails.get(i).id;
+        for (int i = 0; i < reportModel.nodesModelDetails.size(); i++) {
+            String epdId = reportModel.nodesModelDetails.get(i).id;
             if (Objects.nonNull(epdId) && epdId.length() > longestId) {
                 longestId = epdId.length();
             }
@@ -56,7 +56,7 @@ class NodesPrinter {
         out.printf("|\n");
 
         // Cuerpo
-        for (NodesModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (NodesModel.NodesModelDetail moveDetail : reportModel.nodesModelDetails) {
             out.printf("| %6s ", moveDetail.move);
 
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));

@@ -85,7 +85,7 @@ public class AlphaBetaSymmetryTest {
     private Search buildSearch() {
         return new AlphaBetaBuilder()
                 //.withGameEvaluator(new EvaluatorByMaterial())
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
 
                 .withQuiescence()
 

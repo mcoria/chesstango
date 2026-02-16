@@ -9,7 +9,7 @@ import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.SearchTracker;
-import net.chesstango.search.visitors.SetSearchTrackerVisitor;
+import net.chesstango.search.smart.features.debug.visitors.SetSearchTrackerVisitor;
 
 /**
  * @author Mauricio Coria

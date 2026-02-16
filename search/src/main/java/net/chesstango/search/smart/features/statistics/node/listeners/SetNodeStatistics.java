@@ -10,7 +10,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
-import net.chesstango.search.visitors.SetStaticCountersVisitor;
+import net.chesstango.search.smart.features.statistics.node.visitors.SetStaticCountersVisitor;
 
 /**
  * @author Mauricio Coria

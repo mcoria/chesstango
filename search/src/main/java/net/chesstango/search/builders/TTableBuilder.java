@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
@@ -22,9 +23,16 @@ public class TTableBuilder {
     private TTableDebug qMaxMapDebug;
     private TTableDebug qMinMapDebug;
 
+
+    private TTableStatisticsCollector maxMapCollector;
+    private TTableStatisticsCollector minMapCollector;
+    private TTableStatisticsCollector qMaxMapCollector;
+    private TTableStatisticsCollector qMinMapCollector;
+
     private SearchListenerMediator searchListenerMediator;
 
     private boolean withDebugSearchTree;
+    private boolean withStatistics;
 
     @Getter
     private TTable maxMap;
@@ -41,6 +49,11 @@ public class TTableBuilder {
 
     public TTableBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        return this;
+    }
+
+    public TTableBuilder withStatistics() {
+        this.withStatistics = true;
         return this;
     }
 
@@ -67,6 +80,14 @@ public class TTableBuilder {
             qMaxMapDebug = new TTableDebug(MAX_MAP_Q);
             qMinMapDebug = new TTableDebug(MIN_MAP_Q);
         }
+
+        if (withStatistics) {
+            maxMapCollector = new TTableStatisticsCollector();
+            minMapCollector = new TTableStatisticsCollector();
+            qMaxMapCollector = new TTableStatisticsCollector();
+            qMinMapCollector = new TTableStatisticsCollector();
+
+        }
     }
 
     private void setupListenerMediator() {
@@ -82,20 +103,37 @@ public class TTableBuilder {
         if (qMinMapDebug != null) {
             searchListenerMediator.addAcceptor(qMinMapDebug);
         }
+
+        if (maxMapCollector != null) {
+            searchListenerMediator.addAcceptor(maxMapCollector);
+        }
+        if (minMapCollector != null) {
+            searchListenerMediator.addAcceptor(minMapCollector);
+        }
+        if (qMaxMapCollector != null) {
+            searchListenerMediator.addAcceptor(qMaxMapCollector);
+        }
+        if (qMinMapCollector != null) {
+            searchListenerMediator.addAcceptor(qMinMapCollector);
+        }
     }
 
     private void createChain() {
-        maxMap = linkChain(maxMapDebug, maxMapImp);
-        minMap = linkChain(minMapDebug, minMapImp);
-        qMaxMap = linkChain(qMaxMapDebug, qMaxMapImp);
-        qMinMap = linkChain(qMinMapDebug, qMinMapImp);
+        maxMap = linkChain(maxMapCollector, maxMapDebug, maxMapImp);
+        minMap = linkChain(minMapCollector, minMapDebug, minMapImp);
+        qMaxMap = linkChain(qMaxMapCollector, qMaxMapDebug, qMaxMapImp);
+        qMinMap = linkChain(qMinMapCollector, qMinMapDebug, qMinMapImp);
     }
 
-    private TTable linkChain(TTableDebug tableDebug, TTable tableImp) {
+    private TTable linkChain(TTableStatisticsCollector collector, TTableDebug tableDebug, TTable tableImp) {
         TTable result = tableImp;
         if (tableDebug != null) {
             tableDebug.setTTable(result);
             result = tableDebug;
+        }
+        if (collector != null) {
+            collector.setTTable(result);
+            result = collector;
         }
         return result;
     }

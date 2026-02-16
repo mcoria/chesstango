@@ -20,6 +20,8 @@ public class SummaryReport implements Report {
 
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
+    private boolean printTranspositionStatistics;
+
     private PrintStream out;
 
     @Override
@@ -29,9 +31,9 @@ public class SummaryReport implements Report {
         return this;
     }
 
-
-    public void addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
+    public SummaryReport addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
         summaryModels.add(SummaryModel.collectStatics(searchesName, searches));
+        return this;
     }
 
     private void print() {
@@ -42,10 +44,14 @@ public class SummaryReport implements Report {
                     .printNodesVisitedStaticsAvg();
         }
 
-
         if (printCutoffStatistics) {
             new SummaryCutoffPrinter(out, summaryModels)
                     .printCutoffStatics();
+        }
+
+        if(printTranspositionStatistics){
+            new SummaryTranspositionPrinter(out, summaryModels)
+                    .printStatics();
         }
     }
 
@@ -57,6 +63,11 @@ public class SummaryReport implements Report {
 
     public SummaryReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
+        return this;
+    }
+
+    public SummaryReport withTranspositionStatistics() {
+        this.printTranspositionStatistics = true;
         return this;
     }
 

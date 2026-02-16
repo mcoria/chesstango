@@ -8,7 +8,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.smart.features.killermoves.visitors.SetKillerMovesVisitor;
 
 /**
  * @author Mauricio Coria

@@ -2,13 +2,12 @@ package net.chesstango.search.smart.features.killermoves.listeners;
 
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.killermoves.KillerMoves;
 import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
-import net.chesstango.search.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.smart.features.killermoves.visitors.SetKillerMovesVisitor;
 
 /**
  * @author Mauricio Coria

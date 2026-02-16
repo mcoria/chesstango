@@ -39,7 +39,7 @@ class PrincipalVariationPrinter {
                 out.printf("; ID=%s", moveDetail.id);
             }
 
-            out.print("\n");
+            out.print("\n\n");
         }
     }
 }

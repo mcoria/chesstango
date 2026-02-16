@@ -7,8 +7,8 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.visitors.SetSearchLastNullVisitor;
-import net.chesstango.search.visitors.SetSearchLastVisitor;
+import net.chesstango.search.smart.alphabeta.visitors.SetSearchLastNullVisitor;
+import net.chesstango.search.smart.alphabeta.visitors.SetSearchLastVisitor;
 
 /**
  * @author Mauricio Coria

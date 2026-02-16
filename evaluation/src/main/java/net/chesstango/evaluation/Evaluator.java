@@ -25,7 +25,7 @@ public interface Evaluator {
 
     void setGame(Game game);
 
-    static Evaluator getInstance() {
+    static Evaluator createInstance() {
         return new EvaluatorImp05();
     }
 }
