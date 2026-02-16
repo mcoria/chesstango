@@ -1,4 +1,5 @@
-Search Manager Statistics
+
+ Search Manager Statistics
  ___________________________________________________________________________________
 | ENGINE NAME                        | SEARCHES | OpenBook  |   Tree    | Tablebase |
 |                           Engine 1 |        0 |         1 |         2 |         3 |

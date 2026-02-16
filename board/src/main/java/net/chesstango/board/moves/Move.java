@@ -11,11 +11,48 @@ import java.io.Serializable;
 
 /**
  * Interface representing a move in a chess game.
+ * <p>
+ * A Move represents a single chess move operation that can be executed and undone on a chess board.
  * This interface provides methods to get the starting and ending positions of the move,
  * execute and undo the move, and get various properties of the move such as its direction,
  * whether it is quiet, and its Zobrist hash.
  * <p>
- * The binaryEncoding method provides a bit field representation of the move.
+ * The Move interface serves as the fundamental unit of chess game operations, encapsulating
+ * all information necessary to perform and reverse a move on the board. Implementations of this
+ * interface handle various types of moves including simple moves, captures, castling, en passant,
+ * and pawn promotions.
+ * <p>
+ * <b>Key Concepts:</b>
+ * <ul>
+ *   <li><b>Execution and Undo:</b> Moves can be executed on the board state via {@link #executeMove()}
+ *       and reversed via {@link #undoMove()}, enabling move search algorithms to explore game trees
+ *       efficiently without copying board state.</li>
+ *   <li><b>Quiet Moves:</b> A quiet move is one that does not capture a piece or give check.
+ *       This distinction is important for search optimization and move ordering heuristics.</li>
+ *   <li><b>Zobrist Hashing:</b> Each move provides a Zobrist hash value via {@link #getZobristHash()}
+ *       that enables incremental hash updates for position identification and transposition table usage.</li>
+ *   <li><b>Move Encoding:</b> Moves can be encoded in multiple formats including binary encoding
+ *       for compact storage and coordinate notation for human readability and UCI protocol compliance.</li>
+ * </ul>
+ * <p>
+ * <b>Usage Pattern:</b>
+ * <pre>{@code
+ * // Execute a move
+ * move.executeMove();
+ *
+ * // Perform analysis or search
+ * int evaluation = evaluatePosition();
+ *
+ * // Undo the move to restore previous state
+ * move.undoMove();
+ * }</pre>
+ * <p>
+ * The binaryEncoding method provides a bit field representation of the move for efficient storage
+ * and transmission. The coordinate encoding provides a human-readable string representation compatible
+ * with standard chess notation systems.
+ * <p>
+ * <b>Thread Safety:</b> Move objects are not thread-safe. Each move should only be executed and undone
+ * sequentially within a single thread context.
  *
  * @author Mauricio Coria
  * @see net.chesstango.board.PiecePositioned

@@ -1,5 +1,7 @@
-package net.chesstango.reports.tree;
+package net.chesstango.reports.tree.summary;
 
+
+import net.chesstango.reports.tree.nodes.NodesModel;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 class SummaryNodesPrinter {
-    private final List<SummaryModel> reportRows;
+    private final List<NodesModel> reportRows;
 
     private final PrintStream out;
 
@@ -17,19 +19,19 @@ class SummaryNodesPrinter {
 
     private int maxQLevelVisited;
 
-    public SummaryNodesPrinter(PrintStream out, List<SummaryModel> reportRows) {
+    public SummaryNodesPrinter(PrintStream out, List<NodesModel> reportRows) {
         this.reportRows = reportRows;
         this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
-        for (SummaryModel summaryModel : reportRows) {
-            if (maxRLevelVisited < summaryModel.maxSearchRLevel) {
-                maxRLevelVisited = summaryModel.maxSearchRLevel;
+        for (NodesModel nodesModel : reportRows) {
+            if (maxRLevelVisited < nodesModel.maxSearchRLevel) {
+                maxRLevelVisited = nodesModel.maxSearchRLevel;
             }
-            if (maxQLevelVisited < summaryModel.maxSearchQLevel) {
-                maxQLevelVisited = summaryModel.maxSearchQLevel;
+            if (maxQLevelVisited < nodesModel.maxSearchQLevel) {
+                maxQLevelVisited = nodesModel.maxSearchQLevel;
             }
         }
 
@@ -57,7 +59,7 @@ class SummaryNodesPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchesName, row.searches);
+            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCounters[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCounters[depth]));
             out.printf("| %11d ", row.visitedNodesTotal);
@@ -87,7 +89,7 @@ class SummaryNodesPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchesName, row.searches);
+            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
             out.printf("| %12d ", row.visitedRNodesTotal);
             out.printf("| %12d ", row.visitedQNodesTotal);
             out.printf("| %12d ", row.visitedNodesTotal);
@@ -124,7 +126,7 @@ class SummaryNodesPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchesName, row.searches);
+            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
             out.printf("| %11d ", row.visitedNodesTotalAvg);

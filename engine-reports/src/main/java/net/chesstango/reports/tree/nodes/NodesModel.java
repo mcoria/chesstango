@@ -12,36 +12,42 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class NodesModel {
-    public String reportTitle;
+    public String searchGroupName;
 
     public int searches;
 
-    // Regular and Quiescence
-    ///////////////////// START TOTALS
-    public long visitedNodesTotal;
+    /// ////// START TOTALS
     public long expectedNodesTotal;
+    public long visitedNodesTotal;
     public int cutoffPercentageTotal;
-    public long executedMovesTotal;
 
-    ///////////////////// END TOTALS
+    public int executedMovesTotal;
+
+    public int visitedNodesTotalAvg;
+    public int visitedRNodesAvg;
+    public int visitedQNodesAvg;
+
+    //////// END TOTALS
 
 
-    ///////////////////// START VISITED REGULAR NODES
+    /// ////////////////// START VISITED REGULAR NODES
     public int maxSearchRLevel;
     public long[] expectedRNodesCounters;
     public long[] visitedRNodesCounters;
+    public int[] visitedRNodesCountersAvg;
     public int[] cutoffRPercentages;
     public long expectedRNodesTotal;
     public long visitedRNodesTotal;
     ///////////////////// END VISITED REGULAR NODES
 
-    ///////////////////// START VISITED QUIESCENCE NODES
+    /// ////////////////// START VISITED QUIESCENCE NODES
     public int maxSearchQLevel;
     public long[] expectedQNodesCounters;
     public long[] visitedQNodesCounters;
     public int[] cutoffQPercentages;
-    public long visitedQNodesTotal;
+    public int[] visitedQNodesCountersAvg;
     public long expectedQNodesTotal;
+    public long visitedQNodesTotal;
     ///////////////////// END VISITED QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
@@ -59,7 +65,6 @@ public class NodesModel {
         public long visitedNodesTotal;
         public long expectedNodesTotal;
         public int cutoffPercentageTotal;
-
 
         public int[] expectedRNodesCounters;
         public int expectedRNodesCounter;
@@ -79,7 +84,7 @@ public class NodesModel {
     public static NodesModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
         NodesModel nodesModel = new NodesModel();
 
-        nodesModel.reportTitle = reportTitle;
+        nodesModel.searchGroupName = reportTitle;
 
         nodesModel.load(searchResults);
 
@@ -90,11 +95,17 @@ public class NodesModel {
         this.searches = searchResults.size();
 
         this.nodesModelDetails = new LinkedList<>();
+
         this.expectedRNodesCounters = new long[30];
-        this.visitedRNodesCounters = new long[30];
-        this.cutoffRPercentages = new int[30];
-        this.visitedQNodesCounters = new long[30];
         this.expectedQNodesCounters = new long[30];
+
+        this.visitedRNodesCounters = new long[30];
+        this.visitedRNodesCountersAvg = new int[30];
+
+        this.visitedQNodesCounters = new long[30];
+        this.visitedQNodesCountersAvg = new int[30];
+
+        this.cutoffRPercentages = new int[30];
         this.cutoffQPercentages = new int[30];
 
 
@@ -104,26 +115,32 @@ public class NodesModel {
          * Totales sumarizados
          */
         for (int i = 0; i < 30; i++) {
-            if (this.expectedRNodesCounters[i] > 0) {
+            if (this.visitedRNodesCounters[i] > 0) {
                 this.cutoffRPercentages[i] = (int) (100 - (100 * this.visitedRNodesCounters[i] / this.expectedRNodesCounters[i]));
                 this.maxSearchRLevel = i + 1;
             }
 
-            if (this.expectedQNodesCounters[i] > 0) {
+            if (this.visitedQNodesCounters[i] > 0) {
                 this.cutoffQPercentages[i] = (int) (100 - (100 * this.visitedQNodesCounters[i] / this.expectedQNodesCounters[i]));
                 this.maxSearchQLevel = i + 1;
             }
 
-            this.expectedRNodesTotal += this.expectedRNodesCounters[i];
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
-
-            this.expectedQNodesTotal += this.expectedQNodesCounters[i];
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
+            this.visitedRNodesCountersAvg[i] = (int) (this.visitedRNodesCounters[i] / this.searches);
+            this.visitedQNodesCountersAvg[i] = (int) (this.visitedQNodesCounters[i] / this.searches);
+
+            this.expectedRNodesTotal += this.expectedRNodesCounters[i];
+            this.expectedQNodesTotal += this.expectedQNodesCounters[i];
         }
 
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
-        this.cutoffPercentageTotal = (int) (100 - ((100 * this.visitedNodesTotal) / this.expectedNodesTotal));
+        this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
+
+        this.visitedRNodesAvg = (int) (this.visitedRNodesTotal / this.searches);
+        this.visitedQNodesAvg = (int) (this.visitedQNodesTotal / this.searches);
+        this.visitedNodesTotalAvg = (int) (this.visitedNodesTotal / this.searches);
     }
 
     private void loadModelDetail(SearchResult searchResult) {

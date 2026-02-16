@@ -3,8 +3,6 @@ package net.chesstango.reports.tree.transposition;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
-import net.chesstango.reports.tree.SummaryReport;
-import net.chesstango.reports.tree.nodes.NodesModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;

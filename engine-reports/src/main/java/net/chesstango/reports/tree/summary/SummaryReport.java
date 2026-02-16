@@ -1,6 +1,7 @@
-package net.chesstango.reports.tree;
+package net.chesstango.reports.tree.summary;
 
 import net.chesstango.reports.Report;
+import net.chesstango.reports.tree.nodes.NodesModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -31,25 +32,33 @@ public class SummaryReport implements Report {
         return this;
     }
 
-    public SummaryReport addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
-        summaryModels.add(SummaryModel.collectStatics(searchesName, searches));
+    public SummaryReport addSearchesByTreeSummaryModel(String searchGroupName, List<SearchResult> searches) {
+        summaryModels.add(SummaryModel.collectStatics(searchGroupName, searches));
         return this;
     }
 
     private void print() {
         if (printNodesVisitedStatistics) {
-            new SummaryNodesPrinter(out, summaryModels)
+            List<NodesModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getNodesModel)
+                    .toList();
+            new SummaryNodesPrinter(out, reportRows)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics()
                     .printNodesVisitedStaticsAvg();
         }
 
         if (printCutoffStatistics) {
-            new SummaryCutoffPrinter(out, summaryModels)
+            List<NodesModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getNodesModel)
+                    .toList();
+            new SummaryCutoffPrinter(out, reportRows)
                     .printCutoffStatics();
         }
 
-        if(printTranspositionStatistics){
+        if (printTranspositionStatistics) {
             new SummaryTranspositionPrinter(out, summaryModels)
                     .printStatics();
         }
