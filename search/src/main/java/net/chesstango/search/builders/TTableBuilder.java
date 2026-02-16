@@ -103,6 +103,19 @@ public class TTableBuilder {
         if (qMinMapDebug != null) {
             searchListenerMediator.addAcceptor(qMinMapDebug);
         }
+
+        if (maxMapCollector != null) {
+            searchListenerMediator.addAcceptor(maxMapCollector);
+        }
+        if (minMapCollector != null) {
+            searchListenerMediator.addAcceptor(minMapCollector);
+        }
+        if (qMaxMapCollector != null) {
+            searchListenerMediator.addAcceptor(qMaxMapCollector);
+        }
+        if (qMinMapCollector != null) {
+            searchListenerMediator.addAcceptor(qMinMapCollector);
+        }
     }
 
     private void createChain() {

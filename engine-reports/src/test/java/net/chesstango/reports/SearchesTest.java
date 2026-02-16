@@ -3,10 +3,11 @@ package net.chesstango.reports;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
-
+import net.chesstango.reports.tree.SummaryReport;
 import net.chesstango.reports.tree.evaluation.EvaluationReport;
 import net.chesstango.reports.tree.nodes.NodesReport;
 import net.chesstango.reports.tree.pv.PrincipalVariationReport;
+import net.chesstango.reports.tree.transposition.TranspositionReport;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -62,6 +63,13 @@ public class SearchesTest {
     @AfterEach
     public void printReport() {
         if (PRINT_REPORT) {
+            new SummaryReport()
+                    .addSearchesByTreeSummaryModel("MainSearch", List.of(searchResult))
+                    .withNodesVisitedStatistics()
+                    .withCutoffStatistics()
+                    .printReport(System.out);
+
+
             new NodesReport()
                     .withMoveResults(List.of(searchResult))
                     .withCutoffStatistics()
@@ -75,6 +83,10 @@ public class SearchesTest {
                     .printReport(System.out);
 
             new PrincipalVariationReport()
+                    .withMoveResults(List.of(searchResult))
+                    .printReport(System.out);
+
+            new TranspositionReport()
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
         }

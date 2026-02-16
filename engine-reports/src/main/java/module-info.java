@@ -1,4 +1,5 @@
 module net.chesstango.reports {
+    exports net.chesstango.reports;
     exports net.chesstango.reports.tree.evaluation;
     exports net.chesstango.reports.tree.nodes;
     exports net.chesstango.reports.tree.pv;

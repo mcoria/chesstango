@@ -51,6 +51,7 @@ public class EvaluationReport implements Report {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("EvaluationReport: %s\n\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
+        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
         out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
         out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);

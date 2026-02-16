@@ -30,8 +30,9 @@ public class SummaryReport implements Report {
     }
 
 
-    public void addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
+    public SummaryReport addSearchesByTreeSummaryModel(String searchesName, List<SearchResult> searches) {
         summaryModels.add(SummaryModel.collectStatics(searchesName, searches));
+        return this;
     }
 
     private void print() {

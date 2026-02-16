@@ -33,7 +33,7 @@ class CutoffPrinter {
         out.printf("|\n");
 
         // Cuerpo
-        for (NodesModel.SearchesReportModelDetail moveDetail : reportModel.moveDetails) {
+        for (NodesModel.NodesModelDetail moveDetail : reportModel.nodesModelDetails) {
             out.printf("| %6s ", moveDetail.move);
             IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffRPercentages[depth]));
             IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|  %6d %% ", moveDetail.cutoffQPercentages[depth]));
