@@ -7,11 +7,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.visitors.SetGameVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
-import net.chesstango.search.visitors.SetTTableVisitor;
+import net.chesstango.search.smart.features.transposition.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -22,17 +22,16 @@ import net.chesstango.search.smart.features.debug.DebugNodeTrap;
 import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.egtb.EndGameTableBaseNull;
-import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
+import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
-import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
+import net.chesstango.search.smart.features.transposition.visitors.SetTTableVisitor;
 
 /**
  * @author Mauricio Corias
@@ -54,6 +53,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
     private final EgtbChainBuilder quiescencEgtbChainBuilder;
+    private final TTableBuilder tTableBuilder;
 
     private final SetGameEvaluator setGameEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
@@ -63,8 +63,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
-    private SetTranspositionTables setTranspositionTables;
-    private SetTranspositionTablesDebug setTranspositionTablesDebug;
+    private ResetTranspositionTables resetTranspositionTables;
     private SetNodeStatistics setNodeStatistics;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
@@ -100,6 +99,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         quiescenceNullChainBuilder = new QuiescenceNullChainBuilder();
 
         checkResolverChainBuilder = new CheckResolverChainBuilder();
+
+        tTableBuilder = new TTableBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
         setGameEvaluator = new SetGameEvaluator();
@@ -268,6 +269,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
         egtbChainBuilder.withDebugSearchTree();
+        tTableBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         quiescenceLeafChainBuilder.withDebugSearchTree();
@@ -285,12 +287,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public Search build() {
-        if (!withTranspositionTable) {
-            withTriangularPV();
-        }
-
         if (withTriangularPV && withTranspositionTable) {
             throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
+        }
+
+        if (withTranspositionTable) {
+            tTableBuilder.withSmartListenerMediator(searchListenerMediator);
+        } else {
+            withTriangularPV();
         }
 
         buildObjects();
@@ -303,6 +307,16 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+
+        if (withTranspositionTable) {
+            tTableBuilder.build();
+            searchListenerMediator.accept(new SetTTableVisitor(
+                    tTableBuilder.getMaxMap(),
+                    tTableBuilder.getMinMap(),
+                    tTableBuilder.getQMaxMap(),
+                    tTableBuilder.getQMinMap()
+            ));
+        }
 
         Search search;
         if (withIterativeDeepening) {
@@ -331,13 +345,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            if (withDebugSearchTree) {
-                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
-            } else {
-                setTranspositionTables = new SetTranspositionTables();
-            }
+            resetTranspositionTables = new ResetTranspositionTables();
             if (withTranspositionTableReuse) {
-                setTranspositionTables.setReuseTranspositionTable(true);
+                resetTranspositionTables.setReuseTranspositionTable(true);
             }
         }
 
@@ -370,6 +380,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
             }
         }
 
+
         /**
          * Static wiring
          */
@@ -390,14 +401,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
             searchListenerMediator.add(setSearchTracker);
         }
 
-        if (setTranspositionTables != null) {
-            searchListenerMediator.add(setTranspositionTables);
-        } else if (setTranspositionTablesDebug != null) {
-            searchListenerMediator.add(setTranspositionTablesDebug);
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMaxMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMinMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMaxMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMinMap());
+        if (resetTranspositionTables != null) {
+            searchListenerMediator.add(resetTranspositionTables);
         }
 
         if (setZobristMemory != null) {
