@@ -1,4 +1,5 @@
-Search Manager Statistics
+
+ Search Manager Statistics
  _______________________________________________
 | Move      | OpenBook  |   Tree    | Tablebase |
 |      e2e3 |         X |           |           |

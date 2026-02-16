@@ -18,6 +18,7 @@ public class PrinterTestAbstract {
             printer.print();
         }
 
+        // Compares output to expected; throws on failure
         try (InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());) {
             List<String> actualPrintChain = readInputStream(inputStream);
 
