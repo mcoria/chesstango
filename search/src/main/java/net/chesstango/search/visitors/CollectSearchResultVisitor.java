@@ -4,8 +4,9 @@ import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
 
 /**
  *
@@ -20,8 +21,8 @@ public class CollectSearchResultVisitor implements Visitor {
     }
 
     @Override
-    public void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper) {
-        searchResult.setEvaluationStatistics(evaluatorStatisticsWrapper.getEvaluationStatistics());
+    public void visit(EvaluatorStatisticsCollector evaluatorStatisticsCollector) {
+        searchResult.setEvaluationStatistics(evaluatorStatisticsCollector.getEvaluationStatistics());
     }
 
     @Override
@@ -29,6 +30,11 @@ public class CollectSearchResultVisitor implements Visitor {
         searchResult.setExecutedMoves(setNodeStatistics.getExecutedMoves());
         searchResult.setRegularNodeStatistics(setNodeStatistics.getRegularNodeStatistics());
         searchResult.setQuiescenceNodeStatistics(setNodeStatistics.getQuiescenceNodeStatistics());
+    }
+
+    @Override
+    public void visit(TTableStatisticsCollector tTableStatisticsCollector) {
+        searchResult.setTTableStatistics(tTableStatisticsCollector.getTTableStatistics());
     }
 
     @Override

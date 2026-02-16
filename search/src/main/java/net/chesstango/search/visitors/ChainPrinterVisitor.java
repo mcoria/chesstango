@@ -24,11 +24,12 @@ import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.features.transposition.TTable;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
@@ -548,8 +549,8 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     private String printGameEvaluator(Evaluator evaluator) {
-        if (evaluator instanceof EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper) {
-            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsWrapper), printGameEvaluator(gameEvaluatorStatisticsWrapper.getImp()));
+        if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
+            return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
         } else if (evaluator instanceof EvaluatorCache gameEvaluatorCache) {
             return String.format("%s -> %s", objectText(gameEvaluatorCache), printGameEvaluator(gameEvaluatorCache.getImp()));
         }
@@ -560,6 +561,8 @@ public class ChainPrinterVisitor implements Visitor {
     private String printTTable(TTable ttable) {
         if (ttable instanceof TTableDebug ttableDebug) {
             return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
+        } else if (ttable instanceof TTableStatisticsCollector ttableStatisticsCollector) {
+            return String.format("%s -> %s", objectText(ttableStatisticsCollector), printTTable(ttableStatisticsCollector.getTTable()));
         }
         return objectText(ttable);
     }

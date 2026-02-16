@@ -31,12 +31,13 @@ import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationCom
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
+import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
@@ -230,7 +231,7 @@ public interface Visitor {
     default void visit(MoveSorterDebug moveSorterDebug) {
     }
 
-    default void visit(EvaluatorStatisticsWrapper evaluatorStatisticsWrapper) {
+    default void visit(EvaluatorStatisticsCollector evaluatorStatisticsCollector) {
     }
 
     /**
@@ -272,4 +273,9 @@ public interface Visitor {
 
     default void visit(MvvLvaComparator mvvLvaComparator) {
     }
+
+
+    default void visit(TTableStatisticsCollector tTableStatisticsCollector) {
+    }
+
 }

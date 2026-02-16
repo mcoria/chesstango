@@ -36,7 +36,8 @@ import org.junit.platform.suite.api.Suite;
         AspirationWindowsTest.class,
         MoveEvaluationTrackerTest.class,
 
-        TTPVReaderTest.class
+        TTPVReaderTest.class,
+        AlphaBetaStatisticsTest.class
 })
 public class AlphaBetaTestSuite {
 

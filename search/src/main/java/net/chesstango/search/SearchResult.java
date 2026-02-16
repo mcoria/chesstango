@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.features.statistics.transposition.TTableStatistics;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class SearchResult implements Serializable {
     private NodeStatistics regularNodeStatistics;
 
     private NodeStatistics quiescenceNodeStatistics;
+
+    private TTableStatistics tTableStatistics;
 
     private int executedMoves;
 
@@ -66,4 +69,5 @@ public class SearchResult implements Serializable {
     public int getSearchByDepthPvCompleteCounter() {
         return (int) searchResultByDepths.stream().filter(SearchResultByDepth::isPvComplete).count();
     }
+
 }
