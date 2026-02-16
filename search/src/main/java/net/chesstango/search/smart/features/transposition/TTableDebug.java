@@ -18,10 +18,8 @@ public class TTableDebug implements TTable, Acceptor {
 
     private final DebugOperationTT.TableType tableType;
 
-    @Getter
-    private final TTable tTable;
-
     @Setter
+    @Getter
     private TTable tTable;
 
     @Setter
