@@ -62,16 +62,16 @@ public class SearchesTest {
         if (PRINT_REPORT) {
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
-                    .withNodesVisitedStatistics()
-                    //.withCutoffStatistics()
+                    //.withNodesVisitedStatistics()
+                    .withCutoffStatistics()
                     .printReport(System.out);
 
 
             new NodesReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
-                    .withNodesVisitedStatistics()
-                    //.withCutoffStatistics()
+                    //.withNodesVisitedStatistics()
+                    .withCutoffStatistics()
                     .printReport(System.out);
 
             /*
