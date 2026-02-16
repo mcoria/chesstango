@@ -21,7 +21,7 @@ public class AlphaBetaStopTest {
     @Test
     public void testStop() throws InterruptedException {
         Search search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
 
                 .withQuiescence()
 

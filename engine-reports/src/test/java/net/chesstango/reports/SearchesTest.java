@@ -32,7 +32,7 @@ public class SearchesTest {
         searchResult = null;
 
         search = new AlphaBetaBuilder()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
                 .withGameEvaluatorCache()
 
                 .withQuiescence()

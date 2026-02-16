@@ -46,7 +46,7 @@ public class TangoIntegrationTest {
     @Disabled
     public void testSearch01() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
                 .withDebugSearchTree(false, false, false)
                 .build();
 
@@ -72,7 +72,7 @@ public class TangoIntegrationTest {
     @Disabled
     public void testSearch02() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
                 .withDebugSearchTree(false, false, false)
                 .build();
 
@@ -98,7 +98,7 @@ public class TangoIntegrationTest {
     @Disabled
     public void testSearch03() {
         Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
-                .withGameEvaluator(Evaluator.getInstance())
+                .withGameEvaluator(Evaluator.createInstance())
                 .withDebugSearchTree(true, false, false)
                 .build();
 
