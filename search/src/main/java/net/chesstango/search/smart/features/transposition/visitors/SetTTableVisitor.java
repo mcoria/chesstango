@@ -1,4 +1,4 @@
-package net.chesstango.search.visitors;
+package net.chesstango.search.smart.features.transposition.visitors;
 
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.pv.TTPVReader;
@@ -11,6 +11,7 @@ import net.chesstango.search.smart.features.transposition.filters.TranspositionT
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.features.transposition.listeners.TTDump;
 import net.chesstango.search.smart.features.transposition.listeners.TTLoad;
 
@@ -29,6 +30,14 @@ public class SetTTableVisitor implements Visitor {
         this.minMap = minMap;
         this.qMaxMap = qMaxMap;
         this.qMinMap = qMinMap;
+    }
+
+    @Override
+    public void visit(ResetTranspositionTables resetTranspositionTables) {
+        resetTranspositionTables.setMaxMap(maxMap);
+        resetTranspositionTables.setMinMap(minMap);
+        resetTranspositionTables.setQMaxMap(qMaxMap);
+        resetTranspositionTables.setQMinMap(qMinMap);
     }
 
     @Override

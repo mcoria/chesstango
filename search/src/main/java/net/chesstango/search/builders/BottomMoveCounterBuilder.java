@@ -24,8 +24,7 @@ import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveT
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsWrapper;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTables;
-import net.chesstango.search.smart.features.transposition.listeners.SetTranspositionTablesDebug;
+import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
 
 /**
  * @author Mauricio Corias
@@ -52,8 +51,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsWrapper gameEvaluatorStatisticsWrapper;
-    private SetTranspositionTables setTranspositionTables;
-    private SetTranspositionTablesDebug setTranspositionTablesDebug;
+    private ResetTranspositionTables resetTranspositionTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private SetNodeStatistics setNodeStatistics;
     private SetDebugOutput setDebugOutput;
@@ -248,13 +246,9 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            if (withDebugSearchTree) {
-                setTranspositionTablesDebug = new SetTranspositionTablesDebug();
-            } else {
-                setTranspositionTables = new SetTranspositionTables();
-            }
+            resetTranspositionTables = new ResetTranspositionTables();
             if (withTranspositionTableReuse) {
-                setTranspositionTables.setReuseTranspositionTable(true);
+                resetTranspositionTables.setReuseTranspositionTable(true);
             }
         }
 
@@ -291,14 +285,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
             searchListenerMediator.add(setSearchTracker);
         }
 
-        if (setTranspositionTables != null) {
-            searchListenerMediator.add(setTranspositionTables);
-        } else if (setTranspositionTablesDebug != null) {
-            searchListenerMediator.add(setTranspositionTablesDebug);
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMaxMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getMinMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMaxMap());
-            searchListenerMediator.addAcceptor(setTranspositionTablesDebug.getQMinMap());
+        if (resetTranspositionTables != null) {
+            searchListenerMediator.add(resetTranspositionTables);
         }
 
         if (setNodeStatistics != null) {
