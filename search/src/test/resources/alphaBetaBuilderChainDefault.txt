@@ -36,7 +36,7 @@ AlphaBetaFlowControl @ 14
 
  -> EgtbNode
 	|
-	EgtbEvaluation @ 19 [EndGameTableBase: MyEndGameTableBaseExtension @ 20]
+	EgtbEvaluation @ 19 [EndGameTableBase: EndGameTableBaseNull @ 20]
 
  -> LoopNode
 	|
@@ -60,7 +60,7 @@ AlphaBetaFlowControl @ 14
 
 	 -> EgtbNode
 		|
-		EgtbEvaluation @ 27 [EndGameTableBase: MyEndGameTableBaseExtension @ 20]
+		EgtbEvaluation @ 27 [EndGameTableBase: EndGameTableBaseNull @ 20]
 
 	 -> LeafNode
 		|

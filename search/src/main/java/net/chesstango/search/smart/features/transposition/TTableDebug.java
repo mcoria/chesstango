@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.transposition;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -18,6 +19,7 @@ public class TTableDebug implements TTable, Acceptor {
     private final DebugOperationTT.TableType tableType;
 
     @Setter
+    @Getter
     private TTable tTable;
 
     @Setter

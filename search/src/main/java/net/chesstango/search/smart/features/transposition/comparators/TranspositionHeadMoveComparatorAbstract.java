@@ -21,7 +21,10 @@ public abstract class TranspositionHeadMoveComparatorAbstract implements MoveCom
 
     private Game game;
 
+    @Getter
     private TTable maxMap;
+
+    @Getter
     private TTable minMap;
 
     private short bestMoveEncoded;

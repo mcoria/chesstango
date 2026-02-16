@@ -19,6 +19,8 @@ import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.features.pv.PVReader;
+import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.features.pv.filters.TriangularPV;
@@ -27,6 +29,8 @@ import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaSta
 import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
@@ -122,8 +126,12 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTableRoot transpositionTableRoot) {
-        print(transpositionTableRoot, transpositionTableRoot.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableRoot), printTTable(transpositionTableRoot.getMaxMap())));
+
+        transpositionTableRoot.getNext().accept(this);
     }
+
 
     @Override
     public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
@@ -177,7 +185,10 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionPV transpositionPV) {
-        print(transpositionPV, transpositionPV.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [PVReader: %s]", objectText(transpositionPV), printTTPVReader(transpositionPV.getTtPvReader())));
+
+        transpositionPV.getNext().accept(this);
     }
 
     @Override
@@ -187,12 +198,18 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
-        print(transpositionTableTerminal, transpositionTableTerminal.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableTerminal), printTTable(transpositionTableTerminal.getMaxMap())));
+
+        transpositionTableTerminal.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionTable transpositionTable) {
-        print(transpositionTable, transpositionTable.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTable), printTTable(transpositionTable.getMaxMap())));
+
+        transpositionTable.getNext().accept(this);
     }
 
     @Override
@@ -202,7 +219,10 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
-        print(transpositionTableQ, transpositionTableQ.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getMaxMap())));
+
+        transpositionTableQ.getNext().accept(this);
     }
 
     @Override
@@ -353,22 +373,34 @@ public class ChainPrinterVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionHeadMoveComparator transpositionHeadMoveComparator) {
-        print(transpositionHeadMoveComparator, transpositionHeadMoveComparator.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparator), printTTable(transpositionHeadMoveComparator.getMaxMap())));
+
+        transpositionHeadMoveComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        print(transpositionHeadMoveComparatorQ, transpositionHeadMoveComparatorQ.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparatorQ), printTTable(transpositionHeadMoveComparatorQ.getMaxMap())));
+
+        transpositionHeadMoveComparatorQ.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
-        print(transpositionTailMoveComparator, transpositionTailMoveComparator.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getMaxMap())));
+
+        transpositionTailMoveComparator.getNext().accept(this);
     }
 
     @Override
     public void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ) {
-        print(transpositionTailMoveComparatorQ, transpositionTailMoveComparatorQ.getNext());
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparatorQ), printTTable(transpositionTailMoveComparatorQ.getMaxMap())));
+
+        transpositionTailMoveComparatorQ.getNext().accept(this);
     }
 
     @Override
@@ -523,6 +555,20 @@ public class ChainPrinterVisitor implements Visitor {
         }
 
         return objectText(evaluator);
+    }
+
+    private String printTTable(TTable ttable) {
+        if (ttable instanceof TTableDebug ttableDebug) {
+            return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
+        }
+        return objectText(ttable);
+    }
+
+    private String printTTPVReader(PVReader ttPvReader) {
+        if (ttPvReader instanceof TTPVReaderDebug ttPVReaderDebug) {
+            return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
+        }
+        return objectText(ttPvReader);
     }
 
 }

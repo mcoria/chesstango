@@ -1,0 +1,276 @@
+ROOT
+|
+IterativeDeepening @ 1
+|
+AlphaBetaFacade @ 2
+|
+StopProcessingCatch @ 3
+|
+AspirationWindows @ 4
+|
+DebugFilter @ 5
+|
+TranspositionTableRoot @ 6 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+|
+AlphaBeta @ 9
+|
+ -> Sorter
+	|
+	MoveSorterDebug @ 10
+	|
+	RootMoveSorter @ 11
+	|
+	NodeMoveSorter @ 12
+	|
+	 -> Comparator
+		|
+		DefaultMoveComparator @ 13
+|
+MoveEvaluationTracker @ 14
+|
+TranspositionPV @ 15 [PVReader: TTPVReaderDebug @ 16 -> TTPVReader @ 17]
+|
+AlphaBetaFlowControl @ 18
+|
+ -> TerminalNode
+	|
+	DebugFilter @ 19
+	|
+	TranspositionTableTerminal @ 20 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	|
+	AlphaBetaEvaluation @ 21 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+
+ -> EgtbNode
+	|
+	DebugFilter @ 24
+	|
+	EgtbEvaluation @ 25 [EndGameTableBase: EndGameTableBaseNull @ 26]
+
+ -> LoopNode
+	|
+	DebugFilter @ 27
+	|
+	LoopEvaluation @ 28
+
+ -> LeafNode
+	|
+	DebugFilter @ 29
+	|
+	AlphaBetaEvaluation @ 30 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+
+ -> HorizonNode
+	|
+	DebugFilter @ 31
+	|
+	TranspositionTable @ 32 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	|
+	ExtensionFlowControl @ 33
+	|
+	 -> TerminalNode
+		|
+		DebugFilter @ 34
+		|
+		TranspositionTableTerminal @ 35 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+		|
+		AlphaBetaEvaluation @ 36 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+
+	 -> EgtbNode
+		|
+		DebugFilter @ 37
+		|
+		EgtbEvaluation @ 38 [EndGameTableBase: EndGameTableBaseNull @ 26]
+
+	 -> LeafNode
+		|
+		DebugFilter @ 39
+		|
+		AlphaBetaEvaluation @ 40 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+
+	 -> QuiescenceNode
+		|
+		DebugFilter @ 41
+		|
+		TranspositionTableQ @ 42 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+		|
+		Quiescence @ 45 [Evaluator: EvaluatorDebug @ 46]
+		|
+		 -> Sorter
+			|
+			MoveSorterDebug @ 47
+			|
+			NodeMoveSorter @ 48
+			|
+			 -> Comparator
+				|
+				PrincipalVariationComparator @ 49
+				|
+				TranspositionHeadMoveComparatorQ @ 50 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				|
+				TranspositionTailMoveComparatorQ @ 51 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				|
+				PromotionComparator @ 52
+				|
+				RecaptureMoveComparator @ 53
+				|
+				MvvLvaComparator @ 54
+				|
+				GameEvaluatorCacheComparator @ 55 [EvaluatorCacheRead: EvaluatorCacheDebug @ 56]
+				|
+				DefaultMoveComparator @ 57
+		|
+		ExtensionFlowControl @ 33 -> LOOP
+
+ -> InteriorNode
+	|
+	DebugFilter @ 58
+	|
+	TranspositionTable @ 59 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	|
+	AlphaBeta @ 60
+	|
+	 -> Sorter
+		|
+		MoveSorterDebug @ 61
+		|
+		NodeMoveSorter @ 62
+		|
+		 -> Comparator
+			|
+			PrincipalVariationComparator @ 63
+			|
+			TranspositionHeadMoveComparator @ 64 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+			|
+			TranspositionTailMoveComparator @ 65 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+			|
+			QuietComparator @ 66
+			|
+			 -> NoQuietComparatorNode
+				|
+				TranspositionHeadMoveComparatorQ @ 67 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				|
+				TranspositionTailMoveComparatorQ @ 68 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				|
+				PromotionComparator @ 69
+				|
+				RecaptureMoveComparator @ 70
+				|
+				MvvLvaComparator @ 71
+				|
+				GameEvaluatorCacheComparator @ 72 [EvaluatorCacheRead: EvaluatorCacheDebug @ 73]
+				|
+				DefaultMoveComparator @ 74
+
+			 -> QuietComparatorNode
+				|
+				KillerMoveComparator @ 75
+				|
+				GameEvaluatorCacheComparator @ 72 [EvaluatorCacheRead: EvaluatorCacheDebug @ 73]
+				|
+				DefaultMoveComparator @ 74
+	|
+	KillerMoveTracker @ 76
+	|
+	AlphaBetaFlowControl @ 18 -> LOOP
+
+
+SearchByCycleListeners:
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 77
+	SetSearchLast @ 78
+	SetSearchTracker @ 79
+	ResetTranspositionTables @ 80
+	SetKillerMoveTablesDebug @ 81
+	AlphaBetaFlowControl @ 18
+	ExtensionFlowControl @ 33
+	RootMoveSorter @ 11
+	SetDebugOutput @ 82
+
+SearchByDepthListener:
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 77
+	SetSearchLast @ 78
+	SetSearchTracker @ 79
+	MoveEvaluationTracker @ 14
+	SetDebugOutput @ 82
+
+SearchByWindowsListeners:
+	SetSearchTracker @ 79
+	MoveEvaluationTracker @ 14
+	SetDebugOutput @ 82
+
+StopSearchingListener:
+	AlphaBetaFlowControl @ 18
+	ExtensionFlowControl @ 33
+
+ResetListener:
+	ResetTranspositionTables @ 80
+
+Acceptor:
+	SetGameEvaluator @ 83
+	AlphaBetaFacade @ 2
+	SetSearchTimers @ 77
+	SetSearchLast @ 78
+	SetSearchTracker @ 79
+	ResetTranspositionTables @ 80
+	SetKillerMoveTablesDebug @ 81
+	KillerMovesDebug @ 84
+	AlphaBetaFlowControl @ 18
+	ExtensionFlowControl @ 33
+	DebugFilter @ 19
+	TranspositionTableTerminal @ 20
+	DebugFilter @ 29
+	TranspositionTableQ @ 42
+	DebugFilter @ 41
+	EvaluatorDebug @ 46
+	Quiescence @ 45
+	NodeMoveSorter @ 48
+	TranspositionHeadMoveComparatorQ @ 50
+	TranspositionTailMoveComparatorQ @ 51
+	PrincipalVariationComparator @ 49
+	RecaptureMoveComparator @ 53
+	GameEvaluatorCacheComparator @ 55
+	MoveSorterDebug @ 47
+	EvaluatorCacheDebug @ 56
+	DebugFilter @ 39
+	DebugFilter @ 34
+	TranspositionTableTerminal @ 35
+	DebugFilter @ 37
+	EgtbEvaluation @ 38
+	DebugFilter @ 31
+	TranspositionTable @ 32
+	TranspositionTable @ 59
+	DebugFilter @ 58
+	KillerMoveTracker @ 76
+	AlphaBeta @ 60
+	NodeMoveSorter @ 62
+	TranspositionHeadMoveComparator @ 64
+	TranspositionHeadMoveComparatorQ @ 67
+	TranspositionTailMoveComparator @ 65
+	TranspositionTailMoveComparatorQ @ 68
+	PrincipalVariationComparator @ 63
+	RecaptureMoveComparator @ 70
+	GameEvaluatorCacheComparator @ 72
+	MoveSorterDebug @ 61
+	EvaluatorCacheDebug @ 73
+	KillerMoveComparator @ 75
+	DebugFilter @ 27
+	DebugFilter @ 24
+	EgtbEvaluation @ 25
+	MoveEvaluationTracker @ 14
+	AspirationWindows @ 4
+	DebugFilter @ 5
+	MoveSorterDebug @ 10
+	StopProcessingCatch @ 3
+	TranspositionTableRoot @ 6
+	TranspositionPV @ 15
+	TTPVReader @ 17
+	TTPVReaderDebug @ 16
+	AlphaBeta @ 9
+	NodeMoveSorter @ 12
+	RootMoveSorter @ 11
+	SetDebugOutput @ 82
+	TTableDebug @ 7
+	TTableDebug @ 85
+	TTableDebug @ 43
+	TTableDebug @ 86
+

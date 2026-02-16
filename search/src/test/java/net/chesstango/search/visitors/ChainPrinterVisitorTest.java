@@ -58,7 +58,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderDefault.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainDefault.txt");
     }
 
     @Test
@@ -75,36 +75,15 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void alphaBetaBuilderChainTest01() throws IOException {
-        AlphaBetaBuilder builder = new AlphaBetaBuilder()
-                .withGameEvaluator(new EvaluatorByMaterial())
-                .withGameEvaluatorCache()
-
-                //.withExtensionCheckResolver()
-                .withQuiescence()
-
-                //.withTriangularPV()
-                .withTranspositionTable()
-
-                .withTranspositionMoveSorter()
-                .withKillerMoveSorter()
-                .withRecaptureSorter()
-                .withMvvLvaSorter()
-
-                .withAspirationWindows()
-                .withIterativeDeepening()
-
-                .withStopProcessingCatch()
-                .withZobristTracker()
-                .withDebugSearchTree(false, true, true)
-                .withDebugNodeTrap(debugNodeTrap)
+    public void alphaBetaBuilderChainWithStatistics() throws IOException {
+        AlphaBetaBuilder builder = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
                 .withStatistics()
-                .withTrackEvaluations() // Consume demasiada memoria
-                ;
+                .withGameEvaluator(new EvaluatorByMaterial());
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainTest01.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainStatistics.txt");
     }
 
     @Test
@@ -126,7 +105,7 @@ public class ChainPrinterVisitorTest {
 
         Search search = builder.build();
 
-        assertSearchTree(search, "alphaBetaBuilderChainDebugSearchTree.txt");
+        assertSearchTree(search, "alphaBetaBuilderChainDebug.txt");
     }
 
     private void assertSearchTree(Search search, String resourceName) throws IOException {

@@ -23,9 +23,11 @@ public abstract class TranspositionTailMoveComparatorAbstract implements MoveCom
     private Game game;
 
     @Setter
+    @Getter
     private TTable maxMap;
 
     @Setter
+    @Getter
     private TTable minMap;
 
 

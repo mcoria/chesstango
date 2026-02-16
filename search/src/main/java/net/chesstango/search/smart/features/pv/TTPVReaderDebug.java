@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.features.pv;
 
+import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
@@ -12,6 +13,7 @@ import net.chesstango.search.smart.features.debug.model.DebugNode;
 public class TTPVReaderDebug implements PVReader, Acceptor {
 
     @Setter
+    @Getter
     private TTPVReader imp;
 
     @Setter

@@ -13,13 +13,12 @@ import net.chesstango.search.smart.features.pv.PVReader;
  *
  * @author Mauricio Coria
  */
+@Setter
+@Getter
 public class TranspositionPV implements AlphaBetaFilter {
 
-    @Setter
-    @Getter
     private AlphaBetaFilter next;
 
-    @Setter
     private PVReader ttPvReader;
 
     @Override
