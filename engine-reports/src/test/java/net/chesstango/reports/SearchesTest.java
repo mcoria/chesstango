@@ -12,10 +12,7 @@ import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -61,16 +58,17 @@ public class SearchesTest {
     }
 
     @AfterEach
-    public void printReport() {
+    public void printReport(TestInfo testInfo) {
         if (PRINT_REPORT) {
             new SummaryReport()
-                    .addSearchesByTreeSummaryModel("MainSearch", List.of(searchResult))
+                    .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
                     .printReport(System.out);
 
 
             new NodesReport()
+                    .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
@@ -78,16 +76,19 @@ public class SearchesTest {
 
             /*
             new EvaluationReport()
+            .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     //.withExportEvaluations()
                     .withEvaluationsStatistics()
                     .printReport(System.out);
 
             new PrincipalVariationReport()
+            .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
 
             new TranspositionReport()
+            .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
              */
