@@ -1,4 +1,4 @@
-package net.chesstango.search.visitors;
+package net.chesstango.search.smart.alphabeta.visitors;
 
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;

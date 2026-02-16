@@ -51,4 +51,10 @@ module net.chesstango.search {
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
     exports net.chesstango.search.smart.features.transposition.visitors;
+    exports net.chesstango.search.smart.features.debug.visitors;
+    exports net.chesstango.search.smart.features.pv.visitors;
+    exports net.chesstango.search.smart.features.statistics.visitors;
+    exports net.chesstango.search.smart.features.zobrist.visitors;
+    exports net.chesstango.search.smart.features.killermoves.visitors;
+    exports net.chesstango.search.smart.alphabeta.visitors;
 }

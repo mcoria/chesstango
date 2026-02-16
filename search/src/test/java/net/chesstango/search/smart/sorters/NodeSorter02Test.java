@@ -8,7 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.features.transposition.TranspositionBound;
 import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetKillerMovesVisitor;
+import net.chesstango.search.smart.features.killermoves.visitors.SetKillerMovesVisitor;
 import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.smart.features.transposition.visitors.SetTTableVisitor;
 import org.junit.jupiter.api.Test;
