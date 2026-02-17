@@ -42,7 +42,7 @@ class SummaryCutoffPrinter {
         out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
-        out.printf(" ________________________________________________");
+        out.printf(" _________________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("____________"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
         out.printf("____________");
@@ -50,7 +50,7 @@ class SummaryCutoffPrinter {
 
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                          | SEARCHES ");
+        out.printf("| ENGINE NAME                          | SEARCHES ");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| RLevel %2d ", depth + 1));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("|   Cutoff  ");
@@ -58,7 +58,7 @@ class SummaryCutoffPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%37s|%9d ", row.searchGroupName, row.searches);
+            out.printf("| %37s|%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
             out.printf("| %7d %% ", row.cutoffPercentageTotal);
@@ -66,7 +66,7 @@ class SummaryCutoffPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" ------------------------------------------------");
+        out.printf(" -------------------------------------------------");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("------------"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("------------");

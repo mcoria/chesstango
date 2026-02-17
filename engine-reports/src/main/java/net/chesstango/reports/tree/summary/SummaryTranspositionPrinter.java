@@ -23,7 +23,7 @@ public class SummaryTranspositionPrinter {
         out.println("\n Transposition Statistics");
 
         // Marco superior de la tabla
-        out.printf(" _____________________________________");
+        out.printf(" ______________________________________");
         out.printf("___________");
         out.printf("___________");
         out.printf("___________");
@@ -31,7 +31,7 @@ public class SummaryTranspositionPrinter {
 
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                          ");
+        out.printf("| ENGINE NAME                          ");
         out.printf("| SEARCHES ");
         out.printf("| HITS     ");
         out.printf("| REPLACES ");
@@ -39,7 +39,7 @@ public class SummaryTranspositionPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%37s", row.searchGroupName);
+            out.printf("| %37s", row.searchGroupName);
             out.printf("| %8d ", row.searches);
             out.printf("| %8d ", row.hitsTotal);
             out.printf("| %8d ", row.replacesTotal);
@@ -47,7 +47,7 @@ public class SummaryTranspositionPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" -------------------------------------");
+        out.printf(" --------------------------------------");
         out.printf("-----------");
         out.printf("-----------");
         out.printf("-----------");
