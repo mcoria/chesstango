@@ -67,15 +67,15 @@ public class SearchesTest {
                     .printReport(System.out);
 
 
-            /*
+
             new NodesReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .withNodesVisitedStatistics()
-                    //.withCutoffStatistics()
+                    .withCutoffStatistics()
                     .printReport(System.out);
 
-
+            /*
             new EvaluationReport()
             .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))

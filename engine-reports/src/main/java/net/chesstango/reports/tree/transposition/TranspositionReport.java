@@ -33,7 +33,9 @@ public class TranspositionReport implements Report {
     private void print() {
         printSummary();
 
-        new TranspositionPrinter(out, transpositionModel)
+        new TranspositionPrinter()
+                .setTranspositionModel(transpositionModel)
+                .setOut(out)
                 .print();
 
     }

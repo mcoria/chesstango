@@ -36,8 +36,10 @@ public class EvaluationReport implements Report {
         printSummary();
 
         if (printEvaluationsStatistics) {
-            new EvaluationPrinter(out, reportModel)
-                    .printEvaluationsStatistics();
+            new EvaluationPrinter()
+                    .setOut(out)
+                    .setReportModel(reportModel)
+                    .print();
         }
 
         if (exportEvaluations) {
@@ -49,7 +51,7 @@ public class EvaluationReport implements Report {
 
     private void printSummary() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("EvaluationReport: %s\n\n", reportModel.reportTitle);
+        out.printf("EvaluationReport      : %s\n", reportModel.reportTitle);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
         out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);

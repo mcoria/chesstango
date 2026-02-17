@@ -1,6 +1,9 @@
 package net.chesstango.reports.tree.summary;
 
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
 import net.chesstango.reports.tree.nodes.NodesModel;
 
 import java.io.PrintStream;
@@ -10,19 +13,19 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryNodesPrinter {
-    private final List<NodesModel> reportRows;
+class SummaryNodesPrinter implements Printer {
+    private List<NodesModel> reportRows;
 
-    private final PrintStream out;
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public SummaryNodesPrinter(PrintStream out, List<NodesModel> reportRows) {
+    public SummaryNodesPrinter setReportRows(List<NodesModel> reportRows) {
         this.reportRows = reportRows;
-        this.out = out;
-
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
@@ -37,7 +40,18 @@ class SummaryNodesPrinter {
 
         this.maxRLevelVisited = maxRLevelVisited;
         this.maxQLevelVisited = maxQLevelVisited;
+
+        return this;
     }
+
+    @Override
+    public SummaryNodesPrinter print() {
+        return this
+                .printNodesVisitedStaticsByType()
+                .printNodesVisitedStatics()
+                .printNodesVisitedStaticsAvg();
+    }
+
 
     public SummaryNodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");

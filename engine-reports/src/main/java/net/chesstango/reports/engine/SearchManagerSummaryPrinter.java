@@ -19,12 +19,13 @@ public class SearchManagerSummaryPrinter implements Printer {
     private List<SearchManagerModel> reportModel;
 
     @Override
-    public void setOut(PrintStream out) {
+    public SearchManagerSummaryPrinter setOut(PrintStream out) {
         this.out = out;
+        return this;
     }
 
     @Override
-    public void print() {
+    public SearchManagerSummaryPrinter print() {
         out.print("\n Search Manager Statistics\n");
 
         // Marco superior de la tabla
@@ -59,5 +60,7 @@ public class SearchManagerSummaryPrinter implements Printer {
         out.printf("------------");
         out.printf("-----------");
         out.printf("\n");
+
+        return this;
     }
 }

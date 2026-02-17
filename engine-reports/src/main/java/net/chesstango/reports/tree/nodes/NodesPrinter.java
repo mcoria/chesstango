@@ -1,5 +1,9 @@
 package net.chesstango.reports.tree.nodes;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
+
 import java.io.PrintStream;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -7,17 +11,18 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class NodesPrinter {
+class NodesPrinter implements Printer {
 
-    private final PrintStream out;
-    private final NodesModel reportModel;
+    @Setter
+    @Accessors(chain = true)
+    private NodesModel reportModel;
 
-    public NodesPrinter(PrintStream out, NodesModel reportModel) {
-        this.out = out;
-        this.reportModel = reportModel;
-    }
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
 
-    public void printVisitedNodes() {
+    @Override
+    public NodesPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
         int longestId = 0;
@@ -114,5 +119,8 @@ class NodesPrinter {
             out.printf("%s", "-".repeat(longestId + 2));
         }
         out.printf("\n\n");
+
+        return this;
     }
+
 }

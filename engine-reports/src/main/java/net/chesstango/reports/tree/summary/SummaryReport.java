@@ -44,7 +44,9 @@ public class SummaryReport implements Report {
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
-            new SummaryNodesPrinter(out, reportRows)
+            new SummaryNodesPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
                     .printNodesVisitedStaticsByType()
                     .printNodesVisitedStatics()
                     .printNodesVisitedStaticsAvg();
@@ -55,8 +57,11 @@ public class SummaryReport implements Report {
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
-            new SummaryCutoffPrinter(out, reportRows)
-                    .printCutoffStatics();
+
+            new SummaryCutoffPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
         }
 
         if (printTranspositionStatistics) {

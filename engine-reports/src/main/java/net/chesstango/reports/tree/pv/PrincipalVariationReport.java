@@ -24,7 +24,10 @@ public class PrincipalVariationReport implements Report {
 
     @Override
     public PrincipalVariationReport printReport(PrintStream output) {
-        new PrincipalVariationPrinter(output, reportModel).printPrincipalVariation();
+        new PrincipalVariationPrinter()
+                .setReportModel(reportModel)
+                .setOut(output)
+                .print();
         return this;
     }
 

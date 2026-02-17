@@ -19,11 +19,11 @@ public class NodesReport implements Report {
     @Accessors(chain = true)
     private NodesModel reportModel;
 
-    private PrintStream out;
-
     @Setter
     @Accessors(chain = true)
     private String reportTitle = "NodesReport";
+
+    private PrintStream out;
 
 
     @Override
@@ -31,33 +31,6 @@ public class NodesReport implements Report {
         out = output;
         print();
         return this;
-    }
-
-    protected void print() {
-        printSummary();
-
-        if (printNodesVisitedStatistics) {
-            new NodesPrinter(out, reportModel).printVisitedNodes();
-        }
-
-        if (printCutoffStatistics) {
-            new CutoffPrinter(out, reportModel).printCutoff();
-        }
-
-    }
-
-    private void printSummary() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("NodesReport: %s\n\n", reportModel.searchGroupName);
-        out.printf("Searches              : %8d\n", reportModel.searches);
-        out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
-        out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
-        out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
-        out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
-        out.printf("Visited          Nodes: %8d\n", reportModel.visitedNodesTotal);
-        out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
-        out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
-        out.print("\n");
     }
 
 
@@ -74,6 +47,38 @@ public class NodesReport implements Report {
     public NodesReport withMoveResults(List<SearchResult> searchResults) {
         this.reportModel = NodesModel.collectStatistics(this.reportTitle, searchResults);
         return this;
+    }
+
+    void print() {
+        printSummary();
+
+        if (printNodesVisitedStatistics) {
+            new NodesPrinter()
+                    .setReportModel(reportModel)
+                    .setOut(out)
+                    .print();
+        }
+
+        if (printCutoffStatistics) {
+            new CutoffPrinter()
+                    .setReportModel(reportModel)
+                    .setOut(out)
+                    .print();
+        }
+    }
+
+    void printSummary() {
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("NodesReport: %s\n\n", reportModel.searchGroupName);
+        out.printf("Searches              : %8d\n", reportModel.searches);
+        out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
+        out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
+        out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
+        out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
+        out.printf("Visited          Nodes: %8d\n", reportModel.visitedNodesTotal);
+        out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
+        out.printf("Cutoff                : %7d%%\n", reportModel.cutoffPercentageTotal);
+        out.print("\n");
     }
 
 }

@@ -1,21 +1,27 @@
 package net.chesstango.reports.tree.evaluation;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
+
 import java.io.PrintStream;
 import java.util.Objects;
 
 /**
  * @author Mauricio Coria
  */
-class EvaluationPrinter {
-    private final PrintStream out;
-    private final EvaluationModel reportModel;
+class EvaluationPrinter implements Printer {
 
-    public EvaluationPrinter(PrintStream out, EvaluationModel reportModel) {
-        this.out = out;
-        this.reportModel = reportModel;
-    }
+    @Setter
+    @Accessors(chain = true)
+    private EvaluationModel reportModel;
 
-    public void printEvaluationsStatistics() {
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
+
+    @Override
+    public EvaluationPrinter print() {
         out.printf("Evaluation Statistics\n");
 
         int longestId = 0;
@@ -114,7 +120,7 @@ class EvaluationPrinter {
 
         out.printf("\n");
 
-
+        return this;
     }
 }
 

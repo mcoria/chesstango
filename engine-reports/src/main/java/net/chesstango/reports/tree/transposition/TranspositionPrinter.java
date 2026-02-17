@@ -10,24 +10,16 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  */
 public class TranspositionPrinter implements Printer {
+    @Setter
+    @Accessors(chain = true)
     private PrintStream out;
 
     @Setter
     @Accessors(chain = true)
     private TranspositionModel transpositionModel;
 
-    public TranspositionPrinter(PrintStream out, TranspositionModel transpositionModel) {
-        this.out = out;
-        this.transpositionModel = transpositionModel;
-    }
-
     @Override
-    public void setOut(PrintStream out) {
-        this.out = out;
-    }
-
-    @Override
-    public void print() {
+    public TranspositionPrinter print() {
         out.println("Transposition Statistics");
 
         // Marco superior de la tabla
@@ -68,5 +60,7 @@ public class TranspositionPrinter implements Printer {
         out.printf("-----------");
         out.printf("-----------");
         out.printf("\n");
+
+        return this;
     }
 }
