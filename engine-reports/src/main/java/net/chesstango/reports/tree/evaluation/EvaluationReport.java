@@ -33,14 +33,10 @@ public class EvaluationReport implements Report {
     }
 
     private void print() {
-        printSummary();
-
-        if (printEvaluationsStatistics) {
-            new EvaluationPrinter()
-                    .setOut(out)
-                    .setReportModel(reportModel)
-                    .print();
-        }
+        new EvaluationPrinter()
+                .setOut(out)
+                .setReportModel(reportModel)
+                .print();
 
         if (exportEvaluations) {
             new ExportEvaluations(reportModel)
@@ -48,18 +44,6 @@ public class EvaluationReport implements Report {
         }
 
     }
-
-    private void printSummary() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("EvaluationReport      : %s\n", reportModel.reportTitle);
-        out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
-        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
-        out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
-        out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
-        out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
-        out.print("\n");
-    }
-
 
     public EvaluationReport withEvaluationsStatistics() {
         this.printEvaluationsStatistics = true;

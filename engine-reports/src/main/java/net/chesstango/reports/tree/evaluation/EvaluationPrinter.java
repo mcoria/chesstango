@@ -20,8 +20,27 @@ class EvaluationPrinter implements Printer {
     @Accessors(chain = true)
     private PrintStream out;
 
+
     @Override
     public EvaluationPrinter print() {
+        return printSummary()
+                .printDetails();
+    }
+
+    EvaluationPrinter printSummary() {
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("EvaluationReport      : %s\n", reportModel.reportTitle);
+        out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
+        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
+        out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
+        out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
+        out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
+        out.print("\n");
+        return this;
+    }
+
+
+    EvaluationPrinter printDetails() {
         out.printf("Evaluation Statistics\n");
 
         int longestId = 0;
@@ -76,7 +95,7 @@ class EvaluationPrinter implements Printer {
 
         // Totales
         out.printf("|--------");
-       // out.printf("|------------");
+        // out.printf("|------------");
         out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
@@ -109,7 +128,8 @@ class EvaluationPrinter implements Printer {
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
-        out.printf("---------------");;
+        out.printf("---------------");
+        ;
         out.printf("------------------- ");
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
