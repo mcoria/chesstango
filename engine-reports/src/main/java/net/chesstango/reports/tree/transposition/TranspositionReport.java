@@ -45,7 +45,7 @@ public class TranspositionReport implements Report {
 
     private void printSummary() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("TranspositionReport: %s\n\n", transpositionModel.reportTitle);
+        out.printf("TranspositionReport: %s\n\n", transpositionModel.searchGroupName);
         out.printf("Searches              : %8d\n", transpositionModel.searches);
         out.printf("Hits                  : %8d\n", transpositionModel.hitsTotal);
         out.printf("Replaces              : %8d\n", transpositionModel.replacesTotal);

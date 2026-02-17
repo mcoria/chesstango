@@ -12,7 +12,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class TranspositionModel {
-    public String reportTitle;
+    public String searchGroupName;
 
     public int searches;
 
@@ -35,7 +35,7 @@ public class TranspositionModel {
     public static TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
         TranspositionModel model = new TranspositionModel();
 
-        model.reportTitle = reportTitle;
+        model.searchGroupName = reportTitle;
 
         model.load(searchResults);
 

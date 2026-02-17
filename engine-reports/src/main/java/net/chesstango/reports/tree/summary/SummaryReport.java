@@ -2,6 +2,7 @@ package net.chesstango.reports.tree.summary;
 
 import net.chesstango.reports.Report;
 import net.chesstango.reports.tree.nodes.NodesModel;
+import net.chesstango.reports.tree.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -59,7 +60,11 @@ public class SummaryReport implements Report {
         }
 
         if (printTranspositionStatistics) {
-            new SummaryTranspositionPrinter(out, summaryModels)
+            List<TranspositionModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getTranspositionModel)
+                    .toList();
+            new SummaryTranspositionPrinter(out, reportRows)
                     .printStatics();
         }
     }
