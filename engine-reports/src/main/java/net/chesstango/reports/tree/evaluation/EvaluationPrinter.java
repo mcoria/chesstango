@@ -71,7 +71,7 @@ class EvaluationPrinter implements Printer {
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
         out.printf("| Values       ");
-        out.printf("| PosVal Collisions ");
+        out.printf("| Collisions        ");
         if (longestId > 0) {
             out.printf("| ID");
             out.printf(" ".repeat(longestId - 1));

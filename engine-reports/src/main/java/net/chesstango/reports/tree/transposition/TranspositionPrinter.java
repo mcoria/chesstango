@@ -24,41 +24,41 @@ public class TranspositionPrinter implements Printer {
 
         // Marco superior de la tabla
         out.printf(" ________");
-        out.printf("___________");
-        out.printf("___________");
+        out.printf("_______________");
+        out.printf("_______________");
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("| Move   ");
-        out.printf("| HITS     ");
-        out.printf("| REPLACES ");
+        out.printf("| Hits         ");
+        out.printf("| Replaces     ");
         out.printf("|\n");
 
         // Cuerpo
         transpositionModel.transpositionModelDetail.forEach(row -> {
             out.printf("|   %s ", row.move);
-            out.printf("| %8d ", row.hits);
-            out.printf("| %8d ", row.replaces);
+            out.printf("| %12d ", row.hits);
+            out.printf("| %12d ", row.replaces);
             out.printf("|\n");
         });
 
         // Totales
         out.printf("|--------");
-        out.printf("|----------");
-        out.printf("|----------");
+        out.printf("|--------------");
+        out.printf("|--------------");
         out.printf("|\n");
 
         // Nombre de las columnas
         out.printf("| SUM    ");
-        out.printf("| %8d ", transpositionModel.hitsTotal);
-        out.printf("| %8d ", transpositionModel.replacesTotal);
+        out.printf("| %12d ", transpositionModel.hitsTotal);
+        out.printf("| %12d ", transpositionModel.replacesTotal);
         out.printf("|\n");
 
         // Marco inferior de la tabla
         out.printf(" --------");
-        out.printf("-----------");
-        out.printf("-----------");
+        out.printf("---------------");
+        out.printf("---------------");
         out.printf("\n");
 
         return this;

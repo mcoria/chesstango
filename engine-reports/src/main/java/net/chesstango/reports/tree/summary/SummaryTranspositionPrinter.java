@@ -25,32 +25,32 @@ public class SummaryTranspositionPrinter {
         // Marco superior de la tabla
         out.printf(" _______________________________________");
         out.printf("___________");
-        out.printf("___________");
-        out.printf("___________");
+        out.printf("_______________");
+        out.printf("_______________");
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("| ENGINE NAME                           ");
         out.printf("| SEARCHES ");
-        out.printf("| HITS     ");
-        out.printf("| REPLACES ");
+        out.printf("| Hits         ");
+        out.printf("| Replaces     ");
         out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             out.printf("| %37s ", row.searchGroupName);
             out.printf("| %8d ", row.searches);
-            out.printf("| %8d ", row.hitsTotal);
-            out.printf("| %8d ", row.replacesTotal);
+            out.printf("| %12d ", row.hitsTotal);
+            out.printf("| %12d ", row.replacesTotal);
             out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         out.printf(" ---------------------------------------");
         out.printf("-----------");
-        out.printf("-----------");
-        out.printf("-----------");
+        out.printf("---------------");
+        out.printf("---------------");
         out.printf("\n");
     }
 }
