@@ -28,7 +28,7 @@ public class TranspositionPrinter implements Printer {
 
     @Override
     public void print() {
-        out.println("\n Transposition Statistics");
+        out.println("Transposition Statistics");
 
         // Marco superior de la tabla
         out.printf(" ________");

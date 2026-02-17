@@ -58,14 +58,13 @@ public class SearchesTest {
     @AfterEach
     public void printReport(TestInfo testInfo) {
         if (PRINT_REPORT) {
-            /*
+
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
                     .withTranspositionStatistics()
                     //.withCutoffStatistics()
                     .printReport(System.out);
-            */
 
 
             new NodesReport()
