@@ -28,7 +28,7 @@ public class SearchManagerSummaryPrinter implements Printer {
         out.print("\n Search Manager Statistics\n");
 
         // Marco superior de la tabla
-        out.printf(" ________________________________________________");
+        out.printf(" __________________________________________________");
         out.printf("____________");
         out.printf("____________");
         out.printf("___________");
@@ -36,7 +36,8 @@ public class SearchManagerSummaryPrinter implements Printer {
 
         // Nombre de las columnas
 
-        out.printf("| ENGINE NAME                        | SEARCHES ");
+        out.printf("| ENGINE NAME                          ");
+        out.printf("| SEARCHES ");
         out.printf("| OpenBook  ");
         out.printf("|   Tree    ");
         out.printf("| Tablebase ");
@@ -44,7 +45,8 @@ public class SearchManagerSummaryPrinter implements Printer {
 
         // Cuerpo
         for (SearchManagerModel row : reportModel) {
-            out.printf("| %34s | %8d ", row.searchesName, row.searches);
+            out.printf("| %36s ", row.searchesName);
+            out.printf("| %8d ", row.searches);
             out.printf("|  %8d ", row.searchByOpenBookCounter);
             out.printf("|  %8d ", row.searchByTreeCounter);
             out.printf("|  %8d ", row.searchByTablebaseCounter);
@@ -52,10 +54,10 @@ public class SearchManagerSummaryPrinter implements Printer {
         }
 
         // Totales
-        out.printf(" -----------------------------------------------");
+        out.printf(" --------------------------------------------------");
         out.printf("------------");
         out.printf("------------");
-        out.printf("------------");
+        out.printf("-----------");
         out.printf("\n");
     }
 }
