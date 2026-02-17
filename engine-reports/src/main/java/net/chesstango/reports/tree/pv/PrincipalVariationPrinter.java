@@ -24,6 +24,7 @@ class PrincipalVariationPrinter implements Printer {
     @Override
     public PrincipalVariationPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
         out.printf("PrincipalVariationReport: %s\n\n", reportModel.reportTitle);
 
         out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);

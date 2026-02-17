@@ -39,6 +39,7 @@ public class SummaryReport implements Report {
     }
 
     private void print() {
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         if (printNodesVisitedStatistics) {
             List<NodesModel> reportRows = summaryModels
                     .stream()

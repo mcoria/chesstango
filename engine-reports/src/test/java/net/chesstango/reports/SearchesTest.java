@@ -3,6 +3,7 @@ package net.chesstango.reports;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
+import net.chesstango.reports.tree.DetailReport;
 import net.chesstango.reports.tree.nodes.NodesReport;
 import net.chesstango.reports.tree.summary.SummaryReport;
 import net.chesstango.reports.tree.transposition.TranspositionReport;
@@ -67,34 +68,15 @@ public class SearchesTest {
                     .printReport(System.out);
 
 
-
-            new NodesReport()
+            new DetailReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .withNodesVisitedStatistics()
                     .withCutoffStatistics()
+                    .withPrincipalVariationReport()
+                    .withEvaluationReport()
+                    .withTranspositionReport()
                     .printReport(System.out);
-
-            /*
-            new EvaluationReport()
-            .setReportTitle(testInfo.getDisplayName())
-                    .withMoveResults(List.of(searchResult))
-                    //.withExportEvaluations()
-                    .withEvaluationsStatistics()
-                    .printReport(System.out);
-
-            new PrincipalVariationReport()
-            .setReportTitle(testInfo.getDisplayName())
-                    .withMoveResults(List.of(searchResult))
-                    .printReport(System.out);
-
-
-            new TranspositionReport()
-                    .setReportTitle(testInfo.getDisplayName())
-                    .withMoveResults(List.of(searchResult))
-                    .printReport(System.out);
-
-             */
         }
     }
 

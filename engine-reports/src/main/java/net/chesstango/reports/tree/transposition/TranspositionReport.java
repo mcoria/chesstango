@@ -31,7 +31,10 @@ public class TranspositionReport implements Report {
     }
 
     private void print() {
-        printSummary();
+        new HeaderPrinter()
+                .setTranspositionModel(transpositionModel)
+                .setOut(out)
+                .print();
 
         new TranspositionPrinter()
                 .setTranspositionModel(transpositionModel)
@@ -43,14 +46,5 @@ public class TranspositionReport implements Report {
     public TranspositionReport withMoveResults(List<SearchResult> searchResults) {
         this.transpositionModel = TranspositionModel.collectStatistics(this.reportTitle, searchResults);
         return this;
-    }
-
-    private void printSummary() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("TranspositionReport: %s\n\n", transpositionModel.searchGroupName);
-        out.printf("Searches              : %8d\n", transpositionModel.searches);
-        out.printf("Hits                  : %8d\n", transpositionModel.hitsTotal);
-        out.printf("Replaces              : %8d\n", transpositionModel.replacesTotal);
-        out.print("\n");
     }
 }
