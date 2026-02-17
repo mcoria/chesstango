@@ -62,11 +62,12 @@ public class SearchesTest {
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
+                    .withCutoffStatistics()
                     .withTranspositionStatistics()
-                    //.withCutoffStatistics()
                     .printReport(System.out);
 
 
+            /*
             new NodesReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
@@ -74,7 +75,7 @@ public class SearchesTest {
                     //.withCutoffStatistics()
                     .printReport(System.out);
 
-            /*
+
             new EvaluationReport()
             .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
@@ -86,13 +87,14 @@ public class SearchesTest {
             .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
-             */
+
 
             new TranspositionReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
                     .printReport(System.out);
 
+             */
         }
     }
 
