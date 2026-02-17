@@ -25,7 +25,8 @@ public class SearchManagerPrinter implements Printer {
 
     @Override
     public SearchManagerPrinter print() {
-        out.print("\n Search Manager Statistics\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print(" Search Manager Statistics\n");
 
         // Marco superior de la tabla
         out.printf(" ____________");
