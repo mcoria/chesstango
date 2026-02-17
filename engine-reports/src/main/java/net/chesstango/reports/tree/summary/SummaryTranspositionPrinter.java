@@ -20,7 +20,7 @@ public class SummaryTranspositionPrinter {
     }
 
     public void printStatics() {
-        out.println("\n Cutoff per search level (higher is better)");
+        out.println("\n Transposition Statistics");
 
         // Marco superior de la tabla
         out.printf(" ____________________________________");
