@@ -10,18 +10,12 @@ import java.io.Serializable;
  * during the search process.
  * </p>
  *
- * @param readHits    The number of successful reads where a position was found in the transposition table
- * @param reads       The total number of read attempts (both hits and misses) from the transposition table
- * @param overWrites  The number of times an existing entry in the transposition table was replaced with a new entry
- * @param writes      The total number of write operations to the transposition table
- * 
+ * @param reads      The total number of read attempts (both hits and misses) from the transposition table
+ * @param readHits   The number of successful reads where a position was found in the transposition table
+ * @param writes     The total number of write operations to the transposition table
+ * @param overWrites The number of times an existing entry in the transposition table was replaced with a new entry
  * @author Mauricio Coria
  */
-public record TTableStatistics(long readHits,
-
-                               long reads,
-
-                               long overWrites,
-
-                               long writes) implements Serializable {
-}
+public record TTableStatistics(long reads, long readHits,
+                               long writes, long overWrites
+) implements Serializable { }

@@ -38,7 +38,7 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
     @Override
     public InsertResult save(TranspositionEntry entry) {
         InsertResult result = tTable.save(entry);
-        if (result == InsertResult.REPLACED) {
+        if (result == InsertResult.OVER_WRITTEN) {
             overWrites++;
         }
         writes++;
@@ -64,6 +64,6 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
     }
 
     public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(readHits, reads, overWrites, writes);
+        return new TTableStatistics(reads, readHits, writes, overWrites);
     }
 }

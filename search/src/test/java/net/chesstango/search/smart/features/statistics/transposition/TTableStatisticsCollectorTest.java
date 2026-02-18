@@ -65,13 +65,13 @@ public class TTableStatisticsCollectorTest {
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.REPLACED);
+        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.OVER_WRITTEN);
 
         // Act
         TTable.InsertResult result = collector.save(entry);
 
         // Assert
-        assertEquals(TTable.InsertResult.REPLACED, result);
+        assertEquals(TTable.InsertResult.OVER_WRITTEN, result);
         assertEquals(1, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
