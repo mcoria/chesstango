@@ -1,5 +1,9 @@
 package net.chesstango.reports.search;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
+import net.chesstango.reports.search.nodes.NodesModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 
 import java.io.PrintStream;
@@ -10,16 +14,19 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class SummaryTranspositionPrinter {
-    private final List<TranspositionModel> reportRows;
-    private final PrintStream out;
+public class SummaryTranspositionPrinter implements Printer {
 
-    public SummaryTranspositionPrinter(PrintStream out, List<TranspositionModel> reportRows) {
-        this.out = out;
-        this.reportRows = reportRows;
-    }
+    @Setter
+    @Accessors(chain = true)
+    private List<TranspositionModel> reportRows;
 
-    public void printStatics() {
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
+
+
+    @Override
+    public SummaryTranspositionPrinter print() {
         out.println("\n Transposition Statistics");
 
         // Marco superior de la tabla
@@ -52,5 +59,7 @@ public class SummaryTranspositionPrinter {
         out.printf("---------------");
         out.printf("---------------");
         out.printf("\n");
+
+        return this;
     }
 }

@@ -39,7 +39,7 @@ public class SummaryReport implements Report {
     }
 
     private void print() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------");
         if (printNodesVisitedStatistics) {
             List<NodesModel> reportRows = summaryModels
                     .stream()
@@ -48,9 +48,7 @@ public class SummaryReport implements Report {
             new SummaryNodesPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
-                    .printNodesVisitedStaticsByType()
-                    .printNodesVisitedStatics()
-                    .printNodesVisitedStaticsAvg();
+                    .print();
         }
 
         if (printCutoffStatistics) {
@@ -70,8 +68,11 @@ public class SummaryReport implements Report {
                     .stream()
                     .map(SummaryModel::getTranspositionModel)
                     .toList();
-            new SummaryTranspositionPrinter(out, reportRows)
-                    .printStatics();
+
+            new SummaryTranspositionPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
         }
     }
 
