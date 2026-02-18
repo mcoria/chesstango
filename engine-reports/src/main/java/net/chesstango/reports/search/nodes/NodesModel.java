@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree.nodes;
+package net.chesstango.reports.search.nodes;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;

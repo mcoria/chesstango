@@ -1,13 +1,13 @@
-package net.chesstango.reports.tree;
+package net.chesstango.reports.search;
 
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
-import net.chesstango.reports.tree.evaluation.EvaluationReport;
-import net.chesstango.reports.tree.nodes.NodesReport;
-import net.chesstango.reports.tree.pv.PrincipalVariationReport;
-import net.chesstango.reports.tree.transposition.TranspositionReport;
+import net.chesstango.reports.search.evaluation.EvaluationReport;
+import net.chesstango.reports.search.nodes.NodesReport;
+import net.chesstango.reports.search.pv.PrincipalVariationReport;
+import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class DetailReport implements Report {
+public class DetailsReport implements Report {
     private boolean withNodesVisitedStatistics;
     private boolean withCutoffStatistics;
     private boolean withPrincipalVariationReport;
@@ -27,12 +27,12 @@ public class DetailReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private String reportTitle = "DetailReport";
+    private String reportTitle = "DetailsReport";
 
     private List<SearchResult> searchResultList;
 
     @Override
-    public DetailReport printReport(PrintStream out) {
+    public DetailsReport printReport(PrintStream out) {
         if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesReport nodesReport = new NodesReport()
                     .setReportTitle(reportTitle)
@@ -70,32 +70,32 @@ public class DetailReport implements Report {
         return this;
     }
 
-    public DetailReport withMoveResults(List<SearchResult> searchResultList) {
+    public DetailsReport withMoveResults(List<SearchResult> searchResultList) {
         this.searchResultList = searchResultList;
         return this;
     }
 
-    public DetailReport withCutoffStatistics() {
+    public DetailsReport withCutoffStatistics() {
         this.withCutoffStatistics = true;
         return this;
     }
 
-    public DetailReport withNodesVisitedStatistics() {
+    public DetailsReport withNodesVisitedStatistics() {
         this.withNodesVisitedStatistics = true;
         return this;
     }
 
-    public DetailReport withEvaluationReport() {
+    public DetailsReport withEvaluationReport() {
         this.withEvaluationReport = true;
         return this;
     }
 
-    public DetailReport withPrincipalVariationReport() {
+    public DetailsReport withPrincipalVariationReport() {
         this.withPrincipalVariationReport = true;
         return this;
     }
 
-    public DetailReport withTranspositionReport() {
+    public DetailsReport withTranspositionReport() {
         this.withTranspositionReport = true;
         return this;
     }

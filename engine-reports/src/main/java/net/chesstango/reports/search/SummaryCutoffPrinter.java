@@ -1,10 +1,10 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
-import net.chesstango.reports.tree.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
 import java.util.List;

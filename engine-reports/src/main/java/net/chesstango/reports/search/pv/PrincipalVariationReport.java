@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree.pv;
+package net.chesstango.reports.search.pv;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;

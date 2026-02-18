@@ -1,6 +1,6 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
-import net.chesstango.reports.tree.transposition.TranspositionModel;
+import net.chesstango.reports.search.transposition.TranspositionModel;
 
 import java.io.PrintStream;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree.transposition;
+package net.chesstango.reports.search.transposition;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
