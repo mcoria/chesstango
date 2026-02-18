@@ -21,10 +21,12 @@ public class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.printf("TranspositionReport: %s\n\n", transpositionModel.searchGroupName);
+        out.printf("TranspositionReport   : %s\n\n", transpositionModel.searchGroupName);
         out.printf("Searches              : %8d\n", transpositionModel.searches);
-        out.printf("Hits                  : %8d\n", transpositionModel.hitsTotal);
-        out.printf("Replaces              : %8d\n", transpositionModel.replacesTotal);
+        out.printf("Reads                 : %8d\n", transpositionModel.readsTotal);
+        out.printf("Read Hits             : %8d\n", transpositionModel.readHitsTotal);
+        out.printf("Writes                : %8d\n", transpositionModel.writesTotal);
+        out.printf("OverWrites            : %8d\n", transpositionModel.overWritesTotal);
         out.print("\n");
 
         return this;

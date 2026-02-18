@@ -34,28 +34,36 @@ public class SummaryTranspositionPrinter implements Printer {
         out.printf("___________");
         out.printf("_______________");
         out.printf("_______________");
+        out.printf("_______________");
+        out.printf("_______________");
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("| ENGINE NAME                           ");
         out.printf("| SEARCHES ");
-        out.printf("| Hits         ");
-        out.printf("| Replaces     ");
+        out.printf("| Reads        ");
+        out.printf("| Read Hits    ");
+        out.printf("| Writes       ");
+        out.printf("| OverWrites   ");
         out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             out.printf("| %37s ", row.searchGroupName);
             out.printf("| %8d ", row.searches);
-            out.printf("| %12d ", row.hitsTotal);
-            out.printf("| %12d ", row.replacesTotal);
+            out.printf("| %12d ", row.readsTotal);
+            out.printf("| %12d ", row.readHitsTotal);
+            out.printf("| %12d ", row.writesTotal);
+            out.printf("| %12d ", row.overWritesTotal);
             out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         out.printf(" ---------------------------------------");
         out.printf("-----------");
+        out.printf("---------------");
+        out.printf("---------------");
         out.printf("---------------");
         out.printf("---------------");
         out.printf("\n");

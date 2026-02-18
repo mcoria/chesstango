@@ -16,9 +16,13 @@ public class TranspositionModel {
 
     public int searches;
 
-    public long hitsTotal;
+    public long readHitsTotal;
 
-    public long replacesTotal;
+    public long readsTotal;
+
+    public long overWritesTotal;
+
+    public long writesTotal;
 
     public List<TranspositionModelDetail> transpositionModelDetail;
 
@@ -27,9 +31,13 @@ public class TranspositionModel {
 
         public String move;
 
-        public long hits;
+        public long readHits;
 
-        public long replaces;
+        public long reads;
+
+        public long overWrites;
+
+        public long writes;
     }
 
     public static TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
@@ -57,12 +65,16 @@ public class TranspositionModel {
             transpositionModelDetail.id = searchResult.getId();
             transpositionModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
-            transpositionModelDetail.hits = ttableStatistics.tableHits();
-            transpositionModelDetail.replaces = ttableStatistics.tableCollisions();
+            transpositionModelDetail.readHits = ttableStatistics.readHits();
+            transpositionModelDetail.reads = ttableStatistics.reads();
+            transpositionModelDetail.overWrites = ttableStatistics.overWrites();
+            transpositionModelDetail.writes = ttableStatistics.writes();
 
             this.searches++;
-            this.hitsTotal += transpositionModelDetail.hits;
-            this.replacesTotal += transpositionModelDetail.replaces;
+            this.readHitsTotal += transpositionModelDetail.readHits;
+            this.readsTotal += transpositionModelDetail.reads;
+            this.overWritesTotal += transpositionModelDetail.overWrites;
+            this.writesTotal += transpositionModelDetail.writes;
             this.transpositionModelDetail.add(transpositionModelDetail);
         }
     }

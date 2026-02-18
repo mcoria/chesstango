@@ -26,20 +26,26 @@ public class TranspositionPrinter implements Printer {
         out.printf(" ________");
         out.printf("_______________");
         out.printf("_______________");
+        out.printf("_______________");
+        out.printf("_______________");
         out.printf("\n");
 
 
         // Nombre de las columnas
         out.printf("| Move   ");
-        out.printf("| Hits         ");
-        out.printf("| Replaces     ");
+        out.printf("| Reads        ");
+        out.printf("| Read Hits    ");
+        out.printf("| Writes       ");
+        out.printf("| OverWrites   ");
         out.printf("|\n");
 
         // Cuerpo
         transpositionModel.transpositionModelDetail.forEach(row -> {
             out.printf("|   %s ", row.move);
-            out.printf("| %12d ", row.hits);
-            out.printf("| %12d ", row.replaces);
+            out.printf("| %12d ", row.reads);
+            out.printf("| %12d ", row.readHits);
+            out.printf("| %12d ", row.writes);
+            out.printf("| %12d ", row.overWrites);
             out.printf("|\n");
         });
 
@@ -47,16 +53,22 @@ public class TranspositionPrinter implements Printer {
         out.printf("|--------");
         out.printf("|--------------");
         out.printf("|--------------");
+        out.printf("|--------------");
+        out.printf("|--------------");
         out.printf("|\n");
 
         // Nombre de las columnas
         out.printf("| SUM    ");
-        out.printf("| %12d ", transpositionModel.hitsTotal);
-        out.printf("| %12d ", transpositionModel.replacesTotal);
+        out.printf("| %12d ", transpositionModel.readsTotal);
+        out.printf("| %12d ", transpositionModel.readHitsTotal);
+        out.printf("| %12d ", transpositionModel.writesTotal);
+        out.printf("| %12d ", transpositionModel.overWritesTotal);
         out.printf("|\n");
 
         // Marco inferior de la tabla
         out.printf(" --------");
+        out.printf("---------------");
+        out.printf("---------------");
         out.printf("---------------");
         out.printf("---------------");
         out.printf("\n");
