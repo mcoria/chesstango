@@ -33,9 +33,9 @@ public class SummaryTranspositionPrinter implements Printer {
         out.printf(" _______________________________________");
         out.printf("___________");
         out.printf("_______________");
+        out.printf("_____________________");
         out.printf("_______________");
-        out.printf("_______________");
-        out.printf("_______________");
+        out.printf("_____________________");
         out.printf("\n");
 
 
@@ -43,9 +43,9 @@ public class SummaryTranspositionPrinter implements Printer {
         out.printf("| ENGINE NAME                           ");
         out.printf("| SEARCHES ");
         out.printf("| Reads        ");
-        out.printf("| Read Hits    ");
+        out.printf("| Read Hits          ");
         out.printf("| Writes       ");
-        out.printf("| OverWrites   ");
+        out.printf("| OverWrites         ");
         out.printf("|\n");
 
         // Cuerpo
@@ -53,9 +53,9 @@ public class SummaryTranspositionPrinter implements Printer {
             out.printf("| %37s ", row.searchGroupName);
             out.printf("| %8d ", row.searches);
             out.printf("| %12d ", row.readsTotal);
-            out.printf("| %12d ", row.readHitsTotal);
+            out.printf("| %12d (%2d%%) ", row.readHitsTotal, row.readHitPercentageTotal);
             out.printf("| %12d ", row.writesTotal);
-            out.printf("| %12d ", row.overWritesTotal);
+            out.printf("| %12d (%2d%%) ", row.overWritesTotal, row.overWritePercentageTotal);
             out.printf("|\n");
         });
 
@@ -63,9 +63,9 @@ public class SummaryTranspositionPrinter implements Printer {
         out.printf(" ---------------------------------------");
         out.printf("-----------");
         out.printf("---------------");
+        out.printf("---------------------");
         out.printf("---------------");
-        out.printf("---------------");
-        out.printf("---------------");
+        out.printf("---------------------");
         out.printf("\n");
 
         return this;

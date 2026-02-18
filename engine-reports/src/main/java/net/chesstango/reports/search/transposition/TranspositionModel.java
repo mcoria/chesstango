@@ -16,13 +16,17 @@ public class TranspositionModel {
 
     public int searches;
 
+    public long readsTotal;
+
     public long readHitsTotal;
 
-    public long readsTotal;
+    public int readHitPercentageTotal;
+
+    public long writesTotal;
 
     public long overWritesTotal;
 
-    public long writesTotal;
+    public int overWritePercentageTotal;
 
     public List<TranspositionModelDetail> transpositionModelDetail;
 
@@ -31,13 +35,18 @@ public class TranspositionModel {
 
         public String move;
 
+        public long reads;
+
         public long readHits;
 
-        public long reads;
+        public int readHitPercentage;
+
+        public long writes;
 
         public long overWrites;
 
-        public long writes;
+        public int overWritePercentage;
+
     }
 
     public static TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
@@ -65,16 +74,21 @@ public class TranspositionModel {
             transpositionModelDetail.id = searchResult.getId();
             transpositionModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
-            transpositionModelDetail.readHits = ttableStatistics.readHits();
             transpositionModelDetail.reads = ttableStatistics.reads();
-            transpositionModelDetail.overWrites = ttableStatistics.overWrites();
+            transpositionModelDetail.readHits = ttableStatistics.readHits();
+            transpositionModelDetail.readHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readHits() / ttableStatistics.reads()) : 0;
             transpositionModelDetail.writes = ttableStatistics.writes();
+            transpositionModelDetail.overWrites = ttableStatistics.overWrites();
+            transpositionModelDetail.overWritePercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.overWrites() / ttableStatistics.writes()) : 0;
+
 
             this.searches++;
-            this.readHitsTotal += transpositionModelDetail.readHits;
             this.readsTotal += transpositionModelDetail.reads;
-            this.overWritesTotal += transpositionModelDetail.overWrites;
+            this.readHitsTotal += transpositionModelDetail.readHits;
+            this.readHitPercentageTotal =  readsTotal > 0 ? (int) (100 * readHitsTotal / readsTotal) : 0;
             this.writesTotal += transpositionModelDetail.writes;
+            this.overWritesTotal += transpositionModelDetail.overWrites;
+            this.overWritePercentageTotal =  writesTotal > 0 ? (int) (100 * overWritesTotal / writesTotal) : 0;
             this.transpositionModelDetail.add(transpositionModelDetail);
         }
     }

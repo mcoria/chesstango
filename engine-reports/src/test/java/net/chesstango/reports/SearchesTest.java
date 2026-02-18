@@ -59,7 +59,7 @@ public class SearchesTest {
 
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
-                    //.withNodesVisitedStatistics()
+                    .withNodesVisitedStatistics()
                     .withCutoffStatistics()
                     .withTranspositionStatistics()
                     .printReport(System.out);
@@ -68,7 +68,7 @@ public class SearchesTest {
             new DetailsReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
-                    //.withNodesVisitedStatistics()
+                    .withNodesVisitedStatistics()
                     .withCutoffStatistics()
                     //.withPrincipalVariationReport()
                     //.withEvaluationReport()

@@ -22,11 +22,11 @@ public class HeaderPrinter implements Printer {
     public HeaderPrinter print() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         out.printf("TranspositionReport   : %s\n\n", transpositionModel.searchGroupName);
-        out.printf("Searches              : %8d\n", transpositionModel.searches);
-        out.printf("Reads                 : %8d\n", transpositionModel.readsTotal);
-        out.printf("Read Hits             : %8d\n", transpositionModel.readHitsTotal);
-        out.printf("Writes                : %8d\n", transpositionModel.writesTotal);
-        out.printf("OverWrites            : %8d\n", transpositionModel.overWritesTotal);
+        out.printf("Searches              : %d\n", transpositionModel.searches);
+        out.printf("Reads                 : %d\n", transpositionModel.readsTotal);
+        out.printf("Read Hits             : %d (%2d%%)\n", transpositionModel.readHitsTotal, transpositionModel.readHitPercentageTotal);
+        out.printf("Writes                : %d\n", transpositionModel.writesTotal);
+        out.printf("OverWrites            : %d (%2d%%)\n", transpositionModel.writesTotal, transpositionModel.overWritePercentageTotal);
         out.print("\n");
 
         return this;
