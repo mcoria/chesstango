@@ -1,6 +1,9 @@
 package net.chesstango.engine;
 
 /**
+ *
+ * Engine Listener ????
+ *
  * @author Mauricio Coria
  */
 public interface SearchListener {
