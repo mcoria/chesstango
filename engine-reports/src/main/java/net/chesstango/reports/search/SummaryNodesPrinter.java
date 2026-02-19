@@ -1,7 +1,10 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
 
-import net.chesstango.reports.tree.nodes.NodesModel;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
+import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -10,19 +13,19 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryNodesPrinter {
-    private final List<NodesModel> reportRows;
+class SummaryNodesPrinter implements Printer {
+    private List<NodesModel> reportRows;
 
-    private final PrintStream out;
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public SummaryNodesPrinter(PrintStream out, List<NodesModel> reportRows) {
+    public SummaryNodesPrinter setReportRows(List<NodesModel> reportRows) {
         this.reportRows = reportRows;
-        this.out = out;
-
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
 
@@ -37,13 +40,24 @@ class SummaryNodesPrinter {
 
         this.maxRLevelVisited = maxRLevelVisited;
         this.maxQLevelVisited = maxQLevelVisited;
+
+        return this;
     }
+
+    @Override
+    public SummaryNodesPrinter print() {
+        return this
+                .printNodesVisitedStaticsByType()
+                .printNodesVisitedStatics()
+                .printNodesVisitedStaticsAvg();
+    }
+
 
     public SummaryNodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");
 
         // Marco superior de la tabla
-        out.printf(" ______________________________________________");
+        out.printf(" __________________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
         out.printf("______________"); // Nodes
@@ -51,7 +65,7 @@ class SummaryNodesPrinter {
 
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                        | SEARCHES ");
+        out.printf("| ENGINE NAME                           | SEARCHES ");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("| Total Nodes ");
@@ -59,7 +73,7 @@ class SummaryNodesPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
+            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCounters[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCounters[depth]));
             out.printf("| %11d ", row.visitedNodesTotal);
@@ -67,7 +81,7 @@ class SummaryNodesPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" ----------------------------------------------");
+        out.printf(" --------------------------------------------------");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("--------------"); // Total Nodes
@@ -80,16 +94,16 @@ class SummaryNodesPrinter {
         out.println("\n Nodes visited per type");
 
         // Marco superior de la tabla
-        out.printf(" _____________________________________________________________________________________________________________________________________");
+        out.printf(" _________________________________________________________________________________________________________________________________________");
         out.printf("\n");
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                        | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
+        out.printf("| ENGINE NAME                           | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
         out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
+            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
             out.printf("| %12d ", row.visitedRNodesTotal);
             out.printf("| %12d ", row.visitedQNodesTotal);
             out.printf("| %12d ", row.visitedNodesTotal);
@@ -100,7 +114,7 @@ class SummaryNodesPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" -------------------------------------------------------------------------------------------------------------------------------------");
+        out.printf(" -----------------------------------------------------------------------------------------------------------------------------------------");
         out.printf("\n");
 
         return this;
@@ -110,7 +124,7 @@ class SummaryNodesPrinter {
         out.println("\n Nodes visited per search level AVG");
 
         // Marco superior de la tabla
-        out.printf(" ______________________________________________");
+        out.printf(" __________________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
         out.printf("______________"); // AVG Nodes/S
@@ -118,7 +132,7 @@ class SummaryNodesPrinter {
 
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                        | SEARCHES ");
+        out.printf("| ENGINE NAME                           | SEARCHES ");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("| AVG Nodes/S ");
@@ -126,7 +140,7 @@ class SummaryNodesPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
+            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
             out.printf("| %11d ", row.visitedNodesTotalAvg);
@@ -134,7 +148,7 @@ class SummaryNodesPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" ----------------------------------------------");
+        out.printf(" --------------------------------------------------");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("--------------"); // AVG Nodes/S

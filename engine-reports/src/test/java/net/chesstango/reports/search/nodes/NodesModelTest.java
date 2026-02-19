@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree.nodes;
+package net.chesstango.reports.search.nodes;
 
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;

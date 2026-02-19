@@ -22,7 +22,7 @@ public interface TTable {
     enum InsertResult {
         INSERTED, // The entry was not found in the table
         UPDATED,  // The entry was found in the table and was updated
-        REPLACED  // Another entry was found in the table and was replaced
+        OVER_WRITTEN  // Another entry was found in the table and was replaced
     }
 
     /**
@@ -47,7 +47,9 @@ public interface TTable {
      * entry age, with deeper searches generally taking priority over shallower ones.</p>
      *
      * @param entry the TranspositionEntry containing the evaluation data to save
-     * @return true if the entry was replaced, false if a new entry was created
+     * @return an InsertResult indicating the outcome: INSERTED if a new entry was added,
+     *         UPDATED if an existing entry for the same position was modified, or
+     *         OVER_WRITTEN if a different position's entry was replaced
      */
     InsertResult save(TranspositionEntry entry);
 

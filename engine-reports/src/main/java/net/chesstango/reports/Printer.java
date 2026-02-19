@@ -8,7 +8,7 @@ import java.io.PrintStream;
  */
 public interface Printer {
 
-    void setOut(PrintStream out);
+    Printer setOut(PrintStream out);
 
-    void print();
+    Printer print();
 }

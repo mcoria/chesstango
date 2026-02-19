@@ -1,7 +1,8 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
 import lombok.Getter;
-import net.chesstango.reports.tree.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class SummaryModel {
     @Getter
     private NodesModel nodesModel;
 
+    @Getter
+    private TranspositionModel transpositionModel;
+
     public static SummaryModel collectStatics(String searchesName, List<SearchResult> searchResults) {
         SummaryModel summaryModel = new SummaryModel();
 
@@ -31,6 +35,8 @@ public class SummaryModel {
         this.searches = searchResults.size();
 
         nodesModel = NodesModel.collectStatistics(searchName, searchResults);
+
+        transpositionModel = TranspositionModel.collectStatistics(searchName, searchResults);
     }
 
 }

@@ -1,4 +1,8 @@
-package net.chesstango.reports.tree.nodes;
+package net.chesstango.reports.search.nodes;
+
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
 
 import java.io.PrintStream;
 import java.util.stream.IntStream;
@@ -6,16 +10,17 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class CutoffPrinter {
-    private final PrintStream out;
-    private final NodesModel reportModel;
+class CutoffPrinter  implements Printer {
+    @Setter
+    @Accessors(chain = true)
+    private NodesModel reportModel;
 
-    CutoffPrinter(PrintStream out, NodesModel reportModel) {
-        this.out = out;
-        this.reportModel = reportModel;
-    }
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
 
-    void printCutoff() {
+    @Override
+    public CutoffPrinter print() {
         out.printf("Cutoff per search level (higher is better)\n");
 
         // Marco superior de la tabla
@@ -61,6 +66,8 @@ class CutoffPrinter {
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
         out.printf("------------");
         out.printf("\n\n");
+
+        return this;
     }
 
 }

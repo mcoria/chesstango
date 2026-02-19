@@ -1,7 +1,8 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
 import net.chesstango.reports.Report;
-import net.chesstango.reports.tree.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
 
 import java.io.PrintStream;
@@ -38,15 +39,16 @@ public class SummaryReport implements Report {
     }
 
     private void print() {
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------");
         if (printNodesVisitedStatistics) {
             List<NodesModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
-            new SummaryNodesPrinter(out, reportRows)
-                    .printNodesVisitedStaticsByType()
-                    .printNodesVisitedStatics()
-                    .printNodesVisitedStaticsAvg();
+            new SummaryNodesPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
         }
 
         if (printCutoffStatistics) {
@@ -54,13 +56,23 @@ public class SummaryReport implements Report {
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
-            new SummaryCutoffPrinter(out, reportRows)
-                    .printCutoffStatics();
+
+            new SummaryCutoffPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
         }
 
         if (printTranspositionStatistics) {
-            new SummaryTranspositionPrinter(out, summaryModels)
-                    .printStatics();
+            List<TranspositionModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getTranspositionModel)
+                    .toList();
+
+            new SummaryTranspositionPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
         }
     }
 

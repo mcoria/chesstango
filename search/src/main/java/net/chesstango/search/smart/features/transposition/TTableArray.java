@@ -54,7 +54,7 @@ public class TTableArray implements TTable {
             if (storedEntry.hash == entry.hash) {
                 result = InsertResult.UPDATED;
             } else {
-                result = InsertResult.REPLACED;
+                result = InsertResult.OVER_WRITTEN;
             }
         }
 

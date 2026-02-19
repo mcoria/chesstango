@@ -84,7 +84,7 @@ public class TTableArrayTest {
         TTable.InsertResult result = tTableArray.save(conflictingEntry);
 
         // Assert
-        assertEquals(TTable.InsertResult.REPLACED, result);
+        assertEquals(TTable.InsertResult.OVER_WRITTEN, result);
     }
 
     @Test

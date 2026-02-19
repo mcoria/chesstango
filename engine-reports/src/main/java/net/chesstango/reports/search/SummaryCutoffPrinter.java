@@ -1,7 +1,10 @@
-package net.chesstango.reports.tree.summary;
+package net.chesstango.reports.search;
 
 
-import net.chesstango.reports.tree.nodes.NodesModel;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
+import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -10,17 +13,19 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryCutoffPrinter {
-    private final List<NodesModel> reportRows;
-    private final PrintStream out;
+class SummaryCutoffPrinter implements Printer {
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
+
+    private List<NodesModel> reportRows;
 
     private int maxRLevelVisited;
 
     private int maxQLevelVisited;
 
-    public SummaryCutoffPrinter(PrintStream out, List<NodesModel> reportRows) {
+    public SummaryCutoffPrinter setReportRows(List<NodesModel> reportRows) {
         this.reportRows = reportRows;
-        this.out = out;
 
         int maxRLevelVisited = 0;
         int maxQLevelVisited = 0;
@@ -36,13 +41,16 @@ class SummaryCutoffPrinter {
 
         this.maxRLevelVisited = maxRLevelVisited;
         this.maxQLevelVisited = maxQLevelVisited;
+
+        return this;
     }
 
-    public void printCutoffStatics() {
+    @Override
+    public SummaryCutoffPrinter print() {
         out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
-        out.printf(" ______________________________________________");
+        out.printf(" __________________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("____________"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
         out.printf("____________");
@@ -50,7 +58,7 @@ class SummaryCutoffPrinter {
 
 
         // Nombre de las columnas
-        out.printf("|ENGINE NAME                        | SEARCHES ");
+        out.printf("| ENGINE NAME                           | SEARCHES ");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| RLevel %2d ", depth + 1));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("|   Cutoff  ");
@@ -58,7 +66,7 @@ class SummaryCutoffPrinter {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("|%35s|%9d ", row.searchGroupName, row.searches);
+            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
             IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
             IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
             out.printf("| %7d %% ", row.cutoffPercentageTotal);
@@ -66,10 +74,12 @@ class SummaryCutoffPrinter {
         });
 
         // Marco inferior de la tabla
-        out.printf(" ----------------------------------------------");
+        out.printf(" --------------------------------------------------");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("------------"));
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("------------");
         out.printf("\n");
+
+        return this;
     }
 }

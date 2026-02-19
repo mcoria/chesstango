@@ -30,7 +30,7 @@ public class SearchManagerSummaryPrinterTest extends PrinterTestAbstract {
          * Second entry
          */
         searchManagerModel = new SearchManagerModel();
-        searchManagerModel.searchesName = "Engine 2";
+        searchManagerModel.searchesName = "f144465d-9f28-4e92-9bdc-b43a182df4bd";
         searchManagerModel.searchByOpenBookCounter = 4;
         searchManagerModel.searchByTreeCounter = 5;
         searchManagerModel.searchByTablebaseCounter = 6;

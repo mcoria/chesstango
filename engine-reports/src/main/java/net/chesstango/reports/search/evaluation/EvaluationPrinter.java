@@ -1,4 +1,8 @@
-package net.chesstango.reports.tree.evaluation;
+package net.chesstango.reports.search.evaluation;
+
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import net.chesstango.reports.Printer;
 
 import java.io.PrintStream;
 import java.util.Objects;
@@ -6,16 +10,37 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-class EvaluationPrinter {
-    private final PrintStream out;
-    private final EvaluationModel reportModel;
+class EvaluationPrinter implements Printer {
 
-    public EvaluationPrinter(PrintStream out, EvaluationModel reportModel) {
-        this.out = out;
-        this.reportModel = reportModel;
+    @Setter
+    @Accessors(chain = true)
+    private EvaluationModel reportModel;
+
+    @Setter
+    @Accessors(chain = true)
+    private PrintStream out;
+
+
+    @Override
+    public EvaluationPrinter print() {
+        return printSummary()
+                .printDetails();
     }
 
-    public void printEvaluationsStatistics() {
+    EvaluationPrinter printSummary() {
+        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("EvaluationReport      : %s\n", reportModel.reportTitle);
+        out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
+        out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);
+        out.printf("Positions             : %8d\n", reportModel.evaluationPositionCounterTotal);
+        out.printf("Values                : %8d\n", reportModel.evaluationValueCounterTotal);
+        out.printf("Collisions            : %8d (%2d%%)\n", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal);
+        out.print("\n");
+        return this;
+    }
+
+
+    EvaluationPrinter printDetails() {
         out.printf("Evaluation Statistics\n");
 
         int longestId = 0;
@@ -46,7 +71,7 @@ class EvaluationPrinter {
         out.printf("| Cache Hits  ");
         out.printf("| Positions    ");
         out.printf("| Values       ");
-        out.printf("| PosVal Collisions ");
+        out.printf("| Collisions        ");
         if (longestId > 0) {
             out.printf("| ID");
             out.printf(" ".repeat(longestId - 1));
@@ -70,7 +95,7 @@ class EvaluationPrinter {
 
         // Totales
         out.printf("|--------");
-       // out.printf("|------------");
+        // out.printf("|------------");
         out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
@@ -103,7 +128,8 @@ class EvaluationPrinter {
         out.printf("--------------");
         out.printf("--------------");
         out.printf("---------------");
-        out.printf("---------------");;
+        out.printf("---------------");
+        ;
         out.printf("------------------- ");
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
@@ -114,7 +140,7 @@ class EvaluationPrinter {
 
         out.printf("\n");
 
-
+        return this;
     }
 }
 

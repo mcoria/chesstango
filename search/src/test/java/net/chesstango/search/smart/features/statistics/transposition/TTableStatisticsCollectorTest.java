@@ -36,7 +36,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertEquals(TTable.InsertResult.INSERTED, result);
-        assertEquals(0, collector.getTableCollisions());
+        assertEquals(0, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
@@ -54,7 +54,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertEquals(TTable.InsertResult.UPDATED, result);
-        assertEquals(0, collector.getTableCollisions());
+        assertEquals(0, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
@@ -65,14 +65,14 @@ public class TTableStatisticsCollectorTest {
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.REPLACED);
+        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.OVER_WRITTEN);
 
         // Act
         TTable.InsertResult result = collector.save(entry);
 
         // Assert
-        assertEquals(TTable.InsertResult.REPLACED, result);
-        assertEquals(1, collector.getTableCollisions());
+        assertEquals(TTable.InsertResult.OVER_WRITTEN, result);
+        assertEquals(1, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
@@ -91,7 +91,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertTrue(result);
-        assertEquals(1, collector.getTableHits());
+        assertEquals(1, collector.getReadHits());
         verify(mockTTable, times(1)).load(hash, entry);
     }
 
@@ -110,7 +110,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertFalse(result);
-        assertEquals(0, collector.getTableHits());
+        assertEquals(0, collector.getReadHits());
         verify(mockTTable, times(1)).load(hash, entry);
     }
 }

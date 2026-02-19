@@ -17,25 +17,31 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
 
     private TTable tTable;
 
-    private long tableHits;
+    private long readHits;
 
-    private long tableCollisions;
+    private long reads;
+
+    private long overWrites;
+
+    private long writes;
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
         if (result) {
-            tableHits++;
+            readHits++;
         }
+        reads++;
         return result;
     }
 
     @Override
     public InsertResult save(TranspositionEntry entry) {
         InsertResult result = tTable.save(entry);
-        if (result == InsertResult.REPLACED) {
-            tableCollisions++;
+        if (result == InsertResult.OVER_WRITTEN) {
+            overWrites++;
         }
+        writes++;
         return result;
     }
 
@@ -51,11 +57,13 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
 
     @Override
     public void beforeSearch() {
-        tableHits = 0;
-        tableCollisions = 0;
+        readHits = 0;
+        reads = 0;
+        overWrites = 0;
+        writes = 0;
     }
 
     public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(tableHits, tableCollisions);
+        return new TTableStatistics(reads, readHits, writes, overWrites);
     }
 }

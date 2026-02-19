@@ -1,4 +1,4 @@
-package net.chesstango.reports.tree.pv;
+package net.chesstango.reports.search.pv;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -24,7 +24,10 @@ public class PrincipalVariationReport implements Report {
 
     @Override
     public PrincipalVariationReport printReport(PrintStream output) {
-        new PrincipalVariationPrinter(output, reportModel).printPrincipalVariation();
+        new PrincipalVariationPrinter()
+                .setReportModel(reportModel)
+                .setOut(output)
+                .print();
         return this;
     }
 
