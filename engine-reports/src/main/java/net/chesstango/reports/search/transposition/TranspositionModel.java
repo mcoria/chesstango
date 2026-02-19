@@ -51,8 +51,8 @@ public class TranspositionModel implements Model<List<SearchResult>> {
     }
 
     @Override
-    public TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        searchGroupName = reportTitle;
+    public TranspositionModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+        this.searchGroupName = searchGroupName;
 
         load(searchResults);
 

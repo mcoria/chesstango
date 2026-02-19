@@ -38,8 +38,8 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
     }
 
     @Override
-    public PrincipalVariationModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        this.searchGroupName = reportTitle;
+    public PrincipalVariationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+        this.searchGroupName = searchGroupName;
 
         this.load(searchResults);
 

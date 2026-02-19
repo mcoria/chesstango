@@ -3,7 +3,6 @@ package net.chesstango.reports.search.nodes;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
-import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
@@ -83,8 +82,8 @@ public class NodesModel implements Model<List<SearchResult>> {
     }
 
     @Override
-    public NodesModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        this.searchGroupName = reportTitle;
+    public NodesModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+        this.searchGroupName = searchGroupName;
 
         this.load(searchResults);
 
