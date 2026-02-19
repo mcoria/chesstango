@@ -45,7 +45,7 @@ class PrincipalVariationPrinter implements Printer {
                 out.printf("; ID=%s", moveDetail.id);
             }
 
-            out.print("\n\n");
+            out.print("\n");
         }
 
         return this;
