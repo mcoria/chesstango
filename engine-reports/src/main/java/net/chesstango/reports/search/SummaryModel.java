@@ -22,6 +22,7 @@ public class SummaryModel implements Model<List<SearchResult>> {
     @Getter
     private TranspositionModel transpositionModel;
 
+    @Override
     public SummaryModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
