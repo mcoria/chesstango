@@ -2,6 +2,7 @@ package net.chesstango.reports.search.transposition;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.transposition.TTableStatistics;
 
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionModel {
+public class TranspositionModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -49,14 +50,13 @@ public class TranspositionModel {
 
     }
 
-    public static TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        TranspositionModel model = new TranspositionModel();
+    @Override
+    public TranspositionModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        searchGroupName = reportTitle;
 
-        model.searchGroupName = reportTitle;
+        load(searchResults);
 
-        model.load(searchResults);
-
-        return model;
+        return this;
     }
 
     private void load(List<SearchResult> searchResults) {

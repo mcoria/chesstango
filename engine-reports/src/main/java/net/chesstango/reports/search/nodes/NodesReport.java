@@ -45,7 +45,7 @@ public class NodesReport implements Report {
     }
 
     public NodesReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = NodesModel.collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = new NodesModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 

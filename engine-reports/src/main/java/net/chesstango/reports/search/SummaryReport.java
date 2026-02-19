@@ -34,7 +34,7 @@ public class SummaryReport implements Report {
     }
 
     public SummaryReport addSearchesByTreeSummaryModel(String searchGroupName, List<SearchResult> searches) {
-        summaryModels.add(SummaryModel.collectStatics(searchGroupName, searches));
+        summaryModels.add(new SummaryModel().collectStatistics(searchGroupName, searches));
         return this;
     }
 

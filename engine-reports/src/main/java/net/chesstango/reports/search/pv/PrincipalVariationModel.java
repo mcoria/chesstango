@@ -2,6 +2,7 @@ package net.chesstango.reports.search.pv;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.reports.Model;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
 
@@ -11,8 +12,8 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationModel {
-    public String reportTitle;
+public class PrincipalVariationModel implements Model<List<SearchResult>> {
+    public String searchGroupName;
 
     /**
      * Promedio de promedio
@@ -20,6 +21,7 @@ public class PrincipalVariationModel {
     public int pvAccuracyAvgPercentageTotal;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
+
 
     public static class PrincipalVariationReportModelDetail {
         public String id;
@@ -35,17 +37,15 @@ public class PrincipalVariationModel {
         public int evaluation;
     }
 
+    @Override
+    public PrincipalVariationModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        this.searchGroupName = reportTitle;
 
-    public static PrincipalVariationModel collectStatics(String reportTitle, List<SearchResult> searchResults) {
-        PrincipalVariationModel principalVariationModel = new PrincipalVariationModel();
+        this.load(searchResults);
 
-        principalVariationModel.reportTitle = reportTitle;
+        this.pvAccuracyAvgPercentageTotal = this.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / this.moveDetails.size();
 
-        principalVariationModel.load(searchResults);
-
-        principalVariationModel.pvAccuracyAvgPercentageTotal = principalVariationModel.moveDetails.stream().mapToInt(reportModelDetail -> reportModelDetail.pvAccuracyPercentage).sum() / principalVariationModel.moveDetails.size();
-
-        return principalVariationModel;
+        return this;
     }
 
     private void load(List<SearchResult> searchResults) {

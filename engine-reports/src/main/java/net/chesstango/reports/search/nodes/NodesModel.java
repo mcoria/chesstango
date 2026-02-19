@@ -2,6 +2,8 @@ package net.chesstango.reports.search.nodes;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.reports.Model;
+import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
 
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesModel {
+public class NodesModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -80,15 +82,13 @@ public class NodesModel {
         public int[] cutoffQPercentages;
     }
 
+    @Override
+    public NodesModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
+        this.searchGroupName = reportTitle;
 
-    public static NodesModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        NodesModel nodesModel = new NodesModel();
+        this.load(searchResults);
 
-        nodesModel.searchGroupName = reportTitle;
-
-        nodesModel.load(searchResults);
-
-        return nodesModel;
+        return this;
     }
 
     private void load(List<SearchResult> searchResults) {
