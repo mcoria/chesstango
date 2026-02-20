@@ -3,7 +3,7 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.PrinterTxtTable;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 
 import java.io.PrintStream;
@@ -29,6 +29,7 @@ public class SummaryTranspositionPrinter implements Printer {
     public SummaryTranspositionPrinter print() {
         out.println("\n Transposition Statistics");
 
+        /*
         // Marco superior de la tabla
         out.printf(" _______________________________________");
         out.printf("___________");
@@ -67,6 +68,21 @@ public class SummaryTranspositionPrinter implements Printer {
         out.printf("---------------");
         out.printf("---------------------");
         out.printf("\n");
+
+         */
+
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
+
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads", "Read Hits", "Writes", "OverWrites");
+        reportRows.forEach(row -> {
+            printerTxtTable.addRow(row.searchGroupName,
+                    Integer.toString(row.searches),
+                    Long.toString(row.readsTotal),
+                    String.format("%d (%2d%%)", row.readHitsTotal, row.readHitPercentageTotal),
+                    Long.toString(row.writesTotal),
+                    String.format("%d (%2d%%)", row.overWritesTotal, row.overWritePercentageTotal));
+        });
+        printerTxtTable.print();
 
         return this;
     }
