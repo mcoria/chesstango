@@ -29,7 +29,7 @@ public class SearchManagerReport implements Report {
     }
 
     public SearchManagerReport withMoveResults(List<SearchResponse> searchResponses) {
-        reportModel = SearchManagerModel.collectStatics(this.reportTitle, searchResponses);
+        reportModel = new SearchManagerModel().collectStatistics(this.reportTitle, searchResponses);
         return this;
     }
 }

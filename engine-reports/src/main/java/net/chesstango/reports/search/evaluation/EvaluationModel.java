@@ -2,6 +2,7 @@ package net.chesstango.reports.search.evaluation;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
+import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;
 import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
@@ -13,8 +14,8 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationModel {
-    public String reportTitle;
+public class EvaluationModel implements Model<List<SearchResult>> {
+    public String searchGroupName;
 
     /**
      * Evaluation Statistics
@@ -75,15 +76,13 @@ public class EvaluationModel {
 
     }
 
+    @Override
+    public EvaluationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+        this.searchGroupName = searchGroupName;
 
-    public static EvaluationModel collectStatistics(String reportTitle, List<SearchResult> searchResults) {
-        EvaluationModel searchesReportModel = new EvaluationModel();
+        this.load(searchResults);
 
-        searchesReportModel.reportTitle = reportTitle;
-
-        searchesReportModel.load(searchResults);
-
-        return searchesReportModel;
+        return this;
     }
 
     private void load(List<SearchResult> searchResults) {

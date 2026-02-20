@@ -44,7 +44,7 @@ public class TranspositionReport implements Report {
     }
 
     public TranspositionReport withMoveResults(List<SearchResult> searchResults) {
-        this.transpositionModel = TranspositionModel.collectStatistics(this.reportTitle, searchResults);
+        this.transpositionModel = new TranspositionModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 }

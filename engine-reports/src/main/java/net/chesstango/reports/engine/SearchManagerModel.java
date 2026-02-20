@@ -5,6 +5,9 @@ import net.chesstango.engine.SearchByOpenBookResult;
 import net.chesstango.engine.SearchByTablebaseResult;
 import net.chesstango.engine.SearchByTreeResult;
 import net.chesstango.engine.SearchResponse;
+import net.chesstango.reports.Model;
+import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.search.SearchResult;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +18,7 @@ import static net.chesstango.reports.engine.SearchManagerModel.MoveType.*;
  *
  * @author Mauricio Coria
  */
-public class SearchManagerModel {
+public class SearchManagerModel implements Model<List<SearchResponse>> {
     public enum MoveType {
         OpenBook,
         Tablebase,
@@ -38,9 +41,9 @@ public class SearchManagerModel {
     }
 
 
-    public static SearchManagerModel collectStatics(String reportTitle, List<SearchResponse> searchResponses) {
-        SearchManagerModel model = new SearchManagerModel();
-        model.searchesName = reportTitle;
+    @Override
+    public SearchManagerModel collectStatistics(String reportTitle, List<SearchResponse> searchResponses) {
+        this.searchesName = reportTitle;
 
         SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
@@ -50,21 +53,21 @@ public class SearchManagerModel {
 
             if (searchResponse instanceof SearchByOpenBookResult) {
                 searchManagerModelDetail.type = OpenBook;
-                model.searchByOpenBookCounter++;
+                this.searchByOpenBookCounter++;
             } else if (searchResponse instanceof SearchByTablebaseResult) {
                 searchManagerModelDetail.type = Tablebase;
-                model.searchByTablebaseCounter++;
+                this.searchByTablebaseCounter++;
             } else if (searchResponse instanceof SearchByTreeResult) {
                 searchManagerModelDetail.type = Tree;
-                model.searchByTreeCounter++;
+                this.searchByTreeCounter++;
             }
-            model.searches++;
+            this.searches++;
 
             searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.move());
 
-            model.moveDetail.add(searchManagerModelDetail);
+            this.moveDetail.add(searchManagerModelDetail);
         });
 
-        return model;
+        return this;
     }
 }
