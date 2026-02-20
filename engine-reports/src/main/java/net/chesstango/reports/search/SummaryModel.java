@@ -2,6 +2,7 @@ package net.chesstango.reports.search;
 
 import lombok.Getter;
 import net.chesstango.reports.Model;
+import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.NodesModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -22,6 +23,9 @@ public class SummaryModel implements Model<List<SearchResult>> {
     @Getter
     private TranspositionModel transpositionModel;
 
+    @Getter
+    private EvaluationModel evaluationModel;
+
     @Override
     public SummaryModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
@@ -37,6 +41,8 @@ public class SummaryModel implements Model<List<SearchResult>> {
         nodesModel = new NodesModel().collectStatistics(searchGroupName, searchResults);
 
         transpositionModel = new TranspositionModel().collectStatistics(searchGroupName, searchResults);
+
+        evaluationModel = new EvaluationModel().collectStatistics(searchGroupName, searchResults);
     }
 
 }

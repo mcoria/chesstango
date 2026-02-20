@@ -27,7 +27,7 @@ public class PrinterTxtTable implements Printer {
 
     public PrinterTxtTable setTitles(String... titles) {
         if (titles.length != numberOfColumns) {
-            throw new IllegalArgumentException("Titles must have " + numberOfColumns + " columns");
+            throw new IllegalArgumentException("Titles must have " + numberOfColumns + " columns, found " + titles.length + " columns" );
         }
         this.titles = titles;
         return this;
@@ -43,7 +43,7 @@ public class PrinterTxtTable implements Printer {
 
     public PrinterTxtTable setBottomRow(String... row) {
         if (row.length != numberOfColumns) {
-            throw new IllegalArgumentException("Row must have " + numberOfColumns + " columns");
+            throw new IllegalArgumentException("Row must have " + numberOfColumns + " columns, found " + row.length + " columns");
         }
         this.bottomRow = row;
         return this;

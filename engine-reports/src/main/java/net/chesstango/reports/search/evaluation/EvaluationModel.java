@@ -16,6 +16,7 @@ import java.util.Set;
  */
 public class EvaluationModel implements Model<List<SearchResult>> {
     public String searchGroupName;
+    public int searches;
 
     /**
      * Evaluation Statistics
@@ -87,6 +88,7 @@ public class EvaluationModel implements Model<List<SearchResult>> {
 
     private void load(List<SearchResult> searchResults) {
         this.moveDetails = new LinkedList<>();
+        this.searches = searchResults.size();
 
         searchResults.forEach(this::loadModelDetail);
     }

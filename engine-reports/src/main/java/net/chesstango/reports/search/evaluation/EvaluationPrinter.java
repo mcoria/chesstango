@@ -55,7 +55,7 @@ class EvaluationPrinter implements Printer {
                     Long.toString(moveDetail.evaluationsCacheHitCounter),
                     Long.toString(moveDetail.evaluationPositionCounter),
                     Long.toString(moveDetail.evaluationValueCounter),
-                    String.format("%d (%2d%%) ", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage));
+                    String.format("%d (%2d%%)", moveDetail.evaluationPositionValueCollisionsCounter, moveDetail.evaluationPositionValueCollisionsPercentage));
         });
 
         printerTxtTable.setBottomRow("SUM",
@@ -63,7 +63,7 @@ class EvaluationPrinter implements Printer {
                 Long.toString(reportModel.evaluationsCacheHitCounterTotal),
                 Long.toString(reportModel.evaluationPositionCounterTotal),
                 Long.toString(reportModel.evaluationValueCounterTotal),
-                String.format("%d (%2d%%) ", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal));
+                String.format("%d (%2d%%)", reportModel.evaluationPositionValueCollisionsCounterTotal, reportModel.evaluationCollisionPercentageTotal));
 
         printerTxtTable.print();
 
