@@ -35,7 +35,7 @@ public class PrinterTxtTable implements Printer {
 
     public PrinterTxtTable addRow(String... row) {
         if (row.length != numberOfColumns) {
-            throw new IllegalArgumentException("Row must have " + numberOfColumns + " columns");
+            throw new IllegalArgumentException("Row must have " + numberOfColumns + " columns, found " + row.length + " columns");
         }
         this.rows.add(row);
         return this;
@@ -103,7 +103,7 @@ public class PrinterTxtTable implements Printer {
             // Datos
             out.print("|");
             for (int i = 0; i < numberOfColumns; i++) {
-                out.printf(" %-" + columnWidths[i] + "s |", bottomRow[i]);
+                out.printf(" %" + columnWidths[i] + "s |", bottomRow[i]);
             }
             out.printf("%n");
         }
@@ -126,6 +126,12 @@ public class PrinterTxtTable implements Printer {
                 columnWidths[i] = Math.max(columnWidths[i], row[i].length());
             }
         });
+
+        if (bottomRow != null) {
+            for (int i = 0; i < numberOfColumns; i++) {
+                columnWidths[i] = Math.max(columnWidths[i], bottomRow[i].length());
+            }
+        }
 
         return columnWidths;
     }

@@ -3,9 +3,11 @@ package net.chesstango.reports.search.nodes;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
+import net.chesstango.reports.PrinterTxtTable;
 
 import java.io.PrintStream;
-import java.util.Objects;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 /**
@@ -25,100 +27,44 @@ class NodesPrinter implements Printer {
     public NodesPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
-        int longestId = 0;
-        for (int i = 0; i < reportModel.nodesModelDetails.size(); i++) {
-            String epdId = reportModel.nodesModelDetails.get(i).id;
-            if (Objects.nonNull(epdId) && epdId.length() > longestId) {
-                longestId = epdId.length();
-            }
-        }
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(4 + reportModel.maxSearchRLevel + reportModel.maxSearchQLevel).setOut(out);
 
-        // Marco superior de la tabla
-        out.printf(" ________");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("_____________________"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("_____________________"));
-        out.printf("_____________________");
-        out.printf("_____________________");
-        out.printf("_____________________");
-        out.printf("____________");
-        if (longestId > 0) {
-            out.printf(" %s", "_".repeat(longestId + 2));
-        }
-        out.printf("\n");
+        List<String> tmp = new LinkedList<>();
+        tmp.add("Move");
+        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        tmp.add("RTotal");
+        tmp.add("QTotal");
+        tmp.add("Total");
 
-        // Nombre de las columnas
-        out.printf("| Move   ");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|    RLevel %2d       ", depth + 1));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|    QLevel %2d       ", depth + 1));
-        out.printf("|      RTotal        ");
-        out.printf("|      QTotal        ");
-        out.printf("|       Total        ");
-        out.printf("| MovesExe  ");
-        if (longestId > 0) {
-            out.printf("| ID");
-            out.printf(" ".repeat(longestId - 1));
-        }
-        out.printf("|\n");
+        printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
-        // Cuerpo
-        for (NodesModel.NodesModelDetail moveDetail : reportModel.nodesModelDetails) {
-            out.printf("| %6s ", moveDetail.move);
+        reportModel.nodesModelDetails.forEach(moveDetail -> {
+            List<String> tmpRow = new LinkedList<>();
 
-            IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
-            IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedQNodesCounters[depth], moveDetail.expectedQNodesCounters[depth]));
+            tmpRow.add(String.format("%s", moveDetail.move));
 
-            out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter);
-            out.printf("| %7d / %8d ", moveDetail.visitedQNodesCounter, moveDetail.expectedQNodesCounter);
-            out.printf("| %7d / %8d ", moveDetail.visitedNodesTotal, moveDetail.expectedNodesTotal);
+            IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedQNodesCounters[depth], moveDetail.expectedQNodesCounters[depth])).forEach(tmpRow::add);
 
-            out.printf("|   %7d ", moveDetail.executedMoves);
+            tmpRow.add(String.format("%d / %d", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter));
+            tmpRow.add(String.format("%d / %d", moveDetail.visitedQNodesCounter, moveDetail.expectedQNodesCounter));
+            tmpRow.add(String.format("%d / %d", moveDetail.visitedNodesTotal, moveDetail.expectedNodesTotal));
 
-            if (longestId > 0) {
-                out.printf("| %" + longestId + "s ", moveDetail.id);
-            }
-            out.printf("|\n");
-        }
+            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
+        });
 
-        // Totales
-        out.printf("|--------");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|--------------------"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|--------------------"));
-        out.printf("|--------------------");
-        out.printf("|--------------------");
-        out.printf("|--------------------");
-        out.printf("|-----------");
-        if (longestId > 0) {
-            out.printf("|");
-            out.printf("-".repeat(longestId + 2));
-        }
-        out.printf("|\n");
+        tmp = new LinkedList<>();
+        tmp.add("SUM");
+        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d / %d", reportModel.visitedQNodesCounters[depth], reportModel.expectedQNodesCounters[depth])).forEach(tmp::add);
+        tmp.add(String.format("%d / %d", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal));
+        tmp.add(String.format("%d / %d", reportModel.visitedQNodesTotal, reportModel.expectedQNodesTotal));
+        tmp.add(String.format("%d / %d", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal));
 
-        out.printf("| SUM    ");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth]));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedQNodesCounters[depth], reportModel.expectedQNodesCounters[depth]));
-        out.printf("| %7d / %8d ", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal);
-        out.printf("| %7d / %8d ", reportModel.visitedQNodesTotal, reportModel.expectedQNodesTotal);
-        out.printf("| %7d / %8d ", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal);
-        out.printf("|   %7d ", reportModel.executedMovesTotal);
-        if (longestId > 0) {
-            out.printf("|");
-            out.printf(" ".repeat(longestId + 2));
-        }
-        out.printf("|\n");
+        printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 
-
-        // Marco inferior de la tabla
-        out.printf(" ---------");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("---------------------"));
-        out.printf("---------------------");
-        out.printf("---------------------");
-        out.printf("---------------------");
-        out.printf("----------- ");
-        if (longestId > 0) {
-            out.printf("%s", "-".repeat(longestId + 2));
-        }
-        out.printf("\n\n");
+        printerTxtTable.print();
 
         return this;
     }
