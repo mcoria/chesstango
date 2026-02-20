@@ -86,7 +86,7 @@ public class PrinterTxtTable implements Printer {
             // Datos
             out.print("|");
             for (int i = 0; i < numberOfColumns; i++) {
-                out.printf(" %-" + columnWidths[i] + "s |", row[i]);
+                out.printf(" %" + columnWidths[i] + "s |", row[i]);
             }
             out.printf("%n");
         }

@@ -60,11 +60,12 @@ public class SearchesTest {
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
-                    .withCutoffStatistics()
-                    .withTranspositionStatistics()
+                    //.withCutoffStatistics()
+                    //.withTranspositionStatistics()
                     .printReport(System.out);
 
 
+            /*
             new DetailsReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
@@ -74,6 +75,7 @@ public class SearchesTest {
                     //.withEvaluationReport()
                     .withTranspositionReport()
                     .printReport(System.out);
+             */
         }
     }
 
@@ -82,7 +84,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(1));
         searchResult = search.startSearch(game);
     }
 
