@@ -8,6 +8,7 @@ import net.chesstango.reports.PrinterTxtTable;
 import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -78,6 +79,7 @@ class SummaryNodesPrinter implements Printer {
     public SummaryNodesPrinter printNodesVisitedStatics() {
         out.println("\n Nodes visited per search level");
 
+        /*
         // Marco superior de la tabla
         out.printf(" __________________________________________________");
         IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
@@ -108,6 +110,32 @@ class SummaryNodesPrinter implements Printer {
         IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
         out.printf("--------------"); // Total Nodes
         out.printf("\n");
+
+         */
+
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
+
+        List<String> tmp = new LinkedList<>();
+        tmp.add("ENGINE NAME");
+        tmp.add("SEARCHES");
+        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        tmp.add("TOTAL NODES");
+
+        printerTxtTable.setTitles(tmp.toArray(new String[0]));
+
+        reportRows.forEach(row -> {
+            List<String> tmpRow = new LinkedList<>();
+            tmpRow.add(row.searchGroupName);
+            tmpRow.add(Integer.toString(row.searches));
+            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> Long.toString(row.visitedRNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxQLevelVisited).mapToObj(depth -> Long.toString(row.visitedQNodesCounters[depth])).forEach(tmpRow::add);
+            tmpRow.add(Long.toString(row.visitedNodesTotal));
+
+            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
+        });
+
+        printerTxtTable.print();
 
         return this;
     }
