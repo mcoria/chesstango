@@ -22,7 +22,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     public long visitedNodesTotal;
     public int cutoffPercentageTotal;
 
-    public int executedMovesTotal;
+    public long executedMovesTotal;
 
     public int visitedNodesTotalAvg;
     public int visitedRNodesAvg;
@@ -57,7 +57,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         public String id;
 
         public String move;
-        public int executedMoves;
+        public long executedMoves;
 
         /**
          * Node Statistics

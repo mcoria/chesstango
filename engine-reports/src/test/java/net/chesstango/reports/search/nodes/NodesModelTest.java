@@ -24,7 +24,7 @@ class NodesModelTest {
         String reportTitle = "Test Report Title";
         List<SearchResult> emptySearchResults = Collections.emptyList();
 
-        NodesModel result = NodesModel.collectStatistics(reportTitle, emptySearchResults);
+        NodesModel result = new NodesModel().collectStatistics(reportTitle, emptySearchResults);
 
         assertEquals(reportTitle, result.searchGroupName);
         assertEquals(0, result.searches);
@@ -66,7 +66,7 @@ class NodesModelTest {
         when(mockQuiescenceStatistics.expectedNodesCounters()).thenReturn(expectedQuiescenceCounters);
         when(mockQuiescenceStatistics.visitedNodesCounters()).thenReturn(visitedQuiescenceCounters);
 
-        NodesModel result = NodesModel.collectStatistics(reportTitle, List.of(mockSearchResult));
+        NodesModel result = new NodesModel().collectStatistics(reportTitle, List.of(mockSearchResult));
 
         assertEquals(reportTitle, result.searchGroupName);
         assertEquals(1, result.searches);
@@ -131,7 +131,7 @@ class NodesModelTest {
         when(quiescenceStatistics2.expectedNodesCounters()).thenReturn(quiescenceStatistics2Expected);
         when(quiescenceStatistics2.visitedNodesCounters()).thenReturn(quiescenceStatistics2Visited);
 
-        NodesModel result = NodesModel.collectStatistics(reportTitle, List.of(searchResult1, searchResult2));
+        NodesModel result = new NodesModel().collectStatistics(reportTitle, List.of(searchResult1, searchResult2));
 
         assertEquals(reportTitle, result.searchGroupName);
         assertEquals(2, result.searches);
