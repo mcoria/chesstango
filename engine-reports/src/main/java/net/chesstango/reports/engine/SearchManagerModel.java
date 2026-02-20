@@ -27,7 +27,7 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
 
     String searchesName;
 
-    long searches;
+    int searches;
 
     int searchByOpenBookCounter;
     int searchByTreeCounter;
