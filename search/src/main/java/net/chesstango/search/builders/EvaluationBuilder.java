@@ -11,7 +11,7 @@ import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStati
  */
 public class EvaluationBuilder {
 
-    private Evaluator evaluator;
+    private Evaluator evaluatorImp;
 
     @Getter
     private EvaluatorCache gameEvaluatorCache;
@@ -26,7 +26,7 @@ public class EvaluationBuilder {
 
 
     public EvaluationBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
+        this.evaluatorImp = evaluator;
         return this;
     }
 
@@ -57,23 +57,19 @@ public class EvaluationBuilder {
     public Evaluator build() {
         buildObjects();
         setupListenerMediator();
-        return evaluator;
+        return createChain();
     }
+
 
     private void buildObjects() {
         if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache(evaluator);
-
-            evaluator = gameEvaluatorCache;
+            gameEvaluatorCache = new EvaluatorCache(evaluatorImp);
         }
 
         if (withStatistics) {
             gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setImp(evaluator)
                     .setGameEvaluatorCache(gameEvaluatorCache)
                     .setTrackEvaluations(withTrackEvaluations);
-
-            evaluator = gameEvaluatorStatisticsCollector;
         }
     }
 
@@ -81,6 +77,20 @@ public class EvaluationBuilder {
         if (gameEvaluatorStatisticsCollector != null) {
             searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
+    }
+
+    private Evaluator createChain() {
+        Evaluator chain = evaluatorImp;
+        if (gameEvaluatorCache != null) {
+            chain = gameEvaluatorCache;
+        }
+
+        if (gameEvaluatorStatisticsCollector != null) {
+            gameEvaluatorStatisticsCollector.setImp(chain);
+            chain = gameEvaluatorStatisticsCollector;
+        }
+
+        return chain;
     }
 
 }

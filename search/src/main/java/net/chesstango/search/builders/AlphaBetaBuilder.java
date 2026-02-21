@@ -345,7 +345,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withTriangularPV) {
             setTrianglePV = new SetTrianglePV();
-            setTrianglePV.setEvaluator(evaluator);
         }
 
         if (withStatistics) {
@@ -442,7 +441,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         AlphaBetaFilter extensionChain = createExtensionChain();
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        alphaBetaHorizonChainBuilder.withGameEvaluator(evaluator);
         alphaBetaHorizonChainBuilder.withExtension(extensionChain);
         AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
 

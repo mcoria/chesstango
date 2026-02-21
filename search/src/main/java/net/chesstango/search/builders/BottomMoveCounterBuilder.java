@@ -332,7 +332,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
         AlphaBetaFilter extensionChain = createExtensionChain();
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        alphaBetaHorizonChainBuilder.withGameEvaluator(evaluator);
         alphaBetaHorizonChainBuilder.withExtension(extensionChain);
         AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
 

@@ -4,8 +4,10 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.pv.TTPVReader;
+import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
 
 /**
  * @author Mauricio Coria
@@ -36,5 +38,15 @@ public class SetEvaluatorVisitor implements Visitor {
     @Override
     public void visit(TTPVReader ttPVReader) {
         ttPVReader.setEvaluator(evaluator);
+    }
+
+    @Override
+    public void visit(SetTrianglePV setTrianglePV) {
+        setTrianglePV.setEvaluator(evaluator);
+    }
+
+    @Override
+    public void visit(SetGameEvaluator setGameEvaluator) {
+        setGameEvaluator.setEvaluator(evaluator);
     }
 }
