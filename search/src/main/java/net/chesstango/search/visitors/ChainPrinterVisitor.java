@@ -2,6 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
@@ -16,10 +17,12 @@ import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.features.pv.PVReader;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
@@ -31,6 +34,7 @@ import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceSt
 import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.features.transposition.TTable;
+import net.chesstango.search.smart.features.transposition.TTableArray;
 import net.chesstango.search.smart.features.transposition.TTableDebug;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
@@ -412,7 +416,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), objectText(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
+        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
 
         gameEvaluatorCacheComparator.getNext().accept(this);
     }
@@ -548,6 +552,16 @@ public class ChainPrinterVisitor implements Visitor {
                 objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
+    private String printEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
+        if (evaluatorCacheRead instanceof EvaluatorCache evaluatorCache) {
+            return objectText(evaluatorCache);
+        } else if (evaluatorCacheRead instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCacheRead()));
+        }
+
+        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCacheRead.getClass().getSimpleName());
+    }
+
     private String printGameEvaluator(Evaluator evaluator) {
         if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
@@ -563,15 +577,21 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
         } else if (ttable instanceof TTableStatisticsCollector ttableStatisticsCollector) {
             return String.format("%s -> %s", objectText(ttableStatisticsCollector), printTTable(ttableStatisticsCollector.getTTable()));
+        } else if (ttable instanceof TTableArray tTableArray) {
+            return objectText(tTableArray);
         }
-        return objectText(ttable);
+
+        throw new IllegalArgumentException("Unknown TTable: " + ttable.getClass().getSimpleName());
     }
 
     private String printTTPVReader(PVReader ttPvReader) {
         if (ttPvReader instanceof TTPVReaderDebug ttPVReaderDebug) {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
+        } else if (ttPvReader instanceof TTPVReader ttpvReader) {
+            return objectText(ttpvReader);
         }
-        return objectText(ttPvReader);
+
+        throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());
     }
 
 }
