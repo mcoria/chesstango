@@ -514,7 +514,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             return extensionFlowControl;
         } else {
             quiescenceNullChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            quiescenceNullChainBuilder.withGameEvaluator(evaluator);
             return quiescenceNullChainBuilder.build();
         }
     }
