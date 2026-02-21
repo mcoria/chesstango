@@ -23,6 +23,7 @@ public class SetGameEvaluator implements Acceptor {
         visitor.visit(this);
     }
 
+    // NO TIENE SENTIDO ESTO
     public void setGame(Game game) {
         evaluator.setGame(game);
         endGameTableBase.setGame(game);

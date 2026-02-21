@@ -158,12 +158,12 @@ AlphaBetaFlowControl @ 17
 
 
 SearchByCycleListeners:
+	EvaluatorStatisticsCollector @ 20
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 66
 	SetSearchLast @ 67
 	ResetTranspositionTables @ 68
 	SetNodeStatistics @ 69
-	EvaluatorStatisticsCollector @ 20
 	SetKillerMoveTables @ 70
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 28
@@ -186,13 +186,13 @@ ResetListener:
 	ResetTranspositionTables @ 68
 
 Acceptor:
+	EvaluatorStatisticsCollector @ 20
 	SetGameEvaluator @ 71
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 66
 	SetSearchLast @ 67
 	ResetTranspositionTables @ 68
 	SetNodeStatistics @ 69
-	EvaluatorStatisticsCollector @ 20
 	SetKillerMoveTables @ 70
 	AlphaBetaFlowControl @ 17
 	ExtensionFlowControl @ 28
