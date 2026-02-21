@@ -48,7 +48,6 @@ public class AlphaBetaRootChainBuilder {
     private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private Evaluator evaluator;
     private TTPVReader ttPvReader;
     private TTPVReaderDebug ttpvReaderDebug;
 
@@ -113,11 +112,6 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-        return this;
-    }
-
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -148,7 +142,6 @@ public class AlphaBetaRootChainBuilder {
             transpositionPV = new TranspositionPV();
 
             ttPvReader = new TTPVReader();
-            ttPvReader.setEvaluator(evaluator);
         }
 
         if (withZobristTracker) {

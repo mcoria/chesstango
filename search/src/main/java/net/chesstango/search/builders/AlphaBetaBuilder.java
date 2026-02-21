@@ -466,7 +466,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-        alphaBetaRootChainBuilder.withGameEvaluator(evaluator);
 
         return alphaBetaRootChainBuilder.build();
     }

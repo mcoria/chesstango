@@ -5,6 +5,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
+import net.chesstango.search.smart.features.pv.TTPVReader;
 
 /**
  * @author Mauricio Coria
@@ -30,5 +31,10 @@ public class SetEvaluatorVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
         alphaBetaEvaluation.setEvaluator(evaluator);
+    }
+
+    @Override
+    public void visit(TTPVReader ttPVReader) {
+        ttPVReader.setEvaluator(evaluator);
     }
 }
