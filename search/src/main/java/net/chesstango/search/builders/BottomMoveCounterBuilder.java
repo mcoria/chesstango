@@ -327,10 +327,8 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();
 
-        leafChainBuilder.withGameEvaluator(evaluator);
         leafChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
-
 
         AlphaBetaFilter extensionChain = createExtensionChain();
         alphaBetaHorizonChainBuilder.withSmartListenerMediator(searchListenerMediator);
@@ -367,7 +365,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
             quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
             quiescenceChain = quiescenceChainBuilder.build();
 
-            quiescenceLeafChainBuilder.withGameEvaluator(evaluator);
             quiescenceLeafChainBuilder.withSmartListenerMediator(searchListenerMediator);
             quiescenceLeaf = quiescenceLeafChainBuilder.build();
 
@@ -376,7 +373,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
             if (withExtensionCheckResolver) {
                 checkResolverChainBuilder.withSmartListenerMediator(searchListenerMediator);
-                checkResolverChainBuilder.withGameEvaluator(evaluator);
                 checkResolverChainBuilder.withExtensionFlowControl(extensionFlowControl);
                 checkResolverChain = checkResolverChainBuilder.build();
 

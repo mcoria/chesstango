@@ -41,10 +41,6 @@ public class CheckResolverChainBuilder {
         moveSorterBuilder = new MoveSorterBuilder();
     }
 
-    public CheckResolverChainBuilder withGameEvaluator(Evaluator evaluator) {
-        return this;
-    }
-
     public CheckResolverChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
         this.extensionFlowControl = extensionFlowControl;
         return this;

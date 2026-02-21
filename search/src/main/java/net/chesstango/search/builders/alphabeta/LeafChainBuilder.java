@@ -1,11 +1,10 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.features.debug.filters.DebugFilter;
+import net.chesstango.search.smart.features.debug.model.DebugNode;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -16,7 +15,6 @@ import java.util.List;
  */
 public class LeafChainBuilder {
     private final AlphaBetaEvaluation leaf;
-    private Evaluator evaluator;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugSearchTree;
     private SearchListenerMediator searchListenerMediator;
@@ -26,12 +24,6 @@ public class LeafChainBuilder {
     public LeafChainBuilder() {
         leaf = new AlphaBetaEvaluation();
     }
-
-    public LeafChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-        return this;
-    }
-
 
     public LeafChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -60,8 +52,6 @@ public class LeafChainBuilder {
     }
 
     private void buildObjects() {
-        leaf.setEvaluator(evaluator);
-
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
         }
@@ -72,6 +62,8 @@ public class LeafChainBuilder {
     }
 
     private void setupListenerMediator() {
+        searchListenerMediator.addAcceptor(leaf);
+
         if (zobristQTracker != null) {
             searchListenerMediator.addAcceptor(zobristQTracker);
         }
