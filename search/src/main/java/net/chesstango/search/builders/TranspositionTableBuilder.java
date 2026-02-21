@@ -12,7 +12,7 @@ import static net.chesstango.search.smart.features.debug.model.DebugOperationTT.
 /**
  * @author Mauricio Corias
  */
-public class TTableBuilder {
+public class TranspositionTableBuilder {
     private TTableArray maxMapImp;
     private TTableArray minMapImp;
     private TTableArray qMaxMapImp;
@@ -47,17 +47,17 @@ public class TTableBuilder {
     private TTable qMinMap;
 
 
-    public TTableBuilder withDebugSearchTree() {
+    public TranspositionTableBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
         return this;
     }
 
-    public TTableBuilder withStatistics() {
+    public TranspositionTableBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
 
-    public TTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+    public TranspositionTableBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
         return this;
     }

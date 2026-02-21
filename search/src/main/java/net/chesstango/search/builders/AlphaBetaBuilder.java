@@ -52,7 +52,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
     private final EgtbChainBuilder quiescencEgtbChainBuilder;
-    private final TTableBuilder tTableBuilder;
+    private final TranspositionTableBuilder transpositionTableBuilder;
     private final EvaluationBuilder evaluationBuilder;
 
     private final SetGameEvaluator setGameEvaluator;
@@ -99,7 +99,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         checkResolverChainBuilder = new CheckResolverChainBuilder();
 
-        tTableBuilder = new TTableBuilder();
+        transpositionTableBuilder = new TranspositionTableBuilder();
 
         evaluationBuilder = new EvaluationBuilder();
 
@@ -159,7 +159,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
         checkResolverChainBuilder.withStatistics();
-        tTableBuilder.withStatistics();
+        transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
         return this;
     }
@@ -269,7 +269,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
         egtbChainBuilder.withDebugSearchTree();
-        tTableBuilder.withDebugSearchTree();
+        transpositionTableBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         quiescenceLeafChainBuilder.withDebugSearchTree();
@@ -292,7 +292,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            tTableBuilder.withSmartListenerMediator(searchListenerMediator);
+            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
         } else {
             withTriangularPV();
         }
@@ -309,12 +309,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
         if (withTranspositionTable) {
-            tTableBuilder.build();
+            transpositionTableBuilder.build();
             searchListenerMediator.accept(new SetTTableVisitor(
-                    tTableBuilder.getMaxMap(),
-                    tTableBuilder.getMinMap(),
-                    tTableBuilder.getQMaxMap(),
-                    tTableBuilder.getQMinMap()
+                    transpositionTableBuilder.getMaxMap(),
+                    transpositionTableBuilder.getMinMap(),
+                    transpositionTableBuilder.getQMaxMap(),
+                    transpositionTableBuilder.getQMinMap()
             ));
         }
 
