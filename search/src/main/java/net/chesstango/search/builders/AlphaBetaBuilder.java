@@ -26,12 +26,11 @@ import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVis
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
 import net.chesstango.search.smart.features.transposition.listeners.ResetTranspositionTables;
+import net.chesstango.search.smart.features.transposition.visitors.SetTTableVisitor;
 import net.chesstango.search.smart.features.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
-import net.chesstango.search.smart.features.transposition.visitors.SetTTableVisitor;
 
 /**
  * @author Mauricio Corias
@@ -53,16 +52,18 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
     private final EgtbChainBuilder quiescencEgtbChainBuilder;
-    private final TTableBuilder tTableBuilder;
+    private final TranspositionTableBuilder transpositionTableBuilder;
+    private final EvaluationBuilder evaluationBuilder;
 
     private final SetGameEvaluator setGameEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
     private final ExtensionFlowControl extensionFlowControl;
+
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
-    private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
+
     private ResetTranspositionTables resetTranspositionTables;
     private SetNodeStatistics setNodeStatistics;
     private SetTrianglePV setTrianglePV;
@@ -77,8 +78,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withStatistics;
     private boolean withTranspositionTable;
     private boolean withTranspositionTableReuse;
-    private boolean withTrackEvaluations;
-    private boolean withGameEvaluatorCache;
     private boolean withTriangularPV;
     private boolean withZobristTracker;
     private boolean withQuiescence;
@@ -100,7 +99,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         checkResolverChainBuilder = new CheckResolverChainBuilder();
 
-        tTableBuilder = new TTableBuilder();
+        transpositionTableBuilder = new TranspositionTableBuilder();
+
+        evaluationBuilder = new EvaluationBuilder();
+
 
         alphaBetaFacade = new AlphaBetaFacade();
         setGameEvaluator = new SetGameEvaluator();
@@ -132,12 +134,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     @Override
     public AlphaBetaBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
+        evaluationBuilder.withGameEvaluator(evaluator);
         return this;
     }
 
     public AlphaBetaBuilder withGameEvaluatorCache() {
-        withGameEvaluatorCache = true;
+        evaluationBuilder.withGameEvaluatorCache();
         return this;
     }
 
@@ -157,7 +159,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         alphaBetaInteriorChainBuilder.withStatistics();
         quiescenceChainBuilder.withStatistics();
         checkResolverChainBuilder.withStatistics();
-        tTableBuilder.withStatistics();
+        transpositionTableBuilder.withStatistics();
+        evaluationBuilder.withStatistics();
         return this;
     }
 
@@ -199,10 +202,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
 
     public AlphaBetaBuilder withTrackEvaluations() {
-        if (!withStatistics) {
-            throw new RuntimeException("You must enable Statistics first");
-        }
-        withTrackEvaluations = true;
+        evaluationBuilder.withTrackEvaluations();
         return this;
     }
 
@@ -269,7 +269,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
         egtbChainBuilder.withDebugSearchTree();
-        tTableBuilder.withDebugSearchTree();
+        transpositionTableBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
         quiescenceLeafChainBuilder.withDebugSearchTree();
@@ -292,7 +292,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            tTableBuilder.withSmartListenerMediator(searchListenerMediator);
+            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
         } else {
             withTriangularPV();
         }
@@ -309,12 +309,12 @@ public class AlphaBetaBuilder implements SearchBuilder {
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
 
         if (withTranspositionTable) {
-            tTableBuilder.build();
+            transpositionTableBuilder.build();
             searchListenerMediator.accept(new SetTTableVisitor(
-                    tTableBuilder.getMaxMap(),
-                    tTableBuilder.getMinMap(),
-                    tTableBuilder.getQMaxMap(),
-                    tTableBuilder.getQMinMap()
+                    transpositionTableBuilder.getMaxMap(),
+                    transpositionTableBuilder.getMinMap(),
+                    transpositionTableBuilder.getQMaxMap(),
+                    transpositionTableBuilder.getQMinMap()
             ));
         }
 
@@ -329,20 +329,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     private void buildObjects() {
-        if (withGameEvaluatorCache) {
-            gameEvaluatorCache = new EvaluatorCache(evaluator);
-
-            evaluator = gameEvaluatorCache;
-        }
-
-        if (withStatistics) {
-            gameEvaluatorStatisticsCollector = new EvaluatorStatisticsCollector()
-                    .setImp(evaluator)
-                    .setGameEvaluatorCache(gameEvaluatorCache)
-                    .setTrackEvaluations(withTrackEvaluations);
-
-            evaluator = gameEvaluatorStatisticsCollector;
-        }
+        evaluator = evaluationBuilder
+                .withSmartListenerMediator(searchListenerMediator)
+                .build();
+        gameEvaluatorCache = evaluationBuilder.getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
         if (withTranspositionTable) {
             resetTranspositionTables = new ResetTranspositionTables();
@@ -415,10 +405,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (setNodeStatistics != null) {
             searchListenerMediator.add(setNodeStatistics);
-        }
-
-        if (gameEvaluatorStatisticsCollector != null) {
-            searchListenerMediator.add(gameEvaluatorStatisticsCollector);
         }
 
         if (setKillerMoveTables != null) {

@@ -12,10 +12,15 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private static final int ARRAY_SIZE = 1024 * 512;
 
-    @Getter
-    private final Evaluator imp;
+    private static class GameEvaluatorCacheEntry {
+        long hash;
+        int evaluation;
+    }
 
     private final GameEvaluatorCacheEntry[] cache;
+
+    @Getter
+    private final Evaluator imp;
 
     @Getter
     private long cacheHitsCounter = 0;
@@ -66,10 +71,5 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     public void resetCacheHitsCounter() {
         cacheHitsCounter = 0;
-    }
-
-    private static class GameEvaluatorCacheEntry {
-        long hash;
-        int evaluation;
     }
 }
