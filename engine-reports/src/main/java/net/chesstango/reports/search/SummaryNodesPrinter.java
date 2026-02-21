@@ -4,9 +4,11 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
+import net.chesstango.reports.PrinterTxtTable;
 import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -52,70 +54,54 @@ class SummaryNodesPrinter implements Printer {
                 .printNodesVisitedStaticsAvg();
     }
 
+    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
+        out.println("\n Nodes visited per type");
 
-    public SummaryNodesPrinter printNodesVisitedStatics() {
-        out.println("\n Nodes visited per search level");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(8).setOut(out);
 
-        // Marco superior de la tabla
-        out.printf(" __________________________________________________");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
-        out.printf("______________"); // Nodes
-        out.printf("\n");
-
-
-        // Nombre de las columnas
-        out.printf("| ENGINE NAME                           | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
-        out.printf("| Total Nodes ");
-        out.printf("|\n");
-
-        // Cuerpo
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "QNodes", "Total Nodes", "AVG RNodes", "AVG QNodes", "AVG Nodes");
         reportRows.forEach(row -> {
-            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
-            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCounters[depth]));
-            IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCounters[depth]));
-            out.printf("| %11d ", row.visitedNodesTotal);
-            out.printf("|\n");
+            printerTxtTable.addRow(row.searchGroupName,
+                    Integer.toString(row.searches),
+                    Long.toString(row.visitedRNodesTotal),
+                    Long.toString(row.visitedQNodesTotal),
+                    Long.toString(row.visitedNodesTotal),
+                    Integer.toString(row.visitedRNodesAvg),
+                    Integer.toString(row.visitedQNodesAvg),
+                    Integer.toString(row.visitedNodesTotalAvg));
         });
-
-        // Marco inferior de la tabla
-        out.printf(" --------------------------------------------------");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
-        out.printf("--------------"); // Total Nodes
-        out.printf("\n");
+        printerTxtTable.print();
 
         return this;
     }
 
-    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
-        out.println("\n Nodes visited per type");
 
-        // Marco superior de la tabla
-        out.printf(" _________________________________________________________________________________________________________________________________________");
-        out.printf("\n");
+    public SummaryNodesPrinter printNodesVisitedStatics() {
+        out.println("\n Nodes visited per search level");
 
-        // Nombre de las columnas
-        out.printf("| ENGINE NAME                           | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
-        out.printf("|\n");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 
-        // Cuerpo
+        List<String> tmp = new LinkedList<>();
+        tmp.add("ENGINE NAME");
+        tmp.add("SEARCHES");
+        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        tmp.add("TOTAL NODES");
+
+        printerTxtTable.setTitles(tmp.toArray(new String[0]));
+
         reportRows.forEach(row -> {
-            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
-            out.printf("| %12d ", row.visitedRNodesTotal);
-            out.printf("| %12d ", row.visitedQNodesTotal);
-            out.printf("| %12d ", row.visitedNodesTotal);
-            out.printf("| %11d ", row.visitedRNodesAvg);
-            out.printf("| %11d ", row.visitedQNodesAvg);
-            out.printf("| %11d ", row.visitedNodesTotalAvg);
-            out.printf("|\n");
+            List<String> tmpRow = new LinkedList<>();
+            tmpRow.add(row.searchGroupName);
+            tmpRow.add(Integer.toString(row.searches));
+            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> Long.toString(row.visitedRNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxQLevelVisited).mapToObj(depth -> Long.toString(row.visitedQNodesCounters[depth])).forEach(tmpRow::add);
+            tmpRow.add(Long.toString(row.visitedNodesTotal));
+
+            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
-        // Marco inferior de la tabla
-        out.printf(" -----------------------------------------------------------------------------------------------------------------------------------------");
-        out.printf("\n");
+        printerTxtTable.print();
 
         return this;
     }
@@ -123,36 +109,29 @@ class SummaryNodesPrinter implements Printer {
     public SummaryNodesPrinter printNodesVisitedStaticsAvg() {
         out.println("\n Nodes visited per search level AVG");
 
-        // Marco superior de la tabla
-        out.printf(" __________________________________________________");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("___________"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
-        out.printf("______________"); // AVG Nodes/S
-        out.printf("\n");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 
+        List<String> tmp = new LinkedList<>();
+        tmp.add("ENGINE NAME");
+        tmp.add("SEARCHES");
+        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        tmp.add("AVG Nodes/S");
 
-        // Nombre de las columnas
-        out.printf("| ENGINE NAME                           | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| Level %2d ", depth + 1));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
-        out.printf("| AVG Nodes/S ");
-        out.printf("|\n");
+        printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
-        // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
-            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
-            IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
-            out.printf("| %11d ", row.visitedNodesTotalAvg);
-            out.printf("|\n");
+            List<String> tmpRow = new LinkedList<>();
+            tmpRow.add(row.searchGroupName);
+            tmpRow.add(Integer.toString(row.searches));
+            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> Integer.toString(row.visitedRNodesCountersAvg[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxQLevelVisited).mapToObj(depth -> Integer.toString(row.visitedQNodesCountersAvg[depth])).forEach(tmpRow::add);
+            tmpRow.add(Long.toString(row.visitedNodesTotalAvg));
+
+            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
-        // Marco inferior de la tabla
-        out.printf(" --------------------------------------------------");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("-----------"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
-        out.printf("--------------"); // AVG Nodes/S
-        out.printf("\n");
+        printerTxtTable.print();
 
         return this;
     }

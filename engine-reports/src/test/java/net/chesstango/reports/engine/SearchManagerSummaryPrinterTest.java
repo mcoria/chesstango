@@ -42,8 +42,6 @@ public class SearchManagerSummaryPrinterTest extends PrinterTestAbstract {
 
         SearchManagerSummaryPrinter searchManagerPrinter = new SearchManagerSummaryPrinter();
         searchManagerPrinter.setReportModel(reportModelList);
-        //searchManagerPrinter.setOut(System.out);
-        //searchManagerPrinter.print();
 
         assertSearchTree(searchManagerPrinter, "SearchManagerSummaryPrinterTest.txt");
     }

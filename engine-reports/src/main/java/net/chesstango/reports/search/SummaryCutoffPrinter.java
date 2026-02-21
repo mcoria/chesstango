@@ -4,9 +4,11 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
+import net.chesstango.reports.PrinterTxtTable;
 import net.chesstango.reports.search.nodes.NodesModel;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -49,36 +51,29 @@ class SummaryCutoffPrinter implements Printer {
     public SummaryCutoffPrinter print() {
         out.println("\n Cutoff per search level (higher is better)");
 
-        // Marco superior de la tabla
-        out.printf(" __________________________________________________");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("____________"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("____________"));
-        out.printf("____________");
-        out.printf("\n");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 
+        List<String> tmp = new LinkedList<>();
+        tmp.add("ENGINE NAME");
+        tmp.add("SEARCHES");
+        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        tmp.add("Cutoff");
 
-        // Nombre de las columnas
-        out.printf("| ENGINE NAME                           | SEARCHES ");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| RLevel %2d ", depth + 1));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
-        out.printf("|   Cutoff  ");
-        out.printf("|\n");
+        printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
-        // Cuerpo
         reportRows.forEach(row -> {
-            out.printf("| %37s |%9d ", row.searchGroupName, row.searches);
-            IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffRPercentages[depth]));
-            IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("| %7d %% ", row.cutoffQPercentages[depth]));
-            out.printf("| %7d %% ", row.cutoffPercentageTotal);
-            out.printf("|\n");
+            List<String> tmpRow = new LinkedList<>();
+            tmpRow.add(row.searchGroupName);
+            tmpRow.add(Integer.toString(row.searches));
+            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format( "%d %% ", row.cutoffRPercentages[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format( "%d %% ", row.cutoffQPercentages[depth])).forEach(tmpRow::add);
+            tmpRow.add(Integer.toString(row.cutoffPercentageTotal));
+
+            printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
-        // Marco inferior de la tabla
-        out.printf(" --------------------------------------------------");
-        IntStream.range(0, maxRLevelVisited).forEach(depth -> out.printf("------------"));
-        IntStream.range(0, maxQLevelVisited).forEach(depth -> out.printf("------------"));
-        out.printf("------------");
-        out.printf("\n");
+        printerTxtTable.print();
 
         return this;
     }
