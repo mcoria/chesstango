@@ -2,6 +2,7 @@ package net.chesstango.search.smart.features.evaluator.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 
@@ -16,7 +17,6 @@ public class SetEvaluatorVisitor implements Visitor {
         this.evaluator = evaluator;
     }
 
-
     @Override
     public void visit(Quiescence quiescence) {
         quiescence.setEvaluator(evaluator);
@@ -25,5 +25,10 @@ public class SetEvaluatorVisitor implements Visitor {
     @Override
     public void visit(EvaluatorDebug evaluatorDebug) {
         evaluatorDebug.setEvaluator(evaluator);
+    }
+
+    @Override
+    public void visit(AlphaBetaEvaluation alphaBetaEvaluation) {
+        alphaBetaEvaluation.setEvaluator(evaluator);
     }
 }

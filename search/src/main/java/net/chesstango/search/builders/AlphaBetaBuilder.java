@@ -435,7 +435,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private AlphaBetaFilter createChain() {
         terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        terminalChainBuilder.withGameEvaluator(evaluator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();
 
         leafChainBuilder.withGameEvaluator(evaluator);
@@ -490,7 +489,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             quiescenceLeaf = quiescenceLeafChainBuilder.build();
 
             quiescenceTerminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            quiescenceTerminalChainBuilder.withGameEvaluator(evaluator);
             AlphaBetaFilter quiescenceTerminalChain = quiescenceTerminalChainBuilder.build();
 
             quiescencEgtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
