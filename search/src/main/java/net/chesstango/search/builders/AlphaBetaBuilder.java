@@ -23,6 +23,7 @@ import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.features.egtb.EndGameTableBaseNull;
 import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.features.evaluator.visitors.SetEvaluatorVisitor;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.features.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
@@ -307,6 +308,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
+        searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
             transpositionTableBuilder.build();
@@ -479,7 +481,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         if (withQuiescence) {
             quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            quiescenceChainBuilder.withGameEvaluator(evaluator);
             quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
             quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
             quiescenceChain = quiescenceChainBuilder.build();

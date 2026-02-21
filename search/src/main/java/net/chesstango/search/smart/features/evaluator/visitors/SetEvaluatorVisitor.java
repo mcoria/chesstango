@@ -1,0 +1,29 @@
+package net.chesstango.search.smart.features.evaluator.visitors;
+
+import net.chesstango.evaluation.Evaluator;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
+
+/**
+ * @author Mauricio Coria
+ */
+public class SetEvaluatorVisitor implements Visitor {
+
+    private final Evaluator evaluator;
+
+    public SetEvaluatorVisitor(Evaluator evaluator) {
+        this.evaluator = evaluator;
+    }
+
+
+    @Override
+    public void visit(Quiescence quiescence) {
+        quiescence.setEvaluator(evaluator);
+    }
+
+    @Override
+    public void visit(EvaluatorDebug evaluatorDebug) {
+        evaluatorDebug.setEvaluator(evaluator);
+    }
+}
