@@ -10,7 +10,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

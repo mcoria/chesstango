@@ -6,9 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.GameHistoryRecord;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
 import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
 
 import java.util.List;

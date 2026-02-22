@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.moves.Move;
 

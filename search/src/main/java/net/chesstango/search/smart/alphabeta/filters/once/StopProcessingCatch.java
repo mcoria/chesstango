@@ -9,7 +9,7 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 import java.util.Optional;
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria

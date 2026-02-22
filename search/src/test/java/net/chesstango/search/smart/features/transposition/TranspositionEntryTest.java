@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.features.transposition;
 
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -10,7 +10,6 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
