@@ -104,7 +104,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         evaluationBuilder = new EvaluationBuilder();
 
-
         alphaBetaFacade = new AlphaBetaFacade();
         setGameEvaluator = new SetGameEvaluator();
         searchListenerMediator = new SearchListenerMediator();
@@ -370,12 +369,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
                 setKillerMoveTables = new SetKillerMoveTables();
             }
         }
-
-
-        /**
-         * Static wiring
-         */
-        setGameEvaluator.setEvaluator(evaluator);
     }
 
 
