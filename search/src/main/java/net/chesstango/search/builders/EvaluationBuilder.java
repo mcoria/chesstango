@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 
 /**
  * @author Mauricio Corias

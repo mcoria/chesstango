@@ -7,12 +7,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.features.killermoves.KillerMovesTable;
+import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.transposition.TTableMap;
-import net.chesstango.search.smart.features.transposition.TTable;
-import net.chesstango.search.smart.features.transposition.TranspositionBound;
-import net.chesstango.search.smart.features.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.transposition.TTableMap;
+import net.chesstango.search.smart.alphabeta.transposition.TTable;
+import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
+import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;

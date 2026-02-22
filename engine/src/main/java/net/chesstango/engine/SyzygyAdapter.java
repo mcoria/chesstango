@@ -7,7 +7,7 @@ import net.chesstango.board.position.PositionReader;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
-import net.chesstango.search.smart.features.egtb.EndGameTableBase;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 
 import static net.chesstango.piazzolla.syzygy.Syzygy.*;
 
