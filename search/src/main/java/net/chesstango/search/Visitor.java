@@ -9,7 +9,8 @@ import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.features.egtb.liteners.SetGameToEndGameTableBase;
+import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
@@ -20,6 +21,7 @@ import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.features.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.features.evaluator.visitors.SetEvaluatorVisitor;
 import net.chesstango.search.smart.features.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
 import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
@@ -166,7 +168,7 @@ public interface Visitor {
      *
      * Setter elements
      */
-    default void visit(SetGameEvaluator setGameEvaluator) {
+    default void visit(SetGameToEvaluator setGameToEvaluator) {
     }
 
     default void visit(SetTrianglePV setTrianglePV) {
@@ -217,6 +219,13 @@ public interface Visitor {
 
     default void visit(SetSearchTimers setSearchTimers) {
     }
+
+    default void visit(SetEvaluatorVisitor setEvaluatorVisitor) {
+    }
+
+    default void visit(SetGameToEndGameTableBase setGameToEndGameTableBase) {
+    }
+
 
     /**
      *

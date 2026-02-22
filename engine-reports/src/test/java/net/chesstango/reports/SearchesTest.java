@@ -46,7 +46,7 @@ public class SearchesTest {
                 //.withTrackEvaluations() // Consume demasiada memoria
 
                 //.withPrintChain()
-                //.withDebugSearchTree(null)
+                .withDebugSearchTree(false, true, true)
 
                 //.withStopProcessingCatch()
 
@@ -182,6 +182,15 @@ public class SearchesTest {
         Game game = Game.from(FEN.of("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49"));
 
         search.accept(new SetMaxDepthVisitor(7));
+        searchResult = search.startSearch(game);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_13() {
+        Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 

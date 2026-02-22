@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class TerminalChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
-    private Evaluator evaluator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
     private TranspositionTableTerminal transpositionTableTerminal;
@@ -30,11 +29,6 @@ public class TerminalChainBuilder {
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
-    }
-
-    public TerminalChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-        return this;
     }
 
 
@@ -70,9 +64,6 @@ public class TerminalChainBuilder {
     }
 
     private void buildObjects() {
-        alphaBetaEvaluation.setEvaluator(evaluator);
-
-
         if (withZobristTracker) {
             zobristTracker = new ZobristTracker();
         }
@@ -87,6 +78,8 @@ public class TerminalChainBuilder {
     }
 
     private void setupListenerMediator() {
+        searchListenerMediator.addAcceptor(alphaBetaEvaluation);
+
         if (zobristTracker != null) {
             searchListenerMediator.addAcceptor(zobristTracker);
         }

@@ -43,10 +43,6 @@ public class AlphaBetaHorizonChainBuilder {
         return this;
     }
 
-    public AlphaBetaHorizonChainBuilder withGameEvaluator(Evaluator evaluator) {
-        return this;
-    }
-
     public AlphaBetaHorizonChainBuilder withExtension(AlphaBetaFilter quiescenceChain) {
         this.quiescence = quiescenceChain;
         return this;
