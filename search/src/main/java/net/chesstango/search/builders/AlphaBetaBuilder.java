@@ -36,7 +36,7 @@ import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
 /**
  * @author Mauricio Corias
  */
-public class AlphaBetaBuilder implements SearchBuilder {
+public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final SetSearchTimers setSearchTimers;
     private final SetSearchLast setSearchLast;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
