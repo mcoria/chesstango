@@ -3,7 +3,7 @@ package net.chesstango.search.smart.features.statistics.node.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria

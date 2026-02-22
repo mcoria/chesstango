@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.PrincipalVariation;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.features.pv.TTPVReader;
 import net.chesstango.search.smart.features.transposition.TTable;
 import org.junit.jupiter.api.BeforeEach;

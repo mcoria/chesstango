@@ -1,7 +1,8 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.features.quiescence;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria

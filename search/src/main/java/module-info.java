@@ -61,4 +61,5 @@ module net.chesstango.search {
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
     exports net.chesstango.search.smart.features.evaluator.filters;
+    exports net.chesstango.search.smart.features.quiescence;
 }

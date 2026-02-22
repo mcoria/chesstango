@@ -3,7 +3,7 @@ package net.chesstango.search.smart.features.evaluator.visitors;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.features.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.features.quiescence.Quiescence;
 import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.features.pv.TTPVReader;

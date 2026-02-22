@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.LoopEvaluation;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 

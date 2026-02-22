@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
