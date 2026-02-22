@@ -13,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 import net.chesstango.search.visitors.SetGameVisitor;
@@ -52,7 +52,7 @@ public class AlphaBetaTest {
         AlphaBetaEvaluation terminal = new AlphaBetaEvaluation();
         AlphaBetaFlowControl alphaBetaFlowControl = new AlphaBetaFlowControl();
         QuiescenceNull quiescence = new QuiescenceNull();
-        SetGameEvaluator setGameEvaluator = new SetGameEvaluator();
+        SetGameToEvaluator setGameToEvaluator = new SetGameToEvaluator();
 
         alphaBeta.setNext(alphaBetaFlowControl);
         alphaBeta.setMoveSorter(moveSorter);
@@ -66,15 +66,15 @@ public class AlphaBetaTest {
         quiescence.setGameEvaluator(evaluator);
         terminal.setEvaluator(evaluator);
 
-        setGameEvaluator.setEvaluator(evaluator);
+        setGameToEvaluator.setEvaluator(evaluator);
 
         this.searchListenerMediator = new SearchListenerMediator();
 
         this.alphaBetaFacade = new AlphaBetaFacade();
         this.alphaBetaFacade.setAlphaBetaFilter(alphaBeta);
 
-        this.searchListenerMediator.addAllAcceptor(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade));
-        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameEvaluator, alphaBetaFacade);
+        this.searchListenerMediator.addAllAcceptor(List.of(alphaBeta, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade));
+        this.acceptors = List.of(alphaBeta, quiescence, moveSorter, alphaBetaFlowControl, setGameToEvaluator, alphaBetaFacade);
     }
 
     @Test

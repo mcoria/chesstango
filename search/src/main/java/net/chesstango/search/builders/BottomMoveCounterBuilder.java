@@ -14,7 +14,7 @@ import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
-import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
@@ -43,7 +43,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private final LeafChainBuilder leafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
-    private final SetGameEvaluator setGameEvaluator;
+    private final SetGameToEvaluator setGameToEvaluator;
     private final BottomMoveCounterFacade bottomMoveCounterFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
@@ -82,7 +82,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         checkResolverChainBuilder = new CheckResolverChainBuilder();
 
         bottomMoveCounterFacade = new BottomMoveCounterFacade();
-        setGameEvaluator = new SetGameEvaluator();
+        setGameToEvaluator = new SetGameToEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
@@ -273,7 +273,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.addAcceptor(setGameEvaluator);
+        searchListenerMediator.addAcceptor(setGameToEvaluator);
 
         searchListenerMediator.add(bottomMoveCounterFacade);
 
@@ -322,7 +322,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
 
     private AlphaBetaFilter createChain() {
-        setGameEvaluator.setEvaluator(evaluator);
+        setGameToEvaluator.setEvaluator(evaluator);
 
         terminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter terminalChain = terminalChainBuilder.build();

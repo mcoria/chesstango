@@ -15,7 +15,7 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
-import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
+import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
 import net.chesstango.search.smart.features.debug.DebugNodeTrap;
@@ -56,7 +56,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final TranspositionTableBuilder transpositionTableBuilder;
     private final EvaluationBuilder evaluationBuilder;
 
-    private final SetGameEvaluator setGameEvaluator;
+    private final SetGameToEvaluator setGameToEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
@@ -105,7 +105,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder = new EvaluationBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
-        setGameEvaluator = new SetGameEvaluator();
+        setGameToEvaluator = new SetGameToEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
         extensionFlowControl = new ExtensionFlowControl();
@@ -373,7 +373,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.addAcceptor(setGameEvaluator);
+        searchListenerMediator.addAcceptor(setGameToEvaluator);
 
         searchListenerMediator.add(alphaBetaFacade);
 
