@@ -1,9 +1,5 @@
 package net.chesstango.search.smart.alphabeta.transposition;
 
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArray;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,10 +24,10 @@ public class TTableArrayTest {
                 .setBound(TranspositionBound.EXACT);
 
         // Act
-        TTable.InsertResult result = tTableArray.save(newEntry);
+        TTable.SaveResult result = tTableArray.save(newEntry);
 
         // Assert
-        assertEquals(TTable.InsertResult.INSERTED, result);
+        assertEquals(TTable.SaveResult.INSERTED, result);
     }
 
     @Test
@@ -56,10 +52,10 @@ public class TTableArrayTest {
                 .setBound(TranspositionBound.LOWER_BOUND);
 
         // Act
-        TTable.InsertResult result = tTableArray.save(updatedEntry);
+        TTable.SaveResult result = tTableArray.save(updatedEntry);
 
         // Assert
-        assertEquals(TTable.InsertResult.UPDATED, result);
+        assertEquals(TTable.SaveResult.UPDATED, result);
     }
 
     @Test
@@ -85,10 +81,10 @@ public class TTableArrayTest {
                 .setBound(TranspositionBound.UPPER_BOUND);
 
         // Act
-        TTable.InsertResult result = tTableArray.save(conflictingEntry);
+        TTable.SaveResult result = tTableArray.save(conflictingEntry);
 
         // Assert
-        assertEquals(TTable.InsertResult.OVER_WRITTEN, result);
+        assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
     }
 
     @Test
@@ -115,9 +111,9 @@ public class TTableArrayTest {
                 .setBound(TranspositionBound.LOWER_BOUND);
 
         // Act
-        TTable.InsertResult result = tTableArray.save(entryInNewSession);
+        TTable.SaveResult result = tTableArray.save(entryInNewSession);
 
         // Assert
-        assertEquals(TTable.InsertResult.INSERTED, result);
+        assertEquals(TTable.SaveResult.INSERTED, result);
     }
 }

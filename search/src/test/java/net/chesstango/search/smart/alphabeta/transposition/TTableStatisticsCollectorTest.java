@@ -1,8 +1,6 @@
 package net.chesstango.search.smart.alphabeta.transposition;
 
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -30,13 +28,13 @@ public class TTableStatisticsCollectorTest {
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.INSERTED);
+        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.INSERTED);
 
         // Act
-        TTable.InsertResult result = collector.save(entry);
+        TTable.SaveResult result = collector.save(entry);
 
         // Assert
-        assertEquals(TTable.InsertResult.INSERTED, result);
+        assertEquals(TTable.SaveResult.INSERTED, result);
         assertEquals(0, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
@@ -48,13 +46,13 @@ public class TTableStatisticsCollectorTest {
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.UPDATED);
+        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.UPDATED);
 
         // Act
-        TTable.InsertResult result = collector.save(entry);
+        TTable.SaveResult result = collector.save(entry);
 
         // Assert
-        assertEquals(TTable.InsertResult.UPDATED, result);
+        assertEquals(TTable.SaveResult.UPDATED, result);
         assertEquals(0, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
@@ -66,13 +64,13 @@ public class TTableStatisticsCollectorTest {
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
-        when(mockTTable.save(entry)).thenReturn(TTable.InsertResult.OVER_WRITTEN);
+        when(mockTTable.save(entry)).thenReturn(TTable.SaveResult.OVER_WRITTEN);
 
         // Act
-        TTable.InsertResult result = collector.save(entry);
+        TTable.SaveResult result = collector.save(entry);
 
         // Assert
-        assertEquals(TTable.InsertResult.OVER_WRITTEN, result);
+        assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
         assertEquals(1, collector.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }

@@ -2,6 +2,7 @@ package net.chesstango.reports.jmh;
 
 import net.chesstango.search.smart.alphabeta.transposition.*;
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +45,10 @@ public class TTableArraySaveJmh {
     }
 
     @Benchmark
-    public void benchmarkSaves() {
-        tTable.save(transposition);
+    public void benchmarkSaves(Blackhole blackhole) {
+        TTable.SaveResult result = tTable.save(transposition);
+
+        // Pass the result to the blackhole to prevent dead code elimination
+        blackhole.consume(result);
     }
 }

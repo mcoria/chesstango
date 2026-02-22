@@ -42,10 +42,10 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
-    public InsertResult save(TranspositionEntry entry) {
-        InsertResult insertResult = tTable.save(entry);
-        trackWriteTranspositionEntry(entry, insertResult);
-        return insertResult;
+    public SaveResult save(TranspositionEntry entry) {
+        SaveResult saveResult = tTable.save(entry);
+        trackWriteTranspositionEntry(entry, saveResult);
+        return saveResult;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TTableDebug implements TTable, Acceptor {
         }
     }
 
-    void trackWriteTranspositionEntry(TranspositionEntry entry, InsertResult insertResult) {
+    void trackWriteTranspositionEntry(TranspositionEntry entry, SaveResult saveResult) {
         DebugNode currentNode = searchTracker.getCurrentNode();
         if (currentNode != null) {
             // Si intenta grabar mientras esta ordenando lanza NULLPOINTER

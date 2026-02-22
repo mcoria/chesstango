@@ -41,20 +41,20 @@ public class TTableArray implements TTable {
     }
 
     @Override
-    public InsertResult save(TranspositionEntry entry) {
+    public SaveResult save(TranspositionEntry entry) {
         int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
         TranspositionEntry storedEntry = transpositionArray[idx];
 
-        InsertResult result;
+        SaveResult result;
         if (sessionArray[idx] != currentSessionId) {
             sessionArray[idx] = currentSessionId;
-            result = InsertResult.INSERTED;
+            result = SaveResult.INSERTED;
         } else {
             if (storedEntry.hash == entry.hash) {
-                result = InsertResult.UPDATED;
+                result = SaveResult.UPDATED;
             } else {
-                result = InsertResult.OVER_WRITTEN;
+                result = SaveResult.OVER_WRITTEN;
             }
         }
 

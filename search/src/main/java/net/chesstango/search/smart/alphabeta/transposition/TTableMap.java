@@ -29,9 +29,9 @@ public class TTableMap implements TTable {
     }
 
     @Override
-    public InsertResult save(TranspositionEntry entry) {
+    public SaveResult save(TranspositionEntry entry) {
         TranspositionEntry storedEntry = table.computeIfAbsent(entry.hash, key -> new TranspositionEntry());
-        InsertResult result = storedEntry.hash == entry.hash ? InsertResult.UPDATED : InsertResult.INSERTED;
+        SaveResult result = storedEntry.hash == entry.hash ? SaveResult.UPDATED : SaveResult.INSERTED;
         storedEntry.hash = entry.hash;
         storedEntry.draft = entry.draft;
         storedEntry.move = entry.move;
