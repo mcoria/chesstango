@@ -55,7 +55,7 @@ class SummaryNodesPrinter implements Printer {
     }
 
     public SummaryNodesPrinter printNodesVisitedStaticsByType() {
-        out.println("\n Nodes visited per type");
+        out.printf("%n Nodes visited per type");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(8).setOut(out);
 
@@ -77,7 +77,7 @@ class SummaryNodesPrinter implements Printer {
 
 
     public SummaryNodesPrinter printNodesVisitedStatics() {
-        out.println("\n Nodes visited per search level");
+        out.printf("%n Nodes visited per search level");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 
@@ -107,7 +107,7 @@ class SummaryNodesPrinter implements Printer {
     }
 
     public SummaryNodesPrinter printNodesVisitedStaticsAvg() {
-        out.println("\n Nodes visited per search level AVG");
+        out.printf("%n Nodes visited per search level AVG");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 

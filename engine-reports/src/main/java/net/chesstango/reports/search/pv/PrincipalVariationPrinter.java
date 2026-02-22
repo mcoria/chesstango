@@ -23,13 +23,13 @@ class PrincipalVariationPrinter implements Printer {
 
     @Override
     public PrincipalVariationPrinter print() {
-        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
 
-        out.printf("PrincipalVariationReport: %s\n\n", reportModel.searchGroupName);
+        out.printf("PrincipalVariationReport: %s%n%n", reportModel.searchGroupName);
 
-        out.printf("AccuracyAvgPercentageTotal: %d%%\n\n", reportModel.pvAccuracyAvgPercentageTotal);
+        out.printf("AccuracyAvgPercentageTotal: %d%%%n%n", reportModel.pvAccuracyAvgPercentageTotal);
 
-        out.print("Principal Variations\n");
+        out.printf("Principal Variations%n");
         // Cuerpo
         for (PrincipalVariationModel.PrincipalVariationReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s: %s", moveDetail.move, moveDetail.principalVariation);

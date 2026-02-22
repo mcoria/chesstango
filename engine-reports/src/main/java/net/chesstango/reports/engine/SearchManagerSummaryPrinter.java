@@ -27,9 +27,9 @@ public class SearchManagerSummaryPrinter implements Printer {
 
     @Override
     public SearchManagerSummaryPrinter print() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
 
-        out.print(" Search Manager Statistics\n");
+        out.printf(" Search Manager Statistics%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 

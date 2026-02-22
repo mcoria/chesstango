@@ -30,7 +30,7 @@ class EvaluationPrinter implements Printer {
     }
 
     EvaluationPrinter printSummary() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("EvaluationReport      : %s\n", reportModel.searchGroupName);
         out.printf("Evaluations           : %8d\n", reportModel.evaluationCounterTotal);
         out.printf("Cache Hits            : %8d\n", reportModel.evaluationsCacheHitCounterTotal);

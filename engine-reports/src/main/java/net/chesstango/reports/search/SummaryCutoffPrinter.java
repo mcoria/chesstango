@@ -49,7 +49,7 @@ class SummaryCutoffPrinter implements Printer {
 
     @Override
     public SummaryCutoffPrinter print() {
-        out.println("\n Cutoff per search level (higher is better)");
+        out.printf("%n Cutoff per search level (higher is better)");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
 
