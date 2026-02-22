@@ -20,7 +20,7 @@ class HeaderPrinter implements Printer {
 
     @Override
     public HeaderPrinter print() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("NodesReport: %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Max             RDepth: %10d%n", reportModel.maxSearchRLevel);
