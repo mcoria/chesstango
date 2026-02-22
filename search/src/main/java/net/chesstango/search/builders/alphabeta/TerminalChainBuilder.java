@@ -1,10 +1,9 @@
 package net.chesstango.search.builders.alphabeta;
 
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.features.debug.filters.DebugFilter;
 import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.features.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;

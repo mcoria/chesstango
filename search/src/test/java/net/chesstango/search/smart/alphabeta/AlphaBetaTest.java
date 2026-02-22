@@ -10,7 +10,7 @@ import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.gamegraph.MockEvaluator;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.features.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;

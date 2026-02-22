@@ -1,9 +1,11 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.features.evaluator.filters;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaHelper;
 
 /**
  * @author Mauricio Coria
