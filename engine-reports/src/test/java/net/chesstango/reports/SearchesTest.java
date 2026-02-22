@@ -185,4 +185,13 @@ public class SearchesTest {
         searchResult = search.startSearch(game);
     }
 
+    @Test
+    @Disabled
+    public void testSearch_13() {
+        Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(5));
+        searchResult = search.startSearch(game);
+    }
+
 }

@@ -78,6 +78,8 @@ public class TerminalChainBuilder {
     }
 
     private void setupListenerMediator() {
+        searchListenerMediator.addAcceptor(alphaBetaEvaluation);
+
         if (zobristTracker != null) {
             searchListenerMediator.addAcceptor(zobristTracker);
         }
