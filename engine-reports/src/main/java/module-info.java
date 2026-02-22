@@ -14,4 +14,5 @@ module net.chesstango.reports {
     requires net.chesstango.engine;
 
     requires static lombok;
+    requires jmh.core;
 }

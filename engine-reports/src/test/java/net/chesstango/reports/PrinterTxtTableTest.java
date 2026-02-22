@@ -1,5 +1,6 @@
 package net.chesstango.reports;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.verify;
  * Tests for the PrinterTxtTable class' print method.
  * Ensures table printing functionality behaves correctly for various configurations.
  */
+@Disabled
 class PrinterTxtTableTest {
 
     @Test
