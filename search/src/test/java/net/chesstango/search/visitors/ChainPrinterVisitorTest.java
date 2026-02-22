@@ -97,7 +97,7 @@ public class ChainPrinterVisitorTest {
     }
 
     @Test
-    public void alphaBetaBuilderChainDebugSearchTree() throws IOException {
+    public void alphaBetaBuilderChainDebug() throws IOException {
         AlphaBetaBuilder builder = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())

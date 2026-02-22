@@ -19,12 +19,14 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
 
     @Setter
     private Game game;
+
     @Getter
-    private int executedMoves;
-    private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
-    private int[] visitedNodesCountersQuiescence;
-    private int[] expectedNodesCountersQuiescence;
+    private long executedMoves;
+
+    private long[] visitedNodesCounters;
+    private long[] expectedNodesCounters;
+    private long[] visitedNodesCountersQuiescence;
+    private long[] expectedNodesCountersQuiescence;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
@@ -37,10 +39,10 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
     @Override
     public void beforeSearch() {
         this.executedMoves = 0;
-        this.visitedNodesCounters = new int[30];
-        this.expectedNodesCounters = new int[30];
-        this.visitedNodesCountersQuiescence = new int[30];
-        this.expectedNodesCountersQuiescence = new int[30];
+        this.visitedNodesCounters = new long[30];
+        this.expectedNodesCounters = new long[30];
+        this.visitedNodesCountersQuiescence = new long[30];
+        this.expectedNodesCountersQuiescence = new long[30];
 
         searchListenerMediator.accept(
                 new SetStaticCountersVisitor(

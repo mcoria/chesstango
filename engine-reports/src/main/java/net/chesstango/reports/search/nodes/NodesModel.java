@@ -67,17 +67,17 @@ public class NodesModel implements Model<List<SearchResult>> {
         public long expectedNodesTotal;
         public int cutoffPercentageTotal;
 
-        public int[] expectedRNodesCounters;
-        public int expectedRNodesCounter;
-        public int[] visitedRNodesCounters;
-        public int visitedRNodesCounter;
+        public long[] expectedRNodesCounters;
+        public long expectedRNodesCounter;
+        public long[] visitedRNodesCounters;
+        public long visitedRNodesCounter;
         public int[] cutoffRPercentages;
 
 
-        public int[] expectedQNodesCounters;
-        public int expectedQNodesCounter;
-        public int[] visitedQNodesCounters;
-        public int visitedQNodesCounter;
+        public long[] expectedQNodesCounters;
+        public long expectedQNodesCounter;
+        public long[] visitedQNodesCounters;
+        public long visitedQNodesCounter;
         public int[] cutoffQPercentages;
     }
 
@@ -126,8 +126,11 @@ public class NodesModel implements Model<List<SearchResult>> {
 
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
-            this.visitedRNodesCountersAvg[i] = (int) (this.visitedRNodesCounters[i] / this.searches);
-            this.visitedQNodesCountersAvg[i] = (int) (this.visitedQNodesCounters[i] / this.searches);
+
+            if(this.searches > 0) {
+                this.visitedRNodesCountersAvg[i] = (int) (this.visitedRNodesCounters[i] / this.searches);
+                this.visitedQNodesCountersAvg[i] = (int) (this.visitedQNodesCounters[i] / this.searches);
+            }
 
             this.expectedRNodesTotal += this.expectedRNodesCounters[i];
             this.expectedQNodesTotal += this.expectedQNodesCounters[i];
@@ -135,11 +138,16 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
-        this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
 
-        this.visitedRNodesAvg = (int) (this.visitedRNodesTotal / this.searches);
-        this.visitedQNodesAvg = (int) (this.visitedQNodesTotal / this.searches);
-        this.visitedNodesTotalAvg = (int) (this.visitedNodesTotal / this.searches);
+        if(this.expectedNodesTotal > 0) {
+            this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
+        }
+
+        if(this.searches > 0) {
+            this.visitedRNodesAvg = (int) (this.visitedRNodesTotal / this.searches);
+            this.visitedQNodesAvg = (int) (this.visitedQNodesTotal / this.searches);
+            this.visitedNodesTotalAvg = (int) (this.visitedNodesTotal / this.searches);
+        }
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -187,7 +195,7 @@ public class NodesModel implements Model<List<SearchResult>> {
                 this.expectedRNodesCounters[i] += reportModelDetail.expectedRNodesCounters[i];
 
                 if (reportModelDetail.expectedRNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffRPercentages[i] = (100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i]));
+                    reportModelDetail.cutoffRPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i])));
                 }
             }
         }
@@ -211,7 +219,7 @@ public class NodesModel implements Model<List<SearchResult>> {
                 this.expectedQNodesCounters[i] += reportModelDetail.expectedQNodesCounters[i];
 
                 if (reportModelDetail.expectedQNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffQPercentages[i] = (100 - (100 * reportModelDetail.visitedQNodesCounters[i] / reportModelDetail.expectedQNodesCounters[i]));
+                    reportModelDetail.cutoffQPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedQNodesCounters[i] / reportModelDetail.expectedQNodesCounters[i])));
                 }
             }
         }

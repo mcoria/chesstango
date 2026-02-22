@@ -12,12 +12,12 @@ import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceSt
  */
 public class SetStaticCountersVisitor implements Visitor {
 
-    private final int[] visitedNodesCounters;
-    private final int[] expectedNodesCounters;
-    private final int[] visitedNodesCountersQuiescence;
-    private final int[] expectedNodesCountersQuiescence;
+    private final long[] visitedNodesCounters;
+    private final long[] expectedNodesCounters;
+    private final long[] visitedNodesCountersQuiescence;
+    private final long[] expectedNodesCountersQuiescence;
 
-    public SetStaticCountersVisitor(int[] visitedNodesCounters, int[] expectedNodesCounters, int[] visitedNodesCountersQuiescence, int[] expectedNodesCountersQuiescence) {
+    public SetStaticCountersVisitor(long[] visitedNodesCounters, long[] expectedNodesCounters, long[] visitedNodesCountersQuiescence, long[] expectedNodesCountersQuiescence) {
         this.visitedNodesCounters = visitedNodesCounters;
         this.expectedNodesCounters = expectedNodesCounters;
         this.visitedNodesCountersQuiescence = visitedNodesCountersQuiescence;

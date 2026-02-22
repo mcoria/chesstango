@@ -13,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 public class AlphaBetaStatisticsVisited implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
-    private int[] visitedNodesCounters;
+    private long[] visitedNodesCounters;
 
     @Override
     public void accept(Visitor visitor) {
