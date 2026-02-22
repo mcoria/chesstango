@@ -5,5 +5,5 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public record NodeStatistics(int[] expectedNodesCounters, int[] visitedNodesCounters) implements Serializable {
+public record NodeStatistics(long[] expectedNodesCounters, long[] visitedNodesCounters) implements Serializable {
 }

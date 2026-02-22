@@ -17,7 +17,7 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Setter
-    private int[] expectedNodesCounters;
+    private long[] expectedNodesCounters;
 
     @Setter
     private Game game;

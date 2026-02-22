@@ -93,8 +93,8 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(3, searchResult.getBestEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
+        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
@@ -134,8 +134,8 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
+        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
@@ -178,8 +178,8 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
+        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
@@ -212,8 +212,8 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
+        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 

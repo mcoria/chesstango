@@ -172,7 +172,7 @@ ResetListener:
 	ResetTranspositionTables @ 59
 
 Acceptor:
-	SetGameEvaluator @ 61
+	SetGameToEvaluator @ 61
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 57
 	SetSearchLast @ 58
@@ -180,7 +180,9 @@ Acceptor:
 	SetKillerMoveTables @ 60
 	AlphaBetaFlowControl @ 14
 	ExtensionFlowControl @ 24
+	AlphaBetaEvaluation @ 16
 	TranspositionTableTerminal @ 15
+	AlphaBetaEvaluation @ 22
 	TranspositionTableQ @ 29
 	Quiescence @ 31
 	NodeMoveSorter @ 32
@@ -189,6 +191,8 @@ Acceptor:
 	PrincipalVariationComparator @ 33
 	RecaptureMoveComparator @ 37
 	GameEvaluatorCacheComparator @ 39
+	AlphaBetaEvaluation @ 28
+	AlphaBetaEvaluation @ 26
 	TranspositionTableTerminal @ 25
 	EgtbEvaluation @ 27
 	TranspositionTable @ 23

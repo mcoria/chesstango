@@ -32,7 +32,7 @@ public class SearchResult implements Serializable {
 
     private TTableStatistics tTableStatistics;
 
-    private int executedMoves;
+    private long executedMoves;
 
     private long timeSearching;
 

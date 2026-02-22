@@ -14,7 +14,7 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private int[] visitedNodesCounters;
+    private long[] visitedNodesCounters;
 
     private int depth;
 

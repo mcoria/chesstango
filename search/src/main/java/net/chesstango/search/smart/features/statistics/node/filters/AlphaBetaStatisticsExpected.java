@@ -19,7 +19,7 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
     private Game game;
 
     @Setter
-    private int[] expectedNodesCounters;
+    private long[] expectedNodesCounters;
 
     @Override
     public void accept(Visitor visitor) {
