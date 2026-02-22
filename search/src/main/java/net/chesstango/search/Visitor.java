@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.features.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.features.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.features.evaluator.filters.LoopEvaluation;
 import net.chesstango.search.smart.features.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
