@@ -3,10 +3,10 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
-import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 
 /**
  *

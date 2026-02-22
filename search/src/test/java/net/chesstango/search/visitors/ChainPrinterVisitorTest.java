@@ -4,10 +4,10 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.Search;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.features.debug.DebugNodeTrap;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.egtb.EndGameTableBase;
-import net.chesstango.search.smart.features.egtb.visitors.SetEndGameTableBaseVisitor;
+import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
+import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

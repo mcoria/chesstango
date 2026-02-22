@@ -6,9 +6,8 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
 import net.chesstango.search.visitors.SetMaxDepthVisitor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

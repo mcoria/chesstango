@@ -4,8 +4,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluationEntry;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluationStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationEntry;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluationStatistics;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -2,12 +2,12 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
-import net.chesstango.search.smart.features.transposition.TTable;
-import net.chesstango.search.smart.features.transposition.TTableArray;
-import net.chesstango.search.smart.features.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.transposition.TTable;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArray;
+import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 
-import static net.chesstango.search.smart.features.debug.model.DebugOperationTT.TableType.*;
+import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.*;
 
 /**
  * @author Mauricio Corias
