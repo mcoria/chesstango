@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the save method in TTableArray class.
@@ -18,9 +19,9 @@ public class TTableArrayTest {
         TTableArray tTableArray = new TTableArray();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(123456789L)
-                .setDraft(5)
-                .setMove((short) 1)
-                .setValue(100)
+                .setDraft(3)
+                .setMove((short) 13)
+                .setValue(37)
                 .setBound(TranspositionBound.EXACT);
 
         // Act
@@ -28,6 +29,48 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(123456789L, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+    }
+
+    @Test
+    public void testSaveInsertsNewEntryNegatives() {
+        // Arrange
+        TTableArray tTableArray = new TTableArray();
+        TranspositionEntry newEntry = new TranspositionEntry()
+                .setHash(-123456789L)
+                .setDraft(-3)
+                .setMove((short) -13)
+                .setValue(-37)
+                .setBound(TranspositionBound.LOWER_BOUND);
+
+        // Act
+        TTable.SaveResult result = tTableArray.save(newEntry);
+
+        // Assert
+        assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(-123456789L, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
     }
 
     @Test
