@@ -18,7 +18,6 @@ public class TTableArrayLoad {
     private TTable tTable;
     private TranspositionEntry transposition;
     private Random random;
-    private long hash;
 
     private static final TranspositionBound[] BOUNDS = TranspositionBound.values();
     private static final int BOUNDS_SIZE = BOUNDS.length;
@@ -45,14 +44,9 @@ public class TTableArrayLoad {
         }
     }
 
-    @Setup(Level.Invocation)
-    public void setUpTransposition() {
-        hash = random.nextLong();
-    }
-
     @Benchmark
     public void benchmarkLoad(Blackhole blackhole) {
-        boolean found = tTable.load(hash, transposition);
+        boolean found = tTable.load(random.nextLong(), transposition);
 
         // Pass the result to the blackhole to prevent dead code elimination
         blackhole.consume(found);
