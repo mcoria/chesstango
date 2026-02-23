@@ -5,57 +5,37 @@ package net.chesstango.search.smart.alphabeta.transposition;
  */
 public class TTableArrayObj implements TTable {
 
-    private final static byte EXACT = ((byte) 0b00000001);
-    private final static byte LOWER_BOUND = ((byte) 0b00000010);
-    private final static byte UPPER_BOUND = ((byte) 0b00000011);
-    private final static int ARRAY_SIZE = 1024 * 512;
-
-    /*
-        Data layout:
-         - byte[0] = TranspositionBound
-         - byte[1] = draft (with sign)
-         - byte[2-3] = move
-         - byte[4-8] = value
-     */
-
+    private static final int ARRAY_SIZE = 1024 * 512;
+    private final TranspositionEntry[] transpositionArray;
     private final int[] sessionArray;
-    private final long[] hashArray;
-    private final long[] dataArray;
     private int currentSessionId;
 
     public TTableArrayObj() {
+        this.transpositionArray = new TranspositionEntry[ARRAY_SIZE];
         this.sessionArray = new int[ARRAY_SIZE];
-        this.hashArray = new long[ARRAY_SIZE];
-        this.dataArray = new long[ARRAY_SIZE];
-        this.currentSessionId = Integer.MIN_VALUE + 1;
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            sessionArray[i] = Integer.MIN_VALUE;
+            this.transpositionArray[i] = new TranspositionEntry();
+            this.sessionArray[i] = Integer.MIN_VALUE;
         }
+        this.currentSessionId = Integer.MIN_VALUE + 1;
     }
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         int idx = (int) Math.abs(hash % ARRAY_SIZE);
 
-        if (sessionArray[idx] != currentSessionId || hashArray[idx] != hash) {
+        TranspositionEntry storedEntry = transpositionArray[idx];
+
+        if (sessionArray[idx] != currentSessionId || storedEntry.hash != hash) {
             return false;
         }
 
-        long data = dataArray[idx];
-
-        // Extract fields from the data
-        byte boundByte = (byte) ((data >>> 56) & 0xFF);
-        byte draftByte = (byte) ((data >>> 48) & 0xFF);
-        short move = (short) ((data >>> 32) & 0xFFFF);
-        int value = (int) (data & 0xFFFFFFFFL);
-
-
         // Copy stored entry fields to the output entry
-        entry.hash = hash;
-        entry.draft = draftByte;
-        entry.move = move;
-        entry.value = value;
-        entry.bound = boundByte == EXACT ? TranspositionBound.EXACT : boundByte == LOWER_BOUND ? TranspositionBound.LOWER_BOUND : TranspositionBound.UPPER_BOUND;
+        entry.hash = storedEntry.hash;
+        entry.draft = storedEntry.draft;
+        entry.move = storedEntry.move;
+        entry.value = storedEntry.value;
+        entry.bound = storedEntry.bound;
 
         return true;
     }
@@ -64,26 +44,25 @@ public class TTableArrayObj implements TTable {
     public SaveResult save(TranspositionEntry entry) {
         int idx = (int) Math.abs(entry.hash % ARRAY_SIZE);
 
+        TranspositionEntry storedEntry = transpositionArray[idx];
+
         SaveResult result;
         if (sessionArray[idx] != currentSessionId) {
             sessionArray[idx] = currentSessionId;
-            hashArray[idx] = entry.hash;
             result = SaveResult.INSERTED;
         } else {
-            if (hashArray[idx] == entry.hash) {
+            if (storedEntry.hash == entry.hash) {
                 result = SaveResult.UPDATED;
             } else {
                 result = SaveResult.OVER_WRITTEN;
-                hashArray[idx] = entry.hash;
             }
         }
 
-        byte boundByte = entry.bound == TranspositionBound.EXACT ? EXACT : entry.bound == TranspositionBound.LOWER_BOUND ? LOWER_BOUND : UPPER_BOUND;
-        byte draftByte = (byte) (entry.draft);
-        short move = entry.move;
-        int value = entry.value;
-
-        dataArray[idx] = ((boundByte & 0xFFL) << 56) | ((draftByte & 0xFFL) << 48) | ((move & 0xFFFFL) << 32) | (value & 0xFFFFFFFFL);
+        storedEntry.hash = entry.hash;
+        storedEntry.draft = entry.draft;
+        storedEntry.move = entry.move;
+        storedEntry.value = entry.value;
+        storedEntry.bound = entry.bound;
 
         return result;
     }
@@ -94,7 +73,7 @@ public class TTableArrayObj implements TTable {
         if (currentSessionId < Integer.MAX_VALUE) {
             currentSessionId++;
         } else {
-            currentSessionId = Integer.MIN_VALUE + 1;
+            currentSessionId = Integer.MIN_VALUE;
         }
     }
 }

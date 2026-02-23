@@ -26,6 +26,7 @@ public class TTableArraySave {
     public void setUp() {
         random = new Random();
         tTable = new TTableArrayPrimitives();
+        //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();
     }
