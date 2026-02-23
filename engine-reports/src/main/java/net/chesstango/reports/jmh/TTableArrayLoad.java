@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 20, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 20, time = 5000, timeUnit = TimeUnit.MILLISECONDS)
 public class TTableArrayLoad {
 
     private TTable tTable;
@@ -26,16 +26,16 @@ public class TTableArrayLoad {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArrayPrimitives();
-        //tTable = new TTableArrayObj();
+        //tTable = new TTableArrayPrimitives();
+        tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();
     }
 
     @Setup(Level.Iteration)
-    public void clearTranspositionTable() {
+    public void fillTranspositionTable() {
         tTable.clear();
-        for (int i = 0; i < 1024; i++) {
+        for (int i = 0; i < 1024 * 10; i++) {
             transposition.setHash(random.nextLong());
             transposition.setDraft(random.nextInt());
             transposition.setMove((short) random.nextInt());
