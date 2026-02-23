@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 /**
  * @author Mauricio Coria
  */
-public class TTableArray implements TTable {
+public class TTableArrayPrimitives implements TTable {
 
     private final static byte EXACT = ((byte) 0b00000001);
     private final static byte LOWER_BOUND = ((byte) 0b00000010);
@@ -23,7 +23,7 @@ public class TTableArray implements TTable {
     private final long[] dataArray;
     private int currentSessionId;
 
-    public TTableArray() {
+    public TTableArrayPrimitives() {
         this.sessionArray = new int[ARRAY_SIZE];
         this.hashArray = new long[ARRAY_SIZE];
         this.dataArray = new long[ARRAY_SIZE];

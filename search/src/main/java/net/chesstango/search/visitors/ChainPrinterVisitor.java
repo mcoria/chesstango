@@ -40,7 +40,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceS
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArray;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
@@ -583,7 +583,7 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
         } else if (ttable instanceof TTableStatisticsCollector ttableStatisticsCollector) {
             return String.format("%s -> %s", objectText(ttableStatisticsCollector), printTTable(ttableStatisticsCollector.getTTable()));
-        } else if (ttable instanceof TTableArray tTableArray) {
+        } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);
         }
 

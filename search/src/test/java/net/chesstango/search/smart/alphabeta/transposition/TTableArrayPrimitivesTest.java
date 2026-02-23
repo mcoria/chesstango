@@ -6,17 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for the save method in TTableArray class.
+ * Unit tests for the save method in TTableArrayPrimitives class.
  *
  * <p>The save method is responsible for inserting, updating, or replacing entries in the
  * transposition table based on the current session ID and the provided entry's hash.</p>
  */
-public class TTableArrayTest {
+public class TTableArrayPrimitivesTest {
 
     @Test
     public void testSaveInsertsNewEntry() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(123456789L)
                 .setDraft(3)
@@ -46,7 +46,7 @@ public class TTableArrayTest {
     @Test
     public void testSaveInsertsNewEntryNegatives() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(-123456789L)
                 .setDraft(-3)
@@ -76,7 +76,7 @@ public class TTableArrayTest {
     @Test
     public void testSaveUpdatesExistingEntrySameHash() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         long hash = 123456789L;
 
         TranspositionEntry initialEntry = new TranspositionEntry()
@@ -116,7 +116,7 @@ public class TTableArrayTest {
     @Test
     public void testSaveReplacesEntryWithDifferentHash() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         long hash1 = 123456789L;
         long hash2 = 1024 * 512 + hash1;
 
@@ -157,7 +157,7 @@ public class TTableArrayTest {
     @Test
     public void testSaveInsertsEntryInNewSession() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         long hash = -1123456789L;
 
         TranspositionEntry entryInOldSession = new TranspositionEntry()
