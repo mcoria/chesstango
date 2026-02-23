@@ -99,6 +99,18 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.UPDATED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(updatedEntry, loadEntry);
     }
 
     @Test
@@ -128,13 +140,25 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash2, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(conflictingEntry, loadEntry);
     }
 
     @Test
     public void testSaveInsertsEntryInNewSession() {
         // Arrange
         TTableArray tTableArray = new TTableArray();
-        long hash = 123456789L;
+        long hash = -1123456789L;
 
         TranspositionEntry entryInOldSession = new TranspositionEntry()
                 .setHash(hash)
@@ -158,5 +182,17 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(entryInNewSession, loadEntry);
     }
 }
