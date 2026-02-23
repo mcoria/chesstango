@@ -3,24 +3,25 @@ package net.chesstango.search.smart.alphabeta.transposition;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for the save method in TTableArray class.
+ * Unit tests for the save method in TTableArrayPrimitives class.
  *
  * <p>The save method is responsible for inserting, updating, or replacing entries in the
  * transposition table based on the current session ID and the provided entry's hash.</p>
  */
-public class TTableArrayTest {
+public class TTableArrayPrimitivesTest {
 
     @Test
     public void testSaveInsertsNewEntry() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(123456789L)
-                .setDraft(5)
-                .setMove((short) 1)
-                .setValue(100)
+                .setDraft(3)
+                .setMove((short) 13)
+                .setValue(37)
                 .setBound(TranspositionBound.EXACT);
 
         // Act
@@ -28,12 +29,54 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(123456789L, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+    }
+
+    @Test
+    public void testSaveInsertsNewEntryNegatives() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+        TranspositionEntry newEntry = new TranspositionEntry()
+                .setHash(-123456789L)
+                .setDraft(-3)
+                .setMove((short) -13)
+                .setValue(-37)
+                .setBound(TranspositionBound.LOWER_BOUND);
+
+        // Act
+        TTable.SaveResult result = tTableArray.save(newEntry);
+
+        // Assert
+        assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(-123456789L, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
     }
 
     @Test
     public void testSaveUpdatesExistingEntrySameHash() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         long hash = 123456789L;
 
         TranspositionEntry initialEntry = new TranspositionEntry()
@@ -56,12 +99,24 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.UPDATED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(updatedEntry, loadEntry);
     }
 
     @Test
     public void testSaveReplacesEntryWithDifferentHash() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         long hash1 = 123456789L;
         long hash2 = 1024 * 512 + hash1;
 
@@ -85,13 +140,25 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash2, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(conflictingEntry, loadEntry);
     }
 
     @Test
     public void testSaveInsertsEntryInNewSession() {
         // Arrange
-        TTableArray tTableArray = new TTableArray();
-        long hash = 123456789L;
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+        long hash = -1123456789L;
 
         TranspositionEntry entryInOldSession = new TranspositionEntry()
                 .setHash(hash)
@@ -115,5 +182,17 @@ public class TTableArrayTest {
 
         // Assert
         assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(hash, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(entryInNewSession, loadEntry);
     }
 }

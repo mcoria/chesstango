@@ -1,9 +1,6 @@
 package net.chesstango.reports.jmh;
 
-import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArray;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
-import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
+import net.chesstango.search.smart.alphabeta.transposition.*;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -16,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 20, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
-public class TTableArrayLoadJmh {
+public class TTableArrayLoad {
 
     private TTable tTable;
     private TranspositionEntry transposition;
@@ -29,7 +26,8 @@ public class TTableArrayLoadJmh {
     @Setup(Level.Trial)
     public void setUp() {
         random = new Random();
-        tTable = new TTableArray();
+        tTable = new TTableArrayPrimitives();
+        //tTable = new TTableArrayObj();
         //tTable = new TTableMap();
         transposition = new TranspositionEntry();
     }
@@ -37,12 +35,13 @@ public class TTableArrayLoadJmh {
     @Setup(Level.Iteration)
     public void clearTranspositionTable() {
         tTable.clear();
-        for (int i = 0; i < 1024 * 10; i++) {
+        for (int i = 0; i < 1024; i++) {
             transposition.setHash(random.nextLong());
             transposition.setDraft(random.nextInt());
             transposition.setMove((short) random.nextInt());
             transposition.setValue(random.nextInt());
             transposition.setBound(BOUNDS[random.nextInt(BOUNDS_SIZE)]);
+            tTable.save(transposition);
         }
     }
 

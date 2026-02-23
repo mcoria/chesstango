@@ -13,12 +13,10 @@ import java.io.Serializable;
 @Setter
 @Accessors(chain = true)
 public class TranspositionEntry implements Serializable, Cloneable, Comparable<TranspositionEntry> {
-
     long hash;
     int draft; // Distance to the horizon
     short move;
     int value;
-
     TranspositionBound bound;
 
 
@@ -60,5 +58,23 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TranspositionEntry that = (TranspositionEntry) o;
+        return hash == that.hash &&
+                draft == that.draft &&
+                move == that.move &&
+                value == that.value &&
+                bound == that.bound;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(hash);
+    }
+
 
 }

@@ -3,14 +3,14 @@ package net.chesstango.search.smart.alphabeta.transposition;
 /**
  * @author Mauricio Coria
  */
-public class TTableArray implements TTable {
+public class TTableArrayObj implements TTable {
 
     private static final int ARRAY_SIZE = 1024 * 512;
     private final TranspositionEntry[] transpositionArray;
     private final int[] sessionArray;
     private int currentSessionId;
 
-    public TTableArray() {
+    public TTableArrayObj() {
         this.transpositionArray = new TranspositionEntry[ARRAY_SIZE];
         this.sessionArray = new int[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
