@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
-import net.chesstango.search.smart.alphabeta.transposition.TTableArrayObj;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 
 import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.*;
@@ -69,10 +69,10 @@ public class TranspositionTableBuilder {
     }
 
     private void buildObjects() {
-        maxMapImp = new TTableArrayObj();
-        minMapImp = new TTableArrayObj();
-        qMaxMapImp = new TTableArrayObj();
-        qMinMapImp = new TTableArrayObj();
+        maxMapImp = new TTableArrayPrimitives();
+        minMapImp = new TTableArrayPrimitives();
+        qMaxMapImp = new TTableArrayPrimitives();
+        qMinMapImp = new TTableArrayPrimitives();
 
         if (withDebugSearchTree) {
             maxMapDebug = new TTableDebug(MAX_MAP);
