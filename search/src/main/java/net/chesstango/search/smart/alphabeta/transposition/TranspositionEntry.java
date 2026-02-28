@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class TranspositionEntry implements Serializable, Cloneable, Comparable<TranspositionEntry> {
     long hash;
-    int draft; // Distance to the horizon
+    byte draft; // Distance to the horizon
     short move;
     int value;
     TranspositionBound bound;

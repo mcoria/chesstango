@@ -19,7 +19,7 @@ public class TTableArrayPrimitivesTest {
         TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(123456789L)
-                .setDraft(3)
+                .setDraft((byte)3)
                 .setMove((short) 13)
                 .setValue(37)
                 .setBound(TranspositionBound.EXACT);
@@ -49,7 +49,7 @@ public class TTableArrayPrimitivesTest {
         TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
                 .setHash(-123456789L)
-                .setDraft(-3)
+                .setDraft((byte)-3)
                 .setMove((short) -13)
                 .setValue(-37)
                 .setBound(TranspositionBound.LOWER_BOUND);
@@ -81,7 +81,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry initialEntry = new TranspositionEntry()
                 .setHash(hash)
-                .setDraft(5)
+                .setDraft((byte)5)
                 .setMove((short) 1)
                 .setValue(100)
                 .setBound(TranspositionBound.EXACT);
@@ -89,7 +89,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry updatedEntry = new TranspositionEntry()
                 .setHash(hash)
-                .setDraft(6)
+                .setDraft((byte)6)
                 .setMove((short) 2)
                 .setValue(200)
                 .setBound(TranspositionBound.LOWER_BOUND);
@@ -122,7 +122,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry entry1 = new TranspositionEntry()
                 .setHash(hash1)
-                .setDraft(5)
+                .setDraft((byte)5)
                 .setMove((short) 1)
                 .setValue(100)
                 .setBound(TranspositionBound.EXACT);
@@ -130,7 +130,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry conflictingEntry = new TranspositionEntry()
                 .setHash(hash2)
-                .setDraft(6)
+                .setDraft((byte)6)
                 .setMove((short) 2)
                 .setValue(200)
                 .setBound(TranspositionBound.UPPER_BOUND);
@@ -162,7 +162,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry entryInOldSession = new TranspositionEntry()
                 .setHash(hash)
-                .setDraft(5)
+                .setDraft((byte)5)
                 .setMove((short) 1)
                 .setValue(100)
                 .setBound(TranspositionBound.EXACT);
@@ -172,7 +172,7 @@ public class TTableArrayPrimitivesTest {
 
         TranspositionEntry entryInNewSession = new TranspositionEntry()
                 .setHash(hash)
-                .setDraft(6)
+                .setDraft((byte)6)
                 .setMove((short) 2)
                 .setValue(200)
                 .setBound(TranspositionBound.LOWER_BOUND);

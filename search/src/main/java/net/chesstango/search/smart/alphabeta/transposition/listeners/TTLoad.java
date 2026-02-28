@@ -69,7 +69,7 @@ public class TTLoad implements SearchByDepthListener, Acceptor {
             while (dis.available() > 0) {
                 long key = dis.readLong();
                 TranspositionEntry tableEntry = new TranspositionEntry();
-                tableEntry.setDraft(dis.readInt());
+                tableEntry.setDraft(dis.readByte());
                 tableEntry.setMove(dis.readShort());
                 tableEntry.setValue(dis.readInt());
                 //tableEntry.value = dis.readInt();

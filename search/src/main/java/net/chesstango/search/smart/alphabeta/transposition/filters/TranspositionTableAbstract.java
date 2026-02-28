@@ -97,7 +97,7 @@ public abstract class TranspositionTableAbstract implements AlphaBetaFilter {
         int value = AlphaBetaHelper.decodeValue(moveAndValue);
 
         entryWorkspace.setHash(hash);
-        entryWorkspace.setDraft(draft);
+        entryWorkspace.setDraft((byte) draft);
         entryWorkspace.setMove(move);
         entryWorkspace.setValue(value);
 

@@ -49,7 +49,7 @@ public class TTableArraySave {
         saveCounter = 0;
         for (int i = 0; i < ARRAY_SIZE; i += 2) {
             transpositionWrite.setHash(i);
-            transpositionWrite.setDraft(random.nextInt());
+            transpositionWrite.setDraft((byte) random.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE + 1));
             transpositionWrite.setMove((short) random.nextInt());
             transpositionWrite.setValue(random.nextInt());
             transpositionWrite.setBound(BOUNDS[random.nextInt(BOUNDS_SIZE)]);
@@ -64,7 +64,7 @@ public class TTableArraySave {
         tTable.load(hashToWrite % ARRAY_SIZE, transpositionRead);
 
         transpositionWrite.setHash(hashToWrite);
-        transpositionWrite.setDraft(random.nextInt());
+        transpositionWrite.setDraft((byte) random.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE + 1));
         transpositionWrite.setMove((short) random.nextInt());
         transpositionWrite.setValue(random.nextInt());
         transpositionWrite.setBound(BOUNDS[random.nextInt(BOUNDS_SIZE)]);

@@ -61,7 +61,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         entryWorkspace.setHash(hash);
         entryWorkspace.setBound(TranspositionBound.EXACT);
-        entryWorkspace.setDraft(0); // No debiera ser INFINITO ???
+        entryWorkspace.setDraft(Byte.MAX_VALUE); // No debiera ser INFINITO ???
         entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
         entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
 
@@ -83,7 +83,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
         entryWorkspace.setHash(hash);
         entryWorkspace.setBound(TranspositionBound.EXACT);
-        entryWorkspace.setDraft(0);
+        entryWorkspace.setDraft(Byte.MAX_VALUE);
         entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
         entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
 
