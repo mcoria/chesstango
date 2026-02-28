@@ -40,6 +40,7 @@ import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
@@ -295,6 +296,9 @@ public interface Visitor {
     }
 
     default void visit(TTableCounters TTableCounters) {
+    }
+
+    default void visit(GameCounters gameCounters) {
     }
 
 }

@@ -1,10 +1,7 @@
 package net.chesstango.search.smart.alphabeta.statistics.node;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameListener;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -15,12 +12,6 @@ import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCou
  * @author Mauricio Coria
  */
 public class NodeCounters implements SearchByCycleListener, Acceptor {
-
-    @Setter
-    private Game game;
-
-    @Getter
-    private long executedMoves;
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
@@ -37,7 +28,6 @@ public class NodeCounters implements SearchByCycleListener, Acceptor {
 
     @Override
     public void beforeSearch() {
-        this.executedMoves = 0;
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
         this.visitedNodesCountersQuiescence = new long[30];
@@ -49,18 +39,6 @@ public class NodeCounters implements SearchByCycleListener, Acceptor {
                         visitedNodesCountersQuiescence, expectedNodesCountersQuiescence
                 )
         );
-
-
-        game.addGameListener(new GameListener() {
-            @Override
-            public void notifyDoMove(Move move) {
-                executedMoves++;
-            }
-
-            @Override
-            public void notifyUndoMove(Move move) {
-            }
-        });
     }
 
 

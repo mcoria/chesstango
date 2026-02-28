@@ -20,6 +20,7 @@ import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -168,8 +169,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(NodeCounters nodeCounters) {
-        nodeCounters.setGame(game);
+    public void visit(GameCounters gameCounters) {
+        gameCounters.setGame(game);
     }
 
     @Override

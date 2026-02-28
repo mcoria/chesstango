@@ -51,6 +51,7 @@ module net.chesstango.search {
     exports net.chesstango.search.dummy;
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.alphabeta;
+    exports net.chesstango.search.smart.alphabeta.statistics.game;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
