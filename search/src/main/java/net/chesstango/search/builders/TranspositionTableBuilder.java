@@ -106,7 +106,7 @@ public class TranspositionTableBuilder {
         }
 
         if (TTableCounters != null) {
-            searchListenerMediator.addAcceptor(TTableCounters);
+            searchListenerMediator.add(TTableCounters);
         }
         if (maxMapCollector != null) {
             searchListenerMediator.addAcceptor(maxMapCollector);

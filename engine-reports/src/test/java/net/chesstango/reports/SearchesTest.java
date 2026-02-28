@@ -60,9 +60,9 @@ public class SearchesTest {
 
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
-                    //.withNodesVisitedStatistics()
+                    .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
-                    //.withEvaluationStatistics()
+                    .withEvaluationStatistics()
                     .withTranspositionStatistics()
                     .printReport(System.out);
 
@@ -71,10 +71,10 @@ public class SearchesTest {
             new DetailsReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
-                    //.withNodesVisitedStatistics()
+                    .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
                     //.withPrincipalVariationReport()
-                    //.withEvaluationReport()
+                    .withEvaluationReport()
                     .withTranspositionReport()
                     .printReport(System.out);
         }
@@ -189,6 +189,15 @@ public class SearchesTest {
     @Disabled
     public void testSearch_13() {
         Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(5));
+        searchResult = search.startSearch(game);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_14() {
+        Game game = Game.from(FEN.of("rq3k2/1p3bp1/2p1pp1p/2P5/1P2PPP1/4Q2P/6BK/3R4 b - - 0 1"));
 
         search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
