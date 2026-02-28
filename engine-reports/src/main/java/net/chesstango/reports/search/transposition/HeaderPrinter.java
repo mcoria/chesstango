@@ -26,7 +26,8 @@ public class HeaderPrinter implements Printer {
         out.printf("Reads                 : %d\n", transpositionModel.readsTotal);
         out.printf("Read Hits             : %d (%2d%%)\n", transpositionModel.readHitsTotal, transpositionModel.readHitPercentageTotal);
         out.printf("Writes                : %d\n", transpositionModel.writesTotal);
-        out.printf("OverWrites            : %d (%2d%%)\n", transpositionModel.overWritesTotal, transpositionModel.overWritePercentageTotal);
+        out.printf("Updates               : %d (%2d%%)\n", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal);
+        out.printf("OverWrites            : %d (%2d%%)\n", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal);
         out.print("\n");
 
         return this;

@@ -27,7 +27,7 @@ class HeaderPrinterTest {
         model.readHitPercentageTotal = 60;
         model.writesTotal = 40;
         model.overWritesTotal = 10;
-        model.overWritePercentageTotal = 25;
+        model.overWritesPercentageTotal = 25;
 
         HeaderPrinter headerPrinter = new HeaderPrinter()
                 .setOut(mockPrintStream)

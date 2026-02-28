@@ -240,8 +240,9 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
+	TTCounters @ 72
 	TTableStatisticsCollector @ 6
-	TTableStatisticsCollector @ 72
-	TTableStatisticsCollector @ 34
 	TTableStatisticsCollector @ 73
+	TTableStatisticsCollector @ 34
+	TTableStatisticsCollector @ 74
 

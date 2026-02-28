@@ -13,25 +13,24 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
  */
 @Getter
 @Setter
-public class TTableStatisticsCollector implements TTable, SearchByCycleListener, Acceptor {
+public class TTableStatisticsCollector implements TTable, Acceptor {
+
+    private final TTCounters ttCounters;
 
     private TTable tTable;
 
-    private long readHits;
+    public TTableStatisticsCollector(TTCounters ttCounters) {
+        this.ttCounters = ttCounters;
+    }
 
-    private long reads;
-
-    private long overWrites;
-
-    private long writes;
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
         if (result) {
-            readHits++;
+            ttCounters.increaseReadHits();
         }
-        reads++;
+        ttCounters.increaseReads();
         return result;
     }
 
@@ -39,9 +38,11 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
     public SaveResult save(TranspositionEntry entry) {
         SaveResult result = tTable.save(entry);
         if (result == SaveResult.OVER_WRITTEN) {
-            overWrites++;
+            ttCounters.increaseOverWrites();
+        } else if (result == SaveResult.UPDATED) {
+            ttCounters.increaseUpdates();
         }
-        writes++;
+        ttCounters.increaseWrites();
         return result;
     }
 
@@ -55,15 +56,4 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
         visitor.visit(this);
     }
 
-    @Override
-    public void beforeSearch() {
-        readHits = 0;
-        reads = 0;
-        overWrites = 0;
-        writes = 0;
-    }
-
-    public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(reads, readHits, writes, overWrites);
-    }
 }

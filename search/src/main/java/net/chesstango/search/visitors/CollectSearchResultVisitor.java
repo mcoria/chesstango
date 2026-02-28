@@ -6,7 +6,7 @@ import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTCounters;
 
 /**
  *
@@ -33,8 +33,8 @@ public class CollectSearchResultVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTableStatisticsCollector tTableStatisticsCollector) {
-        searchResult.setTTableStatistics(tTableStatisticsCollector.getTTableStatistics());
+    public void visit(TTCounters ttCounters) {
+        searchResult.setTTableStatistics(ttCounters.getTTableStatistics());
     }
 
     @Override

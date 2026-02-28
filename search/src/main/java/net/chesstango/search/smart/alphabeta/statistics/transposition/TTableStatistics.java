@@ -13,9 +13,10 @@ import java.io.Serializable;
  * @param reads      The total number of read attempts (both hits and misses) from the transposition table
  * @param readHits   The number of successful reads where a position was found in the transposition table
  * @param writes     The total number of write operations to the transposition table
+ * @param updates    The number of times an existing entry in the transposition table was updated with new data
  * @param overWrites The number of times an existing entry in the transposition table was replaced with a new entry
  * @author Mauricio Coria
  */
 public record TTableStatistics(long reads, long readHits,
-                               long writes, long overWrites
+                               long writes, long updates, long overWrites
 ) implements Serializable { }

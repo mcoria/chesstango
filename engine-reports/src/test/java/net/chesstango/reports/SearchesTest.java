@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
 
@@ -46,7 +46,7 @@ public class SearchesTest {
                 //.withTrackEvaluations() // Consume demasiada memoria
 
                 //.withPrintChain()
-                .withDebugSearchTree(false, true, true)
+                //.withDebugSearchTree(false, true, true)
 
                 //.withStopProcessingCatch()
 
@@ -85,7 +85,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(3));
+        search.accept(new SetMaxDepthVisitor(9));
         searchResult = search.startSearch(game);
     }
 
@@ -95,7 +95,7 @@ public class SearchesTest {
     public void testSearch_01() {
         Game game = Game.from(FEN.of("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22"));
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(8));
         searchResult = search.startSearch(game);
     }
 
