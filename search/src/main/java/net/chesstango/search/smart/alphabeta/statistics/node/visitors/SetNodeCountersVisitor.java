@@ -10,14 +10,14 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceS
  *
  * @author Mauricio Coria
  */
-public class SetStaticCountersVisitor implements Visitor {
+public class SetNodeCountersVisitor implements Visitor {
 
     private final long[] visitedNodesCounters;
     private final long[] expectedNodesCounters;
     private final long[] visitedNodesCountersQuiescence;
     private final long[] expectedNodesCountersQuiescence;
 
-    public SetStaticCountersVisitor(long[] visitedNodesCounters, long[] expectedNodesCounters, long[] visitedNodesCountersQuiescence, long[] expectedNodesCountersQuiescence) {
+    public SetNodeCountersVisitor(long[] visitedNodesCounters, long[] expectedNodesCounters, long[] visitedNodesCountersQuiescence, long[] expectedNodesCountersQuiescence) {
         this.visitedNodesCounters = visitedNodesCounters;
         this.expectedNodesCounters = expectedNodesCounters;
         this.visitedNodesCountersQuiescence = visitedNodesCountersQuiescence;

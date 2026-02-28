@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -15,12 +14,12 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 @Setter
 public class TTableStatisticsCollector implements TTable, Acceptor {
 
-    private final TTCounters ttCounters;
+    private final TTableCounters TTableCounters;
 
     private TTable tTable;
 
-    public TTableStatisticsCollector(TTCounters ttCounters) {
-        this.ttCounters = ttCounters;
+    public TTableStatisticsCollector(TTableCounters TTableCounters) {
+        this.TTableCounters = TTableCounters;
     }
 
 
@@ -28,9 +27,9 @@ public class TTableStatisticsCollector implements TTable, Acceptor {
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
         if (result) {
-            ttCounters.increaseReadHits();
+            TTableCounters.increaseReadHits();
         }
-        ttCounters.increaseReads();
+        TTableCounters.increaseReads();
         return result;
     }
 
@@ -38,11 +37,11 @@ public class TTableStatisticsCollector implements TTable, Acceptor {
     public SaveResult save(TranspositionEntry entry) {
         SaveResult result = tTable.save(entry);
         if (result == SaveResult.OVER_WRITTEN) {
-            ttCounters.increaseOverWrites();
+            TTableCounters.increaseOverWrites();
         } else if (result == SaveResult.UPDATED) {
-            ttCounters.increaseUpdates();
+            TTableCounters.increaseUpdates();
         }
-        ttCounters.increaseWrites();
+        TTableCounters.increaseWrites();
         return result;
     }
 

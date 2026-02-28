@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.statistics.node.listeners;
+package net.chesstango.search.smart.alphabeta.statistics.node;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,13 +9,12 @@ import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetStaticCountersVisitor;
+import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
 
 /**
  * @author Mauricio Coria
  */
-public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
+public class NodeCounters implements SearchByCycleListener, Acceptor {
 
     @Setter
     private Game game;
@@ -45,7 +44,7 @@ public class SetNodeStatistics implements SearchByCycleListener, Acceptor {
         this.expectedNodesCountersQuiescence = new long[30];
 
         searchListenerMediator.accept(
-                new SetStaticCountersVisitor(
+                new SetNodeCountersVisitor(
                         visitedNodesCounters, expectedNodesCounters,
                         visitedNodesCountersQuiescence, expectedNodesCountersQuiescence
                 )

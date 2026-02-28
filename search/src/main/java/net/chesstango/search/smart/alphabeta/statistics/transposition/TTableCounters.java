@@ -9,7 +9,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
  * @author Mauricio Coria
  */
 @Getter
-public class TTCounters implements SearchByCycleListener, Acceptor {
+public class TTableCounters implements SearchByCycleListener, Acceptor {
     private long readHits;
 
     private long reads;

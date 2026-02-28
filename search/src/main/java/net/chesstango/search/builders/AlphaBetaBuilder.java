@@ -27,7 +27,7 @@ import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisi
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
@@ -66,7 +66,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private EvaluatorCache gameEvaluatorCache;
 
     private ResetTranspositionTables resetTranspositionTables;
-    private SetNodeStatistics setNodeStatistics;
+    private NodeCounters nodeCounters;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -347,7 +347,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         if (withStatistics) {
-            setNodeStatistics = new SetNodeStatistics();
+            nodeCounters = new NodeCounters();
         }
 
         if (withZobristTracker) {
@@ -397,8 +397,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(setTrianglePV);
         }
 
-        if (setNodeStatistics != null) {
-            searchListenerMediator.add(setNodeStatistics);
+        if (nodeCounters != null) {
+            searchListenerMediator.add(nodeCounters);
         }
 
         if (setKillerMoveTables != null) {

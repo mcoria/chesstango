@@ -5,8 +5,8 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTCounters;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 
 /**
  *
@@ -26,15 +26,15 @@ public class CollectSearchResultVisitor implements Visitor {
     }
 
     @Override
-    public void visit(SetNodeStatistics setNodeStatistics) {
-        searchResult.setExecutedMoves(setNodeStatistics.getExecutedMoves());
-        searchResult.setRegularNodeStatistics(setNodeStatistics.getRegularNodeStatistics());
-        searchResult.setQuiescenceNodeStatistics(setNodeStatistics.getQuiescenceNodeStatistics());
+    public void visit(NodeCounters nodeCounters) {
+        searchResult.setExecutedMoves(nodeCounters.getExecutedMoves());
+        searchResult.setRegularNodeStatistics(nodeCounters.getRegularNodeStatistics());
+        searchResult.setQuiescenceNodeStatistics(nodeCounters.getQuiescenceNodeStatistics());
     }
 
     @Override
-    public void visit(TTCounters ttCounters) {
-        searchResult.setTTableStatistics(ttCounters.getTTableStatistics());
+    public void visit(TTableCounters TTableCounters) {
+        searchResult.setTTableStatistics(TTableCounters.getTTableStatistics());
     }
 
     @Override
