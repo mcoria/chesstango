@@ -10,7 +10,7 @@ AspirationWindows @ 4
 |
 DebugFilter @ 5
 |
-TranspositionTableRoot @ 6 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+TranspositionTableRoot @ 6 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 |
 AlphaBeta @ 9
 |
@@ -36,7 +36,7 @@ AlphaBetaFlowControl @ 18
 	|
 	DebugFilter @ 19
 	|
-	TranspositionTableTerminal @ 20 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	TranspositionTableTerminal @ 20 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 	|
 	AlphaBetaEvaluation @ 21 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 
@@ -62,7 +62,7 @@ AlphaBetaFlowControl @ 18
 	|
 	DebugFilter @ 31
 	|
-	TranspositionTable @ 32 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	TranspositionTable @ 32 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 	|
 	ExtensionFlowControl @ 33
 	|
@@ -70,7 +70,7 @@ AlphaBetaFlowControl @ 18
 		|
 		DebugFilter @ 34
 		|
-		TranspositionTableTerminal @ 35 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+		TranspositionTableTerminal @ 35 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 		|
 		AlphaBetaEvaluation @ 36 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 
@@ -90,7 +90,7 @@ AlphaBetaFlowControl @ 18
 		|
 		DebugFilter @ 41
 		|
-		TranspositionTableQ @ 42 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+		TranspositionTableQ @ 42 [TTable: TTableDebug @ 43 -> TTableArrayPrimitives @ 44]
 		|
 		Quiescence @ 45 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 		|
@@ -104,9 +104,9 @@ AlphaBetaFlowControl @ 18
 				|
 				PrincipalVariationComparator @ 48
 				|
-				TranspositionHeadMoveComparatorQ @ 49 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				TranspositionHeadMoveComparatorQ @ 49 [TTable: TTableDebug @ 43 -> TTableArrayPrimitives @ 44]
 				|
-				TranspositionTailMoveComparatorQ @ 50 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				TranspositionTailMoveComparatorQ @ 50 [TTable: TTableDebug @ 43 -> TTableArrayPrimitives @ 44]
 				|
 				PromotionComparator @ 51
 				|
@@ -124,7 +124,7 @@ AlphaBetaFlowControl @ 18
 	|
 	DebugFilter @ 57
 	|
-	TranspositionTable @ 58 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+	TranspositionTable @ 58 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 	|
 	AlphaBeta @ 59
 	|
@@ -138,17 +138,17 @@ AlphaBetaFlowControl @ 18
 			|
 			PrincipalVariationComparator @ 62
 			|
-			TranspositionHeadMoveComparator @ 63 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+			TranspositionHeadMoveComparator @ 63 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparator @ 64 [TTable: TTableDebug @ 7 -> TTableArray @ 8]
+			TranspositionTailMoveComparator @ 64 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 			|
 			QuietComparator @ 65
 			|
 			 -> NoQuietComparatorNode
 				|
-				TranspositionHeadMoveComparatorQ @ 66 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				TranspositionHeadMoveComparatorQ @ 66 [TTable: TTableDebug @ 43 -> TTableArrayPrimitives @ 44]
 				|
-				TranspositionTailMoveComparatorQ @ 67 [TTable: TTableDebug @ 43 -> TTableArray @ 44]
+				TranspositionTailMoveComparatorQ @ 67 [TTable: TTableDebug @ 43 -> TTableArrayPrimitives @ 44]
 				|
 				PromotionComparator @ 68
 				|

@@ -59,7 +59,7 @@ public class TranspositionHeadMoveComparatorTest {
         TranspositionEntry entry = new TranspositionEntry()
                 .setHash(hash)
                 .setBound(TranspositionBound.EXACT)
-                .setDraft(1)
+                .setDraft((byte)1)
                 .setMove(move)
                 .setValue(value);
 

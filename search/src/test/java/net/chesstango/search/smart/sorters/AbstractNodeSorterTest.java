@@ -68,7 +68,7 @@ public abstract class AbstractNodeSorterTest {
         TranspositionEntry entry = new TranspositionEntry()
                 .setHash(hash)
                 .setBound(bound)
-                .setDraft(draft)
+                .setDraft((byte)draft)
                 .setMove(move)
                 .setValue(value);
 

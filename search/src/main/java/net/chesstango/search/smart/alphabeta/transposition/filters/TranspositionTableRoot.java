@@ -78,7 +78,7 @@ public class TranspositionTableRoot implements AlphaBetaFilter {
         } else {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(depth);
+            entryWorkspace.setDraft((byte) depth);
             entryWorkspace.setMove(move);
             entryWorkspace.setValue(value);
 
