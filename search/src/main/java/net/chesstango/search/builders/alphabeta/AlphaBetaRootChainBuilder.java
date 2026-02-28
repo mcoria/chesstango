@@ -1,24 +1,23 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.pv.TTPVReader;
-import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
-import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -48,7 +47,6 @@ public class AlphaBetaRootChainBuilder {
     private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
-    private Evaluator evaluator;
     private TTPVReader ttPvReader;
     private TTPVReaderDebug ttpvReaderDebug;
 
@@ -113,11 +111,6 @@ public class AlphaBetaRootChainBuilder {
         return this;
     }
 
-    public AlphaBetaRootChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-        return this;
-    }
-
     public AlphaBetaFilter build() {
         buildObjects();
 
@@ -148,7 +141,6 @@ public class AlphaBetaRootChainBuilder {
             transpositionPV = new TranspositionPV();
 
             ttPvReader = new TTPVReader();
-            ttPvReader.setEvaluator(evaluator);
         }
 
         if (withZobristTracker) {

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private Search search;
     private SearchResult searchResult;
 
@@ -46,7 +46,7 @@ public class SearchesTest {
                 //.withTrackEvaluations() // Consume demasiada memoria
 
                 //.withPrintChain()
-                //.withDebugSearchTree(null)
+                .withDebugSearchTree(false, true, true)
 
                 //.withStopProcessingCatch()
 
@@ -57,19 +57,22 @@ public class SearchesTest {
     public void printReport(TestInfo testInfo) {
         if (PRINT_REPORT) {
 
+
             new SummaryReport()
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
-                    .withNodesVisitedStatistics()
-                    .withCutoffStatistics()
+                    //.withNodesVisitedStatistics()
+                    //.withCutoffStatistics()
+                    //.withEvaluationStatistics()
                     .withTranspositionStatistics()
                     .printReport(System.out);
+
 
 
             new DetailsReport()
                     .setReportTitle(testInfo.getDisplayName())
                     .withMoveResults(List.of(searchResult))
-                    .withNodesVisitedStatistics()
-                    .withCutoffStatistics()
+                    //.withNodesVisitedStatistics()
+                    //.withCutoffStatistics()
                     //.withPrincipalVariationReport()
                     //.withEvaluationReport()
                     .withTranspositionReport()
@@ -82,7 +85,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(6));
+        search.accept(new SetMaxDepthVisitor(3));
         searchResult = search.startSearch(game);
     }
 
@@ -179,6 +182,15 @@ public class SearchesTest {
         Game game = Game.from(FEN.of("1RRbr3/3pkp2/2b1p1p1/2P1P3/5PP1/P6P/1KP5/5B2 w - - 17 49"));
 
         search.accept(new SetMaxDepthVisitor(7));
+        searchResult = search.startSearch(game);
+    }
+
+    @Test
+    @Disabled
+    public void testSearch_13() {
+        Game game = Game.from(FEN.of("1B4k1/5pp1/1Pp4p/3b4/NP4B1/7P/5p1K/6N1 b - - 0 1"));
+
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 

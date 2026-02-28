@@ -56,9 +56,8 @@ public class EvaluationReport implements Report {
     }
 
     public EvaluationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = EvaluationModel.collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = new EvaluationModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
-
 
 }

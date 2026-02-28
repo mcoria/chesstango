@@ -9,7 +9,7 @@ import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.Search;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.features.statistics.node.NodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeStatistics;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -61,22 +61,22 @@ public class AlphaBetaSymmetryTest {
          * Testing mirror
          */
         NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
-        int[] expectedNodes = regularNodeStatistics.expectedNodesCounters();
-        int[] visitedNodes = regularNodeStatistics.visitedNodesCounters();
+        long[] expectedNodes = regularNodeStatistics.expectedNodesCounters();
+        long[] visitedNodes = regularNodeStatistics.visitedNodesCounters();
 
         NodeStatistics regularNodeStatisticsMirror = searchResultMirror.getRegularNodeStatistics();
-        int[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
-        int[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
+        long[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
+        long[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
 
         NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
-        int[] visitedNodesQ = quiescenceNodeStatistics.visitedNodesCounters();
+        long[] visitedNodesQ = quiescenceNodeStatistics.visitedNodesCounters();
 
         NodeStatistics quiescenceNodeStatisticsMirror = searchResultMirror.getQuiescenceNodeStatistics();
-        int[] visitedNodesQMirror = quiescenceNodeStatisticsMirror.visitedNodesCounters();
+        long[] visitedNodesQMirror = quiescenceNodeStatisticsMirror.visitedNodesCounters();
         for (int i = 0; i < 30; i++) {
-            assertTrue(expectedNodes[i] == expectedNodesMirror[i]);
-            assertTrue(visitedNodes[i] == visitedNodesMirror[i]);
-            assertTrue(visitedNodesQ[i] == visitedNodesQMirror[i]);
+            assertEquals(expectedNodes[i], expectedNodesMirror[i]);
+            assertEquals(visitedNodes[i], visitedNodesMirror[i]);
+            assertEquals(visitedNodesQ[i], visitedNodesQMirror[i]);
         }
 
 

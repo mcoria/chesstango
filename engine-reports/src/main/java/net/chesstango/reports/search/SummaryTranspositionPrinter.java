@@ -3,7 +3,7 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.PrinterTxtTable;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 
 import java.io.PrintStream;
@@ -29,44 +29,18 @@ public class SummaryTranspositionPrinter implements Printer {
     public SummaryTranspositionPrinter print() {
         out.println("\n Transposition Statistics");
 
-        // Marco superior de la tabla
-        out.printf(" _______________________________________");
-        out.printf("___________");
-        out.printf("_______________");
-        out.printf("_____________________");
-        out.printf("_______________");
-        out.printf("_____________________");
-        out.printf("\n");
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-
-        // Nombre de las columnas
-        out.printf("| ENGINE NAME                           ");
-        out.printf("| SEARCHES ");
-        out.printf("| Reads        ");
-        out.printf("| Read Hits          ");
-        out.printf("| Writes       ");
-        out.printf("| OverWrites         ");
-        out.printf("|\n");
-
-        // Cuerpo
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "Reads", "Read Hits", "Writes", "OverWrites");
         reportRows.forEach(row -> {
-            out.printf("| %37s ", row.searchGroupName);
-            out.printf("| %8d ", row.searches);
-            out.printf("| %12d ", row.readsTotal);
-            out.printf("| %12d (%2d%%) ", row.readHitsTotal, row.readHitPercentageTotal);
-            out.printf("| %12d ", row.writesTotal);
-            out.printf("| %12d (%2d%%) ", row.overWritesTotal, row.overWritePercentageTotal);
-            out.printf("|\n");
+            printerTxtTable.addRow(row.searchGroupName,
+                    Integer.toString(row.searches),
+                    Long.toString(row.readsTotal),
+                    String.format("%d (%2d%%)", row.readHitsTotal, row.readHitPercentageTotal),
+                    Long.toString(row.writesTotal),
+                    String.format("%d (%2d%%)", row.overWritesTotal, row.overWritePercentageTotal));
         });
-
-        // Marco inferior de la tabla
-        out.printf(" ---------------------------------------");
-        out.printf("-----------");
-        out.printf("---------------");
-        out.printf("---------------------");
-        out.printf("---------------");
-        out.printf("---------------------");
-        out.printf("\n");
+        printerTxtTable.print();
 
         return this;
     }

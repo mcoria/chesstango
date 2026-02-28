@@ -7,26 +7,36 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PrinterTestAbstract {
+
+    private static final boolean DEBUG = false;
+
     protected void assertSearchTree(Printer printer, String resourceName) {
         List<String> expectedPrintChain = readResource(resourceName);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream out = new PrintStream(baos, true, StandardCharsets.UTF_8);) {
-            //chainPrinterVisitor.print(search, System.out);
             printer.setOut(out);
+            printer.print();
+        }
+
+        if(DEBUG) {
+            printer.setOut(System.out);
             printer.print();
         }
 
         // Compares output to expected; throws on failure
         try (InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());) {
-            List<String> actualPrintChain = readInputStream(inputStream);
+            List<String> actualOutput = readInputStream(inputStream);
 
-            assertEquals(expectedPrintChain.size(), actualPrintChain.size());
-
-            for (int i = 0; i < actualPrintChain.size(); i++) {
-                assertEquals(expectedPrintChain.get(i), actualPrintChain.get(i), "Line " + (i + 1));
+            for (int i = 0; i < actualOutput.size(); i++) {
+                assertEquals(expectedPrintChain.get(i), actualOutput.get(i), "Line difference" + (i + 1));
             }
+
+            assertEquals(expectedPrintChain.size(), actualOutput.size());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -7,29 +7,30 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.ExtensionFlowControl;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SetGameEvaluator;
-import net.chesstango.search.smart.features.debug.listeners.SetSearchTracker;
-import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.features.pv.TTPVReader;
-import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.listeners.SetNodeStatistics;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
+import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -152,8 +153,13 @@ public class SetGameVisitor implements Visitor {
      * Setter elements
      */
     @Override
-    public void visit(SetGameEvaluator setGameEvaluator) {
-        setGameEvaluator.setGame(game);
+    public void visit(SetGameToEvaluator setGameToEvaluator) {
+        setGameToEvaluator.setGame(game);
+    }
+
+    @Override
+    public void visit(SetGameToEndGameTableBase setGameToEndGameTableBase) {
+        setGameToEndGameTableBase.setGame(game);
     }
 
     @Override

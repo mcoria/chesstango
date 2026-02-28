@@ -1,14 +1,14 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.features.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.features.pv.TTPVReader;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
 
 
 /**

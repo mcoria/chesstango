@@ -6,10 +6,10 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.features.debug.SearchTracker;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.debug.model.DebugOperationEval;
-import net.chesstango.search.smart.features.debug.model.DebugOperationTT;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 
 import java.util.ArrayList;
 import java.util.List;

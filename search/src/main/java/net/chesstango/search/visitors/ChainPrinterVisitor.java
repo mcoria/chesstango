@@ -2,6 +2,7 @@ package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.evaluation.EvaluatorCacheRead;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Search;
 import net.chesstango.search.Visitor;
@@ -10,37 +11,46 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.alphabeta.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
-import net.chesstango.search.smart.features.evaluator.comparators.GameEvaluatorCacheComparator;
-import net.chesstango.search.smart.features.killermoves.comparators.KillerMoveComparator;
-import net.chesstango.search.smart.features.killermoves.filters.KillerMoveTracker;
-import net.chesstango.search.smart.features.pv.PVReader;
-import net.chesstango.search.smart.features.pv.TTPVReaderDebug;
-import net.chesstango.search.smart.features.pv.comparators.PrincipalVariationComparator;
-import net.chesstango.search.smart.features.pv.filters.TranspositionPV;
-import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
-import net.chesstango.search.smart.features.statistics.transposition.TTableStatisticsCollector;
-import net.chesstango.search.smart.features.transposition.TTable;
-import net.chesstango.search.smart.features.transposition.TTableDebug;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionHeadMoveComparatorQ;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.features.transposition.comparators.TranspositionTailMoveComparatorQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableTerminal;
-import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
+import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
+import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
+import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
+import net.chesstango.search.smart.alphabeta.pv.PVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
+import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
+import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.transposition.TTable;
+import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
+import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
+import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
 
@@ -412,7 +422,7 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(GameEvaluatorCacheComparator gameEvaluatorCacheComparator) {
         printChainDownLine();
-        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), objectText(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
+        printChainText(String.format("%s [EvaluatorCacheRead: %s]", objectText(gameEvaluatorCacheComparator), printEvaluatorCacheRead(gameEvaluatorCacheComparator.getEvaluatorCacheRead())));
 
         gameEvaluatorCacheComparator.getNext().accept(this);
     }
@@ -548,6 +558,16 @@ public class ChainPrinterVisitor implements Visitor {
                 objectMap.computeIfAbsent(objectKey, k -> String.format("%s @ %d", object.getClass().getSimpleName(), objectCounter++));
     }
 
+    private String printEvaluatorCacheRead(EvaluatorCacheRead evaluatorCacheRead) {
+        if (evaluatorCacheRead instanceof EvaluatorCache evaluatorCache) {
+            return objectText(evaluatorCache);
+        } else if (evaluatorCacheRead instanceof EvaluatorCacheDebug evaluatorCacheDebug) {
+            return String.format("%s -> %s", objectText(evaluatorCacheDebug), printEvaluatorCacheRead(evaluatorCacheDebug.getEvaluatorCacheRead()));
+        }
+
+        throw new IllegalArgumentException("Unknown EvaluatorCacheRead: " + evaluatorCacheRead.getClass().getSimpleName());
+    }
+
     private String printGameEvaluator(Evaluator evaluator) {
         if (evaluator instanceof EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector) {
             return String.format("%s -> %s", objectText(gameEvaluatorStatisticsCollector), printGameEvaluator(gameEvaluatorStatisticsCollector.getImp()));
@@ -563,15 +583,21 @@ public class ChainPrinterVisitor implements Visitor {
             return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
         } else if (ttable instanceof TTableStatisticsCollector ttableStatisticsCollector) {
             return String.format("%s -> %s", objectText(ttableStatisticsCollector), printTTable(ttableStatisticsCollector.getTTable()));
+        } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
+            return objectText(tTableArray);
         }
-        return objectText(ttable);
+
+        throw new IllegalArgumentException("Unknown TTable: " + ttable.getClass().getSimpleName());
     }
 
     private String printTTPVReader(PVReader ttPvReader) {
         if (ttPvReader instanceof TTPVReaderDebug ttPVReaderDebug) {
             return String.format("%s -> %s", objectText(ttPvReader), printTTPVReader(ttPVReaderDebug.getImp()));
+        } else if (ttPvReader instanceof TTPVReader ttpvReader) {
+            return objectText(ttpvReader);
         }
-        return objectText(ttPvReader);
+
+        throw new IllegalArgumentException("Unknown PVReader: " + ttPvReader.getClass().getSimpleName());
     }
 
 }

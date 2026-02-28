@@ -33,7 +33,7 @@ public class PrincipalVariationReport implements Report {
 
 
     public PrincipalVariationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = PrincipalVariationModel.collectStatics(this.reportTitle, searchResults);
+        this.reportModel = new PrincipalVariationModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 }

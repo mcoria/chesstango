@@ -3,6 +3,7 @@ package net.chesstango.reports.engine;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
+import net.chesstango.reports.PrinterTxtTable;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -26,41 +27,24 @@ public class SearchManagerSummaryPrinter implements Printer {
 
     @Override
     public SearchManagerSummaryPrinter print() {
-        out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        out.print(" Search Manager Statistics\n");
+        out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
 
-        // Marco superior de la tabla
-        out.printf(" __________________________________________________");
-        out.printf("____________");
-        out.printf("____________");
-        out.printf("___________");
-        out.printf("\n");
+        out.printf(" Search Manager Statistics%n");
 
-        // Nombre de las columnas
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 
-        out.printf("| ENGINE NAME                          ");
-        out.printf("| SEARCHES ");
-        out.printf("| OpenBook  ");
-        out.printf("|   Tree    ");
-        out.printf("| Tablebase ");
-        out.printf("|\n");
+        printerTxtTable.setTitles("ENGINE NAME ", "SEARCHES", "OpenBook", "Tree", "Tablebase");
 
-        // Cuerpo
-        for (SearchManagerModel row : reportModel) {
-            out.printf("| %36s ", row.searchesName);
-            out.printf("| %8d ", row.searches);
-            out.printf("|  %8d ", row.searchByOpenBookCounter);
-            out.printf("|  %8d ", row.searchByTreeCounter);
-            out.printf("|  %8d ", row.searchByTablebaseCounter);
-            out.printf("|\n");
-        }
+        reportModel.forEach(moveDetail -> {
 
-        // Totales
-        out.printf(" --------------------------------------------------");
-        out.printf("------------");
-        out.printf("------------");
-        out.printf("-----------");
-        out.printf("\n");
+            printerTxtTable.addRow(moveDetail.searchesName,
+                    Long.toString(moveDetail.searches),
+                    Integer.toString(moveDetail.searchByOpenBookCounter),
+                    Integer.toString(moveDetail.searchByTreeCounter),
+                    Integer.toString(moveDetail.searchByTablebaseCounter));
+        });
+
+        printerTxtTable.print();
 
         return this;
     }

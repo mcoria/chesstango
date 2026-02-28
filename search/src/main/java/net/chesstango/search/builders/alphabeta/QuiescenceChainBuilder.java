@@ -1,18 +1,19 @@
 package net.chesstango.search.builders.alphabeta;
 
 
-import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.evaluator.EvaluatorDebug;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.features.pv.filters.TriangularPV;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.features.statistics.node.filters.QuiescenceStatisticsVisited;
-import net.chesstango.search.smart.features.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.features.zobrist.filters.ZobristTracker;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
+import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
+import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
+import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
+import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,6 @@ public class QuiescenceChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private ExtensionFlowControl extensionFlowControl;
-    private Evaluator evaluator;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -45,11 +45,6 @@ public class QuiescenceChainBuilder {
     public QuiescenceChainBuilder() {
         quiescence = new Quiescence();
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
-    }
-
-    public QuiescenceChainBuilder withGameEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-        return this;
     }
 
     public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
@@ -131,8 +126,6 @@ public class QuiescenceChainBuilder {
 
         if (withDebugSearchTree) {
             quiescence.setEvaluator(gameEvaluatorDebug);
-        } else {
-            quiescence.setEvaluator(evaluator);
         }
 
         return createChain();
@@ -152,7 +145,6 @@ public class QuiescenceChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.QUIESCENCE);
             gameEvaluatorDebug = new EvaluatorDebug();
-            gameEvaluatorDebug.setEvaluator(evaluator);
         }
         if (withTriangularPV) {
             triangularPV = new TriangularPV();

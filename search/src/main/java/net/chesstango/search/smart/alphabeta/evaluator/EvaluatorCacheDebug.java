@@ -1,0 +1,61 @@
+package net.chesstango.search.smart.alphabeta.evaluator;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.evaluation.EvaluatorCacheRead;
+import net.chesstango.search.Acceptor;
+import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.debug.SearchTracker;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationEval;
+
+import java.util.Optional;
+
+/**
+ * @author Mauricio Coria
+ */
+
+@Setter
+@Getter
+public class EvaluatorCacheDebug implements EvaluatorCacheRead, Acceptor {
+
+    private SearchTracker searchTracker;
+
+    private EvaluatorCacheRead evaluatorCacheRead;
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public Integer readFromCache(long hash) {
+        Integer evaluation = evaluatorCacheRead.readFromCache(hash);
+        if (evaluation != null) {
+            trackReadFromCache(hash, evaluation);
+        }
+        return evaluation;
+    }
+
+
+    public void trackReadFromCache(long hash, Integer evaluation) {
+        DebugNode currentNode = searchTracker.getCurrentNode();
+        if (currentNode != null) {
+            Optional<DebugOperationEval> previousReadOpt = currentNode.getEvalCacheReads().stream()
+                    .filter(debugOperationEval -> debugOperationEval.getHashRequested() == hash)
+                    .findFirst();
+
+            if (previousReadOpt.isPresent()) {
+                DebugOperationEval previousReadOpEval = previousReadOpt.get();
+                if (previousReadOpEval.getEvaluation() != evaluation) {
+                    throw new RuntimeException("Lectura repetida pero distinto valor retornado");
+                }
+            } else {
+                currentNode.getEvalCacheReads().add(new DebugOperationEval()
+                        .setHashRequested(hash)
+                        .setEvaluation(evaluation)
+                );
+            }
+        }
+    }
+}

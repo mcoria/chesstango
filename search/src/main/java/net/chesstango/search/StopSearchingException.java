@@ -1,5 +1,7 @@
 package net.chesstango.search;
 
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
+
 /**
  * A runtime exception used to immediately terminate an ongoing search operation in the chess engine.
  *
@@ -20,7 +22,7 @@ package net.chesstango.search;
  *
  * @author Mauricio Coria
  * @see net.chesstango.search.Search
- * @see net.chesstango.search.smart.alphabeta.filters.AlphaBetaFlowControl
+ * @see AlphaBetaFlowControl
  */
 public class StopSearchingException extends RuntimeException {
 }

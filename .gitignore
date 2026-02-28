@@ -10,3 +10,4 @@ search/DebugSearchTree*.txt
 engine-tools/scripts/venv/
 
 /engine/DebugSearchTree-*
+/engine-reports/DebugSearchTree-*.txt

@@ -1,10 +1,10 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.features.debug.filters.DebugFilter;
-import net.chesstango.search.smart.features.debug.model.DebugNode;
-import net.chesstango.search.smart.features.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
+import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
 
 import java.util.LinkedList;
 import java.util.List;

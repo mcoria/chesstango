@@ -20,12 +20,11 @@ import net.chesstango.evaluation.Evaluator;
  * </pre>
  * </p>
  *
- * @param <T> the specific type of Search that this builder creates
  * @author Mauricio Coria
  * @see Search
  * @see Evaluator
  */
-public interface SearchBuilder<T extends Search> {
+public interface SearchBuilder<T extends SearchBuilder<T>> {
 
     /**
      * Configures the evaluator to be used for assessing chess positions during search.
@@ -37,7 +36,7 @@ public interface SearchBuilder<T extends Search> {
      * @param evaluator the Evaluator instance to use for position evaluation
      * @return this builder instance for method chaining
      */
-    SearchBuilder<T> withGameEvaluator(Evaluator evaluator);
+    T withGameEvaluator(Evaluator evaluator);
 
     /**
      * Constructs and returns the configured Search instance.
@@ -48,5 +47,5 @@ public interface SearchBuilder<T extends Search> {
      *
      * @return a fully configured Search instance of type T
      */
-    T build();
+    Search build();
 }

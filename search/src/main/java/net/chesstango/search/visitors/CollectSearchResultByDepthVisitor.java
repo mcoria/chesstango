@@ -5,10 +5,10 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.listeners.SetSearchTimers;
-import net.chesstango.search.smart.features.pv.TTPVReader;
-import net.chesstango.search.smart.features.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
+import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
+import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 
 /**
  *

@@ -1,6 +1,7 @@
 package net.chesstango.reports.search;
 
 import net.chesstango.reports.Report;
+import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.NodesModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -23,6 +24,7 @@ public class SummaryReport implements Report {
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private boolean printTranspositionStatistics;
+    private boolean printEvaluationStatistics;
 
     private PrintStream out;
 
@@ -34,7 +36,7 @@ public class SummaryReport implements Report {
     }
 
     public SummaryReport addSearchesByTreeSummaryModel(String searchGroupName, List<SearchResult> searches) {
-        summaryModels.add(SummaryModel.collectStatics(searchGroupName, searches));
+        summaryModels.add(new SummaryModel().collectStatistics(searchGroupName, searches));
         return this;
     }
 
@@ -58,6 +60,18 @@ public class SummaryReport implements Report {
                     .toList();
 
             new SummaryCutoffPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
+        if(printEvaluationStatistics) {
+            List<EvaluationModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getEvaluationModel)
+                    .toList();
+
+            new SummaryEvaluationPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -89,6 +103,11 @@ public class SummaryReport implements Report {
 
     public SummaryReport withTranspositionStatistics() {
         this.printTranspositionStatistics = true;
+        return this;
+    }
+
+    public SummaryReport withEvaluationStatistics() {
+        this.printEvaluationStatistics = true;
         return this;
     }
 

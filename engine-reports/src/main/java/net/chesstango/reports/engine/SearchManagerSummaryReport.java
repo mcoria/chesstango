@@ -19,12 +19,12 @@ public class SearchManagerSummaryReport implements Report {
         SearchManagerSummaryPrinter searchManagerPrinter = new SearchManagerSummaryPrinter();
         searchManagerPrinter.setReportModel(reportModelList);
         searchManagerPrinter.setOut(out);
-        searchManagerPrinter.print();;
+        searchManagerPrinter.print();
         return this;
     }
 
     public SearchManagerSummaryReport addSearchResponses(String searchesName, List<SearchResponse> searchResponses) {
-        reportModelList.add(SearchManagerModel.collectStatics(searchesName, searchResponses));
+        reportModelList.add(new SearchManagerModel().collectStatistics(searchesName, searchResponses));
         return this;
     }
 }

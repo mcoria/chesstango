@@ -36,6 +36,7 @@
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
         <maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
+        <native.maven.plugin.version>0.11.4</native.maven.plugin.version>
 
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 
@@ -49,7 +50,9 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <junit-platform-suite.version>1.13.4</junit-platform-suite.version>
         <mockito-junit-jupiter.version>5.18.0</mockito-junit-jupiter.version>
-        <native.maven.plugin.version>0.11.4</native.maven.plugin.version>
+        <jmh.version>1.37</jmh.version>
+
+
 
         <!-- Decoding/encoding to different chess representations: FEN, EPD, PGN, SAN, LAN -->
         <gardel.version>1.1.1</gardel.version>
@@ -136,6 +139,19 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-suite</artifactId>
@@ -191,6 +207,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.openjdk.jmh</groupId>
+                                <artifactId>jmh-generator-annprocess</artifactId>
+                                <version>${jmh.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>

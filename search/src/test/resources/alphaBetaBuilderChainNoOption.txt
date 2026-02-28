@@ -97,13 +97,16 @@ StopSearchingListener:
 ResetListener:
 
 Acceptor:
-	SetGameEvaluator @ 28
+	SetGameToEvaluator @ 28
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 24
 	SetSearchLast @ 25
 	SetTrianglePV @ 26
 	AlphaBetaFlowControl @ 9
 	ExtensionFlowControl @ 27
+	AlphaBetaEvaluation @ 10
+	AlphaBetaEvaluation @ 15
+	AlphaBetaEvaluation @ 16
 	TriangularPV @ 23
 	AlphaBeta @ 17
 	NodeMoveSorter @ 18
