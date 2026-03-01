@@ -79,13 +79,13 @@ public class AlphaBetaHorizonChainBuilder {
 
     private void setupListenerMediator() {
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
-            searchListenerMediator.addAcceptor(transpositionTable);
+            searchListenerMediator.add(transpositionTable);
         }
     }
 

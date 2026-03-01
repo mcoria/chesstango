@@ -149,46 +149,46 @@ public class MoveSorterBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.addAcceptor(nodeMoveSorter);
+        searchListenerMediator.add(nodeMoveSorter);
 
         if (transpositionHeadMoveComparator != null) {
-            searchListenerMediator.addAcceptor(transpositionHeadMoveComparator);
+            searchListenerMediator.add(transpositionHeadMoveComparator);
         }
 
         if (transpositionHeadMoveComparatorQ != null) {
-            searchListenerMediator.addAcceptor(transpositionHeadMoveComparatorQ);
+            searchListenerMediator.add(transpositionHeadMoveComparatorQ);
         }
 
         if (transpositionTailMoveComparator != null) {
-            searchListenerMediator.addAcceptor(transpositionTailMoveComparator);
+            searchListenerMediator.add(transpositionTailMoveComparator);
         }
 
         if (transpositionTailMoveComparatorQ != null) {
-            searchListenerMediator.addAcceptor(transpositionTailMoveComparatorQ);
+            searchListenerMediator.add(transpositionTailMoveComparatorQ);
         }
 
         if (principalVariationComparator != null) {
-            searchListenerMediator.addAcceptor(principalVariationComparator);
+            searchListenerMediator.add(principalVariationComparator);
         }
 
         if (recaptureMoveComparator != null) {
-            searchListenerMediator.addAcceptor(recaptureMoveComparator);
+            searchListenerMediator.add(recaptureMoveComparator);
         }
 
         if (gameEvaluatorCacheComparator != null) {
-            searchListenerMediator.addAcceptor(gameEvaluatorCacheComparator);
+            searchListenerMediator.add(gameEvaluatorCacheComparator);
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.addAcceptor(moveSorterDebug);
+            searchListenerMediator.add(moveSorterDebug);
         }
 
         if (gameEvaluatorCacheDebug != null) {
-            searchListenerMediator.addAcceptor(gameEvaluatorCacheDebug);
+            searchListenerMediator.add(gameEvaluatorCacheDebug);
         }
 
         if (killerMoveComparator != null) {
-            searchListenerMediator.addAcceptor(killerMoveComparator);
+            searchListenerMediator.add(killerMoveComparator);
         }
 
         /*

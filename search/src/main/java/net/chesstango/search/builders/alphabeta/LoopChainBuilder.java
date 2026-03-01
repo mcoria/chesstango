@@ -64,11 +64,11 @@ public class LoopChainBuilder {
 
     private void setupListenerMediator() {
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
     }
 

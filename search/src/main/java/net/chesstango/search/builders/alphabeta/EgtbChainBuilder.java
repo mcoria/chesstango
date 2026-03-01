@@ -53,10 +53,10 @@ public class EgtbChainBuilder {
 
     private void setupListenerMediator() {
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
 
-        searchListenerMediator.addAcceptor(egtbEvaluation);
+        searchListenerMediator.add(egtbEvaluation);
     }
 
     private AlphaBetaFilter createChain() {

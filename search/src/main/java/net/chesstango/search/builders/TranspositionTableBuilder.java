@@ -93,32 +93,32 @@ public class TranspositionTableBuilder {
 
     private void setupListenerMediator() {
         if (maxMapDebug != null) {
-            searchListenerMediator.addAcceptor(maxMapDebug);
+            searchListenerMediator.add(maxMapDebug);
         }
         if (minMapDebug != null) {
-            searchListenerMediator.addAcceptor(minMapDebug);
+            searchListenerMediator.add(minMapDebug);
         }
         if (qMaxMapDebug != null) {
-            searchListenerMediator.addAcceptor(qMaxMapDebug);
+            searchListenerMediator.add(qMaxMapDebug);
         }
         if (qMinMapDebug != null) {
-            searchListenerMediator.addAcceptor(qMinMapDebug);
+            searchListenerMediator.add(qMinMapDebug);
         }
 
         if (TTableCounters != null) {
             searchListenerMediator.add(TTableCounters);
         }
         if (maxMapCollector != null) {
-            searchListenerMediator.addAcceptor(maxMapCollector);
+            searchListenerMediator.add(maxMapCollector);
         }
         if (minMapCollector != null) {
-            searchListenerMediator.addAcceptor(minMapCollector);
+            searchListenerMediator.add(minMapCollector);
         }
         if (qMaxMapCollector != null) {
-            searchListenerMediator.addAcceptor(qMaxMapCollector);
+            searchListenerMediator.add(qMaxMapCollector);
         }
         if (qMinMapCollector != null) {
-            searchListenerMediator.addAcceptor(qMinMapCollector);
+            searchListenerMediator.add(qMinMapCollector);
         }
     }
 

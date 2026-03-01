@@ -376,7 +376,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
 
     private void setupListenerMediatorBeforeChain() {
-        searchListenerMediator.addAcceptor(setGameToEvaluator);
+        searchListenerMediator.add(setGameToEvaluator);
 
         searchListenerMediator.add(alphaBetaFacade);
 
@@ -412,7 +412,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(setKillerMoveTables);
         } else if (setKillerMoveTablesDebug != null) {
             searchListenerMediator.add(setKillerMoveTablesDebug);
-            searchListenerMediator.addAcceptor(setKillerMoveTablesDebug.getKillerMovesDebug());
+            searchListenerMediator.add(setKillerMoveTablesDebug.getKillerMovesDebug());
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);
@@ -424,7 +424,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (debugNodeTrap instanceof SearchListener debugNodeTrapSearchListener) {
             searchListenerMediator.add(debugNodeTrapSearchListener);
         } else if (debugNodeTrap instanceof Acceptor debugNodeTrapAcceptor) {
-            searchListenerMediator.addAcceptor(debugNodeTrapAcceptor);
+            searchListenerMediator.add(debugNodeTrapAcceptor);
         }
         if (setDebugOutput != null) {
             searchListenerMediator.add(setDebugOutput);

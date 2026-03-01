@@ -66,57 +66,38 @@ public class SearchListenerMediator implements Acceptor {
         resetListeners.forEach(ResetListener::reset);
     }
 
-    public void add(SearchListener listener) {
-        if (searchByCycleListeners.contains(listener) ||
-                searchByDepthListeners.contains(listener) ||
-                searchByWindowsListeners.contains(listener) ||
-                stopSearchingListeners.contains(listener) ||
-                resetListeners.contains(listener)
-        ) {
-            throw new RuntimeException(String.format("Listener already added %s", listener));
-        }
+    public void add(Acceptor acceptor) {
 
-        if (listener instanceof SearchByCycleListener searchByCycleListener) {
-            searchByCycleListeners.add(searchByCycleListener);
-        }
-
-        if (listener instanceof SearchByDepthListener searchByDepthListener) {
-            searchByDepthListeners.add(searchByDepthListener);
-        }
-
-        if (listener instanceof SearchByWindowsListener searchByWindowsListener) {
-            searchByWindowsListeners.add(searchByWindowsListener);
-        }
-
-        if (listener instanceof StopSearchingListener stopSearchingListener) {
-            stopSearchingListeners.add(stopSearchingListener);
-        }
-
-        if (listener instanceof ResetListener resetListener) {
-            resetListeners.add(resetListener);
-        }
-
-        if (listener instanceof Acceptor acceptor) {
-            if (acceptors.contains(acceptor)) {
-                throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
-            }
-            acceptors.add(acceptor);
-        }
-    }
-
-    public void addAcceptor(Acceptor acceptor) {
         if (acceptors.contains(acceptor)) {
             throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
         }
 
-        if (acceptor instanceof SearchListener listener) {
-            throw new RuntimeException(String.format("%s: you should call add(SearchListener listener)", listener));
+        acceptors.add(acceptor);
+
+        if (acceptor instanceof SearchByCycleListener searchByCycleListener) {
+            searchByCycleListeners.add(searchByCycleListener);
         }
 
-        acceptors.add(acceptor);
+        if (acceptor instanceof SearchByDepthListener searchByDepthListener) {
+            searchByDepthListeners.add(searchByDepthListener);
+        }
+
+        if (acceptor instanceof SearchByWindowsListener searchByWindowsListener) {
+            searchByWindowsListeners.add(searchByWindowsListener);
+        }
+
+        if (acceptor instanceof StopSearchingListener stopSearchingListener) {
+            stopSearchingListeners.add(stopSearchingListener);
+        }
+
+        if (acceptor instanceof ResetListener resetListener) {
+            resetListeners.add(resetListener);
+        }
+
     }
 
-    public void addAllAcceptor(List<Acceptor> listeners) {
-        listeners.forEach(this::addAcceptor);
+
+    public void addAllAcceptor(List<Acceptor> acceptors) {
+        acceptors.forEach(this::add);
     }
 }

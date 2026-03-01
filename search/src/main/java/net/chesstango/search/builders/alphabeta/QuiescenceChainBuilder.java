@@ -153,23 +153,23 @@ public class QuiescenceChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.addAcceptor(quiescenceStatisticsExpected);
-            searchListenerMediator.addAcceptor(quiescenceStatisticsVisited);
+            searchListenerMediator.add(quiescenceStatisticsExpected);
+            searchListenerMediator.add(quiescenceStatisticsVisited);
         }
         if (zobristQTracker != null) {
-            searchListenerMediator.addAcceptor(zobristQTracker);
+            searchListenerMediator.add(zobristQTracker);
         }
         if (transpositionTableQ != null) {
-            searchListenerMediator.addAcceptor(transpositionTableQ);
+            searchListenerMediator.add(transpositionTableQ);
         }
         if (withDebugSearchTree) {
-            searchListenerMediator.addAcceptor(debugFilter);
-            searchListenerMediator.addAcceptor(gameEvaluatorDebug);
+            searchListenerMediator.add(debugFilter);
+            searchListenerMediator.add(gameEvaluatorDebug);
         }
         if (triangularPV != null) {
-            searchListenerMediator.addAcceptor(triangularPV);
+            searchListenerMediator.add(triangularPV);
         }
-        searchListenerMediator.addAcceptor(quiescence);
+        searchListenerMediator.add(quiescence);
     }
 
     private AlphaBetaFilter createChain() {
