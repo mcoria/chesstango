@@ -2,6 +2,7 @@ package net.chesstango.search.builders;
 
 import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
@@ -23,7 +24,7 @@ public class TranspositionTableBuilder {
     private TTableDebug qMaxMapDebug;
     private TTableDebug qMinMapDebug;
 
-
+    private TTableCounters TTableCounters;
     private TTableStatisticsCollector maxMapCollector;
     private TTableStatisticsCollector minMapCollector;
     private TTableStatisticsCollector qMaxMapCollector;
@@ -82,11 +83,11 @@ public class TranspositionTableBuilder {
         }
 
         if (withStatistics) {
-            maxMapCollector = new TTableStatisticsCollector();
-            minMapCollector = new TTableStatisticsCollector();
-            qMaxMapCollector = new TTableStatisticsCollector();
-            qMinMapCollector = new TTableStatisticsCollector();
-
+            TTableCounters = new TTableCounters();
+            maxMapCollector = new TTableStatisticsCollector(TTableCounters);
+            minMapCollector = new TTableStatisticsCollector(TTableCounters);
+            qMaxMapCollector = new TTableStatisticsCollector(TTableCounters);
+            qMinMapCollector = new TTableStatisticsCollector(TTableCounters);
         }
     }
 
@@ -104,6 +105,9 @@ public class TranspositionTableBuilder {
             searchListenerMediator.addAcceptor(qMinMapDebug);
         }
 
+        if (TTableCounters != null) {
+            searchListenerMediator.add(TTableCounters);
+        }
         if (maxMapCollector != null) {
             searchListenerMediator.addAcceptor(maxMapCollector);
         }

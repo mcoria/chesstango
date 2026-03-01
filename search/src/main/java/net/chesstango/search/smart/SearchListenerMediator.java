@@ -97,18 +97,20 @@ public class SearchListenerMediator implements Acceptor {
         }
 
         if (listener instanceof Acceptor acceptor) {
-            addAcceptor(acceptor);
+            if (acceptors.contains(acceptor)) {
+                throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
+            }
+            acceptors.add(acceptor);
         }
     }
 
-    public void addAll(List<SearchListener> listeners) {
-        listeners.forEach(this::add);
-    }
-
     public void addAcceptor(Acceptor acceptor) {
-        if (acceptors.contains(acceptor)
-        ) {
+        if (acceptors.contains(acceptor)) {
             throw new RuntimeException(String.format("Acceptor already added %s", acceptor));
+        }
+
+        if (acceptor instanceof SearchListener listener) {
+            throw new RuntimeException(String.format("%s: you should call add(SearchListener listener)", listener));
         }
 
         acceptors.add(acceptor);

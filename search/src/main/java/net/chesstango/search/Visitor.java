@@ -40,11 +40,13 @@ import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.listeners.SetNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
@@ -180,7 +182,7 @@ public interface Visitor {
     default void visit(SetTrianglePV setTrianglePV) {
     }
 
-    default void visit(SetNodeStatistics setNodeStatistics) {
+    default void visit(NodeCounters nodeCounters) {
     }
 
     default void visit(SetSearchTracker setSearchTracker) {
@@ -291,6 +293,12 @@ public interface Visitor {
 
 
     default void visit(TTableStatisticsCollector tTableStatisticsCollector) {
+    }
+
+    default void visit(TTableCounters TTableCounters) {
+    }
+
+    default void visit(GameCounters gameCounters) {
     }
 
 }

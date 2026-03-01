@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 
@@ -13,25 +12,24 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
  */
 @Getter
 @Setter
-public class TTableStatisticsCollector implements TTable, SearchByCycleListener, Acceptor {
+public class TTableStatisticsCollector implements TTable, Acceptor {
+
+    private final TTableCounters TTableCounters;
 
     private TTable tTable;
 
-    private long readHits;
+    public TTableStatisticsCollector(TTableCounters TTableCounters) {
+        this.TTableCounters = TTableCounters;
+    }
 
-    private long reads;
-
-    private long overWrites;
-
-    private long writes;
 
     @Override
     public boolean load(long hash, TranspositionEntry entry) {
         boolean result = tTable.load(hash, entry);
         if (result) {
-            readHits++;
+            TTableCounters.increaseReadHits();
         }
-        reads++;
+        TTableCounters.increaseReads();
         return result;
     }
 
@@ -39,9 +37,11 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
     public SaveResult save(TranspositionEntry entry) {
         SaveResult result = tTable.save(entry);
         if (result == SaveResult.OVER_WRITTEN) {
-            overWrites++;
+            TTableCounters.increaseOverWrites();
+        } else if (result == SaveResult.UPDATED) {
+            TTableCounters.increaseUpdates();
         }
-        writes++;
+        TTableCounters.increaseWrites();
         return result;
     }
 
@@ -55,15 +55,4 @@ public class TTableStatisticsCollector implements TTable, SearchByCycleListener,
         visitor.visit(this);
     }
 
-    @Override
-    public void beforeSearch() {
-        readHits = 0;
-        reads = 0;
-        overWrites = 0;
-        writes = 0;
-    }
-
-    public TTableStatistics getTTableStatistics() {
-        return new TTableStatistics(reads, readHits, writes, overWrites);
-    }
 }

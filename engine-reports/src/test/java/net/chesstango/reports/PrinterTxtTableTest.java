@@ -34,6 +34,7 @@ class PrinterTxtTableTest {
         PrintStream mockOut = System.out;
         PrinterTxtTable printer = new PrinterTxtTable(2)
                 .setTitles("Name", "Age")
+                .setTextAlignment(PrinterTxtTable.TextAlignment.LEFT, PrinterTxtTable.TextAlignment.RIGHT)
                 .addRow("Alice", "25")
                 .addRow("Bob", "30")
                 .setOut(mockOut);

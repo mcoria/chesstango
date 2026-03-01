@@ -1,6 +1,8 @@
 package net.chesstango.search.smart.alphabeta.transposition;
 
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,10 +23,17 @@ public class TTableStatisticsCollectorTest {
     @Mock
     private TTable mockTTable;
 
+    private TTableCounters TTableCounters;
+
+    @BeforeEach
+    public void setUp() {
+        TTableCounters = new TTableCounters();
+    }
+
     @Test
     public void testSave_InsertResultInserted() {
         // Arrange
-        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        TTableStatisticsCollector collector = new TTableStatisticsCollector(TTableCounters);
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
@@ -35,14 +44,14 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertEquals(TTable.SaveResult.INSERTED, result);
-        assertEquals(0, collector.getOverWrites());
+        assertEquals(0, TTableCounters.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
     @Test
     public void testSave_InsertResultUpdated() {
         // Arrange
-        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        TTableStatisticsCollector collector = new TTableStatisticsCollector(TTableCounters);
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
@@ -53,14 +62,14 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertEquals(TTable.SaveResult.UPDATED, result);
-        assertEquals(0, collector.getOverWrites());
+        assertEquals(0, TTableCounters.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
     @Test
     public void testSave_InsertResultReplaced() {
         // Arrange
-        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        TTableStatisticsCollector collector = new TTableStatisticsCollector(TTableCounters);
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
@@ -71,14 +80,14 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertEquals(TTable.SaveResult.OVER_WRITTEN, result);
-        assertEquals(1, collector.getOverWrites());
+        assertEquals(1, TTableCounters.getOverWrites());
         verify(mockTTable, times(1)).save(entry);
     }
 
     @Test
     public void testLoad_SuccessfulLoadIncrementsTableHits() {
         // Arrange
-        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        TTableStatisticsCollector collector = new TTableStatisticsCollector(TTableCounters);
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
@@ -90,14 +99,14 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertTrue(result);
-        assertEquals(1, collector.getReadHits());
+        assertEquals(1, TTableCounters.getReadHits());
         verify(mockTTable, times(1)).load(hash, entry);
     }
 
     @Test
     public void testLoad_UnsuccessfulLoadDoesNotIncrementTableHits() {
         // Arrange
-        TTableStatisticsCollector collector = new TTableStatisticsCollector();
+        TTableStatisticsCollector collector = new TTableStatisticsCollector(TTableCounters);
         collector.setTTable(mockTTable);
 
         TranspositionEntry entry = new TranspositionEntry();
@@ -109,7 +118,7 @@ public class TTableStatisticsCollectorTest {
 
         // Assert
         assertFalse(result);
-        assertEquals(0, collector.getReadHits());
+        assertEquals(0, TTableCounters.getReadHits());
         verify(mockTTable, times(1)).load(hash, entry);
     }
 }

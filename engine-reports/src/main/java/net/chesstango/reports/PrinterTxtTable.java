@@ -10,11 +10,18 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class PrinterTxtTable implements Printer {
+
+    public enum TextAlignment {
+        LEFT, RIGHT, CENTER
+    }
+
     private final int numberOfColumns;
 
-    private String[] titles;
+    private final List<String[]> rows;
 
-    private List<String[]> rows;
+    private final TextAlignment[] textAlignments;
+
+    private String[] titles;
 
     private String[] bottomRow;
 
@@ -23,13 +30,23 @@ public class PrinterTxtTable implements Printer {
     public PrinterTxtTable(int numberOfColumns) {
         this.numberOfColumns = numberOfColumns;
         this.rows = new LinkedList<>();
+        this.textAlignments = new TextAlignment[numberOfColumns];
+        Arrays.fill(textAlignments, TextAlignment.RIGHT);
     }
 
     public PrinterTxtTable setTitles(String... titles) {
         if (titles.length != numberOfColumns) {
-            throw new IllegalArgumentException("Titles must have " + numberOfColumns + " columns, found " + titles.length + " columns" );
+            throw new IllegalArgumentException("Titles must have " + numberOfColumns + " columns, found " + titles.length + " columns");
         }
         this.titles = titles;
+        return this;
+    }
+
+    public PrinterTxtTable setTextAlignment(TextAlignment... textAlignments) {
+        if (textAlignments.length != numberOfColumns) {
+            throw new IllegalArgumentException("Titles must have " + numberOfColumns + " columns, found " + titles.length + " columns");
+        }
+        System.arraycopy(textAlignments, 0, this.textAlignments, 0, textAlignments.length);
         return this;
     }
 
@@ -86,7 +103,11 @@ public class PrinterTxtTable implements Printer {
             // Datos
             out.print("|");
             for (int i = 0; i < numberOfColumns; i++) {
-                out.printf(" %" + columnWidths[i] + "s |", row[i]);
+                if (textAlignments[i] == TextAlignment.RIGHT) {
+                    out.printf(" %" + columnWidths[i] + "s |", row[i]);
+                } else if (textAlignments[i] == TextAlignment.LEFT) {
+                    out.printf(" %-" + columnWidths[i] + "s |", row[i]);
+                }
             }
             out.printf("%n");
         }

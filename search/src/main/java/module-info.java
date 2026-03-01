@@ -15,7 +15,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.statistics.transposition;
     exports net.chesstango.search.smart.alphabeta.statistics.node;
     exports net.chesstango.search.smart.alphabeta.statistics.node.visitors;
-    exports net.chesstango.search.smart.alphabeta.statistics.node.listeners;
     exports net.chesstango.search.smart.alphabeta.statistics.node.filters;
     exports net.chesstango.search.smart.alphabeta.statistics.evaluation;
     exports net.chesstango.search.smart.alphabeta.pv;
@@ -52,6 +51,7 @@ module net.chesstango.search {
     exports net.chesstango.search.dummy;
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.alphabeta;
+    exports net.chesstango.search.smart.alphabeta.statistics.game;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;

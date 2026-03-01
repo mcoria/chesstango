@@ -25,9 +25,13 @@ public class TranspositionModel implements Model<List<SearchResult>> {
 
     public long writesTotal;
 
+    public long updatesTotal;
+
+    public int updatesPercentageTotal;
+
     public long overWritesTotal;
 
-    public int overWritePercentageTotal;
+    public int overWritesPercentageTotal;
 
     public List<TranspositionModelDetail> transpositionModelDetail;
 
@@ -43,6 +47,10 @@ public class TranspositionModel implements Model<List<SearchResult>> {
         public int readHitPercentage;
 
         public long writes;
+
+        public long updates;
+
+        public int updatesPercentage;
 
         public long overWrites;
 
@@ -78,6 +86,8 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.readHits = ttableStatistics.readHits();
             transpositionModelDetail.readHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readHits() / ttableStatistics.reads()) : 0;
             transpositionModelDetail.writes = ttableStatistics.writes();
+            transpositionModelDetail.updates = ttableStatistics.updates();
+            transpositionModelDetail.updatesPercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.updates() / ttableStatistics.writes()) : 0;
             transpositionModelDetail.overWrites = ttableStatistics.overWrites();
             transpositionModelDetail.overWritePercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.overWrites() / ttableStatistics.writes()) : 0;
 
@@ -85,10 +95,12 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             this.searches++;
             this.readsTotal += transpositionModelDetail.reads;
             this.readHitsTotal += transpositionModelDetail.readHits;
-            this.readHitPercentageTotal =  readsTotal > 0 ? (int) (100 * readHitsTotal / readsTotal) : 0;
+            this.readHitPercentageTotal = readsTotal > 0 ? (int) (100 * readHitsTotal / readsTotal) : 0;
             this.writesTotal += transpositionModelDetail.writes;
+            this.updatesTotal += transpositionModelDetail.updates;
+            this.updatesPercentageTotal = writesTotal > 0 ? (int) (100 * updatesTotal / writesTotal) : 0;
             this.overWritesTotal += transpositionModelDetail.overWrites;
-            this.overWritePercentageTotal =  writesTotal > 0 ? (int) (100 * overWritesTotal / writesTotal) : 0;
+            this.overWritesPercentageTotal = writesTotal > 0 ? (int) (100 * overWritesTotal / writesTotal) : 0;
             this.transpositionModelDetail.add(transpositionModelDetail);
         }
     }

@@ -23,15 +23,16 @@ public class TranspositionPrinter implements Printer {
     public TranspositionPrinter print() {
         out.println("Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Reads", "Read Hits", "Writes", "OverWrites");
+        printerTxtTable.setTitles("Move", "Reads", "Read Hits", "Writes", "Updates", "OverWrites");
         transpositionModel.transpositionModelDetail.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
                     Long.toString(row.reads),
                     String.format("%d (%2d%%)", row.readHits, row.readHitPercentage),
                     Long.toString(row.writes),
+                    String.format("%d (%2d%%)", row.updates, row.updatesPercentage),
                     String.format("%d (%2d%%)", row.overWrites, row.overWritePercentage));
         });
 
@@ -40,7 +41,8 @@ public class TranspositionPrinter implements Printer {
                 Long.toString(transpositionModel.readsTotal),
                 String.format("%d (%2d%%)", transpositionModel.readHitsTotal, transpositionModel.readHitPercentageTotal),
                 Long.toString(transpositionModel.writesTotal),
-                String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritePercentageTotal));
+                String.format("%d (%2d%%)", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal),
+                String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal));
 
         printerTxtTable.print();
 
