@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
  * @author Mauricio Coria
  */
 @Setter
-public class TTLoad implements SearchByDepthListener, Acceptor {
+public class TTLoad implements SearchByDepthListener {
 
     private Game game;
     private TTable maxMap;

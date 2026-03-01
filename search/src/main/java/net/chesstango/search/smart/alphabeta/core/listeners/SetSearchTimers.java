@@ -12,7 +12,7 @@ import java.time.Instant;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTimers implements Acceptor, SearchByCycleListener, SearchByDepthListener {
+public class SetSearchTimers implements SearchByCycleListener, SearchByDepthListener {
     private Instant startInstant;
     private Instant startDepthInstant;
 

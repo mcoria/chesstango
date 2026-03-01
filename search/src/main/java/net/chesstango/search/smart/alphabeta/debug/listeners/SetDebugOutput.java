@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
+public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private final boolean showOnlyPV;
     private final boolean showNodeTranspositionAccess;
     private final boolean showSorterOperations;

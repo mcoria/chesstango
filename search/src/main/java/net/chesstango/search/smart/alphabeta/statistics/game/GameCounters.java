@@ -12,7 +12,7 @@ import net.chesstango.search.smart.SearchByCycleListener;
 /**
  * @author Mauricio Coria
  */
-public class GameCounters implements SearchByCycleListener, Acceptor {
+public class GameCounters implements SearchByCycleListener {
 
     @Setter
     private Game game;

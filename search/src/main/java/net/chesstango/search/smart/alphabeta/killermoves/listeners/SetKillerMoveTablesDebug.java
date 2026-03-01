@@ -14,7 +14,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.visitors.SetKillerMoves
  * @author Mauricio Coria
  */
 @Getter
-public class SetKillerMoveTablesDebug implements SearchByCycleListener, Acceptor {
+public class SetKillerMoveTablesDebug implements SearchByCycleListener {
 
     private final KillerMovesDebug killerMovesDebug;
 
