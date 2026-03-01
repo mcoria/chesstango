@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
  * @author Mauricio Coria
  */
 @Setter
-public class TTDump implements SearchByDepthListener, Acceptor {
+public class TTDump implements SearchByDepthListener {
     private Game game;
     private TTable maxMap;
     private TTable minMap;

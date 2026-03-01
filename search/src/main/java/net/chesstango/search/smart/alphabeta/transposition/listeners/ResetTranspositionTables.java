@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
  * @author Mauricio Coria
  */
 @Setter
-public class ResetTranspositionTables implements SearchByCycleListener, ResetListener, Acceptor {
+public class ResetTranspositionTables implements SearchByCycleListener, ResetListener {
     protected TTable maxMap;
     protected TTable minMap;
     protected TTable qMaxMap;

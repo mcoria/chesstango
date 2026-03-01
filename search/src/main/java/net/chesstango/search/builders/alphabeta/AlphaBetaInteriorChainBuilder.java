@@ -146,27 +146,27 @@ public class AlphaBetaInteriorChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.addAcceptor(alphaBetaStatisticsExpected);
-            searchListenerMediator.addAcceptor(alphaBetaStatisticsVisited);
+            searchListenerMediator.add(alphaBetaStatisticsExpected);
+            searchListenerMediator.add(alphaBetaStatisticsVisited);
         }
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (transpositionTable != null) {
-            searchListenerMediator.addAcceptor(transpositionTable);
+            searchListenerMediator.add(transpositionTable);
         }
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (triangularPV != null) {
-            searchListenerMediator.addAcceptor(triangularPV);
+            searchListenerMediator.add(triangularPV);
         }
         if (killerMoveTracker != null) {
-            searchListenerMediator.addAcceptor(killerMoveTracker);
+            searchListenerMediator.add(killerMoveTracker);
         }
 
 
-        searchListenerMediator.addAcceptor(alphaBeta);
+        searchListenerMediator.add(alphaBeta);
     }
 
     private AlphaBetaFilter createChain() {

@@ -14,7 +14,7 @@ import net.chesstango.search.smart.alphabeta.debug.visitors.SetSearchTrackerVisi
 /**
  * @author Mauricio Coria
  */
-public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener, Acceptor {
+public class SetSearchTracker implements SearchByCycleListener, SearchByDepthListener, SearchByWindowsListener {
     private SearchTracker searchTracker;
 
     @Setter

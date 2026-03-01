@@ -182,52 +182,52 @@ public class AlphaBetaRootChainBuilder {
         searchListenerMediator.add(moveEvaluationTracker);
 
         if (withStatistics) {
-            searchListenerMediator.addAcceptor(alphaBetaStatisticsExpected);
-            searchListenerMediator.addAcceptor(alphaBetaStatisticsVisited);
+            searchListenerMediator.add(alphaBetaStatisticsExpected);
+            searchListenerMediator.add(alphaBetaStatisticsVisited);
         }
 
         if (aspirationWindows != null) {
-            searchListenerMediator.addAcceptor(aspirationWindows);
+            searchListenerMediator.add(aspirationWindows);
         }
 
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
 
         if (moveSorterDebug != null) {
-            searchListenerMediator.addAcceptor(moveSorterDebug);
+            searchListenerMediator.add(moveSorterDebug);
         }
 
         if (stopProcessingCatch != null) {
-            searchListenerMediator.addAcceptor(stopProcessingCatch);
+            searchListenerMediator.add(stopProcessingCatch);
         }
 
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
 
         if (transpositionTableRoot != null) {
-            searchListenerMediator.addAcceptor(transpositionTableRoot);
+            searchListenerMediator.add(transpositionTableRoot);
         }
 
         if (transpositionPV != null) {
-            searchListenerMediator.addAcceptor(transpositionPV);
+            searchListenerMediator.add(transpositionPV);
         }
 
         if (triangularPV != null) {
-            searchListenerMediator.addAcceptor(triangularPV);
+            searchListenerMediator.add(triangularPV);
         }
 
         if (ttPvReader != null) {
-            searchListenerMediator.addAcceptor(ttPvReader);
+            searchListenerMediator.add(ttPvReader);
         }
 
         if (ttpvReaderDebug != null) {
-            searchListenerMediator.addAcceptor(ttpvReaderDebug);
+            searchListenerMediator.add(ttpvReaderDebug);
         }
 
-        searchListenerMediator.addAcceptor(alphaBeta);
-        searchListenerMediator.addAcceptor(nodeMoveSorter);
+        searchListenerMediator.add(alphaBeta);
+        searchListenerMediator.add(nodeMoveSorter);
         searchListenerMediator.add(rootMoveSorter);
     }
 

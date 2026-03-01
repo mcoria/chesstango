@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCou
 /**
  * @author Mauricio Coria
  */
-public class NodeCounters implements SearchByCycleListener, Acceptor {
+public class NodeCounters implements SearchByCycleListener {
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;

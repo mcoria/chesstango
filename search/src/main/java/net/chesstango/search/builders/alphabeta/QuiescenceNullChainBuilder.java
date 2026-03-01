@@ -52,9 +52,9 @@ public class QuiescenceNullChainBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.addAcceptor(alphaBetaEvaluation);
+        searchListenerMediator.add(alphaBetaEvaluation);
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
     }
 

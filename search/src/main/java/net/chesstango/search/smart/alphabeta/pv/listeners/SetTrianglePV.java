@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener, Acceptor {
+public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private SearchListenerMediator searchListenerMediator;

@@ -13,7 +13,7 @@ import net.chesstango.search.smart.alphabeta.core.visitors.SetSearchLastVisitor;
 /**
  * @author Mauricio Coria
  */
-public class SetSearchLast implements SearchByCycleListener, SearchByDepthListener, Acceptor {
+public class SetSearchLast implements SearchByCycleListener, SearchByDepthListener {
     private SearchResultByDepth lastSearchResultByDepth;
 
     @Setter

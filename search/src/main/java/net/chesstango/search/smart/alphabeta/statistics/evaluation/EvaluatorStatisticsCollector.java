@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleListener, Acceptor {
+public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleListener {
 
     @Setter
     @Getter

@@ -77,16 +77,16 @@ public class TerminalChainBuilder {
     }
 
     private void setupListenerMediator() {
-        searchListenerMediator.addAcceptor(alphaBetaEvaluation);
+        searchListenerMediator.add(alphaBetaEvaluation);
 
         if (zobristTracker != null) {
-            searchListenerMediator.addAcceptor(zobristTracker);
+            searchListenerMediator.add(zobristTracker);
         }
         if (debugFilter != null) {
-            searchListenerMediator.addAcceptor(debugFilter);
+            searchListenerMediator.add(debugFilter);
         }
         if (transpositionTableTerminal != null) {
-            searchListenerMediator.addAcceptor(transpositionTableTerminal);
+            searchListenerMediator.add(transpositionTableTerminal);
         }
     }
 

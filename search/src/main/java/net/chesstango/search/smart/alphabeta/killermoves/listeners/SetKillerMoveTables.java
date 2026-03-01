@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.visitors.SetKillerMoves
 /**
  * @author Mauricio Coria
  */
-public class SetKillerMoveTables implements SearchByCycleListener, Acceptor {
+public class SetKillerMoveTables implements SearchByCycleListener {
 
     private KillerMoves killerMoves;
 
