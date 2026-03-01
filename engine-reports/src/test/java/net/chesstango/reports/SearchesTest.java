@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private Search search;
     private SearchResult searchResult;
 
@@ -85,7 +85,7 @@ public class SearchesTest {
     public void testSearch_00() {
         Game game = Game.from(FEN.START_POSITION);
 
-        search.accept(new SetMaxDepthVisitor(9));
+        search.accept(new SetMaxDepthVisitor(5));
         searchResult = search.startSearch(game);
     }
 
