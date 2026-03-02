@@ -28,10 +28,7 @@ import net.chesstango.search.smart.alphabeta.transposition.comparators.Transposi
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
@@ -122,6 +119,10 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
         transpositionTableTerminal.setGame(game);
+    }
+    @Override
+    public void visit(TranspositionTableLeaf transpositionTableLeaf) {
+        transpositionTableLeaf.setGame(game);
     }
 
     @Override

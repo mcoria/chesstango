@@ -86,7 +86,9 @@ public class AlphaBetaSearchesTest {
     public void testSearch_40H_069() {
         Game game = Game.from(FEN.of("1B1Q1R2/8/qNrn3p/2p1rp2/Rn3k1K/8/5P2/bbN4B w - - 0 1"));
 
-        Search search = AlphaBetaBuilder.createDefaultBuilderInstance().withGameEvaluator(new EvaluatorByMaterial())
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
                 //.withDebugSearchTree(true, false, false)
                 .build();
 

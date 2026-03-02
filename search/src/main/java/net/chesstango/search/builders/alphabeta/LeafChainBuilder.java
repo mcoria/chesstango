@@ -1,10 +1,11 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableLeaf;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -15,11 +16,15 @@ import java.util.List;
  */
 public class LeafChainBuilder {
     private final AlphaBetaEvaluation leaf;
-    private ZobristTracker zobristQTracker;
+    private ZobristTracker zobristTracker;
     private DebugFilter debugSearchTree;
+    private TranspositionTableLeaf transpositionTable;
     private SearchListenerMediator searchListenerMediator;
+
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
+    private boolean withTranspositionTable;
+
 
     public LeafChainBuilder() {
         leaf = new AlphaBetaEvaluation();
@@ -40,6 +45,11 @@ public class LeafChainBuilder {
         return this;
     }
 
+    public LeafChainBuilder withTranspositionTable() {
+        this.withTranspositionTable = true;
+        return this;
+    }
+
     /**
      * @return
      */
@@ -53,22 +63,28 @@ public class LeafChainBuilder {
 
     private void buildObjects() {
         if (withZobristTracker) {
-            zobristQTracker = new ZobristTracker();
+            zobristTracker = new ZobristTracker();
         }
 
         if (withDebugSearchTree) {
             debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
+        }
+        if (withTranspositionTable) {
+            transpositionTable = new TranspositionTableLeaf();
         }
     }
 
     private void setupListenerMediator() {
         searchListenerMediator.add(leaf);
 
-        if (zobristQTracker != null) {
-            searchListenerMediator.add(zobristQTracker);
+        if (zobristTracker != null) {
+            searchListenerMediator.add(zobristTracker);
         }
         if (debugSearchTree != null) {
             searchListenerMediator.add(debugSearchTree);
+        }
+        if (transpositionTable != null) {
+            searchListenerMediator.add(transpositionTable);
         }
     }
 
@@ -79,8 +95,12 @@ public class LeafChainBuilder {
             chain.add(debugSearchTree);
         }
 
-        if (zobristQTracker != null) {
-            chain.add(zobristQTracker);
+        if (zobristTracker != null) {
+            chain.add(zobristTracker);
+        }
+
+        if (transpositionTable != null) {
+            chain.add(transpositionTable);
         }
 
         chain.add(leaf);
@@ -90,8 +110,9 @@ public class LeafChainBuilder {
             AlphaBetaFilter next = chain.get(i + 1);
 
             switch (currentFilter) {
-                case ZobristTracker zobristTracker -> zobristQTracker.setNext(next);
-                case DebugFilter debugFilter -> debugSearchTree.setNext(next);
+                case ZobristTracker zobristTrackerFilter -> zobristTrackerFilter.setNext(next);
+                case DebugFilter debugFilter -> debugFilter.setNext(next);
+                case TranspositionTableLeaf transpositionTableFilter -> transpositionTableFilter.setNext(next);
                 case AlphaBetaEvaluation alphaBetaEvaluation -> {
                     //leaf
                 }

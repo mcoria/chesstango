@@ -46,10 +46,7 @@ import net.chesstango.search.smart.alphabeta.transposition.comparators.Transposi
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
+import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
 import net.chesstango.search.smart.sorters.comparators.*;
@@ -213,6 +210,14 @@ public class ChainPrinterVisitor implements Visitor {
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableTerminal), printTTable(transpositionTableTerminal.getMaxMap())));
 
         transpositionTableTerminal.getNext().accept(this);
+    }
+
+    @Override
+    public void visit(TranspositionTableLeaf transpositionTableLeaf) {
+        printChainDownLine();
+        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableLeaf), printTTable(transpositionTableLeaf.getMaxMap())));
+
+        transpositionTableLeaf.getNext().accept(this);
     }
 
     @Override
@@ -472,42 +477,48 @@ public class ChainPrinterVisitor implements Visitor {
     private void printChainSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         printChainText("SearchByCycleListeners:");
         nestedChain++;
-        searchListenerMediator.getSearchByCycleListeners()
+        searchListenerMediator
+                .getSearchByCycleListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("SearchByDepthListener:");
         nestedChain++;
-        searchListenerMediator.getSearchByDepthListeners()
+        searchListenerMediator
+                .getSearchByDepthListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("SearchByWindowsListeners:");
         nestedChain++;
-        searchListenerMediator.getSearchByWindowsListeners()
+        searchListenerMediator
+                .getSearchByWindowsListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("StopSearchingListener:");
         nestedChain++;
-        searchListenerMediator.getStopSearchingListeners()
+        searchListenerMediator
+                .getStopSearchingListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("ResetListener:");
         nestedChain++;
-        searchListenerMediator.getResetListeners()
+        searchListenerMediator
+                .getResetListeners()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
 
         printChainText("Acceptor:");
         nestedChain++;
-        searchListenerMediator.getAcceptors()
+        searchListenerMediator
+                .getAcceptors()
                 .forEach(this::printNodeObjectText);
         out.println();
         nestedChain--;
