@@ -25,12 +25,12 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
  * <p>
  * This filter ensures that terminal positions can be quickly retrieved in future searches without
  * re-evaluation, improving search efficiency.
- * 
+ *
  * @author Mauricio Coria
  */
 @Setter
 @Getter
-public class TranspositionTableTerminal implements AlphaBetaFilter {
+public class TranspositionTableLeaf implements AlphaBetaFilter {
 
     private Game game;
 
@@ -43,7 +43,7 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
     private final TranspositionEntry entryWorkspace;
 
-    public TranspositionTableTerminal() {
+    public TranspositionTableLeaf() {
         entryWorkspace = new TranspositionEntry();
     }
 
@@ -62,15 +62,16 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         if (!maxMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
+            entryWorkspace.setDraft((byte) 0);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             maxMap.save(entryWorkspace);
         }
+
         if (!maxQMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
+            entryWorkspace.setDraft((byte) 0);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             maxQMap.save(entryWorkspace);
@@ -89,15 +90,16 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
         if (!minMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
+            entryWorkspace.setDraft((byte) 0);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             minMap.save(entryWorkspace);
         }
+
         if (!minQMap.load(hash, entryWorkspace)) {
             entryWorkspace.setHash(hash);
             entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
+            entryWorkspace.setDraft((byte) 0);
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             minQMap.save(entryWorkspace);

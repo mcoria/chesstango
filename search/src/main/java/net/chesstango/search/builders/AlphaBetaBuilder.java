@@ -48,8 +48,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final LoopChainBuilder loopChainBuilder;
     private final LoopChainBuilder quiescenceLoopChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
-    private final LeafChainBuilder quiescenceLeafChainBuilder;
     private final LeafChainBuilder leafChainBuilder;
+    private final LeafChainBuilder quiescenceLeafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
@@ -172,6 +172,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaInteriorChainBuilder.withTranspositionTable();
         alphaBetaHorizonChainBuilder.withTranspositionTable();
         terminalChainBuilder.withTranspositionTable();
+        leafChainBuilder.withTranspositionTable();
+        quiescenceLeafChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
