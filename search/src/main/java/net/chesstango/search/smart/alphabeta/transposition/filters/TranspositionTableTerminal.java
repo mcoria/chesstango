@@ -36,8 +36,6 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
 
     private TTable maxMap;
     private TTable minMap;
-    private TTable maxQMap;
-    private TTable minQMap;
 
     private AlphaBetaFilter next;
 
@@ -67,14 +65,6 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             maxMap.save(entryWorkspace);
         }
-        if (!maxQMap.load(hash, entryWorkspace)) {
-            entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
-            entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
-            entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
-            maxQMap.save(entryWorkspace);
-        }
 
         return bestMoveAndValue;
     }
@@ -93,14 +83,6 @@ public class TranspositionTableTerminal implements AlphaBetaFilter {
             entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
             entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
             minMap.save(entryWorkspace);
-        }
-        if (!minQMap.load(hash, entryWorkspace)) {
-            entryWorkspace.setHash(hash);
-            entryWorkspace.setBound(TranspositionBound.EXACT);
-            entryWorkspace.setDraft(Byte.MAX_VALUE);
-            entryWorkspace.setMove(AlphaBetaHelper.decodeMove(bestMoveAndValue));
-            entryWorkspace.setValue(AlphaBetaHelper.decodeValue(bestMoveAndValue));
-            minQMap.save(entryWorkspace);
         }
 
         return bestMoveAndValue;

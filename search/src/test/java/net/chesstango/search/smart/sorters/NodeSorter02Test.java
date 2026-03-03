@@ -36,7 +36,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
 
         searchListenerMediator.accept(new SetDepthVisitor(2));
         searchListenerMediator.triggerBeforeSearchByDepth();
@@ -62,7 +62,7 @@ public class NodeSorter02Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
         searchListenerMediator.accept(new SetKillerMovesVisitor(killerMovesTable));
 
         searchListenerMediator.triggerBeforeSearchByDepth();

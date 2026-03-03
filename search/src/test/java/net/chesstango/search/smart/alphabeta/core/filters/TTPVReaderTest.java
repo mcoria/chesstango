@@ -56,8 +56,6 @@ public class TTPVReaderTest {
         ttPvReader.setEvaluator(evaluator);
         ttPvReader.setMaxMap(maxMap);
         ttPvReader.setMinMap(minMap);
-        ttPvReader.setQMaxMap(qMaxMap);
-        ttPvReader.setQMinMap(qMinMap);
     }
 
     /**
@@ -69,7 +67,6 @@ public class TTPVReaderTest {
     void test_calculatePrincipalVariation_depth01() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
-        ttPvReader.setDepth(1);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);
@@ -109,7 +106,6 @@ public class TTPVReaderTest {
     void test_calculatePrincipalVariation_depth02() {
         game = Game.from(FEN.START_POSITION);
         ttPvReader.setGame(game);
-        ttPvReader.setDepth(2);
 
         final long startZobrist = game.getPosition().getZobristHash();
         final Move startExecutedMove = game.getMove(Square.a2, Square.a4);

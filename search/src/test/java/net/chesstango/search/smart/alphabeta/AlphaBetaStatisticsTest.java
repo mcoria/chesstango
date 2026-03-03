@@ -253,7 +253,7 @@ public class AlphaBetaStatisticsTest {
         assertEquals(0, visitedNodesCounters[5]);
 
         assertEquals(22, visitedNodesCountersTotal);
-        assertEquals(43, executedMoves); // Ver mas arriba explicacion
+        assertEquals(53, executedMoves); // TTPVReader influye en esta metrica
     }
 
 

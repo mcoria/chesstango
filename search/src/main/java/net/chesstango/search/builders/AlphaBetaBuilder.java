@@ -317,9 +317,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.build();
             searchListenerMediator.accept(new SetTTableVisitor(
                     transpositionTableBuilder.getMaxMap(),
-                    transpositionTableBuilder.getMinMap(),
-                    transpositionTableBuilder.getQMaxMap(),
-                    transpositionTableBuilder.getQMinMap()
+                    transpositionTableBuilder.getMinMap()
             ));
         }
 

@@ -19,22 +19,16 @@ import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
 public class SetTTableVisitor implements Visitor {
     private final TTable maxMap;
     private final TTable minMap;
-    private final TTable qMaxMap;
-    private final TTable qMinMap;
 
-    public SetTTableVisitor(TTable maxMap, TTable minMap, TTable qMaxMap, TTable qMinMap) {
+    public SetTTableVisitor(TTable maxMap, TTable minMap) {
         this.maxMap = maxMap;
         this.minMap = minMap;
-        this.qMaxMap = qMaxMap;
-        this.qMinMap = qMinMap;
     }
 
     @Override
     public void visit(ResetTranspositionTables resetTranspositionTables) {
         resetTranspositionTables.setMaxMap(maxMap);
         resetTranspositionTables.setMinMap(minMap);
-        resetTranspositionTables.setQMaxMap(qMaxMap);
-        resetTranspositionTables.setQMinMap(qMinMap);
     }
 
     @Override
@@ -47,24 +41,18 @@ public class SetTTableVisitor implements Visitor {
     public void visit(TTPVReader ttpvReader) {
         ttpvReader.setMaxMap(maxMap);
         ttpvReader.setMinMap(minMap);
-        ttpvReader.setQMaxMap(qMaxMap);
-        ttpvReader.setQMinMap(qMinMap);
     }
 
     @Override
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
         transpositionTableTerminal.setMaxMap(maxMap);
         transpositionTableTerminal.setMinMap(minMap);
-        transpositionTableTerminal.setMaxQMap(qMaxMap);
-        transpositionTableTerminal.setMinQMap(qMinMap);
     }
 
     @Override
     public void visit(TranspositionTableLeaf transpositionTableLeaf) {
         transpositionTableLeaf.setMaxMap(maxMap);
         transpositionTableLeaf.setMinMap(minMap);
-        transpositionTableLeaf.setMaxQMap(qMaxMap);
-        transpositionTableLeaf.setMinQMap(qMinMap);
     }
 
     @Override
@@ -75,8 +63,8 @@ public class SetTTableVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTableQ transpositionTableQ) {
-        transpositionTableQ.setMaxMap(qMaxMap);
-        transpositionTableQ.setMinMap(qMinMap);
+        transpositionTableQ.setMaxMap(maxMap);
+        transpositionTableQ.setMinMap(minMap);
     }
 
     @Override
@@ -99,8 +87,8 @@ public class SetTTableVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        transpositionHeadMoveComparatorQ.setMaxMap(qMaxMap);
-        transpositionHeadMoveComparatorQ.setMinMap(qMinMap);
+        transpositionHeadMoveComparatorQ.setMaxMap(maxMap);
+        transpositionHeadMoveComparatorQ.setMinMap(minMap);
     }
 
     @Override
@@ -111,8 +99,8 @@ public class SetTTableVisitor implements Visitor {
 
     @Override
     public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        transpositionHeadMoveComparatorQ.setMaxMap(qMaxMap);
-        transpositionHeadMoveComparatorQ.setMinMap(qMinMap);
+        transpositionHeadMoveComparatorQ.setMaxMap(maxMap);
+        transpositionHeadMoveComparatorQ.setMinMap(minMap);
     }
 
 }
