@@ -98,6 +98,7 @@ ResetListener:
 
 Acceptor:
 	SetGameToEvaluator @ 28
+	SetGameToEndGameTableBase @ 29
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 24
 	SetSearchLast @ 25

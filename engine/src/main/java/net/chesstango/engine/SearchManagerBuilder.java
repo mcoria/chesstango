@@ -137,7 +137,8 @@ class SearchManagerBuilder {
         }
 
         if (syzygy != null) {
-            search.accept(new SetEndGameTableBaseVisitor(searchManagerFactory.createSyzygyTableBaseAdapter(syzygy)));
+            EndGameTableBase egtb = searchManagerFactory.createSyzygyTableBaseAdapter(syzygy);
+            search.accept(new SetEndGameTableBaseVisitor(egtb));
         }
 
         SearchByTree searchByTree = searchManagerFactory.createSearchByAlgorithm(search);
