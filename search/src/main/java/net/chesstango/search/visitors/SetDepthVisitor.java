@@ -34,11 +34,6 @@ public class SetDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TTPVReader ttpvReader) {
-        ttpvReader.setDepth(depth);
-    }
-
-    @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
         alphaBetaFlowControl.setDepth(depth);
     }

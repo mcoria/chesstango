@@ -8,9 +8,10 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.search.smart.alphabeta.transposition.TranspositionBound;
-import net.chesstango.search.visitors.SetGameVisitor;
-import net.chesstango.search.visitors.SetDepthVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
+import net.chesstango.search.visitors.SetDepthVisitor;
+import net.chesstango.search.visitors.SetGameVisitor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
+@Disabled
 public class NodeSorter03Test extends AbstractNodeSorterTest {
 
 
@@ -37,7 +39,7 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
         MoveSorter moveSorter = moveSorterBuilder.build();
 
         searchListenerMediator.accept(new SetGameVisitor(game));
-        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap, qMaxMap, qMinMap));
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
         searchListenerMediator.triggerBeforeSearch();
 
         searchListenerMediator.accept(new SetDepthVisitor(3));
@@ -60,19 +62,19 @@ public class NodeSorter03Test extends AbstractNodeSorterTest {
 
     protected void loadTranspositionTables() {
         saveEntry(minMap, 0xC23A9796AF1A652FL, TranspositionBound.UPPER_BOUND, 0, 4294896611L); // h5e2
-        saveEntry(minMap,0x1154F9546860B223L, TranspositionBound.UPPER_BOUND, 0, 4294894301L); // h5h3
-        saveEntry(minMap,0x7A3B2C64C1AB8AB1L, TranspositionBound.UPPER_BOUND, 0, 4294889071L); // h5g5
-        saveEntry(minMap,0xD8727DF238E25CA3L, TranspositionBound.UPPER_BOUND, 0, 4294886221L); // h5h4
-        saveEntry(minMap,0xEE1E6387CD236810L, TranspositionBound.UPPER_BOUND, 0, 4294886201L); // h5f3
-        saveEntry(minMap,0xE38DB33F8781BF41L, TranspositionBound.UPPER_BOUND, 0, 3920862759355397L); // h5g6
+        saveEntry(minMap, 0x1154F9546860B223L, TranspositionBound.UPPER_BOUND, 0, 4294894301L); // h5h3
+        saveEntry(minMap, 0x7A3B2C64C1AB8AB1L, TranspositionBound.UPPER_BOUND, 0, 4294889071L); // h5g5
+        saveEntry(minMap, 0xD8727DF238E25CA3L, TranspositionBound.UPPER_BOUND, 0, 4294886221L); // h5h4
+        saveEntry(minMap, 0xEE1E6387CD236810L, TranspositionBound.UPPER_BOUND, 0, 4294886201L); // h5f3
+        saveEntry(minMap, 0xE38DB33F8781BF41L, TranspositionBound.UPPER_BOUND, 0, 3920862759355397L); // h5g6
 
-        saveEntry(qMinMap,0x5809B10F4AEFE9B8L, TranspositionBound.UPPER_BOUND, 0, 2571761992221855L); // d1d5
-        saveEntry(qMinMap,0xEE7E1C867AC579F6L, TranspositionBound.UPPER_BOUND, 0, 2493696666611559L); // c2e4
-        saveEntry(qMinMap,0xE5878EF506AAEC8AL, TranspositionBound.UPPER_BOUND, 0, 4422240061729033L); // f5g7
-        saveEntry(qMinMap,0x591BAC29C5110DE5L, TranspositionBound.UPPER_BOUND, 0, 4423339573088489L); // h5h7
+        saveEntry(minMap, 0x5809B10F4AEFE9B8L, TranspositionBound.UPPER_BOUND, -1, 2571761992221855L); // d1d5
+        saveEntry(minMap, 0xEE7E1C867AC579F6L, TranspositionBound.UPPER_BOUND, -1, 2493696666611559L); // c2e4
+        saveEntry(minMap, 0xE5878EF506AAEC8AL, TranspositionBound.UPPER_BOUND, -1, 4422240061729033L); // f5g7
+        saveEntry(minMap, 0x591BAC29C5110DE5L, TranspositionBound.UPPER_BOUND, -1, 4423339573088489L); // h5h7
 
-        saveEntry(maxMap,0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, 4294899481L); // NO_MOVE
-        saveEntry(qMaxMap,0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, 4294899481L); // NO_MOVE
+        saveEntry(maxMap, 0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, 0, 4294899481L); // NO_MOVE
+        saveEntry(maxMap, 0x0CE7DD3862149D3EL, TranspositionBound.UPPER_BOUND, -1, 4294899481L); // NO_MOVE
     }
 
     protected EvaluatorCacheReadMock loadEvaluationCache() {

@@ -10,7 +10,7 @@ public class TTableArrayPrimitives implements TTable {
     private final static long UPPER_BOUND = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
     private final static long BOUND_MASK = 0b00000011_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
 
-    private final static int ARRAY_SIZE = 1024 * 512;
+    private final static int ARRAY_SIZE = 2 * 1024 * 512;
 
     /*
         Data layout:

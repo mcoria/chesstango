@@ -33,16 +33,7 @@ public class TTPVReader implements PVReader, Acceptor {
     private TTable minMap;
 
     @Setter
-    private TTable qMaxMap;
-
-    @Setter
-    private TTable qMinMap;
-
-    @Setter
     private Game game;
-
-    @Setter
-    private int depth;
 
     @Getter
     private boolean pvComplete;
@@ -76,6 +67,7 @@ public class TTPVReader implements PVReader, Acceptor {
         Deque<Move> moves = new LinkedList<>();
         long currentHash = game.getPosition().getZobristHash();
         Move currentMove = getMove(bestMove);
+
         while (currentMove != null) {
 
             principalVariation.add(new PrincipalVariation(currentHash, currentMove));
@@ -86,10 +78,7 @@ public class TTPVReader implements PVReader, Acceptor {
 
             // Third PV move and onward
             currentHash = game.getPosition().getZobristHash();
-            currentMove = principalVariation.size() < depth
-                    ? readMoveFromTT(maxMap, minMap)
-                    : readMoveFromTT(qMaxMap, qMinMap);
-
+            currentMove = readMoveFromTT();
         }
 
         int pvEvaluation = evaluator.evaluate();
@@ -109,14 +98,14 @@ public class TTPVReader implements PVReader, Acceptor {
         }
     }
 
-    Move readMoveFromTT(TTable maxMap, TTable minMap) {
+    Move readMoveFromTT() {
         Move result = null;
         if (maxMap != null && minMap != null) {
             long hash = game.getPosition().getZobristHash();
             boolean load = Color.WHITE.equals(game.getPosition().getCurrentTurn()) ? maxMap.load(hash, entryWorkspace) : minMap.load(hash, entryWorkspace);
             if (load && TranspositionBound.EXACT.equals(entryWorkspace.getBound())) {
                 short bestMoveEncoded = entryWorkspace.getMove();
-                result = getMove(bestMoveEncoded);
+                result = bestMoveEncoded != 0 ? getMove(bestMoveEncoded) : null;
             }
         }
         return result;

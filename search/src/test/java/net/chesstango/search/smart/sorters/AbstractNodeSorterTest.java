@@ -28,8 +28,6 @@ public abstract class AbstractNodeSorterTest {
     protected MoveSorterBuilder moveSorterBuilder;
     protected TTable maxMap;
     protected TTable minMap;
-    protected TTable qMaxMap;
-    protected TTable qMinMap;
     protected KillerMovesTable killerMovesTable;
     protected Game game;
 
@@ -41,8 +39,6 @@ public abstract class AbstractNodeSorterTest {
 
         maxMap = new TTableMap();
         minMap = new TTableMap();
-        qMaxMap = new TTableMap();
-        qMinMap = new TTableMap();
 
         killerMovesTable = new KillerMovesTable();
 

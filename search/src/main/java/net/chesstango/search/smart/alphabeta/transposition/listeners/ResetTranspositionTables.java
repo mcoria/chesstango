@@ -15,8 +15,6 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
 public class ResetTranspositionTables implements SearchByCycleListener, ResetListener {
     protected TTable maxMap;
     protected TTable minMap;
-    protected TTable qMaxMap;
-    protected TTable qMinMap;
 
     protected boolean reuseTranspositionTable;
 
@@ -40,7 +38,5 @@ public class ResetTranspositionTables implements SearchByCycleListener, ResetLis
     public void reset() {
         this.maxMap.clear();
         this.minMap.clear();
-        this.qMaxMap.clear();
-        this.qMinMap.clear();
     }
 }
