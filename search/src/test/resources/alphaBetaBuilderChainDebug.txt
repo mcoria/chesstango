@@ -211,13 +211,14 @@ ResetListener:
 
 Acceptor:
 	SetGameToEvaluator @ 82
+	SetGameToEndGameTableBase @ 83
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 76
 	SetSearchLast @ 77
 	SetSearchTracker @ 78
 	ResetTranspositionTables @ 79
 	SetKillerMoveTablesDebug @ 80
-	KillerMovesDebug @ 83
+	KillerMovesDebug @ 84
 	AlphaBetaFlowControl @ 18
 	ExtensionFlowControl @ 34
 	AlphaBetaEvaluation @ 21
@@ -228,7 +229,7 @@ Acceptor:
 	TranspositionTableLeaf @ 30
 	TranspositionTableQ @ 44
 	DebugFilter @ 43
-	EvaluatorDebug @ 84
+	EvaluatorDebug @ 85
 	Quiescence @ 45
 	NodeMoveSorter @ 47
 	TranspositionHeadMoveComparatorQ @ 49
@@ -280,7 +281,7 @@ Acceptor:
 	RootMoveSorter @ 11
 	SetDebugOutput @ 81
 	TTableDebug @ 7
-	TTableDebug @ 85
 	TTableDebug @ 86
 	TTableDebug @ 87
+	TTableDebug @ 88
 
