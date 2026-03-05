@@ -194,6 +194,7 @@ ResetListener:
 Acceptor:
 	EvaluatorStatisticsCollector @ 20
 	SetGameToEvaluator @ 75
+	SetGameToEndGameTableBase @ 76
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 68
 	SetSearchLast @ 69
@@ -251,7 +252,7 @@ Acceptor:
 	RootMoveSorter @ 10
 	TTableCounters @ 74
 	TTableStatisticsCollector @ 6
-	TTableStatisticsCollector @ 76
-	TTableStatisticsCollector @ 36
 	TTableStatisticsCollector @ 77
+	TTableStatisticsCollector @ 36
+	TTableStatisticsCollector @ 78
 

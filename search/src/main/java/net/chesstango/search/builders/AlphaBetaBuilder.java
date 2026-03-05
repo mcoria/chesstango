@@ -21,6 +21,7 @@ import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBaseNull;
+import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.visitors.SetEndGameTableBaseVisitor;
 import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
@@ -52,10 +53,12 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final LeafChainBuilder quiescenceLeafChainBuilder;
     private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
-    private final EgtbChainBuilder egtbChainBuilder;
-    private final EgtbChainBuilder quiescencEgtbChainBuilder;
     private final TranspositionTableBuilder transpositionTableBuilder;
     private final EvaluationBuilder evaluationBuilder;
+    private final EgtbChainBuilder egtbChainBuilder;
+    private final EgtbChainBuilder quiescencEgtbChainBuilder;
+
+    private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
     private final SetGameToEvaluator setGameToEvaluator;
     private final AlphaBetaFacade alphaBetaFacade;
@@ -126,6 +129,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         egtbChainBuilder = new EgtbChainBuilder();
         quiescencEgtbChainBuilder = new EgtbChainBuilder();
+        setGameToEndGameTableBase = new SetGameToEndGameTableBase();
     }
 
     public AlphaBetaBuilder withIterativeDeepening() {
@@ -379,6 +383,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private void setupListenerMediatorBeforeChain() {
         searchListenerMediator.add(setGameToEvaluator);
+
+        searchListenerMediator.add(setGameToEndGameTableBase);
 
         searchListenerMediator.add(alphaBetaFacade);
 
