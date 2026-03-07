@@ -2,6 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.builders.MoveSorterBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaInteriorChainBuilder {
+public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
     private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
@@ -204,24 +205,6 @@ public class AlphaBetaInteriorChainBuilder {
 
         chain.add(alphaBetaFlowControl);
 
-
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker tracker -> zobristTracker.setNext(next);
-                case TranspositionTable table -> transpositionTable.setNext(next);
-                case AlphaBetaStatisticsExpected betaStatisticsExpected -> alphaBetaStatisticsExpected.setNext(next);
-                case AlphaBeta beta -> alphaBeta.setNext(next);
-                case AlphaBetaStatisticsVisited betaStatisticsVisited -> alphaBetaStatisticsVisited.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case TriangularPV pv -> triangularPV.setNext(next);
-                case KillerMoveTracker moveTracker -> killerMoveTracker.setNext(next);
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

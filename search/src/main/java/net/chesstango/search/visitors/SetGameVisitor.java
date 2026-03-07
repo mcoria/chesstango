@@ -8,7 +8,6 @@ import net.chesstango.search.smart.SearchAlgorithm;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
@@ -23,7 +22,6 @@ import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
@@ -138,11 +136,6 @@ public class SetGameVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
         alphaBetaFlowControl.setGame(game);
-    }
-
-    @Override
-    public void visit(ExtensionFlowControl extensionFlowControl) {
-        extensionFlowControl.setGame(game);
     }
 
     @Override

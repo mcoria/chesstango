@@ -35,6 +35,8 @@ import org.junit.platform.suite.api.Suite;
         AspirationWindowsTest.class,
         MoveEvaluationTrackerTest.class,
 
+        RepetitionTest.class,
+
         TTPVReaderTest.class,
         AlphaBetaStatisticsTest.class
 })

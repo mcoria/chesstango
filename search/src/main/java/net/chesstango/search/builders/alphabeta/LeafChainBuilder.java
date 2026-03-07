@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class LeafChainBuilder {
+public class LeafChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation leaf;
     private ZobristTracker zobristTracker;
     private DebugFilter debugSearchTree;
@@ -105,21 +105,6 @@ public class LeafChainBuilder {
 
         chain.add(leaf);
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker zobristTrackerFilter -> zobristTrackerFilter.setNext(next);
-                case DebugFilter debugFilter -> debugFilter.setNext(next);
-                case TranspositionTableLeaf transpositionTableFilter -> transpositionTableFilter.setNext(next);
-                case AlphaBetaEvaluation alphaBetaEvaluation -> {
-                    //leaf
-                }
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

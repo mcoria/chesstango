@@ -59,7 +59,7 @@ public class AlphaBetaTest {
 
 
         alphaBetaFlowControl.setTerminalNode(new AlphaBetaEvaluation());
-        alphaBetaFlowControl.setHorizonNode(terminal);
+        alphaBetaFlowControl.setQuiescenceNode(terminal);
         alphaBetaFlowControl.setTerminalNode(terminal);
         alphaBetaFlowControl.setInteriorNode(alphaBeta);
 

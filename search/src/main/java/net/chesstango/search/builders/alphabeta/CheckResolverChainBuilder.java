@@ -1,10 +1,10 @@
 package net.chesstango.search.builders.alphabeta;
 
 
+import net.chesstango.search.builders.MoveSorterBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
@@ -19,10 +19,9 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class CheckResolverChainBuilder {
+public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
-    private ExtensionFlowControl extensionFlowControl;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -40,11 +39,6 @@ public class CheckResolverChainBuilder {
     public CheckResolverChainBuilder() {
         alphaBeta = new AlphaBeta();
         moveSorterBuilder = new MoveSorterBuilder();
-    }
-
-    public CheckResolverChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
-        this.extensionFlowControl = extensionFlowControl;
-        return this;
     }
 
     public CheckResolverChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
@@ -166,25 +160,9 @@ public class CheckResolverChainBuilder {
             chain.add(triangularPV);
         }
 
-        chain.add(extensionFlowControl);
+        //chain.add(extensionFlowControl);
 
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker zobristTracker -> zobristQTracker.setNext(next);
-                case TranspositionTableQ tableQ -> transpositionTableQ.setNext(next);
-                case QuiescenceStatisticsExpected statisticsExpected -> quiescenceStatisticsExpected.setNext(next);
-                case AlphaBeta beta -> alphaBeta.setNext(next);
-                case QuiescenceStatisticsVisited statisticsVisited -> quiescenceStatisticsVisited.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case TriangularPV pv -> triangularPV.setNext(next);
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

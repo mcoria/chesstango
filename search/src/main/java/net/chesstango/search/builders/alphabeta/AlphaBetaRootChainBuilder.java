@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaRootChainBuilder {
+public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final MoveEvaluationTracker moveEvaluationTracker;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
@@ -277,27 +277,6 @@ public class AlphaBetaRootChainBuilder {
 
         chain.add(alphaBetaFlowControl);
 
-
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case StopProcessingCatch filer -> filer.setNext(next);
-                case ZobristTracker filer -> filer.setNext(next);
-                case TranspositionTableRoot filer -> filer.setNext(next);
-                case AspirationWindows filer -> filer.setNext(next);
-                case AlphaBetaStatisticsExpected filer -> filer.setNext(next);
-                case AlphaBeta filer -> filer.setNext(next);
-                case MoveEvaluationTracker filer -> filer.setNext(next);
-                case AlphaBetaStatisticsVisited filer -> filer.setNext(next);
-                case DebugFilter filer -> filer.setNext(next);
-                case TriangularPV filer -> filer.setNext(next);
-                case TranspositionPV filer -> filer.setNext(next);
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

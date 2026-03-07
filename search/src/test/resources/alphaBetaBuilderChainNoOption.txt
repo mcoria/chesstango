@@ -38,53 +38,66 @@ AlphaBetaFlowControl @ 9
 	|
 	AlphaBetaEvaluation @ 15 [Evaluator: EvaluatorByMaterial @ 11]
 
- -> HorizonNode
-	|
-	AlphaBetaEvaluation @ 16 [Evaluator: EvaluatorByMaterial @ 11]
-
  -> InteriorNode
 	|
-	AlphaBeta @ 17
+	AlphaBeta @ 16
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 18
+		NodeMoveSorter @ 17
 		|
 		 -> Comparator
 			|
-			QuietComparator @ 19
+			QuietComparator @ 18
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 20
+				PromotionComparator @ 19
 				|
-				RecaptureMoveComparator @ 21
+				RecaptureMoveComparator @ 20
 				|
-				DefaultMoveComparator @ 22
+				DefaultMoveComparator @ 21
 
 			 -> QuietComparatorNode
 				|
-				DefaultMoveComparator @ 22
+				DefaultMoveComparator @ 21
 	|
-	TriangularPV @ 23
+	TriangularPV @ 22
+	|
+	AlphaBetaFlowControl @ 9 -> LOOP
+
+ -> QuiescenceNode
+	|
+	Quiescence @ 23 [Evaluator: EvaluatorByMaterial @ 11]
+	|
+	 -> Sorter
+		|
+		NodeMoveSorter @ 24
+		|
+		 -> Comparator
+			|
+			PromotionComparator @ 25
+			|
+			DefaultMoveComparator @ 26
+	|
+	TriangularPV @ 27
 	|
 	AlphaBetaFlowControl @ 9 -> LOOP
 
 
 SearchByCycleListeners:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 24
-	SetSearchLast @ 25
-	SetTrianglePV @ 26
+	SetSearchTimers @ 28
+	SetSearchLast @ 29
+	SetTrianglePV @ 30
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 27
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 24
-	SetSearchLast @ 25
-	SetTrianglePV @ 26
+	SetSearchTimers @ 28
+	SetSearchLast @ 29
+	SetTrianglePV @ 30
 	MoveEvaluationTracker @ 7
 
 SearchByWindowsListeners:
@@ -92,27 +105,27 @@ SearchByWindowsListeners:
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 27
 
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 28
-	SetGameToEndGameTableBase @ 29
+	SetGameToEvaluator @ 31
+	SetGameToEndGameTableBase @ 32
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 24
-	SetSearchLast @ 25
-	SetTrianglePV @ 26
+	SetSearchTimers @ 28
+	SetSearchLast @ 29
+	SetTrianglePV @ 30
 	AlphaBetaFlowControl @ 9
-	ExtensionFlowControl @ 27
 	AlphaBetaEvaluation @ 10
 	AlphaBetaEvaluation @ 15
-	AlphaBetaEvaluation @ 16
-	TriangularPV @ 23
-	AlphaBeta @ 17
-	NodeMoveSorter @ 18
-	RecaptureMoveComparator @ 21
+	TriangularPV @ 22
+	AlphaBeta @ 16
+	NodeMoveSorter @ 17
+	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
+	TriangularPV @ 27
+	Quiescence @ 23
+	NodeMoveSorter @ 24
 	MoveEvaluationTracker @ 7
 	TriangularPV @ 8
 	AlphaBeta @ 3

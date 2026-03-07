@@ -4,7 +4,6 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.EndGameTableBase;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
@@ -29,11 +28,6 @@ public class SetEndGameTableBaseVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaFlowControl alphaBetaFlowControl) {
         alphaBetaFlowControl.setEndGameTableBase(endGameTableBase);
-    }
-
-    @Override
-    public void visit(ExtensionFlowControl extensionFlowControl) {
-        extensionFlowControl.setEndGameTableBase(endGameTableBase);
     }
 
     @Override

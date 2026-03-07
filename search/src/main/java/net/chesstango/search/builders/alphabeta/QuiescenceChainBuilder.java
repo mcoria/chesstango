@@ -2,9 +2,10 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.builders.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -21,10 +22,10 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceChainBuilder {
+public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
-    private ExtensionFlowControl extensionFlowControl;
+    private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -47,11 +48,10 @@ public class QuiescenceChainBuilder {
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
-    public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
-        this.extensionFlowControl = extensionFlowControl;
+    public QuiescenceChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+        this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
-
     public QuiescenceChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         this.searchListenerMediator = searchListenerMediator;
@@ -201,25 +201,9 @@ public class QuiescenceChainBuilder {
             chain.add(triangularPV);
         }
 
-        chain.add(extensionFlowControl);
+        chain.add(alphaBetaFlowControl);
 
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker zobristTracker -> zobristTracker.setNext(next);
-                case TranspositionTableQ tableQ -> tableQ.setNext(next);
-                case QuiescenceStatisticsExpected statisticsExpected -> statisticsExpected.setNext(next);
-                case Quiescence quiescence1 -> quiescence1.setNext(next);
-                case QuiescenceStatisticsVisited statisticsVisited -> statisticsVisited.setNext(next);
-                case DebugFilter filter -> filter.setNext(next);
-                case TriangularPV pv -> pv.setNext(next);
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }
