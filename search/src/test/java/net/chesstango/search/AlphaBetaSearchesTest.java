@@ -27,7 +27,9 @@ public class AlphaBetaSearchesTest {
     public void test_START_POSITION() {
         Game game = Game.from(FEN.START_POSITION);
 
-        Search search = AlphaBetaBuilder.createDefaultBuilderInstance().withGameEvaluator(new EvaluatorByMaterial())
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
                 //.withDebugSearchTree(true, true, true)
                 .build();
 
@@ -47,7 +49,10 @@ public class AlphaBetaSearchesTest {
     public void testSearch_02() {
         Game game = Game.from(FEN.START_POSITION);
 
-        Search search = AlphaBetaBuilder.createDefaultBuilderInstance().withGameEvaluator(new EvaluatorByMaterial()).build();
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
+                .build();
 
         search.accept(new SetMaxDepthVisitor(6));
         SearchResult searchResult = search.startSearch(game);
@@ -65,7 +70,9 @@ public class AlphaBetaSearchesTest {
     public void testSearch_03() {
         Game game = Game.from(FEN.START_POSITION);
 
-        Search search = AlphaBetaBuilder.createDefaultBuilderInstance().withGameEvaluator(new EvaluatorByMaterial())
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
+                .withGameEvaluator(new EvaluatorByMaterial())
                 //.withStatistics()
                 //.withDebugSearchTree(false, true, true)
                 .build();
@@ -113,7 +120,8 @@ public class AlphaBetaSearchesTest {
     public void testSearch_40H_10021() {
         Game game = Game.from(FEN.of("3k4/p2r4/1pR4p/4Q3/8/5P2/q5P1/6K1 w - - 0 1"));
 
-        Search search = AlphaBetaBuilder.createDefaultBuilderInstance()
+        Search search = AlphaBetaBuilder
+                .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 //.withDebugSearchTree(true, false, true)
                 .build();
