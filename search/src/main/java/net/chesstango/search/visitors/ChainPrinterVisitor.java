@@ -67,7 +67,6 @@ public class ChainPrinterVisitor implements Visitor {
 
     private int nestedChain = 0;
     private boolean alphaBetaFlowControlVisited;
-    private boolean extensionFlowControlVisited;
     private Map<String, String> objectMap;
     private int objectCounter = 1;
 
@@ -83,7 +82,6 @@ public class ChainPrinterVisitor implements Visitor {
         this.out = out;
         this.nestedChain = 0;
         this.alphaBetaFlowControlVisited = false;
-        this.extensionFlowControlVisited = false;
         this.objectMap = new HashMap<>();
         this.objectCounter = 1;
         printChainText("ROOT");
