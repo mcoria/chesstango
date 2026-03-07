@@ -2,6 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.EvaluatorCache;
+import net.chesstango.search.builders.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceChainBuilder {
+public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
@@ -203,22 +204,6 @@ public class QuiescenceChainBuilder {
         chain.add(alphaBetaFlowControl);
 
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker zobristTracker -> zobristTracker.setNext(next);
-                case TranspositionTableQ tableQ -> tableQ.setNext(next);
-                case QuiescenceStatisticsExpected statisticsExpected -> statisticsExpected.setNext(next);
-                case Quiescence quiescence1 -> quiescence1.setNext(next);
-                case QuiescenceStatisticsVisited statisticsVisited -> statisticsVisited.setNext(next);
-                case DebugFilter filter -> filter.setNext(next);
-                case TriangularPV pv -> pv.setNext(next);
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

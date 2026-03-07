@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.builders.alphabeta.MoveSorterBuilder;
+import net.chesstango.search.builders.MoveSorterBuilder;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesTable;
 import net.chesstango.search.smart.SearchListenerMediator;

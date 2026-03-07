@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class TerminalChainBuilder {
+public class TerminalChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
@@ -107,21 +107,6 @@ public class TerminalChainBuilder {
 
         chain.add(alphaBetaEvaluation);
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker filter -> filter.setNext(next);
-                case DebugFilter filter -> filter.setNext(next);
-                case TranspositionTableTerminal filter -> filter.setNext(next);
-                case AlphaBetaEvaluation filter -> {
-                    //alphaBetaEvaluation.setNext(next);
-                }
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }

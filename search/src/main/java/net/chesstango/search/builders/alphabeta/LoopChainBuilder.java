@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class LoopChainBuilder {
+public class LoopChainBuilder extends AbstractChainBuilder {
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
@@ -85,20 +85,7 @@ public class LoopChainBuilder {
 
         chain.add(loopEvaluation);
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case ZobristTracker tracker -> zobristTracker.setNext(next);
-                case DebugFilter filter -> debugFilter.setNext(next);
-                case LoopEvaluation evaluation -> {
-                }
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 
 }

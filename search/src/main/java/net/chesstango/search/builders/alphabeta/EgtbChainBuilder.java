@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EgtbChainBuilder {
+public class EgtbChainBuilder extends AbstractChainBuilder {
     private final EgtbEvaluation egtbEvaluation;
 
     private SearchListenerMediator searchListenerMediator;
@@ -68,18 +68,6 @@ public class EgtbChainBuilder {
 
         chain.add(egtbEvaluation);
 
-        for (int i = 0; i < chain.size() - 1; i++) {
-            AlphaBetaFilter currentFilter = chain.get(i);
-            AlphaBetaFilter next = chain.get(i + 1);
-
-            switch (currentFilter) {
-                case DebugFilter filter -> filter.setNext(next);
-                case EgtbEvaluation ignored -> {
-                }
-                case null, default -> throw new RuntimeException("filter not found");
-            }
-        }
-
-        return chain.getFirst();
+        return createChain(chain);
     }
 }
