@@ -28,7 +28,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
 
     @Setter
     @Getter
-    private AlphaBetaFilter horizonNode;
+    private AlphaBetaFilter quiescenceNode;
 
     @Setter
     @Getter
@@ -76,7 +76,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return terminalNode.maximize(currentPly, alpha, beta);
         }
 
-        if(endGameTableBase.isProbeAvailable()){
+        if (endGameTableBase.isProbeAvailable()) {
             return egtbNode.maximize(currentPly, alpha, beta);
         }
 
@@ -84,15 +84,15 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return loopNode.maximize(currentPly, alpha, beta);
         }
 
-        if (currentPly == depth) {
+        if (currentPly < depth) {
+            return interiorNode.maximize(currentPly, alpha, beta);
+        } else {
             if (isCurrentPositionQuiet()) {
                 return leafNode.maximize(currentPly, alpha, beta);
             } else {
-                return horizonNode.maximize(currentPly, alpha, beta);
+                return quiescenceNode.maximize(currentPly, alpha, beta);
             }
         }
-
-        return interiorNode.maximize(currentPly, alpha, beta);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return terminalNode.minimize(currentPly, alpha, beta);
         }
 
-        if(endGameTableBase.isProbeAvailable()){
+        if (endGameTableBase.isProbeAvailable()) {
             return egtbNode.minimize(currentPly, alpha, beta);
         }
 
@@ -113,15 +113,15 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return loopNode.minimize(currentPly, alpha, beta);
         }
 
-        if (currentPly == depth) {
+        if (currentPly < depth) {
+            return interiorNode.minimize(currentPly, alpha, beta);
+        } else {
             if (isCurrentPositionQuiet()) {
                 return leafNode.minimize(currentPly, alpha, beta);
             } else {
-                return horizonNode.minimize(currentPly, alpha, beta);
+                return quiescenceNode.minimize(currentPly, alpha, beta);
             }
         }
-
-        return interiorNode.minimize(currentPly, alpha, beta);
     }
 
     private boolean isCurrentPositionQuiet() {

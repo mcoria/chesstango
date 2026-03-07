@@ -14,7 +14,6 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
@@ -324,9 +323,9 @@ public class ChainPrinterVisitor implements Visitor {
             leafNode.accept(this);
             nestedChain--;
 
-            AlphaBetaFilter horizonNode = alphaBetaFlowControl.getHorizonNode();
+            AlphaBetaFilter horizonNode = alphaBetaFlowControl.getQuiescenceNode();
             out.println();
-            printChainText(" -> HorizonNode");
+            printChainText(" -> QuiescenceNode");
             nestedChain++;
             horizonNode.accept(this);
             nestedChain--;
@@ -339,46 +338,6 @@ public class ChainPrinterVisitor implements Visitor {
             nestedChain--;
         } else {
             out.printf("%s%s -> LOOP\n", "\t".repeat(nestedChain), objectText(alphaBetaFlowControl));
-        }
-    }
-
-    @Override
-    public void visit(ExtensionFlowControl extensionFlowControl) {
-        printChainDownLine();
-        if (!extensionFlowControlVisited) {
-            extensionFlowControlVisited = true;
-            printNodeObjectText(extensionFlowControl);
-
-            AlphaBetaFilter terminalNode = extensionFlowControl.getTerminalNode();
-            printChainDownLine();
-            printChainText(" -> TerminalNode");
-            nestedChain++;
-            terminalNode.accept(this);
-            nestedChain--;
-
-            AlphaBetaFilter egtbNode = extensionFlowControl.getEgtbNode();
-            out.println();
-            printChainText(" -> EgtbNode");
-            nestedChain++;
-            egtbNode.accept(this);
-            nestedChain--;
-
-            AlphaBetaFilter leafNode = extensionFlowControl.getLeafNode();
-            out.println();
-            printChainText(" -> LeafNode");
-            nestedChain++;
-            leafNode.accept(this);
-            nestedChain--;
-
-            AlphaBetaFilter quiescenceNode = extensionFlowControl.getQuiescenceNode();
-            out.println();
-            printChainText(" -> QuiescenceNode");
-            nestedChain++;
-            quiescenceNode.accept(this);
-            nestedChain--;
-
-        } else {
-            out.printf("%s%s -> LOOP\n", "\t".repeat(nestedChain), objectText(extensionFlowControl));
         }
     }
 

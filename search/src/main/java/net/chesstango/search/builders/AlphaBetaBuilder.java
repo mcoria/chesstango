@@ -14,7 +14,6 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
@@ -44,19 +43,14 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
-    private final TerminalChainBuilder quiescenceTerminalChainBuilder;
-    private final AlphaBetaHorizonChainBuilder alphaBetaHorizonChainBuilder;
+
     private final LoopChainBuilder loopChainBuilder;
-    private final LoopChainBuilder quiescenceLoopChainBuilder;
     private final QuiescenceChainBuilder quiescenceChainBuilder;
     private final LeafChainBuilder leafChainBuilder;
-    private final LeafChainBuilder quiescenceLeafChainBuilder;
-    private final QuiescenceNullChainBuilder quiescenceNullChainBuilder;
     private final CheckResolverChainBuilder checkResolverChainBuilder;
     private final TranspositionTableBuilder transpositionTableBuilder;
     private final EvaluationBuilder evaluationBuilder;
     private final EgtbChainBuilder egtbChainBuilder;
-    private final EgtbChainBuilder quiescencEgtbChainBuilder;
 
     private final SetGameToEndGameTableBase setGameToEndGameTableBase;
 
@@ -64,7 +58,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final AlphaBetaFacade alphaBetaFacade;
     private final SearchListenerMediator searchListenerMediator;
     private final AlphaBetaFlowControl alphaBetaFlowControl;
-    private final ExtensionFlowControl extensionFlowControl;
 
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
@@ -98,37 +91,27 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
         alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
-        alphaBetaHorizonChainBuilder = new AlphaBetaHorizonChainBuilder();
 
         quiescenceChainBuilder = new QuiescenceChainBuilder();
-        quiescenceNullChainBuilder = new QuiescenceNullChainBuilder();
-
         checkResolverChainBuilder = new CheckResolverChainBuilder();
-
         transpositionTableBuilder = new TranspositionTableBuilder();
-
         evaluationBuilder = new EvaluationBuilder();
 
         alphaBetaFacade = new AlphaBetaFacade();
         setGameToEvaluator = new SetGameToEvaluator();
         searchListenerMediator = new SearchListenerMediator();
         alphaBetaFlowControl = new AlphaBetaFlowControl();
-        extensionFlowControl = new ExtensionFlowControl();
 
         setSearchTimers = new SetSearchTimers();
         setSearchLast = new SetSearchLast();
 
         terminalChainBuilder = new TerminalChainBuilder();
-        quiescenceTerminalChainBuilder = new TerminalChainBuilder();
 
         leafChainBuilder = new LeafChainBuilder();
-        quiescenceLeafChainBuilder = new LeafChainBuilder();
 
         loopChainBuilder = new LoopChainBuilder();
-        quiescenceLoopChainBuilder = new LoopChainBuilder();
 
         egtbChainBuilder = new EgtbChainBuilder();
-        quiescencEgtbChainBuilder = new EgtbChainBuilder();
         setGameToEndGameTableBase = new SetGameToEndGameTableBase();
     }
 
@@ -174,14 +157,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         withTranspositionTable = true;
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
-        alphaBetaHorizonChainBuilder.withTranspositionTable();
         terminalChainBuilder.withTranspositionTable();
         leafChainBuilder.withTranspositionTable();
-        quiescenceLeafChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
-        quiescenceTerminalChainBuilder.withTranspositionTable();
         return this;
     }
 
@@ -220,14 +200,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaRootChainBuilder.withZobristTracker();
         alphaBetaInteriorChainBuilder.withZobristTracker();
         terminalChainBuilder.withZobristTracker();
-        alphaBetaHorizonChainBuilder.withZobristTracker();
         loopChainBuilder.withZobristTracker();
 
-        quiescenceLoopChainBuilder.withZobristTracker();
         quiescenceChainBuilder.withZobristTracker();
-        quiescenceLeafChainBuilder.withZobristTracker();
         checkResolverChainBuilder.withZobristTracker();
-        quiescenceTerminalChainBuilder.withZobristTracker();
         return this;
     }
 
@@ -272,7 +248,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     public AlphaBetaBuilder withDebugSearchTree(boolean showOnlyPV, boolean showNodeTranspositionAccess, boolean showSorterOperations) {
         alphaBetaRootChainBuilder.withDebugSearchTree();
         alphaBetaInteriorChainBuilder.withDebugSearchTree();
-        alphaBetaHorizonChainBuilder.withDebugSearchTree();
         terminalChainBuilder.withDebugSearchTree();
         loopChainBuilder.withDebugSearchTree();
         leafChainBuilder.withDebugSearchTree();
@@ -280,11 +255,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         transpositionTableBuilder.withDebugSearchTree();
 
         quiescenceChainBuilder.withDebugSearchTree();
-        quiescenceLeafChainBuilder.withDebugSearchTree();
         checkResolverChainBuilder.withDebugSearchTree();
-        quiescenceTerminalChainBuilder.withDebugSearchTree();
-        quiescenceLoopChainBuilder.withDebugSearchTree();
-        quiescencEgtbChainBuilder.withDebugSearchTree();
 
         this.withDebugSearchTree = true;
         this.showOnlyPV = showOnlyPV;
@@ -319,10 +290,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withTranspositionTable) {
             transpositionTableBuilder.build();
-            searchListenerMediator.accept(new SetTTableVisitor(
-                    transpositionTableBuilder.getMaxMap(),
-                    transpositionTableBuilder.getMinMap()
-            ));
+            searchListenerMediator.accept(new SetTTableVisitor(transpositionTableBuilder.getMaxMap(), transpositionTableBuilder.getMinMap()));
         }
 
         Search search;
@@ -336,9 +304,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     }
 
     private void buildObjects() {
-        evaluator = evaluationBuilder
-                .withSmartListenerMediator(searchListenerMediator)
-                .build();
+        evaluator = evaluationBuilder.withSmartListenerMediator(searchListenerMediator).build();
         gameEvaluatorCache = evaluationBuilder.getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
         if (withTranspositionTable) {
@@ -422,8 +388,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         }
 
         searchListenerMediator.add(alphaBetaFlowControl);
-
-        searchListenerMediator.add(extensionFlowControl);
     }
 
     private void setupListenerMediatorAfterChain() {
@@ -445,11 +409,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         leafChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter leafChain = leafChainBuilder.build();
 
-        AlphaBetaFilter extensionChain = createExtensionChain();
-        alphaBetaHorizonChainBuilder.withSmartListenerMediator(searchListenerMediator);
-        alphaBetaHorizonChainBuilder.withExtension(extensionChain);
-        AlphaBetaFilter horizonChain = alphaBetaHorizonChainBuilder.build();
-
         alphaBetaInteriorChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaInteriorChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         alphaBetaInteriorChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
@@ -461,7 +420,12 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         egtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
         AlphaBetaFilter egtbChain = egtbChainBuilder.build();
 
-        alphaBetaFlowControl.setHorizonNode(horizonChain);
+        quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
+        quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
+        quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
+        AlphaBetaFilter quiescenceChain = quiescenceChainBuilder.build();
+
+        alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
         alphaBetaFlowControl.setTerminalNode(terminalChain);
         alphaBetaFlowControl.setLoopNode(loopChain);
@@ -470,55 +434,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         alphaBetaRootChainBuilder.withSmartListenerMediator(searchListenerMediator);
         alphaBetaRootChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
-
         return alphaBetaRootChainBuilder.build();
-    }
-
-    private AlphaBetaFilter createExtensionChain() {
-        AlphaBetaFilter quiescenceChain;
-        AlphaBetaFilter quiescenceLeaf;
-        AlphaBetaFilter checkResolverChain;
-        AlphaBetaFilter loopChain;
-
-        if (withQuiescence) {
-            quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
-            quiescenceChainBuilder.withExtensionFlowControl(extensionFlowControl);
-            quiescenceChain = quiescenceChainBuilder.build();
-
-            quiescenceLeafChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            quiescenceLeaf = quiescenceLeafChainBuilder.build();
-
-            quiescenceTerminalChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            AlphaBetaFilter quiescenceTerminalChain = quiescenceTerminalChainBuilder.build();
-
-            quiescencEgtbChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            AlphaBetaFilter egtbChain = quiescencEgtbChainBuilder.build();
-
-            if (withExtensionCheckResolver) {
-                checkResolverChainBuilder.withSmartListenerMediator(searchListenerMediator);
-                checkResolverChainBuilder.withExtensionFlowControl(extensionFlowControl);
-                checkResolverChain = checkResolverChainBuilder.build();
-
-                quiescenceLoopChainBuilder.withSmartListenerMediator(searchListenerMediator);
-                loopChain = quiescenceLoopChainBuilder.build();
-            } else {
-                checkResolverChain = null;
-                loopChain = null;
-            }
-
-            extensionFlowControl.setTerminalNode(quiescenceTerminalChain);
-            extensionFlowControl.setQuiescenceNode(quiescenceChain);
-            extensionFlowControl.setLeafNode(quiescenceLeaf);
-            extensionFlowControl.setEgtbNode(egtbChain);
-            extensionFlowControl.setCheckResolverNode(checkResolverChain);
-            extensionFlowControl.setLoopNode(loopChain);
-
-            return extensionFlowControl;
-        } else {
-            quiescenceNullChainBuilder.withSmartListenerMediator(searchListenerMediator);
-            return quiescenceNullChainBuilder.build();
-        }
     }
 
 
@@ -536,6 +452,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
                 .withMvvLvaSorter()
 
                 .withAspirationWindows()
+
                 .withIterativeDeepening()
 
                 .withStopProcessingCatch();

@@ -4,7 +4,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -24,7 +24,7 @@ import java.util.List;
 public class QuiescenceChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
-    private ExtensionFlowControl extensionFlowControl;
+    private AlphaBetaFlowControl alphaBetaFlowControl;
     private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
     private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
     private TranspositionTableQ transpositionTableQ;
@@ -47,11 +47,10 @@ public class QuiescenceChainBuilder {
         moveSorterBuilder = new MoveSorterQuiescenceBuilder();
     }
 
-    public QuiescenceChainBuilder withExtensionFlowControl(ExtensionFlowControl extensionFlowControl) {
-        this.extensionFlowControl = extensionFlowControl;
+    public QuiescenceChainBuilder withAlphaBetaFlowControl(AlphaBetaFlowControl alphaBetaFlowControl) {
+        this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
-
     public QuiescenceChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         this.searchListenerMediator = searchListenerMediator;
@@ -201,7 +200,7 @@ public class QuiescenceChainBuilder {
             chain.add(triangularPV);
         }
 
-        chain.add(extensionFlowControl);
+        chain.add(alphaBetaFlowControl);
 
 
         for (int i = 0; i < chain.size() - 1; i++) {

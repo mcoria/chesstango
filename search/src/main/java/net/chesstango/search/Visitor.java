@@ -7,7 +7,6 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.ExtensionFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
@@ -134,9 +133,6 @@ public interface Visitor {
     }
 
     default void visit(TranspositionTable transpositionTable) {
-    }
-
-    default void visit(ExtensionFlowControl extensionFlowControl) {
     }
 
     default void visit(KillerMoveTracker killerMoveTracker) {
