@@ -76,65 +76,61 @@ AlphaBetaFlowControl @ 17
 			|
 			 -> NoQuietComparatorNode
 				|
-				TranspositionHeadMoveComparatorQ @ 36 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+				PromotionComparator @ 36
 				|
-				TranspositionTailMoveComparatorQ @ 37 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+				RecaptureMoveComparator @ 37
 				|
-				PromotionComparator @ 38
+				MvvLvaComparator @ 38
 				|
-				RecaptureMoveComparator @ 39
+				GameEvaluatorCacheComparator @ 39 [EvaluatorCacheRead: EvaluatorCache @ 21]
 				|
-				MvvLvaComparator @ 40
-				|
-				GameEvaluatorCacheComparator @ 41 [EvaluatorCacheRead: EvaluatorCache @ 21]
-				|
-				DefaultMoveComparator @ 42
+				DefaultMoveComparator @ 40
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 43
+				KillerMoveComparator @ 41
 				|
-				GameEvaluatorCacheComparator @ 41 [EvaluatorCacheRead: EvaluatorCache @ 21]
+				GameEvaluatorCacheComparator @ 39 [EvaluatorCacheRead: EvaluatorCache @ 21]
 				|
-				DefaultMoveComparator @ 42
+				DefaultMoveComparator @ 40
 	|
-	AlphaBetaStatisticsVisited @ 44
+	AlphaBetaStatisticsVisited @ 42
 	|
-	KillerMoveTracker @ 45
+	KillerMoveTracker @ 43
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
  -> QuiescenceNode
 	|
-	TranspositionTableQ @ 46 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+	TranspositionTableQ @ 44 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 	|
-	QuiescenceStatisticsExpected @ 47
+	QuiescenceStatisticsExpected @ 45
 	|
-	Quiescence @ 48 [Evaluator: EvaluatorStatisticsCollector @ 20 -> EvaluatorCache @ 21 -> EvaluatorByMaterial @ 22]
+	Quiescence @ 46 [Evaluator: EvaluatorStatisticsCollector @ 20 -> EvaluatorCache @ 21 -> EvaluatorByMaterial @ 22]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 49
+		NodeMoveSorter @ 47
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 50
+			PrincipalVariationComparator @ 48
 			|
-			TranspositionHeadMoveComparatorQ @ 51 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 49 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 			|
-			TranspositionTailMoveComparatorQ @ 52 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 50 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 			|
-			PromotionComparator @ 53
+			PromotionComparator @ 51
 			|
-			RecaptureMoveComparator @ 54
+			RecaptureMoveComparator @ 52
 			|
-			MvvLvaComparator @ 55
+			MvvLvaComparator @ 53
 			|
-			GameEvaluatorCacheComparator @ 56 [EvaluatorCacheRead: EvaluatorCache @ 21]
+			GameEvaluatorCacheComparator @ 54 [EvaluatorCacheRead: EvaluatorCache @ 21]
 			|
-			DefaultMoveComparator @ 57
+			DefaultMoveComparator @ 55
 	|
-	QuiescenceStatisticsVisited @ 58
+	QuiescenceStatisticsVisited @ 56
 	|
 	AlphaBetaFlowControl @ 17 -> LOOP
 
@@ -142,20 +138,20 @@ AlphaBetaFlowControl @ 17
 SearchByCycleListeners:
 	EvaluatorStatisticsCollector @ 20
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 59
-	SetSearchLast @ 60
-	ResetTranspositionTables @ 61
-	NodeCounters @ 62
-	GameCounters @ 63
-	SetKillerMoveTables @ 64
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
+	ResetTranspositionTables @ 59
+	NodeCounters @ 60
+	GameCounters @ 61
+	SetKillerMoveTables @ 62
 	AlphaBetaFlowControl @ 17
 	RootMoveSorter @ 10
-	TTableCounters @ 65
+	TTableCounters @ 63
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 59
-	SetSearchLast @ 60
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
 	MoveEvaluationTracker @ 14
 
 SearchByWindowsListeners:
@@ -165,49 +161,47 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 
 ResetListener:
-	ResetTranspositionTables @ 61
+	ResetTranspositionTables @ 59
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 20
-	SetGameToEvaluator @ 66
-	SetGameToEndGameTableBase @ 67
+	SetGameToEvaluator @ 64
+	SetGameToEndGameTableBase @ 65
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 59
-	SetSearchLast @ 60
-	ResetTranspositionTables @ 61
-	NodeCounters @ 62
-	GameCounters @ 63
-	SetKillerMoveTables @ 64
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
+	ResetTranspositionTables @ 59
+	NodeCounters @ 60
+	GameCounters @ 61
+	SetKillerMoveTables @ 62
 	AlphaBetaFlowControl @ 17
 	AlphaBetaEvaluation @ 19
 	TranspositionTableTerminal @ 18
 	AlphaBetaEvaluation @ 27
 	TranspositionTableLeaf @ 26
 	AlphaBetaStatisticsExpected @ 29
-	AlphaBetaStatisticsVisited @ 44
+	AlphaBetaStatisticsVisited @ 42
 	TranspositionTable @ 28
-	KillerMoveTracker @ 45
+	KillerMoveTracker @ 43
 	AlphaBeta @ 30
 	NodeMoveSorter @ 31
 	TranspositionHeadMoveComparator @ 33
-	TranspositionHeadMoveComparatorQ @ 36
 	TranspositionTailMoveComparator @ 34
-	TranspositionTailMoveComparatorQ @ 37
 	PrincipalVariationComparator @ 32
-	RecaptureMoveComparator @ 39
-	GameEvaluatorCacheComparator @ 41
-	KillerMoveComparator @ 43
+	RecaptureMoveComparator @ 37
+	GameEvaluatorCacheComparator @ 39
+	KillerMoveComparator @ 41
 	EgtbEvaluation @ 23
-	QuiescenceStatisticsExpected @ 47
-	QuiescenceStatisticsVisited @ 58
-	TranspositionTableQ @ 46
-	Quiescence @ 48
-	NodeMoveSorter @ 49
-	TranspositionHeadMoveComparatorQ @ 51
-	TranspositionTailMoveComparatorQ @ 52
-	PrincipalVariationComparator @ 50
-	RecaptureMoveComparator @ 54
-	GameEvaluatorCacheComparator @ 56
+	QuiescenceStatisticsExpected @ 45
+	QuiescenceStatisticsVisited @ 56
+	TranspositionTableQ @ 44
+	Quiescence @ 46
+	NodeMoveSorter @ 47
+	TranspositionHeadMoveComparator @ 49
+	TranspositionTailMoveComparator @ 50
+	PrincipalVariationComparator @ 48
+	RecaptureMoveComparator @ 52
+	GameEvaluatorCacheComparator @ 54
 	MoveEvaluationTracker @ 14
 	AlphaBetaStatisticsExpected @ 8
 	AlphaBetaStatisticsVisited @ 13
@@ -219,9 +213,9 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
-	TTableCounters @ 65
+	TTableCounters @ 63
 	TTableStatisticsCollector @ 6
+	TTableStatisticsCollector @ 66
+	TTableStatisticsCollector @ 67
 	TTableStatisticsCollector @ 68
-	TTableStatisticsCollector @ 69
-	TTableStatisticsCollector @ 70
 

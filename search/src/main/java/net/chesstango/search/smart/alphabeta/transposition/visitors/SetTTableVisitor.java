@@ -4,9 +4,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.ResetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
@@ -86,21 +84,9 @@ public class SetTTableVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        transpositionHeadMoveComparatorQ.setMaxMap(maxMap);
-        transpositionHeadMoveComparatorQ.setMinMap(minMap);
-    }
-
-    @Override
     public void visit(TranspositionTailMoveComparator transpositionHeadMoveComparator) {
         transpositionHeadMoveComparator.setMaxMap(maxMap);
         transpositionHeadMoveComparator.setMinMap(minMap);
-    }
-
-    @Override
-    public void visit(TranspositionTailMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        transpositionHeadMoveComparatorQ.setMaxMap(maxMap);
-        transpositionHeadMoveComparatorQ.setMinMap(minMap);
     }
 
 }

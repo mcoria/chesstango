@@ -42,9 +42,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
-import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparatorQ;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.*;
@@ -354,27 +352,11 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(TranspositionHeadMoveComparatorQ transpositionHeadMoveComparatorQ) {
-        printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionHeadMoveComparatorQ), printTTable(transpositionHeadMoveComparatorQ.getMaxMap())));
-
-        transpositionHeadMoveComparatorQ.getNext().accept(this);
-    }
-
-    @Override
     public void visit(TranspositionTailMoveComparator transpositionTailMoveComparator) {
         printChainDownLine();
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparator), printTTable(transpositionTailMoveComparator.getMaxMap())));
 
         transpositionTailMoveComparator.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(TranspositionTailMoveComparatorQ transpositionTailMoveComparatorQ) {
-        printChainDownLine();
-        printChainText(String.format("%s [TTable: %s]", objectText(transpositionTailMoveComparatorQ), printTTable(transpositionTailMoveComparatorQ.getMaxMap())));
-
-        transpositionTailMoveComparatorQ.getNext().accept(this);
     }
 
     @Override
