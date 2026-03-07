@@ -60,13 +60,13 @@ AlphaBetaFlowControl @ 18
 	|
 	AlphaBetaEvaluation @ 31 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
 
- -> QuiescenceNode
+ -> InteriorNode
 	|
 	DebugFilter @ 32
 	|
-	TranspositionTableQ @ 33 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+	TranspositionTable @ 33 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 	|
-	Quiescence @ 34 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+	AlphaBeta @ 34
 	|
 	 -> Sorter
 		|
@@ -78,71 +78,71 @@ AlphaBetaFlowControl @ 18
 			|
 			PrincipalVariationComparator @ 37
 			|
-			TranspositionHeadMoveComparatorQ @ 38 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+			TranspositionHeadMoveComparator @ 38 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparatorQ @ 39 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+			TranspositionTailMoveComparator @ 39 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 			|
-			PromotionComparator @ 40
-			|
-			RecaptureMoveComparator @ 41
-			|
-			MvvLvaComparator @ 42
-			|
-			GameEvaluatorCacheComparator @ 43 [EvaluatorCacheRead: EvaluatorCacheDebug @ 44 -> EvaluatorCache @ 22]
-			|
-			DefaultMoveComparator @ 45
-	|
-	AlphaBetaFlowControl @ 18 -> LOOP
-
- -> InteriorNode
-	|
-	DebugFilter @ 46
-	|
-	TranspositionTable @ 47 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
-	|
-	AlphaBeta @ 48
-	|
-	 -> Sorter
-		|
-		MoveSorterDebug @ 49
-		|
-		NodeMoveSorter @ 50
-		|
-		 -> Comparator
-			|
-			PrincipalVariationComparator @ 51
-			|
-			TranspositionHeadMoveComparator @ 52 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
-			|
-			TranspositionTailMoveComparator @ 53 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
-			|
-			QuietComparator @ 54
+			QuietComparator @ 40
 			|
 			 -> NoQuietComparatorNode
 				|
-				TranspositionHeadMoveComparatorQ @ 55 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+				TranspositionHeadMoveComparatorQ @ 41 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 				|
-				TranspositionTailMoveComparatorQ @ 56 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+				TranspositionTailMoveComparatorQ @ 42 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
 				|
-				PromotionComparator @ 57
+				PromotionComparator @ 43
 				|
-				RecaptureMoveComparator @ 58
+				RecaptureMoveComparator @ 44
 				|
-				MvvLvaComparator @ 59
+				MvvLvaComparator @ 45
 				|
-				GameEvaluatorCacheComparator @ 60 [EvaluatorCacheRead: EvaluatorCacheDebug @ 61 -> EvaluatorCache @ 22]
+				GameEvaluatorCacheComparator @ 46 [EvaluatorCacheRead: EvaluatorCacheDebug @ 47 -> EvaluatorCache @ 22]
 				|
-				DefaultMoveComparator @ 62
+				DefaultMoveComparator @ 48
 
 			 -> QuietComparatorNode
 				|
-				KillerMoveComparator @ 63
+				KillerMoveComparator @ 49
 				|
-				GameEvaluatorCacheComparator @ 60 [EvaluatorCacheRead: EvaluatorCacheDebug @ 61 -> EvaluatorCache @ 22]
+				GameEvaluatorCacheComparator @ 46 [EvaluatorCacheRead: EvaluatorCacheDebug @ 47 -> EvaluatorCache @ 22]
 				|
-				DefaultMoveComparator @ 62
+				DefaultMoveComparator @ 48
 	|
-	KillerMoveTracker @ 64
+	KillerMoveTracker @ 50
+	|
+	AlphaBetaFlowControl @ 18 -> LOOP
+
+ -> QuiescenceNode
+	|
+	DebugFilter @ 51
+	|
+	TranspositionTableQ @ 52 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+	|
+	Quiescence @ 53 [Evaluator: EvaluatorCache @ 22 -> EvaluatorByMaterial @ 23]
+	|
+	 -> Sorter
+		|
+		MoveSorterDebug @ 54
+		|
+		NodeMoveSorter @ 55
+		|
+		 -> Comparator
+			|
+			PrincipalVariationComparator @ 56
+			|
+			TranspositionHeadMoveComparatorQ @ 57 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+			|
+			TranspositionTailMoveComparatorQ @ 58 [TTable: TTableDebug @ 7 -> TTableArrayPrimitives @ 8]
+			|
+			PromotionComparator @ 59
+			|
+			RecaptureMoveComparator @ 60
+			|
+			MvvLvaComparator @ 61
+			|
+			GameEvaluatorCacheComparator @ 62 [EvaluatorCacheRead: EvaluatorCacheDebug @ 63 -> EvaluatorCache @ 22]
+			|
+			DefaultMoveComparator @ 64
 	|
 	AlphaBetaFlowControl @ 18 -> LOOP
 
@@ -194,36 +194,36 @@ Acceptor:
 	AlphaBetaEvaluation @ 31
 	DebugFilter @ 29
 	TranspositionTableLeaf @ 30
-	TranspositionTable @ 47
-	DebugFilter @ 46
-	KillerMoveTracker @ 64
-	AlphaBeta @ 48
-	NodeMoveSorter @ 50
-	TranspositionHeadMoveComparator @ 52
-	TranspositionHeadMoveComparatorQ @ 55
-	TranspositionTailMoveComparator @ 53
-	TranspositionTailMoveComparatorQ @ 56
-	PrincipalVariationComparator @ 51
-	RecaptureMoveComparator @ 58
-	GameEvaluatorCacheComparator @ 60
-	MoveSorterDebug @ 49
-	EvaluatorCacheDebug @ 61
-	KillerMoveComparator @ 63
+	TranspositionTable @ 33
+	DebugFilter @ 32
+	KillerMoveTracker @ 50
+	AlphaBeta @ 34
+	NodeMoveSorter @ 36
+	TranspositionHeadMoveComparator @ 38
+	TranspositionHeadMoveComparatorQ @ 41
+	TranspositionTailMoveComparator @ 39
+	TranspositionTailMoveComparatorQ @ 42
+	PrincipalVariationComparator @ 37
+	RecaptureMoveComparator @ 44
+	GameEvaluatorCacheComparator @ 46
+	MoveSorterDebug @ 35
+	EvaluatorCacheDebug @ 47
+	KillerMoveComparator @ 49
 	DebugFilter @ 27
 	DebugFilter @ 24
 	EgtbEvaluation @ 25
-	TranspositionTableQ @ 33
-	DebugFilter @ 32
+	TranspositionTableQ @ 52
+	DebugFilter @ 51
 	EvaluatorDebug @ 74
-	Quiescence @ 34
-	NodeMoveSorter @ 36
-	TranspositionHeadMoveComparatorQ @ 38
-	TranspositionTailMoveComparatorQ @ 39
-	PrincipalVariationComparator @ 37
-	RecaptureMoveComparator @ 41
-	GameEvaluatorCacheComparator @ 43
-	MoveSorterDebug @ 35
-	EvaluatorCacheDebug @ 44
+	Quiescence @ 53
+	NodeMoveSorter @ 55
+	TranspositionHeadMoveComparatorQ @ 57
+	TranspositionTailMoveComparatorQ @ 58
+	PrincipalVariationComparator @ 56
+	RecaptureMoveComparator @ 60
+	GameEvaluatorCacheComparator @ 62
+	MoveSorterDebug @ 54
+	EvaluatorCacheDebug @ 63
 	MoveEvaluationTracker @ 14
 	AspirationWindows @ 4
 	DebugFilter @ 5

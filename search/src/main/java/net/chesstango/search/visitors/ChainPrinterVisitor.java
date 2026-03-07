@@ -323,6 +323,13 @@ public class ChainPrinterVisitor implements Visitor {
             leafNode.accept(this);
             nestedChain--;
 
+            AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
+            out.println();
+            printChainText(" -> InteriorNode");
+            nestedChain++;
+            interiorNode.accept(this);
+            nestedChain--;
+
             AlphaBetaFilter horizonNode = alphaBetaFlowControl.getQuiescenceNode();
             out.println();
             printChainText(" -> QuiescenceNode");
@@ -330,12 +337,6 @@ public class ChainPrinterVisitor implements Visitor {
             horizonNode.accept(this);
             nestedChain--;
 
-            AlphaBetaFilter interiorNode = alphaBetaFlowControl.getInteriorNode();
-            out.println();
-            printChainText(" -> InteriorNode");
-            nestedChain++;
-            interiorNode.accept(this);
-            nestedChain--;
         } else {
             out.printf("%s%s -> LOOP\n", "\t".repeat(nestedChain), objectText(alphaBetaFlowControl));
         }

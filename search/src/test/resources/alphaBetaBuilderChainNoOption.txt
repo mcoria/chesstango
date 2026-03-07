@@ -38,9 +38,9 @@ AlphaBetaFlowControl @ 9
 	|
 	AlphaBetaEvaluation @ 15 [Evaluator: EvaluatorByMaterial @ 11]
 
- -> QuiescenceNode
+ -> InteriorNode
 	|
-	Quiescence @ 16 [Evaluator: EvaluatorByMaterial @ 11]
+	AlphaBeta @ 16
 	|
 	 -> Sorter
 		|
@@ -48,37 +48,37 @@ AlphaBetaFlowControl @ 9
 		|
 		 -> Comparator
 			|
-			PromotionComparator @ 18
-			|
-			DefaultMoveComparator @ 19
-	|
-	TriangularPV @ 20
-	|
-	AlphaBetaFlowControl @ 9 -> LOOP
-
- -> InteriorNode
-	|
-	AlphaBeta @ 21
-	|
-	 -> Sorter
-		|
-		NodeMoveSorter @ 22
-		|
-		 -> Comparator
-			|
-			QuietComparator @ 23
+			QuietComparator @ 18
 			|
 			 -> NoQuietComparatorNode
 				|
-				PromotionComparator @ 24
+				PromotionComparator @ 19
 				|
-				RecaptureMoveComparator @ 25
+				RecaptureMoveComparator @ 20
 				|
-				DefaultMoveComparator @ 26
+				DefaultMoveComparator @ 21
 
 			 -> QuietComparatorNode
 				|
-				DefaultMoveComparator @ 26
+				DefaultMoveComparator @ 21
+	|
+	TriangularPV @ 22
+	|
+	AlphaBetaFlowControl @ 9 -> LOOP
+
+ -> QuiescenceNode
+	|
+	Quiescence @ 23 [Evaluator: EvaluatorByMaterial @ 11]
+	|
+	 -> Sorter
+		|
+		NodeMoveSorter @ 24
+		|
+		 -> Comparator
+			|
+			PromotionComparator @ 25
+			|
+			DefaultMoveComparator @ 26
 	|
 	TriangularPV @ 27
 	|
@@ -118,14 +118,14 @@ Acceptor:
 	AlphaBetaFlowControl @ 9
 	AlphaBetaEvaluation @ 10
 	AlphaBetaEvaluation @ 15
-	TriangularPV @ 27
-	AlphaBeta @ 21
-	NodeMoveSorter @ 22
-	RecaptureMoveComparator @ 25
-	EgtbEvaluation @ 12
-	TriangularPV @ 20
-	Quiescence @ 16
+	TriangularPV @ 22
+	AlphaBeta @ 16
 	NodeMoveSorter @ 17
+	RecaptureMoveComparator @ 20
+	EgtbEvaluation @ 12
+	TriangularPV @ 27
+	Quiescence @ 23
+	NodeMoveSorter @ 24
 	MoveEvaluationTracker @ 7
 	TriangularPV @ 8
 	AlphaBeta @ 3
