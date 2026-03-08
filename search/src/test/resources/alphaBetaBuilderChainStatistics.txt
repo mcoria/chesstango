@@ -216,6 +216,4 @@ Acceptor:
 	TTableCounters @ 63
 	TTableStatisticsCollector @ 6
 	TTableStatisticsCollector @ 66
-	TTableStatisticsCollector @ 67
-	TTableStatisticsCollector @ 68
 

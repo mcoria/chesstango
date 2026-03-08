@@ -56,8 +56,6 @@ public class PrintForUnitTest implements BiConsumer<DebugNode, PrintStream> {
                     String table = switch (ttOperation.getTableType()) {
                         case MAX_MAP -> "maxMap";
                         case MIN_MAP -> "minMap";
-                        case MAX_MAP_Q -> "qMaxMap";
-                        case MIN_MAP_Q -> "qMinMap";
                     };
 
                     printStream.printf("%s.write(0x%sL, %d, %d, %d, TranspositionBound.%s); // %s \n",

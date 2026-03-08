@@ -5,7 +5,6 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -18,6 +17,7 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
 
     @Override
     public boolean test(DebugNode debugNode) {
+        /*
         if (DebugNode.NodeTopology.HORIZON.equals(debugNode.getTopology())) {
             if (debugNode.getChildNodes().size() == 1) {
                 DebugNode childNode = debugNode.getChildNodes().getFirst();
@@ -27,7 +27,11 @@ public class HorizonCutStandingPat implements Predicate<DebugNode> {
                     candidates.add(debugNode);
                 }
             }
-        } else if (DebugNode.NodeTopology.INTERIOR.equals(debugNode.getTopology())
+        } else
+
+         */
+
+        if (DebugNode.NodeTopology.INTERIOR.equals(debugNode.getTopology())
                 && debugNode.getChildNodes().size() > 1
                 && !debugNode.getEntryRead().isEmpty()) {
             Optional<DebugNode> candidateOpt = candidates.stream().filter(node -> node.getZobristHash() == debugNode.getZobristHash()).findFirst();

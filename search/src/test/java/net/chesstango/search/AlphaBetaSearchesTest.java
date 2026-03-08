@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Mauricio Coria
  */
 public class AlphaBetaSearchesTest {
-    private AlphaBetaBuilder alphaBetaBuilder;
-
 
     @Test
     public void test_START_POSITION() {
@@ -30,7 +28,7 @@ public class AlphaBetaSearchesTest {
         Search search = AlphaBetaBuilder
                 .createDefaultBuilderInstance()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                //.withDebugSearchTree(true, true, true)
+                //.withDebugSearchTree(false, true, true)
                 .build();
 
         search.accept(new SetMaxDepthVisitor(3));

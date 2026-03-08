@@ -16,19 +16,13 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
 public class TranspositionTableBuilder {
     private TTable maxMapImp;
     private TTable minMapImp;
-    private TTable qMaxMapImp;
-    private TTable qMinMapImp;
 
     private TTableDebug maxMapDebug;
     private TTableDebug minMapDebug;
-    private TTableDebug qMaxMapDebug;
-    private TTableDebug qMinMapDebug;
 
-    private TTableCounters TTableCounters;
+    private TTableCounters tTableCounters;
     private TTableStatisticsCollector maxMapCollector;
     private TTableStatisticsCollector minMapCollector;
-    private TTableStatisticsCollector qMaxMapCollector;
-    private TTableStatisticsCollector qMinMapCollector;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -40,12 +34,6 @@ public class TranspositionTableBuilder {
 
     @Getter
     private TTable minMap;
-
-    @Getter
-    private TTable qMaxMap;
-
-    @Getter
-    private TTable qMinMap;
 
 
     public TranspositionTableBuilder withDebugSearchTree() {
@@ -72,22 +60,16 @@ public class TranspositionTableBuilder {
     private void buildObjects() {
         maxMapImp = new TTableArrayPrimitives();
         minMapImp = new TTableArrayPrimitives();
-        qMaxMapImp = new TTableArrayPrimitives();
-        qMinMapImp = new TTableArrayPrimitives();
 
         if (withDebugSearchTree) {
             maxMapDebug = new TTableDebug(MAX_MAP);
             minMapDebug = new TTableDebug(MIN_MAP);
-            qMaxMapDebug = new TTableDebug(MAX_MAP_Q);
-            qMinMapDebug = new TTableDebug(MIN_MAP_Q);
         }
 
         if (withStatistics) {
-            TTableCounters = new TTableCounters();
-            maxMapCollector = new TTableStatisticsCollector(TTableCounters);
-            minMapCollector = new TTableStatisticsCollector(TTableCounters);
-            qMaxMapCollector = new TTableStatisticsCollector(TTableCounters);
-            qMinMapCollector = new TTableStatisticsCollector(TTableCounters);
+            tTableCounters = new TTableCounters();
+            maxMapCollector = new TTableStatisticsCollector(tTableCounters);
+            minMapCollector = new TTableStatisticsCollector(tTableCounters);
         }
     }
 
@@ -98,15 +80,9 @@ public class TranspositionTableBuilder {
         if (minMapDebug != null) {
             searchListenerMediator.add(minMapDebug);
         }
-        if (qMaxMapDebug != null) {
-            searchListenerMediator.add(qMaxMapDebug);
-        }
-        if (qMinMapDebug != null) {
-            searchListenerMediator.add(qMinMapDebug);
-        }
 
-        if (TTableCounters != null) {
-            searchListenerMediator.add(TTableCounters);
+        if (tTableCounters != null) {
+            searchListenerMediator.add(tTableCounters);
         }
         if (maxMapCollector != null) {
             searchListenerMediator.add(maxMapCollector);
@@ -114,19 +90,11 @@ public class TranspositionTableBuilder {
         if (minMapCollector != null) {
             searchListenerMediator.add(minMapCollector);
         }
-        if (qMaxMapCollector != null) {
-            searchListenerMediator.add(qMaxMapCollector);
-        }
-        if (qMinMapCollector != null) {
-            searchListenerMediator.add(qMinMapCollector);
-        }
     }
 
     private void createChain() {
         maxMap = linkChain(maxMapCollector, maxMapDebug, maxMapImp);
         minMap = linkChain(minMapCollector, minMapDebug, minMapImp);
-        qMaxMap = linkChain(qMaxMapCollector, qMaxMapDebug, qMaxMapImp);
-        qMinMap = linkChain(qMinMapCollector, qMinMapDebug, qMinMapImp);
     }
 
     private TTable linkChain(TTableStatisticsCollector collector, TTableDebug tableDebug, TTable tableImp) {

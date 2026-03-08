@@ -233,6 +233,4 @@ Acceptor:
 	SetDebugOutput @ 68
 	TTableDebug @ 7
 	TTableDebug @ 73
-	TTableDebug @ 74
-	TTableDebug @ 75
 
