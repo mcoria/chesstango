@@ -31,7 +31,6 @@ import java.util.List;
  * @see Move
  * @see Square
  * @see Piece
- * @see GameListener
  */
 public interface Game {
     /**
@@ -105,12 +104,9 @@ public interface Game {
      */
     MoveContainerReader<PseudoMove> getPseudoMoves();
 
-    /**
-     * Adds a game listener.
-     *
-     * @param gameListener the game listener to add
-     */
-    void addGameListener(GameListener gameListener);
+    long getExecutedMovesCounter();
+
+    void resetExecutedMovesCounter();
 
     /**
      * Gets a move from the specified starting and ending squares.

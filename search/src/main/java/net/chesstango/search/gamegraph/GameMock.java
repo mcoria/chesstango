@@ -1,13 +1,16 @@
 package net.chesstango.search.gamegraph;
 
 import lombok.Getter;
-import net.chesstango.board.*;
+import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
+import net.chesstango.board.Square;
+import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.PseudoMove;
 import net.chesstango.board.moves.containers.MoveContainerReader;
 import net.chesstango.board.position.GameHistoryReader;
-import net.chesstango.board.position.PositionReader;
 import net.chesstango.board.position.GameStateReader;
+import net.chesstango.board.position.PositionReader;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.gardel.fen.FENBuilder;
 
@@ -21,9 +24,12 @@ public class GameMock implements Game {
 
     Node currentMockNode;
 
+    long executedMovesCounter;
+
     public Game executeMove(Move move) {
         nodesVisited++;
         currentMockNode.executeMove(move, this);
+        executedMovesCounter++;
         return this;
     }
 
@@ -54,8 +60,13 @@ public class GameMock implements Game {
     }
 
     @Override
-    public void addGameListener(GameListener gameListener) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+    public long getExecutedMovesCounter() {
+        return executedMovesCounter;
+    }
+
+    @Override
+    public void resetExecutedMovesCounter() {
+        executedMovesCounter = 0;
     }
 
     @Override

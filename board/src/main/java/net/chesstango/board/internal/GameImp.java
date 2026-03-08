@@ -63,12 +63,12 @@ public class GameImp implements Game {
 
     private final GameHistory gameHistory;
 
-    private final List<GameListener> gameListeners = new ArrayList<>();
-
     private PositionAnalyzer analyzer;
 
     @Setter
     private MoveGenerator pseudoMovesGenerator;
+
+    private long executedMovesCounter;
 
     public GameImp(Position position, GameState gameState, GameHistory gameHistory) {
         this.position = position;
@@ -170,8 +170,13 @@ public class GameImp implements Game {
     }
 
     @Override
-    public void addGameListener(GameListener gameListener) {
-        gameListeners.add(gameListener);
+    public long getExecutedMovesCounter() {
+        return executedMovesCounter;
+    }
+
+    @Override
+    public void resetExecutedMovesCounter() {
+        executedMovesCounter = 0;
     }
 
     @Override
@@ -219,22 +224,13 @@ public class GameImp implements Game {
         this.analyzer.setThreefoldRepetitionRule(true);
         this.analyzer.setFiftyMovesRule(true);
         this.analyzer.updateGameState();
-        this.gameListeners.add(this.analyzer);
     }
 
     public void notifyDoMove(Move move) {
-        if (!gameListeners.isEmpty()) {
-            for (GameListener gameListener : gameListeners) {
-                gameListener.notifyDoMove(move);
-            }
-        }
+        analyzer.updateGameState();
+        executedMovesCounter++;
     }
 
     public void notifyUndoMove(Move move) {
-        if (!gameListeners.isEmpty()) {
-            for (GameListener gameListener : gameListeners.reversed()) {
-                gameListener.notifyUndoMove(move);
-            }
-        }
     }
 }

@@ -1,17 +1,19 @@
 package net.chesstango.board.internal.factory;
 
-import net.chesstango.board.internal.position.*;
-import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilter;
 import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveFilterDebug;
+import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGenerator;
 import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGeneratorDebug;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilter;
-import net.chesstango.board.internal.moves.generators.legal.check.CheckLegalMoveGenerator;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveFilterDebug;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGenerator;
 import net.chesstango.board.internal.moves.generators.legal.nocheck.NoCheckLegalMoveGeneratorDebug;
-import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorCacheDebug;
+import net.chesstango.board.internal.position.*;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
+import net.chesstango.board.moves.generators.pseudo.MoveGenerator;
 import net.chesstango.board.position.*;
 
 
@@ -21,59 +23,77 @@ import net.chesstango.board.position.*;
  */
 public class ChessFactoryDebug extends ChessFactory {
 
-	@Override
-	public PositionImp createChessPosition() {
-		return new PositionDebug();
-	}	
-	
-	@Override
-	public CheckLegalMoveGenerator createCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
-		return new CheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
-	}
-	
-	@Override
-	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
-		return new NoCheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
-	}
-	
-	@Override
-	public BitBoard createColorBoard() {
+    @Override
+    public PositionImp createChessPosition() {
+        return new PositionDebug();
+    }
+
+    @Override
+    public CheckLegalMoveGenerator createCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+        return new CheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
+    }
+
+    @Override
+    public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, LegalMoveFilter filter) {
+        return new NoCheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
+    }
+
+    @Override
+    public BitBoard createColorBoard() {
         return new BitBoardDebug();
-	}	
-	
-	@Override
-	public KingSquareImp createKingCacheBoard() {
-		return new KingSquareDebug();
-	}
-	
-	@Override
-	public MoveCacheBoardImp createMoveCacheBoard() {
-		return new MoveCacheBoardDebug();
-	}
-	
-	@Override
-	public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
-		return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-	}
+    }
 
-	@Override
-	public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
+    @Override
+    public KingSquareImp createKingCacheBoard() {
+        return new KingSquareDebug();
+    }
+
+    @Override
+    public MoveCacheBoardImp createMoveCacheBoard() {
+        return new MoveCacheBoardDebug();
+    }
+
+    @Override
+    public CheckLegalMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
+        return new CheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+    }
+
+    @Override
+    public NoCheckLegalMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquare kingCacheBoard, BitBoard bitBoard,
                                                           PositionState positionState) {
-		return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
-	}		
-	
-	@Override
-	public PositionState createPositionState() {
-		return new PositionStateDebug();
-	}
-	
-	@Override
-	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGeneratorCacheDebug(moveGenerator, moveCacheBoard);
-	}
+        return new NoCheckLegalMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
+    }
 
-	@Override
-	public ZobristHash createZobristHash() {
-		return new ZobristHashDebug();
-	}
+    @Override
+    public PositionState createPositionState() {
+        return new PositionStateDebug();
+    }
+
+    @Override
+    public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+        return new MoveGeneratorCacheDebug(moveGenerator, moveCacheBoard);
+    }
+
+    @Override
+    public ZobristHash createZobristHash() {
+        return new ZobristHashDebug();
+    }
+
+    @Override
+    public GameImp createGame(Position position, GameState gameState, GameHistory gameHistory) {
+        PositionDebug chessPositionDebug = (PositionDebug) position;
+        return new GameImp(position, gameState, gameHistory) {
+            @Override
+            public void notifyDoMove(Move move) {
+                super.notifyDoMove(move);
+                chessPositionDebug.validar();
+            }
+
+            @Override
+            public void notifyUndoMove(Move move) {
+                super.notifyUndoMove(move);
+                chessPositionDebug.validar();
+            }
+        };
+    }
 }

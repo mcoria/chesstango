@@ -1,7 +1,6 @@
 package net.chesstango.board.analyzer;
 
 import lombok.Setter;
-import net.chesstango.board.GameListener;
 import net.chesstango.board.Status;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
@@ -23,7 +22,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 @Setter
-public class PositionAnalyzer implements GameListener {
+public class PositionAnalyzer {
     private Analyzer pinnedAnalyzer;
 
     private Analyzer kingSafePositionsAnalyzer;
@@ -54,15 +53,6 @@ public class PositionAnalyzer implements GameListener {
         gameState.setRepetitionCounter(repetitionCounter);
         gameState.setLegalMoves(legalMoves);
         gameState.setLegalMoves(status.isInProgress() ? legalMoves : new MoveContainer<>());
-    }
-
-    @Override
-    public void notifyDoMove(Move move) {
-        updateGameState();
-    }
-
-    @Override
-    public void notifyUndoMove(Move move) {
     }
 
     protected AnalyzerResult analyze() {
