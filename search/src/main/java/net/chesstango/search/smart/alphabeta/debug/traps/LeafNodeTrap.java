@@ -26,7 +26,7 @@ public class LeafNodeTrap implements DebugNodeTrap, Acceptor {
         if (DebugNode.NodeTopology.INTERIOR.equals(debugNode.getTopology()) && debugNode.getPly() == maxPly - 1) {
             return debugNode.getChildNodes()
                     .stream()
-                    .filter(childNode -> DebugNode.NodeTopology.HORIZON.equals(childNode.getTopology()))
+                    //.filter(childNode -> DebugNode.NodeTopology.HORIZON.equals(childNode.getTopology()))
                     .filter(childNode -> !childNode.getChildNodes().isEmpty()) // HORIZON siempre tiene un solo nodo asociado
                     .map(childNode -> childNode.getChildNodes().getFirst())
                     .filter(childNode -> DebugNode.NodeTopology.LEAF.equals(childNode.getTopology()))

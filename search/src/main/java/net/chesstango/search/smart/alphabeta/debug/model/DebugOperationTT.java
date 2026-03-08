@@ -12,7 +12,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
 @Setter
 @Accessors(chain = true)
 public class DebugOperationTT {
-    public enum TableType {MAX_MAP, MIN_MAP, MAX_MAP_Q, MIN_MAP_Q}
+    public enum TableType {MAX_MAP, MIN_MAP}
 
     private TableType tableType;
 
