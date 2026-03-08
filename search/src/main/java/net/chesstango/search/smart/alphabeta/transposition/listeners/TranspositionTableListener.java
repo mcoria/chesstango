@@ -1,8 +1,6 @@
 package net.chesstango.search.smart.alphabeta.transposition.listeners;
 
 import lombok.Setter;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.ResetListener;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -12,11 +10,9 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
  * @author Mauricio Coria
  */
 @Setter
-public class ResetTranspositionTables implements SearchByCycleListener, ResetListener {
+public class TranspositionTableListener implements SearchByCycleListener, ResetListener {
     protected TTable maxMap;
     protected TTable minMap;
-
-    protected boolean reuseTranspositionTable;
 
     @Override
     public void accept(Visitor visitor) {
@@ -25,18 +21,13 @@ public class ResetTranspositionTables implements SearchByCycleListener, ResetLis
 
     @Override
     public void beforeSearch() {
-    }
-
-    @Override
-    public void afterSearch(SearchResult result) {
-        if (!reuseTranspositionTable) {
-            reset();
-        }
+        maxMap.increaseAge();
+        minMap.increaseAge();
     }
 
     @Override
     public void reset() {
-        this.maxMap.clear();
-        this.minMap.clear();
+        maxMap.clear();
+        minMap.clear();
     }
 }

@@ -127,7 +127,7 @@ SearchByCycleListeners:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49
 	SetSearchLast @ 50
-	ResetTranspositionTables @ 51
+	TranspositionTableListener @ 51
 	SetKillerMoveTables @ 52
 	AlphaBetaFlowControl @ 14
 	RootMoveSorter @ 8
@@ -145,7 +145,7 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 14
 
 ResetListener:
-	ResetTranspositionTables @ 51
+	TranspositionTableListener @ 51
 
 Acceptor:
 	SetGameToEvaluator @ 53
@@ -153,7 +153,7 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 49
 	SetSearchLast @ 50
-	ResetTranspositionTables @ 51
+	TranspositionTableListener @ 51
 	SetKillerMoveTables @ 52
 	AlphaBetaFlowControl @ 14
 	AlphaBetaEvaluation @ 16

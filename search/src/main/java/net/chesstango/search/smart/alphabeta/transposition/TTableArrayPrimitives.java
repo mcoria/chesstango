@@ -12,9 +12,11 @@ public class TTableArrayPrimitives implements TTable {
 
     private final static int ARRAY_SIZE = 2 * 1024 * 512;
 
+    private static final int STALE_AGE = 5;
+
     /*
         Data layout:
-         - byte[0] = Session AND TranspositionBound
+         - byte[0] = age AND TranspositionBound
          - byte[1] = draft (with sign)
          - byte[2-3] = move
          - byte[4-8] = value
@@ -22,12 +24,12 @@ public class TTableArrayPrimitives implements TTable {
 
     private final long[] hashArray;
     private final long[] dataArray;
-    private int currentSessionId;
+    private int currentAge;
 
     public TTableArrayPrimitives() {
         this.hashArray = new long[ARRAY_SIZE];
         this.dataArray = new long[ARRAY_SIZE];
-        this.currentSessionId = 1;
+        this.currentAge = 1;
     }
 
     @Override
@@ -41,9 +43,9 @@ public class TTableArrayPrimitives implements TTable {
         long data = dataArray[idx];
 
         // Extract fields from the data
-        int session = (int) (data >>> 58);
+        int age = (int) (data >>> 58);
 
-        if (session != currentSessionId) {
+        if (currentAge - age > STALE_AGE) {
             return false;
         }
 
@@ -69,10 +71,10 @@ public class TTableArrayPrimitives implements TTable {
         long data = dataArray[idx];
 
         // Extract fields from the data
-        int session = (int) (data >>> 58);
+        int age = (int) (data >>> 58);
 
         SaveResult result;
-        if (session != currentSessionId) {
+        if (age != currentAge) {
             hashArray[idx] = entry.hash;
             result = SaveResult.INSERTED;
         } else {
@@ -85,22 +87,30 @@ public class TTableArrayPrimitives implements TTable {
         }
 
         long bound = entry.bound == TranspositionBound.EXACT ? EXACT_BOUND : entry.bound == TranspositionBound.LOWER_BOUND ? LOWER_BOUND : UPPER_BOUND;
-        byte draftByte = (byte) (entry.draft);
+        byte draftByte = entry.draft;
         short move = entry.move;
         int value = entry.value;
 
-        dataArray[idx] = ((currentSessionId & 0x3FL) << 58) | bound | ((draftByte & 0xFFL) << 48) | ((move & 0xFFFFL) << 32) | (value & 0xFFFFFFFFL);
+        dataArray[idx] = ((currentAge & 0x3FL) << 58) | bound | ((draftByte & 0xFFL) << 48) | ((move & 0xFFFFL) << 32) | (value & 0xFFFFFFFFL);
 
         return result;
+    }
+
+    @Override
+    public void increaseAge() {
+        if (currentAge < 0x3F) {
+            currentAge++;
+        } else {
+            currentAge = 0;
+        }
     }
 
 
     @Override
     public void clear() {
-        if (currentSessionId < 0x3F) {
-            currentSessionId++;
-        } else {
-            currentSessionId = 0;
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            hashArray[i] = 0;
+            dataArray[i] = 0;
         }
     }
 }

@@ -51,7 +51,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.ResetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
@@ -210,7 +210,7 @@ public interface Visitor {
     default void visit(SetKillerMoveTablesDebug setKillerMoveTablesDebug) {
     }
 
-    default void visit(ResetTranspositionTables resetTranspositionTables) {
+    default void visit(TranspositionTableListener resetTranspositionTables) {
     }
 
     default void visit(LeafNodeTrap leafNodeTrap) {

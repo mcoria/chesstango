@@ -23,7 +23,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.ResetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 
 /**
  * @author Mauricio Corias
@@ -47,7 +47,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
-    private ResetTranspositionTables resetTranspositionTables;
+    private TranspositionTableListener resetTranspositionTables;
     private SetKillerMoveTablesDebug setKillerMoveTablesDebug;
     private NodeCounters nodeCounters;
     private SetDebugOutput setDebugOutput;
@@ -57,7 +57,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
 
     private boolean withStatistics;
     private boolean withTranspositionTable;
-    private boolean withTranspositionTableReuse;
     private boolean withTrackEvaluations;
     private boolean withGameEvaluatorCache;
     private boolean withQuiescence;
@@ -145,15 +144,6 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         return this;
     }
 
-    public BottomMoveCounterBuilder withTranspositionTableReuse() {
-        if (!withTranspositionTable) {
-            throw new RuntimeException("You must enable TranspositionTable first");
-        }
-        withTranspositionTableReuse = true;
-        return this;
-    }
-
-
     public BottomMoveCounterBuilder withTrackEvaluations() {
         if (!withStatistics) {
             throw new RuntimeException("You must enable Statistics first");
@@ -238,10 +228,7 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
         }
 
         if (withTranspositionTable) {
-            resetTranspositionTables = new ResetTranspositionTables();
-            if (withTranspositionTableReuse) {
-                resetTranspositionTables.setReuseTranspositionTable(true);
-            }
+            resetTranspositionTables = new TranspositionTableListener();
         }
 
         if (withStatistics) {

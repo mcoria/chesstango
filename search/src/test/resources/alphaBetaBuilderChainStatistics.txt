@@ -140,7 +140,7 @@ SearchByCycleListeners:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 57
 	SetSearchLast @ 58
-	ResetTranspositionTables @ 59
+	TranspositionTableListener @ 59
 	NodeCounters @ 60
 	GameCounters @ 61
 	SetKillerMoveTables @ 62
@@ -161,7 +161,7 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 
 ResetListener:
-	ResetTranspositionTables @ 59
+	TranspositionTableListener @ 59
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 20
@@ -170,7 +170,7 @@ Acceptor:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 57
 	SetSearchLast @ 58
-	ResetTranspositionTables @ 59
+	TranspositionTableListener @ 59
 	NodeCounters @ 60
 	GameCounters @ 61
 	SetKillerMoveTables @ 62

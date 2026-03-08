@@ -148,7 +148,7 @@ SearchByCycleListeners:
 	SetSearchTimers @ 63
 	SetSearchLast @ 64
 	SetSearchTracker @ 65
-	ResetTranspositionTables @ 66
+	TranspositionTableListener @ 66
 	SetKillerMoveTablesDebug @ 67
 	AlphaBetaFlowControl @ 18
 	RootMoveSorter @ 11
@@ -171,7 +171,7 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 18
 
 ResetListener:
-	ResetTranspositionTables @ 66
+	TranspositionTableListener @ 66
 
 Acceptor:
 	SetGameToEvaluator @ 69
@@ -180,7 +180,7 @@ Acceptor:
 	SetSearchTimers @ 63
 	SetSearchLast @ 64
 	SetSearchTracker @ 65
-	ResetTranspositionTables @ 66
+	TranspositionTableListener @ 66
 	SetKillerMoveTablesDebug @ 67
 	KillerMovesDebug @ 71
 	AlphaBetaFlowControl @ 18

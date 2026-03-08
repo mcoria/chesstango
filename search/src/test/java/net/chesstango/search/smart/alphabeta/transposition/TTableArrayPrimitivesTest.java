@@ -168,7 +168,7 @@ public class TTableArrayPrimitivesTest {
                 .setBound(TranspositionBound.EXACT);
         tTableArray.save(entryInOldSession);
 
-        tTableArray.clear(); // Move to a new session
+        tTableArray.clear();
 
         TranspositionEntry entryInNewSession = new TranspositionEntry()
                 .setHash(hash)
