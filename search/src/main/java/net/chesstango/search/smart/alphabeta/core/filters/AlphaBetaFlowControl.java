@@ -87,7 +87,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (currentPly < depth) {
             return interiorNode.maximize(currentPly, alpha, beta);
         } else {
-            if (isCurrentPositionQuiet()) {
+            if (quiescenceNode == null || isCurrentPositionQuiet()) {
                 return leafNode.maximize(currentPly, alpha, beta);
             } else {
                 return quiescenceNode.maximize(currentPly, alpha, beta);
@@ -116,7 +116,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
         if (currentPly < depth) {
             return interiorNode.minimize(currentPly, alpha, beta);
         } else {
-            if (isCurrentPositionQuiet()) {
+            if (quiescenceNode == null || isCurrentPositionQuiet()) {
                 return leafNode.minimize(currentPly, alpha, beta);
             } else {
                 return quiescenceNode.minimize(currentPly, alpha, beta);

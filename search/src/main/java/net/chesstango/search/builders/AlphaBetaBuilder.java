@@ -423,7 +423,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
         quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
-        AlphaBetaFilter quiescenceChain = quiescenceChainBuilder.build();
+        AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);
