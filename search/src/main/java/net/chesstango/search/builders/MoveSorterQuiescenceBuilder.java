@@ -31,13 +31,13 @@ public class MoveSorterQuiescenceBuilder extends AbstractChainBuilder {
     private RecaptureMoveComparator recaptureMoveComparator;
     private TranspositionHeadMoveComparator transpositionHeadMoveComparator;
     private TranspositionTailMoveComparator transpositionTailMoveComparator;
-    private MvvLvaComparator mvvLvaComparator;
-    private PromotionComparator promotionComparator;
-    private PrincipalVariationComparator principalVariationComparator;
     private MoveSorterDebug moveSorterDebug;
     private EvaluatorCacheDebug gameEvaluatorCacheDebug;
     private EvaluatorCache gameEvaluatorCache;
     private GameEvaluatorCacheComparator gameEvaluatorCacheComparator;
+    private MvvLvaComparator mvvLvaComparator;
+    private PromotionComparator promotionComparator;
+    private PrincipalVariationComparator principalVariationComparator;
     private boolean withTranspositionTable;
     private boolean withDebugSearchTree;
     private boolean withRecaptureSorter;
