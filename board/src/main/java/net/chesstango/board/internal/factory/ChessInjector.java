@@ -1,15 +1,12 @@
 package net.chesstango.board.internal.factory;
 
-import net.chesstango.board.GameListener;
 import net.chesstango.board.analyzer.Analyzer;
 import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.internal.GameImp;
 import net.chesstango.board.internal.moves.generators.pseudo.MoveGeneratorImp;
-import net.chesstango.board.internal.position.PositionDebug;
 import net.chesstango.board.internal.position.PositionImp;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactory;
 import net.chesstango.board.moves.generators.legal.LegalMoveFilter;
 import net.chesstango.board.moves.generators.legal.LegalMoveGenerator;
@@ -139,24 +136,6 @@ public class ChessInjector {
     public GameImp getGame() {
         if (game == null) {
             game = chessFactory.createGame(getChessPosition(), getGameState(), getCareTaker());
-
-            // Validation should be executed before the position is analyzed
-            if (chessFactory instanceof ChessFactoryDebug) {
-                PositionDebug chessPositionDebug = (PositionDebug) getChessPosition();
-                game.addGameListener(new GameListener() {
-                                         @Override
-                                         public void notifyDoMove(Move move) {
-                                             chessPositionDebug.validar();
-                                         }
-
-                                         @Override
-                                         public void notifyUndoMove(Move move) {
-                                             chessPositionDebug.validar();
-                                         }
-                                     }
-                );
-            }
-
             game.setAnalyzer(getAnalyzer());
             game.setPseudoMovesGenerator(getPseudoMoveGenerator());
         }
@@ -164,7 +143,7 @@ public class ChessInjector {
     }
 
     private GameHistory getCareTaker() {
-        if(gameHistory == null){
+        if (gameHistory == null) {
             gameHistory = chessFactory.createCareTaker();
         }
         return gameHistory;
