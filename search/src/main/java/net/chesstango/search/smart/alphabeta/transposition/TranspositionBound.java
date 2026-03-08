@@ -4,13 +4,14 @@ package net.chesstango.search.smart.alphabeta.transposition;
  * @author Mauricio Coria
  */
 public enum TranspositionBound {
-    EXACT((byte) 0b00000001), LOWER_BOUND((byte) 0b00000010), UPPER_BOUND((byte) 0b00000011);
+    // Dejarlos en este orden ver TranspositionEntry.compareTo()
+    UPPER_BOUND((byte) 0b00000001), EXACT((byte) 0b00000010), LOWER_BOUND((byte) 0b00000011);
+
     private final byte byteValue;
 
     TranspositionBound(byte byteValue) {
         this.byteValue = byteValue;
     }
-
 
     public static TranspositionBound valueOf(byte byteValue) {
         if (byteValue == 0) {

@@ -40,20 +40,10 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
 
     @Override
     public int compareTo(TranspositionEntry other) {
-        int result = Integer.compare(value, other.value);
+        int result = bound.compareTo(other.bound);
 
         if (result == 0) {
-            if (TranspositionBound.LOWER_BOUND.equals(bound) && !TranspositionBound.LOWER_BOUND.equals(other.bound)) {
-                result = 1;
-            } else if (TranspositionBound.EXACT.equals(bound)) {
-                if (TranspositionBound.UPPER_BOUND.equals(other.bound)) {
-                    result = 1;
-                } else if (TranspositionBound.LOWER_BOUND.equals(other.bound)) {
-                    result = -1;
-                }
-            } else if (TranspositionBound.UPPER_BOUND.equals(bound) && !TranspositionBound.UPPER_BOUND.equals(other.bound)) {
-                result = -1;
-            }
+            result = Integer.compare(value, other.value);
         }
 
         return result;
