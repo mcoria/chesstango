@@ -137,21 +137,22 @@ AlphaBetaFlowControl @ 17
 
 SearchByCycleListeners:
 	EvaluatorStatisticsCollector @ 20
+	EvaluatorCacheListener @ 57
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 57
-	SetSearchLast @ 58
-	TranspositionTableListener @ 59
-	NodeCounters @ 60
-	GameCounters @ 61
-	SetKillerMoveTables @ 62
+	SetSearchTimers @ 58
+	SetSearchLast @ 59
+	TranspositionTableListener @ 60
+	NodeCounters @ 61
+	GameCounters @ 62
+	SetKillerMoveTables @ 63
 	AlphaBetaFlowControl @ 17
 	RootMoveSorter @ 10
-	TTableCounters @ 63
+	TTableCounters @ 64
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 57
-	SetSearchLast @ 58
+	SetSearchTimers @ 58
+	SetSearchLast @ 59
 	MoveEvaluationTracker @ 14
 
 SearchByWindowsListeners:
@@ -161,19 +162,21 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 17
 
 ResetListener:
-	TranspositionTableListener @ 59
+	EvaluatorCacheListener @ 57
+	TranspositionTableListener @ 60
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 20
-	SetGameToEvaluator @ 64
-	SetGameToEndGameTableBase @ 65
+	EvaluatorCacheListener @ 57
+	SetGameToEvaluator @ 65
+	SetGameToEndGameTableBase @ 66
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 57
-	SetSearchLast @ 58
-	TranspositionTableListener @ 59
-	NodeCounters @ 60
-	GameCounters @ 61
-	SetKillerMoveTables @ 62
+	SetSearchTimers @ 58
+	SetSearchLast @ 59
+	TranspositionTableListener @ 60
+	NodeCounters @ 61
+	GameCounters @ 62
+	SetKillerMoveTables @ 63
 	AlphaBetaFlowControl @ 17
 	AlphaBetaEvaluation @ 19
 	TranspositionTableTerminal @ 18
@@ -213,7 +216,7 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
-	TTableCounters @ 63
+	TTableCounters @ 64
 	TTableStatisticsCollector @ 6
-	TTableStatisticsCollector @ 66
+	TTableStatisticsCollector @ 67
 

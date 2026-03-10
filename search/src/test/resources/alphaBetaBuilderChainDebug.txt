@@ -144,45 +144,48 @@ AlphaBetaFlowControl @ 18
 
 
 SearchByCycleListeners:
+	EvaluatorCacheListener @ 63
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
-	SetSearchLast @ 64
-	SetSearchTracker @ 65
-	TranspositionTableListener @ 66
-	SetKillerMoveTablesDebug @ 67
+	SetSearchTimers @ 64
+	SetSearchLast @ 65
+	SetSearchTracker @ 66
+	TranspositionTableListener @ 67
+	SetKillerMoveTablesDebug @ 68
 	AlphaBetaFlowControl @ 18
 	RootMoveSorter @ 11
-	SetDebugOutput @ 68
+	SetDebugOutput @ 69
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
-	SetSearchLast @ 64
-	SetSearchTracker @ 65
+	SetSearchTimers @ 64
+	SetSearchLast @ 65
+	SetSearchTracker @ 66
 	MoveEvaluationTracker @ 14
-	SetDebugOutput @ 68
+	SetDebugOutput @ 69
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 65
+	SetSearchTracker @ 66
 	MoveEvaluationTracker @ 14
-	SetDebugOutput @ 68
+	SetDebugOutput @ 69
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
 
 ResetListener:
-	TranspositionTableListener @ 66
+	EvaluatorCacheListener @ 63
+	TranspositionTableListener @ 67
 
 Acceptor:
-	SetGameToEvaluator @ 69
-	SetGameToEndGameTableBase @ 70
+	EvaluatorCacheListener @ 63
+	SetGameToEvaluator @ 70
+	SetGameToEndGameTableBase @ 71
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 63
-	SetSearchLast @ 64
-	SetSearchTracker @ 65
-	TranspositionTableListener @ 66
-	SetKillerMoveTablesDebug @ 67
-	KillerMovesDebug @ 71
+	SetSearchTimers @ 64
+	SetSearchLast @ 65
+	SetSearchTracker @ 66
+	TranspositionTableListener @ 67
+	SetKillerMoveTablesDebug @ 68
+	KillerMovesDebug @ 72
 	AlphaBetaFlowControl @ 18
 	AlphaBetaEvaluation @ 21
 	DebugFilter @ 19
@@ -208,7 +211,7 @@ Acceptor:
 	EgtbEvaluation @ 25
 	TranspositionTableQ @ 50
 	DebugFilter @ 49
-	EvaluatorDebug @ 72
+	EvaluatorDebug @ 73
 	Quiescence @ 51
 	NodeMoveSorter @ 53
 	TranspositionHeadMoveComparator @ 55
@@ -230,7 +233,7 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 68
+	SetDebugOutput @ 69
 	TTableDebug @ 7
-	TTableDebug @ 73
+	TTableDebug @ 74
 
