@@ -25,7 +25,6 @@ public class EvaluatorCacheListener implements SearchByCycleListener, ResetListe
 
     @Override
     public void beforeSearch() {
-        gameEvaluatorCache.resetCacheHitsCounter();
         gameEvaluatorCache.increaseAge();
     }
 

@@ -12,6 +12,8 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private static final int ARRAY_SIZE = 1024 * 512;
 
+    public static final int MAX_AGE = 3;
+
     private int currentAge;
 
     private static class GameEvaluatorCacheEntry {
@@ -42,6 +44,8 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new GameEvaluatorCacheEntry();
         }
+        this.currentAge = Integer.MIN_VALUE + 1;
+        this.cacheHitsCounter = 0;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
         GameEvaluatorCacheEntry entry = cache[idx];
 
-        if (entry.hash != hash || currentAge - entry.age > 5) {
+        if (entry.hash != hash || entry.age > currentAge || currentAge - entry.age > MAX_AGE) {
             entry.hash = hash;
             entry.evaluation = imp.evaluate();
             entry.age = currentAge;
@@ -75,7 +79,7 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
         GameEvaluatorCacheEntry entry = cache[idx];
 
-        return entry.hash == hash && currentAge - entry.age <= 5 ? entry.evaluation : null;
+        return entry.hash == hash && currentAge >= entry.age && currentAge - entry.age <= MAX_AGE ? entry.evaluation : null;
     }
 
     public void increaseAge() {
@@ -83,17 +87,15 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
             this.currentAge++;
         } else {
             this.currentAge = Integer.MIN_VALUE + 1;
-            clear();
         }
-    }
-
-    public void resetCacheHitsCounter() {
-        cacheHitsCounter = 0;
+        this.cacheHitsCounter = 0;
     }
 
     public void clear() {
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i].age = Integer.MIN_VALUE;
         }
+        this.currentAge = Integer.MIN_VALUE + 1;
+        this.cacheHitsCounter = 0;
     }
 }
