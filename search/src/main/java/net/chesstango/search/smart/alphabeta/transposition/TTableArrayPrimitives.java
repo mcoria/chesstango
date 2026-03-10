@@ -81,8 +81,8 @@ public class TTableArrayPrimitives implements TTable {
             if (hashArray[idx] == entry.hash) {
                 result = SaveResult.UPDATED;
             } else {
-                result = SaveResult.OVER_WRITTEN;
                 hashArray[idx] = entry.hash;
+                result = SaveResult.OVER_WRITTEN;
             }
         }
 
