@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -56,7 +55,7 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
     @Override
     public void setGame(Game game) {
         this.game = game;
-        imp.setGame(game);
+        this.imp.setGame(game);
     }
 
     @Override
@@ -64,9 +63,6 @@ public class EvaluatorStatisticsCollector implements Evaluator, SearchByCycleLis
         evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
-        }
-        if (gameEvaluatorCache != null) {
-            gameEvaluatorCache.resetCacheHitsCounter();
         }
     }
 

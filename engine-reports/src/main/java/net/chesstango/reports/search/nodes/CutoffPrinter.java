@@ -24,7 +24,7 @@ class CutoffPrinter implements Printer {
 
     @Override
     public CutoffPrinter print() {
-        out.printf("Cutoff per search level (higher is better)\n");
+        out.printf("Cutoff per search level (higher is better)%n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxSearchRLevel + reportModel.maxSearchQLevel).setOut(out);
 
