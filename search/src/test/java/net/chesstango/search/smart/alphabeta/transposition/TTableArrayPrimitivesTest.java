@@ -2,8 +2,7 @@ package net.chesstango.search.smart.alphabeta.transposition;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the save method in TTableArrayPrimitives class.
@@ -48,10 +47,10 @@ public class TTableArrayPrimitivesTest {
         // Arrange
         TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
         TranspositionEntry newEntry = new TranspositionEntry()
-                .setHash(-123456789L)
-                .setDraft((byte) -3)
-                .setMove((short) -13)
-                .setValue(-37)
+                .setHash(Long.MIN_VALUE)
+                .setDraft(Byte.MIN_VALUE)
+                .setMove(Short.MIN_VALUE)
+                .setValue(Integer.MIN_VALUE)
                 .setBound(TranspositionBound.LOWER_BOUND);
 
         // Act
@@ -64,7 +63,37 @@ public class TTableArrayPrimitivesTest {
         TranspositionEntry loadEntry = new TranspositionEntry();
 
         // Try to load the entry
-        boolean loaded = tTableArray.load(-123456789L, loadEntry);
+        boolean loaded = tTableArray.load(Long.MIN_VALUE, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+    }
+
+    @Test
+    public void testSaveInsertsNewEntryPositives() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+        TranspositionEntry newEntry = new TranspositionEntry()
+                .setHash(Long.MAX_VALUE)
+                .setDraft(Byte.MAX_VALUE)
+                .setMove(Short.MAX_VALUE)
+                .setValue(Integer.MAX_VALUE)
+                .setBound(TranspositionBound.UPPER_BOUND);
+
+        // Act
+        TTable.SaveResult result = tTableArray.save(newEntry);
+
+        // Assert
+        assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
 
         // Assert
         assertTrue(loaded);
@@ -194,5 +223,100 @@ public class TTableArrayPrimitivesTest {
 
         // Assert
         assertEquals(entryInNewSession, loadEntry);
+
+
+    }
+
+    @Test
+    public void testSaveInsertsNewAge() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+        TranspositionEntry newEntry = new TranspositionEntry()
+                .setHash(Long.MAX_VALUE)
+                .setDraft(Byte.MAX_VALUE)
+                .setMove(Short.MAX_VALUE)
+                .setValue(Integer.MAX_VALUE)
+                .setBound(TranspositionBound.UPPER_BOUND);
+
+        // Act
+        TTable.SaveResult result = tTableArray.save(newEntry);
+
+        // Assert
+        assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+
+
+        tTableArray.increaseAge();
+        tTableArray.increaseAge();
+        tTableArray.increaseAge();
+
+        loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+
+        tTableArray.increaseAge();
+
+        loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertFalse(loaded);
+    }
+
+    @Test
+    public void testSaveInsertsMaxAge() {
+        // Arrange
+        TTableArrayPrimitives tTableArray = new TTableArrayPrimitives();
+
+        for (int i = 0; i < TTableArrayPrimitives.MAX_AGE - 1; i++) {
+            tTableArray.increaseAge();
+        }
+
+        TranspositionEntry newEntry = new TranspositionEntry()
+                .setHash(Long.MAX_VALUE)
+                .setDraft(Byte.MAX_VALUE)
+                .setMove(Short.MAX_VALUE)
+                .setValue(Integer.MAX_VALUE)
+                .setBound(TranspositionBound.UPPER_BOUND);
+
+        // Act
+        TTable.SaveResult result = tTableArray.save(newEntry);
+
+        // Assert
+        assertEquals(TTable.SaveResult.INSERTED, result);
+
+        // Load
+        TranspositionEntry loadEntry = new TranspositionEntry();
+
+        // Try to load the entry
+        boolean loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertTrue(loaded);
+
+        // Assert
+        assertEquals(newEntry, loadEntry);
+
+        tTableArray.increaseAge();
+
+        // Try to load the entry
+        loaded = tTableArray.load(Long.MAX_VALUE, loadEntry);
+
+        // Assert
+        assertFalse(loaded);
     }
 }
