@@ -101,11 +101,11 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (currentPly <= depth && game.getStatus().isFinalStatus()) {
+        if (game.getStatus().isFinalStatus()) {
             return terminalNode.minimize(currentPly, alpha, beta);
         }
 
-        if (endGameTableBase.isProbeAvailable()) {
+        if (currentPly <= depth && endGameTableBase.isProbeAvailable()) {
             return egtbNode.minimize(currentPly, alpha, beta);
         }
 
