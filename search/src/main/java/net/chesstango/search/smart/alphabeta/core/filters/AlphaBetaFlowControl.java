@@ -76,7 +76,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             return terminalNode.maximize(currentPly, alpha, beta);
         }
 
-        if (endGameTableBase.isProbeAvailable()) {
+        if (currentPly <= depth && endGameTableBase.isProbeAvailable()) {
             return egtbNode.maximize(currentPly, alpha, beta);
         }
 
@@ -101,7 +101,7 @@ public class AlphaBetaFlowControl implements AlphaBetaFilter, SearchByCycleListe
             throw new StopSearchingException();
         }
 
-        if (game.getStatus().isFinalStatus()) {
+        if (currentPly <= depth && game.getStatus().isFinalStatus()) {
             return terminalNode.minimize(currentPly, alpha, beta);
         }
 
