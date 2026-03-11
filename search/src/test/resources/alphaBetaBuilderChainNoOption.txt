@@ -66,38 +66,20 @@ AlphaBetaFlowControl @ 9
 	|
 	AlphaBetaFlowControl @ 9 -> LOOP
 
- -> QuiescenceNode
-	|
-	Quiescence @ 23 [Evaluator: EvaluatorByMaterial @ 11]
-	|
-	 -> Sorter
-		|
-		NodeMoveSorter @ 24
-		|
-		 -> Comparator
-			|
-			PromotionComparator @ 25
-			|
-			DefaultMoveComparator @ 26
-	|
-	TriangularPV @ 27
-	|
-	AlphaBetaFlowControl @ 9 -> LOOP
-
 
 SearchByCycleListeners:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 28
-	SetSearchLast @ 29
-	SetTrianglePV @ 30
+	SetSearchTimers @ 23
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	AlphaBetaFlowControl @ 9
 	RootMoveSorter @ 4
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 28
-	SetSearchLast @ 29
-	SetTrianglePV @ 30
+	SetSearchTimers @ 23
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	MoveEvaluationTracker @ 7
 
 SearchByWindowsListeners:
@@ -109,12 +91,12 @@ StopSearchingListener:
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 31
-	SetGameToEndGameTableBase @ 32
+	SetGameToEvaluator @ 26
+	SetGameToEndGameTableBase @ 27
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 28
-	SetSearchLast @ 29
-	SetTrianglePV @ 30
+	SetSearchTimers @ 23
+	SetSearchLast @ 24
+	SetTrianglePV @ 25
 	AlphaBetaFlowControl @ 9
 	AlphaBetaEvaluation @ 10
 	AlphaBetaEvaluation @ 15
@@ -123,9 +105,6 @@ Acceptor:
 	NodeMoveSorter @ 17
 	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
-	TriangularPV @ 27
-	Quiescence @ 23
-	NodeMoveSorter @ 24
 	MoveEvaluationTracker @ 7
 	TriangularPV @ 8
 	AlphaBeta @ 3

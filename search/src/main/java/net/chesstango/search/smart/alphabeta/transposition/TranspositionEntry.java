@@ -19,7 +19,6 @@ public class TranspositionEntry implements Serializable, Cloneable, Comparable<T
     int value;
     TranspositionBound bound;
 
-
     public void reset() {
         hash = 0;
         draft = 0;

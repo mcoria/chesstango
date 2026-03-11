@@ -29,7 +29,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.ResetTranspositionTables;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
 import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
@@ -62,7 +62,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
 
-    private ResetTranspositionTables resetTranspositionTables;
+    private TranspositionTableListener transpositionTablesListener;
     private NodeCounters nodeCounters;
     private GameCounters gameCounters;
     private SetTrianglePV setTrianglePV;
@@ -76,7 +76,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withIterativeDeepening;
     private boolean withStatistics;
     private boolean withTranspositionTable;
-    private boolean withTranspositionTableReuse;
     private boolean withTriangularPV;
     private boolean withZobristTracker;
     private boolean withQuiescence;
@@ -178,16 +177,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaRootChainBuilder.withStopProcessingCatch();
         return this;
     }
-
-
-    public AlphaBetaBuilder withTranspositionTableReuse() {
-        if (!withTranspositionTable) {
-            throw new RuntimeException("You must enable TranspositionTable first");
-        }
-        withTranspositionTableReuse = true;
-        return this;
-    }
-
 
     public AlphaBetaBuilder withTrackEvaluations() {
         evaluationBuilder.withTrackEvaluations();
@@ -308,10 +297,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         gameEvaluatorCache = evaluationBuilder.getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
         if (withTranspositionTable) {
-            resetTranspositionTables = new ResetTranspositionTables();
-            if (withTranspositionTableReuse) {
-                resetTranspositionTables.setReuseTranspositionTable(true);
-            }
+            transpositionTablesListener = new TranspositionTableListener();
         }
 
         if (withTriangularPV) {
@@ -360,8 +346,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             searchListenerMediator.add(setSearchTracker);
         }
 
-        if (resetTranspositionTables != null) {
-            searchListenerMediator.add(resetTranspositionTables);
+        if (transpositionTablesListener != null) {
+            searchListenerMediator.add(transpositionTablesListener);
         }
 
         if (setZobristMemory != null) {
@@ -423,7 +409,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         quiescenceChainBuilder.withAlphaBetaFlowControl(alphaBetaFlowControl);
         quiescenceChainBuilder.withSmartListenerMediator(searchListenerMediator);
         quiescenceChainBuilder.withGameEvaluatorCache(gameEvaluatorCache);
-        AlphaBetaFilter quiescenceChain = quiescenceChainBuilder.build();
+        AlphaBetaFilter quiescenceChain = withQuiescence ? quiescenceChainBuilder.build() : null;
 
         alphaBetaFlowControl.setQuiescenceNode(quiescenceChain);
         alphaBetaFlowControl.setInteriorNode(interiorChain);

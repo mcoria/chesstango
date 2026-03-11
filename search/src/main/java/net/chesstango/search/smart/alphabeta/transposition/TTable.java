@@ -53,6 +53,9 @@ public interface TTable {
      */
     SaveResult save(TranspositionEntry entry);
 
+
+    void increaseAge();
+
     /**
      * Removes all entries from the transposition table, resetting it to an empty state.
      * This is typically called at the start of a new game or search session.

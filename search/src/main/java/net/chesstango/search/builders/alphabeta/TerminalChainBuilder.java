@@ -72,7 +72,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         }
 
         if (withTranspositionTable) {
-            transpositionTableTerminal = new TranspositionTableTerminal();
+            //transpositionTableTerminal = new TranspositionTableTerminal();
         }
     }
 

@@ -49,6 +49,11 @@ public class TTableDebug implements TTable, Acceptor {
     }
 
     @Override
+    public void increaseAge() {
+        tTable.increaseAge();
+    }
+
+    @Override
     public void clear() {
         tTable.clear();
     }

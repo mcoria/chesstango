@@ -7,17 +7,17 @@ public class TTableArrayObj implements TTable {
 
     private static final int ARRAY_SIZE = 1024 * 512;
     private final TranspositionEntry[] transpositionArray;
-    private final int[] sessionArray;
-    private int currentSessionId;
+    private final int[] ageArray;
+    private int currentAge;
 
     public TTableArrayObj() {
         this.transpositionArray = new TranspositionEntry[ARRAY_SIZE];
-        this.sessionArray = new int[ARRAY_SIZE];
+        this.ageArray = new int[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.transpositionArray[i] = new TranspositionEntry();
-            this.sessionArray[i] = Integer.MIN_VALUE;
+            this.ageArray[i] = Integer.MIN_VALUE;
         }
-        this.currentSessionId = Integer.MIN_VALUE + 1;
+        this.currentAge = Integer.MIN_VALUE + 1;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class TTableArrayObj implements TTable {
 
         TranspositionEntry storedEntry = transpositionArray[idx];
 
-        if (sessionArray[idx] != currentSessionId || storedEntry.hash != hash) {
+        if (ageArray[idx] != currentAge || storedEntry.hash != hash) {
             return false;
         }
 
@@ -47,8 +47,8 @@ public class TTableArrayObj implements TTable {
         TranspositionEntry storedEntry = transpositionArray[idx];
 
         SaveResult result;
-        if (sessionArray[idx] != currentSessionId) {
-            sessionArray[idx] = currentSessionId;
+        if (ageArray[idx] != currentAge) {
+            ageArray[idx] = currentAge;
             result = SaveResult.INSERTED;
         } else {
             if (storedEntry.hash == entry.hash) {
@@ -67,13 +67,21 @@ public class TTableArrayObj implements TTable {
         return result;
     }
 
+    @Override
+    public void increaseAge() {
+        if (currentAge < Integer.MAX_VALUE) {
+            currentAge++;
+        } else {
+            currentAge = Integer.MIN_VALUE;
+        }
+    }
+
 
     @Override
     public void clear() {
-        if (currentSessionId < Integer.MAX_VALUE) {
-            currentSessionId++;
-        } else {
-            currentSessionId = Integer.MIN_VALUE;
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            transpositionArray[i] = null;
+            ageArray[i] = 0;
         }
     }
 }

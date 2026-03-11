@@ -12,9 +12,20 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private static final int ARRAY_SIZE = 1024 * 512;
 
+    public static final int MAX_AGE = 3;
+
+    private int currentAge;
+
     private static class GameEvaluatorCacheEntry {
         long hash;
         int evaluation;
+        int age;
+
+        GameEvaluatorCacheEntry() {
+            hash = 0;
+            evaluation = 0;
+            age = Integer.MIN_VALUE;
+        }
     }
 
     private final GameEvaluatorCacheEntry[] cache;
@@ -27,19 +38,20 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
     private Game game;
 
-
     public EvaluatorCache(Evaluator imp) {
         this.imp = imp;
         this.cache = new GameEvaluatorCacheEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             this.cache[i] = new GameEvaluatorCacheEntry();
         }
+        this.currentAge = Integer.MIN_VALUE + 1;
+        this.cacheHitsCounter = 0;
     }
 
     @Override
     public void setGame(Game game) {
         this.game = game;
-        imp.setGame(game);
+        this.imp.setGame(game);
     }
 
     @Override
@@ -50,9 +62,10 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
         GameEvaluatorCacheEntry entry = cache[idx];
 
-        if (entry.hash != hash) {
+        if (entry.hash != hash || entry.age > currentAge || currentAge - entry.age > MAX_AGE) {
             entry.hash = hash;
             entry.evaluation = imp.evaluate();
+            entry.age = currentAge;
         } else {
             cacheHitsCounter++;
         }
@@ -66,10 +79,23 @@ public class EvaluatorCache implements Evaluator, EvaluatorCacheRead {
 
         GameEvaluatorCacheEntry entry = cache[idx];
 
-        return entry.hash == hash ? entry.evaluation : null;
+        return entry.hash == hash && currentAge >= entry.age && currentAge - entry.age <= MAX_AGE ? entry.evaluation : null;
     }
 
-    public void resetCacheHitsCounter() {
-        cacheHitsCounter = 0;
+    public void increaseAge() {
+        if (currentAge < Integer.MAX_VALUE) {
+            this.currentAge++;
+        } else {
+            this.currentAge = Integer.MIN_VALUE + 1;
+        }
+        this.cacheHitsCounter = 0;
+    }
+
+    public void clear() {
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            this.cache[i].age = Integer.MIN_VALUE;
+        }
+        this.currentAge = Integer.MIN_VALUE + 1;
+        this.cacheHitsCounter = 0;
     }
 }

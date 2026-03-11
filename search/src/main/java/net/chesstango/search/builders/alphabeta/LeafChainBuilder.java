@@ -70,7 +70,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
             debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
         }
         if (withTranspositionTable) {
-            transpositionTable = new TranspositionTableLeaf();
+            //transpositionTable = new TranspositionTableLeaf();
         }
     }
 

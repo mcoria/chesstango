@@ -5,6 +5,7 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.evaluation.EvaluatorCache;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 
 /**
  * @author Mauricio Corias
@@ -17,6 +18,8 @@ public class EvaluationBuilder {
     private EvaluatorCache gameEvaluatorCache;
 
     private EvaluatorStatisticsCollector gameEvaluatorStatisticsCollector;
+
+    private EvaluatorCacheListener evaluatorCacheListener;
 
     private SearchListenerMediator searchListenerMediator;
 
@@ -64,6 +67,8 @@ public class EvaluationBuilder {
     private void buildObjects() {
         if (withGameEvaluatorCache) {
             gameEvaluatorCache = new EvaluatorCache(evaluatorImp);
+            evaluatorCacheListener = new EvaluatorCacheListener();
+            evaluatorCacheListener.setGameEvaluatorCache(gameEvaluatorCache);
         }
 
         if (withStatistics) {
@@ -76,6 +81,9 @@ public class EvaluationBuilder {
     private void setupListenerMediator() {
         if (gameEvaluatorStatisticsCollector != null) {
             searchListenerMediator.add(gameEvaluatorStatisticsCollector);
+        }
+        if (evaluatorCacheListener != null) {
+            searchListenerMediator.add(evaluatorCacheListener);
         }
     }
 
