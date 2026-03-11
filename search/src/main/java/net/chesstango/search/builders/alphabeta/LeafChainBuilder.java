@@ -18,12 +18,15 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation leaf;
     private ZobristTracker zobristTracker;
     private DebugFilter debugSearchTree;
-    private TranspositionTableLeaf transpositionTable;
     private SearchListenerMediator searchListenerMediator;
+
+    /**
+     * TranspositionTableLeaf escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
+     */
+    //private TranspositionTableLeaf transpositionTable;
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
-    private boolean withTranspositionTable;
 
 
     public LeafChainBuilder() {
@@ -45,10 +48,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public LeafChainBuilder withTranspositionTable() {
-        this.withTranspositionTable = true;
-        return this;
-    }
 
     /**
      * @return
@@ -69,9 +68,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
         }
-        if (withTranspositionTable) {
-            //transpositionTable = new TranspositionTableLeaf();
-        }
     }
 
     private void setupListenerMediator() {
@@ -82,9 +78,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         }
         if (debugSearchTree != null) {
             searchListenerMediator.add(debugSearchTree);
-        }
-        if (transpositionTable != null) {
-            searchListenerMediator.add(transpositionTable);
         }
     }
 
@@ -97,10 +90,6 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
-        }
-
-        if (transpositionTable != null) {
-            chain.add(transpositionTable);
         }
 
         chain.add(leaf);

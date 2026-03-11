@@ -18,13 +18,15 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private TranspositionTableTerminal transpositionTableTerminal;
     private SearchListenerMediator searchListenerMediator;
+
+    /**
+     * TranspositionTableTerminal escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
+     */
+    //private TranspositionTableTerminal transpositionTableTerminal;
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
-
-    private boolean withTranspositionTable;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
@@ -43,11 +45,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
     public TerminalChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
-        return this;
-    }
-
-    public TerminalChainBuilder withTranspositionTable() {
-        this.withTranspositionTable = true;
         return this;
     }
 
@@ -70,10 +67,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
         }
-
-        if (withTranspositionTable) {
-            //transpositionTableTerminal = new TranspositionTableTerminal();
-        }
     }
 
     private void setupListenerMediator() {
@@ -84,9 +77,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
         }
         if (debugFilter != null) {
             searchListenerMediator.add(debugFilter);
-        }
-        if (transpositionTableTerminal != null) {
-            searchListenerMediator.add(transpositionTableTerminal);
         }
     }
 
@@ -99,10 +89,6 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
-        }
-
-        if (transpositionTableTerminal != null) {
-            chain.add(transpositionTableTerminal);
         }
 
         chain.add(alphaBetaEvaluation);

@@ -156,8 +156,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         withTranspositionTable = true;
         alphaBetaRootChainBuilder.withTranspositionTable();
         alphaBetaInteriorChainBuilder.withTranspositionTable();
-        terminalChainBuilder.withTranspositionTable();
-        leafChainBuilder.withTranspositionTable();
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
