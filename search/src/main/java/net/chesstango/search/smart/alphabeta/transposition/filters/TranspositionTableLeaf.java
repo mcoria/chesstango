@@ -26,6 +26,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TranspositionEntry;
  * This filter ensures that terminal positions can be quickly retrieved in future searches without
  * re-evaluation, improving search efficiency.
  *
+ * ESCRIBE DEMASIADO EN TT
  * @author Mauricio Coria
  */
 @Setter

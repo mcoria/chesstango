@@ -126,12 +126,9 @@ public class BottomMoveCounterBuilder implements SearchBuilder {
     public BottomMoveCounterBuilder withTranspositionTable() {
         withTranspositionTable = true;
         alphaBetaInteriorChainBuilder.withTranspositionTable();
-        terminalChainBuilder.withTranspositionTable();
-
 
         quiescenceChainBuilder.withTranspositionTable();
         checkResolverChainBuilder.withTranspositionTable();
-        quiescenceTerminalChainBuilder.withTranspositionTable();
         return this;
     }
 
