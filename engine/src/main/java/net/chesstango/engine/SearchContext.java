@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.time.Instant;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -29,6 +30,9 @@ class SearchContext {
      * The maximum depth to search in the game tree.
      */
     private int depth;
+
+
+    private Instant startSearchInstant;
 
     /**
      * Predicate used to determine whether to continue searching based on the current search results.

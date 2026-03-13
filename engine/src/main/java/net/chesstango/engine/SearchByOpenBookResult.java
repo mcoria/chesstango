@@ -6,5 +6,10 @@ import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 /**
  * @author Mauricio Coria
  */
-public record SearchByOpenBookResult(Move move, PolyglotEntry polyglotEntry) implements SearchResponse {
+public record SearchByOpenBookResult(Move move, PolyglotEntry polyglotEntry, long timeSearching) implements SearchResponse {
+
+    @Override
+    public long getTimeSearching() {
+        return timeSearching;
+    }
 }

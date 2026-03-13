@@ -1,7 +1,5 @@
 package net.chesstango.search.smart.alphabeta.core.listeners;
 
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.SearchResult;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;

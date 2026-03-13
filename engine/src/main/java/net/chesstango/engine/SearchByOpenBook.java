@@ -16,6 +16,8 @@ import net.chesstango.piazzolla.polyglot.PolyglotEntry;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -26,6 +28,7 @@ import java.util.Random;
  */
 @Slf4j
 class SearchByOpenBook implements SearchByChain {
+    private final SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
     private final Random random = new Random();
 
     @Setter
@@ -84,7 +87,8 @@ class SearchByOpenBook implements SearchByChain {
         if (book != null) {
             Optional<PolyglotEntry> polyglotEntryOpt = searchByBook(context.getGame());
             if (polyglotEntryOpt.isPresent()) {
-                searchResponse = createSearchResponse(context.getGame(), polyglotEntryOpt.get());
+                long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
+                searchResponse = createSearchResponse(context.getGame(), polyglotEntryOpt.get(), timeSearching);
             }
         }
         return searchResponse == null ? next.search(context) : searchResponse;
@@ -120,15 +124,13 @@ class SearchByOpenBook implements SearchByChain {
     }
 
 
-    static SearchResponse createSearchResponse(Game game, PolyglotEntry polyglotEntry) {
+    private SearchResponse createSearchResponse(Game game, PolyglotEntry polyglotEntry, long timeSearching) {
         SearchResponse searchResponse = null;
 
         Optional<Move> optMove = polyglotEntryToMove(game, polyglotEntry);
 
         if (optMove.isPresent()) {
-            searchResponse = new SearchByOpenBookResult(optMove.get(), polyglotEntry);
-        } else {
-            log.warn("Move not found for game='{}' and polyglotEntry='{}'", game.getCurrentFEN(), polyglotEntry);
+            searchResponse = new SearchByOpenBookResult(optMove.get(), polyglotEntry, timeSearching);
         }
 
         return searchResponse;
@@ -163,8 +165,7 @@ class SearchByOpenBook implements SearchByChain {
         Move move = possibleMoves.getMove(from, to);
 
         if (move != null) {
-
-            log.debug("Move found: {}", SimpleMoveEncoder.INSTANCE.encode(move));
+            log.debug("OpenBook move found: {}; weight: {}", SimpleMoveEncoder.INSTANCE.encode(move), polyglotEntry.weight());
 
             return Optional.of(move);
         } else {
