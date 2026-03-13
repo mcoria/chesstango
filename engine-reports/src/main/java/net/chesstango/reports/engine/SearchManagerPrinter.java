@@ -29,16 +29,17 @@ public class SearchManagerPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf(" Search Manager Statistics%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(4).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 
-        printerTxtTable.setTitles("Move", "OpenBook", "Tree", "Tablebase");
+        printerTxtTable.setTitles("Move", "OpenBook", "Tree", "Tablebase", "SearchTime(ms)");
 
         reportModel.moveDetail.forEach(moveDetail -> {
             printerTxtTable.addRow(
                     moveDetail.move,
                     moveDetail.type == SearchManagerModel.MoveType.OpenBook ? "X" : "",
                     moveDetail.type == SearchManagerModel.MoveType.Tree ? "X" : "",
-                    moveDetail.type == SearchManagerModel.MoveType.Tablebase ? "X" : ""
+                    moveDetail.type == SearchManagerModel.MoveType.Tablebase ? "X" : "",
+                    Long.toString(moveDetail.searchTime)
             );
         });
 
@@ -46,7 +47,8 @@ public class SearchManagerPrinter implements Printer {
                 "SUM",
                 Integer.toString(reportModel.searchByOpenBookCounter),
                 Integer.toString(reportModel.searchByTreeCounter),
-                Integer.toString(reportModel.searchByTablebaseCounter)
+                Integer.toString(reportModel.searchByTablebaseCounter),
+                Long.toString(reportModel.searchTimeTotal)
         );
 
         printerTxtTable.print();

@@ -32,12 +32,14 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
     int searchByOpenBookCounter;
     int searchByTreeCounter;
     int searchByTablebaseCounter;
+    long searchTimeTotal;
 
     List<SearchManagerModelDetail> moveDetail = new LinkedList<>();
 
     static class SearchManagerModelDetail {
         String move;
         MoveType type;
+        long searchTime;
     }
 
 
@@ -61,9 +63,13 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
                 searchManagerModelDetail.type = Tree;
                 this.searchByTreeCounter++;
             }
-            this.searches++;
+
 
             searchManagerModelDetail.move = simpleMoveEncoder.encode(searchResponse.move());
+            searchManagerModelDetail.searchTime = searchResponse.getTimeSearching();
+
+            this.searchTimeTotal += searchManagerModelDetail.searchTime;
+            this.searches++;
 
             this.moveDetail.add(searchManagerModelDetail);
         });

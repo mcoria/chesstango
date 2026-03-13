@@ -31,9 +31,9 @@ public class SearchManagerSummaryPrinter implements Printer {
 
         out.printf(" Search Manager Statistics%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME ", "SEARCHES", "OpenBook", "Tree", "Tablebase");
+        printerTxtTable.setTitles("ENGINE NAME ", "SEARCHES", "OpenBook", "Tree", "Tablebase", "SearchTime(ms)");
 
         reportModel.forEach(moveDetail -> {
 
@@ -41,7 +41,8 @@ public class SearchManagerSummaryPrinter implements Printer {
                     Long.toString(moveDetail.searches),
                     Integer.toString(moveDetail.searchByOpenBookCounter),
                     Integer.toString(moveDetail.searchByTreeCounter),
-                    Integer.toString(moveDetail.searchByTablebaseCounter));
+                    Integer.toString(moveDetail.searchByTablebaseCounter),
+                    Long.toString(moveDetail.searchTimeTotal));
         });
 
         printerTxtTable.print();

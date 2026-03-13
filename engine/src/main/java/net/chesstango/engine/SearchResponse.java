@@ -9,4 +9,6 @@ import java.io.Serializable;
  */
 public interface SearchResponse extends Serializable {
     Move move();
+
+    long getTimeSearching();
 }

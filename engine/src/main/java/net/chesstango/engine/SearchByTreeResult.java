@@ -6,5 +6,9 @@ import net.chesstango.search.SearchResult;
 /**
  * @author Mauricio Coria
  */
-public record SearchByTreeResult(Move move, SearchResult searchResult) implements SearchResponse {
+public record SearchByTreeResult(Move move, SearchResult searchResult, long timeSearching) implements SearchResponse {
+    @Override
+    public long getTimeSearching() {
+        return timeSearching;
+    }
 }

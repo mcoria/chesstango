@@ -8,6 +8,9 @@ import net.chesstango.search.visitors.SetMaxDepthVisitor;
 import net.chesstango.search.visitors.SetSearchByDepthListenerVisitor;
 import net.chesstango.search.visitors.SetSearchPredicateVisitor;
 
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * @author Mauricio Coria
  */
@@ -52,8 +55,10 @@ class SearchByTree implements SearchByChain {
 
         SearchResult searchResult = search.startSearch(context.getGame());
 
-        log.debug("Move found: {}", simpleMoveEncoder.encode(searchResult.getBestMove()));
+        log.debug("Tree search move found: {}", simpleMoveEncoder.encode(searchResult.getBestMove()));
 
-        return new SearchByTreeResult(searchResult.getBestMove(), searchResult);
+        long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
+
+        return new SearchByTreeResult(searchResult.getBestMove(), searchResult, timeSearching);
     }
 }

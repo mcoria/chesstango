@@ -6,6 +6,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.time.Instant;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -29,6 +30,7 @@ abstract class SearchInvokerAbstract implements SearchInvoker {
             SearchContext context = new SearchContext()
                     .setGame(game)
                     .setDepth(depth)
+                    .setStartSearchInstant(Instant.now())
                     .setSearchResultByDepthPredicate(searchPredicate)
                     .setSearchResultByDepthConsumer(wrapSearchListener(searchListener));
 

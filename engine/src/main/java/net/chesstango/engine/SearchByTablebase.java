@@ -14,6 +14,8 @@ import net.chesstango.piazzolla.syzygy.Syzygy;
 import net.chesstango.piazzolla.syzygy.SyzygyPosition;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import static net.chesstango.piazzolla.syzygy.Syzygy.*;
 
@@ -72,7 +74,8 @@ class SearchByTablebase implements SearchByChain {
         if (syzygy != null) {
             int syzygyResult = searchSyzygyTableBases(context.getGame());
             if (syzygyResult != TB_RESULT_FAILED) {
-                searchResponse = createSearchResponse(context.getGame(), syzygyResult);
+                long timeSearching = Duration.between(context.getStartSearchInstant(), Instant.now()).toMillis();
+                searchResponse = createSearchResponse(context.getGame(), syzygyResult, timeSearching);
             }
         }
         return searchResponse == null ? next.search(context) : searchResponse;
@@ -96,7 +99,7 @@ class SearchByTablebase implements SearchByChain {
         return result;
     }
 
-    private SearchResponse createSearchResponse(Game game, int syzygyResult) {
+    private SearchResponse createSearchResponse(Game game, int syzygyResult, long timeSearching) {
         SearchResponse searchResponse = null;
 
         final int fromIdx = Syzygy.TB_GET_FROM(syzygyResult);
@@ -116,8 +119,8 @@ class SearchByTablebase implements SearchByChain {
         Move move = promotionPiece == null ? game.getMove(from, to) : game.getMove(from, to, promotionPiece);
 
         if (move != null) {
-            log.debug("Move found: {} - {}", simpleMoveEncoder.encode(move), wdlToString(syzygyResult));
-            searchResponse = new SearchByTablebaseResult(move, syzygyResult);
+            log.debug("TableBase move found: {} - {}", simpleMoveEncoder.encode(move), wdlToString(syzygyResult));
+            searchResponse = new SearchByTablebaseResult(move, syzygyResult, timeSearching);
         } else {
             log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.getCurrentFEN());
         }
