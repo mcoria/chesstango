@@ -5,8 +5,8 @@ import net.chesstango.evaluation.Evaluator;
 import net.chesstango.gardel.fen.FEN;
 import net.chesstango.reports.engine.SearchManagerReport;
 import net.chesstango.reports.engine.SearchManagerSummaryReport;
+import net.chesstango.reports.search.DetailsReport;
 import net.chesstango.reports.search.SummaryReport;
-import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -30,8 +30,9 @@ public class TangoGame01IntegrationTest {
 
     private SearchManagerSummaryReport searchManagerSummaryReport;
     private SearchManagerReport searchManagerReport;
+
     private SummaryReport summaryReport;
-    private TranspositionReport transpositionReport;
+    private DetailsReport detailsReport;
 
     @BeforeEach
     public void setup() {
@@ -39,7 +40,7 @@ public class TangoGame01IntegrationTest {
         searchManagerReport = new SearchManagerReport();
 
         summaryReport = new SummaryReport();
-        transpositionReport = new TranspositionReport();
+        detailsReport = new DetailsReport();
     }
 
     @AfterEach
@@ -66,7 +67,12 @@ public class TangoGame01IntegrationTest {
                 .withTranspositionStatistics()
                 .printReport(System.out);
 
-        transpositionReport
+        detailsReport
+                .setReportTitle("TangoGame01")
+                .withNodesVisitedStatistics()
+                .withEvaluationReport()
+                .withTranspositionReport()
+                .withCutoffStatistics()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }
@@ -95,15 +101,15 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            session.goTime(1000);
-            //session.goDepth(3);
+            //session.goTime(1000);
+            session.goDepth(3);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                session.goTime(1000);
-                //session.goDepth(3);
+                //session.goTime(1000);
+                session.goDepth(3);
             }
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {
