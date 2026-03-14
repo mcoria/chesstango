@@ -5,6 +5,7 @@ import net.chesstango.reports.Model;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
 
@@ -30,6 +31,9 @@ public class SummaryModel implements Model<List<SearchResult>> {
     @Getter
     private BoardModel boardModel;
 
+    @Getter
+    private PrincipalVariationModel principalVariationModel;
+
     @Override
     public SummaryModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
@@ -49,6 +53,8 @@ public class SummaryModel implements Model<List<SearchResult>> {
         evaluationModel = new EvaluationModel().collectStatistics(searchGroupName, searchResults);
 
         boardModel = new BoardModel().collectStatistics(searchGroupName, searchResults);
+
+        principalVariationModel = new PrincipalVariationModel().collectStatistics(searchGroupName, searchResults);
     }
 
 }

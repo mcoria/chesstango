@@ -15,13 +15,14 @@ import java.util.List;
 public class PrincipalVariationModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
+    public int searches;
+
     /**
      * Promedio de promedio
      */
     public int pvAccuracyAvgPercentageTotal;
 
     public List<PrincipalVariationReportModelDetail> moveDetails;
-
 
     public static class PrincipalVariationReportModelDetail {
         public String id;
@@ -67,6 +68,8 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
         reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchesByDepthCounter());
 
         moveDetails.add(reportModelDetail);
+
+        this.searches++;
     }
 
 }

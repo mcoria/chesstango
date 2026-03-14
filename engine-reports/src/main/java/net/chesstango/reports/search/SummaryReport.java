@@ -4,6 +4,7 @@ import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
 
@@ -27,6 +28,7 @@ public class SummaryReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printTranspositionStatistics;
     private boolean printEvaluationStatistics;
+    private boolean principalVariationStatistics;
 
     private PrintStream out;
 
@@ -45,7 +47,7 @@ public class SummaryReport implements Report {
     private void print() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        if(printBoardStatistics) {
+        if (printBoardStatistics) {
             List<BoardModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getBoardModel)
@@ -79,7 +81,7 @@ public class SummaryReport implements Report {
                     .print();
         }
 
-        if(printEvaluationStatistics) {
+        if (printEvaluationStatistics) {
             List<EvaluationModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getEvaluationModel)
@@ -98,6 +100,18 @@ public class SummaryReport implements Report {
                     .toList();
 
             new SummaryTranspositionPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
+        if (principalVariationStatistics) {
+            List<PrincipalVariationModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getPrincipalVariationModel)
+                    .toList();
+
+            new SummaryPrincipalVariationPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -129,4 +143,8 @@ public class SummaryReport implements Report {
         return this;
     }
 
+    public SummaryReport withPrincipalVariationStatistics() {
+        this.principalVariationStatistics = true;
+        return this;
+    }
 }
