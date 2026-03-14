@@ -5,6 +5,7 @@ import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
 
@@ -20,6 +21,8 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     private DebugFilter debugFilter;
     private SearchListenerMediator searchListenerMediator;
 
+    private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
+
     /**
      * TranspositionTableTerminal escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
      */
@@ -27,11 +30,17 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
     private boolean withZobristTracker;
     private boolean withDebugSearchTree;
+    private boolean withStatistics;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
+
+    public TerminalChainBuilder withStatistics() {
+        this.withStatistics = true;
+        return this;
+    }
 
     public TerminalChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
@@ -64,6 +73,10 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
+        if(withStatistics) {
+            alphaBetaTerminalNodeStatistics = new AlphaBetaTerminalNodeStatistics();
+        }
+
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.TERMINAL);
         }
@@ -71,9 +84,11 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
     private void setupListenerMediator() {
         searchListenerMediator.add(alphaBetaEvaluation);
-
         if (zobristTracker != null) {
             searchListenerMediator.add(zobristTracker);
+        }
+        if (alphaBetaTerminalNodeStatistics != null) {
+            searchListenerMediator.add(alphaBetaTerminalNodeStatistics);
         }
         if (debugFilter != null) {
             searchListenerMediator.add(debugFilter);
@@ -89,6 +104,10 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
+        }
+
+        if (alphaBetaTerminalNodeStatistics != null) {
+            chain.add(alphaBetaTerminalNodeStatistics);
         }
 
         chain.add(alphaBetaEvaluation);

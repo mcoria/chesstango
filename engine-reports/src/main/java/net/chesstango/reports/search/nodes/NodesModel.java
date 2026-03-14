@@ -40,7 +40,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     public int[] cutoffQPercentages;
     public long expectedQNodesTotal;
     public long visitedQNodesTotal;
-    ///////////////////// END QUIESCENCE NODES
+    /// ////////////////// END QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
 
@@ -120,7 +120,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
         this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
 
-        if(this.expectedNodesTotal > 0) {
+        if (this.expectedNodesTotal > 0) {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
         }
     }
@@ -180,7 +180,7 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         for (int i = 0; i < 30; i++) {
             if (reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]) {
-                throw new RuntimeException("reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]");
+                throw new RuntimeException(String.format("reportModelDetail.expectedQNodesCounters[%d] (%d) < reportModelDetail.visitedQNodesCounters[%d] (%d)", i, reportModelDetail.expectedQNodesCounters[i], i, reportModelDetail.visitedQNodesCounters[i]));
             }
             if (reportModelDetail.visitedQNodesCounters[i] > 0) {
                 reportModelDetail.visitedQNodesCounter += reportModelDetail.visitedQNodesCounters[i];

@@ -21,11 +21,18 @@ public class SetNodeCountersVisitor implements Visitor {
         this.expectedNodesCountersQuiescence = expectedNodesCountersQuiescence;
     }
 
+    @Override
     public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
         alphaBetaNodeStatistics.setVisitedNodesCounters(visitedNodesCounters);
         alphaBetaNodeStatistics.setExpectedNodesCounters(expectedNodesCounters);
         alphaBetaNodeStatistics.setVisitedNodesCountersQuiescence(visitedNodesCountersQuiescence);
         alphaBetaNodeStatistics.setExpectedNodesCountersQuiescence(expectedNodesCountersQuiescence);
+    }
+
+    @Override
+    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
+        alphaBetaTerminalNodeStatistics.setVisitedNodesCounters(visitedNodesCounters);
+        alphaBetaTerminalNodeStatistics.setVisitedNodesCountersQuiescence(visitedNodesCountersQuiescence);
     }
 
 }
