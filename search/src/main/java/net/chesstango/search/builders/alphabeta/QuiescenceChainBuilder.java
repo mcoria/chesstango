@@ -12,6 +12,7 @@ import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -25,7 +26,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
-    private AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics;
+    private AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
@@ -131,7 +132,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     private void buildObjects() {
         if (withStatistics) {
-            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeStatistics();
+            alphaBetaQuiescenceNodeStatistics = new AlphaBetaQuiescenceNodeStatistics();
         }
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
@@ -150,7 +151,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.add(alphaBetaNodeStatistics);
+            searchListenerMediator.add(alphaBetaQuiescenceNodeStatistics);
         }
         if (zobristQTracker != null) {
             searchListenerMediator.add(zobristQTracker);
@@ -183,8 +184,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(transpositionTableQ);
         }
 
-        if (alphaBetaNodeStatistics != null) {
-            chain.add(alphaBetaNodeStatistics);
+        if (alphaBetaQuiescenceNodeStatistics != null) {
+            chain.add(alphaBetaQuiescenceNodeStatistics);
         }
 
         chain.add(quiescence);

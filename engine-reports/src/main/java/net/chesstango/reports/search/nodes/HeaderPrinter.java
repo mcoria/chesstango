@@ -29,6 +29,13 @@ class HeaderPrinter implements Printer {
         //out.printf("Visited         QNodes: %10d%n", reportModel.visitedQNodesTotal);
         out.printf("Visited          Nodes: %10d%n", reportModel.visitedNodesTotal);
         out.printf("Cutoff                : %10d %%%n", reportModel.cutoffPercentageTotal);
+
+        out.printf("Root             Nodes: %10d%n", reportModel.rootNodeCounterTotal);
+        out.printf("Interior         Nodes: %10d%n", reportModel.interiorNodeCounterTotal);
+        out.printf("Quiescence       Nodes: %10d%n", reportModel.quiescenceNodeCounterTotal);
+        out.printf("Terminal         Nodes: %10d%n", reportModel.terminalNodeCounterTotal);
+
+
         out.printf("%n");
 
         return this;

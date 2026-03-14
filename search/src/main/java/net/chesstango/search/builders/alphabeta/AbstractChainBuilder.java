@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
@@ -35,9 +36,11 @@ public class AbstractChainBuilder {
                 case TranspositionTableQ transpositionTableQ -> transpositionTableQ.setNext(next);
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 
-                case AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
-                case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);
                 case AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics -> alphaBetaRootNodeStatistics.setNext(next);
+                case AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case AlphaBetaQuiescenceNodeStatistics quiescenceNodeStatistics -> quiescenceNodeStatistics.setNext(next);
+                case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);
+
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
                 case Quiescence quiescence -> quiescence.setNext(next);

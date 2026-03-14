@@ -20,6 +20,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     public long rootNodeCounterTotal;
     public long interiorNodeCounterTotal;
     public long terminalNodeCounterTotal;
+    public long quiescenceNodeCounterTotal;
     public long nodeCounterTotal;
 
 
@@ -52,6 +53,7 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         public long rootNodeCounter;
         public long interiorNodeCounter;
+        public long quiescenceNodeCounter;
         public long terminalNodeCounter;
 
         /**
@@ -107,7 +109,7 @@ public class NodesModel implements Model<List<SearchResult>> {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
         }
 
-        this.nodeCounterTotal = this.rootNodeCounterTotal + this.interiorNodeCounterTotal + this.terminalNodeCounterTotal;
+        this.nodeCounterTotal = this.rootNodeCounterTotal + this.interiorNodeCounterTotal + this.quiescenceNodeCounterTotal + this.terminalNodeCounterTotal;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -157,10 +159,12 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         reportModelDetail.rootNodeCounter = regularNodeStatistics.rootNodeCounter();
         reportModelDetail.interiorNodeCounter = regularNodeStatistics.interiorNodeCounter();
+        reportModelDetail.quiescenceNodeCounter = regularNodeStatistics.quiescenceCounter();
         reportModelDetail.terminalNodeCounter = regularNodeStatistics.terminalNodeCounter();
 
         this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
         this.interiorNodeCounterTotal += reportModelDetail.interiorNodeCounter;
+        this.quiescenceNodeCounterTotal += reportModelDetail.quiescenceNodeCounter;
         this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
     }
 }

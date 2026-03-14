@@ -98,7 +98,7 @@ AlphaBetaFlowControl @ 16
 	|
 	TranspositionTableQ @ 41 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 	|
-	AlphaBetaInteriorNodeStatistics @ 42
+	AlphaBetaQuiescenceNodeStatistics @ 42
 	|
 	Quiescence @ 43 [Evaluator: EvaluatorStatisticsCollector @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
 	|
@@ -185,7 +185,7 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 37
 	KillerMoveComparator @ 39
 	EgtbEvaluation @ 22
-	AlphaBetaInteriorNodeStatistics @ 42
+	AlphaBetaQuiescenceNodeStatistics @ 42
 	TranspositionTableQ @ 41
 	Quiescence @ 43
 	NodeMoveSorter @ 44

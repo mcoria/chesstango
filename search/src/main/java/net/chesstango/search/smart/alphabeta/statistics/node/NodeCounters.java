@@ -13,6 +13,7 @@ public class NodeCounters implements SearchByCycleListener {
 
     private long rootNodeCounter;
     private long interiorNodeCounter;
+    private long quiescenceCounter;
     private long terminalNodeCounter;
 
     private long[] visitedNodesCounters;
@@ -43,6 +44,7 @@ public class NodeCounters implements SearchByCycleListener {
         return new NodeStatistics(
                 rootNodeCounter,
                 interiorNodeCounter,
+                quiescenceCounter,
                 terminalNodeCounter,
                 expectedNodesCounters,
                 visitedNodesCounters
@@ -55,6 +57,10 @@ public class NodeCounters implements SearchByCycleListener {
 
     public void increaseInteriorCounter() {
         interiorNodeCounter++;
+    }
+
+    public void increaseQuiescenceCounter() {
+        quiescenceCounter++;
     }
 
     public void increaseTerminalCounter() {

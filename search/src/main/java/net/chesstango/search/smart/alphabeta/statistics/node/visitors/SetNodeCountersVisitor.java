@@ -22,8 +22,13 @@ public class SetNodeCountersVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
-        alphaBetaNodeStatistics.setNodeCounters(nodeCounters);
+    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaInteriorNodeStatistics) {
+        alphaBetaInteriorNodeStatistics.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
+        alphaBetaQuiescenceNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override

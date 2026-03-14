@@ -43,6 +43,7 @@ import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.Eva
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
@@ -101,6 +102,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+    }
+
+    default void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
     }
 
     default void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
