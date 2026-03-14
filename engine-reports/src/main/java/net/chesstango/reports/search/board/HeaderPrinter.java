@@ -21,7 +21,7 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("NodesReport: %s%n%n", reportModel.searchGroupName);
+        out.printf("BoardReport: %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Executed         Moves: %10d%n", reportModel.executedMovesTotal);
         out.printf("Search Time (ms)      : %10d%n", reportModel.searchTimeTotal);
