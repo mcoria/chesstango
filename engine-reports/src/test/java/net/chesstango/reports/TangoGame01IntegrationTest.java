@@ -62,21 +62,21 @@ public class TangoGame01IntegrationTest {
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
                 .withBoardStatistics()
-                //.withNodesVisitedStatistics()
+                .withNodesVisitedStatistics()
                 //.withCutoffStatistics()
                 //.withEvaluationStatistics()
                 //.withTranspositionStatistics()
-                .withPrincipalVariationStatistics()
+                //.withPrincipalVariationStatistics()
                 .printReport(System.out);
 
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withBoardReport()
-                //.withNodesVisitedStatistics()
+                .withNodesVisitedStatistics()
                 //.withCutoffStatistics()
                 //.withEvaluationReport()
                 //.withTranspositionReport()
-                .withPrincipalVariationReport()
+                //.withPrincipalVariationReport()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }
@@ -106,14 +106,14 @@ public class TangoGame01IntegrationTest {
 
             session.setMoves(List.of());
             //session.goTime(2000);
-            session.goDepth(3);
+            session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
                 //session.goTime(2000);
-                session.goDepth(3);
+                session.goDepth(5);
             }
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {
