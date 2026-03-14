@@ -52,7 +52,7 @@ public class SearchManagerTest {
     @BeforeEach
     public void setup() {
         timeOutExecutor = Executors.newSingleThreadScheduledExecutor();
-        expectedResult = () -> null;
+        expectedResult = null;
 
         game = Game.from(FEN.START_POSITION);
 

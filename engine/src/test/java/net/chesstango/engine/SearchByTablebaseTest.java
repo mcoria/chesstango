@@ -15,6 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -41,6 +43,7 @@ public class SearchByTablebaseTest {
 
         Game game = Game.from(FEN.of("8/8/8/8/8/8/2Rk4/1K6 b - - 0 1"));
         SearchContext searchContext = new SearchContext()
+                .setStartSearchInstant(Instant.now())
                 .setGame(game);
 
         SearchResponse result = searchByTablebase.search(searchContext);
@@ -58,6 +61,7 @@ public class SearchByTablebaseTest {
 
         Game game = Game.from(FEN.of("8/8/8/8/8/4k3/2R5/1K6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
+                .setStartSearchInstant(Instant.now())
                 .setGame(game);
 
         SearchResponse result = searchByTablebase.search(searchContext);
@@ -75,6 +79,7 @@ public class SearchByTablebaseTest {
 
         Game game = Game.from(FEN.of("8/6P1/8/7K/3k4/8/8/1q6 w - - 0 1"));
         SearchContext searchContext = new SearchContext()
+                .setStartSearchInstant(Instant.now())
                 .setGame(game);
 
         SearchResponse result = searchByTablebase.search(searchContext);

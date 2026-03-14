@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,7 @@ public class SearchByOpenBookTest {
         Game game = Game.from(FEN.of("r2qkbnr/pp1n1pp1/2p1p2p/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 7"));
 
         SearchContext context = new SearchContext()
+                .setStartSearchInstant(Instant.now())
                 .setGame(game);
 
         SearchResponse response = searchByOpenBook.search(context);
