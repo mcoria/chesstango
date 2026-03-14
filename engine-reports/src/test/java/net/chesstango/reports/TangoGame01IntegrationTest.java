@@ -62,20 +62,20 @@ public class TangoGame01IntegrationTest {
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
                 .withBoardStatistics()
-                //.withNodesVisitedStatistics()
-                //.withCutoffStatistics()
-                //.withEvaluationStatistics()
-                //.withTranspositionStatistics()
+                .withNodesVisitedStatistics()
+                .withCutoffStatistics()
+                .withEvaluationStatistics()
+                .withTranspositionStatistics()
                 .printReport(System.out);
 
         detailsReport
                 .setReportTitle("TangoGame01")
                 .withBoardReport()
-                //.withPrincipalVariationReport()
-                //.withNodesVisitedStatistics()
-                //.withEvaluationReport()
-                //.withTranspositionReport()
-                //.withCutoffStatistics()
+                .withPrincipalVariationReport()
+                .withNodesVisitedStatistics()
+                .withEvaluationReport()
+                .withTranspositionReport()
+                .withCutoffStatistics()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }
@@ -104,15 +104,15 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            //session.goTime(1000);
-            session.goDepth(3);
+            session.goTime(2000);
+            //session.goDepth(3);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                //session.goTime(1000);
-                session.goDepth(3);
+                session.goTime(2000);
+                //session.goDepth(3);
             }
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {
