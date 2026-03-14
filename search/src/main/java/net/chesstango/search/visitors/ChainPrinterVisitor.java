@@ -33,10 +33,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
@@ -137,8 +134,8 @@ public class ChainPrinterVisitor implements Visitor {
 
 
     @Override
-    public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
-        print(alphaBetaStatisticsExpected, alphaBetaStatisticsExpected.getNext());
+    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+        print(alphaBetaNodeStatistics, alphaBetaNodeStatistics.getNext());
     }
 
     @Override
@@ -169,11 +166,6 @@ public class ChainPrinterVisitor implements Visitor {
         nestedChain--;
 
         quiescence.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
-        print(alphaBetaStatisticsVisited, alphaBetaStatisticsVisited.getNext());
     }
 
     @Override
@@ -234,16 +226,6 @@ public class ChainPrinterVisitor implements Visitor {
         printChainText(String.format("%s [TTable: %s]", objectText(transpositionTableQ), printTTable(transpositionTableQ.getMaxMap())));
 
         transpositionTableQ.getNext().accept(this);
-    }
-
-    @Override
-    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-        print(quiescenceStatisticsExpected, quiescenceStatisticsExpected.getNext());
-    }
-
-    @Override
-    public void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
-        print(quiescenceStatisticsVisited, quiescenceStatisticsVisited.getNext());
     }
 
     @Override

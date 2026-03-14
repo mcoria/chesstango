@@ -14,8 +14,7 @@ import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -35,8 +34,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
     private final NodeMoveSorter nodeMoveSorter;
-    private AlphaBetaStatisticsExpected alphaBetaStatisticsExpected;
-    private AlphaBetaStatisticsVisited alphaBetaStatisticsVisited;
+    private AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics;
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
     private TranspositionTableRoot transpositionTableRoot;
@@ -126,8 +124,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         MoveSorter moveSorter = rootMoveSorter;
 
         if (withStatistics) {
-            alphaBetaStatisticsExpected = new AlphaBetaStatisticsExpected();
-            alphaBetaStatisticsVisited = new AlphaBetaStatisticsVisited();
+            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeStatistics();
         }
 
         if (withAspirationWindows) {
@@ -182,8 +179,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         searchListenerMediator.add(moveEvaluationTracker);
 
         if (withStatistics) {
-            searchListenerMediator.add(alphaBetaStatisticsExpected);
-            searchListenerMediator.add(alphaBetaStatisticsVisited);
+            searchListenerMediator.add(alphaBetaNodeStatistics);
         }
 
         if (aspirationWindows != null) {
@@ -255,15 +251,11 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             chain.add(transpositionTableRoot);
         }
 
-        if (alphaBetaStatisticsExpected != null) {
-            chain.add(alphaBetaStatisticsExpected);
+        if (alphaBetaNodeStatistics != null) {
+            chain.add(alphaBetaNodeStatistics);
         }
 
         chain.add(alphaBeta);
-
-        if (alphaBetaStatisticsVisited != null) {
-            chain.add(alphaBetaStatisticsVisited);
-        }
 
         chain.add(moveEvaluationTracker);
 

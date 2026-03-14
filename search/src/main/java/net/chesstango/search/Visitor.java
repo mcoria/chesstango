@@ -10,10 +10,6 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
@@ -21,9 +17,13 @@ import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
 import net.chesstango.search.smart.alphabeta.debug.traps.LeafNodeTrap;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
+import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisitor;
 import net.chesstango.search.smart.alphabeta.killermoves.KillerMovesDebug;
 import net.chesstango.search.smart.alphabeta.killermoves.comparators.KillerMoveComparator;
@@ -41,20 +41,18 @@ import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
-import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTDump;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TTLoad;
+import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 import net.chesstango.search.smart.sorters.MoveSorterDebug;
 import net.chesstango.search.smart.sorters.NodeMoveSorter;
@@ -89,19 +87,19 @@ public interface Visitor {
      *
      */
 
+    default void visit(AlphaBeta alphaBeta) {
+    }
+
     default void visit(AspirationWindows aspirationWindows) {
     }
 
     default void visit(TranspositionTableRoot transpositionTableRoot) {
     }
 
-    default void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
+    default void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
     }
 
-    default void visit(AlphaBeta alphaBeta) {
-    }
-
-    default void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
+    default void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
     }
 
     default void visit(StopProcessingCatch stopProcessingCatch) {
@@ -144,12 +142,6 @@ public interface Visitor {
     }
 
     default void visit(QuiescenceNull quiescenceNull) {
-    }
-
-    default void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-    }
-
-    default void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
     }
 
     default void visit(DebugFilter debugFilter) {

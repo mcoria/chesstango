@@ -10,26 +10,28 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
+@Setter
+public class AlphaBetaInteriorNodeStatistics implements AlphaBetaFilter {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
-    private long[] expectedNodesCounters;
 
-    @Setter
+    private long[] expectedNodesCounters;
+    private long[] visitedNodesCounters;
+
+    private long[] expectedNodesCountersQuiescence;
+    private long[] visitedNodesCountersQuiescence;
+
+
     private Game game;
 
-    @Setter
     private int depth;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
@@ -44,17 +46,28 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        final int qLevel = currentPly - depth;
-        int expectedMoves = 0;
-        if (game.getStatus().isCheck()) {
-            expectedMoves = game.getPossibleMoves().size();
+        if (currentPly < depth) {
+            expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
         } else {
+            final int qLevel = currentPly - depth;
+            int expectedMoves = 0;
             for (Move move : game.getPossibleMoves()) {
                 if (!move.isQuiet()) {
                     expectedMoves++;
                 }
             }
+            expectedNodesCountersQuiescence[qLevel] += expectedMoves;
         }
-        expectedNodesCounters[qLevel] += expectedMoves;
+
+        if (currentPly > 0) {
+            if (currentPly < depth) {
+                visitedNodesCounters[currentPly - 1]++;
+            } else {
+                final int qLevel = currentPly - depth;
+                visitedNodesCountersQuiescence[qLevel]++;
+            }
+        }
+
     }
 }
+

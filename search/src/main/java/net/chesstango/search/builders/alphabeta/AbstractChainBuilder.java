@@ -10,10 +10,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTrack
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -36,15 +33,7 @@ public class AbstractChainBuilder {
                 case TranspositionTableQ transpositionTableQ -> transpositionTableQ.setNext(next);
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 
-
-                case AlphaBetaStatisticsExpected betaStatisticsExpected -> betaStatisticsExpected.setNext(next);
-                case AlphaBetaStatisticsVisited betaStatisticsVisited -> betaStatisticsVisited.setNext(next);
-
-                case QuiescenceStatisticsExpected quiescenceStatisticsExpected ->
-                        quiescenceStatisticsExpected.setNext(next);
-                case QuiescenceStatisticsVisited quiescenceStatisticsVisited ->
-                        quiescenceStatisticsVisited.setNext(next);
-
+                case AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
                 case Quiescence quiescence -> quiescence.setNext(next);

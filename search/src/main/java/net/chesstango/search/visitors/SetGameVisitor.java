@@ -10,18 +10,17 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
-import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetSearchTracker;
+import net.chesstango.search.smart.alphabeta.egtb.liteners.SetGameToEndGameTableBase;
 import net.chesstango.search.smart.alphabeta.evaluator.comparators.GameEvaluatorCacheComparator;
+import net.chesstango.search.smart.alphabeta.evaluator.listeners.SetGameToEvaluator;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
@@ -122,13 +121,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
-        alphaBetaStatisticsExpected.setGame(game);
-    }
-
-    @Override
-    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-        quiescenceStatisticsExpected.setGame(game);
+    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+        alphaBetaNodeStatistics.setGame(game);
     }
 
     @Override

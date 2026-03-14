@@ -3,9 +3,7 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
-import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
@@ -49,13 +47,8 @@ public class SetDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-        quiescenceStatisticsExpected.setDepth(depth);
-    }
-
-    @Override
-    public void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
-        quiescenceStatisticsVisited.setDepth(depth);
+    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+        alphaBetaNodeStatistics.setDepth(depth);
     }
 
     @Override
