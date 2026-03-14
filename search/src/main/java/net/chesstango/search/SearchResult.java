@@ -28,8 +28,6 @@ public class SearchResult implements Serializable {
 
     private NodeStatistics regularNodeStatistics;
 
-    private NodeStatistics quiescenceNodeStatistics;
-
     private TTableStatistics tTableStatistics;
 
     private long executedMoves;

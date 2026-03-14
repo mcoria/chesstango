@@ -16,8 +16,6 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
 
     private long[] visitedNodesCounters;
 
-    private long[] visitedNodesCountersQuiescence;
-
     private int depth;
 
     @Override
@@ -39,12 +37,7 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
 
     protected void updateCounters(final int currentPly) {
         if (currentPly > 0) {
-            if (currentPly < depth) {
-                visitedNodesCounters[currentPly - 1]++;
-            } else if (currentPly > depth) {
-                final int qLevel = currentPly - depth - 1;
-                //visitedNodesCountersQuiescence[qLevel]++;
-            }
+            visitedNodesCounters[currentPly - 1]++;
         }
     }
 }

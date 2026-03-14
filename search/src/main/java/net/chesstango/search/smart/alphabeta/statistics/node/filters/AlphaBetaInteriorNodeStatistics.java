@@ -16,12 +16,8 @@ public class AlphaBetaInteriorNodeStatistics implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
-
     private long[] expectedNodesCounters;
     private long[] visitedNodesCounters;
-
-    private long[] expectedNodesCountersQuiescence;
-    private long[] visitedNodesCountersQuiescence;
 
 
     private Game game;
@@ -49,23 +45,17 @@ public class AlphaBetaInteriorNodeStatistics implements AlphaBetaFilter {
         if (currentPly < depth) {
             expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
         } else {
-            final int qLevel = currentPly - depth;
             int expectedMoves = 0;
             for (Move move : game.getPossibleMoves()) {
                 if (!move.isQuiet()) {
                     expectedMoves++;
                 }
             }
-            expectedNodesCountersQuiescence[qLevel] += expectedMoves;
+            expectedNodesCounters[currentPly] += expectedMoves;
         }
 
         if (currentPly > 0) {
-            if (currentPly < depth) {
-                visitedNodesCounters[currentPly - 1]++;
-            } else if (currentPly > depth) {
-                final int qLevel = currentPly - depth - 1;
-                visitedNodesCountersQuiescence[qLevel]++;
-            }
+            visitedNodesCounters[currentPly - 1]++;
         }
 
     }

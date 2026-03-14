@@ -34,12 +34,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     ///////////////////// END REGULAR NODES
 
     /// ////////////////// START QUIESCENCE NODES
-    public int maxSearchQLevel;
-    public long[] expectedQNodesCounters;
-    public long[] visitedQNodesCounters;
-    public int[] cutoffQPercentages;
-    public long expectedQNodesTotal;
-    public long visitedQNodesTotal;
+    //public int maxSearchQLevel;
     /// ////////////////// END QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
@@ -61,13 +56,6 @@ public class NodesModel implements Model<List<SearchResult>> {
         public long[] visitedRNodesCounters;
         public long visitedRNodesCounter;
         public int[] cutoffRPercentages;
-
-
-        public long[] expectedQNodesCounters;
-        public long expectedQNodesCounter;
-        public long[] visitedQNodesCounters;
-        public long visitedQNodesCounter;
-        public int[] cutoffQPercentages;
     }
 
     @Override
@@ -85,13 +73,9 @@ public class NodesModel implements Model<List<SearchResult>> {
         this.nodesModelDetails = new LinkedList<>();
 
         this.expectedRNodesCounters = new long[30];
-        this.expectedQNodesCounters = new long[30];
-
         this.visitedRNodesCounters = new long[30];
-        this.visitedQNodesCounters = new long[30];
-
         this.cutoffRPercentages = new int[30];
-        this.cutoffQPercentages = new int[30];
+
 
 
         searchResults.forEach(this::loadModelDetail);
@@ -105,20 +89,10 @@ public class NodesModel implements Model<List<SearchResult>> {
                 this.maxSearchRLevel = i + 1;
             }
 
-            if (this.visitedQNodesCounters[i] > 0) {
-                this.cutoffQPercentages[i] = (int) (100 - (100 * this.visitedQNodesCounters[i] / this.expectedQNodesCounters[i]));
-                this.maxSearchQLevel = i + 1;
-            }
-
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
-            this.visitedQNodesTotal += this.visitedQNodesCounters[i];
-
             this.expectedRNodesTotal += this.expectedRNodesCounters[i];
-            this.expectedQNodesTotal += this.expectedQNodesCounters[i];
         }
 
-        this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
-        this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
 
         if (this.expectedNodesTotal > 0) {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
@@ -136,12 +110,9 @@ public class NodesModel implements Model<List<SearchResult>> {
             collectRegularNodeStatistics(reportModelDetail, searchResult);
         }
 
-        if (searchResult.getQuiescenceNodeStatistics() != null) {
-            collectQuiescenceNodeStatistics(reportModelDetail, searchResult);
-        }
 
-        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter + reportModelDetail.visitedQNodesCounter;
-        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter + reportModelDetail.expectedQNodesCounter;
+        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter;
+        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter;
         reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
 
         this.nodesModelDetails.add(reportModelDetail);
@@ -167,30 +138,6 @@ public class NodesModel implements Model<List<SearchResult>> {
 
                 if (reportModelDetail.expectedRNodesCounters[i] > 0) {
                     reportModelDetail.cutoffRPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i])));
-                }
-            }
-        }
-    }
-
-    private void collectQuiescenceNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
-        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
-        reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
-        reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffQPercentages = new int[30];
-
-        for (int i = 0; i < 30; i++) {
-            if (reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]) {
-                throw new RuntimeException(String.format("reportModelDetail.expectedQNodesCounters[%d] (%d) < reportModelDetail.visitedQNodesCounters[%d] (%d)", i, reportModelDetail.expectedQNodesCounters[i], i, reportModelDetail.visitedQNodesCounters[i]));
-            }
-            if (reportModelDetail.visitedQNodesCounters[i] > 0) {
-                reportModelDetail.visitedQNodesCounter += reportModelDetail.visitedQNodesCounters[i];
-                this.visitedQNodesCounters[i] += reportModelDetail.visitedQNodesCounters[i];
-
-                reportModelDetail.expectedQNodesCounter += reportModelDetail.expectedQNodesCounters[i];
-                this.expectedQNodesCounters[i] += reportModelDetail.expectedQNodesCounters[i];
-
-                if (reportModelDetail.expectedQNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffQPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedQNodesCounters[i] / reportModelDetail.expectedQNodesCounters[i])));
                 }
             }
         }

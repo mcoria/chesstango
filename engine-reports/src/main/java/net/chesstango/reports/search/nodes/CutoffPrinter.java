@@ -26,12 +26,12 @@ class CutoffPrinter implements Printer {
     public CutoffPrinter print() {
         out.printf("Cutoff per search level (higher is better)%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxSearchRLevel + reportModel.maxSearchQLevel).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxSearchRLevel ).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
-        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
         tmp.add("Cutoff");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
@@ -42,7 +42,7 @@ class CutoffPrinter implements Printer {
             tmpRow.add(String.format("%s", moveDetail.move));
 
             IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffRPercentages[depth])).forEach(tmpRow::add);
-            IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffQPercentages[depth])).forEach(tmpRow::add);
+            //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffQPercentages[depth])).forEach(tmpRow::add);
 
             tmpRow.add(String.format("%d %%", moveDetail.cutoffPercentageTotal));
 
@@ -52,7 +52,7 @@ class CutoffPrinter implements Printer {
         tmp = new LinkedList<>();
         tmp.add("SUM");
         IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d %%", reportModel.cutoffRPercentages[depth])).forEach(tmp::add);
-        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", reportModel.cutoffQPercentages[depth])).forEach(tmp::add);
+        //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", reportModel.cutoffQPercentages[depth])).forEach(tmp::add);
         tmp.add(String.format("%d %%", reportModel.cutoffPercentageTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));

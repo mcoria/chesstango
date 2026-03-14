@@ -15,8 +15,6 @@ public class NodeCounters implements SearchByCycleListener {
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
-    private long[] visitedNodesCountersQuiescence;
-    private long[] expectedNodesCountersQuiescence;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
@@ -30,13 +28,10 @@ public class NodeCounters implements SearchByCycleListener {
     public void beforeSearch() {
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
-        this.visitedNodesCountersQuiescence = new long[30];
-        this.expectedNodesCountersQuiescence = new long[30];
 
         searchListenerMediator.accept(
                 new SetNodeCountersVisitor(
-                        visitedNodesCounters, expectedNodesCounters,
-                        visitedNodesCountersQuiescence, expectedNodesCountersQuiescence
+                        visitedNodesCounters, expectedNodesCounters
                 )
         );
     }
@@ -46,7 +41,4 @@ public class NodeCounters implements SearchByCycleListener {
         return new NodeStatistics(expectedNodesCounters, visitedNodesCounters);
     }
 
-    public NodeStatistics getQuiescenceNodeStatistics() {
-        return new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence);
-    }
 }

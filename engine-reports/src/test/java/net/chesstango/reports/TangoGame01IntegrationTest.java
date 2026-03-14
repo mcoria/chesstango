@@ -45,6 +45,7 @@ public class TangoGame01IntegrationTest {
 
     @AfterEach
     public void tearDown() {
+        /*
         searchManagerSummaryReport
                 .addSearchResponses("TangoGame01", searchResponseList)
                 .printReport(System.out);
@@ -52,6 +53,7 @@ public class TangoGame01IntegrationTest {
         searchManagerReport
                 .withMoveResults(searchResponseList)
                 .printReport(System.out);
+         */
 
         List<SearchResult> searchResults = searchResponseList.stream()
                 .filter(SearchByTreeResult.class::isInstance)
@@ -61,7 +63,7 @@ public class TangoGame01IntegrationTest {
 
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
-                .withBoardStatistics()
+                //.withBoardStatistics()
                 .withNodesVisitedStatistics()
                 //.withCutoffStatistics()
                 //.withEvaluationStatistics()
@@ -71,7 +73,7 @@ public class TangoGame01IntegrationTest {
 
         detailsReport
                 .setReportTitle("TangoGame01")
-                .withBoardReport()
+                //.withBoardReport()
                 .withNodesVisitedStatistics()
                 //.withCutoffStatistics()
                 //.withEvaluationReport()
