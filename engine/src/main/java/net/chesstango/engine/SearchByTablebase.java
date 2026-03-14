@@ -119,25 +119,13 @@ class SearchByTablebase implements SearchByChain {
         Move move = promotionPiece == null ? game.getMove(from, to) : game.getMove(from, to, promotionPiece);
 
         if (move != null) {
-            log.debug("TableBase move found: {} - {}", simpleMoveEncoder.encode(move), wdlToString(syzygyResult));
+            log.debug("TableBase move found: {} - {}", simpleMoveEncoder.encode(move), SearchByTablebaseResult.wdlToString(syzygyResult));
             searchResponse = new SearchByTablebaseResult(move, syzygyResult, timeSearching);
         } else {
             log.warn("Move not found fromIdx={} toIdx={} fen={}", fromIdx, toIdx, game.getCurrentFEN());
         }
 
         return searchResponse;
-    }
-
-    String wdlToString(int syzygyResult) {
-        int tb_result = TB_GET_WDL(syzygyResult);
-        return switch (tb_result) {
-            case TB_WIN -> "TB_WIN";
-            case TB_CURSED_WIN -> "TB_CURSED_WIN";
-            case TB_DRAW -> "TB_DRAW";
-            case TB_BLESSED_LOSS -> "TB_BLESSED_LOSS";
-            case TB_LOSS -> "TB_LOSS";
-            default -> "UNKNOWN";
-        };
     }
 
 

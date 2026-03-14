@@ -12,7 +12,8 @@ module net.chesstango.reports {
     requires net.chesstango.evaluation;
     requires net.chesstango.gardel;
     requires net.chesstango.engine;
+    requires net.chesstango.piazzolla;
+    requires jmh.core;
 
     requires static lombok;
-    requires jmh.core;
 }

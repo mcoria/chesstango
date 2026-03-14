@@ -36,15 +36,15 @@ public class SearchManagerPrinter implements Printer {
         reportModel.moveDetail.forEach(moveDetail -> {
             printerTxtTable.addRow(
                     moveDetail.move,
-                    moveDetail.type == SearchManagerModel.MoveType.OpenBook ? "X" : "",
-                    moveDetail.type == SearchManagerModel.MoveType.Tree ? "X" : "",
-                    moveDetail.type == SearchManagerModel.MoveType.Tablebase ? "X" : "",
+                    moveDetail.type == SearchManagerModel.MoveType.OpenBook ? moveDetail.value : "",
+                    moveDetail.type == SearchManagerModel.MoveType.Tree ? moveDetail.value : "",
+                    moveDetail.type == SearchManagerModel.MoveType.Tablebase ? moveDetail.value : "",
                     Long.toString(moveDetail.searchTime)
             );
         });
 
         printerTxtTable.setBottomRow(
-                "SUM",
+                "COUNT",
                 Integer.toString(reportModel.searchByOpenBookCounter),
                 Integer.toString(reportModel.searchByTreeCounter),
                 Integer.toString(reportModel.searchByTablebaseCounter),

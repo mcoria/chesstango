@@ -6,7 +6,6 @@ import net.chesstango.engine.SearchByTablebaseResult;
 import net.chesstango.engine.SearchByTreeResult;
 import net.chesstango.engine.SearchResponse;
 import net.chesstango.reports.Model;
-import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.search.SearchResult;
 
 import java.util.LinkedList;
@@ -39,6 +38,7 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
     static class SearchManagerModelDetail {
         String move;
         MoveType type;
+        String value;
         long searchTime;
     }
 
@@ -53,14 +53,18 @@ public class SearchManagerModel implements Model<List<SearchResponse>> {
 
             SearchManagerModelDetail searchManagerModelDetail = new SearchManagerModelDetail();
 
-            if (searchResponse instanceof SearchByOpenBookResult) {
+            if (searchResponse instanceof SearchByOpenBookResult searchByOpenBookResult) {
                 searchManagerModelDetail.type = OpenBook;
+                searchManagerModelDetail.value = Integer.toString(searchByOpenBookResult.polyglotEntry().weight());
                 this.searchByOpenBookCounter++;
-            } else if (searchResponse instanceof SearchByTablebaseResult) {
+            } else if (searchResponse instanceof SearchByTablebaseResult searchByTablebaseResult) {
                 searchManagerModelDetail.type = Tablebase;
+                searchManagerModelDetail.value = searchByTablebaseResult.toString();
                 this.searchByTablebaseCounter++;
-            } else if (searchResponse instanceof SearchByTreeResult) {
+            } else if (searchResponse instanceof SearchByTreeResult searchByTreeResult) {
                 searchManagerModelDetail.type = Tree;
+                SearchResult searchResult = searchByTreeResult.searchResult();
+                searchManagerModelDetail.value = searchResult.getBestEvaluation().toString();
                 this.searchByTreeCounter++;
             }
 
