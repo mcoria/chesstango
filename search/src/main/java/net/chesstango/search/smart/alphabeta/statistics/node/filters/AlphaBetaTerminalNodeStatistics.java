@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 
 /**
  * @author Mauricio Coria
@@ -14,7 +15,7 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
-    private long[] visitedNodesCounters;
+    private NodeCounters nodeCounters;
 
     private int depth;
 
@@ -36,9 +37,9 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        if (currentPly > 0) {
-            visitedNodesCounters[currentPly - 1]++;
-        }
+        nodeCounters.increaseTerminalCounter();
+
+        nodeCounters.increaseVisitedCounter(currentPly - 1);
     }
 }
 

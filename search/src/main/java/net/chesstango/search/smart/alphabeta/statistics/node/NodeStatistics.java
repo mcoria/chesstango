@@ -5,5 +5,9 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public record NodeStatistics(long[] expectedNodesCounters, long[] visitedNodesCounters) implements Serializable {
+public record NodeStatistics(long rootNodeCounter,
+                             long interiorNodeCounter,
+                             long terminalNodeCounter,
+                             long[] expectedNodesCounters,
+                             long[] visitedNodesCounters) implements Serializable {
 }

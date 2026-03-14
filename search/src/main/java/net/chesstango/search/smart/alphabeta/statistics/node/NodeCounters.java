@@ -1,8 +1,6 @@
 package net.chesstango.search.smart.alphabeta.statistics.node;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -12,6 +10,10 @@ import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCou
  * @author Mauricio Coria
  */
 public class NodeCounters implements SearchByCycleListener {
+
+    private long rootNodeCounter;
+    private long interiorNodeCounter;
+    private long terminalNodeCounter;
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
@@ -26,19 +28,44 @@ public class NodeCounters implements SearchByCycleListener {
 
     @Override
     public void beforeSearch() {
+        this.rootNodeCounter = 0;
+        this.terminalNodeCounter = 0;
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
 
         searchListenerMediator.accept(
-                new SetNodeCountersVisitor(
-                        visitedNodesCounters, expectedNodesCounters
-                )
+                new SetNodeCountersVisitor(this)
         );
     }
 
 
     public NodeStatistics getRegularNodeStatistics() {
-        return new NodeStatistics(expectedNodesCounters, visitedNodesCounters);
+        return new NodeStatistics(
+                rootNodeCounter,
+                interiorNodeCounter,
+                terminalNodeCounter,
+                expectedNodesCounters,
+                visitedNodesCounters
+        );
     }
 
+    public void increaseRootCounter() {
+        rootNodeCounter++;
+    }
+
+    public void increaseInteriorCounter() {
+        interiorNodeCounter++;
+    }
+
+    public void increaseTerminalCounter() {
+        terminalNodeCounter++;
+    }
+
+    public void increaseExpectedCounter(final int level, final int increment) {
+        expectedNodesCounters[level] += increment;
+    }
+
+    public void increaseVisitedCounter(final int level) {
+        visitedNodesCounters[level]++;
+    }
 }

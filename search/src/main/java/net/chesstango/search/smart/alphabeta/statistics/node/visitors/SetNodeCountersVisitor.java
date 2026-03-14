@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta.statistics.node.visitors;
 
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 
 /**
@@ -9,23 +10,25 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
  */
 public class SetNodeCountersVisitor implements Visitor {
 
-    private final long[] visitedNodesCounters;
-    private final long[] expectedNodesCounters;
+    private final NodeCounters nodeCounters;
 
-    public SetNodeCountersVisitor(long[] visitedNodesCounters, long[] expectedNodesCounters) {
-        this.visitedNodesCounters = visitedNodesCounters;
-        this.expectedNodesCounters = expectedNodesCounters;
+    public SetNodeCountersVisitor(NodeCounters nodeCounters) {
+        this.nodeCounters = nodeCounters;
+    }
+
+    @Override
+    public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
+        alphaBetaRootNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
     public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
-        alphaBetaNodeStatistics.setVisitedNodesCounters(visitedNodesCounters);
-        alphaBetaNodeStatistics.setExpectedNodesCounters(expectedNodesCounters);
+        alphaBetaNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
     public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
-        alphaBetaTerminalNodeStatistics.setVisitedNodesCounters(visitedNodesCounters);
+        alphaBetaTerminalNodeStatistics.setNodeCounters(nodeCounters);
     }
 
 }

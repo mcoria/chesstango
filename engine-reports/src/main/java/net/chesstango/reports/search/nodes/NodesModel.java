@@ -17,6 +17,12 @@ public class NodesModel implements Model<List<SearchResult>> {
 
     public int searches;
 
+    public long rootNodeCounterTotal;
+    public long interiorNodeCounterTotal;
+    public long terminalNodeCounterTotal;
+    public long nodeCounterTotal;
+
+
     /// ////// START TOTALS
     public long expectedNodesTotal;
     public long visitedNodesTotal;
@@ -43,6 +49,11 @@ public class NodesModel implements Model<List<SearchResult>> {
         public String id;
 
         public String move;
+
+        public long rootNodeCounter;
+        public long interiorNodeCounter;
+        public long terminalNodeCounter;
+
         /**
          * Node Statistics
          */
@@ -76,8 +87,6 @@ public class NodesModel implements Model<List<SearchResult>> {
         this.visitedRNodesCounters = new long[30];
         this.cutoffRPercentages = new int[30];
 
-
-
         searchResults.forEach(this::loadModelDetail);
 
         /**
@@ -97,6 +106,8 @@ public class NodesModel implements Model<List<SearchResult>> {
         if (this.expectedNodesTotal > 0) {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
         }
+
+        this.nodeCounterTotal = this.rootNodeCounterTotal + this.interiorNodeCounterTotal + this.terminalNodeCounterTotal;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -110,7 +121,6 @@ public class NodesModel implements Model<List<SearchResult>> {
             collectRegularNodeStatistics(reportModelDetail, searchResult);
         }
 
-
         reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter;
         reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter;
         reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
@@ -120,9 +130,11 @@ public class NodesModel implements Model<List<SearchResult>> {
 
     private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
         NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffRPercentages = new int[30];
+
 
         for (int i = 0; i < 30; i++) {
             if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
@@ -141,5 +153,14 @@ public class NodesModel implements Model<List<SearchResult>> {
                 }
             }
         }
+
+
+        reportModelDetail.rootNodeCounter = regularNodeStatistics.rootNodeCounter();
+        reportModelDetail.interiorNodeCounter = regularNodeStatistics.interiorNodeCounter();
+        reportModelDetail.terminalNodeCounter = regularNodeStatistics.terminalNodeCounter();
+
+        this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
+        this.interiorNodeCounterTotal += reportModelDetail.interiorNodeCounter;
+        this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
     }
 }

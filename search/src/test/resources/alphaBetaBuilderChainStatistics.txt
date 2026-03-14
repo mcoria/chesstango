@@ -10,7 +10,7 @@ AspirationWindows @ 4
 |
 TranspositionTableRoot @ 5 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 |
-AlphaBetaInteriorNodeStatistics @ 8
+AlphaBetaRootNodeStatistics @ 8
 |
 AlphaBeta @ 9
 |
@@ -195,7 +195,7 @@ Acceptor:
 	RecaptureMoveComparator @ 49
 	GameEvaluatorCacheComparator @ 51
 	MoveEvaluationTracker @ 13
-	AlphaBetaInteriorNodeStatistics @ 8
+	AlphaBetaRootNodeStatistics @ 8
 	AspirationWindows @ 4
 	StopProcessingCatch @ 3
 	TranspositionTableRoot @ 5

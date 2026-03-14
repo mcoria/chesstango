@@ -47,11 +47,6 @@ public class SetDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
-        alphaBetaNodeStatistics.setDepth(depth);
-    }
-
-    @Override
     public void visit(SetDebugOutput setDebugOutput) {
         setDebugOutput.setDepth(depth);
     }
