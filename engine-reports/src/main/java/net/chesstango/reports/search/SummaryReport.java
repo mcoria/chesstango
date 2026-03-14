@@ -1,6 +1,7 @@
 package net.chesstango.reports.search;
 
 import net.chesstango.reports.Report;
+import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
 import net.chesstango.reports.search.nodes.NodesModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
@@ -21,6 +22,7 @@ public class SummaryReport implements Report {
      */
     private final List<SummaryModel> summaryModels = new LinkedList<>();
 
+    private boolean printBoardStatistics;
     private boolean printNodesVisitedStatistics;
     private boolean printCutoffStatistics;
     private boolean printTranspositionStatistics;
@@ -42,6 +44,18 @@ public class SummaryReport implements Report {
 
     private void print() {
         out.print("--------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        if(printBoardStatistics) {
+            List<BoardModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getBoardModel)
+                    .toList();
+            new SummaryBoardPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
         if (printNodesVisitedStatistics) {
             List<NodesModel> reportRows = summaryModels
                     .stream()
@@ -90,6 +104,10 @@ public class SummaryReport implements Report {
         }
     }
 
+    public SummaryReport withBoardStatistics() {
+        this.printBoardStatistics = true;
+        return this;
+    }
 
     public SummaryReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
