@@ -5,6 +5,8 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLeafNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableLeaf;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class LeafChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation leaf;
     private ZobristTracker zobristTracker;
+    private AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics;
     private DebugFilter debugSearchTree;
     private SearchListenerMediator searchListenerMediator;
 
@@ -26,6 +29,7 @@ public class LeafChainBuilder extends AbstractChainBuilder {
     //private TranspositionTableLeaf transpositionTable;
 
     private boolean withZobristTracker;
+    private boolean withStatistics;
     private boolean withDebugSearchTree;
 
 
@@ -38,13 +42,18 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         return this;
     }
 
-    public LeafChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
-        this.searchListenerMediator = searchListenerMediator;
+    public LeafChainBuilder withStatistics() {
+        this.withStatistics = true;
         return this;
     }
 
     public LeafChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        return this;
+    }
+
+    public LeafChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
+        this.searchListenerMediator = searchListenerMediator;
         return this;
     }
 
@@ -65,6 +74,10 @@ public class LeafChainBuilder extends AbstractChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
+        if (withStatistics) {
+            alphaBetaLeafNodeStatistics = new AlphaBetaLeafNodeStatistics();
+        }
+
         if (withDebugSearchTree) {
             debugSearchTree = new DebugFilter(DebugNode.NodeTopology.LEAF);
         }
@@ -76,6 +89,11 @@ public class LeafChainBuilder extends AbstractChainBuilder {
         if (zobristTracker != null) {
             searchListenerMediator.add(zobristTracker);
         }
+
+        if (alphaBetaLeafNodeStatistics != null) {
+            searchListenerMediator.add(alphaBetaLeafNodeStatistics);
+        }
+
         if (debugSearchTree != null) {
             searchListenerMediator.add(debugSearchTree);
         }
@@ -90,6 +108,10 @@ public class LeafChainBuilder extends AbstractChainBuilder {
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
+        }
+
+        if (alphaBetaLeafNodeStatistics != null) {
+            chain.add(alphaBetaLeafNodeStatistics);
         }
 
         chain.add(leaf);

@@ -10,7 +10,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
+public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter {
 
     @Getter
     private AlphaBetaFilter next;
@@ -35,7 +35,7 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        nodeCounters.increaseTerminalCounter();
+        nodeCounters.increaseLeafCounter();
 
         nodeCounters.increaseVisitedCounter(currentPly - 1);
     }

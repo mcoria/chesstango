@@ -14,6 +14,7 @@ public class NodeCounters implements SearchByCycleListener {
     private long rootNodeCounter;
     private long interiorNodeCounter;
     private long quiescenceCounter;
+    private long leafCounter;
     private long terminalNodeCounter;
 
     private long[] visitedNodesCounters;
@@ -30,6 +31,9 @@ public class NodeCounters implements SearchByCycleListener {
     @Override
     public void beforeSearch() {
         this.rootNodeCounter = 0;
+        this.interiorNodeCounter = 0;
+        this.quiescenceCounter = 0;
+        this.leafCounter = 0;
         this.terminalNodeCounter = 0;
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
@@ -40,11 +44,12 @@ public class NodeCounters implements SearchByCycleListener {
     }
 
 
-    public NodeStatistics getRegularNodeStatistics() {
+    public NodeStatistics getNodeStatistics() {
         return new NodeStatistics(
                 rootNodeCounter,
                 interiorNodeCounter,
                 quiescenceCounter,
+                leafCounter,
                 terminalNodeCounter,
                 expectedNodesCounters,
                 visitedNodesCounters
@@ -65,6 +70,10 @@ public class NodeCounters implements SearchByCycleListener {
 
     public void increaseTerminalCounter() {
         terminalNodeCounter++;
+    }
+
+    public void increaseLeafCounter() {
+        leafCounter++;
     }
 
     public void increaseExpectedCounter(final int level, final int increment) {

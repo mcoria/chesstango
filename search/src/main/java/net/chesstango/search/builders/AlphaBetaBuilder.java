@@ -150,6 +150,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
         terminalChainBuilder.withStatistics();
+        leafChainBuilder.withStatistics();
         return this;
     }
 

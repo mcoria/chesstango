@@ -33,10 +33,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
@@ -148,6 +145,11 @@ public class ChainPrinterVisitor implements Visitor {
     @Override
     public void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
         print(alphaBetaQuiescenceNodeStatistics, alphaBetaQuiescenceNodeStatistics.getNext());
+    }
+
+    @Override
+    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
+        print(alphaBetaLeafNodeStatistics, alphaBetaLeafNodeStatistics.getNext());
     }
 
     @Override

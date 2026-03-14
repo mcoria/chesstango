@@ -1,13 +1,12 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.AlphaBetaEvaluation;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
-import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableTerminal;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,10 +17,10 @@ import java.util.List;
 public class TerminalChainBuilder extends AbstractChainBuilder {
     private final AlphaBetaEvaluation alphaBetaEvaluation;
     private ZobristTracker zobristTracker;
+    private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
     private DebugFilter debugFilter;
     private SearchListenerMediator searchListenerMediator;
 
-    private AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics;
 
     /**
      * TranspositionTableTerminal escribe demasiadas entradas en TT y sobreescribe aquellas entradas que si interesan
@@ -29,21 +28,21 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
     //private TranspositionTableTerminal transpositionTableTerminal;
 
     private boolean withZobristTracker;
-    private boolean withDebugSearchTree;
     private boolean withStatistics;
+    private boolean withDebugSearchTree;
 
     public TerminalChainBuilder() {
         alphaBetaEvaluation = new AlphaBetaEvaluation();
     }
 
 
-    public TerminalChainBuilder withStatistics() {
-        this.withStatistics = true;
+    public TerminalChainBuilder withZobristTracker() {
+        this.withZobristTracker = true;
         return this;
     }
 
-    public TerminalChainBuilder withZobristTracker() {
-        this.withZobristTracker = true;
+    public TerminalChainBuilder withStatistics() {
+        this.withStatistics = true;
         return this;
     }
 
@@ -73,7 +72,7 @@ public class TerminalChainBuilder extends AbstractChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
-        if(withStatistics) {
+        if (withStatistics) {
             alphaBetaTerminalNodeStatistics = new AlphaBetaTerminalNodeStatistics();
         }
 

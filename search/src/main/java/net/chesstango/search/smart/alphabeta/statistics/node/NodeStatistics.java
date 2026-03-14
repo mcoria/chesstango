@@ -8,6 +8,7 @@ import java.io.Serializable;
 public record NodeStatistics(long rootNodeCounter,
                              long interiorNodeCounter,
                              long quiescenceCounter,
+                             long leafCounter,
                              long terminalNodeCounter,
                              long[] expectedNodesCounters,
                              long[] visitedNodesCounters) implements Serializable {

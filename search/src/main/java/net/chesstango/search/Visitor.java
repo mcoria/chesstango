@@ -42,10 +42,7 @@ import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStat
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
@@ -108,6 +105,9 @@ public interface Visitor {
     }
 
     default void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
+    }
+
+    default void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
     }
 
     default void visit(StopProcessingCatch stopProcessingCatch) {

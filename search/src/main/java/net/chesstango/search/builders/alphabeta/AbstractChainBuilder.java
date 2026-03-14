@@ -10,10 +10,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTrack
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.transposition.filters.*;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -39,6 +36,7 @@ public class AbstractChainBuilder {
                 case AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics -> alphaBetaRootNodeStatistics.setNext(next);
                 case AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
                 case AlphaBetaQuiescenceNodeStatistics quiescenceNodeStatistics -> quiescenceNodeStatistics.setNext(next);
+                case AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics -> alphaBetaLeafNodeStatistics.setNext(next);
                 case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);
 
 
