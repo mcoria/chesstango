@@ -21,35 +21,26 @@ public class NodesModel implements Model<List<SearchResult>> {
     public long expectedNodesTotal;
     public long visitedNodesTotal;
     public int cutoffPercentageTotal;
-
-    public long executedMovesTotal;
-
-    public int visitedNodesTotalAvg;
-    public int visitedRNodesAvg;
-    public int visitedQNodesAvg;
-
     //////// END TOTALS
 
 
-    /// ////////////////// START VISITED REGULAR NODES
+    /// ////////////////// START REGULAR NODES
     public int maxSearchRLevel;
     public long[] expectedRNodesCounters;
     public long[] visitedRNodesCounters;
-    public int[] visitedRNodesCountersAvg;
     public int[] cutoffRPercentages;
     public long expectedRNodesTotal;
     public long visitedRNodesTotal;
-    ///////////////////// END VISITED REGULAR NODES
+    ///////////////////// END REGULAR NODES
 
-    /// ////////////////// START VISITED QUIESCENCE NODES
+    /// ////////////////// START QUIESCENCE NODES
     public int maxSearchQLevel;
     public long[] expectedQNodesCounters;
     public long[] visitedQNodesCounters;
     public int[] cutoffQPercentages;
-    public int[] visitedQNodesCountersAvg;
     public long expectedQNodesTotal;
     public long visitedQNodesTotal;
-    ///////////////////// END VISITED QUIESCENCE NODES
+    ///////////////////// END QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
 
@@ -57,8 +48,6 @@ public class NodesModel implements Model<List<SearchResult>> {
         public String id;
 
         public String move;
-        public long executedMoves;
-
         /**
          * Node Statistics
          */
@@ -99,10 +88,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         this.expectedQNodesCounters = new long[30];
 
         this.visitedRNodesCounters = new long[30];
-        this.visitedRNodesCountersAvg = new int[30];
-
         this.visitedQNodesCounters = new long[30];
-        this.visitedQNodesCountersAvg = new int[30];
 
         this.cutoffRPercentages = new int[30];
         this.cutoffQPercentages = new int[30];
@@ -127,11 +113,6 @@ public class NodesModel implements Model<List<SearchResult>> {
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
             this.visitedQNodesTotal += this.visitedQNodesCounters[i];
 
-            if(this.searches > 0) {
-                this.visitedRNodesCountersAvg[i] = (int) (this.visitedRNodesCounters[i] / this.searches);
-                this.visitedQNodesCountersAvg[i] = (int) (this.visitedQNodesCounters[i] / this.searches);
-            }
-
             this.expectedRNodesTotal += this.expectedRNodesCounters[i];
             this.expectedQNodesTotal += this.expectedQNodesCounters[i];
         }
@@ -142,23 +123,14 @@ public class NodesModel implements Model<List<SearchResult>> {
         if(this.expectedNodesTotal > 0) {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
         }
-
-        if(this.searches > 0) {
-            this.visitedRNodesAvg = (int) (this.visitedRNodesTotal / this.searches);
-            this.visitedQNodesAvg = (int) (this.visitedQNodesTotal / this.searches);
-            this.visitedNodesTotalAvg = (int) (this.visitedNodesTotal / this.searches);
-        }
     }
 
     private void loadModelDetail(SearchResult searchResult) {
         NodesModelDetail reportModelDetail = new NodesModelDetail();
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = bestMove != null ? simpleMoveEncoder.encode(bestMove) : "";
-
-        reportModelDetail.executedMoves = searchResult.getExecutedMoves();
+        reportModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
         if (searchResult.getRegularNodeStatistics() != null) {
             collectRegularNodeStatistics(reportModelDetail, searchResult);
@@ -172,7 +144,6 @@ public class NodesModel implements Model<List<SearchResult>> {
         reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter + reportModelDetail.expectedQNodesCounter;
         reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
 
-        this.executedMovesTotal += reportModelDetail.executedMoves;
         this.nodesModelDetails.add(reportModelDetail);
     }
 

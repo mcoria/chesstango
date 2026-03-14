@@ -69,10 +69,12 @@ public class TangoGame01IntegrationTest {
 
         detailsReport
                 .setReportTitle("TangoGame01")
-                .withNodesVisitedStatistics()
-                .withEvaluationReport()
-                .withTranspositionReport()
-                .withCutoffStatistics()
+                .withBoardReport()
+                //.withPrincipalVariationReport()
+                //.withNodesVisitedStatistics()
+                //.withEvaluationReport()
+                //.withTranspositionReport()
+                //.withCutoffStatistics()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }

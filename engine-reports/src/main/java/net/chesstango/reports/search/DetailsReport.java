@@ -4,6 +4,7 @@ package net.chesstango.reports.search;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
+import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
 import net.chesstango.reports.search.nodes.NodesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -19,11 +20,13 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class DetailsReport implements Report {
+    private boolean withBoardReport;
     private boolean withNodesVisitedStatistics;
     private boolean withCutoffStatistics;
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
+
 
     @Setter
     @Accessors(chain = true)
@@ -33,6 +36,14 @@ public class DetailsReport implements Report {
 
     @Override
     public DetailsReport printReport(PrintStream out) {
+        if(withBoardReport){
+            new BoardReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
+
         if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesReport nodesReport = new NodesReport()
                     .setReportTitle(reportTitle)
@@ -72,6 +83,11 @@ public class DetailsReport implements Report {
 
     public DetailsReport withMoveResults(List<SearchResult> searchResultList) {
         this.searchResultList = searchResultList;
+        return this;
+    }
+
+    public DetailsReport withBoardReport() {
+        this.withBoardReport = true;
         return this;
     }
 
