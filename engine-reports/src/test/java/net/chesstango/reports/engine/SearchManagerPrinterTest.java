@@ -16,18 +16,21 @@ public class SearchManagerPrinterTest extends PrinterTestAbstract {
         entry.move = "e2e3";
         entry.type = SearchManagerModel.MoveType.OpenBook;
         entry.searchTime = 1;
+        entry.value= "value1";
         searchManagerModel.moveDetail.add(entry);
 
         entry = new SearchManagerModel.SearchManagerModelDetail();
         entry.move = "e2e4";
         entry.type = SearchManagerModel.MoveType.Tree;
         entry.searchTime = 2;
+        entry.value= "value2";
         searchManagerModel.moveDetail.add(entry);
 
         entry = new SearchManagerModel.SearchManagerModelDetail();
         entry.move = "e2e5";
         entry.type = SearchManagerModel.MoveType.Tablebase;
         entry.searchTime = 3;
+        entry.value= "value3";
         searchManagerModel.moveDetail.add(entry);
 
         SearchManagerPrinter searchManagerPrinter = new SearchManagerPrinter();
