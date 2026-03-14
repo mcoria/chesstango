@@ -12,11 +12,11 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class BoardModel implements Model<List<SearchResult>> {
-    String searchGroupName;
+    public String searchGroupName;
 
-    int searches;
-    long executedMovesTotal;
-    long searchTimeTotal;
+    public int searches;
+    public long executedMovesTotal;
+    public long searchTimeTotal;
 
     public static class BoardModelModelDetail {
         String id;

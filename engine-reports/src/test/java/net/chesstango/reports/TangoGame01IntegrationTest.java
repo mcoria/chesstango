@@ -61,10 +61,11 @@ public class TangoGame01IntegrationTest {
 
         summaryReport
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
-                .withNodesVisitedStatistics()
-                .withCutoffStatistics()
-                .withEvaluationStatistics()
-                .withTranspositionStatistics()
+                .withBoardStatistics()
+                //.withNodesVisitedStatistics()
+                //.withCutoffStatistics()
+                //.withEvaluationStatistics()
+                //.withTranspositionStatistics()
                 .printReport(System.out);
 
         detailsReport
