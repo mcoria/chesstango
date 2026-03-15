@@ -41,6 +41,7 @@ public class AbstractChainBuilder {
                 case AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics -> alphaBetaLeafNodeStatistics.setNext(next);
                 case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);
                 case AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics -> alphaBetaLoopNodeStatistics.setNext(next);
+                case AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics -> alphaBetaEgtbNodeStatistics.setNext(next);
 
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);

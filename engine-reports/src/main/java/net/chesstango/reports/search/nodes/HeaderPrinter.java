@@ -34,9 +34,8 @@ class HeaderPrinter implements Printer {
         out.printf("Leaf             Nodes: %10d%n", reportModel.leafNodeCounterTotal);
         out.printf("Terminal         Nodes: %10d%n", reportModel.terminalNodeCounterTotal);
         out.printf("Loop             Nodes: %10d%n", reportModel.loopNodeCounterTotal);
+        out.printf("EGTB             Nodes: %10d%n", reportModel.egtbCounterTotal);
         out.printf("Total            Nodes: %10d%n", reportModel.nodeCounterTotal);
-
-
         out.printf("%n");
 
         return this;

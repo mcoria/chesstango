@@ -23,6 +23,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     public long leafNodeCounterTotal;
     public long terminalNodeCounterTotal;
     public long loopNodeCounterTotal;
+    public long egtbCounterTotal;
     public long nodeCounterTotal;
 
 
@@ -53,6 +54,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         public long leafNodeCounter;
         public long terminalNodeCounter;
         public long loopNodeCounter;
+        public long egtbCounter;
 
         /**
          * Node Statistics
@@ -106,7 +108,8 @@ public class NodesModel implements Model<List<SearchResult>> {
                 + this.quiescenceNodeCounterTotal
                 + this.leafNodeCounterTotal
                 + this.terminalNodeCounterTotal
-                + this.loopNodeCounterTotal;
+                + this.loopNodeCounterTotal
+                + this.egtbCounterTotal;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -134,6 +137,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         reportModelDetail.leafNodeCounter = regularNodeStatistics.leafCounter();
         reportModelDetail.terminalNodeCounter = regularNodeStatistics.terminalNodeCounter();
         reportModelDetail.loopNodeCounter = regularNodeStatistics.loopNodeCounter();
+        reportModelDetail.egtbCounter = regularNodeStatistics.egtbCounter();
 
         for (int i = 0; i < 30; i++) {
             if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
@@ -159,5 +163,6 @@ public class NodesModel implements Model<List<SearchResult>> {
         this.leafNodeCounterTotal += reportModelDetail.leafNodeCounter;
         this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
         this.loopNodeCounterTotal += reportModelDetail.loopNodeCounter;
+        this.egtbCounterTotal += reportModelDetail.egtbCounter;
     }
 }

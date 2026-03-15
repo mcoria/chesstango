@@ -17,6 +17,7 @@ public class NodeCounters implements SearchByCycleListener {
     private long leafCounter;
     private long terminalNodeCounter;
     private long loopNodeCounter;
+    private long egtbCounter;
 
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
@@ -36,6 +37,8 @@ public class NodeCounters implements SearchByCycleListener {
         this.quiescenceCounter = 0;
         this.leafCounter = 0;
         this.terminalNodeCounter = 0;
+        this.loopNodeCounter = 0;
+        this.egtbCounter = 0;
 
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
@@ -54,6 +57,7 @@ public class NodeCounters implements SearchByCycleListener {
                 leafCounter,
                 terminalNodeCounter,
                 loopNodeCounter,
+                egtbCounter,
                 expectedNodesCounters,
                 visitedNodesCounters
         );
@@ -81,6 +85,10 @@ public class NodeCounters implements SearchByCycleListener {
 
     public void increaseLoopCounter() {
         loopNodeCounter++;
+    }
+
+    public void increaseEgtbCounter() {
+        egtbCounter++;
     }
 
     public void increaseExpectedCounter(final int level, final int increment) {
