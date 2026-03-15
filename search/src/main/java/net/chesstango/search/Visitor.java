@@ -104,7 +104,10 @@ public interface Visitor {
     default void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
     }
 
-    default void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
+    default void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
+    }
+
+    default void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
     }
 
     default void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {

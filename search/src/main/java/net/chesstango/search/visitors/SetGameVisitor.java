@@ -21,8 +21,7 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
@@ -118,6 +117,7 @@ public class SetGameVisitor implements Visitor {
     public void visit(TranspositionTableTerminal transpositionTableTerminal) {
         transpositionTableTerminal.setGame(game);
     }
+
     @Override
     public void visit(TranspositionTableLeaf transpositionTableLeaf) {
         transpositionTableLeaf.setGame(game);
@@ -134,8 +134,8 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
-        alphaBetaQuiescenceNodeStatistics.setGame(game);
+    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
+        alphaBetaQuiescenceNodeExpected.setGame(game);
     }
 
     @Override

@@ -138,8 +138,8 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics) {
-        print(alphaBetaNodeStatistics, alphaBetaNodeStatistics.getNext());
+    public void visit(AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeVisited) {
+        print(alphaBetaInteriorNodeVisited, alphaBetaInteriorNodeVisited.getNext());
     }
 
     @Override
@@ -148,8 +148,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {
-        print(alphaBetaQuiescenceNodeStatistics, alphaBetaQuiescenceNodeStatistics.getNext());
+    public void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited) {
+        print(alphaBetaQuiescenceNodeVisited, alphaBetaQuiescenceNodeVisited.getNext());
+    }
+
+    @Override
+    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
+        print(alphaBetaQuiescenceNodeExpected, alphaBetaQuiescenceNodeExpected.getNext());
     }
 
     @Override

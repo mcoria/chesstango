@@ -121,7 +121,6 @@ public class NodesModel implements Model<List<SearchResult>> {
     }
 
     private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, NodeStatistics regularNodeStatistics) {
-
         reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffRPercentages = new int[30];
@@ -134,7 +133,7 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         for (int i = 0; i < 30; i++) {
             if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
-                throw new RuntimeException("reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]");
+                throw new RuntimeException(String.format("reportModelDetail.expectedRNodesCounters[%d] (%d) < reportModelDetail.visitedRNodesCounters[%d] (%d)", i, reportModelDetail.expectedRNodesCounters[i], i, reportModelDetail.visitedRNodesCounters[i]));
             }
 
             if (reportModelDetail.visitedRNodesCounters[i] > 0) {

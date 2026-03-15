@@ -100,55 +100,57 @@ AlphaBetaFlowControl @ 16
 
  -> QuiescenceNode
 	|
-	TranspositionTableQ @ 43 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+	AlphaBetaQuiescenceNodeVisited @ 43
 	|
-	AlphaBetaQuiescenceNodeStatistics @ 44
+	TranspositionTableQ @ 44 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 	|
-	Quiescence @ 45 [Evaluator: EvaluatorStatisticsCollector @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
+	AlphaBetaQuiescenceNodeExpected @ 45
+	|
+	Quiescence @ 46 [Evaluator: EvaluatorStatisticsCollector @ 19 -> EvaluatorCache @ 20 -> EvaluatorByMaterial @ 21]
 	|
 	 -> Sorter
 		|
-		NodeMoveSorter @ 46
+		NodeMoveSorter @ 47
 		|
 		 -> Comparator
 			|
-			PrincipalVariationComparator @ 47
+			PrincipalVariationComparator @ 48
 			|
-			TranspositionHeadMoveComparator @ 48 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 49 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 			|
-			TranspositionTailMoveComparator @ 49 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 50 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
 			|
-			PromotionComparator @ 50
+			PromotionComparator @ 51
 			|
-			RecaptureMoveComparator @ 51
+			RecaptureMoveComparator @ 52
 			|
-			MvvLvaComparator @ 52
+			MvvLvaComparator @ 53
 			|
-			GameEvaluatorCacheComparator @ 53 [EvaluatorCacheRead: EvaluatorCache @ 20]
+			GameEvaluatorCacheComparator @ 54 [EvaluatorCacheRead: EvaluatorCache @ 20]
 			|
-			DefaultMoveComparator @ 54
+			DefaultMoveComparator @ 55
 	|
 	AlphaBetaFlowControl @ 16 -> LOOP
 
 
 SearchByCycleListeners:
 	EvaluatorStatisticsCollector @ 19
-	EvaluatorCacheListener @ 55
+	EvaluatorCacheListener @ 56
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 56
-	SetSearchLast @ 57
-	TranspositionTableListener @ 58
-	NodeCounters @ 59
-	GameCounters @ 60
-	SetKillerMoveTables @ 61
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
+	TranspositionTableListener @ 59
+	NodeCounters @ 60
+	GameCounters @ 61
+	SetKillerMoveTables @ 62
 	AlphaBetaFlowControl @ 16
 	RootMoveSorter @ 10
-	TTableCounters @ 62
+	TTableCounters @ 63
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 56
-	SetSearchLast @ 57
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
 	MoveEvaluationTracker @ 13
 
 SearchByWindowsListeners:
@@ -158,21 +160,21 @@ StopSearchingListener:
 	AlphaBetaFlowControl @ 16
 
 ResetListener:
-	EvaluatorCacheListener @ 55
-	TranspositionTableListener @ 58
+	EvaluatorCacheListener @ 56
+	TranspositionTableListener @ 59
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 19
-	EvaluatorCacheListener @ 55
-	SetGameToEvaluator @ 63
-	SetGameToEndGameTableBase @ 64
+	EvaluatorCacheListener @ 56
+	SetGameToEvaluator @ 64
+	SetGameToEndGameTableBase @ 65
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 56
-	SetSearchLast @ 57
-	TranspositionTableListener @ 58
-	NodeCounters @ 59
-	GameCounters @ 60
-	SetKillerMoveTables @ 61
+	SetSearchTimers @ 57
+	SetSearchLast @ 58
+	TranspositionTableListener @ 59
+	NodeCounters @ 60
+	GameCounters @ 61
+	SetKillerMoveTables @ 62
 	AlphaBetaFlowControl @ 16
 	AlphaBetaEvaluation @ 18
 	AlphaBetaTerminalNodeStatistics @ 17
@@ -191,15 +193,16 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 39
 	KillerMoveComparator @ 41
 	EgtbEvaluation @ 22
-	AlphaBetaQuiescenceNodeStatistics @ 44
-	TranspositionTableQ @ 43
-	Quiescence @ 45
-	NodeMoveSorter @ 46
-	TranspositionHeadMoveComparator @ 48
-	TranspositionTailMoveComparator @ 49
-	PrincipalVariationComparator @ 47
-	RecaptureMoveComparator @ 51
-	GameEvaluatorCacheComparator @ 53
+	AlphaBetaQuiescenceNodeVisited @ 43
+	AlphaBetaQuiescenceNodeExpected @ 45
+	TranspositionTableQ @ 44
+	Quiescence @ 46
+	NodeMoveSorter @ 47
+	TranspositionHeadMoveComparator @ 49
+	TranspositionTailMoveComparator @ 50
+	PrincipalVariationComparator @ 48
+	RecaptureMoveComparator @ 52
+	GameEvaluatorCacheComparator @ 54
 	MoveEvaluationTracker @ 13
 	AlphaBetaRootNodeStatistics @ 8
 	AspirationWindows @ 4
@@ -210,7 +213,7 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
-	TTableCounters @ 62
+	TTableCounters @ 63
 	TTableStatisticsCollector @ 6
-	TTableStatisticsCollector @ 65
+	TTableStatisticsCollector @ 66
 

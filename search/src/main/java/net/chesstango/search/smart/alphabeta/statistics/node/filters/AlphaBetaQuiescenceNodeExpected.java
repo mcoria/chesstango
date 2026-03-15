@@ -11,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaQuiescenceNodeStatistics implements AlphaBetaFilter {
+public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter {
 
     @Getter
     private AlphaBetaFilter next;
