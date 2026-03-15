@@ -28,7 +28,7 @@ public class NodesModel implements Model<List<SearchResult>> {
 
 
     /// ////////////////// START REGULAR NODES
-    public int maxSearchDepth;
+    public int maxDepth;
     public long[] expectedRNodesCounters;
     public long[] visitedRNodesCounters;
     public int[] cutoffRPercentages;
@@ -56,6 +56,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         /**
          * Node Statistics
          */
+        public int maxDepth;
         public long[] expectedRNodesCounters;
         public long expectedRNodesCounter;
         public long[] visitedRNodesCounters;
@@ -90,7 +91,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         for (int i = 0; i < 30; i++) {
             if (this.visitedRNodesCounters[i] > 0) {
                 this.cutoffRPercentages[i] = (int) (100 - (100 * this.visitedRNodesCounters[i] / this.expectedRNodesCounters[i]));
-                this.maxSearchDepth = i;
+                this.maxDepth = i;
             }
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
             this.expectedRNodesTotal += this.expectedRNodesCounters[i];
@@ -142,6 +143,7 @@ public class NodesModel implements Model<List<SearchResult>> {
             }
 
             if (reportModelDetail.visitedRNodesCounters[i] > 0) {
+                reportModelDetail.maxDepth = i;
                 reportModelDetail.visitedRNodesCounter += reportModelDetail.visitedRNodesCounters[i];
                 reportModelDetail.expectedRNodesCounter += reportModelDetail.expectedRNodesCounters[i];
 

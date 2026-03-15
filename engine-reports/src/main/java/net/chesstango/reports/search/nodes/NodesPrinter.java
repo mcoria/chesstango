@@ -27,11 +27,11 @@ class NodesPrinter implements Printer {
     public NodesPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxSearchDepth + 1).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
-        IntStream.range(0, reportModel.maxSearchDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
         tmp.add("Total");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
@@ -39,7 +39,7 @@ class NodesPrinter implements Printer {
         reportModel.nodesModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxSearchDepth + 1).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth])).forEach(tmpRow::add);
             tmpRow.add(String.format("%d / %d", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
@@ -47,7 +47,7 @@ class NodesPrinter implements Printer {
 
         tmp = new LinkedList<>();
         tmp.add("SUM");
-        IntStream.range(0, reportModel.maxSearchDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
         tmp.add(String.format("%d / %d", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
