@@ -138,8 +138,13 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+    public void visit(AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics) {
         print(alphaBetaNodeStatistics, alphaBetaNodeStatistics.getNext());
+    }
+
+    @Override
+    public void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
+        print(alphaBetaInteriorNodeExpected, alphaBetaInteriorNodeExpected.getNext());
     }
 
     @Override

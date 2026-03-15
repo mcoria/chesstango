@@ -98,7 +98,10 @@ public interface Visitor {
     default void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
     }
 
-    default void visit(AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics) {
+    default void visit(AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics) {
+    }
+
+    default void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
     }
 
     default void visit(AlphaBetaQuiescenceNodeStatistics alphaBetaQuiescenceNodeStatistics) {

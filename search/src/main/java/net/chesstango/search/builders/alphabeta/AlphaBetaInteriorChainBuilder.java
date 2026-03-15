@@ -11,7 +11,8 @@ import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -24,7 +25,8 @@ import java.util.List;
 public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
-    private AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics;
+    private AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeVisited;
+    private AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected;
     private TranspositionTable transpositionTable;
     private ZobristTracker zobristTracker;
     private AlphaBetaFlowControl alphaBetaFlowControl;
@@ -123,7 +125,8 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
 
     private void buildObjects() {
         if (withStatistics) {
-            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeStatistics();
+            alphaBetaInteriorNodeVisited = new AlphaBetaInteriorNodeVisited();
+            alphaBetaInteriorNodeExpected = new AlphaBetaInteriorNodeExpected();
         }
         if (withTranspositionTable) {
             transpositionTable = new TranspositionTable();
@@ -143,8 +146,11 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
     }
 
     private void setupListenerMediator() {
-        if (withStatistics) {
-            searchListenerMediator.add(alphaBetaNodeStatistics);
+        if (alphaBetaInteriorNodeVisited != null) {
+            searchListenerMediator.add(alphaBetaInteriorNodeVisited);
+        }
+        if (alphaBetaInteriorNodeExpected != null) {
+            searchListenerMediator.add(alphaBetaInteriorNodeExpected);
         }
         if (zobristTracker != null) {
             searchListenerMediator.add(zobristTracker);
@@ -177,12 +183,17 @@ public class AlphaBetaInteriorChainBuilder extends AbstractChainBuilder {
             chain.add(zobristTracker);
         }
 
+        if (alphaBetaInteriorNodeVisited != null) {
+            chain.add(alphaBetaInteriorNodeVisited);
+        }
+
         if (transpositionTable != null) {
             chain.add(transpositionTable);
         }
 
-        if (alphaBetaNodeStatistics != null) {
-            chain.add(alphaBetaNodeStatistics);
+        // Debe ir despues de TT para que contabilice expected correctamente
+        if (alphaBetaInteriorNodeExpected != null) {
+            chain.add(alphaBetaInteriorNodeExpected);
         }
 
         chain.add(alphaBeta);

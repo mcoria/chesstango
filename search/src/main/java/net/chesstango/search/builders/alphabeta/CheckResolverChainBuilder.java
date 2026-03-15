@@ -8,7 +8,7 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
-    private AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics;
+    private AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
@@ -92,7 +92,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
     private void buildObjects() {
         if (withStatistics) {
-            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeStatistics();
+            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeVisited();
         }
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();

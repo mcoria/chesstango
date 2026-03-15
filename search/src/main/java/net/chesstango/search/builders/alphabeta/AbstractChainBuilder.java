@@ -34,7 +34,8 @@ public class AbstractChainBuilder {
                 case TranspositionTableLeaf transpositionTableLeaf -> transpositionTableLeaf.setNext(next);
 
                 case AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics -> alphaBetaRootNodeStatistics.setNext(next);
-                case AlphaBetaInteriorNodeStatistics alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics -> alphaBetaNodeStatistics.setNext(next);
+                case AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected -> alphaBetaInteriorNodeExpected.setNext(next);
                 case AlphaBetaQuiescenceNodeStatistics quiescenceNodeStatistics -> quiescenceNodeStatistics.setNext(next);
                 case AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics -> alphaBetaLeafNodeStatistics.setNext(next);
                 case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);

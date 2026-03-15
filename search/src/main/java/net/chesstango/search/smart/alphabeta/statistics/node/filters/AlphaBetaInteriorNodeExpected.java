@@ -3,7 +3,6 @@ package net.chesstango.search.smart.alphabeta.statistics.node.filters;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
@@ -12,7 +11,7 @@ import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
  * @author Mauricio Coria
  */
 @Setter
-public class AlphaBetaInteriorNodeStatistics implements AlphaBetaFilter {
+public class AlphaBetaInteriorNodeExpected implements AlphaBetaFilter {
 
     @Getter
     private AlphaBetaFilter next;
@@ -39,10 +38,6 @@ public class AlphaBetaInteriorNodeStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        nodeCounters.increaseInteriorCounter();
-
-        nodeCounters.increaseVisitedCounter(currentPly - 1);
-
         nodeCounters.increaseExpectedCounter(currentPly, game.getPossibleMoves().size());
     }
 }
