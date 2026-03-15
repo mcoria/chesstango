@@ -48,7 +48,7 @@ class CutoffPrinter implements Printer {
         tmp = new LinkedList<>();
 
         tmp.add("AVG");
-        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.cutoffRPercentages[depth])).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.cutoffPercentages[depth])).forEach(tmp::add);
         tmp.add(String.format("%d %%", reportModel.cutoffPercentageTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));

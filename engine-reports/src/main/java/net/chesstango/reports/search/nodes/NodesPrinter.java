@@ -36,10 +36,17 @@ class NodesPrinter implements Printer {
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
+        int[] visitedWidth = new int[reportModel.maxDepth + 1];
+        int[] expectedWidth = new int[reportModel.maxDepth + 1];
+        IntStream.range(0, reportModel.maxDepth + 1).forEach(depth -> {
+            visitedWidth[depth] = String.format("%d", reportModel.visitedNodesCounters[depth]).length();
+            expectedWidth[depth] = String.format("%d", reportModel.expectedNodesCounters[depth]).length();
+        });
+
         reportModel.nodesModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%" + visitedWidth[depth] + "d / %" + expectedWidth[depth] + "d", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth])).forEach(tmpRow::add);
             tmpRow.add(String.format("%d / %d", moveDetail.visitedNodesCounter, moveDetail.expectedNodesCounter));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
@@ -47,8 +54,8 @@ class NodesPrinter implements Printer {
 
         tmp = new LinkedList<>();
         tmp.add("SUM");
-        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
-        tmp.add(String.format("%d / %d", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal));
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedNodesCounters[depth], reportModel.expectedNodesCounters[depth])).forEach(tmp::add);
+        tmp.add(String.format("%d / %d", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 
