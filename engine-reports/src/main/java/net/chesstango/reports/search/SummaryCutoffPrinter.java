@@ -49,7 +49,7 @@ class SummaryCutoffPrinter implements Printer {
         List<String> tmp = new LinkedList<>();
         tmp.add("ENGINE NAME");
         tmp.add("SEARCHES");
-        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth)).forEach(tmp::add);
         tmp.add("Cutoff");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));

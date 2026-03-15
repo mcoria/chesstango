@@ -23,9 +23,9 @@ class HeaderPrinter implements Printer {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
         out.printf("NodesReport: %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
-        out.printf("Max             RDepth: %10d%n", reportModel.maxSearchRLevel);
-        //out.printf("Max             QDepth: %10d%n", reportModel.maxSearchQLevel);
-        out.printf("Visited         RNodes: %10d%n", reportModel.visitedRNodesTotal);
+        out.printf("Max              Depth: %10d%n", reportModel.maxSearchRLevel);
+        out.printf("Expected         Nodes: %10d%n", reportModel.expectedRNodesTotal);
+        out.printf("Visited          Nodes: %10d%n", reportModel.visitedRNodesTotal);
         out.printf("Cutoff                : %10d %%%n%n", reportModel.cutoffPercentageTotal);
 
         out.printf("Root             Nodes: %10d%n", reportModel.rootNodeCounterTotal);

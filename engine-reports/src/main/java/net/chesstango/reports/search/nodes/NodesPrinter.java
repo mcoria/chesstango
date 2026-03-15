@@ -31,7 +31,7 @@ class NodesPrinter implements Printer {
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
-        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
         tmp.add("Total");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
