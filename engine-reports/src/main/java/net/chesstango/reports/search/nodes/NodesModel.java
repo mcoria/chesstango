@@ -57,12 +57,12 @@ public class NodesModel implements Model<List<SearchResult>> {
          * Node Statistics
          */
         public int maxDepth;
-        public long[] expectedRNodesCounters;
-        public long expectedRNodesCounter;
-        public long[] visitedRNodesCounters;
-        public long visitedRNodesCounter;
-        public int[] cutoffRPercentages;
-        public int cutoffPercentageTotal;
+        public long[] expectedNodesCounters;
+        public long expectedNodesCounter;
+        public long[] visitedNodesCounters;
+        public long visitedNodesCounter;
+        public int[] cutoffPercentages;
+        public int cutoffPercentage;
     }
 
     @Override
@@ -125,9 +125,9 @@ public class NodesModel implements Model<List<SearchResult>> {
     }
 
     private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, NodeStatistics regularNodeStatistics) {
-        reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
-        reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffRPercentages = new int[30];
+        reportModelDetail.expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
+        reportModelDetail.visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
+        reportModelDetail.cutoffPercentages = new int[30];
 
         reportModelDetail.rootNodeCounter = regularNodeStatistics.rootNodeCounter();
         reportModelDetail.interiorNodeCounter = regularNodeStatistics.interiorNodeCounter();
@@ -138,22 +138,26 @@ public class NodesModel implements Model<List<SearchResult>> {
         reportModelDetail.egtbCounter = regularNodeStatistics.egtbCounter();
 
         for (int i = 0; i < 30; i++) {
-            if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
-                throw new RuntimeException(String.format("reportModelDetail.expectedRNodesCounters[%d] (%d) < reportModelDetail.visitedRNodesCounters[%d] (%d)", i, reportModelDetail.expectedRNodesCounters[i], i, reportModelDetail.visitedRNodesCounters[i]));
+            if (reportModelDetail.expectedNodesCounters[i] < reportModelDetail.visitedNodesCounters[i]) {
+                throw new RuntimeException(String.format("reportModelDetail.expectedNodesCounters[%d] (%d) < reportModelDetail.visitedNodesCounters[%d] (%d)", i, reportModelDetail.expectedNodesCounters[i], i, reportModelDetail.visitedNodesCounters[i]));
             }
 
-            if (reportModelDetail.visitedRNodesCounters[i] > 0) {
+            if (reportModelDetail.visitedNodesCounters[i] > 0) {
                 reportModelDetail.maxDepth = i;
-                reportModelDetail.visitedRNodesCounter += reportModelDetail.visitedRNodesCounters[i];
-                reportModelDetail.expectedRNodesCounter += reportModelDetail.expectedRNodesCounters[i];
+                reportModelDetail.visitedNodesCounter += reportModelDetail.visitedNodesCounters[i];
+                reportModelDetail.expectedNodesCounter += reportModelDetail.expectedNodesCounters[i];
 
-                this.visitedRNodesCounters[i] += reportModelDetail.visitedRNodesCounters[i];
-                this.expectedRNodesCounters[i] += reportModelDetail.expectedRNodesCounters[i];
+                this.visitedRNodesCounters[i] += reportModelDetail.visitedNodesCounters[i];
+                this.expectedRNodesCounters[i] += reportModelDetail.expectedNodesCounters[i];
 
-                if (reportModelDetail.expectedRNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffRPercentages[i] = (int) (100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i]));
+                if (reportModelDetail.expectedNodesCounters[i] > 0) {
+                    reportModelDetail.cutoffPercentages[i] = (int) (100 - (100 * reportModelDetail.visitedNodesCounters[i] / reportModelDetail.expectedNodesCounters[i]));
                 }
             }
+        }
+
+        if (reportModelDetail.expectedNodesCounter > 0) {
+            reportModelDetail.cutoffPercentage = (int) (100 - (100 * reportModelDetail.visitedNodesCounter / reportModelDetail.expectedNodesCounter));
         }
 
         this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
