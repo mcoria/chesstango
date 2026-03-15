@@ -28,18 +28,15 @@ public class NodesModel implements Model<List<SearchResult>> {
 
 
     /// ////////////////// START REGULAR NODES
-    public int maxSearchRLevel;
+    public int maxSearchDepth;
     public long[] expectedRNodesCounters;
     public long[] visitedRNodesCounters;
     public int[] cutoffRPercentages;
     public long expectedRNodesTotal;
     public long visitedRNodesTotal;
     public int cutoffPercentageTotal;
-    ///////////////////// END REGULAR NODES
+    /// ////////////////// END REGULAR NODES
 
-    /// ////////////////// START QUIESCENCE NODES
-    //public int maxSearchQLevel;
-    /// ////////////////// END QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
 
@@ -93,7 +90,7 @@ public class NodesModel implements Model<List<SearchResult>> {
         for (int i = 0; i < 30; i++) {
             if (this.visitedRNodesCounters[i] > 0) {
                 this.cutoffRPercentages[i] = (int) (100 - (100 * this.visitedRNodesCounters[i] / this.expectedRNodesCounters[i]));
-                this.maxSearchRLevel = i + 1;
+                this.maxSearchDepth = i;
             }
             this.visitedRNodesTotal += this.visitedRNodesCounters[i];
             this.expectedRNodesTotal += this.expectedRNodesCounters[i];

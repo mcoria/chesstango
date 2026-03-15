@@ -22,19 +22,17 @@ class SummaryNodesPrinter implements Printer {
     @Accessors(chain = true)
     private PrintStream out;
 
-    private int maxRLevelVisited;
+    private int maxSearchDepth;
 
     public SummaryNodesPrinter setReportRows(List<NodesModel> reportRows) {
         this.reportRows = reportRows;
-        int maxRLevelVisited = 0;
+        this.maxSearchDepth = 0;
 
         for (NodesModel nodesModel : reportRows) {
-            if (maxRLevelVisited < nodesModel.maxSearchRLevel) {
-                maxRLevelVisited = nodesModel.maxSearchRLevel;
+            if (maxSearchDepth < nodesModel.maxSearchDepth) {
+                maxSearchDepth = nodesModel.maxSearchDepth;
             }
         }
-
-        this.maxRLevelVisited = maxRLevelVisited;
 
         return this;
     }
@@ -74,13 +72,13 @@ class SummaryNodesPrinter implements Printer {
     public SummaryNodesPrinter printNodesVisitedStatics() {
         out.printf("%n Nodes visited per search level %n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxSearchDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();
 
         tmp.add("ENGINE NAME");
         tmp.add("SEARCHES");
-        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
+        IntStream.range(0, maxSearchDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
         tmp.add("TOTAL NODES");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
@@ -90,7 +88,7 @@ class SummaryNodesPrinter implements Printer {
 
             tmpRow.add(row.searchGroupName);
             tmpRow.add(Integer.toString(row.searches));
-            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> Long.toString(row.visitedRNodesCounters[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxSearchDepth + 1).mapToObj(depth -> Long.toString(row.visitedRNodesCounters[depth])).forEach(tmpRow::add);
             tmpRow.add(Long.toString(row.visitedRNodesTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
