@@ -108,14 +108,14 @@ public class TangoGame01IntegrationTest {
 
             session.setMoves(List.of());
             //session.goTime(2000);
-            session.goDepth(2);
+            session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
                 //session.goTime(2000);
-                session.goDepth(2);
+                session.goDepth(5);
             }
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {
