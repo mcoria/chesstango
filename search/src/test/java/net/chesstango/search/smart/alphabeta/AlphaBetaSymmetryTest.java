@@ -60,11 +60,11 @@ public class AlphaBetaSymmetryTest {
         /**
          * Testing mirror
          */
-        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatistics = searchResult.getNodeStatistics();
         long[] expectedNodes = regularNodeStatistics.expectedNodesCounters();
         long[] visitedNodes = regularNodeStatistics.visitedNodesCounters();
 
-        NodeStatistics regularNodeStatisticsMirror = searchResultMirror.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatisticsMirror = searchResultMirror.getNodeStatistics();
         long[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
         long[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
 

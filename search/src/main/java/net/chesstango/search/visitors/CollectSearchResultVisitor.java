@@ -28,7 +28,7 @@ public class CollectSearchResultVisitor implements Visitor {
 
     @Override
     public void visit(NodeCounters nodeCounters) {
-        searchResult.setRegularNodeStatistics(nodeCounters.getNodeStatistics());
+        searchResult.setNodeStatistics(nodeCounters.getNodeStatistics());
     }
 
     @Override

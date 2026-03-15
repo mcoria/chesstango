@@ -26,7 +26,7 @@ public class SearchResult implements Serializable {
 
     private EvaluationStatistics evaluationStatistics;
 
-    private NodeStatistics regularNodeStatistics;
+    private NodeStatistics nodeStatistics;
 
     private TTableStatistics tTableStatistics;
 

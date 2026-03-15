@@ -117,8 +117,8 @@ public class NodesModel implements Model<List<SearchResult>> {
         reportModelDetail.id = searchResult.getId();
         reportModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
-        if (searchResult.getRegularNodeStatistics() != null) {
-            collectRegularNodeStatistics(reportModelDetail, searchResult.getRegularNodeStatistics());
+        if (searchResult.getNodeStatistics() != null) {
+            collectRegularNodeStatistics(reportModelDetail, searchResult.getNodeStatistics());
         }
 
         this.nodesModelDetails.add(reportModelDetail);

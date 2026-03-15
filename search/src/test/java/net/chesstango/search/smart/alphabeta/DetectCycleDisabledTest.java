@@ -92,7 +92,7 @@ public class DetectCycleDisabledTest {
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getBestEvaluation());
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -134,7 +134,7 @@ public class DetectCycleDisabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -174,7 +174,7 @@ public class DetectCycleDisabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -208,7 +208,7 @@ public class DetectCycleDisabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getBestEvaluation());
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);

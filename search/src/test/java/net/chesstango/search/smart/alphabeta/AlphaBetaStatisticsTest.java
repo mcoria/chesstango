@@ -34,10 +34,11 @@ public class AlphaBetaStatisticsTest {
 
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
 
-        assertEquals(20, visitedNodesCounters[0]);
+        assertEquals(1, visitedNodesCounters[0]); // Root Node
+        assertEquals(20, visitedNodesCounters[1]);
 
         /**
          * En el 1er ciclo de exploracion se ejecuta el movimiento de una pieza blanca y el de 20 negras.
@@ -47,9 +48,9 @@ public class AlphaBetaStatisticsTest {
          * la evaluacion vuelve a ser 0 y no es necesario explorar otros movimientos de pieza negra.
          * Esto se continua repitiendo hasta finalizar los 19 ciclos restantes.
          */
-        assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
+        assertEquals(39, visitedNodesCounters[2]); // ESTA PERFECTO ES 39!!!!
 
-        assertEquals(59, visitedNodesCountersTotal);
+        assertEquals(60, visitedNodesCountersTotal); // 1 + 20 + 39
     }
 
     @Test
@@ -64,12 +65,13 @@ public class AlphaBetaStatisticsTest {
 
         searchResult = moveFinder.startSearch(game);
 
-        long[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        long[] expectedNodesCounters = searchResult.getNodeStatistics().expectedNodesCounters();
         long expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
-        assertEquals(20, expectedNodesCounters[0]);
-        assertEquals(400, expectedNodesCounters[1]);
-        assertEquals(420, expectedNodesCountersTotal);
+        assertEquals(1, expectedNodesCounters[0]);
+        assertEquals(20, expectedNodesCounters[1]);
+        assertEquals(400, expectedNodesCounters[2]);
+        assertEquals(421, expectedNodesCountersTotal);
     }
 
 
@@ -86,12 +88,13 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(2));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
 
-        assertEquals(40, visitedNodesCounters[0]);
-        assertEquals(39, visitedNodesCounters[1]);
-        assertEquals(79, visitedNodesCountersTotal);
+        assertEquals(2, visitedNodesCounters[0]);   // Root node, se explora una vez en cada iteracion
+        assertEquals(40, visitedNodesCounters[1]);
+        assertEquals(39, visitedNodesCounters[2]);
+        assertEquals(81, visitedNodesCountersTotal);
     }
 
     @Test
@@ -107,18 +110,19 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(2));
         searchResult = moveFinder.startSearch(game);
 
-        long[] expectedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
+        long[] expectedNodesCounters = searchResult.getNodeStatistics().expectedNodesCounters();
         long expectedNodesCountersTotal = Arrays.stream(expectedNodesCounters).sum();
 
-        assertEquals(40, expectedNodesCounters[0]);
-        assertEquals(400, expectedNodesCounters[1]);
-        assertEquals(0, expectedNodesCounters[2]);
-        assertEquals(440, expectedNodesCountersTotal);
+        assertEquals(2, expectedNodesCounters[0]);
+        assertEquals(40, expectedNodesCounters[1]);
+        assertEquals(400, expectedNodesCounters[2]);
+        assertEquals(0, expectedNodesCounters[3]);
+        assertEquals(442, expectedNodesCountersTotal);
     }
 
 
     @Test
-    public void testSearch_01() {
+    public void testVisitedNodesCountersDepth1() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withStatistics()
@@ -129,17 +133,18 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
+        long visitedNodesCountersTotal = Arrays.stream(searchResult.getNodeStatistics().visitedNodesCounters()).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(20, visitedNodesCountersTotal);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(20, visitedNodesCounters[1]);
+        assertEquals(21, visitedNodesCountersTotal);
         assertEquals(21, executedMoves);
     }
 
     @Test
-    public void testSearch_02() {
+    public void testVisitedNodesCountersDepth1WithTT() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withTranspositionTable()
@@ -151,23 +156,19 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
-        long visitedNodesCountersTotal = Arrays.stream(searchResult.getRegularNodeStatistics().visitedNodesCounters()).sum();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
+        long visitedNodesCountersTotal = Arrays.stream(searchResult.getNodeStatistics().visitedNodesCounters()).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(20, visitedNodesCountersTotal);
-        /**
-         * Los 61 movimientos se descomponen en:
-         * 20 movimientos de la busqueda regular AlphaBeta
-         *  0 movimientos de TranspositionPV
-         */
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(20, visitedNodesCounters[1]);
+        assertEquals(21, visitedNodesCountersTotal);
         assertEquals(20, executedMoves);
 
     }
 
     @Test
-    public void testSearch_03() {
+    public void testVisitedNodesCountersDepth1WithQuiescence() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
@@ -179,17 +180,18 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(20, visitedNodesCountersTotal);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(20, visitedNodesCounters[1]);
+        assertEquals(21, visitedNodesCountersTotal);
         assertEquals(21, executedMoves);
     }
 
     @Test
-    public void testSearch_04() {
+    public void testVisitedNodesCountersDepth1WithQuiescenceAndTT() {
         Search moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
                 .withQuiescence()
@@ -202,13 +204,14 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(1));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
-        assertEquals(20, visitedNodesCounters[0]);
-        assertEquals(20, visitedNodesCountersTotal);
-        assertEquals(20, executedMoves); // Ver mas arriba explicacion
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(20, visitedNodesCounters[1]);
+        assertEquals(21, visitedNodesCountersTotal);
+        assertEquals(20, executedMoves);            // Root cuenta como visited pero no ejecutado
     }
 
     @Test
@@ -225,7 +228,7 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(7));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
@@ -254,7 +257,7 @@ public class AlphaBetaStatisticsTest {
         moveFinder.accept(new SetMaxDepthVisitor(7));
         searchResult = moveFinder.startSearch(game);
 
-        long[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
+        long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
         long visitedNodesCountersTotal = Arrays.stream(visitedNodesCounters).sum();
         long executedMoves = searchResult.getExecutedMoves();
 
@@ -295,8 +298,8 @@ public class AlphaBetaStatisticsTest {
         SearchResult searchResult1 = moveFinder.startSearch(game1);
 
 
-        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
-        NodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatistics = searchResult.getNodeStatistics();
+        NodeStatistics regularNodeStatistics1 = searchResult1.getNodeStatistics();
 
         long[] expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
         long[] visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
