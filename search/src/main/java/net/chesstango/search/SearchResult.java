@@ -52,7 +52,7 @@ public class SearchResult implements Serializable {
     }
 
     public boolean isPvComplete() {
-        return searchResultByDepths.getLast().isPvComplete();
+        return !searchResultByDepths.isEmpty() && searchResultByDepths.getLast().isPvComplete();
     }
 
     public SearchResult addSearchResultByDepth(SearchResultByDepth searchResultByDepth) {

@@ -43,11 +43,14 @@ class NodesPrinter implements Printer {
             expectedWidth[depth] = String.format("%d", reportModel.expectedNodesCounters[depth]).length();
         });
 
+        int visitedTotalWidth = String.format("%d", reportModel.visitedNodesTotal).length();
+        int expectedTotalWidth = String.format("%d", reportModel.expectedNodesTotal).length();
+
         reportModel.nodesModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", moveDetail.move));
             IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%" + visitedWidth[depth] + "d / %" + expectedWidth[depth] + "d", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth])).forEach(tmpRow::add);
-            tmpRow.add(String.format("%d / %d", moveDetail.visitedNodesCounter, moveDetail.expectedNodesCounter));
+            tmpRow.add(String.format("%" + visitedTotalWidth + "d / %" + expectedTotalWidth + "d", moveDetail.visitedNodesCounter, moveDetail.expectedNodesCounter));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
