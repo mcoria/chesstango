@@ -37,7 +37,7 @@ public class AlphaBetaLoopNodeStatistics implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseLoopCounter();
 
-        nodeCounters.increaseVisitedCounter(currentPly - 1);
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
 

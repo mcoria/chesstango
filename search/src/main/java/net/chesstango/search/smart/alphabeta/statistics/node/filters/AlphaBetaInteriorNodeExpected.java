@@ -38,7 +38,7 @@ public class AlphaBetaInteriorNodeExpected implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        nodeCounters.increaseExpectedCounter(currentPly, game.getPossibleMoves().size());
+        nodeCounters.increaseExpectedCounter(currentPly + 1, game.getPossibleMoves().size());
     }
 }
 

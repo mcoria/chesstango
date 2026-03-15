@@ -37,7 +37,7 @@ public class AlphaBetaTerminalNodeStatistics implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseTerminalCounter();
 
-        nodeCounters.increaseVisitedCounter(currentPly - 1);
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
 

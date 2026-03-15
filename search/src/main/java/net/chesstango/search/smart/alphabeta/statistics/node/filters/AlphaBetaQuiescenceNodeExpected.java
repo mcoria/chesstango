@@ -45,7 +45,7 @@ public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter {
                 expectedMoves++;
             }
         }
-        nodeCounters.increaseExpectedCounter(currentPly, expectedMoves);
+        nodeCounters.increaseExpectedCounter(currentPly + 1, expectedMoves);
     }
 }
 

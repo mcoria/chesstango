@@ -37,7 +37,7 @@ public class AlphaBetaEgtbNodeStatistics implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseEgtbCounter();
 
-        nodeCounters.increaseVisitedCounter(currentPly - 1);
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
 

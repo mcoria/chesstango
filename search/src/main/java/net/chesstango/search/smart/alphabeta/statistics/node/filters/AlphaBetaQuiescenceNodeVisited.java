@@ -38,7 +38,7 @@ public class AlphaBetaQuiescenceNodeVisited implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseQuiescenceCounter();
 
-        nodeCounters.increaseVisitedCounter(currentPly - 1);
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
 

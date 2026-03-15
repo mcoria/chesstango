@@ -45,7 +45,11 @@ public class AlphaBetaRootNodeStatistics implements AlphaBetaFilter {
 
         nodeCounters.increaseRootCounter();
 
-        nodeCounters.increaseExpectedCounter(0, game.getPossibleMoves().size());
+        nodeCounters.increaseExpectedCounter(0, 1);
+
+        nodeCounters.increaseVisitedCounter(0);
+
+        nodeCounters.increaseExpectedCounter(1, game.getPossibleMoves().size());
     }
 }
 
