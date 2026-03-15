@@ -151,6 +151,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         evaluationBuilder.withStatistics();
         terminalChainBuilder.withStatistics();
         leafChainBuilder.withStatistics();
+        loopChainBuilder.withStatistics();
         return this;
     }
 

@@ -168,6 +168,11 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
+    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+        print(alphaBetaLoopNodeStatistics, alphaBetaLoopNodeStatistics.getNext());
+    }
+
+    @Override
     public void visit(AlphaBeta alphaBeta) {
         printChainDownLine();
         printNodeObjectText(alphaBeta);

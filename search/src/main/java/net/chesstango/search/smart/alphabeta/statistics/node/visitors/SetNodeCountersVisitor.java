@@ -52,4 +52,9 @@ public class SetNodeCountersVisitor implements Visitor {
         alphaBetaTerminalNodeStatistics.setNodeCounters(nodeCounters);
     }
 
+    @Override
+    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+        alphaBetaLoopNodeStatistics.setNodeCounters(nodeCounters);
+    }
+
 }

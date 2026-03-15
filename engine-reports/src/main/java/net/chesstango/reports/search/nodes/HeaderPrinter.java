@@ -33,6 +33,7 @@ class HeaderPrinter implements Printer {
         out.printf("Quiescence       Nodes: %10d%n", reportModel.quiescenceNodeCounterTotal);
         out.printf("Leaf             Nodes: %10d%n", reportModel.leafNodeCounterTotal);
         out.printf("Terminal         Nodes: %10d%n", reportModel.terminalNodeCounterTotal);
+        out.printf("Loop             Nodes: %10d%n", reportModel.loopNodeCounterTotal);
         out.printf("Total            Nodes: %10d%n", reportModel.nodeCounterTotal);
 
 

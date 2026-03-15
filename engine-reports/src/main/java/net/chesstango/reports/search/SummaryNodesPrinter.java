@@ -50,9 +50,9 @@ class SummaryNodesPrinter implements Printer {
     public SummaryNodesPrinter printNodesVisitedStaticsByType() {
         out.printf("%n Nodes visited per type %n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(8).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(9).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LNodes", "TNodes", "Nodes");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LNodes", "TNodes", "LoNodes", "Nodes");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
@@ -61,6 +61,7 @@ class SummaryNodesPrinter implements Printer {
                     Long.toString(row.quiescenceNodeCounterTotal),
                     Long.toString(row.leafNodeCounterTotal),
                     Long.toString(row.terminalNodeCounterTotal),
+                    Long.toString(row.loopNodeCounterTotal),
                     Long.toString(row.nodeCounterTotal)
             );
         });

@@ -10,6 +10,7 @@ public record NodeStatistics(long rootNodeCounter,
                              long quiescenceCounter,
                              long leafCounter,
                              long terminalNodeCounter,
+                             long loopNodeCounter,
                              long[] expectedNodesCounters,
                              long[] visitedNodesCounters) implements Serializable {
 }

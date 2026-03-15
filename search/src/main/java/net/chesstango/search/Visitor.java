@@ -116,6 +116,9 @@ public interface Visitor {
     default void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
     }
 
+    default void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+    }
+
     default void visit(StopProcessingCatch stopProcessingCatch) {
     }
 

@@ -40,6 +40,7 @@ public class AbstractChainBuilder {
                 case AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected -> alphaBetaQuiescenceNodeExpected.setNext(next);
                 case AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics -> alphaBetaLeafNodeStatistics.setNext(next);
                 case AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics -> alphaBetaTerminalNodeStatistics.setNext(next);
+                case AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics -> alphaBetaLoopNodeStatistics.setNext(next);
 
 
                 case AlphaBeta alphaBeta -> alphaBeta.setNext(next);
