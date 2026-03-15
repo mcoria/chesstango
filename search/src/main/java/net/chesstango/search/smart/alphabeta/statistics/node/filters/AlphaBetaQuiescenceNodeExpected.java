@@ -2,21 +2,24 @@ package net.chesstango.search.smart.alphabeta.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 
 /**
  * @author Mauricio Coria
  */
 @Setter
-@Getter
-public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
+public class AlphaBetaQuiescenceNodeExpected implements AlphaBetaFilter {
 
+    @Getter
     private AlphaBetaFilter next;
 
-    private long[] visitedNodesCounters;
+    private NodeCounters nodeCounters;
 
-    private int depth;
+    private Game game;
 
     @Override
     public void accept(Visitor visitor) {
@@ -36,7 +39,13 @@ public class QuiescenceStatisticsVisited implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        final int qLevel = currentPly - depth;
-        visitedNodesCounters[qLevel - 1]++;
+        int expectedMoves = 0;
+        for (Move move : game.getPossibleMoves()) {
+            if (!move.isQuiet()) {
+                expectedMoves++;
+            }
+        }
+        nodeCounters.increaseExpectedCounter(currentPly + 1, expectedMoves);
     }
 }
+

@@ -27,39 +27,37 @@ class NodesPrinter implements Printer {
     public NodesPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(4 + reportModel.maxSearchRLevel + reportModel.maxSearchQLevel).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
-        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
-        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
-        tmp.add("RTotal");
-        tmp.add("QTotal");
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
         tmp.add("Total");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
+        int[] visitedWidth = new int[reportModel.maxDepth + 1];
+        int[] expectedWidth = new int[reportModel.maxDepth + 1];
+        IntStream.range(0, reportModel.maxDepth + 1).forEach(depth -> {
+            visitedWidth[depth] = String.format("%d", reportModel.visitedNodesCounters[depth]).length();
+            expectedWidth[depth] = String.format("%d", reportModel.expectedNodesCounters[depth]).length();
+        });
+
+        int visitedTotalWidth = String.format("%d", reportModel.visitedNodesTotal).length();
+        int expectedTotalWidth = String.format("%d", reportModel.expectedNodesTotal).length();
+
         reportModel.nodesModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
-
             tmpRow.add(String.format("%s", moveDetail.move));
-
-            IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth])).forEach(tmpRow::add);
-            IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d / %d", moveDetail.visitedQNodesCounters[depth], moveDetail.expectedQNodesCounters[depth])).forEach(tmpRow::add);
-
-            tmpRow.add(String.format("%d / %d", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter));
-            tmpRow.add(String.format("%d / %d", moveDetail.visitedQNodesCounter, moveDetail.expectedQNodesCounter));
-            tmpRow.add(String.format("%d / %d", moveDetail.visitedNodesTotal, moveDetail.expectedNodesTotal));
+            IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%" + visitedWidth[depth] + "d / %" + expectedWidth[depth] + "d", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth])).forEach(tmpRow::add);
+            tmpRow.add(String.format("%" + visitedTotalWidth + "d / %" + expectedTotalWidth + "d", moveDetail.visitedNodesCounter, moveDetail.expectedNodesCounter));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
         tmp = new LinkedList<>();
         tmp.add("SUM");
-        IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
-        IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d / %d", reportModel.visitedQNodesCounters[depth], reportModel.expectedQNodesCounters[depth])).forEach(tmp::add);
-        tmp.add(String.format("%d / %d", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal));
-        tmp.add(String.format("%d / %d", reportModel.visitedQNodesTotal, reportModel.expectedQNodesTotal));
+        IntStream.range(0, reportModel.maxDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedNodesCounters[depth], reportModel.expectedNodesCounters[depth])).forEach(tmp::add);
         tmp.add(String.format("%d / %d", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));

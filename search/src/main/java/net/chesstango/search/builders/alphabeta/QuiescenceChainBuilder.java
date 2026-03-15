@@ -6,13 +6,13 @@ import net.chesstango.search.builders.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorDebug;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -26,8 +26,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     private final Quiescence quiescence;
     private final MoveSorterQuiescenceBuilder moveSorterBuilder;
     private AlphaBetaFlowControl alphaBetaFlowControl;
-    private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
-    private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
+    private AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeVisited;
+    private AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
@@ -52,6 +52,7 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
         this.alphaBetaFlowControl = alphaBetaFlowControl;
         return this;
     }
+
     public QuiescenceChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         this.searchListenerMediator = searchListenerMediator;
@@ -133,8 +134,8 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
 
     private void buildObjects() {
         if (withStatistics) {
-            quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
-            quiescenceStatisticsVisited = new QuiescenceStatisticsVisited();
+            alphaBetaQuiescenceNodeVisited = new AlphaBetaQuiescenceNodeVisited();
+            alphaBetaQuiescenceNodeExpected = new AlphaBetaQuiescenceNodeExpected();
         }
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
@@ -152,9 +153,11 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
     }
 
     private void setupListenerMediator() {
-        if (withStatistics) {
-            searchListenerMediator.add(quiescenceStatisticsExpected);
-            searchListenerMediator.add(quiescenceStatisticsVisited);
+        if (alphaBetaQuiescenceNodeVisited != null) {
+            searchListenerMediator.add(alphaBetaQuiescenceNodeVisited);
+        }
+        if (alphaBetaQuiescenceNodeExpected != null) {
+            searchListenerMediator.add(alphaBetaQuiescenceNodeExpected);
         }
         if (zobristQTracker != null) {
             searchListenerMediator.add(zobristQTracker);
@@ -183,19 +186,19 @@ public class QuiescenceChainBuilder extends AbstractChainBuilder {
             chain.add(zobristQTracker);
         }
 
+        if (alphaBetaQuiescenceNodeVisited != null) {
+            chain.add(alphaBetaQuiescenceNodeVisited);
+        }
+
         if (transpositionTableQ != null) {
             chain.add(transpositionTableQ);
         }
 
-        if (quiescenceStatisticsExpected != null) {
-            chain.add(quiescenceStatisticsExpected);
+        if (alphaBetaQuiescenceNodeExpected != null) {
+            chain.add(alphaBetaQuiescenceNodeExpected);
         }
 
         chain.add(quiescence);
-
-        if (quiescenceStatisticsVisited != null) {
-            chain.add(quiescenceStatisticsVisited);
-        }
 
         if (triangularPV != null) {
             chain.add(triangularPV);

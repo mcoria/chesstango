@@ -1,10 +1,8 @@
 package net.chesstango.search.smart.alphabeta.statistics.node.visitors;
 
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaStatisticsVisited;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 
 /**
  *
@@ -12,38 +10,56 @@ import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceS
  */
 public class SetNodeCountersVisitor implements Visitor {
 
-    private final long[] visitedNodesCounters;
-    private final long[] expectedNodesCounters;
-    private final long[] visitedNodesCountersQuiescence;
-    private final long[] expectedNodesCountersQuiescence;
+    private final NodeCounters nodeCounters;
 
-    public SetNodeCountersVisitor(long[] visitedNodesCounters, long[] expectedNodesCounters, long[] visitedNodesCountersQuiescence, long[] expectedNodesCountersQuiescence) {
-        this.visitedNodesCounters = visitedNodesCounters;
-        this.expectedNodesCounters = expectedNodesCounters;
-        this.visitedNodesCountersQuiescence = visitedNodesCountersQuiescence;
-        this.expectedNodesCountersQuiescence = expectedNodesCountersQuiescence;
+    public SetNodeCountersVisitor(NodeCounters nodeCounters) {
+        this.nodeCounters = nodeCounters;
+    }
+
+    @Override
+    public void visit(AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics) {
+        alphaBetaRootNodeStatistics.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(AlphaBetaInteriorNodeVisited alphaBetaInteriorNodeStatistics) {
+        alphaBetaInteriorNodeStatistics.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(AlphaBetaInteriorNodeExpected alphaBetaInteriorNodeExpected) {
+        alphaBetaInteriorNodeExpected.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(AlphaBetaQuiescenceNodeVisited alphaBetaQuiescenceNodeStatistics) {
+        alphaBetaQuiescenceNodeStatistics.setNodeCounters(nodeCounters);
+    }
+
+    @Override
+    public void visit(AlphaBetaQuiescenceNodeExpected alphaBetaQuiescenceNodeExpected) {
+        alphaBetaQuiescenceNodeExpected.setNodeCounters(nodeCounters);
     }
 
 
     @Override
-    public void visit(AlphaBetaStatisticsExpected alphaBetaStatisticsExpected) {
-        alphaBetaStatisticsExpected.setExpectedNodesCounters(expectedNodesCounters);
+    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
+        alphaBetaLeafNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(AlphaBetaStatisticsVisited alphaBetaStatisticsVisited) {
-        alphaBetaStatisticsVisited.setVisitedNodesCounters(visitedNodesCounters);
+    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
+        alphaBetaTerminalNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(QuiescenceStatisticsExpected quiescenceStatisticsExpected) {
-        quiescenceStatisticsExpected.setExpectedNodesCounters(expectedNodesCountersQuiescence);
+    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+        alphaBetaLoopNodeStatistics.setNodeCounters(nodeCounters);
     }
 
     @Override
-    public void visit(QuiescenceStatisticsVisited quiescenceStatisticsVisited) {
-        quiescenceStatisticsVisited.setVisitedNodesCounters(visitedNodesCountersQuiescence);
+    public void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
+        alphaBetaEgtbNodeStatistics.setNodeCounters(nodeCounters);
     }
-
 
 }

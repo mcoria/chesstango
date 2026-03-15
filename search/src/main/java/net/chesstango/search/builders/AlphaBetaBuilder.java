@@ -149,6 +149,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         checkResolverChainBuilder.withStatistics();
         transpositionTableBuilder.withStatistics();
         evaluationBuilder.withStatistics();
+        terminalChainBuilder.withStatistics();
+        leafChainBuilder.withStatistics();
+        loopChainBuilder.withStatistics();
+        egtbChainBuilder.withStatistics();
         return this;
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private Search search;
     private SearchResult searchResult;
 
@@ -62,7 +62,7 @@ public class SearchesTest {
                     .addSearchesByTreeSummaryModel(testInfo.getDisplayName(), List.of(searchResult))
                     .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
-                    .withEvaluationStatistics()
+                    //.withEvaluationStatistics()
                     .withTranspositionStatistics()
                     .printReport(System.out);
 
@@ -74,8 +74,8 @@ public class SearchesTest {
                     .withNodesVisitedStatistics()
                     //.withCutoffStatistics()
                     //.withPrincipalVariationReport()
-                    .withEvaluationReport()
-                    .withTranspositionReport()
+                    //.withEvaluationReport()
+                    //.withTranspositionReport()
                     .printReport(System.out);
         }
     }

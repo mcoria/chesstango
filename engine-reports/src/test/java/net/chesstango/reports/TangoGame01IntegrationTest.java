@@ -45,6 +45,7 @@ public class TangoGame01IntegrationTest {
 
     @AfterEach
     public void tearDown() {
+        /*
         searchManagerSummaryReport
                 .addSearchResponses("TangoGame01", searchResponseList)
                 .printReport(System.out);
@@ -52,6 +53,7 @@ public class TangoGame01IntegrationTest {
         searchManagerReport
                 .withMoveResults(searchResponseList)
                 .printReport(System.out);
+         */
 
         List<SearchResult> searchResults = searchResponseList.stream()
                 .filter(SearchByTreeResult.class::isInstance)
@@ -63,7 +65,7 @@ public class TangoGame01IntegrationTest {
                 .addSearchesByTreeSummaryModel("TangoGame01", searchResults)
                 .withBoardStatistics()
                 .withNodesVisitedStatistics()
-                //.withCutoffStatistics()
+                .withCutoffStatistics()
                 //.withEvaluationStatistics()
                 //.withTranspositionStatistics()
                 //.withPrincipalVariationStatistics()
@@ -73,7 +75,7 @@ public class TangoGame01IntegrationTest {
                 .setReportTitle("TangoGame01")
                 .withBoardReport()
                 .withNodesVisitedStatistics()
-                //.withCutoffStatistics()
+                .withCutoffStatistics()
                 //.withEvaluationReport()
                 //.withTranspositionReport()
                 //.withPrincipalVariationReport()
@@ -105,15 +107,15 @@ public class TangoGame01IntegrationTest {
             session.setFen(FEN.START_POSITION);
 
             session.setMoves(List.of());
-            //session.goTime(2000);
-            session.goDepth(5);
+            session.goTime(500);
+            //session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
-                //session.goTime(2000);
-                session.goDepth(5);
+                session.goTime(500);
+                //session.goDepth(5);
             }
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {

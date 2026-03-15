@@ -68,17 +68,11 @@ public class AlphaBetaSymmetryTest {
         long[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
         long[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
 
-        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
-        long[] visitedNodesQ = quiescenceNodeStatistics.visitedNodesCounters();
 
-        NodeStatistics quiescenceNodeStatisticsMirror = searchResultMirror.getQuiescenceNodeStatistics();
-        long[] visitedNodesQMirror = quiescenceNodeStatisticsMirror.visitedNodesCounters();
         for (int i = 0; i < 30; i++) {
             assertEquals(expectedNodes[i], expectedNodesMirror[i]);
             assertEquals(visitedNodes[i], visitedNodesMirror[i]);
-            assertEquals(visitedNodesQ[i], visitedNodesQMirror[i]);
         }
-
 
     }
 

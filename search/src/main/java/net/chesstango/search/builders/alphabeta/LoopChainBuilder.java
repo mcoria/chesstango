@@ -1,10 +1,11 @@
 package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
+import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
-import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.evaluator.filters.LoopEvaluation;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLoopNodeStatistics;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
 import java.util.LinkedList;
@@ -16,10 +17,12 @@ import java.util.List;
 public class LoopChainBuilder extends AbstractChainBuilder {
     private final LoopEvaluation loopEvaluation;
     private ZobristTracker zobristTracker;
+    private AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics;
     private DebugFilter debugFilter;
     private SearchListenerMediator searchListenerMediator;
 
     private boolean withZobristTracker;
+    private boolean withStatistics;
     private boolean withDebugSearchTree;
 
     public LoopChainBuilder() {
@@ -28,6 +31,11 @@ public class LoopChainBuilder extends AbstractChainBuilder {
 
     public LoopChainBuilder withZobristTracker() {
         this.withZobristTracker = true;
+        return this;
+    }
+
+    public LoopChainBuilder withStatistics() {
+        this.withStatistics = true;
         return this;
     }
 
@@ -56,6 +64,10 @@ public class LoopChainBuilder extends AbstractChainBuilder {
             zobristTracker = new ZobristTracker();
         }
 
+        if (withStatistics) {
+            alphaBetaLoopNodeStatistics = new AlphaBetaLoopNodeStatistics();
+        }
+
         if (withDebugSearchTree) {
             this.debugFilter = new DebugFilter(DebugNode.NodeTopology.LOOP);
         }
@@ -65,6 +77,10 @@ public class LoopChainBuilder extends AbstractChainBuilder {
     private void setupListenerMediator() {
         if (zobristTracker != null) {
             searchListenerMediator.add(zobristTracker);
+        }
+
+        if (alphaBetaLoopNodeStatistics != null) {
+            searchListenerMediator.add(alphaBetaLoopNodeStatistics);
         }
 
         if (debugFilter != null) {
@@ -81,6 +97,10 @@ public class LoopChainBuilder extends AbstractChainBuilder {
 
         if (zobristTracker != null) {
             chain.add(zobristTracker);
+        }
+
+        if (alphaBetaLoopNodeStatistics != null) {
+            chain.add(alphaBetaLoopNodeStatistics);
         }
 
         chain.add(loopEvaluation);

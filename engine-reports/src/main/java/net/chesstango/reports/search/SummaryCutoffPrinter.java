@@ -22,42 +22,31 @@ class SummaryCutoffPrinter implements Printer {
 
     private List<NodesModel> reportRows;
 
-    private int maxRLevelVisited;
-
-    private int maxQLevelVisited;
+    private int maxDepth;
 
     public SummaryCutoffPrinter setReportRows(List<NodesModel> reportRows) {
         this.reportRows = reportRows;
-
-        int maxRLevelVisited = 0;
-        int maxQLevelVisited = 0;
+        this.maxDepth = 0;
 
         for (NodesModel nodesModel : reportRows) {
-            if (maxRLevelVisited < nodesModel.maxSearchRLevel) {
-                maxRLevelVisited = nodesModel.maxSearchRLevel;
-            }
-            if (maxQLevelVisited < nodesModel.maxSearchQLevel) {
-                maxQLevelVisited = nodesModel.maxSearchQLevel;
+            if (maxDepth < nodesModel.maxDepth) {
+                maxDepth = nodesModel.maxDepth;
             }
         }
-
-        this.maxRLevelVisited = maxRLevelVisited;
-        this.maxQLevelVisited = maxQLevelVisited;
 
         return this;
     }
 
     @Override
     public SummaryCutoffPrinter print() {
-        out.printf("%n Cutoff per search level (higher is better) %n");
+        out.printf("%nCutoff per search level (higher is better)%n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxRLevelVisited + maxQLevelVisited).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxDepth + 1).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("ENGINE NAME");
         tmp.add("SEARCHES");
-        IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
-        IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
+        IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("Depth %2d", depth)).forEach(tmp::add);
         tmp.add("Cutoff");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
@@ -66,8 +55,7 @@ class SummaryCutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(row.searchGroupName);
             tmpRow.add(Integer.toString(row.searches));
-            IntStream.range(0, maxRLevelVisited).mapToObj(depth -> String.format( "%d %% ", row.cutoffRPercentages[depth])).forEach(tmpRow::add);
-            IntStream.range(0, maxQLevelVisited).mapToObj(depth -> String.format( "%d %% ", row.cutoffQPercentages[depth])).forEach(tmpRow::add);
+            IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("%d %% ", row.cutoffPercentages[depth])).forEach(tmpRow::add);
             tmpRow.add(Integer.toString(row.cutoffPercentageTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));

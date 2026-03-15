@@ -1,8 +1,6 @@
 package net.chesstango.search.smart.alphabeta.statistics.node;
 
 import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
@@ -13,10 +11,16 @@ import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCou
  */
 public class NodeCounters implements SearchByCycleListener {
 
+    private long rootNodeCounter;
+    private long interiorNodeCounter;
+    private long quiescenceCounter;
+    private long leafCounter;
+    private long terminalNodeCounter;
+    private long loopNodeCounter;
+    private long egtbCounter;
+
     private long[] visitedNodesCounters;
     private long[] expectedNodesCounters;
-    private long[] visitedNodesCountersQuiescence;
-    private long[] expectedNodesCountersQuiescence;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
@@ -28,25 +32,71 @@ public class NodeCounters implements SearchByCycleListener {
 
     @Override
     public void beforeSearch() {
+        this.rootNodeCounter = 0;
+        this.interiorNodeCounter = 0;
+        this.quiescenceCounter = 0;
+        this.leafCounter = 0;
+        this.terminalNodeCounter = 0;
+        this.loopNodeCounter = 0;
+        this.egtbCounter = 0;
+
         this.visitedNodesCounters = new long[30];
         this.expectedNodesCounters = new long[30];
-        this.visitedNodesCountersQuiescence = new long[30];
-        this.expectedNodesCountersQuiescence = new long[30];
 
         searchListenerMediator.accept(
-                new SetNodeCountersVisitor(
-                        visitedNodesCounters, expectedNodesCounters,
-                        visitedNodesCountersQuiescence, expectedNodesCountersQuiescence
-                )
+                new SetNodeCountersVisitor(this)
         );
     }
 
 
-    public NodeStatistics getRegularNodeStatistics() {
-        return new NodeStatistics(expectedNodesCounters, visitedNodesCounters);
+    public NodeStatistics getNodeStatistics() {
+        return new NodeStatistics(
+                rootNodeCounter,
+                interiorNodeCounter,
+                quiescenceCounter,
+                leafCounter,
+                terminalNodeCounter,
+                loopNodeCounter,
+                egtbCounter,
+                expectedNodesCounters,
+                visitedNodesCounters
+        );
     }
 
-    public NodeStatistics getQuiescenceNodeStatistics() {
-        return new NodeStatistics(expectedNodesCountersQuiescence, visitedNodesCountersQuiescence);
+    public void increaseRootCounter() {
+        rootNodeCounter++;
     }
+
+    public void increaseInteriorCounter() {
+        interiorNodeCounter++;
+    }
+
+    public void increaseQuiescenceCounter() {
+        quiescenceCounter++;
+    }
+
+    public void increaseLeafCounter() {
+        leafCounter++;
+    }
+
+    public void increaseTerminalCounter() {
+        terminalNodeCounter++;
+    }
+
+    public void increaseLoopCounter() {
+        loopNodeCounter++;
+    }
+
+    public void increaseEgtbCounter() {
+        egtbCounter++;
+    }
+
+    public void increaseExpectedCounter(final int level, final int increment) {
+        expectedNodesCounters[level] += increment;
+    }
+
+    public void increaseVisitedCounter(final int level) {
+        visitedNodesCounters[level]++;
+    }
+
 }

@@ -8,8 +8,7 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsExpected;
-import net.chesstango.search.smart.alphabeta.statistics.node.filters.QuiescenceStatisticsVisited;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeVisited;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
 
@@ -22,8 +21,7 @@ import java.util.List;
 public class CheckResolverChainBuilder extends AbstractChainBuilder {
     private final AlphaBeta alphaBeta;
     private final MoveSorterBuilder moveSorterBuilder;
-    private QuiescenceStatisticsExpected quiescenceStatisticsExpected;
-    private QuiescenceStatisticsVisited quiescenceStatisticsVisited;
+    private AlphaBetaInteriorNodeVisited alphaBetaNodeStatistics;
     private TranspositionTableQ transpositionTableQ;
     private ZobristTracker zobristQTracker;
     private DebugFilter debugFilter;
@@ -94,8 +92,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
     private void buildObjects() {
         if (withStatistics) {
-            quiescenceStatisticsExpected = new QuiescenceStatisticsExpected();
-            quiescenceStatisticsVisited = new QuiescenceStatisticsVisited();
+            alphaBetaNodeStatistics = new AlphaBetaInteriorNodeVisited();
         }
         if (withZobristTracker) {
             zobristQTracker = new ZobristTracker();
@@ -113,8 +110,7 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
 
     private void setupListenerMediator() {
         if (withStatistics) {
-            searchListenerMediator.add(quiescenceStatisticsExpected);
-            searchListenerMediator.add(quiescenceStatisticsVisited);
+            searchListenerMediator.add(alphaBetaNodeStatistics);
         }
         if (zobristQTracker != null) {
             searchListenerMediator.add(zobristQTracker);
@@ -146,15 +142,11 @@ public class CheckResolverChainBuilder extends AbstractChainBuilder {
             chain.add(transpositionTableQ);
         }
 
-        if (quiescenceStatisticsExpected != null) {
-            chain.add(quiescenceStatisticsExpected);
+        if (alphaBetaNodeStatistics != null) {
+            chain.add(alphaBetaNodeStatistics);
         }
 
         chain.add(alphaBeta);
-
-        if (quiescenceStatisticsVisited != null) {
-            chain.add(quiescenceStatisticsVisited);
-        }
 
         if (triangularPV != null) {
             chain.add(triangularPV);

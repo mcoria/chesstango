@@ -2,34 +2,25 @@ package net.chesstango.search.smart.alphabeta.statistics.node.filters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
+@Setter
+public class AlphaBetaEgtbNodeStatistics implements AlphaBetaFilter {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
-    private long[] expectedNodesCounters;
-
-    @Setter
-    private Game game;
-
-    @Setter
-    private int depth;
+    private NodeCounters nodeCounters;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
@@ -44,17 +35,9 @@ public class QuiescenceStatisticsExpected implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        final int qLevel = currentPly - depth;
-        int expectedMoves = 0;
-        if (game.getStatus().isCheck()) {
-            expectedMoves = game.getPossibleMoves().size();
-        } else {
-            for (Move move : game.getPossibleMoves()) {
-                if (!move.isQuiet()) {
-                    expectedMoves++;
-                }
-            }
-        }
-        expectedNodesCounters[qLevel] += expectedMoves;
+        nodeCounters.increaseEgtbCounter();
+
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
+

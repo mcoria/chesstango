@@ -5,27 +5,23 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
+@Setter
+public class AlphaBetaInteriorNodeVisited implements AlphaBetaFilter {
 
-    @Setter
     @Getter
     private AlphaBetaFilter next;
 
-    @Setter
-    private Game game;
-
-    @Setter
-    private long[] expectedNodesCounters;
+    private NodeCounters nodeCounters;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
@@ -40,6 +36,9 @@ public class AlphaBetaStatisticsExpected implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
+        nodeCounters.increaseInteriorCounter();
+
+        nodeCounters.increaseVisitedCounter(currentPly );
     }
 }
+

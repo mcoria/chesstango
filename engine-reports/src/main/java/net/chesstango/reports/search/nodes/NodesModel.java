@@ -17,30 +17,26 @@ public class NodesModel implements Model<List<SearchResult>> {
 
     public int searches;
 
-    /// ////// START TOTALS
-    public long expectedNodesTotal;
-    public long visitedNodesTotal;
-    public int cutoffPercentageTotal;
-    //////// END TOTALS
+    public long rootNodeCounterTotal;
+    public long interiorNodeCounterTotal;
+    public long quiescenceNodeCounterTotal;
+    public long leafNodeCounterTotal;
+    public long terminalNodeCounterTotal;
+    public long loopNodeCounterTotal;
+    public long egtbCounterTotal;
+    public long nodeCounterTotal;
 
 
     /// ////////////////// START REGULAR NODES
-    public int maxSearchRLevel;
-    public long[] expectedRNodesCounters;
-    public long[] visitedRNodesCounters;
-    public int[] cutoffRPercentages;
-    public long expectedRNodesTotal;
-    public long visitedRNodesTotal;
-    ///////////////////// END REGULAR NODES
+    public int maxDepth;
+    public long[] expectedNodesCounters;
+    public long[] visitedNodesCounters;
+    public int[] cutoffPercentages;
+    public long expectedNodesTotal;
+    public long visitedNodesTotal;
+    public int cutoffPercentageTotal;
+    /// ////////////////// END REGULAR NODES
 
-    /// ////////////////// START QUIESCENCE NODES
-    public int maxSearchQLevel;
-    public long[] expectedQNodesCounters;
-    public long[] visitedQNodesCounters;
-    public int[] cutoffQPercentages;
-    public long expectedQNodesTotal;
-    public long visitedQNodesTotal;
-    ///////////////////// END QUIESCENCE NODES
 
     public List<NodesModelDetail> nodesModelDetails;
 
@@ -48,26 +44,25 @@ public class NodesModel implements Model<List<SearchResult>> {
         public String id;
 
         public String move;
+
+        public long rootNodeCounter;
+        public long interiorNodeCounter;
+        public long quiescenceNodeCounter;
+        public long leafNodeCounter;
+        public long terminalNodeCounter;
+        public long loopNodeCounter;
+        public long egtbCounter;
+
         /**
          * Node Statistics
          */
-
-        public long visitedNodesTotal;
-        public long expectedNodesTotal;
-        public int cutoffPercentageTotal;
-
-        public long[] expectedRNodesCounters;
-        public long expectedRNodesCounter;
-        public long[] visitedRNodesCounters;
-        public long visitedRNodesCounter;
-        public int[] cutoffRPercentages;
-
-
-        public long[] expectedQNodesCounters;
-        public long expectedQNodesCounter;
-        public long[] visitedQNodesCounters;
-        public long visitedQNodesCounter;
-        public int[] cutoffQPercentages;
+        public int maxDepth;
+        public long[] expectedNodesCounters;
+        public long expectedNodesCounter;
+        public long[] visitedNodesCounters;
+        public long visitedNodesCounter;
+        public int[] cutoffPercentages;
+        public int cutoffPercentage;
     }
 
     @Override
@@ -84,15 +79,9 @@ public class NodesModel implements Model<List<SearchResult>> {
 
         this.nodesModelDetails = new LinkedList<>();
 
-        this.expectedRNodesCounters = new long[30];
-        this.expectedQNodesCounters = new long[30];
-
-        this.visitedRNodesCounters = new long[30];
-        this.visitedQNodesCounters = new long[30];
-
-        this.cutoffRPercentages = new int[30];
-        this.cutoffQPercentages = new int[30];
-
+        this.expectedNodesCounters = new long[30];
+        this.visitedNodesCounters = new long[30];
+        this.cutoffPercentages = new int[30];
 
         searchResults.forEach(this::loadModelDetail);
 
@@ -100,29 +89,25 @@ public class NodesModel implements Model<List<SearchResult>> {
          * Totales sumarizados
          */
         for (int i = 0; i < 30; i++) {
-            if (this.visitedRNodesCounters[i] > 0) {
-                this.cutoffRPercentages[i] = (int) (100 - (100 * this.visitedRNodesCounters[i] / this.expectedRNodesCounters[i]));
-                this.maxSearchRLevel = i + 1;
+            if (this.visitedNodesCounters[i] > 0) {
+                this.cutoffPercentages[i] = (int) (100 - (100 * this.visitedNodesCounters[i] / this.expectedNodesCounters[i]));
+                this.maxDepth = i;
             }
-
-            if (this.visitedQNodesCounters[i] > 0) {
-                this.cutoffQPercentages[i] = (int) (100 - (100 * this.visitedQNodesCounters[i] / this.expectedQNodesCounters[i]));
-                this.maxSearchQLevel = i + 1;
-            }
-
-            this.visitedRNodesTotal += this.visitedRNodesCounters[i];
-            this.visitedQNodesTotal += this.visitedQNodesCounters[i];
-
-            this.expectedRNodesTotal += this.expectedRNodesCounters[i];
-            this.expectedQNodesTotal += this.expectedQNodesCounters[i];
+            this.visitedNodesTotal += this.visitedNodesCounters[i];
+            this.expectedNodesTotal += this.expectedNodesCounters[i];
         }
 
-        this.visitedNodesTotal = this.visitedRNodesTotal + this.visitedQNodesTotal;
-        this.expectedNodesTotal = this.expectedRNodesTotal + this.expectedQNodesTotal;
-
-        if(this.expectedNodesTotal > 0) {
+        if (this.expectedNodesTotal > 0) {
             this.cutoffPercentageTotal = (int) (100 - (100 * this.visitedNodesTotal / this.expectedNodesTotal));
         }
+
+        this.nodeCounterTotal = this.rootNodeCounterTotal
+                + this.interiorNodeCounterTotal
+                + this.quiescenceNodeCounterTotal
+                + this.leafNodeCounterTotal
+                + this.terminalNodeCounterTotal
+                + this.loopNodeCounterTotal
+                + this.egtbCounterTotal;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -133,66 +118,54 @@ public class NodesModel implements Model<List<SearchResult>> {
         reportModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
         if (searchResult.getRegularNodeStatistics() != null) {
-            collectRegularNodeStatistics(reportModelDetail, searchResult);
+            collectRegularNodeStatistics(reportModelDetail, searchResult.getRegularNodeStatistics());
         }
-
-        if (searchResult.getQuiescenceNodeStatistics() != null) {
-            collectQuiescenceNodeStatistics(reportModelDetail, searchResult);
-        }
-
-        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter + reportModelDetail.visitedQNodesCounter;
-        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter + reportModelDetail.expectedQNodesCounter;
-        reportModelDetail.cutoffPercentageTotal = (int) (100 - (100 * reportModelDetail.visitedNodesTotal / reportModelDetail.expectedNodesTotal));
 
         this.nodesModelDetails.add(reportModelDetail);
     }
 
-    private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
-        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
-        reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
-        reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffRPercentages = new int[30];
+    private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, NodeStatistics regularNodeStatistics) {
+        reportModelDetail.expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
+        reportModelDetail.visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
+        reportModelDetail.cutoffPercentages = new int[30];
+
+        reportModelDetail.rootNodeCounter = regularNodeStatistics.rootNodeCounter();
+        reportModelDetail.interiorNodeCounter = regularNodeStatistics.interiorNodeCounter();
+        reportModelDetail.quiescenceNodeCounter = regularNodeStatistics.quiescenceCounter();
+        reportModelDetail.leafNodeCounter = regularNodeStatistics.leafCounter();
+        reportModelDetail.terminalNodeCounter = regularNodeStatistics.terminalNodeCounter();
+        reportModelDetail.loopNodeCounter = regularNodeStatistics.loopNodeCounter();
+        reportModelDetail.egtbCounter = regularNodeStatistics.egtbCounter();
 
         for (int i = 0; i < 30; i++) {
-            if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
-                throw new RuntimeException("reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]");
+            if (reportModelDetail.expectedNodesCounters[i] < reportModelDetail.visitedNodesCounters[i]) {
+                throw new RuntimeException(String.format("reportModelDetail.expectedNodesCounters[%d] (%d) < reportModelDetail.visitedNodesCounters[%d] (%d)", i, reportModelDetail.expectedNodesCounters[i], i, reportModelDetail.visitedNodesCounters[i]));
             }
 
-            if (reportModelDetail.visitedRNodesCounters[i] > 0) {
-                reportModelDetail.visitedRNodesCounter += reportModelDetail.visitedRNodesCounters[i];
-                reportModelDetail.expectedRNodesCounter += reportModelDetail.expectedRNodesCounters[i];
+            if (reportModelDetail.visitedNodesCounters[i] > 0) {
+                reportModelDetail.maxDepth = i;
+                reportModelDetail.visitedNodesCounter += reportModelDetail.visitedNodesCounters[i];
+                reportModelDetail.expectedNodesCounter += reportModelDetail.expectedNodesCounters[i];
 
-                this.visitedRNodesCounters[i] += reportModelDetail.visitedRNodesCounters[i];
-                this.expectedRNodesCounters[i] += reportModelDetail.expectedRNodesCounters[i];
+                this.visitedNodesCounters[i] += reportModelDetail.visitedNodesCounters[i];
+                this.expectedNodesCounters[i] += reportModelDetail.expectedNodesCounters[i];
 
-                if (reportModelDetail.expectedRNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffRPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i])));
+                if (reportModelDetail.expectedNodesCounters[i] > 0) {
+                    reportModelDetail.cutoffPercentages[i] = (int) (100 - (100 * reportModelDetail.visitedNodesCounters[i] / reportModelDetail.expectedNodesCounters[i]));
                 }
             }
         }
-    }
 
-    private void collectQuiescenceNodeStatistics(NodesModelDetail reportModelDetail, SearchResult searchResult) {
-        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
-        reportModelDetail.expectedQNodesCounters = quiescenceNodeStatistics.expectedNodesCounters();
-        reportModelDetail.visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffQPercentages = new int[30];
-
-        for (int i = 0; i < 30; i++) {
-            if (reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]) {
-                throw new RuntimeException("reportModelDetail.expectedQNodesCounters[i] < reportModelDetail.visitedQNodesCounters[i]");
-            }
-            if (reportModelDetail.visitedQNodesCounters[i] > 0) {
-                reportModelDetail.visitedQNodesCounter += reportModelDetail.visitedQNodesCounters[i];
-                this.visitedQNodesCounters[i] += reportModelDetail.visitedQNodesCounters[i];
-
-                reportModelDetail.expectedQNodesCounter += reportModelDetail.expectedQNodesCounters[i];
-                this.expectedQNodesCounters[i] += reportModelDetail.expectedQNodesCounters[i];
-
-                if (reportModelDetail.expectedQNodesCounters[i] > 0) {
-                    reportModelDetail.cutoffQPercentages[i] = Math.toIntExact((100 - (100 * reportModelDetail.visitedQNodesCounters[i] / reportModelDetail.expectedQNodesCounters[i])));
-                }
-            }
+        if (reportModelDetail.expectedNodesCounter > 0) {
+            reportModelDetail.cutoffPercentage = (int) (100 - (100 * reportModelDetail.visitedNodesCounter / reportModelDetail.expectedNodesCounter));
         }
+
+        this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
+        this.interiorNodeCounterTotal += reportModelDetail.interiorNodeCounter;
+        this.quiescenceNodeCounterTotal += reportModelDetail.quiescenceNodeCounter;
+        this.leafNodeCounterTotal += reportModelDetail.leafNodeCounter;
+        this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
+        this.loopNodeCounterTotal += reportModelDetail.loopNodeCounter;
+        this.egtbCounterTotal += reportModelDetail.egtbCounter;
     }
 }
