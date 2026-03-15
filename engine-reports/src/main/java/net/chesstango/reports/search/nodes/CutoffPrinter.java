@@ -31,7 +31,6 @@ class CutoffPrinter implements Printer {
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("RLevel %2d", depth + 1)).forEach(tmp::add);
-        //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("QLevel %2d", depth + 1)).forEach(tmp::add);
         tmp.add("Cutoff");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
@@ -40,19 +39,16 @@ class CutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
 
             tmpRow.add(String.format("%s", moveDetail.move));
-
             IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffRPercentages[depth])).forEach(tmpRow::add);
-            //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffQPercentages[depth])).forEach(tmpRow::add);
-
             tmpRow.add(String.format("%d %%", moveDetail.cutoffPercentageTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
         tmp = new LinkedList<>();
-        tmp.add("SUM");
+
+        tmp.add("AVG");
         IntStream.range(0, reportModel.maxSearchRLevel).mapToObj(depth -> String.format("%d %%", reportModel.cutoffRPercentages[depth])).forEach(tmp::add);
-        //IntStream.range(0, reportModel.maxSearchQLevel).mapToObj(depth -> String.format("%d %%", reportModel.cutoffQPercentages[depth])).forEach(tmp::add);
         tmp.add(String.format("%d %%", reportModel.cutoffPercentageTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
