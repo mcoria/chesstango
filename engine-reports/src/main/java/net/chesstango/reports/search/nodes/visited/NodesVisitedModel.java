@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes;
+package net.chesstango.reports.search.nodes.visited;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesTypesModel implements Model<List<SearchResult>> {
+public class NodesVisitedModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -66,7 +66,7 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
     }
 
     @Override
-    public NodesTypesModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+    public NodesVisitedModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);

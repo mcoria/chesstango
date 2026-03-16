@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class HeaderPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesTypesModel reportModel;
+    private NodesVisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)

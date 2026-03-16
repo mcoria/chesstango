@@ -2,7 +2,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports;
     exports net.chesstango.reports.engine;
     exports net.chesstango.reports.search.evaluation;
-    exports net.chesstango.reports.search.nodes;
+    exports net.chesstango.reports.search.nodes.visited;
     exports net.chesstango.reports.search.pv;
     exports net.chesstango.reports.search.transposition;
     exports net.chesstango.reports.search;

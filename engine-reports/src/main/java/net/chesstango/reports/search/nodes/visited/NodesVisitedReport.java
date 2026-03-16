@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesTypesReport implements Report {
+public class NodesVisitedReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
-    private NodesTypesModel reportModel;
+    private NodesVisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -27,25 +27,25 @@ public class NodesTypesReport implements Report {
 
 
     @Override
-    public NodesTypesReport printReport(PrintStream output) {
+    public NodesVisitedReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
     }
 
 
-    public NodesTypesReport withCutoffStatistics() {
+    public NodesVisitedReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public NodesTypesReport withNodesVisitedStatistics() {
+    public NodesVisitedReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public NodesTypesReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new NodesTypesModel().collectStatistics(this.reportTitle, searchResults);
+    public NodesVisitedReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new NodesVisitedModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class NodesTypesReport implements Report {
                 .print();
 
         if (printNodesVisitedStatistics) {
-            new NodesTypesPrinter()
+            new NodesVisitedPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();
