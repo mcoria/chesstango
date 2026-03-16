@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,18 +13,19 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class NodesPrinter implements Printer {
+class NodesVisitedPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesVisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
+
     @Override
-    public NodesPrinter print() {
+    public NodesVisitedPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);

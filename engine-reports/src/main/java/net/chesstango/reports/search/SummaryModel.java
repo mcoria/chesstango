@@ -4,7 +4,8 @@ import lombok.Getter;
 import net.chesstango.reports.Model;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.types.NodesTypesModel;
+import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -20,7 +21,10 @@ public class SummaryModel implements Model<List<SearchResult>> {
     public int searches;
 
     @Getter
-    private NodesModel nodesModel;
+    private NodesVisitedModel nodesVisitedModel;
+
+    @Getter
+    private NodesTypesModel nodesTypesModel;
 
     @Getter
     private TranspositionModel transpositionModel;
@@ -46,7 +50,9 @@ public class SummaryModel implements Model<List<SearchResult>> {
     private void load(List<SearchResult> searchResults) {
         this.searches = searchResults.size();
 
-        nodesModel = new NodesModel().collectStatistics(searchGroupName, searchResults);
+        nodesVisitedModel = new NodesVisitedModel().collectStatistics(searchGroupName, searchResults);
+
+        nodesTypesModel = new NodesTypesModel().collectStatistics(searchGroupName, searchResults);
 
         transpositionModel = new TranspositionModel().collectStatistics(searchGroupName, searchResults);
 

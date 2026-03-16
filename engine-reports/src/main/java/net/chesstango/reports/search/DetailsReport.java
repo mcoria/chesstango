@@ -6,7 +6,8 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
-import net.chesstango.reports.search.nodes.NodesReport;
+import net.chesstango.reports.search.nodes.types.NodesTypesReport;
+import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
 import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
@@ -22,6 +23,7 @@ import java.util.List;
 public class DetailsReport implements Report {
     private boolean withBoardReport;
     private boolean withNodesVisitedStatistics;
+    private boolean withNodesTypesStatistics;
     private boolean withCutoffStatistics;
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
@@ -36,7 +38,7 @@ public class DetailsReport implements Report {
 
     @Override
     public DetailsReport printReport(PrintStream out) {
-        if(withBoardReport){
+        if (withBoardReport) {
             new BoardReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
@@ -45,7 +47,7 @@ public class DetailsReport implements Report {
 
 
         if (withCutoffStatistics || withNodesVisitedStatistics) {
-            NodesReport nodesReport = new NodesReport()
+            NodesVisitedReport nodesReport = new NodesVisitedReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
 
@@ -56,6 +58,13 @@ public class DetailsReport implements Report {
                 nodesReport.withNodesVisitedStatistics();
             }
             nodesReport.printReport(out);
+        }
+
+        if (withNodesTypesStatistics) {
+            new NodesTypesReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
         }
 
         if (withPrincipalVariationReport) {
@@ -101,6 +110,11 @@ public class DetailsReport implements Report {
         return this;
     }
 
+    public DetailsReport withNodesTypesStatistics() {
+        this.withNodesTypesStatistics = true;
+        return this;
+    }
+
     public DetailsReport withEvaluationReport() {
         this.withEvaluationReport = true;
         return this;
@@ -115,4 +129,5 @@ public class DetailsReport implements Report {
         this.withTranspositionReport = true;
         return this;
     }
+
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryNodesPrinter implements Printer {
-    private List<NodesModel> reportRows;
+class SummaryNodesVisitedPrinter implements Printer {
+    private List<NodesVisitedModel> reportRows;
 
     @Setter
     @Accessors(chain = true)
@@ -24,11 +24,11 @@ class SummaryNodesPrinter implements Printer {
 
     private int maxSearchDepth;
 
-    public SummaryNodesPrinter setReportRows(List<NodesModel> reportRows) {
+    public SummaryNodesVisitedPrinter setReportRows(List<NodesVisitedModel> reportRows) {
         this.reportRows = reportRows;
         this.maxSearchDepth = 0;
 
-        for (NodesModel nodesModel : reportRows) {
+        for (NodesVisitedModel nodesModel : reportRows) {
             if (maxSearchDepth < nodesModel.maxDepth) {
                 maxSearchDepth = nodesModel.maxDepth;
             }
@@ -38,38 +38,7 @@ class SummaryNodesPrinter implements Printer {
     }
 
     @Override
-    public SummaryNodesPrinter print() {
-        return this
-                .printNodesVisitedStaticsByType()
-                .printNodesVisitedStatics();
-    }
-
-    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
-        out.printf("%n Nodes visited per type %n");
-
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(10).setOut(out);
-
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LNodes", "TNodes", "LoNodes", "ENode", "Nodes");
-        reportRows.forEach(row -> {
-            printerTxtTable.addRow(row.searchGroupName,
-                    Integer.toString(row.searches),
-                    Long.toString(row.rootNodeCounterTotal),
-                    Long.toString(row.interiorNodeCounterTotal),
-                    Long.toString(row.quiescenceNodeCounterTotal),
-                    Long.toString(row.leafNodeCounterTotal),
-                    Long.toString(row.terminalNodeCounterTotal),
-                    Long.toString(row.loopNodeCounterTotal),
-                    Long.toString(row.egtbCounterTotal),
-                    Long.toString(row.nodeCounterTotal)
-            );
-        });
-        printerTxtTable.print();
-
-        return this;
-    }
-
-
-    public SummaryNodesPrinter printNodesVisitedStatics() {
+    public SummaryNodesVisitedPrinter print() {
         out.printf("%n Nodes visited per search level %n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxSearchDepth + 1).setOut(out);

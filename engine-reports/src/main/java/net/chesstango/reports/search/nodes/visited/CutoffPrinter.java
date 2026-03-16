@@ -1,4 +1,4 @@
-package net.chesstango.reports.search.nodes;
+package net.chesstango.reports.search.nodes.visited;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 class CutoffPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesVisitedModel reportModel;
 
     @Setter
     @Accessors(chain = true)
