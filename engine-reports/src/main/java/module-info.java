@@ -6,6 +6,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports.search.pv;
     exports net.chesstango.reports.search.transposition;
     exports net.chesstango.reports.search;
+    exports net.chesstango.reports.search.board;
 
     requires net.chesstango.search;
     requires net.chesstango.board;
