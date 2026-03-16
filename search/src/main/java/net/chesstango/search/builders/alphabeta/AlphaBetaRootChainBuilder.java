@@ -2,8 +2,8 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.search.smart.SearchListenerMediator;
-import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
@@ -123,13 +123,13 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         MoveSorter moveSorter = rootMoveSorter;
 
-        if (withStatistics) {
-            alphaBetaRootNodeStatistics = new AlphaBetaRootNodeStatistics();
-        }
-
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
             aspirationWindows.setSearchListenerMediator(searchListenerMediator);
+        }
+
+        if (withStatistics) {
+            alphaBetaRootNodeStatistics = new AlphaBetaRootNodeStatistics();
         }
 
         if (withTranspositionTable) {
@@ -178,8 +178,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
 
-        if (withStatistics) {
-            searchListenerMediator.add(alphaBetaRootNodeStatistics);
+        if (stopProcessingCatch != null) {
+            searchListenerMediator.add(stopProcessingCatch);
+        }
+
+        if (zobristTracker != null) {
+            searchListenerMediator.add(zobristTracker);
         }
 
         if (aspirationWindows != null) {
@@ -190,16 +194,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(debugFilter);
         }
 
+        if (alphaBetaRootNodeStatistics != null) {
+            searchListenerMediator.add(alphaBetaRootNodeStatistics);
+        }
+
         if (moveSorterDebug != null) {
             searchListenerMediator.add(moveSorterDebug);
-        }
-
-        if (stopProcessingCatch != null) {
-            searchListenerMediator.add(stopProcessingCatch);
-        }
-
-        if (zobristTracker != null) {
-            searchListenerMediator.add(zobristTracker);
         }
 
         if (transpositionTableRoot != null) {
@@ -247,12 +247,12 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             chain.add(debugFilter);
         }
 
-        if (transpositionTableRoot != null) {
-            chain.add(transpositionTableRoot);
-        }
-
         if (alphaBetaRootNodeStatistics != null) {
             chain.add(alphaBetaRootNodeStatistics);
+        }
+
+        if (transpositionTableRoot != null) {
+            chain.add(transpositionTableRoot);
         }
 
         chain.add(alphaBeta);

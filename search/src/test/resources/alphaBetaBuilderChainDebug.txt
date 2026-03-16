@@ -216,10 +216,10 @@ Acceptor:
 	MoveSorterDebug @ 50
 	EvaluatorCacheDebug @ 59
 	MoveEvaluationTracker @ 14
+	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
 	MoveSorterDebug @ 10
-	StopProcessingCatch @ 3
 	TranspositionTableRoot @ 6
 	TranspositionPV @ 15
 	TTPVReader @ 17

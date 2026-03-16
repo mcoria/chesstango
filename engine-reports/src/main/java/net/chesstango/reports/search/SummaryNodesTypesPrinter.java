@@ -31,7 +31,7 @@ class SummaryNodesTypesPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(10).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LNodes", "TNodes", "LoNodes", "ENode", "Nodes");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LeNodes", "TNodes", "LoNodes", "ENode", "Nodes");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),

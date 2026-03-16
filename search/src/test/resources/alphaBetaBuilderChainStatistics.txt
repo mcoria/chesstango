@@ -8,9 +8,9 @@ StopProcessingCatch @ 3
 |
 AspirationWindows @ 4
 |
-TranspositionTableRoot @ 5 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+AlphaBetaRootNodeStatistics @ 5
 |
-AlphaBetaRootNodeStatistics @ 8
+TranspositionTableRoot @ 6 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 |
 AlphaBeta @ 9
 |
@@ -58,7 +58,7 @@ AlphaBetaFlowControl @ 16
 	|
 	AlphaBetaInteriorNodeVisited @ 29
 	|
-	TranspositionTable @ 30 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+	TranspositionTable @ 30 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 	|
 	AlphaBetaInteriorNodeExpected @ 31
 	|
@@ -72,9 +72,9 @@ AlphaBetaFlowControl @ 16
 			|
 			PrincipalVariationComparator @ 34
 			|
-			TranspositionHeadMoveComparator @ 35 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 35 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparator @ 36 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 36 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 			|
 			QuietComparator @ 37
 			|
@@ -106,7 +106,7 @@ AlphaBetaFlowControl @ 16
 	|
 	AlphaBetaQuiescenceNodeVisited @ 45
 	|
-	TranspositionTableQ @ 46 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+	TranspositionTableQ @ 46 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 	|
 	AlphaBetaQuiescenceNodeExpected @ 47
 	|
@@ -120,9 +120,9 @@ AlphaBetaFlowControl @ 16
 			|
 			PrincipalVariationComparator @ 50
 			|
-			TranspositionHeadMoveComparator @ 51 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionHeadMoveComparator @ 51 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 			|
-			TranspositionTailMoveComparator @ 52 [TTable: TTableStatisticsCollector @ 6 -> TTableArrayPrimitives @ 7]
+			TranspositionTailMoveComparator @ 52 [TTable: TTableStatisticsCollector @ 7 -> TTableArrayPrimitives @ 8]
 			|
 			PromotionComparator @ 53
 			|
@@ -210,16 +210,16 @@ Acceptor:
 	RecaptureMoveComparator @ 54
 	GameEvaluatorCacheComparator @ 56
 	MoveEvaluationTracker @ 13
-	AlphaBetaRootNodeStatistics @ 8
-	AspirationWindows @ 4
 	StopProcessingCatch @ 3
-	TranspositionTableRoot @ 5
+	AspirationWindows @ 4
+	AlphaBetaRootNodeStatistics @ 5
+	TranspositionTableRoot @ 6
 	TranspositionPV @ 14
 	TTPVReader @ 15
 	AlphaBeta @ 9
 	NodeMoveSorter @ 11
 	RootMoveSorter @ 10
 	TTableCounters @ 65
-	TTableStatisticsCollector @ 6
+	TTableStatisticsCollector @ 7
 	TTableStatisticsCollector @ 68
 

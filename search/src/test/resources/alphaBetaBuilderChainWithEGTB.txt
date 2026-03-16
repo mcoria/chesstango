@@ -177,8 +177,8 @@ Acceptor:
 	RecaptureMoveComparator @ 43
 	GameEvaluatorCacheComparator @ 45
 	MoveEvaluationTracker @ 11
-	AspirationWindows @ 4
 	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	TranspositionTableRoot @ 5
 	TranspositionPV @ 12
 	TTPVReader @ 13
