@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class SummaryNodesPrinter implements Printer {
+class SummaryNodesVisitedPrinter implements Printer {
     private List<NodesVisitedModel> reportRows;
 
     @Setter
@@ -24,7 +24,7 @@ class SummaryNodesPrinter implements Printer {
 
     private int maxSearchDepth;
 
-    public SummaryNodesPrinter setReportRows(List<NodesVisitedModel> reportRows) {
+    public SummaryNodesVisitedPrinter setReportRows(List<NodesVisitedModel> reportRows) {
         this.reportRows = reportRows;
         this.maxSearchDepth = 0;
 
@@ -38,38 +38,7 @@ class SummaryNodesPrinter implements Printer {
     }
 
     @Override
-    public SummaryNodesPrinter print() {
-        return this
-                .printNodesTypeStatics()
-                .printNodesVisitedStatics();
-    }
-
-    public SummaryNodesPrinter printNodesTypeStatics() {
-        out.printf("%n Nodes visited per type %n");
-
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(10).setOut(out);
-
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "RNodes", "INodes", "QNodes", "LNodes", "TNodes", "LoNodes", "ENode", "Nodes");
-        reportRows.forEach(row -> {
-            printerTxtTable.addRow(row.searchGroupName,
-                    Integer.toString(row.searches),
-                    Long.toString(row.rootNodeCounterTotal),
-                    Long.toString(row.interiorNodeCounterTotal),
-                    Long.toString(row.quiescenceNodeCounterTotal),
-                    Long.toString(row.leafNodeCounterTotal),
-                    Long.toString(row.terminalNodeCounterTotal),
-                    Long.toString(row.loopNodeCounterTotal),
-                    Long.toString(row.egtbCounterTotal),
-                    Long.toString(row.nodeCounterTotal)
-            );
-        });
-        printerTxtTable.print();
-
-        return this;
-    }
-
-
-    public SummaryNodesPrinter printNodesVisitedStatics() {
+    public SummaryNodesVisitedPrinter print() {
         out.printf("%n Nodes visited per search level %n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(3 + maxSearchDepth + 1).setOut(out);

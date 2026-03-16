@@ -3,6 +3,7 @@ package net.chesstango.reports.search;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
+import net.chesstango.reports.search.nodes.types.NodesTypesModel;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
@@ -25,6 +26,7 @@ public class SummaryReport implements Report {
 
     private boolean printBoardStatistics;
     private boolean printNodesVisitedStatistics;
+    private boolean printNodesTypesStatistics;
     private boolean printCutoffStatistics;
     private boolean printTranspositionStatistics;
     private boolean printEvaluationStatistics;
@@ -61,9 +63,20 @@ public class SummaryReport implements Report {
         if (printNodesVisitedStatistics) {
             List<NodesVisitedModel> reportRows = summaryModels
                     .stream()
-                    .map(SummaryModel::getNodesModel)
+                    .map(SummaryModel::getNodesVisitedModel)
                     .toList();
-            new SummaryNodesPrinter()
+            new SummaryNodesVisitedPrinter()
+                    .setReportRows(reportRows)
+                    .setOut(out)
+                    .print();
+        }
+
+        if (printNodesTypesStatistics) {
+            List<NodesTypesModel> reportRows = summaryModels
+                    .stream()
+                    .map(SummaryModel::getNodesTypesModel)
+                    .toList();
+            new SummaryNodesTypesPrinter()
                     .setReportRows(reportRows)
                     .setOut(out)
                     .print();
@@ -72,7 +85,7 @@ public class SummaryReport implements Report {
         if (printCutoffStatistics) {
             List<NodesVisitedModel> reportRows = summaryModels
                     .stream()
-                    .map(SummaryModel::getNodesModel)
+                    .map(SummaryModel::getNodesVisitedModel)
                     .toList();
 
             new SummaryCutoffPrinter()
@@ -125,6 +138,11 @@ public class SummaryReport implements Report {
 
     public SummaryReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
+        return this;
+    }
+
+    public SummaryReport withNodesTypesStatistics() {
+        this.printNodesTypesStatistics = true;
         return this;
     }
 
