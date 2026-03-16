@@ -41,7 +41,7 @@ class SummaryNodesTypesPrinter implements Printer {
                     Long.toString(row.leafNodeCounterTotal),
                     Long.toString(row.terminalNodeCounterTotal),
                     Long.toString(row.loopNodeCounterTotal),
-                    Long.toString(row.egtbCounterTotal),
+                    Long.toString(row.egtbNodeCounterTotal),
                     Long.toString(row.nodeCounterTotal)
             );
         });

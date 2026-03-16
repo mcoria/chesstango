@@ -23,7 +23,7 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
     public long leafNodeCounterTotal;
     public long terminalNodeCounterTotal;
     public long loopNodeCounterTotal;
-    public long egtbCounterTotal;
+    public long egtbNodeCounterTotal;
     public long nodeCounterTotal;
 
 
@@ -98,7 +98,7 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         this.leafNodeCounterTotal += reportModelDetail.leafNodeCounter;
         this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
         this.loopNodeCounterTotal += reportModelDetail.loopNodeCounter;
-        this.egtbCounterTotal += reportModelDetail.egtbCounter;
+        this.egtbNodeCounterTotal += reportModelDetail.egtbCounter;
         this.nodeCounterTotal += reportModelDetail.nodeCounter;
     }
 }

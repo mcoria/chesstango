@@ -29,7 +29,6 @@ public class DetailsReport implements Report {
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
 
-
     @Setter
     @Accessors(chain = true)
     private String reportTitle = "DetailsReport";

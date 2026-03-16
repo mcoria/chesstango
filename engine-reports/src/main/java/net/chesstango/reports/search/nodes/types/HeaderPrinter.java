@@ -3,7 +3,6 @@ package net.chesstango.reports.search.nodes.types;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
-import net.chesstango.reports.search.nodes.visited.NodesVisitedModel;
 
 import java.io.PrintStream;
 
@@ -30,7 +29,7 @@ class HeaderPrinter implements Printer {
         out.printf("Leaf             Nodes: %10d%n", reportModel.leafNodeCounterTotal);
         out.printf("Terminal         Nodes: %10d%n", reportModel.terminalNodeCounterTotal);
         out.printf("Loop             Nodes: %10d%n", reportModel.loopNodeCounterTotal);
-        out.printf("EGTB             Nodes: %10d%n", reportModel.egtbCounterTotal);
+        out.printf("EGTB             Nodes: %10d%n", reportModel.egtbNodeCounterTotal);
         out.printf("Total            Nodes: %10d%n", reportModel.nodeCounterTotal);
         out.printf("%n");
 

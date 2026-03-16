@@ -48,7 +48,7 @@ class NodesTypesPrinter implements Printer {
                 Long.toString(reportModel.leafNodeCounterTotal),
                 Long.toString(reportModel.terminalNodeCounterTotal),
                 Long.toString(reportModel.loopNodeCounterTotal),
-                Long.toString(reportModel.egtbCounterTotal),
+                Long.toString(reportModel.egtbNodeCounterTotal),
                 Long.toString(reportModel.nodeCounterTotal)
         );
 
