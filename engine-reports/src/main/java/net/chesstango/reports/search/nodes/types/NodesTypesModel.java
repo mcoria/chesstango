@@ -41,6 +41,7 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         public long terminalNodeCounter;
         public long loopNodeCounter;
         public long egtbCounter;
+        public long nodeCounter;
     }
 
     @Override
@@ -58,14 +59,6 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         this.nodesModelDetails = new LinkedList<>();
 
         searchResults.forEach(this::loadModelDetail);
-
-        this.nodeCounterTotal = this.rootNodeCounterTotal
-                + this.interiorNodeCounterTotal
-                + this.quiescenceNodeCounterTotal
-                + this.leafNodeCounterTotal
-                + this.terminalNodeCounterTotal
-                + this.loopNodeCounterTotal
-                + this.egtbCounterTotal;
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -90,6 +83,14 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         reportModelDetail.terminalNodeCounter = regularNodeStatistics.terminalNodeCounter();
         reportModelDetail.loopNodeCounter = regularNodeStatistics.loopNodeCounter();
         reportModelDetail.egtbCounter = regularNodeStatistics.egtbCounter();
+        reportModelDetail.nodeCounter = reportModelDetail.rootNodeCounter
+                + reportModelDetail.interiorNodeCounter
+                + reportModelDetail.quiescenceNodeCounter
+                + reportModelDetail.leafNodeCounter
+                + reportModelDetail.terminalNodeCounter
+                + reportModelDetail.loopNodeCounter
+                + reportModelDetail.egtbCounter;
+
 
         this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
         this.interiorNodeCounterTotal += reportModelDetail.interiorNodeCounter;
@@ -98,5 +99,6 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         this.terminalNodeCounterTotal += reportModelDetail.terminalNodeCounter;
         this.loopNodeCounterTotal += reportModelDetail.loopNodeCounter;
         this.egtbCounterTotal += reportModelDetail.egtbCounter;
+        this.nodeCounterTotal += reportModelDetail.nodeCounter;
     }
 }
