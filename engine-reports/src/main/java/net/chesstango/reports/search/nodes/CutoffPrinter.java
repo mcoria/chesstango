@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 class CutoffPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesTypesModel reportModel;
 
     @Setter
     @Accessors(chain = true)

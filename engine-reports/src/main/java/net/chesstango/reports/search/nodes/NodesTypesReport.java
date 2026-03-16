@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesReport implements Report {
+public class NodesTypesReport implements Report {
     private boolean printCutoffStatistics;
     private boolean printNodesVisitedStatistics;
 
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesTypesModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -27,25 +27,25 @@ public class NodesReport implements Report {
 
 
     @Override
-    public NodesReport printReport(PrintStream output) {
+    public NodesTypesReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
     }
 
 
-    public NodesReport withCutoffStatistics() {
+    public NodesTypesReport withCutoffStatistics() {
         this.printCutoffStatistics = true;
         return this;
     }
 
-    public NodesReport withNodesVisitedStatistics() {
+    public NodesTypesReport withNodesVisitedStatistics() {
         this.printNodesVisitedStatistics = true;
         return this;
     }
 
-    public NodesReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new NodesModel().collectStatistics(this.reportTitle, searchResults);
+    public NodesTypesReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new NodesTypesModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class NodesReport implements Report {
                 .print();
 
         if (printNodesVisitedStatistics) {
-            new NodesPrinter()
+            new NodesTypesPrinter()
                     .setReportModel(reportModel)
                     .setOut(out)
                     .print();

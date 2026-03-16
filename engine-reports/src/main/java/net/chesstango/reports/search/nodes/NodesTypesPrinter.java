@@ -13,18 +13,19 @@ import java.util.stream.IntStream;
 /**
  * @author Mauricio Coria
  */
-class NodesPrinter implements Printer {
+class NodesTypesPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesTypesModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
+
     @Override
-    public NodesPrinter print() {
+    public NodesTypesPrinter print() {
         out.print("Visited Nodes Statistics\n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(2 + reportModel.maxDepth + 1).setOut(out);

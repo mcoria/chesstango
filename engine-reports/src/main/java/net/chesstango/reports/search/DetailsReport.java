@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
-import net.chesstango.reports.search.nodes.NodesReport;
+import net.chesstango.reports.search.nodes.NodesTypesReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
 import net.chesstango.reports.search.transposition.TranspositionReport;
 import net.chesstango.search.SearchResult;
@@ -45,7 +45,7 @@ public class DetailsReport implements Report {
 
 
         if (withCutoffStatistics || withNodesVisitedStatistics) {
-            NodesReport nodesReport = new NodesReport()
+            NodesTypesReport nodesReport = new NodesTypesReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList);
 

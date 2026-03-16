@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesTypesModel;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 class SummaryNodesPrinter implements Printer {
-    private List<NodesModel> reportRows;
+    private List<NodesTypesModel> reportRows;
 
     @Setter
     @Accessors(chain = true)
@@ -24,11 +24,11 @@ class SummaryNodesPrinter implements Printer {
 
     private int maxSearchDepth;
 
-    public SummaryNodesPrinter setReportRows(List<NodesModel> reportRows) {
+    public SummaryNodesPrinter setReportRows(List<NodesTypesModel> reportRows) {
         this.reportRows = reportRows;
         this.maxSearchDepth = 0;
 
-        for (NodesModel nodesModel : reportRows) {
+        for (NodesTypesModel nodesModel : reportRows) {
             if (maxSearchDepth < nodesModel.maxDepth) {
                 maxSearchDepth = nodesModel.maxDepth;
             }
@@ -40,11 +40,11 @@ class SummaryNodesPrinter implements Printer {
     @Override
     public SummaryNodesPrinter print() {
         return this
-                .printNodesVisitedStaticsByType()
+                .printNodesTypeStatics()
                 .printNodesVisitedStatics();
     }
 
-    public SummaryNodesPrinter printNodesVisitedStaticsByType() {
+    public SummaryNodesPrinter printNodesTypeStatics() {
         out.printf("%n Nodes visited per type %n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(10).setOut(out);

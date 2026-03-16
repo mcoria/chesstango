@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.reports.Printer;
 import net.chesstango.reports.PrinterTxtTable;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesTypesModel;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -20,15 +20,15 @@ class SummaryCutoffPrinter implements Printer {
     @Accessors(chain = true)
     private PrintStream out;
 
-    private List<NodesModel> reportRows;
+    private List<NodesTypesModel> reportRows;
 
     private int maxDepth;
 
-    public SummaryCutoffPrinter setReportRows(List<NodesModel> reportRows) {
+    public SummaryCutoffPrinter setReportRows(List<NodesTypesModel> reportRows) {
         this.reportRows = reportRows;
         this.maxDepth = 0;
 
-        for (NodesModel nodesModel : reportRows) {
+        for (NodesTypesModel nodesModel : reportRows) {
             if (maxDepth < nodesModel.maxDepth) {
                 maxDepth = nodesModel.maxDepth;
             }

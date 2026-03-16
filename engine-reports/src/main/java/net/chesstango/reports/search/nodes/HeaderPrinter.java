@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class HeaderPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private NodesModel reportModel;
+    private NodesTypesModel reportModel;
 
     @Setter
     @Accessors(chain = true)

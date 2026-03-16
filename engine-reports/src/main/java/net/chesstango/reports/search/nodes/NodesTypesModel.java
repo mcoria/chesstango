@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NodesModel implements Model<List<SearchResult>> {
+public class NodesTypesModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -66,7 +66,7 @@ public class NodesModel implements Model<List<SearchResult>> {
     }
 
     @Override
-    public NodesModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+    public NodesTypesModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);

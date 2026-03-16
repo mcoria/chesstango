@@ -3,7 +3,7 @@ package net.chesstango.reports.search;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardModel;
 import net.chesstango.reports.search.evaluation.EvaluationModel;
-import net.chesstango.reports.search.nodes.NodesModel;
+import net.chesstango.reports.search.nodes.NodesTypesModel;
 import net.chesstango.reports.search.pv.PrincipalVariationModel;
 import net.chesstango.reports.search.transposition.TranspositionModel;
 import net.chesstango.search.SearchResult;
@@ -59,7 +59,7 @@ public class SummaryReport implements Report {
         }
 
         if (printNodesVisitedStatistics) {
-            List<NodesModel> reportRows = summaryModels
+            List<NodesTypesModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
@@ -70,7 +70,7 @@ public class SummaryReport implements Report {
         }
 
         if (printCutoffStatistics) {
-            List<NodesModel> reportRows = summaryModels
+            List<NodesTypesModel> reportRows = summaryModels
                     .stream()
                     .map(SummaryModel::getNodesModel)
                     .toList();
