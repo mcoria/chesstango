@@ -93,22 +93,23 @@ public class DetectCycleDisabledTest {
         assertEquals(4, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
-        assertEquals(3, visitedNodesCounters[0]);
-        assertEquals(7, visitedNodesCounters[1]);
-        assertEquals(23, visitedNodesCounters[2]);
-        assertEquals(53, visitedNodesCounters[3]);
-        assertEquals(115, visitedNodesCounters[4]);
-        assertEquals(239, visitedNodesCounters[5]);
-        assertEquals(485, visitedNodesCounters[6]);
-        assertEquals(1159, visitedNodesCounters[7]);
-        assertEquals(1745, visitedNodesCounters[8]);
-        assertEquals(0, visitedNodesCounters[9]);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(3, visitedNodesCounters[1]);
+        assertEquals(7, visitedNodesCounters[2]);
+        assertEquals(23, visitedNodesCounters[3]);
+        assertEquals(53, visitedNodesCounters[4]);
+        assertEquals(115, visitedNodesCounters[5]);
+        assertEquals(239, visitedNodesCounters[6]);
+        assertEquals(485, visitedNodesCounters[7]);
+        assertEquals(1159, visitedNodesCounters[8]);
+        assertEquals(1745, visitedNodesCounters[9]);
+        assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(3829, visitedNodesTotal);
+        assertEquals(3830, visitedNodesTotal);
     }
 
 
@@ -139,18 +140,19 @@ public class DetectCycleDisabledTest {
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
-        assertEquals(2, visitedNodesCounters[0]);
-        assertEquals(3, visitedNodesCounters[1]);
-        assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(7, visitedNodesCounters[3]);
-        assertEquals(9, visitedNodesCounters[4]);
-        assertEquals(13, visitedNodesCounters[5]);
-        assertEquals(10, visitedNodesCounters[6]);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(2, visitedNodesCounters[1]);
+        assertEquals(3, visitedNodesCounters[2]);
+        assertEquals(5, visitedNodesCounters[3]);
+        assertEquals(7, visitedNodesCounters[4]);
+        assertEquals(9, visitedNodesCounters[5]);
+        assertEquals(13, visitedNodesCounters[6]);
         assertEquals(10, visitedNodesCounters[7]);
-        assertEquals(13, visitedNodesCounters[8]);
-        assertEquals(0, visitedNodesCounters[9]);
+        assertEquals(10, visitedNodesCounters[8]);
+        assertEquals(13, visitedNodesCounters[9]);
+        assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(72, visitedNodesTotal);
+        assertEquals(73, visitedNodesTotal);
     }
 
     @Test
@@ -175,16 +177,17 @@ public class DetectCycleDisabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
-        assertEquals(0, visitedNodesCounters[3]);
+        assertEquals(1, visitedNodesCounters[3]);
+        assertEquals(0, visitedNodesCounters[4]);
 
-        assertEquals(3, visitedNodesTotal);
+        assertEquals(4, visitedNodesTotal);
     }
 
     @Test
@@ -209,16 +212,17 @@ public class DetectCycleDisabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
-        assertEquals(1, visitedNodesCounters[3]); // Esta posicion se repite
+        assertEquals(1, visitedNodesCounters[3]);
+        assertEquals(1, visitedNodesCounters[4]); // Esta posicion se repite
 
-        assertEquals(4, visitedNodesTotal);
+        assertEquals(5, visitedNodesTotal);
     }
 
     private void debug(long visitedNodesTotal, int[] visitedNodesCounters) {

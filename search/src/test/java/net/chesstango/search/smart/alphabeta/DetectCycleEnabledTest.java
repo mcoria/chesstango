@@ -94,22 +94,23 @@ public class DetectCycleEnabledTest {
         assertEquals(3, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
-        assertEquals(3, visitedNodesCounters[0]);
-        assertEquals(5, visitedNodesCounters[1]);
-        assertEquals(15, visitedNodesCounters[2]);
-        assertEquals(19, visitedNodesCounters[3]);
-        assertEquals(35, visitedNodesCounters[4]);
-        assertEquals(45, visitedNodesCounters[5]);
-        assertEquals(53, visitedNodesCounters[6]);
-        assertEquals(79, visitedNodesCounters[7]);
-        assertEquals(54, visitedNodesCounters[8]);
-        assertEquals(0, visitedNodesCounters[9]);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(3, visitedNodesCounters[1]);
+        assertEquals(5, visitedNodesCounters[2]);
+        assertEquals(15, visitedNodesCounters[3]);
+        assertEquals(19, visitedNodesCounters[4]);
+        assertEquals(35, visitedNodesCounters[5]);
+        assertEquals(45, visitedNodesCounters[6]);
+        assertEquals(53, visitedNodesCounters[7]);
+        assertEquals(79, visitedNodesCounters[8]);
+        assertEquals(54, visitedNodesCounters[9]);
+        assertEquals(0, visitedNodesCounters[10]);
 
-        assertEquals(308, visitedNodesTotal);
+        assertEquals(309, visitedNodesTotal);
     }
 
 
@@ -135,26 +136,27 @@ public class DetectCycleEnabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
-        assertEquals(2, visitedNodesCounters[0]);
-        assertEquals(3, visitedNodesCounters[1]);
-        assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(6, visitedNodesCounters[3]);
-        assertEquals(7, visitedNodesCounters[4]);
+        assertEquals(1, visitedNodesCounters[0]);
+        assertEquals(2, visitedNodesCounters[1]);
+        assertEquals(3, visitedNodesCounters[2]);
+        assertEquals(5, visitedNodesCounters[3]);
+        assertEquals(6, visitedNodesCounters[4]);
         assertEquals(7, visitedNodesCounters[5]);
         assertEquals(7, visitedNodesCounters[6]);
-        assertEquals(3, visitedNodesCounters[7]);
+        assertEquals(7, visitedNodesCounters[7]);
         assertEquals(3, visitedNodesCounters[8]);
         assertEquals(3, visitedNodesCounters[9]);
         assertEquals(3, visitedNodesCounters[10]);
         assertEquals(3, visitedNodesCounters[11]);
-        assertEquals(2, visitedNodesCounters[12]);
-        assertEquals(0, visitedNodesCounters[13]);
+        assertEquals(3, visitedNodesCounters[12]);
+        assertEquals(2, visitedNodesCounters[13]);
+        assertEquals(0, visitedNodesCounters[14]);
 
-        assertEquals(54, visitedNodesTotal);
+        assertEquals(55, visitedNodesTotal);
     }
 
     @Test
@@ -179,16 +181,17 @@ public class DetectCycleEnabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
-        assertEquals(0, visitedNodesCounters[3]);
+        assertEquals(1, visitedNodesCounters[3]);
+        assertEquals(0, visitedNodesCounters[4]);
 
-        assertEquals(3, visitedNodesTotal);
+        assertEquals(4, visitedNodesTotal);
     }
 
     @Test
@@ -213,16 +216,17 @@ public class DetectCycleEnabledTest {
         assertEquals(0, searchResult.getBestEvaluation());
 
         long[] visitedNodesCounters = searchResult.getNodeStatistics().visitedNodesCounters();
-        long visitedNodesTotal = IntStream.range(0, 30).mapToLong(i -> visitedNodesCounters[i]).sum();
+        long visitedNodesTotal = java.util.Arrays.stream(visitedNodesCounters, 0, 30).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
         assertEquals(1, visitedNodesCounters[2]);
-        assertEquals(1, visitedNodesCounters[3]); // Esta posicion se repite
+        assertEquals(1, visitedNodesCounters[3]);
+        assertEquals(1, visitedNodesCounters[4]); // Esta posicion se repite
 
-        assertEquals(4, visitedNodesTotal);
+        assertEquals(5, visitedNodesTotal);
     }
 
     private void debug(long visitedNodesTotal, int[] visitedNodesCounters) {

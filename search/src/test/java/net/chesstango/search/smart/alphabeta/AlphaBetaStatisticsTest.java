@@ -233,13 +233,13 @@ public class AlphaBetaStatisticsTest {
         long executedMoves = searchResult.getExecutedMoves();
 
         assertEquals(7, visitedNodesCounters[0]);
-        assertEquals(6, visitedNodesCounters[1]);
-        assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(4, visitedNodesCounters[3]);
-        assertEquals(0, visitedNodesCounters[4]);
+        assertEquals(7, visitedNodesCounters[1]);
+        assertEquals(6, visitedNodesCounters[2]);
+        assertEquals(5, visitedNodesCounters[3]);
+        assertEquals(4, visitedNodesCounters[4]);
         assertEquals(0, visitedNodesCounters[5]);
 
-        assertEquals(22, visitedNodesCountersTotal);
+        assertEquals(29, visitedNodesCountersTotal);
         assertEquals(53, executedMoves); // TTPVReader influye en esta metrica
     }
 
@@ -262,15 +262,15 @@ public class AlphaBetaStatisticsTest {
         long executedMoves = searchResult.getExecutedMoves();
 
         assertEquals(7, visitedNodesCounters[0]);
-        assertEquals(6, visitedNodesCounters[1]);
-        assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(4, visitedNodesCounters[3]);
-        assertEquals(0, visitedNodesCounters[4]); // Esta perfecto, el 4to movimiento conduce a una es una repeticion
+        assertEquals(7, visitedNodesCounters[1]);
+        assertEquals(6, visitedNodesCounters[2]);
+        assertEquals(5, visitedNodesCounters[3]);
+        assertEquals(4, visitedNodesCounters[4]); // Esta perfecto, el 4to movimiento conduce a una es una repeticion
         assertEquals(0, visitedNodesCounters[5]);
         assertEquals(0, visitedNodesCounters[6]);
         assertEquals(0, visitedNodesCounters[7]);
 
-        assertEquals(22, visitedNodesCountersTotal);
+        assertEquals(29, visitedNodesCountersTotal);
         assertEquals(44, executedMoves);
     }
 
