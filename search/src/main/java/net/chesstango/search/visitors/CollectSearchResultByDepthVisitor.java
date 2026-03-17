@@ -9,6 +9,7 @@ import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
 
 /**
  *
@@ -62,5 +63,4 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
         searchResultByDepth.setTimeSearching(setSearchTimers.getTimeSearching());
         searchResultByDepth.setTimeSearchingLastDepth(setSearchTimers.getTimeSearchingLastDepth());
     }
-
 }

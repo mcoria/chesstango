@@ -1,6 +1,7 @@
 package net.chesstango.search.builders.alphabeta;
 
 
+import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
@@ -32,6 +33,8 @@ import java.util.List;
  */
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final RootChildEvaluationTracker moveEvaluationTracker;
+
+    @Getter
     private final RootChildEvaluationCollection moveEvaluations;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
