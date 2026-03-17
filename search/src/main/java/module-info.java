@@ -47,13 +47,15 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.core.visitors;
     exports net.chesstango.search.smart.alphabeta.core.listeners;
     exports net.chesstango.search.smart.alphabeta.core.filters;
-    exports net.chesstango.search.smart.alphabeta.core.filters.once;
     exports net.chesstango.search.dummy;
     exports net.chesstango.search.builders;
     exports net.chesstango.search.builders.alphabeta;
     exports net.chesstango.search.smart.alphabeta.statistics.game;
     exports net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners;
-    exports net.chesstango.search.smart.alphabeta.core;
+    exports net.chesstango.search.smart.alphabeta.root;
+    exports net.chesstango.search.smart.alphabeta.evaluator.filters;
+    exports net.chesstango.search.smart.alphabeta.quiescence;
+    exports net.chesstango.search.smart.alphabeta.root.filters;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;
@@ -62,6 +64,4 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph to com.fasterxml.jackson.databind;
-    exports net.chesstango.search.smart.alphabeta.evaluator.filters;
-    exports net.chesstango.search.smart.alphabeta.quiescence;
 }

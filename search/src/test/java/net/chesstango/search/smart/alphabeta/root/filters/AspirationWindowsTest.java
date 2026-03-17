@@ -1,6 +1,5 @@
-package net.chesstango.search.smart.alphabeta.core.filters.once;
+package net.chesstango.search.smart.alphabeta.root.filters;
 
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

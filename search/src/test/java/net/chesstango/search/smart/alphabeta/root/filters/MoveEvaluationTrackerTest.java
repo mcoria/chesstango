@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.core.filters.once;
+package net.chesstango.search.smart.alphabeta.root.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -11,7 +11,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.MoveEvaluationType;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

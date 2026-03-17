@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta.core;
+package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;

@@ -3,9 +3,9 @@ package net.chesstango.search;
 
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.alphabeta.core.filters.TranspositionEntryTableTest;
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindowsTest;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindowsTest;
 import net.chesstango.search.smart.alphabeta.core.filters.TTPVReaderTest;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTrackerTest;
+import net.chesstango.search.smart.alphabeta.root.filters.MoveEvaluationTrackerTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

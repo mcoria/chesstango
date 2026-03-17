@@ -3,8 +3,8 @@ package net.chesstango.search.smart.alphabeta.core.visitors;
 import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationComparator;
 import net.chesstango.search.smart.sorters.RootMoveSorter;
 
