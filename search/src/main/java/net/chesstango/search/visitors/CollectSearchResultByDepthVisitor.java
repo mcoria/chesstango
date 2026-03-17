@@ -54,7 +54,7 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(RootChildEvaluationCollection moveEvaluations) {
-        searchResultByDepth.setMoveEvaluations(moveEvaluations.getMoveEvaluations());
+        searchResultByDepth.setRootChildEvaluations(moveEvaluations.getRootChildEvaluations());
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class RootChildEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
     @Getter
-    private List<RootChildEvaluation> moveEvaluations;
+    private List<RootChildEvaluation> rootChildEvaluations;
 
     @Override
     public void accept(Visitor visitor) {
@@ -28,7 +28,7 @@ public class RootChildEvaluationCollection implements SearchByDepthListener, Sea
 
     @Override
     public void beforeSearchByDepth() {
-        this.moveEvaluations = new LinkedList<>();
+        this.rootChildEvaluations = new LinkedList<>();
     }
 
     @Override
@@ -39,17 +39,17 @@ public class RootChildEvaluationCollection implements SearchByDepthListener, Sea
              * Dejo resultado exactos dado que no es necesario volver a explorarlos.
              * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
              */
-            moveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
-            moveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
+            rootChildEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
+            rootChildEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
         }
     }
 
     public void add(RootChildEvaluation moveEvaluation) {
-        this.moveEvaluations.add(moveEvaluation);
+        this.rootChildEvaluations.add(moveEvaluation);
     }
 
     public Optional<RootChildEvaluation> getBestMoveEvaluation(boolean maximize) {
-        Stream<RootChildEvaluation> moveEvaluationStream = moveEvaluations
+        Stream<RootChildEvaluation> moveEvaluationStream = rootChildEvaluations
                 .stream()
                 .filter(moveEvaluation -> Bound.EXACT.equals(moveEvaluation.moveEvaluationType()));
 
@@ -57,7 +57,7 @@ public class RootChildEvaluationCollection implements SearchByDepthListener, Sea
     }
 
     public Optional<RootChildEvaluation> get(Move currentMove) {
-        for (RootChildEvaluation evaluatedMove : moveEvaluations) {
+        for (RootChildEvaluation evaluatedMove : rootChildEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {
                 return Optional.of(evaluatedMove);
 

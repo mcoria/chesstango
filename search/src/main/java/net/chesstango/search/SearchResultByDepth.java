@@ -51,7 +51,7 @@ public class SearchResultByDepth implements Serializable {
      * List of evaluations for all possible moves in the current position.
      * Note: This list might be incomplete as not all moves may have been evaluated.
      */
-    private List<RootChildEvaluation> moveEvaluations;
+    private List<RootChildEvaluation> rootChildEvaluations;
 
     /**
      * Time spent searching at the last depth level in milliseconds.

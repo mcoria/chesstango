@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.alphabeta.core.listeners;
 
 import lombok.Setter;
-import net.chesstango.search.Acceptor;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -34,7 +33,7 @@ public class SetSearchLast implements SearchByCycleListener, SearchByDepthListen
         if (lastSearchResultByDepth != null) {
             searchListenerMediator.accept(new SetSearchLastVisitor(
                     lastSearchResultByDepth.getBestMoveEvaluation(),
-                    lastSearchResultByDepth.getMoveEvaluations(),
+                    lastSearchResultByDepth.getRootChildEvaluations(),
                     lastSearchResultByDepth.getPrincipalVariation())
             );
         } else {
