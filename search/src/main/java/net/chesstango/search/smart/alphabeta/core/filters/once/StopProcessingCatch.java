@@ -10,6 +10,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
 
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Getter
-    private MoveEvaluationTracker moveEvaluationTracker;
+    private MoveEvaluations moveEvaluations;
 
     private Game game;
 
@@ -56,7 +57,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         MoveEvaluation bestEvaluationResult = lastBestMoveEvaluation;
 
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        Optional<MoveEvaluation> bestEvaluationTracked = moveEvaluationTracker.getBestMoveEvaluation(maximize);
+        Optional<MoveEvaluation> bestEvaluationTracked = moveEvaluations.getBestMoveEvaluation(maximize);
 
 
         // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior

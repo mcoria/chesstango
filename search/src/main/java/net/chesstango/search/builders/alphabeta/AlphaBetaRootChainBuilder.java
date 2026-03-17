@@ -3,6 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
@@ -31,6 +32,7 @@ import java.util.List;
  */
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private final MoveEvaluationTracker moveEvaluationTracker;
+    private final MoveEvaluations moveEvaluations;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
     private final NodeMoveSorter nodeMoveSorter;
@@ -61,6 +63,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         rootMoveSorter = new RootMoveSorter();
         nodeMoveSorter = new NodeMoveSorter();
         moveEvaluationTracker = new MoveEvaluationTracker();
+        moveEvaluations = new MoveEvaluations();
     }
 
     public AlphaBetaRootChainBuilder withStatistics() {
@@ -120,6 +123,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private void buildObjects() {
         rootMoveSorter.setNodeMoveSorter(nodeMoveSorter);
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
 
         MoveSorter moveSorter = rootMoveSorter;
 
@@ -168,7 +172,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (stopProcessingCatch != null) {
-            stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
+            stopProcessingCatch.setMoveEvaluations(moveEvaluations);
         }
 
         alphaBeta.setMoveSorter(moveSorter);
@@ -177,6 +181,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
+        searchListenerMediator.add(moveEvaluations);
 
         if (stopProcessingCatch != null) {
             searchListenerMediator.add(stopProcessingCatch);

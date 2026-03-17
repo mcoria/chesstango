@@ -5,6 +5,7 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
+import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
@@ -126,6 +127,10 @@ public interface Visitor {
     }
 
     default void visit(MoveEvaluationTracker moveEvaluationTracker) {
+    }
+
+
+    default void visit(MoveEvaluations oveEvaluations) {
     }
 
     default void visit(TranspositionPV transpositionPV) {

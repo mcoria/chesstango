@@ -53,6 +53,7 @@ module net.chesstango.search {
     exports net.chesstango.search.builders.alphabeta;
     exports net.chesstango.search.smart.alphabeta.statistics.game;
     exports net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners;
+    exports net.chesstango.search.smart.alphabeta.core;
 
     requires net.chesstango.board;
     requires net.chesstango.evaluation;

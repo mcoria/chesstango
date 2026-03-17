@@ -5,7 +5,7 @@ import net.chesstango.search.MoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
@@ -53,8 +53,8 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
     }
 
     @Override
-    public void visit(MoveEvaluationTracker moveEvaluationTracker) {
-        searchResultByDepth.setMoveEvaluations(moveEvaluationTracker.getCurrentMoveEvaluations());
+    public void visit(MoveEvaluations moveEvaluations) {
+        searchResultByDepth.setMoveEvaluations(moveEvaluations.getMoveEvaluations());
     }
 
     @Override

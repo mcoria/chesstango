@@ -12,26 +12,24 @@ import net.chesstango.search.smart.SearchByWindowsListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.core.MoveEvaluations;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Funciona como una cache de resultados y es un complemento de aspiration windows
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthListener, SearchByWindowsListener {
+public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByWindowsListener {
 
     @Setter
     @Getter
     private AlphaBetaFilter next;
 
     @Getter
-    private List<MoveEvaluation> currentMoveEvaluations;
+    @Setter
+    private MoveEvaluations moveEvaluations;
 
     @Setter
     private Game game;
@@ -42,11 +40,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
     }
 
     @Override
-    public void beforeSearchByDepth() {
-        this.currentMoveEvaluations = new LinkedList<>();
-    }
-
-    @Override
     public void beforeSearchByWindows(int alphaBound, int betaBound, int searchByWindowsCycle) {
         if (searchByWindowsCycle > 0) {
             /**
@@ -54,8 +47,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
              * Dejo resultado exactos dado que no es necesario volver a explorarlos.
              * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
              */
-            currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
-            currentMoveEvaluations.removeIf(moveEvaluation -> MoveEvaluationType.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
+            moveEvaluations.clean(alphaBound, betaBound);
         }
     }
 
@@ -70,22 +62,14 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
         return process(currentPly, alpha, beta, next::minimize);
     }
 
-    public Optional<MoveEvaluation> getBestMoveEvaluation(boolean maximize) {
-        Stream<MoveEvaluation> exactEvaluationStream = currentMoveEvaluations
-                .stream()
-                .filter(moveEvaluation -> MoveEvaluationType.EXACT.equals(moveEvaluation.moveEvaluationType()));
 
-        return maximize ? exactEvaluationStream.max(Comparator.comparing(MoveEvaluation::evaluation)) : exactEvaluationStream.min(Comparator.comparing(MoveEvaluation::evaluation));
-    }
-
-
-    protected long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
+    final long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        for (MoveEvaluation evaluatedMove : currentMoveEvaluations) {
-            if (evaluatedMove.move().equals(currentMove)) {
-                return AlphaBetaHelper.encode(evaluatedMove.move(), evaluatedMove.evaluation());
-            }
+        Optional<MoveEvaluation> moveEvaluation = moveEvaluations.get(currentMove);
+
+        if (moveEvaluation.isPresent()) {
+            return AlphaBetaHelper.encode(moveEvaluation.get().move(), moveEvaluation.get().evaluation());
         }
 
         long bestMoveAndValue = fn.search(currentPly, alpha, beta);
@@ -96,7 +80,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
     }
 
 
-    protected void trackMoveEvaluation(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
+    final void trackMoveEvaluation(Move currentMove, long bestMoveAndValue, int alpha, int beta) {
         int currentValue = AlphaBetaHelper.decodeValue(bestMoveAndValue);
 
         MoveEvaluationType moveEvaluationType = null;
@@ -109,10 +93,6 @@ public class MoveEvaluationTracker implements AlphaBetaFilter, SearchByDepthList
             moveEvaluationType = MoveEvaluationType.EXACT;
         }
 
-        trackMoveEvaluation(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
-    }
-
-    protected void trackMoveEvaluation(MoveEvaluation moveEvaluation) {
-        currentMoveEvaluations.add(moveEvaluation);
+        moveEvaluations.add(new MoveEvaluation(currentMove, currentValue, moveEvaluationType));
     }
 }
