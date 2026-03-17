@@ -64,11 +64,13 @@ public class IterativeDeepening implements Search {
 
             searchAlgorithm.search();
 
+            searchListenerMediator.triggerAfterSearchByDepth();
+
             searchResultByDepth = new SearchResultByDepth(currentSearchDepth);
 
             searchListenerMediator.accept(new CollectSearchResultByDepthVisitor(searchResultByDepth));
 
-            searchListenerMediator.triggerAfterSearchByDepth(searchResultByDepth);
+            searchListenerMediator.triggerSearchByDepthCompleted(searchResultByDepth);
 
             searchResult.addSearchResultByDepth(searchResultByDepth);
 

@@ -94,7 +94,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
     }
 
     @Override
-    public void afterSearchByDepth(SearchResultByDepth result) {
+    public void searchByDepthCompleted(SearchResultByDepth result) {
         if (!withAspirationWindows) {
             dumpSearchTracker();
         }

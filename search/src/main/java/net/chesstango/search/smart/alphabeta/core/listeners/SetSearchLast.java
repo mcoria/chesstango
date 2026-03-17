@@ -43,7 +43,7 @@ public class SetSearchLast implements SearchByCycleListener, SearchByDepthListen
     }
 
     @Override
-    public void afterSearchByDepth(SearchResultByDepth searchResultByDepth) {
+    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
         lastSearchResultByDepth = searchResultByDepth;
     }
 }

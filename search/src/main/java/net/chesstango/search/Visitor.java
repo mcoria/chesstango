@@ -42,6 +42,7 @@ import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
@@ -309,6 +310,9 @@ public interface Visitor {
     }
 
     default void visit(GameCounters gameCounters) {
+    }
+
+    default void visit(MaxRegularDepth maxRegularDepth) {
     }
 
 }

@@ -172,7 +172,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (stopProcessingCatch != null) {
-            stopProcessingCatch.setMoveEvaluations(moveEvaluations);
+            stopProcessingCatch.setRootChildEvaluationCollection(moveEvaluations);
         }
 
         alphaBeta.setMoveSorter(moveSorter);
