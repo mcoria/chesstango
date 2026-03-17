@@ -26,7 +26,7 @@ AlphaBeta @ 9
 		|
 		DefaultMoveComparator @ 13
 |
-MoveEvaluationTracker @ 14
+RootChildEvaluationTracker @ 14
 |
 TranspositionPV @ 15 [PVReader: TTPVReaderDebug @ 16 -> TTPVReader @ 17]
 |
@@ -156,12 +156,12 @@ SearchByDepthListener:
 	SetSearchTimers @ 62
 	SetSearchLast @ 63
 	SetSearchTracker @ 64
-	MoveEvaluationTracker @ 14
+	RootChildEvaluationCollection @ 68
 	SetDebugOutput @ 67
 
 SearchByWindowsListeners:
 	SetSearchTracker @ 64
-	MoveEvaluationTracker @ 14
+	RootChildEvaluationCollection @ 68
 	SetDebugOutput @ 67
 
 StopSearchingListener:
@@ -173,15 +173,15 @@ ResetListener:
 
 Acceptor:
 	EvaluatorCacheListener @ 61
-	SetGameToEvaluator @ 68
-	SetGameToEndGameTableBase @ 69
+	SetGameToEvaluator @ 69
+	SetGameToEndGameTableBase @ 70
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
 	SetSearchLast @ 63
 	SetSearchTracker @ 64
 	TranspositionTableListener @ 65
 	SetKillerMoveTablesDebug @ 66
-	KillerMovesDebug @ 70
+	KillerMovesDebug @ 71
 	AlphaBetaFlowControl @ 18
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 19
@@ -205,7 +205,7 @@ Acceptor:
 	EgtbEvaluation @ 24
 	TranspositionTableQ @ 48
 	DebugFilter @ 47
-	EvaluatorDebug @ 71
+	EvaluatorDebug @ 72
 	Quiescence @ 49
 	NodeMoveSorter @ 51
 	TranspositionHeadMoveComparator @ 53
@@ -215,7 +215,8 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 58
 	MoveSorterDebug @ 50
 	EvaluatorCacheDebug @ 59
-	MoveEvaluationTracker @ 14
+	RootChildEvaluationTracker @ 14
+	RootChildEvaluationCollection @ 68
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
@@ -229,5 +230,5 @@ Acceptor:
 	RootMoveSorter @ 11
 	SetDebugOutput @ 67
 	TTableDebug @ 7
-	TTableDebug @ 72
+	TTableDebug @ 73
 

@@ -16,7 +16,7 @@ AlphaBeta @ 3
 		|
 		DefaultMoveComparator @ 6
 |
-MoveEvaluationTracker @ 7
+RootChildEvaluationTracker @ 7
 |
 TriangularPV @ 8
 |
@@ -80,10 +80,10 @@ SearchByDepthListener:
 	SetSearchTimers @ 23
 	SetSearchLast @ 24
 	SetTrianglePV @ 25
-	MoveEvaluationTracker @ 7
+	RootChildEvaluationCollection @ 26
 
 SearchByWindowsListeners:
-	MoveEvaluationTracker @ 7
+	RootChildEvaluationCollection @ 26
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 9
@@ -91,8 +91,8 @@ StopSearchingListener:
 ResetListener:
 
 Acceptor:
-	SetGameToEvaluator @ 26
-	SetGameToEndGameTableBase @ 27
+	SetGameToEvaluator @ 27
+	SetGameToEndGameTableBase @ 28
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
 	SetSearchLast @ 24
@@ -105,7 +105,8 @@ Acceptor:
 	NodeMoveSorter @ 17
 	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
-	MoveEvaluationTracker @ 7
+	RootChildEvaluationTracker @ 7
+	RootChildEvaluationCollection @ 26
 	TriangularPV @ 8
 	AlphaBeta @ 3
 	NodeMoveSorter @ 5
