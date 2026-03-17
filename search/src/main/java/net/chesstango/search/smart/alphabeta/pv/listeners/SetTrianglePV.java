@@ -6,8 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.Acceptor;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
@@ -65,7 +64,7 @@ public class SetTrianglePV implements SearchByCycleListener, SearchByDepthListen
         searchListenerMediator.accept(new SetTrianglePVVisitor(trianglePV));
     }
 
-    public void calculatePrincipalVariation(MoveEvaluation bestMoveEvaluation) {
+    public void calculatePrincipalVariation(RootChildEvaluation bestMoveEvaluation) {
         principalVariation = new ArrayList<>();
         pvComplete = false;
 

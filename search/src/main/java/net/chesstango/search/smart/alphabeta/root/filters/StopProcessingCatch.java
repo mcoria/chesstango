@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -28,7 +28,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
 
     private Game game;
 
-    private MoveEvaluation lastBestMoveEvaluation;
+    private RootChildEvaluation lastBestMoveEvaluation;
 
     @Override
     public void accept(Visitor visitor) {
@@ -54,10 +54,10 @@ public class StopProcessingCatch implements AlphaBetaFilter {
             undoMoves(startHash);
         }
 
-        MoveEvaluation bestEvaluationResult = lastBestMoveEvaluation;
+        RootChildEvaluation bestEvaluationResult = lastBestMoveEvaluation;
 
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        Optional<MoveEvaluation> bestEvaluationTracked = moveEvaluations.getBestMoveEvaluation(maximize);
+        Optional<RootChildEvaluation> bestEvaluationTracked = moveEvaluations.getBestMoveEvaluation(maximize);
 
 
         // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior

@@ -1,7 +1,7 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
@@ -24,7 +24,7 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBetaFacade alphaBetaFacade) {
-        MoveEvaluation bestMoveEvaluation = alphaBetaFacade.getBestMoveEvaluation();
+        RootChildEvaluation bestMoveEvaluation = alphaBetaFacade.getBestMoveEvaluation();
 
         searchResultByDepth.setBestMoveEvaluation(bestMoveEvaluation);
 

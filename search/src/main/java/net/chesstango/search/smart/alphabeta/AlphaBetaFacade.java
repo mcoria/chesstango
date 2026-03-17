@@ -6,8 +6,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchAlgorithm;
 
@@ -24,7 +24,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
     private Game game;
 
     @Getter
-    private MoveEvaluation bestMoveEvaluation;
+    private RootChildEvaluation bestMoveEvaluation;
 
     @Override
     public void search() {
@@ -49,7 +49,7 @@ public class AlphaBetaFacade implements SearchAlgorithm {
         }
 
 
-        this.bestMoveEvaluation = new MoveEvaluation(bestMove, bestValue, MoveEvaluationType.EXACT);
+        this.bestMoveEvaluation = new RootChildEvaluation(bestMove, bestValue, Bound.EXACT);
     }
 
     @Override

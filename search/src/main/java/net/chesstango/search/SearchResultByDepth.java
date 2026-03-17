@@ -33,7 +33,7 @@ public class SearchResultByDepth implements Serializable {
      * Stores the evaluation of the best move found during the search.
      * Contains both the move and its corresponding evaluation score.
      */
-    private MoveEvaluation bestMoveEvaluation;
+    private RootChildEvaluation bestMoveEvaluation;
 
     /**
      * List of principal variations found during the search.
@@ -51,7 +51,7 @@ public class SearchResultByDepth implements Serializable {
      * List of evaluations for all possible moves in the current position.
      * Note: This list might be incomplete as not all moves may have been evaluated.
      */
-    private List<MoveEvaluation> moveEvaluations;
+    private List<RootChildEvaluation> moveEvaluations;
 
     /**
      * Time spent searching at the last depth level in milliseconds.

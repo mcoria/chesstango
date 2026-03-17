@@ -1,6 +1,6 @@
 package net.chesstango.search.smart.alphabeta.core.visitors;
 
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
@@ -15,14 +15,14 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SetSearchLastVisitor implements Visitor {
-    private final MoveEvaluation lastBestMoveEvaluation;
+    private final RootChildEvaluation lastBestMoveEvaluation;
 
-    private final List<MoveEvaluation> lastMoveEvaluations;
+    private final List<RootChildEvaluation> lastMoveEvaluations;
 
     private final List<PrincipalVariation> lastPrincipalVariation;
 
-    public SetSearchLastVisitor(MoveEvaluation lastBestMoveEvaluation,
-                                List<MoveEvaluation> lastMoveEvaluations,
+    public SetSearchLastVisitor(RootChildEvaluation lastBestMoveEvaluation,
+                                List<RootChildEvaluation> lastMoveEvaluations,
                                 List<PrincipalVariation> lastPrincipalVariation) {
         this.lastBestMoveEvaluation = lastBestMoveEvaluation;
         this.lastMoveEvaluations = lastMoveEvaluations;

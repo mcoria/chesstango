@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -32,7 +32,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     private Move lastBestMove;
 
     @Setter
-    private List<MoveEvaluation> lastMoveEvaluations;
+    private List<RootChildEvaluation> lastMoveEvaluations;
 
 
     @Override
@@ -61,12 +61,12 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
         moveList.add(lastBestMove);
 
-        Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream()
+        Stream<RootChildEvaluation> moveStream = lastMoveEvaluations.stream()
                 .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
         moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();
 
-        moveStream.map(MoveEvaluation::move).forEach(moveList::add);
+        moveStream.map(RootChildEvaluation::move).forEach(moveList::add);
 
         if (moveList.size() != numberOfMove) {
             throw new RuntimeException("Not all move were explorer during last iteration");

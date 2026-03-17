@@ -7,8 +7,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.gardel.fen.FEN;
-import net.chesstango.search.MoveEvaluation;
-import net.chesstango.search.MoveEvaluationType;
+import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
 import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
@@ -41,29 +41,29 @@ public class MoveEvaluationTrackerTest {
         moveEvaluations.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
-        moveEvaluations.add(new MoveEvaluation(move1, 1000, MoveEvaluationType.EXACT));
+        moveEvaluations.add(new RootChildEvaluation(move1, 1000, Bound.EXACT));
 
         final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
-        moveEvaluations.add(new MoveEvaluation(move2, 2000, MoveEvaluationType.EXACT));
+        moveEvaluations.add(new RootChildEvaluation(move2, 2000, Bound.EXACT));
 
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
-        moveEvaluations.add(new MoveEvaluation(move3, 3000, MoveEvaluationType.EXACT));
+        moveEvaluations.add(new RootChildEvaluation(move3, 3000, Bound.EXACT));
 
 
-        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
+        Optional<RootChildEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
         assertTrue(maxEvaluationOpt.isPresent());
-        MoveEvaluation maxEvaluation = maxEvaluationOpt.get();
+        RootChildEvaluation maxEvaluation = maxEvaluationOpt.get();
         assertEquals(move3, maxEvaluation.move());
         assertEquals(3000, maxEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.EXACT, maxEvaluation.moveEvaluationType());
+        assertEquals(Bound.EXACT, maxEvaluation.moveEvaluationType());
 
 
-        Optional<MoveEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
+        Optional<RootChildEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
         assertTrue(minEvaluationOpt.isPresent());
-        MoveEvaluation minEvaluation = minEvaluationOpt.get();
+        RootChildEvaluation minEvaluation = minEvaluationOpt.get();
         assertEquals(move1, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.EXACT, minEvaluation.moveEvaluationType());
+        assertEquals(Bound.EXACT, minEvaluation.moveEvaluationType());
     }
 
 
@@ -72,29 +72,29 @@ public class MoveEvaluationTrackerTest {
         moveEvaluations.beforeSearchByDepth();
 
         final Move move1 = createSimpleKnightMove(PiecePositioned.of(Square.a2, Piece.PAWN_WHITE), PiecePositioned.of(Square.a3, null));
-        moveEvaluations.add(new MoveEvaluation(move1, 1000, MoveEvaluationType.LOWER_BOUND));
+        moveEvaluations.add(new RootChildEvaluation(move1, 1000, Bound.LOWER_BOUND));
 
         final Move move2 = createSimpleKnightMove(PiecePositioned.of(Square.b2, Piece.PAWN_WHITE), PiecePositioned.of(Square.b3, null));
-        moveEvaluations.add(new MoveEvaluation(move2, 1000, MoveEvaluationType.EXACT));
+        moveEvaluations.add(new RootChildEvaluation(move2, 1000, Bound.EXACT));
 
         final Move move3 = createSimpleKnightMove(PiecePositioned.of(Square.c2, Piece.PAWN_WHITE), PiecePositioned.of(Square.c3, null));
-        moveEvaluations.add(new MoveEvaluation(move3, 1000, MoveEvaluationType.UPPER_BOUND));
+        moveEvaluations.add(new RootChildEvaluation(move3, 1000, Bound.UPPER_BOUND));
 
 
-        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
+        Optional<RootChildEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
         assertTrue(maxEvaluationOpt.isPresent());
-        MoveEvaluation maxEvaluation = maxEvaluationOpt.get();
+        RootChildEvaluation maxEvaluation = maxEvaluationOpt.get();
         assertEquals(move2, maxEvaluation.move());
         assertEquals(1000, maxEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.EXACT, maxEvaluation.moveEvaluationType());
+        assertEquals(Bound.EXACT, maxEvaluation.moveEvaluationType());
 
 
-        Optional<MoveEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
+        Optional<RootChildEvaluation> minEvaluationOpt = moveEvaluations.getBestMoveEvaluation(false);
         assertTrue(minEvaluationOpt.isPresent());
-        MoveEvaluation minEvaluation = minEvaluationOpt.get();
+        RootChildEvaluation minEvaluation = minEvaluationOpt.get();
         assertEquals(move2, minEvaluation.move());
         assertEquals(1000, minEvaluation.evaluation());
-        assertEquals(MoveEvaluationType.EXACT, minEvaluation.moveEvaluationType());
+        assertEquals(Bound.EXACT, minEvaluation.moveEvaluationType());
     }
 
     /**
@@ -122,7 +122,7 @@ public class MoveEvaluationTrackerTest {
         moveEvaluationTracker.process(0, -500, 500, fn);
         game.undoMove();
 
-        Optional<MoveEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
+        Optional<RootChildEvaluation> maxEvaluationOpt = moveEvaluations.getBestMoveEvaluation(true);
         assertTrue(maxEvaluationOpt.isEmpty());
     }
 
