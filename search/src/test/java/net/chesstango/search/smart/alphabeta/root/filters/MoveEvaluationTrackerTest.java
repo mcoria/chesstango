@@ -11,7 +11,7 @@ import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.Bound;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,13 +26,13 @@ import static org.mockito.Mockito.when;
  * @author Mauricio Coria
  */
 public class MoveEvaluationTrackerTest {
-    private MoveEvaluationTracker moveEvaluationTracker;
-    private MoveEvaluations moveEvaluations;
+    private RootChildEvaluationTracker moveEvaluationTracker;
+    private RootChildEvaluationCollection moveEvaluations;
 
     @BeforeEach
     public void setup() {
-        moveEvaluationTracker = new MoveEvaluationTracker();
-        moveEvaluations = new MoveEvaluations();
+        moveEvaluationTracker = new RootChildEvaluationTracker();
+        moveEvaluations = new RootChildEvaluationCollection();
         moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
     }
 

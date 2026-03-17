@@ -10,7 +10,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluationTracker implements AlphaBetaFilter {
+public class RootChildEvaluationTracker implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -27,7 +27,7 @@ public class MoveEvaluationTracker implements AlphaBetaFilter {
 
     @Getter
     @Setter
-    private MoveEvaluations moveEvaluations;
+    private RootChildEvaluationCollection moveEvaluations;
 
     @Setter
     private Game game;

@@ -3,11 +3,11 @@ package net.chesstango.search.builders.alphabeta;
 
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.RootChildEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
@@ -31,8 +31,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
-    private final MoveEvaluationTracker moveEvaluationTracker;
-    private final MoveEvaluations moveEvaluations;
+    private final RootChildEvaluationTracker moveEvaluationTracker;
+    private final RootChildEvaluationCollection moveEvaluations;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
     private final NodeMoveSorter nodeMoveSorter;
@@ -62,8 +62,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         alphaBeta = new AlphaBeta();
         rootMoveSorter = new RootMoveSorter();
         nodeMoveSorter = new NodeMoveSorter();
-        moveEvaluationTracker = new MoveEvaluationTracker();
-        moveEvaluations = new MoveEvaluations();
+        moveEvaluationTracker = new RootChildEvaluationTracker();
+        moveEvaluations = new RootChildEvaluationCollection();
     }
 
     public AlphaBetaRootChainBuilder withStatistics() {

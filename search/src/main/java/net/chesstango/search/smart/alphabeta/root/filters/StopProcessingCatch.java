@@ -10,7 +10,7 @@ import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.root.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     @Getter
-    private MoveEvaluations moveEvaluations;
+    private RootChildEvaluationCollection moveEvaluations;
 
     private Game game;
 

@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluations implements SearchByDepthListener, SearchByWindowsListener {
+public class RootChildEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
     @Getter
     private List<RootChildEvaluation> moveEvaluations;
 
