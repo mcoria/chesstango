@@ -29,8 +29,8 @@ class SummaryNodesVisitedPrinter implements Printer {
         this.maxSearchDepth = 0;
 
         for (NodesVisitedModel nodesModel : reportRows) {
-            if (maxSearchDepth < nodesModel.maxDepth) {
-                maxSearchDepth = nodesModel.maxDepth;
+            if (maxSearchDepth < nodesModel.maxSelDepth) {
+                maxSearchDepth = nodesModel.maxSelDepth;
             }
         }
 

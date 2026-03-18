@@ -26,8 +26,8 @@ import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisi
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
-import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxDepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
@@ -63,8 +63,8 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
     private TranspositionTableListener transpositionTablesListener;
     private NodeCounters nodeCounters;
-    private GameCounters gameCounters;
-    private MaxRegularDepth maxRegularDepth;
+    private GameCountersCollector gameCounters;
+    private MaxDepthCollector maxRegularDepth;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -306,9 +306,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (withStatistics) {
             nodeCounters = new NodeCounters();
-            gameCounters = new GameCounters();
+            gameCounters = new GameCountersCollector();
 
-            maxRegularDepth = new MaxRegularDepth();
+            maxRegularDepth = new MaxDepthCollector();
             maxRegularDepth.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 

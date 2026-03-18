@@ -144,8 +144,8 @@ SearchByCycleListeners:
 	SetSearchTimers @ 59
 	TranspositionTableListener @ 60
 	NodeCounters @ 61
-	GameCounters @ 62
-	MaxRegularDepth @ 63
+	GameCountersCollector @ 62
+	MaxDepthCollector @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
 	PrincipalVariationComparator @ 34
@@ -158,11 +158,11 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
-	MaxRegularDepth @ 63
- RootMoveEvaluationCollection @ 66
+	MaxDepthCollector @ 63
+	RootMoveEvaluationCollection @ 66
 
 SearchByWindowsListeners:
- RootMoveEvaluationCollection @ 66
+	RootMoveEvaluationCollection @ 66
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 16
@@ -180,8 +180,8 @@ Acceptor:
 	SetSearchTimers @ 59
 	TranspositionTableListener @ 60
 	NodeCounters @ 61
-	GameCounters @ 62
-	MaxRegularDepth @ 63
+	GameCountersCollector @ 62
+	MaxDepthCollector @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
 	AlphaBetaEvaluation @ 18
@@ -213,8 +213,8 @@ Acceptor:
 	PrincipalVariationComparator @ 50
 	RecaptureMoveComparator @ 54
 	GameEvaluatorCacheComparator @ 56
- RootMoveEvaluationTracker @ 13
- RootMoveEvaluationCollection @ 66
+	RootMoveEvaluationTracker @ 13
+	RootMoveEvaluationCollection @ 66
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	AlphaBetaRootNodeStatistics @ 5

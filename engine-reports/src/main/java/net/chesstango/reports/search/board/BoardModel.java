@@ -16,7 +16,7 @@ public class BoardModel implements Model<List<SearchResult>> {
 
     public int searches;
     public long executedMovesTotal;
-    public float maxRegularDepthAvg;
+    public float maxDepthAvg;
     public long searchTimeTotal;
 
     public static class BoardModelModelDetail {
@@ -24,7 +24,7 @@ public class BoardModel implements Model<List<SearchResult>> {
 
         String move;
         long executedMoves;
-        float maxRegularDepth;
+        float maxDepth;
         long searchTime;
     }
 
@@ -46,7 +46,7 @@ public class BoardModel implements Model<List<SearchResult>> {
 
         searchResults.forEach(this::loadModelDetail);
 
-        maxRegularDepthAvg = (float) boardModelModelDetails.stream().mapToDouble(detail -> detail.maxRegularDepth).average().orElse(0f);
+        maxDepthAvg = (float) boardModelModelDetails.stream().mapToDouble(detail -> detail.maxDepth).average().orElse(0f);
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -57,7 +57,7 @@ public class BoardModel implements Model<List<SearchResult>> {
         boardModelModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
         boardModelModelDetail.executedMoves = searchResult.getExecutedMoves();
-        boardModelModelDetail.maxRegularDepth = searchResult.getMaxRegularDepth();
+        boardModelModelDetail.maxDepth = searchResult.getMaxDepth();
         boardModelModelDetail.searchTime = searchResult.getTimeSearching();
 
         executedMovesTotal += boardModelModelDetail.executedMoves;

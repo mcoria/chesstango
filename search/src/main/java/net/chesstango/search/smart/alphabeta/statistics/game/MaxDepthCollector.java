@@ -12,13 +12,13 @@ import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
  * @author Mauricio Coria
  */
 
-public class MaxRegularDepth implements SearchByCycleListener, SearchByDepthListener {
+public class MaxDepthCollector implements SearchByCycleListener, SearchByDepthListener {
 
     @Setter
     private RootMoveEvaluationCollection rootMoveEvaluationCollection;
 
     @Getter
-    private float maxRegularDepth;
+    private float maxDepth;
 
     private int possibleMoves;
 
@@ -33,7 +33,7 @@ public class MaxRegularDepth implements SearchByCycleListener, SearchByDepthList
 
     @Override
     public void beforeSearch() {
-        maxRegularDepth = 0;
+        maxDepth = 0;
     }
 
     @Override
@@ -43,6 +43,6 @@ public class MaxRegularDepth implements SearchByCycleListener, SearchByDepthList
     @Override
     public void afterSearchByDepth() {
         int evaluatedChild = rootMoveEvaluationCollection.getRootMoveEvaluations().size();
-        maxRegularDepth += (float) evaluatedChild / possibleMoves;
+        maxDepth += (float) evaluatedChild / possibleMoves;
     }
 }
