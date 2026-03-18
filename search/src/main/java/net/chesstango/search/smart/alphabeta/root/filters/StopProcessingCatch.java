@@ -5,8 +5,10 @@ import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
@@ -18,7 +20,7 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 @Setter
-public class StopProcessingCatch implements AlphaBetaFilter {
+public class StopProcessingCatch implements AlphaBetaFilter, SearchByDepthListener {
 
     @Getter
     private AlphaBetaFilter next;
@@ -32,6 +34,16 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        lastRootChildEvaluation = null;
+    }
+
+    @Override
+    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
+        lastRootChildEvaluation = searchResultByDepth.getBestMoveEvaluation();
     }
 
     @Override

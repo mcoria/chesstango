@@ -11,7 +11,6 @@ import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
 import net.chesstango.search.smart.alphabeta.root.filters.RootChildEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
@@ -237,9 +236,6 @@ public interface Visitor {
     }
 
     default void visit(LeafNodeTrap leafNodeTrap) {
-    }
-
-    default void visit(SetSearchLast setSearchLast) {
     }
 
     default void visit(SetSearchTimers setSearchTimers) {

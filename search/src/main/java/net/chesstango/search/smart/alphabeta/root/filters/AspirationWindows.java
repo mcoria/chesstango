@@ -2,7 +2,10 @@ package net.chesstango.search.smart.alphabeta.root.filters;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
@@ -14,7 +17,7 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 @Setter
-public class AspirationWindows implements AlphaBetaFilter {
+public class AspirationWindows implements AlphaBetaFilter, SearchByDepthListener {
 
     private static final int OFFSET = 64;
 
@@ -22,12 +25,22 @@ public class AspirationWindows implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private SearchListenerMediator searchListenerMediator;
-
-    private Integer lastBestValue;
+    
+    private RootChildEvaluation lastRootChildEvaluation;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        lastRootChildEvaluation = null;
+    }
+
+    @Override
+    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
+        lastRootChildEvaluation = searchResultByDepth.getBestMoveEvaluation();
     }
 
     @Override
@@ -45,7 +58,8 @@ public class AspirationWindows implements AlphaBetaFilter {
         int betaBound = beta;
         int searchByWindowsCycle = 0;
 
-        if (Objects.nonNull(lastBestValue)) {
+        if (Objects.nonNull(lastRootChildEvaluation)) {
+            int lastBestValue = lastRootChildEvaluation.evaluation();
             alphaBound = lastBestValue - diffBound(alpha, lastBestValue, 0);
             betaBound = lastBestValue + diffBound(beta, lastBestValue, 0);
         }

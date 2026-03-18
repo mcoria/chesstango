@@ -6,7 +6,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator {
+public class PrincipalVariationComparator implements MoveComparator, SearchByDepthListener {
 
     @Getter
     @Setter
@@ -31,6 +33,16 @@ public class PrincipalVariationComparator implements MoveComparator {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void beforeSearchByDepth() {
+        lastPrincipalVariations = null;
+    }
+
+    @Override
+    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
+        lastPrincipalVariations = searchResultByDepth.getPrincipalVariation();
     }
 
     @Override

@@ -44,7 +44,6 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.debug.listeners;
     exports net.chesstango.search.smart.alphabeta.debug.filters;
     exports net.chesstango.search.smart.alphabeta;
-    exports net.chesstango.search.smart.alphabeta.core.visitors;
     exports net.chesstango.search.smart.alphabeta.core.listeners;
     exports net.chesstango.search.smart.alphabeta.core.filters;
     exports net.chesstango.search.dummy;
