@@ -19,17 +19,17 @@ public class SetSearchLastNullVisitor implements Visitor {
 
     @Override
     public void visit(StopProcessingCatch stopProcessingCatch) {
-        stopProcessingCatch.setLastBestMoveEvaluation(null);
+        stopProcessingCatch.setLastRootChildEvaluation(null);
     }
 
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
-        rootMoveSorter.setLastMoveEvaluations(null);
-        rootMoveSorter.setLastBestMove(null);
+        rootMoveSorter.setLastRootChildEvaluations(null);
+        rootMoveSorter.setLastRootChildEvaluation(null);
     }
 
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
-        principalVariationComparator.setLastPrincipalVariation(null);
+        principalVariationComparator.setLastPrincipalVariations(null);
     }
 }

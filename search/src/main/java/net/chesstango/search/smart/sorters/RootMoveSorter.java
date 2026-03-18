@@ -25,15 +25,16 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     @Setter
     private Game game;
 
+    @Setter
+    private List<RootChildEvaluation> lastRootChildEvaluations;
+
+    @Setter
+    private RootChildEvaluation lastRootChildEvaluation;
+
+
     private boolean maximize;
+
     private int numberOfMove;
-
-    @Setter
-    private Move lastBestMove;
-
-    @Setter
-    private List<RootChildEvaluation> lastMoveEvaluations;
-
 
     @Override
     public void accept(Visitor visitor) {
@@ -48,7 +49,7 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
-        if (lastBestMove == null) {
+        if (lastRootChildEvaluation == null) {
             return nodeMoveSorter.getOrderedMoves(currentPly);
         } else {
             return getSortedMovesByLastMoveEvaluations();
@@ -59,9 +60,11 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     private List<Move> getSortedMovesByLastMoveEvaluations() {
         List<Move> moveList = new LinkedList<>();
 
+        Move lastBestMove = lastRootChildEvaluation.move();
+
         moveList.add(lastBestMove);
 
-        Stream<RootChildEvaluation> moveStream = lastMoveEvaluations.stream()
+        Stream<RootChildEvaluation> moveStream = lastRootChildEvaluations.stream()
                 .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
         moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();

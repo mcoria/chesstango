@@ -15,38 +15,38 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class SetSearchLastVisitor implements Visitor {
-    private final RootChildEvaluation lastBestMoveEvaluation;
+    private final RootChildEvaluation lastRootChildEvaluation;
 
-    private final List<RootChildEvaluation> lastMoveEvaluations;
+    private final List<RootChildEvaluation> lastRootChildEvaluations;
 
-    private final List<PrincipalVariation> lastPrincipalVariation;
+    private final List<PrincipalVariation> lastPrincipalVariations;
 
-    public SetSearchLastVisitor(RootChildEvaluation lastBestMoveEvaluation,
-                                List<RootChildEvaluation> lastMoveEvaluations,
-                                List<PrincipalVariation> lastPrincipalVariation) {
-        this.lastBestMoveEvaluation = lastBestMoveEvaluation;
-        this.lastMoveEvaluations = lastMoveEvaluations;
-        this.lastPrincipalVariation = lastPrincipalVariation;
+    public SetSearchLastVisitor(RootChildEvaluation lastRootChildEvaluation,
+                                List<RootChildEvaluation> lastRootChildEvaluations,
+                                List<PrincipalVariation> lastPrincipalVariations) {
+        this.lastRootChildEvaluation = lastRootChildEvaluation;
+        this.lastRootChildEvaluations = lastRootChildEvaluations;
+        this.lastPrincipalVariations = lastPrincipalVariations;
     }
 
     @Override
     public void visit(AspirationWindows aspirationWindows) {
-        aspirationWindows.setLastBestValue(lastBestMoveEvaluation.evaluation());
+        aspirationWindows.setLastBestValue(lastRootChildEvaluation.evaluation());
     }
 
     @Override
     public void visit(StopProcessingCatch stopProcessingCatch) {
-        stopProcessingCatch.setLastBestMoveEvaluation(lastBestMoveEvaluation);
+        stopProcessingCatch.setLastRootChildEvaluation(lastRootChildEvaluation);
     }
 
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
-        rootMoveSorter.setLastMoveEvaluations(lastMoveEvaluations);
-        rootMoveSorter.setLastBestMove(lastBestMoveEvaluation.move());
+        rootMoveSorter.setLastRootChildEvaluations(lastRootChildEvaluations);
+        rootMoveSorter.setLastRootChildEvaluation(lastRootChildEvaluation);
     }
 
     @Override
     public void visit(PrincipalVariationComparator principalVariationComparator) {
-        principalVariationComparator.setLastPrincipalVariation(lastPrincipalVariation);
+        principalVariationComparator.setLastPrincipalVariations(lastPrincipalVariations);
     }
 }

@@ -21,7 +21,7 @@ public class PrincipalVariationComparator implements MoveComparator {
     private MoveComparator next;
 
     @Setter
-    private List<PrincipalVariation> lastPrincipalVariation;
+    private List<PrincipalVariation> lastPrincipalVariations;
 
     @Setter
     private Game game;
@@ -36,10 +36,10 @@ public class PrincipalVariationComparator implements MoveComparator {
     @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.beforeSort(currentPly, moveToZobrist);
-        if (lastPrincipalVariation != null) {
-            if (lastPrincipalVariation.size() > currentPly) {
+        if (lastPrincipalVariations != null) {
+            if (lastPrincipalVariations.size() > currentPly) {
                 long hash = game.getPosition().getZobristHash();
-                PrincipalVariation principalVariation = lastPrincipalVariation.get(currentPly);
+                PrincipalVariation principalVariation = lastPrincipalVariations.get(currentPly);
                 if (principalVariation.hash() == hash) {
                     pvMove = principalVariation.move();
                 }

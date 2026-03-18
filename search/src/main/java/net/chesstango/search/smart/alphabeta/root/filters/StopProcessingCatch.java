@@ -23,12 +23,11 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
-    @Getter
     private RootChildEvaluationCollection rootChildEvaluationCollection;
 
-    private Game game;
+    private RootChildEvaluation lastRootChildEvaluation;
 
-    private RootChildEvaluation lastBestMoveEvaluation;
+    private Game game;
 
     @Override
     public void accept(Visitor visitor) {
@@ -54,7 +53,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
             undoMoves(startHash);
         }
 
-        RootChildEvaluation bestEvaluationResult = lastBestMoveEvaluation;
+        RootChildEvaluation bestEvaluationResult = lastRootChildEvaluation;
 
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
         Optional<RootChildEvaluation> bestEvaluationTracked = rootChildEvaluationCollection.getBestMoveEvaluation(maximize);
