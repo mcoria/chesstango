@@ -42,11 +42,6 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByDepthListen
     }
 
     @Override
-    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
-        lastRootChildEvaluation = searchResultByDepth.getBestMoveEvaluation();
-    }
-
-    @Override
     public long maximize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, next::maximize, true);
     }

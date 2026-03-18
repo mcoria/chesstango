@@ -56,12 +56,6 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     }
 
     @Override
-    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth){
-        lastRootChildEvaluation = searchResultByDepth.getBestMoveEvaluation();
-        lastRootChildEvaluations = searchResultByDepth.getRootChildEvaluations();
-    }
-
-    @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
         if (lastRootChildEvaluation == null) {
             return nodeMoveSorter.getOrderedMoves(currentPly);

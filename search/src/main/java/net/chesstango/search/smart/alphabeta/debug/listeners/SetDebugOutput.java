@@ -3,7 +3,10 @@ package net.chesstango.search.smart.alphabeta.debug.listeners;
 import lombok.Setter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.move.SimpleMoveEncoder;
-import net.chesstango.search.*;
+import net.chesstango.search.PrincipalVariation;
+import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
+import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchByWindowsListener;
@@ -93,7 +96,7 @@ public class SetDebugOutput implements SearchByCycleListener, SearchByDepthListe
         debugOut.printf("Search by depth %d started\n", depth);
     }
 
-    @Override
+
     public void searchByDepthCompleted(SearchResultByDepth result) {
         if (!withAspirationWindows) {
             dumpSearchTracker();

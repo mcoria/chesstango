@@ -41,11 +41,6 @@ public class PrincipalVariationComparator implements MoveComparator, SearchByDep
     }
 
     @Override
-    public void searchByDepthCompleted(SearchResultByDepth searchResultByDepth) {
-        lastPrincipalVariations = searchResultByDepth.getPrincipalVariation();
-    }
-
-    @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.beforeSort(currentPly, moveToZobrist);
         if (lastPrincipalVariations != null) {
