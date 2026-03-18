@@ -1,11 +1,11 @@
 package net.chesstango.search.visitors;
 
 import net.chesstango.evaluation.Evaluator;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
@@ -24,9 +24,9 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(AlphaBetaFacade alphaBetaFacade) {
-        MoveEvaluation bestMoveEvaluation = alphaBetaFacade.getBestMoveEvaluation();
+        RootMoveEvaluation bestMoveEvaluation = alphaBetaFacade.getBestMoveEvaluation();
 
-        searchResultByDepth.setBestMoveEvaluation(bestMoveEvaluation);
+        searchResultByDepth.setBestRootMoveEvaluation(bestMoveEvaluation);
 
         /**
          * Aca hay un issue; si PV.depth > currentSearchDepth quiere decir que es un mate encontrado más alla del horizonte
@@ -47,14 +47,14 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(SetTrianglePV setTrianglePV) {
-        setTrianglePV.calculatePrincipalVariation(searchResultByDepth.getBestMoveEvaluation());
+        setTrianglePV.calculatePrincipalVariation(searchResultByDepth.getBestRootMoveEvaluation());
         searchResultByDepth.setPrincipalVariation(setTrianglePV.getPrincipalVariation());
         searchResultByDepth.setPvComplete(setTrianglePV.isPvComplete());
     }
 
     @Override
-    public void visit(MoveEvaluationTracker moveEvaluationTracker) {
-        searchResultByDepth.setMoveEvaluations(moveEvaluationTracker.getCurrentMoveEvaluations());
+    public void visit(RootMoveEvaluationCollection moveEvaluations) {
+        searchResultByDepth.setRootMoveEvaluations(moveEvaluations.getRootMoveEvaluations());
     }
 
     @Override
@@ -62,5 +62,4 @@ public class CollectSearchResultByDepthVisitor implements Visitor {
         searchResultByDepth.setTimeSearching(setSearchTimers.getTimeSearching());
         searchResultByDepth.setTimeSearchingLastDepth(setSearchTimers.getTimeSearchingLastDepth());
     }
-
 }

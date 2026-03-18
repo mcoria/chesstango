@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByCycleListener;
 
@@ -25,15 +25,16 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     @Setter
     private Game game;
 
+    @Setter
+    private List<RootMoveEvaluation> lastRootMoveEvaluations;
+
+    @Setter
+    private RootMoveEvaluation lastRootMoveEvaluation;
+
+
     private boolean maximize;
+
     private int numberOfMove;
-
-    @Setter
-    private Move lastBestMove;
-
-    @Setter
-    private List<MoveEvaluation> lastMoveEvaluations;
-
 
     @Override
     public void accept(Visitor visitor) {
@@ -44,11 +45,13 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     public void beforeSearch() {
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
+        this.lastRootMoveEvaluations = null;
+        this.lastRootMoveEvaluation = null;
     }
 
     @Override
     public Iterable<Move> getOrderedMoves(int currentPly) {
-        if (lastBestMove == null) {
+        if (lastRootMoveEvaluation == null) {
             return nodeMoveSorter.getOrderedMoves(currentPly);
         } else {
             return getSortedMovesByLastMoveEvaluations();
@@ -59,14 +62,16 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     private List<Move> getSortedMovesByLastMoveEvaluations() {
         List<Move> moveList = new LinkedList<>();
 
+        Move lastBestMove = lastRootMoveEvaluation.move();
+
         moveList.add(lastBestMove);
 
-        Stream<MoveEvaluation> moveStream = lastMoveEvaluations.stream()
+        Stream<RootMoveEvaluation> moveStream = lastRootMoveEvaluations.stream()
                 .filter(moveEvaluation -> !lastBestMove.equals(moveEvaluation.move()));
 
         moveStream = maximize ? moveStream.sorted(Comparator.reverseOrder()) : moveStream.sorted();
 
-        moveStream.map(MoveEvaluation::move).forEach(moveList::add);
+        moveStream.map(RootMoveEvaluation::move).forEach(moveList::add);
 
         if (moveList.size() != numberOfMove) {
             throw new RuntimeException("Not all move were explorer during last iteration");

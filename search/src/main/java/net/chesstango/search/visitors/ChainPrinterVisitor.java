@@ -14,9 +14,9 @@ import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.egtb.filters.EgtbEvaluation;
 import net.chesstango.search.smart.alphabeta.evaluator.EvaluatorCacheDebug;
@@ -214,7 +214,7 @@ public class ChainPrinterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(MoveEvaluationTracker moveEvaluationTracker) {
+    public void visit(RootMoveEvaluationTracker moveEvaluationTracker) {
         print(moveEvaluationTracker, moveEvaluationTracker.getNext());
     }
 

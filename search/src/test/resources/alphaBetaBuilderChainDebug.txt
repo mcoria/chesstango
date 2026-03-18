@@ -26,7 +26,7 @@ AlphaBeta @ 9
 		|
 		DefaultMoveComparator @ 13
 |
-MoveEvaluationTracker @ 14
+RootMoveEvaluationTracker @ 14
 |
 TranspositionPV @ 15 [PVReader: TTPVReaderDebug @ 16 -> TTPVReader @ 17]
 |
@@ -143,33 +143,35 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 61
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	TranspositionTableListener @ 65
-	SetKillerMoveTablesDebug @ 66
+	SetSearchTracker @ 63
+	TranspositionTableListener @ 64
+	SetKillerMoveTablesDebug @ 65
 	AlphaBetaFlowControl @ 18
+	PrincipalVariationComparator @ 35
+	PrincipalVariationComparator @ 52
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	MoveEvaluationTracker @ 14
-	SetDebugOutput @ 67
+	SetSearchTracker @ 63
+ RootMoveEvaluationCollection @ 67
+	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 64
-	MoveEvaluationTracker @ 14
-	SetDebugOutput @ 67
+	SetSearchTracker @ 63
+ RootMoveEvaluationCollection @ 67
+	SetDebugOutput @ 66
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
 
 ResetListener:
 	EvaluatorCacheListener @ 61
-	TranspositionTableListener @ 65
+	TranspositionTableListener @ 64
 
 Acceptor:
 	EvaluatorCacheListener @ 61
@@ -177,10 +179,9 @@ Acceptor:
 	SetGameToEndGameTableBase @ 69
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	TranspositionTableListener @ 65
-	SetKillerMoveTablesDebug @ 66
+	SetSearchTracker @ 63
+	TranspositionTableListener @ 64
+	SetKillerMoveTablesDebug @ 65
 	KillerMovesDebug @ 70
 	AlphaBetaFlowControl @ 18
 	AlphaBetaEvaluation @ 20
@@ -215,7 +216,8 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 58
 	MoveSorterDebug @ 50
 	EvaluatorCacheDebug @ 59
-	MoveEvaluationTracker @ 14
+ RootMoveEvaluationTracker @ 14
+ RootMoveEvaluationCollection @ 67
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
@@ -227,7 +229,7 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 	TTableDebug @ 7
 	TTableDebug @ 72
 

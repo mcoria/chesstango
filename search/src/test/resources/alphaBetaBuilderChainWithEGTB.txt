@@ -22,7 +22,7 @@ AlphaBeta @ 7
 		|
 		DefaultMoveComparator @ 10
 |
-MoveEvaluationTracker @ 11
+RootMoveEvaluationTracker @ 11
 |
 TranspositionPV @ 12 [PVReader: TTPVReader @ 13]
 |
@@ -123,27 +123,29 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 47
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 48
-	SetSearchLast @ 49
-	TranspositionTableListener @ 50
-	SetKillerMoveTables @ 51
+	TranspositionTableListener @ 49
+	SetKillerMoveTables @ 50
 	AlphaBetaFlowControl @ 14
+	PrincipalVariationComparator @ 25
+	PrincipalVariationComparator @ 39
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	RootMoveSorter @ 8
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 48
-	SetSearchLast @ 49
-	MoveEvaluationTracker @ 11
+ RootMoveEvaluationCollection @ 51
 
 SearchByWindowsListeners:
-	MoveEvaluationTracker @ 11
+ RootMoveEvaluationCollection @ 51
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 14
 
 ResetListener:
 	EvaluatorCacheListener @ 47
-	TranspositionTableListener @ 50
+	TranspositionTableListener @ 49
 
 Acceptor:
 	EvaluatorCacheListener @ 47
@@ -151,9 +153,8 @@ Acceptor:
 	SetGameToEndGameTableBase @ 53
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 48
-	SetSearchLast @ 49
-	TranspositionTableListener @ 50
-	SetKillerMoveTables @ 51
+	TranspositionTableListener @ 49
+	SetKillerMoveTables @ 50
 	AlphaBetaFlowControl @ 14
 	AlphaBetaEvaluation @ 15
 	AlphaBetaEvaluation @ 21
@@ -176,7 +177,8 @@ Acceptor:
 	PrincipalVariationComparator @ 39
 	RecaptureMoveComparator @ 43
 	GameEvaluatorCacheComparator @ 45
-	MoveEvaluationTracker @ 11
+ RootMoveEvaluationTracker @ 11
+ RootMoveEvaluationCollection @ 51
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 5

@@ -1,13 +1,15 @@
 package net.chesstango.search.builders.alphabeta;
 
 
+import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
@@ -30,7 +32,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
-    private final MoveEvaluationTracker moveEvaluationTracker;
+    private final RootMoveEvaluationTracker moveEvaluationTracker;
+
+    @Getter
+    private final RootMoveEvaluationCollection moveEvaluations;
     private final AlphaBeta alphaBeta;
     private final RootMoveSorter rootMoveSorter;
     private final NodeMoveSorter nodeMoveSorter;
@@ -60,7 +65,8 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         alphaBeta = new AlphaBeta();
         rootMoveSorter = new RootMoveSorter();
         nodeMoveSorter = new NodeMoveSorter();
-        moveEvaluationTracker = new MoveEvaluationTracker();
+        moveEvaluationTracker = new RootMoveEvaluationTracker();
+        moveEvaluations = new RootMoveEvaluationCollection();
     }
 
     public AlphaBetaRootChainBuilder withStatistics() {
@@ -120,6 +126,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private void buildObjects() {
         rootMoveSorter.setNodeMoveSorter(nodeMoveSorter);
         nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
+        moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
 
         MoveSorter moveSorter = rootMoveSorter;
 
@@ -168,7 +175,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         if (stopProcessingCatch != null) {
-            stopProcessingCatch.setMoveEvaluationTracker(moveEvaluationTracker);
+            stopProcessingCatch.setRootMoveEvaluationCollection(moveEvaluations);
         }
 
         alphaBeta.setMoveSorter(moveSorter);
@@ -177,6 +184,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     private void setupListenerMediator() {
         searchListenerMediator.add(moveEvaluationTracker);
+        searchListenerMediator.add(moveEvaluations);
 
         if (stopProcessingCatch != null) {
             searchListenerMediator.add(stopProcessingCatch);

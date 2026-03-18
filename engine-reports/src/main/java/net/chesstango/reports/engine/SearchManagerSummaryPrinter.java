@@ -33,7 +33,7 @@ public class SearchManagerSummaryPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME ", "SEARCHES", "OpenBook", "Tree", "Tablebase", "SearchTime(ms)");
+        printerTxtTable.setTitles("ENGINE NAME ", "SEARCHES", "OpenBook", "Tree", "Tablebase", "Time(ms)");
 
         reportModel.forEach(moveDetail -> {
 

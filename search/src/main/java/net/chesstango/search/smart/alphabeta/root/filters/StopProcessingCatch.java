@@ -1,15 +1,17 @@
-package net.chesstango.search.smart.alphabeta.core.filters.once;
+package net.chesstango.search.smart.alphabeta.root.filters;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.MoveEvaluation;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 import java.util.Optional;
 
@@ -17,21 +19,26 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 @Setter
-public class StopProcessingCatch implements AlphaBetaFilter {
+public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListener {
 
     @Getter
     private AlphaBetaFilter next;
 
-    @Getter
-    private MoveEvaluationTracker moveEvaluationTracker;
+    private RootMoveEvaluationCollection rootMoveEvaluationCollection;
+
+    private RootMoveEvaluation lastRootMoveEvaluation;
 
     private Game game;
-
-    private MoveEvaluation lastBestMoveEvaluation;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+
+    @Override
+    public void beforeSearch() {
+        lastRootMoveEvaluation = null;
     }
 
     @Override
@@ -53,10 +60,10 @@ public class StopProcessingCatch implements AlphaBetaFilter {
             undoMoves(startHash);
         }
 
-        MoveEvaluation bestEvaluationResult = lastBestMoveEvaluation;
+        RootMoveEvaluation bestEvaluationResult = lastRootMoveEvaluation;
 
         // Se busca el mejor movimiento encontrado hasta el momento para la profundidad actual
-        Optional<MoveEvaluation> bestEvaluationTracked = moveEvaluationTracker.getBestMoveEvaluation(maximize);
+        Optional<RootMoveEvaluation> bestEvaluationTracked = rootMoveEvaluationCollection.getBestMoveEvaluation(maximize);
 
 
         // Si no existe mejor movimiento hasta ahora, devolvemos el de la profundidad anterior

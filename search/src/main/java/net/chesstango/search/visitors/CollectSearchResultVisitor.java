@@ -6,6 +6,7 @@ import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 
@@ -49,6 +50,11 @@ public class CollectSearchResultVisitor implements Visitor {
     @Override
     public void visit(BottomMoveCounterFacade bottomMoveCounterFacade) {
         searchResult.setBottomMoveCounter(bottomMoveCounterFacade.getBottomMoveCounter());
+    }
+
+    @Override
+    public void visit(MaxRegularDepth maxRegularDepth) {
+        searchResult.setMaxRegularDepth(maxRegularDepth.getMaxRegularDepth());
     }
 
 }

@@ -5,12 +5,12 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.filters.once.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.core.filters.once.MoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.core.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchLast;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
@@ -41,6 +41,7 @@ import net.chesstango.search.smart.alphabeta.quiescence.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.listeners.EvaluatorCacheListener;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
@@ -125,7 +126,11 @@ public interface Visitor {
     default void visit(StopProcessingCatch stopProcessingCatch) {
     }
 
-    default void visit(MoveEvaluationTracker moveEvaluationTracker) {
+    default void visit(RootMoveEvaluationTracker moveEvaluationTracker) {
+    }
+
+
+    default void visit(RootMoveEvaluationCollection oveEvaluations) {
     }
 
     default void visit(TranspositionPV transpositionPV) {
@@ -233,9 +238,6 @@ public interface Visitor {
     default void visit(LeafNodeTrap leafNodeTrap) {
     }
 
-    default void visit(SetSearchLast setSearchLast) {
-    }
-
     default void visit(SetSearchTimers setSearchTimers) {
     }
 
@@ -304,6 +306,9 @@ public interface Visitor {
     }
 
     default void visit(GameCounters gameCounters) {
+    }
+
+    default void visit(MaxRegularDepth maxRegularDepth) {
     }
 
 }

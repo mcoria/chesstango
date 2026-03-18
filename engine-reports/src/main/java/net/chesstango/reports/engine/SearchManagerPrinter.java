@@ -31,7 +31,7 @@ public class SearchManagerPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 
-        printerTxtTable.setTitles("Move", "OpenBook", "Tree", "Tablebase", "SearchTime(ms)");
+        printerTxtTable.setTitles("Move", "OpenBook", "Tree", "Tablebase", "Time(ms)");
 
         reportModel.moveDetail.forEach(moveDetail -> {
             printerTxtTable.addRow(

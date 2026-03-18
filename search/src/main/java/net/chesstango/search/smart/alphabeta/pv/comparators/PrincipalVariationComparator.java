@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveToHashMap;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.sorters.MoveComparator;
 
 import java.util.List;
@@ -14,14 +15,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariationComparator implements MoveComparator {
+public class PrincipalVariationComparator implements MoveComparator, SearchByCycleListener {
 
     @Getter
     @Setter
     private MoveComparator next;
 
     @Setter
-    private List<PrincipalVariation> lastPrincipalVariation;
+    private List<PrincipalVariation> lastPrincipalVariations;
 
     @Setter
     private Game game;
@@ -34,12 +35,17 @@ public class PrincipalVariationComparator implements MoveComparator {
     }
 
     @Override
+    public void beforeSearch() {
+        lastPrincipalVariations = null;
+    }
+
+    @Override
     public void beforeSort(int currentPly, MoveToHashMap moveToZobrist) {
         this.next.beforeSort(currentPly, moveToZobrist);
-        if (lastPrincipalVariation != null) {
-            if (lastPrincipalVariation.size() > currentPly) {
+        if (lastPrincipalVariations != null) {
+            if (lastPrincipalVariations.size() > currentPly) {
                 long hash = game.getPosition().getZobristHash();
-                PrincipalVariation principalVariation = lastPrincipalVariation.get(currentPly);
+                PrincipalVariation principalVariation = lastPrincipalVariations.get(currentPly);
                 if (principalVariation.hash() == hash) {
                     pvMove = principalVariation.move();
                 }

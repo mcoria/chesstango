@@ -24,7 +24,7 @@ AlphaBeta @ 9
 		|
 		DefaultMoveComparator @ 12
 |
-MoveEvaluationTracker @ 13
+RootMoveEvaluationTracker @ 13
 |
 TranspositionPV @ 14 [PVReader: TTPVReader @ 15]
 |
@@ -142,42 +142,46 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 58
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
-	SetSearchLast @ 60
-	TranspositionTableListener @ 61
-	NodeCounters @ 62
-	GameCounters @ 63
+	TranspositionTableListener @ 60
+	NodeCounters @ 61
+	GameCounters @ 62
+	MaxRegularDepth @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
+	PrincipalVariationComparator @ 34
+	PrincipalVariationComparator @ 50
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	RootMoveSorter @ 10
 	TTableCounters @ 65
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
-	SetSearchLast @ 60
-	MoveEvaluationTracker @ 13
+	MaxRegularDepth @ 63
+ RootMoveEvaluationCollection @ 66
 
 SearchByWindowsListeners:
-	MoveEvaluationTracker @ 13
+ RootMoveEvaluationCollection @ 66
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 16
 
 ResetListener:
 	EvaluatorCacheListener @ 58
-	TranspositionTableListener @ 61
+	TranspositionTableListener @ 60
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 19
 	EvaluatorCacheListener @ 58
-	SetGameToEvaluator @ 66
-	SetGameToEndGameTableBase @ 67
+	SetGameToEvaluator @ 67
+	SetGameToEndGameTableBase @ 68
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
-	SetSearchLast @ 60
-	TranspositionTableListener @ 61
-	NodeCounters @ 62
-	GameCounters @ 63
+	TranspositionTableListener @ 60
+	NodeCounters @ 61
+	GameCounters @ 62
+	MaxRegularDepth @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
 	AlphaBetaEvaluation @ 18
@@ -209,7 +213,8 @@ Acceptor:
 	PrincipalVariationComparator @ 50
 	RecaptureMoveComparator @ 54
 	GameEvaluatorCacheComparator @ 56
-	MoveEvaluationTracker @ 13
+ RootMoveEvaluationTracker @ 13
+ RootMoveEvaluationCollection @ 66
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	AlphaBetaRootNodeStatistics @ 5
@@ -221,5 +226,5 @@ Acceptor:
 	RootMoveSorter @ 10
 	TTableCounters @ 65
 	TTableStatisticsCollector @ 7
-	TTableStatisticsCollector @ 68
+	TTableStatisticsCollector @ 69
 

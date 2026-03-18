@@ -23,12 +23,13 @@ public class BoardPrinter implements Printer {
     public BoardPrinter print() {
         out.print("Board Statistics\n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(3).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(4).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         tmp.add("Exec Moves");
-        tmp.add("SearchTime(ms)");
+        tmp.add("Depth");
+        tmp.add("Time(ms)");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -37,9 +38,11 @@ public class BoardPrinter implements Printer {
 
             tmpRow.add(String.format("%s", moveDetail.move));
 
-            tmpRow.add(String.format("%d", moveDetail.executedMoves));
+            tmpRow.add(Long.toString(moveDetail.executedMoves));
 
-            tmpRow.add(String.format("%d", moveDetail.searchTime));
+            tmpRow.add(String.format("%.1f", moveDetail.maxRegularDepth));
+
+            tmpRow.add(Long.toString(moveDetail.searchTime));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
@@ -48,9 +51,11 @@ public class BoardPrinter implements Printer {
 
         tmp.add("SUM");
 
-        tmp.add(String.format("%d", reportModel.executedMovesTotal));
+        tmp.add(Long.toString(reportModel.executedMovesTotal));
 
-        tmp.add(String.format("%d", reportModel.searchTimeTotal));
+        tmp.add(String.format("%.1f", reportModel.maxRegularDepthAvg));
+
+        tmp.add(Long.toString(reportModel.searchTimeTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 

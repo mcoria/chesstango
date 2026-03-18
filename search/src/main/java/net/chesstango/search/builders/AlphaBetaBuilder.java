@@ -14,7 +14,6 @@ import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchLast;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.DebugNodeTrap;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
@@ -28,6 +27,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCounters;
+import net.chesstango.search.smart.alphabeta.statistics.game.MaxRegularDepth;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
@@ -39,7 +39,6 @@ import net.chesstango.search.visitors.SetSearchListenerMediatorVisitor;
  */
 public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private final SetSearchTimers setSearchTimers;
-    private final SetSearchLast setSearchLast;
     private final AlphaBetaRootChainBuilder alphaBetaRootChainBuilder;
     private final AlphaBetaInteriorChainBuilder alphaBetaInteriorChainBuilder;
     private final TerminalChainBuilder terminalChainBuilder;
@@ -65,6 +64,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private TranspositionTableListener transpositionTablesListener;
     private NodeCounters nodeCounters;
     private GameCounters gameCounters;
+    private MaxRegularDepth maxRegularDepth;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -102,7 +102,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         alphaBetaFlowControl = new AlphaBetaFlowControl();
 
         setSearchTimers = new SetSearchTimers();
-        setSearchLast = new SetSearchLast();
 
         terminalChainBuilder = new TerminalChainBuilder();
 
@@ -261,9 +260,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             throw new RuntimeException("TranspositionTable and TriangularPV are incompatibles features");
         }
 
-        if (withTranspositionTable) {
-            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
-        } else {
+        if (!withTranspositionTable) {
             withTriangularPV();
         }
 
@@ -280,6 +277,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
+            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
             searchListenerMediator.accept(new SetTTableVisitor(transpositionTableBuilder.getMaxMap(), transpositionTableBuilder.getMinMap()));
         }
@@ -309,6 +307,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withStatistics) {
             nodeCounters = new NodeCounters();
             gameCounters = new GameCounters();
+
+            maxRegularDepth = new MaxRegularDepth();
+            maxRegularDepth.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 
         if (withZobristTracker) {
@@ -342,8 +343,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         searchListenerMediator.add(setSearchTimers);
 
-        searchListenerMediator.add(setSearchLast);
-
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);
         }
@@ -366,6 +365,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (gameCounters != null) {
             searchListenerMediator.add(gameCounters);
+        }
+
+        if (maxRegularDepth != null) {
+            searchListenerMediator.add(maxRegularDepth);
         }
 
         if (setKillerMoveTables != null) {
