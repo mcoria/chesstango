@@ -30,7 +30,7 @@ public class SearchResult implements Serializable {
 
     private TTableStatistics tTableStatistics;
 
-    private float maxDepth;
+    private float exploredDepth;
 
     private long executedMoves;
 

@@ -145,7 +145,7 @@ SearchByCycleListeners:
 	TranspositionTableListener @ 60
 	NodeCounters @ 61
 	GameCountersCollector @ 62
-	MaxDepthCollector @ 63
+	DepthCollector @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
 	PrincipalVariationComparator @ 34
@@ -158,7 +158,7 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
-	MaxDepthCollector @ 63
+	DepthCollector @ 63
 	RootMoveEvaluationCollection @ 66
 
 SearchByWindowsListeners:
@@ -181,7 +181,7 @@ Acceptor:
 	TranspositionTableListener @ 60
 	NodeCounters @ 61
 	GameCountersCollector @ 62
-	MaxDepthCollector @ 63
+	DepthCollector @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
 	AlphaBetaEvaluation @ 18

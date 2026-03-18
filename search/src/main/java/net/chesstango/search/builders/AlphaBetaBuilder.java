@@ -27,7 +27,7 @@ import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMove
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
-import net.chesstango.search.smart.alphabeta.statistics.game.MaxDepthCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
@@ -64,7 +64,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private TranspositionTableListener transpositionTablesListener;
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
-    private MaxDepthCollector maxRegularDepth;
+    private DepthCollector maxRegularDepth;
     private SetTrianglePV setTrianglePV;
     private SetZobristMemory setZobristMemory;
     private SetDebugOutput setDebugOutput;
@@ -308,7 +308,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             nodeCounters = new NodeCounters();
             gameCounters = new GameCountersCollector();
 
-            maxRegularDepth = new MaxDepthCollector();
+            maxRegularDepth = new DepthCollector();
             maxRegularDepth.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 

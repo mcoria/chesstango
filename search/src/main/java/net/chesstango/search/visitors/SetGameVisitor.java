@@ -20,7 +20,7 @@ import net.chesstango.search.smart.alphabeta.pv.comparators.PrincipalVariationCo
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
-import net.chesstango.search.smart.alphabeta.statistics.game.MaxDepthCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaInteriorNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaQuiescenceNodeExpected;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
@@ -174,7 +174,7 @@ public class SetGameVisitor implements Visitor {
     }
 
     @Override
-    public void visit(MaxDepthCollector maxRegularDepth) {
+    public void visit(DepthCollector maxRegularDepth) {
         maxRegularDepth.setGame(game);
     }
 

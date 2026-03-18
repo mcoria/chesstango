@@ -15,7 +15,7 @@ public class BoardReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private BoardModel boardModel;
+    private BoardModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -31,19 +31,19 @@ public class BoardReport implements Report {
     }
 
     public BoardReport withMoveResults(List<SearchResult> searchResults) {
-        this.boardModel = new BoardModel().collectStatistics(this.reportTitle, searchResults);
+        this.reportModel = new BoardModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
     void print() {
         new HeaderPrinter()
-                .setReportModel(boardModel)
+                .setReportModel(reportModel)
                 .setOut(out)
                 .print();
 
 
         new BoardPrinter()
-                .setReportModel(boardModel)
+                .setReportModel(reportModel)
                 .setOut(out)
                 .print();
     }

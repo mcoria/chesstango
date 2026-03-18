@@ -40,7 +40,7 @@ public class BoardPrinter implements Printer {
 
             tmpRow.add(Long.toString(moveDetail.executedMoves));
 
-            tmpRow.add(String.format("%.1f", moveDetail.maxDepth));
+            tmpRow.add(String.format("%.1f", moveDetail.exploredDepth));
 
             tmpRow.add(Long.toString(moveDetail.searchTime));
 
@@ -53,7 +53,7 @@ public class BoardPrinter implements Printer {
 
         tmp.add(Long.toString(reportModel.executedMovesTotal));
 
-        tmp.add(String.format("%.1f", reportModel.maxDepthAvg));
+        tmp.add(String.format("%.1f", reportModel.exploredDepthAvg));
 
         tmp.add(Long.toString(reportModel.searchTimeTotal));
 

@@ -17,8 +17,7 @@ import java.util.List;
 public class SearchResultByDepth implements Serializable {
 
     /**
-     * The depth level at which the search was performed. A depth of N means the search algorithm
-     * analyzed N moves ahead in the game tree.
+     * The depth level at which the search was requested.
      */
     private final int depth;
 

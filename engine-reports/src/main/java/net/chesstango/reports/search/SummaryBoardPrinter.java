@@ -36,7 +36,7 @@ public class SummaryBoardPrinter implements Printer {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),
                     Long.toString(row.executedMovesTotal),
-                    String.format("%.1f", row.maxDepthAvg),
+                    String.format("%.1f", row.exploredDepthAvg),
                     Long.toString(row.searchTimeTotal));
         });
         printerTxtTable.print();

@@ -24,7 +24,7 @@ class HeaderPrinter implements Printer {
         out.printf("BoardReport: %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Executed         Moves: %10d%n", reportModel.executedMovesTotal);
-        out.printf("Depth Avg        Moves: %.1f%n", reportModel.maxDepthAvg);
+        out.printf("Depth Avg        Moves: %10.1f%n", reportModel.exploredDepthAvg);
         out.printf("Search Time (ms)      : %10d%n", reportModel.searchTimeTotal);
         out.printf("%n");
 
