@@ -148,6 +148,10 @@ SearchByCycleListeners:
 	MaxRegularDepth @ 63
 	SetKillerMoveTables @ 64
 	AlphaBetaFlowControl @ 16
+	PrincipalVariationComparator @ 34
+	PrincipalVariationComparator @ 50
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	RootMoveSorter @ 10
 	TTableCounters @ 65
 
@@ -155,12 +159,7 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
 	MaxRegularDepth @ 63
-	PrincipalVariationComparator @ 34
-	PrincipalVariationComparator @ 50
 	RootChildEvaluationCollection @ 66
-	StopProcessingCatch @ 3
-	AspirationWindows @ 4
-	RootMoveSorter @ 10
 
 SearchByWindowsListeners:
 	RootChildEvaluationCollection @ 66

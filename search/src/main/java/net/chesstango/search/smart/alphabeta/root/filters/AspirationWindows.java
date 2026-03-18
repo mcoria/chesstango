@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
@@ -17,7 +18,7 @@ import java.util.Objects;
  * @author Mauricio Coria
  */
 @Setter
-public class AspirationWindows implements AlphaBetaFilter, SearchByDepthListener {
+public class AspirationWindows implements AlphaBetaFilter, SearchByCycleListener {
 
     private static final int OFFSET = 64;
 
@@ -34,8 +35,8 @@ public class AspirationWindows implements AlphaBetaFilter, SearchByDepthListener
     }
 
     @Override
-    public void beforeSearchByDepth() {
-        lastRootChildEvaluation = null;
+    public void beforeSearch() {
+        this.lastRootChildEvaluation = null;
     }
 
     @Override

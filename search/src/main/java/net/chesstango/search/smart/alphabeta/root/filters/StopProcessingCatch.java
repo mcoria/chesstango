@@ -8,6 +8,7 @@ import net.chesstango.search.RootChildEvaluation;
 import net.chesstango.search.SearchResultByDepth;
 import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.Visitor;
+import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchByDepthListener;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
@@ -20,7 +21,7 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 @Setter
-public class StopProcessingCatch implements AlphaBetaFilter, SearchByDepthListener {
+public class StopProcessingCatch implements AlphaBetaFilter, SearchByCycleListener {
 
     @Getter
     private AlphaBetaFilter next;
@@ -36,8 +37,9 @@ public class StopProcessingCatch implements AlphaBetaFilter, SearchByDepthListen
         visitor.visit(this);
     }
 
+
     @Override
-    public void beforeSearchByDepth() {
+    public void beforeSearch() {
         lastRootChildEvaluation = null;
     }
 

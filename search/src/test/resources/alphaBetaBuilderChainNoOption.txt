@@ -79,7 +79,6 @@ SearchByDepthListener:
 	SetSearchTimers @ 23
 	SetTrianglePV @ 24
 	RootChildEvaluationCollection @ 25
-	RootMoveSorter @ 4
 
 SearchByWindowsListeners:
 	RootChildEvaluationCollection @ 25

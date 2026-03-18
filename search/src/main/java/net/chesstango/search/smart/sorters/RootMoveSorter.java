@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class RootMoveSorter implements MoveSorter, SearchByCycleListener, SearchByDepthListener {
+public class RootMoveSorter implements MoveSorter, SearchByCycleListener {
     @Getter
     @Setter
     private NodeMoveSorter nodeMoveSorter;
@@ -47,12 +47,8 @@ public class RootMoveSorter implements MoveSorter, SearchByCycleListener, Search
     public void beforeSearch() {
         this.maximize = Color.WHITE.equals(game.getPosition().getCurrentTurn());
         this.numberOfMove = game.getPossibleMoves().size();
-    }
-
-    @Override
-    public void beforeSearchByDepth() {
-        lastRootChildEvaluations = null;
-        lastRootChildEvaluation = null;
+        this.lastRootChildEvaluations = null;
+        this.lastRootChildEvaluation = null;
     }
 
     @Override

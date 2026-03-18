@@ -147,6 +147,10 @@ SearchByCycleListeners:
 	TranspositionTableListener @ 64
 	SetKillerMoveTablesDebug @ 65
 	AlphaBetaFlowControl @ 18
+	PrincipalVariationComparator @ 35
+	PrincipalVariationComparator @ 52
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
 	RootMoveSorter @ 11
 	SetDebugOutput @ 66
 
@@ -154,12 +158,7 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
 	SetSearchTracker @ 63
-	PrincipalVariationComparator @ 35
-	PrincipalVariationComparator @ 52
 	RootChildEvaluationCollection @ 67
-	StopProcessingCatch @ 3
-	AspirationWindows @ 4
-	RootMoveSorter @ 11
 	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
