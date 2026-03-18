@@ -143,45 +143,47 @@ SearchByCycleListeners:
 	EvaluatorCacheListener @ 61
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	TranspositionTableListener @ 65
-	SetKillerMoveTablesDebug @ 66
+	SetSearchTracker @ 63
+	TranspositionTableListener @ 64
+	SetKillerMoveTablesDebug @ 65
 	AlphaBetaFlowControl @ 18
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	RootChildEvaluationCollection @ 68
-	SetDebugOutput @ 67
+	SetSearchTracker @ 63
+	PrincipalVariationComparator @ 35
+	PrincipalVariationComparator @ 52
+	RootChildEvaluationCollection @ 67
+	StopProcessingCatch @ 3
+	AspirationWindows @ 4
+	RootMoveSorter @ 11
+	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 64
-	RootChildEvaluationCollection @ 68
-	SetDebugOutput @ 67
+	SetSearchTracker @ 63
+	RootChildEvaluationCollection @ 67
+	SetDebugOutput @ 66
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 18
 
 ResetListener:
 	EvaluatorCacheListener @ 61
-	TranspositionTableListener @ 65
+	TranspositionTableListener @ 64
 
 Acceptor:
 	EvaluatorCacheListener @ 61
-	SetGameToEvaluator @ 69
-	SetGameToEndGameTableBase @ 70
+	SetGameToEvaluator @ 68
+	SetGameToEndGameTableBase @ 69
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
-	SetSearchLast @ 63
-	SetSearchTracker @ 64
-	TranspositionTableListener @ 65
-	SetKillerMoveTablesDebug @ 66
-	KillerMovesDebug @ 71
+	SetSearchTracker @ 63
+	TranspositionTableListener @ 64
+	SetKillerMoveTablesDebug @ 65
+	KillerMovesDebug @ 70
 	AlphaBetaFlowControl @ 18
 	AlphaBetaEvaluation @ 20
 	DebugFilter @ 19
@@ -205,7 +207,7 @@ Acceptor:
 	EgtbEvaluation @ 24
 	TranspositionTableQ @ 48
 	DebugFilter @ 47
-	EvaluatorDebug @ 72
+	EvaluatorDebug @ 71
 	Quiescence @ 49
 	NodeMoveSorter @ 51
 	TranspositionHeadMoveComparator @ 53
@@ -216,7 +218,7 @@ Acceptor:
 	MoveSorterDebug @ 50
 	EvaluatorCacheDebug @ 59
 	RootChildEvaluationTracker @ 14
-	RootChildEvaluationCollection @ 68
+	RootChildEvaluationCollection @ 67
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
@@ -228,7 +230,7 @@ Acceptor:
 	AlphaBeta @ 9
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
-	SetDebugOutput @ 67
+	SetDebugOutput @ 66
 	TTableDebug @ 7
-	TTableDebug @ 73
+	TTableDebug @ 72
 
