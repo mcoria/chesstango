@@ -5,11 +5,11 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFacade;
 import net.chesstango.search.smart.alphabeta.BottomMoveCounterFacade;
-import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootChildEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.core.listeners.SetSearchTimers;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
@@ -126,11 +126,11 @@ public interface Visitor {
     default void visit(StopProcessingCatch stopProcessingCatch) {
     }
 
-    default void visit(RootChildEvaluationTracker moveEvaluationTracker) {
+    default void visit(RootMoveEvaluationTracker moveEvaluationTracker) {
     }
 
 
-    default void visit(RootChildEvaluationCollection oveEvaluations) {
+    default void visit(RootMoveEvaluationCollection oveEvaluations) {
     }
 
     default void visit(TranspositionPV transpositionPV) {

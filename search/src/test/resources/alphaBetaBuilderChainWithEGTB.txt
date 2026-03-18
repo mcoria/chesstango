@@ -22,7 +22,7 @@ AlphaBeta @ 7
 		|
 		DefaultMoveComparator @ 10
 |
-RootChildEvaluationTracker @ 11
+RootMoveEvaluationTracker @ 11
 |
 TranspositionPV @ 12 [PVReader: TTPVReader @ 13]
 |
@@ -135,10 +135,10 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 48
-	RootChildEvaluationCollection @ 51
+ RootMoveEvaluationCollection @ 51
 
 SearchByWindowsListeners:
-	RootChildEvaluationCollection @ 51
+ RootMoveEvaluationCollection @ 51
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 14
@@ -177,8 +177,8 @@ Acceptor:
 	PrincipalVariationComparator @ 39
 	RecaptureMoveComparator @ 43
 	GameEvaluatorCacheComparator @ 45
-	RootChildEvaluationTracker @ 11
-	RootChildEvaluationCollection @ 51
+ RootMoveEvaluationTracker @ 11
+ RootMoveEvaluationCollection @ 51
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	TranspositionTableRoot @ 5

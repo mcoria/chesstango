@@ -309,7 +309,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             gameCounters = new GameCounters();
 
             maxRegularDepth = new MaxRegularDepth();
-            maxRegularDepth.setRootChildEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
+            maxRegularDepth.setRootMoveEvaluationCollection(alphaBetaRootChainBuilder.getMoveEvaluations());
         }
 
         if (withZobristTracker) {

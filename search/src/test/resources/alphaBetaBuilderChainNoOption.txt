@@ -16,7 +16,7 @@ AlphaBeta @ 3
 		|
 		DefaultMoveComparator @ 6
 |
-RootChildEvaluationTracker @ 7
+RootMoveEvaluationTracker @ 7
 |
 TriangularPV @ 8
 |
@@ -78,10 +78,10 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 23
 	SetTrianglePV @ 24
-	RootChildEvaluationCollection @ 25
+ RootMoveEvaluationCollection @ 25
 
 SearchByWindowsListeners:
-	RootChildEvaluationCollection @ 25
+ RootMoveEvaluationCollection @ 25
 
 StopSearchingListener:
 	AlphaBetaFlowControl @ 9
@@ -102,8 +102,8 @@ Acceptor:
 	NodeMoveSorter @ 17
 	RecaptureMoveComparator @ 20
 	EgtbEvaluation @ 12
-	RootChildEvaluationTracker @ 7
-	RootChildEvaluationCollection @ 25
+ RootMoveEvaluationTracker @ 7
+ RootMoveEvaluationCollection @ 25
 	TriangularPV @ 8
 	AlphaBeta @ 3
 	NodeMoveSorter @ 5

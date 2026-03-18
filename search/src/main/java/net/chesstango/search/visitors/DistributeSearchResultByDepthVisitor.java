@@ -21,12 +21,12 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(AspirationWindows aspirationWindows) {
-        aspirationWindows.setLastRootChildEvaluation(searchResultByDepth.getBestMoveEvaluation());
+        aspirationWindows.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
     }
 
     @Override
     public void visit(StopProcessingCatch stopProcessingCatch) {
-        stopProcessingCatch.setLastRootChildEvaluation(searchResultByDepth.getBestMoveEvaluation());
+        stopProcessingCatch.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
     }
 
     @Override
@@ -36,8 +36,8 @@ public class DistributeSearchResultByDepthVisitor implements Visitor {
 
     @Override
     public void visit(RootMoveSorter rootMoveSorter) {
-        rootMoveSorter.setLastRootChildEvaluation(searchResultByDepth.getBestMoveEvaluation());
-        rootMoveSorter.setLastRootChildEvaluations(searchResultByDepth.getRootChildEvaluations());
+        rootMoveSorter.setLastRootMoveEvaluation(searchResultByDepth.getBestRootMoveEvaluation());
+        rootMoveSorter.setLastRootMoveEvaluations(searchResultByDepth.getRootMoveEvaluations());
     }
 
     @Override

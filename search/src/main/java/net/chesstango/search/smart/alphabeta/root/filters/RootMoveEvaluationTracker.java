@@ -4,22 +4,22 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFunction;
 import net.chesstango.search.smart.alphabeta.AlphaBetaHelper;
-import net.chesstango.search.smart.alphabeta.root.RootChildEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 
 import java.util.Optional;
 
 /**
- * Funciona como una cache de resultados y es un complemento de aspiration windows
+ * Actualiza RootMoveEvaluationCollection a medida que se obtienen resultados de los movimientos de root node
  *
  * @author Mauricio Coria
  */
-public class RootChildEvaluationTracker implements AlphaBetaFilter {
+public class RootMoveEvaluationTracker implements AlphaBetaFilter {
 
     @Setter
     @Getter
@@ -27,7 +27,7 @@ public class RootChildEvaluationTracker implements AlphaBetaFilter {
 
     @Getter
     @Setter
-    private RootChildEvaluationCollection moveEvaluations;
+    private RootMoveEvaluationCollection moveEvaluations;
 
     @Setter
     private Game game;
@@ -52,7 +52,7 @@ public class RootChildEvaluationTracker implements AlphaBetaFilter {
     final long process(int currentPly, final int alpha, final int beta, AlphaBetaFunction fn) {
         Move currentMove = game.getHistory().peekLastRecord().playedMove();
 
-        Optional<RootChildEvaluation> moveEvaluation = moveEvaluations.get(currentMove);
+        Optional<RootMoveEvaluation> moveEvaluation = moveEvaluations.get(currentMove);
 
         if (moveEvaluation.isPresent()) {
             return AlphaBetaHelper.encode(moveEvaluation.get().move(), moveEvaluation.get().evaluation());
@@ -79,6 +79,6 @@ public class RootChildEvaluationTracker implements AlphaBetaFilter {
             moveEvaluationType = Bound.EXACT;
         }
 
-        moveEvaluations.add(new RootChildEvaluation(currentMove, currentValue, moveEvaluationType));
+        moveEvaluations.add(new RootMoveEvaluation(currentMove, currentValue, moveEvaluationType));
     }
 }

@@ -22,7 +22,6 @@ public class SearchResultByDepth implements Serializable {
      */
     private final int depth;
 
-
     /**
      * Indicates whether the search should continue to deeper levels.
      * Used to control the iterative deepening process.
@@ -33,7 +32,13 @@ public class SearchResultByDepth implements Serializable {
      * Stores the evaluation of the best move found during the search.
      * Contains both the move and its corresponding evaluation score.
      */
-    private RootChildEvaluation bestMoveEvaluation;
+    private RootMoveEvaluation bestRootMoveEvaluation;
+
+    /**
+     * List of evaluations for all possible moves in the current position.
+     * Note: This list might be incomplete as not all moves may have been evaluated.
+     */
+    private List<RootMoveEvaluation> rootMoveEvaluations;
 
     /**
      * List of principal variations found during the search.
@@ -46,12 +51,6 @@ public class SearchResultByDepth implements Serializable {
      * When true, we reached the same evaluation by executing the moves in the PV.
      */
     private boolean pvComplete;
-
-    /**
-     * List of evaluations for all possible moves in the current position.
-     * Note: This list might be incomplete as not all moves may have been evaluated.
-     */
-    private List<RootChildEvaluation> rootChildEvaluations;
 
     /**
      * Time spent searching at the last depth level in milliseconds.
@@ -68,10 +67,10 @@ public class SearchResultByDepth implements Serializable {
     }
 
     public Move getBestMove() {
-        return bestMoveEvaluation != null ? bestMoveEvaluation.move() : null;
+        return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.move() : null;
     }
 
     public Integer getBestEvaluation() {
-        return bestMoveEvaluation != null ? bestMoveEvaluation.evaluation() : null;
+        return bestRootMoveEvaluation != null ? bestRootMoveEvaluation.evaluation() : null;
     }
 }

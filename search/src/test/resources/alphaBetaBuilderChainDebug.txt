@@ -26,7 +26,7 @@ AlphaBeta @ 9
 		|
 		DefaultMoveComparator @ 13
 |
-RootChildEvaluationTracker @ 14
+RootMoveEvaluationTracker @ 14
 |
 TranspositionPV @ 15 [PVReader: TTPVReaderDebug @ 16 -> TTPVReader @ 17]
 |
@@ -158,12 +158,12 @@ SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 62
 	SetSearchTracker @ 63
-	RootChildEvaluationCollection @ 67
+ RootMoveEvaluationCollection @ 67
 	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
 	SetSearchTracker @ 63
-	RootChildEvaluationCollection @ 67
+ RootMoveEvaluationCollection @ 67
 	SetDebugOutput @ 66
 
 StopSearchingListener:
@@ -216,8 +216,8 @@ Acceptor:
 	GameEvaluatorCacheComparator @ 58
 	MoveSorterDebug @ 50
 	EvaluatorCacheDebug @ 59
-	RootChildEvaluationTracker @ 14
-	RootChildEvaluationCollection @ 67
+ RootMoveEvaluationTracker @ 14
+ RootMoveEvaluationCollection @ 67
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5

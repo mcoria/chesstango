@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta.root;
 
 import lombok.Getter;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.RootChildEvaluation;
+import net.chesstango.search.RootMoveEvaluation;
 import net.chesstango.search.Bound;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.SearchByDepthListener;
@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class RootChildEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
+public class RootMoveEvaluationCollection implements SearchByDepthListener, SearchByWindowsListener {
     @Getter
-    private List<RootChildEvaluation> rootChildEvaluations;
+    private List<RootMoveEvaluation> rootMoveEvaluations;
 
     @Override
     public void accept(Visitor visitor) {
@@ -28,7 +28,7 @@ public class RootChildEvaluationCollection implements SearchByDepthListener, Sea
 
     @Override
     public void beforeSearchByDepth() {
-        this.rootChildEvaluations = new LinkedList<>();
+        this.rootMoveEvaluations = new LinkedList<>();
     }
 
     @Override
@@ -39,25 +39,25 @@ public class RootChildEvaluationCollection implements SearchByDepthListener, Sea
              * Dejo resultado exactos dado que no es necesario volver a explorarlos.
              * Dejo resultados no exactos y que siguen estando dentro de los limites de la ventana actual.
              */
-            rootChildEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.moveEvaluationType()) && alphaBound <= moveEvaluation.evaluation());
-            rootChildEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.moveEvaluationType()) && moveEvaluation.evaluation() <= betaBound);
+            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.UPPER_BOUND.equals(moveEvaluation.bound()) && alphaBound <= moveEvaluation.evaluation());
+            rootMoveEvaluations.removeIf(moveEvaluation -> Bound.LOWER_BOUND.equals(moveEvaluation.bound()) && moveEvaluation.evaluation() <= betaBound);
         }
     }
 
-    public void add(RootChildEvaluation moveEvaluation) {
-        this.rootChildEvaluations.add(moveEvaluation);
+    public void add(RootMoveEvaluation moveEvaluation) {
+        this.rootMoveEvaluations.add(moveEvaluation);
     }
 
-    public Optional<RootChildEvaluation> getBestMoveEvaluation(boolean maximize) {
-        Stream<RootChildEvaluation> moveEvaluationStream = rootChildEvaluations
+    public Optional<RootMoveEvaluation> getBestMoveEvaluation(boolean maximize) {
+        Stream<RootMoveEvaluation> moveEvaluationStream = rootMoveEvaluations
                 .stream()
-                .filter(moveEvaluation -> Bound.EXACT.equals(moveEvaluation.moveEvaluationType()));
+                .filter(moveEvaluation -> Bound.EXACT.equals(moveEvaluation.bound()));
 
-        return maximize ? moveEvaluationStream.max(Comparator.comparing(RootChildEvaluation::evaluation)) : moveEvaluationStream.min(Comparator.comparing(RootChildEvaluation::evaluation));
+        return maximize ? moveEvaluationStream.max(Comparator.comparing(RootMoveEvaluation::evaluation)) : moveEvaluationStream.min(Comparator.comparing(RootMoveEvaluation::evaluation));
     }
 
-    public Optional<RootChildEvaluation> get(Move currentMove) {
-        for (RootChildEvaluation evaluatedMove : rootChildEvaluations) {
+    public Optional<RootMoveEvaluation> get(Move currentMove) {
+        for (RootMoveEvaluation evaluatedMove : rootMoveEvaluations) {
             if (evaluatedMove.move().equals(currentMove)) {
                 return Optional.of(evaluatedMove);
 

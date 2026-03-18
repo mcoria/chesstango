@@ -3,7 +3,7 @@ package net.chesstango.search.builders.alphabeta;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootChildEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
 import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.killermoves.filters.KillerMoveTracker;
@@ -59,7 +59,7 @@ public class AbstractChainBuilder {
 
                 case AspirationWindows aspirationWindows -> aspirationWindows.setNext(next);
 
-                case RootChildEvaluationTracker moveEvaluationTracker -> moveEvaluationTracker.setNext(next);
+                case RootMoveEvaluationTracker moveEvaluationTracker -> moveEvaluationTracker.setNext(next);
 
                 case TranspositionPV transpositionPV -> transpositionPV.setNext(next);
 
