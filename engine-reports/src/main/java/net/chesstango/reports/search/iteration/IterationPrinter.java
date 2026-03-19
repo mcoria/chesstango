@@ -24,13 +24,14 @@ public class IterationPrinter implements Printer {
     public IterationPrinter print() {
         out.print("Iteration Statistics\n");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 3).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 4).setOut(out);
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
         IntStream.range(0, reportModel.maxIteration).mapToObj(it -> String.format("Iteration %2d", it + 1)).forEach(tmp::add);
         tmp.add("Min");
         tmp.add("Max");
+        tmp.add("Width");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -40,12 +41,10 @@ public class IterationPrinter implements Printer {
             IntStream.range(0, reportModel.maxIteration).mapToObj(it -> it < moveDetail.maxIteration ? Integer.toString(moveDetail.evaluations[it]) : "").forEach(tmpRow::add);
             tmpRow.add(Integer.toString(moveDetail.minEvaluation));
             tmpRow.add(Integer.toString(moveDetail.maxEvaluation));
+            tmpRow.add(Integer.toString(moveDetail.evaluationWidth));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
-
-
-        printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 
         printerTxtTable.print();
 

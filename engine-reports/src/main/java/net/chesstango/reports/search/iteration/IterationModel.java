@@ -26,6 +26,7 @@ public class IterationModel implements Model<List<SearchResult>> {
         int maxIteration;
         int minEvaluation;
         int maxEvaluation;
+        int evaluationWidth;
     }
 
     public List<IterationModelDetail> iterationModelDetails;
@@ -58,6 +59,7 @@ public class IterationModel implements Model<List<SearchResult>> {
         boardModelModelDetail.maxIteration = boardModelModelDetail.evaluations.length;
         boardModelModelDetail.minEvaluation = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).min().orElse(0);
         boardModelModelDetail.maxEvaluation = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).max().orElse(0);
+        boardModelModelDetail.evaluationWidth = boardModelModelDetail.maxEvaluation - boardModelModelDetail.minEvaluation;
 
         if(this.maxIteration < boardModelModelDetail.maxIteration) {
             this.maxIteration = boardModelModelDetail.maxIteration;
