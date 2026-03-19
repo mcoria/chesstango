@@ -27,7 +27,7 @@ public class BoardPrinter implements Printer {
 
         List<String> tmp = new LinkedList<>();
         tmp.add("Move");
-        tmp.add("Exec Moves");
+        tmp.add("Moves");
         tmp.add("Depth");
         tmp.add("Time(ms)");
 

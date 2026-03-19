@@ -38,7 +38,7 @@ public class IterationPrinter implements Printer {
         reportModel.iterationModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxIteration).mapToObj(it -> it < moveDetail.maxIteration ? Integer.toString(moveDetail.evaluations[it]) : "").forEach(tmpRow::add);
+            IntStream.range(0, reportModel.maxIteration).mapToObj(it -> it < moveDetail.maxIteration ? Integer.toString(moveDetail.evaluations[it]) : "-").forEach(tmpRow::add);
             tmpRow.add(Integer.toString(moveDetail.minEvaluation));
             tmpRow.add(Integer.toString(moveDetail.maxEvaluation));
             tmpRow.add(Integer.toString(moveDetail.evaluationWidth));
