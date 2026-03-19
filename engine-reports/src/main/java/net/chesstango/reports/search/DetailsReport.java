@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
+import net.chesstango.reports.search.iteration.IterationReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -28,6 +29,7 @@ public class DetailsReport implements Report {
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
+    private boolean withIterationReport;
 
     @Setter
     @Accessors(chain = true)
@@ -86,6 +88,14 @@ public class DetailsReport implements Report {
                     .withMoveResults(searchResultList)
                     .printReport(out);
         }
+
+        if (withIterationReport) {
+            new IterationReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
         return this;
     }
 
@@ -126,6 +136,11 @@ public class DetailsReport implements Report {
 
     public DetailsReport withTranspositionReport() {
         this.withTranspositionReport = true;
+        return this;
+    }
+
+    public DetailsReport withIterationReport() {
+        this.withIterationReport = true;
         return this;
     }
 
