@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
-import net.chesstango.reports.search.iteration.IterationReport;
+import net.chesstango.reports.search.iteration.IterationEvaluationReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -90,7 +90,7 @@ public class DetailsReport implements Report {
         }
 
         if (withIterationReport) {
-            new IterationReport()
+            new IterationEvaluationReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);

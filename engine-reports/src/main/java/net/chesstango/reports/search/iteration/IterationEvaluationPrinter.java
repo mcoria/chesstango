@@ -10,19 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class IterationPrinter implements Printer {
+public class IterationEvaluationPrinter implements Printer {
 
     @Setter
     @Accessors(chain = true)
-    private IterationModel reportModel;
+    private IterationEvaluationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
     private PrintStream out;
 
     @Override
-    public IterationPrinter print() {
-        out.print("Iteration Statistics\n");
+    public IterationEvaluationPrinter print() {
+        out.print("Iteration Evaluation Statistics\n");
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(reportModel.maxIteration + 4).setOut(out);
 

@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class HeaderPrinter implements Printer {
     @Setter
     @Accessors(chain = true)
-    private IterationModel reportModel;
+    private IterationEvaluationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -21,7 +21,7 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("IterationReport       : %s%n%n", reportModel.searchGroupName);
+        out.printf("IterationEvaluationReport       : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches              : %10d%n", reportModel.searches);
         out.printf("Max Iteration         : %10d%n", reportModel.maxIteration);
         out.printf("%n");

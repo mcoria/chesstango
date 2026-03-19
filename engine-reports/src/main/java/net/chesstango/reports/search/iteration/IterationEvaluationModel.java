@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class IterationModel implements Model<List<SearchResult>> {
+public class IterationEvaluationModel implements Model<List<SearchResult>> {
     public String searchGroupName;
 
     public int searches;
@@ -32,7 +32,7 @@ public class IterationModel implements Model<List<SearchResult>> {
     public List<IterationModelDetail> iterationModelDetails;
 
     @Override
-    public IterationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
+    public IterationEvaluationModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);

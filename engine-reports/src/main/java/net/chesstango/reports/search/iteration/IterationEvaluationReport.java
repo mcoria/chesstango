@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class IterationReport implements Report {
+public class IterationEvaluationReport implements Report {
 
     @Setter
     @Accessors(chain = true)
-    private IterationModel reportModel;
+    private IterationEvaluationModel reportModel;
 
     @Setter
     @Accessors(chain = true)
@@ -24,14 +24,14 @@ public class IterationReport implements Report {
     private PrintStream out;
 
     @Override
-    public IterationReport printReport(PrintStream out) {
+    public IterationEvaluationReport printReport(PrintStream out) {
         this.out = out;
         print();
         return this;
     }
 
-    public IterationReport withMoveResults(List<SearchResult> searchResults) {
-        this.reportModel = new IterationModel().collectStatistics(this.reportTitle, searchResults);
+    public IterationEvaluationReport withMoveResults(List<SearchResult> searchResults) {
+        this.reportModel = new IterationEvaluationModel().collectStatistics(this.reportTitle, searchResults);
         return this;
     }
 
@@ -42,7 +42,7 @@ public class IterationReport implements Report {
                 .print();
 
 
-        new IterationPrinter()
+        new IterationEvaluationPrinter()
                 .setReportModel(reportModel)
                 .setOut(out)
                 .print();
