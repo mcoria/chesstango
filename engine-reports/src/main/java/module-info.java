@@ -8,6 +8,7 @@ module net.chesstango.reports {
     exports net.chesstango.reports.search.transposition;
     exports net.chesstango.reports.search;
     exports net.chesstango.reports.search.board;
+    exports net.chesstango.reports.search.iteration;
 
     requires net.chesstango.search;
     requires net.chesstango.board;

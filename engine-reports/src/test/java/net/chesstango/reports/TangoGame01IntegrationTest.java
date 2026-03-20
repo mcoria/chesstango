@@ -80,7 +80,7 @@ public class TangoGame01IntegrationTest {
                 //.withCutoffStatistics()
                 //.withEvaluationReport()
                 //.withTranspositionReport()
-                .withIterationReport()
+                .withIterationEvaluationReport()
                 .withPrincipalVariationReport()
                 .withMoveResults(searchResults)
                 .printReport(System.out);

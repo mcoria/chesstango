@@ -26,10 +26,10 @@ public class DetailsReport implements Report {
     private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
     private boolean withCutoffStatistics;
+    private boolean withIterationEvaluationReport;
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
-    private boolean withIterationReport;
 
     @Setter
     @Accessors(chain = true)
@@ -45,7 +45,6 @@ public class DetailsReport implements Report {
                     .withMoveResults(searchResultList)
                     .printReport(out);
         }
-
 
         if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesVisitedReport nodesReport = new NodesVisitedReport()
@@ -68,6 +67,13 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
+        if (withIterationEvaluationReport) {
+            new IterationEvaluationReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
         if (withPrincipalVariationReport) {
             new PrincipalVariationReport()
                     .setReportTitle(reportTitle)
@@ -84,13 +90,6 @@ public class DetailsReport implements Report {
 
         if (withEvaluationReport) {
             new EvaluationReport()
-                    .setReportTitle(reportTitle)
-                    .withMoveResults(searchResultList)
-                    .printReport(out);
-        }
-
-        if (withIterationReport) {
-            new IterationEvaluationReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
@@ -124,8 +123,8 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withEvaluationReport() {
-        this.withEvaluationReport = true;
+    public DetailsReport withIterationEvaluationReport() {
+        this.withIterationEvaluationReport = true;
         return this;
     }
 
@@ -134,13 +133,13 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withTranspositionReport() {
-        this.withTranspositionReport = true;
+    public DetailsReport withEvaluationReport() {
+        this.withEvaluationReport = true;
         return this;
     }
 
-    public DetailsReport withIterationReport() {
-        this.withIterationReport = true;
+    public DetailsReport withTranspositionReport() {
+        this.withTranspositionReport = true;
         return this;
     }
 
