@@ -24,6 +24,7 @@ class HeaderPrinter implements Printer {
         out.printf("IterationEvaluationReport   : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                    : %10d%n", reportModel.searches);
         out.printf("Max Iteration               : %10d%n", reportModel.maxIteration);
+        out.printf("Evaluation Std Dev  Avg     : %10d%n", reportModel.evaluationStdDevAvg);
         out.printf("%n");
 
         return this;

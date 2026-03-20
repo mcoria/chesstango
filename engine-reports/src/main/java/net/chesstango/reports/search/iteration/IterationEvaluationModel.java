@@ -6,6 +6,8 @@ import net.chesstango.reports.Model;
 import net.chesstango.search.SearchResult;
 import net.chesstango.search.SearchResultByDepth;
 
+import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
 
     public int searches;
     public int maxIteration;
+    public int evaluationStdDevAvg;
 
     public static class IterationModelDetail {
         String id;
@@ -26,7 +29,7 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
         int maxIteration;
         int minEvaluation;
         int maxEvaluation;
-        int evaluationWidth;
+        int evaluationStdDev;
     }
 
     public List<IterationModelDetail> iterationModelDetails;
@@ -36,6 +39,8 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
         this.searchGroupName = searchGroupName;
 
         this.load(searchResults);
+
+        this.evaluationStdDevAvg = (int) iterationModelDetails.stream().mapToInt(detail -> detail.evaluationStdDev).average().orElse(0);
 
         return this;
     }
@@ -57,11 +62,29 @@ public class IterationEvaluationModel implements Model<List<SearchResult>> {
 
         boardModelModelDetail.evaluations = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
         boardModelModelDetail.maxIteration = boardModelModelDetail.evaluations.length;
-        boardModelModelDetail.minEvaluation = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).min().orElse(0);
-        boardModelModelDetail.maxEvaluation = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).max().orElse(0);
-        boardModelModelDetail.evaluationWidth = boardModelModelDetail.maxEvaluation - boardModelModelDetail.minEvaluation;
 
-        if(this.maxIteration < boardModelModelDetail.maxIteration) {
+        int[] evalArray = searchResult.getSearchResultByDepths().stream().map(SearchResultByDepth::getBestEvaluation).mapToInt(Integer::intValue).toArray();
+
+        IntSummaryStatistics evalSummaryStatistics = Arrays.stream(evalArray).summaryStatistics();
+
+        boardModelModelDetail.minEvaluation = evalSummaryStatistics.getMin();
+        boardModelModelDetail.maxEvaluation = evalSummaryStatistics.getMax();
+
+        double mean = evalSummaryStatistics.getAverage();
+        long count = evalSummaryStatistics.getCount();
+
+        // 2. Calculate the sum of squared differences from the mean
+        double sumOfSquaredDifferences = Arrays.stream(evalArray)
+                .mapToDouble(x -> Math.pow(x - mean, 2)) // Use mapToDouble for precision
+                .sum();
+
+        // 3. Calculate the variance and then the standard deviation
+        // Use 'count' for population standard deviation, or 'count - 1' for sample
+        double variance = sumOfSquaredDifferences / count;
+        double standardDeviation = Math.sqrt(variance);
+        boardModelModelDetail.evaluationStdDev = (int) standardDeviation;
+
+        if (this.maxIteration < boardModelModelDetail.maxIteration) {
             this.maxIteration = boardModelModelDetail.maxIteration;
         }
 

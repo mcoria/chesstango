@@ -31,7 +31,7 @@ public class IterationEvaluationPrinter implements Printer {
         IntStream.range(0, reportModel.maxIteration).mapToObj(it -> String.format("Iteration %2d", it + 1)).forEach(tmp::add);
         tmp.add("Min");
         tmp.add("Max");
-        tmp.add("Width");
+        tmp.add("Std Dev");
 
         printerTxtTable.setTitles(tmp.toArray(new String[0]));
 
@@ -41,7 +41,7 @@ public class IterationEvaluationPrinter implements Printer {
             IntStream.range(0, reportModel.maxIteration).mapToObj(it -> it < moveDetail.maxIteration ? Integer.toString(moveDetail.evaluations[it]) : "-").forEach(tmpRow::add);
             tmpRow.add(Integer.toString(moveDetail.minEvaluation));
             tmpRow.add(Integer.toString(moveDetail.maxEvaluation));
-            tmpRow.add(Integer.toString(moveDetail.evaluationWidth));
+            tmpRow.add(Integer.toString(moveDetail.evaluationStdDev));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
