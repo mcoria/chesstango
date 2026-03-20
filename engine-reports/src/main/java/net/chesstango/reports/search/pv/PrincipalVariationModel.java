@@ -5,6 +5,7 @@ import net.chesstango.board.representations.move.SimpleMoveEncoder;
 import net.chesstango.reports.Model;
 import net.chesstango.search.PrincipalVariation;
 import net.chesstango.search.SearchResult;
+import net.chesstango.search.SearchResultByDepth;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,18 +59,23 @@ public class PrincipalVariationModel implements Model<List<SearchResult>> {
     private void loadModelDetail(SearchResult searchResult) {
         PrincipalVariationReportModelDetail reportModelDetail = new PrincipalVariationReportModelDetail();
 
-        SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+        //SimpleMoveEncoder simpleMoveEncoder = new SimpleMoveEncoder();
+
+        List<SearchResultByDepth> searchResultByDepths = searchResult.getSearchResultByDepths();
+        int searchByDepthPvCompleteCounter = (int) searchResultByDepths.stream().filter(SearchResultByDepth::isPvComplete).count();
+
 
         Move bestMove = searchResult.getBestMove();
         reportModelDetail.id = searchResult.getId();
-        reportModelDetail.move = simpleMoveEncoder.encode(bestMove);
+        reportModelDetail.move = SimpleMoveEncoder.INSTANCE.encode(bestMove);
         reportModelDetail.evaluation = searchResult.getBestEvaluation();
-        reportModelDetail.principalVariation = String.format("%s %s", simpleMoveEncoder.encode(searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResult.isPvComplete() ? "" : "truncated");
-        reportModelDetail.pvAccuracyPercentage = (100 * searchResult.getSearchByDepthPvCompleteCounter() / searchResult.getSearchesByDepthCounter());
+        reportModelDetail.principalVariation = String.format("%s %s", SimpleMoveEncoder.INSTANCE.encode(searchResult.getPrincipalVariation().stream().map(PrincipalVariation::move).toList()), searchResult.isPvComplete() ? "" : "truncated");
+        reportModelDetail.pvAccuracyPercentage = (100 * searchByDepthPvCompleteCounter / searchResultByDepths.size());
 
         moveDetails.add(reportModelDetail);
 
         this.searches++;
     }
+
 
 }

@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.chesstango.reports.Report;
 import net.chesstango.reports.search.board.BoardReport;
 import net.chesstango.reports.search.evaluation.EvaluationReport;
+import net.chesstango.reports.search.iteration.IterationEvaluationReport;
 import net.chesstango.reports.search.nodes.types.NodesTypesReport;
 import net.chesstango.reports.search.nodes.visited.NodesVisitedReport;
 import net.chesstango.reports.search.pv.PrincipalVariationReport;
@@ -25,6 +26,7 @@ public class DetailsReport implements Report {
     private boolean withNodesVisitedStatistics;
     private boolean withNodesTypesStatistics;
     private boolean withCutoffStatistics;
+    private boolean withIterationEvaluationReport;
     private boolean withPrincipalVariationReport;
     private boolean withTranspositionReport;
     private boolean withEvaluationReport;
@@ -44,7 +46,6 @@ public class DetailsReport implements Report {
                     .printReport(out);
         }
 
-
         if (withCutoffStatistics || withNodesVisitedStatistics) {
             NodesVisitedReport nodesReport = new NodesVisitedReport()
                     .setReportTitle(reportTitle)
@@ -61,6 +62,13 @@ public class DetailsReport implements Report {
 
         if (withNodesTypesStatistics) {
             new NodesTypesReport()
+                    .setReportTitle(reportTitle)
+                    .withMoveResults(searchResultList)
+                    .printReport(out);
+        }
+
+        if (withIterationEvaluationReport) {
+            new IterationEvaluationReport()
                     .setReportTitle(reportTitle)
                     .withMoveResults(searchResultList)
                     .printReport(out);
@@ -86,6 +94,7 @@ public class DetailsReport implements Report {
                     .withMoveResults(searchResultList)
                     .printReport(out);
         }
+
         return this;
     }
 
@@ -114,13 +123,18 @@ public class DetailsReport implements Report {
         return this;
     }
 
-    public DetailsReport withEvaluationReport() {
-        this.withEvaluationReport = true;
+    public DetailsReport withIterationEvaluationReport() {
+        this.withIterationEvaluationReport = true;
         return this;
     }
 
     public DetailsReport withPrincipalVariationReport() {
         this.withPrincipalVariationReport = true;
+        return this;
+    }
+
+    public DetailsReport withEvaluationReport() {
+        this.withEvaluationReport = true;
         return this;
     }
 

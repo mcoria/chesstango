@@ -62,12 +62,4 @@ public class SearchResult implements Serializable {
         return this;
     }
 
-    public int getSearchesByDepthCounter() {
-        return searchResultByDepths.size();
-    }
-
-    public int getSearchByDepthPvCompleteCounter() {
-        return (int) searchResultByDepths.stream().filter(SearchResultByDepth::isPvComplete).count();
-    }
-
 }

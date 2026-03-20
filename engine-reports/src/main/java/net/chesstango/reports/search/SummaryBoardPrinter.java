@@ -31,7 +31,7 @@ public class SummaryBoardPrinter implements Printer {
 
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
 
-        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "EXEC MOVES", "DEPTH", "Time(ms)");
+        printerTxtTable.setTitles("ENGINE NAME", "SEARCHES", "MOVES", "DEPTH", "Time(ms)");
         reportRows.forEach(row -> {
             printerTxtTable.addRow(row.searchGroupName,
                     Integer.toString(row.searches),

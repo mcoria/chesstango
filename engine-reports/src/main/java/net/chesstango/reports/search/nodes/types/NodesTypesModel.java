@@ -26,6 +26,10 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
     public long egtbNodeCounterTotal;
     public long nodeCounterTotal;
 
+    public int interiorNodeCounterPercentage;
+    public int quiescenceNodeCounterPercentage;
+    public int leafNodeCounterPercentage;
+
     public List<NodesModelDetail> nodesModelDetails;
 
     public static class NodesModelDetail {
@@ -41,6 +45,10 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         public long loopNodeCounter;
         public long egtbNodeCounter;
         public long nodeCounter;
+
+        public int interiorNodeCounterPercentage;
+        public int quiescenceNodeCounterPercentage;
+        public int leafNodeCounterPercentage;
     }
 
     @Override
@@ -58,6 +66,10 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
         this.nodesModelDetails = new LinkedList<>();
 
         searchResults.forEach(this::loadModelDetail);
+
+        this.interiorNodeCounterPercentage = (int) (100 * this.interiorNodeCounterTotal / this.nodeCounterTotal);
+        this.quiescenceNodeCounterPercentage = (int) (100 * this.quiescenceNodeCounterTotal / this.nodeCounterTotal);
+        this.leafNodeCounterPercentage = (int) (100 * this.leafNodeCounterTotal / this.nodeCounterTotal);
     }
 
     private void loadModelDetail(SearchResult searchResult) {
@@ -90,6 +102,9 @@ public class NodesTypesModel implements Model<List<SearchResult>> {
                 + reportModelDetail.loopNodeCounter
                 + reportModelDetail.egtbNodeCounter;
 
+        reportModelDetail.interiorNodeCounterPercentage = (int) (100 * reportModelDetail.interiorNodeCounter / reportModelDetail.nodeCounter);
+        reportModelDetail.quiescenceNodeCounterPercentage = (int) (100 * reportModelDetail.quiescenceNodeCounter / reportModelDetail.nodeCounter);
+        reportModelDetail.leafNodeCounterPercentage = (int) (100 * reportModelDetail.leafNodeCounter / reportModelDetail.nodeCounter);
 
         this.rootNodeCounterTotal += reportModelDetail.rootNodeCounter;
         this.interiorNodeCounterTotal += reportModelDetail.interiorNodeCounter;

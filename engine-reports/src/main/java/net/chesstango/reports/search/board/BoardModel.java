@@ -19,7 +19,7 @@ public class BoardModel implements Model<List<SearchResult>> {
     public float exploredDepthAvg;
     public long searchTimeTotal;
 
-    public static class BoardModelModelDetail {
+    public static class BoardModelDetail {
         String id;
 
         String move;
@@ -28,7 +28,7 @@ public class BoardModel implements Model<List<SearchResult>> {
         long searchTime;
     }
 
-    public List<BoardModelModelDetail> boardModelModelDetails;
+    public List<BoardModelDetail> boardModelModelDetails;
 
     @Override
     public BoardModel collectStatistics(String searchGroupName, List<SearchResult> searchResults) {
@@ -50,7 +50,7 @@ public class BoardModel implements Model<List<SearchResult>> {
     }
 
     private void loadModelDetail(SearchResult searchResult) {
-        BoardModelModelDetail boardModelModelDetail = new BoardModelModelDetail();
+        BoardModelDetail boardModelModelDetail = new BoardModelDetail();
 
         Move bestMove = searchResult.getBestMove();
         boardModelModelDetail.id = searchResult.getId();
