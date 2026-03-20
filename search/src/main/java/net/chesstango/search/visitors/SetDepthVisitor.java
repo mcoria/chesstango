@@ -3,6 +3,11 @@ package net.chesstango.search.visitors;
 import net.chesstango.search.Visitor;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
 import net.chesstango.search.smart.alphabeta.debug.listeners.SetDebugOutput;
+import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaEgtbNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLeafNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaLoopNodeStatistics;
+import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaTerminalNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTable;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableQ;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
@@ -48,6 +53,31 @@ public class SetDepthVisitor implements Visitor {
     @Override
     public void visit(SetDebugOutput setDebugOutput) {
         setDebugOutput.setDepth(depth);
+    }
+
+    @Override
+    public void visit(NodeCounters nodeCounters) {
+        nodeCounters.setDepth(depth);
+    }
+
+    @Override
+    public void visit(AlphaBetaLeafNodeStatistics alphaBetaLeafNodeStatistics) {
+        alphaBetaLeafNodeStatistics.setDepth(depth);
+    }
+
+    @Override
+    public void visit(AlphaBetaLoopNodeStatistics alphaBetaLoopNodeStatistics) {
+        alphaBetaLoopNodeStatistics.setDepth(depth);
+    }
+
+    @Override
+    public void visit(AlphaBetaEgtbNodeStatistics alphaBetaEgtbNodeStatistics) {
+        alphaBetaEgtbNodeStatistics.setDepth(depth);
+    }
+
+    @Override
+    public void visit(AlphaBetaTerminalNodeStatistics alphaBetaTerminalNodeStatistics) {
+        alphaBetaTerminalNodeStatistics.setDepth(depth);
     }
 
 }
