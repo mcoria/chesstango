@@ -21,9 +21,9 @@ class HeaderPrinter implements Printer {
     @Override
     public HeaderPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("IterationEvaluationReport       : %s%n%n", reportModel.searchGroupName);
-        out.printf("Searches              : %10d%n", reportModel.searches);
-        out.printf("Max Iteration         : %10d%n", reportModel.maxIteration);
+        out.printf("IterationEvaluationReport   : %s%n%n", reportModel.searchGroupName);
+        out.printf("Searches                    : %10d%n", reportModel.searches);
+        out.printf("Max Iteration               : %10d%n", reportModel.maxIteration);
         out.printf("%n");
 
         return this;

@@ -23,9 +23,9 @@ class PrincipalVariationPrinter implements Printer {
     @Override
     public PrincipalVariationPrinter print() {
         out.printf("--------------------------------------------------------------------------------------------------------------------------------------------------------%n");
-        out.printf("PrincipalVariationReport: %s%n%n", reportModel.searchGroupName);
+        out.printf("PrincipalVariationReport    : %s%n%n", reportModel.searchGroupName);
         out.printf("Searches                    : %10d%n", reportModel.searches);
-        out.printf("PV Accuracy average         : %10d%%%n%n", reportModel.pvAccuracyAvgPercentageTotal);
+        out.printf("PV Accuracy Avg             : %10d%%%n%n", reportModel.pvAccuracyAvgPercentageTotal);
 
         out.printf("Principal Variations%n");
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(5).setOut(out);
