@@ -14,4 +14,6 @@ public record NodeStatistics(long rootNodeCounter,
                              long egtbCounter,
                              long[] expectedNodesCounters,
                              long[] visitedNodesCounters) implements Serializable {
+
+    public static final int MAX_DEPTH = 40;
 }

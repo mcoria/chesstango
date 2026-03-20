@@ -61,16 +61,16 @@ public class NodesVisitedModel implements Model<List<SearchResult>> {
 
         this.nodesModelDetails = new LinkedList<>();
 
-        this.expectedNodesCounters = new long[30];
-        this.visitedNodesCounters = new long[30];
-        this.cutoffPercentages = new int[30];
+        this.expectedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.visitedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.cutoffPercentages = new int[NodeStatistics.MAX_DEPTH];
 
         searchResults.forEach(this::loadModelDetail);
 
         /**
          * Totales sumarizados
          */
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < NodeStatistics.MAX_DEPTH; i++) {
             if (this.visitedNodesCounters[i] > 0) {
                 this.cutoffPercentages[i] = (int) (100 - (100 * this.visitedNodesCounters[i] / this.expectedNodesCounters[i]));
                 this.maxSelDepth = i;
@@ -101,9 +101,9 @@ public class NodesVisitedModel implements Model<List<SearchResult>> {
     private void collectRegularNodeStatistics(NodesModelDetail reportModelDetail, NodeStatistics regularNodeStatistics) {
         reportModelDetail.expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
         reportModelDetail.visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
-        reportModelDetail.cutoffPercentages = new int[30];
+        reportModelDetail.cutoffPercentages = new int[NodeStatistics.MAX_DEPTH];
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < NodeStatistics.MAX_DEPTH; i++) {
             if (reportModelDetail.expectedNodesCounters[i] < reportModelDetail.visitedNodesCounters[i]) {
                 throw new RuntimeException(String.format("reportModelDetail.expectedNodesCounters[%d] (%d) < reportModelDetail.visitedNodesCounters[%d] (%d)", i, reportModelDetail.expectedNodesCounters[i], i, reportModelDetail.visitedNodesCounters[i]));
             }
