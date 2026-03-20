@@ -25,7 +25,7 @@ class NodesTypesPrinter implements Printer {
     public NodesTypesPrinter print() {
         PrinterTxtTable printerTxtTable = new PrinterTxtTable(9).setOut(out);
 
-        printerTxtTable.setTitles("Move", "RNodes", "INodes", "QNodes", "LeNodes", "TNodes", "LoNodes", "ENode", "Nodes");
+        printerTxtTable.setTitles("Move", "RoNodes", "InNodes", "QNodes", "LeNodes", "TeNodes", "LoNodes", "EgNode", "Nodes");
         reportModel.nodesModelDetails.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
