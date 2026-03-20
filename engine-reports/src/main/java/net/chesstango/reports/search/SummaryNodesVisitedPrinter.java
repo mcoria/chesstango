@@ -57,8 +57,8 @@ class SummaryNodesVisitedPrinter implements Printer {
 
             tmpRow.add(row.searchGroupName);
             tmpRow.add(Integer.toString(row.searches));
-            IntStream.range(0, maxSearchDepth + 1).mapToObj(depth -> Long.toString(row.visitedNodesCounters[depth])).forEach(tmpRow::add);
-            tmpRow.add(Long.toString(row.visitedNodesTotal));
+            IntStream.range(0, maxSearchDepth + 1).mapToObj(depth -> Long.toString(row.visitedRNodesCounters[depth])).forEach(tmpRow::add);
+            tmpRow.add(Long.toString(row.visitedRNodesTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });

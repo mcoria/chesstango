@@ -40,26 +40,26 @@ class NodesVisitedPrinter implements Printer {
         int[] visitedWidth = new int[reportModel.maxSelDepth + 1];
         int[] expectedWidth = new int[reportModel.maxSelDepth + 1];
         IntStream.range(0, reportModel.maxSelDepth + 1).forEach(depth -> {
-            visitedWidth[depth] = String.format("%d", reportModel.visitedNodesCounters[depth]).length();
-            expectedWidth[depth] = String.format("%d", reportModel.expectedNodesCounters[depth]).length();
+            visitedWidth[depth] = String.format("%d", reportModel.visitedRNodesCounters[depth]).length();
+            expectedWidth[depth] = String.format("%d", reportModel.expectedRNodesCounters[depth]).length();
         });
 
-        int visitedTotalWidth = String.format("%d", reportModel.visitedNodesTotal).length();
-        int expectedTotalWidth = String.format("%d", reportModel.expectedNodesTotal).length();
+        int visitedTotalWidth = String.format("%d", reportModel.visitedRNodesTotal).length();
+        int expectedTotalWidth = String.format("%d", reportModel.expectedRNodesTotal).length();
 
         reportModel.nodesModelDetails.forEach(moveDetail -> {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%" + visitedWidth[depth] + "d / %" + expectedWidth[depth] + "d", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth])).forEach(tmpRow::add);
-            tmpRow.add(String.format("%" + visitedTotalWidth + "d / %" + expectedTotalWidth + "d", moveDetail.visitedNodesCounter, moveDetail.expectedNodesCounter));
+            IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%" + visitedWidth[depth] + "d / %" + expectedWidth[depth] + "d", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth])).forEach(tmpRow::add);
+            tmpRow.add(String.format("%" + visitedTotalWidth + "d / %" + expectedTotalWidth + "d", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
 
         tmp = new LinkedList<>();
         tmp.add("SUM");
-        IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedNodesCounters[depth], reportModel.expectedNodesCounters[depth])).forEach(tmp::add);
-        tmp.add(String.format("%d / %d", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal));
+        IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d / %d", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth])).forEach(tmp::add);
+        tmp.add(String.format("%d / %d", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 

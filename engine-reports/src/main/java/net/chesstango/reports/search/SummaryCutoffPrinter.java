@@ -55,8 +55,8 @@ class SummaryCutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
             tmpRow.add(row.searchGroupName);
             tmpRow.add(Integer.toString(row.searches));
-            IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("%d %% ", row.cutoffPercentages[depth])).forEach(tmpRow::add);
-            tmpRow.add(Integer.toString(row.cutoffPercentageTotal));
+            IntStream.range(0, maxDepth + 1).mapToObj(depth -> String.format("%d %% ", row.cutoffRPercentages[depth])).forEach(tmpRow::add);
+            tmpRow.add(Integer.toString(row.cutoffRPercentageTotal));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });

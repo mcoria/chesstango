@@ -39,8 +39,8 @@ class CutoffPrinter implements Printer {
             List<String> tmpRow = new LinkedList<>();
 
             tmpRow.add(String.format("%s", moveDetail.move));
-            IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffPercentages[depth])).forEach(tmpRow::add);
-            tmpRow.add(String.format("%d %%", moveDetail.cutoffPercentage));
+            IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d %%", moveDetail.cutoffRPercentages[depth])).forEach(tmpRow::add);
+            tmpRow.add(String.format("%d %%", moveDetail.cutoffRPercentage));
 
             printerTxtTable.addRow(tmpRow.toArray(new String[0]));
         });
@@ -48,8 +48,8 @@ class CutoffPrinter implements Printer {
         tmp = new LinkedList<>();
 
         tmp.add("AVG");
-        IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.cutoffPercentages[depth])).forEach(tmp::add);
-        tmp.add(String.format("%d %%", reportModel.cutoffPercentageTotal));
+        IntStream.range(0, reportModel.maxSelDepth + 1).mapToObj(depth -> String.format("%d %%", reportModel.cutoffRPercentages[depth])).forEach(tmp::add);
+        tmp.add(String.format("%d %%", reportModel.cutoffRPercentageTotal));
 
         printerTxtTable.setBottomRow(tmp.toArray(new String[0]));
 

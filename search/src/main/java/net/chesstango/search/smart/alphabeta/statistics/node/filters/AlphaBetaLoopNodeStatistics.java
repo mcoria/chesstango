@@ -15,6 +15,8 @@ public class AlphaBetaLoopNodeStatistics implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
+    private int depth;
+
     private NodeCounters nodeCounters;
 
     @Override
@@ -37,7 +39,11 @@ public class AlphaBetaLoopNodeStatistics implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseLoopCounter();
 
-        nodeCounters.increaseVisitedCounter(currentPly );
+        if (currentPly <= depth) {
+            nodeCounters.increaseVisitedRegularCounter(currentPly);
+        } else {
+            nodeCounters.increaseVisitedQuiescenceCounter(currentPly);
+        }
     }
 }
 

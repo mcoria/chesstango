@@ -6,6 +6,8 @@ import net.chesstango.search.smart.SearchByCycleListener;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
 
+import java.util.Arrays;
+
 /**
  * @author Mauricio Coria
  */
@@ -19,8 +21,10 @@ public class NodeCounters implements SearchByCycleListener {
     private long loopNodeCounter;
     private long egtbCounter;
 
-    private long[] visitedNodesCounters;
-    private long[] expectedNodesCounters;
+    private long[] visitedRNodesCounters;
+    private long[] expectedRNodesCounters;
+    private long[] visitedQNodesCounters;
+    private long[] expectedQNodesCounters;
 
     @Setter
     private SearchListenerMediator searchListenerMediator;
@@ -40,8 +44,11 @@ public class NodeCounters implements SearchByCycleListener {
         this.loopNodeCounter = 0;
         this.egtbCounter = 0;
 
-        this.visitedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
-        this.expectedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.visitedRNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.expectedRNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+
+        this.visitedQNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.expectedQNodesCounters = new long[NodeStatistics.MAX_DEPTH];
 
         searchListenerMediator.accept(
                 new SetNodeCountersVisitor(this)
@@ -50,6 +57,8 @@ public class NodeCounters implements SearchByCycleListener {
 
 
     public NodeStatistics getNodeStatistics() {
+        assert Arrays.stream(visitedRNodesCounters).sum() <= Arrays.stream(expectedRNodesCounters).sum();
+        assert Arrays.stream(visitedQNodesCounters).sum() <= Arrays.stream(expectedQNodesCounters).sum();
         return new NodeStatistics(
                 rootNodeCounter,
                 interiorNodeCounter,
@@ -58,8 +67,10 @@ public class NodeCounters implements SearchByCycleListener {
                 terminalNodeCounter,
                 loopNodeCounter,
                 egtbCounter,
-                expectedNodesCounters,
-                visitedNodesCounters
+                visitedRNodesCounters,
+                expectedRNodesCounters,
+                visitedQNodesCounters,
+                expectedQNodesCounters
         );
     }
 
@@ -91,12 +102,20 @@ public class NodeCounters implements SearchByCycleListener {
         egtbCounter++;
     }
 
-    public void increaseExpectedCounter(final int level, final int increment) {
-        expectedNodesCounters[level] += increment;
+    public void increaseExpectedRegularCounter(final int level, final int increment) {
+        expectedRNodesCounters[level] += increment;
     }
 
-    public void increaseVisitedCounter(final int level) {
-        visitedNodesCounters[level]++;
+    public void increaseVisitedRegularCounter(final int level) {
+        visitedRNodesCounters[level]++;
+    }
+
+    public void increaseExpectedQuiescenceCounter(final int level, final int increment) {
+        expectedQNodesCounters[level] += increment;
+    }
+
+    public void increaseVisitedQuiescenceCounter(final int level) {
+        visitedQNodesCounters[level]++;
     }
 
 }
