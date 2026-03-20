@@ -40,8 +40,8 @@ public class NodeCounters implements SearchByCycleListener {
         this.loopNodeCounter = 0;
         this.egtbCounter = 0;
 
-        this.visitedNodesCounters = new long[30];
-        this.expectedNodesCounters = new long[30];
+        this.visitedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
+        this.expectedNodesCounters = new long[NodeStatistics.MAX_DEPTH];
 
         searchListenerMediator.accept(
                 new SetNodeCountersVisitor(this)
