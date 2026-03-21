@@ -2,12 +2,19 @@ package net.chesstango.search.builders;
 
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
-import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableComparatorVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableImpVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.LinkTTableNodeVisitor;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MAX_MAP;
 import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MIN_MAP;
@@ -16,30 +23,38 @@ import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT
  * @author Mauricio Corias
  */
 public class TranspositionTableBuilder {
+    private final TTable maxMapImp;
+    private final TTable minMapImp;
     private final TranspositionTableListener transpositionTablesListener;
 
-    private TTable maxMapImp;
-    private TTable minMapImp;
+    private TTableDebug maxMapNodeDebug;
+    private TTableDebug minMapNodeDebug;
 
-    private TTableDebug maxMapDebug;
-    private TTableDebug minMapDebug;
+    private TTableDebug maxMapComparatorDebug;
+    private TTableDebug minMapComparatorDebug;
 
     private TTableCounters tTableCounters;
-    private TTableStatisticsCollector maxMapCollector;
-    private TTableStatisticsCollector minMapCollector;
+    private TTableStatisticsNodeCollector maxMapNodeCollector;
+    private TTableStatisticsNodeCollector minMapNodeCollector;
+    private TTableStatisticsComparatorCollector maxMapComparatorCollector;
+    private TTableStatisticsComparatorCollector minMapComparatorCollector;
 
     private SearchListenerMediator searchListenerMediator;
 
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable maxNodeMap;
+    private TTable minNodeMap;
+
+    private TTable maxComparatorMap;
+    private TTable minComparatorMap;
 
     public TranspositionTableBuilder() {
+        maxMapImp = new TTableArrayPrimitives();
+        minMapImp = new TTableArrayPrimitives();
         transpositionTablesListener = new TranspositionTableListener();
     }
-
 
     public TranspositionTableBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
@@ -58,66 +73,99 @@ public class TranspositionTableBuilder {
 
     public void build() {
         buildObjects();
+
+        transpositionTablesListener.setMaxMap(maxMapImp);
+        transpositionTablesListener.setMinMap(minMapImp);
+
         setupListenerMediator();
+
         createChains();
     }
 
     public void link() {
-        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
+        searchListenerMediator.accept(new LinkTTableNodeVisitor(maxNodeMap, minNodeMap));
+        searchListenerMediator.accept(new LinkTTableComparatorVisitor(maxComparatorMap, minComparatorMap));
+        searchListenerMediator.accept(new LinkTTableImpVisitor(maxMapImp, minMapImp));
     }
 
     private void buildObjects() {
-        maxMapImp = new TTableArrayPrimitives();
-        minMapImp = new TTableArrayPrimitives();
-
         if (withDebugSearchTree) {
-            maxMapDebug = new TTableDebug(MAX_MAP);
-            minMapDebug = new TTableDebug(MIN_MAP);
-        }
+            maxMapNodeDebug = new TTableDebug(MAX_MAP);
+            minMapNodeDebug = new TTableDebug(MIN_MAP);
 
+            maxMapComparatorDebug = new TTableDebug(MAX_MAP);
+            minMapComparatorDebug = new TTableDebug(MIN_MAP);
+        }
         if (withStatistics) {
             tTableCounters = new TTableCounters();
-            maxMapCollector = new TTableStatisticsCollector(tTableCounters);
-            minMapCollector = new TTableStatisticsCollector(tTableCounters);
+            maxMapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
+            minMapNodeCollector = new TTableStatisticsNodeCollector(tTableCounters);
+
+            maxMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
+            minMapComparatorCollector = new TTableStatisticsComparatorCollector(tTableCounters);
         }
     }
 
     private void setupListenerMediator() {
         searchListenerMediator.add(transpositionTablesListener);
 
-        if (maxMapDebug != null) {
-            searchListenerMediator.add(maxMapDebug);
+        if (maxMapNodeDebug != null) {
+            searchListenerMediator.add(maxMapNodeDebug);
         }
-        if (minMapDebug != null) {
-            searchListenerMediator.add(minMapDebug);
+        if (minMapNodeDebug != null) {
+            searchListenerMediator.add(minMapNodeDebug);
         }
-
+        if (maxMapComparatorDebug != null) {
+            searchListenerMediator.add(maxMapComparatorDebug);
+        }
+        if (minMapComparatorDebug != null) {
+            searchListenerMediator.add(minMapComparatorDebug);
+        }
         if (tTableCounters != null) {
             searchListenerMediator.add(tTableCounters);
         }
-        if (maxMapCollector != null) {
-            searchListenerMediator.add(maxMapCollector);
+        if (maxMapNodeCollector != null) {
+            searchListenerMediator.add(maxMapNodeCollector);
         }
-        if (minMapCollector != null) {
-            searchListenerMediator.add(minMapCollector);
+        if (minMapNodeCollector != null) {
+            searchListenerMediator.add(minMapNodeCollector);
+        }
+        if (maxMapComparatorCollector != null) {
+            searchListenerMediator.add(maxMapComparatorCollector);
+        }
+        if (minMapComparatorCollector != null) {
+            searchListenerMediator.add(minMapComparatorCollector);
         }
     }
 
     private void createChains() {
-        maxMap = linkChain(maxMapCollector, maxMapDebug, maxMapImp);
-        minMap = linkChain(minMapCollector, minMapDebug, minMapImp);
+        maxNodeMap = linkChain(maxMapNodeDebug, maxMapNodeCollector, maxMapImp);
+        minNodeMap = linkChain(minMapNodeDebug, minMapNodeCollector, minMapImp);
+
+        maxComparatorMap = linkChain(maxMapComparatorDebug, maxMapComparatorCollector, maxMapImp);
+        minComparatorMap = linkChain(minMapComparatorDebug, minMapComparatorCollector, minMapImp);
     }
 
-    private TTable linkChain(TTableStatisticsCollector collector, TTableDebug tableDebug, TTable tableImp) {
-        TTable result = tableImp;
-        if (tableDebug != null) {
-            tableDebug.setTTable(result);
-            result = tableDebug;
+    private TTable linkChain(TTable... tTables) {
+        List<TTable> chain = Arrays.stream(tTables).filter(Objects::nonNull).toList();
+
+        for (int i = 0; i < chain.size() - 1; i++) {
+            TTable currentFilter = chain.get(i);
+            TTable next = chain.get(i + 1);
+
+            switch (currentFilter) {
+                case TTableDebug tableDebug -> tableDebug.setTTable(next);
+
+                case TTableStatisticsNodeCollector tableStatisticsCollector -> tableStatisticsCollector.setTTable(next);
+
+                case TTableStatisticsComparatorCollector tableStatisticsComparatorCollector -> tableStatisticsComparatorCollector.setTTable(next);
+
+                case null -> throw new RuntimeException(String.format("filter %d is null", i));
+
+                default -> throw new RuntimeException("filter not found: " + currentFilter.getClass().getSimpleName());
+            }
         }
-        if (collector != null) {
-            collector.setTTable(result);
-            result = collector;
-        }
-        return result;
+
+        return chain.getFirst();
     }
 }

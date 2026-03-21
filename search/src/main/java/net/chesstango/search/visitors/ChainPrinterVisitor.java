@@ -34,7 +34,8 @@ import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
 import net.chesstango.search.smart.alphabeta.quiescence.Quiescence;
 import net.chesstango.search.smart.alphabeta.statistics.evaluation.EvaluatorStatisticsCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
@@ -556,9 +557,11 @@ public class ChainPrinterVisitor implements Visitor {
     private String printTTable(TTable ttable) {
         if (ttable instanceof TTableDebug ttableDebug) {
             return String.format("%s -> %s", objectText(ttableDebug), printTTable(ttableDebug.getTTable()));
-        } else if (ttable instanceof TTableStatisticsCollector ttableStatisticsCollector) {
-            return String.format("%s -> %s", objectText(ttableStatisticsCollector), printTTable(ttableStatisticsCollector.getTTable()));
-        } else if (ttable instanceof TTableArrayPrimitives tTableArray) {
+        } else if (ttable instanceof TTableStatisticsNodeCollector tTableStatisticsNodeCollector) {
+            return String.format("%s -> %s", objectText(tTableStatisticsNodeCollector), printTTable(tTableStatisticsNodeCollector.getTTable()));
+        } else if (ttable instanceof TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
+            return String.format("%s -> %s", objectText(tTableStatisticsComparatorCollector), printTTable(tTableStatisticsComparatorCollector.getTTable()));
+        }else if (ttable instanceof TTableArrayPrimitives tTableArray) {
             return objectText(tTableArray);
         }
 

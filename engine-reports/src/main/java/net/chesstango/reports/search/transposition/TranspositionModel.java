@@ -83,8 +83,8 @@ public class TranspositionModel implements Model<List<SearchResult>> {
             transpositionModelDetail.move = bestMove != null ? SimpleMoveEncoder.INSTANCE.encode(bestMove) : "";
 
             transpositionModelDetail.reads = ttableStatistics.reads();
-            transpositionModelDetail.readHits = ttableStatistics.readHits();
-            transpositionModelDetail.readHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readHits() / ttableStatistics.reads()) : 0;
+            transpositionModelDetail.readHits = ttableStatistics.readNodeHits();
+            transpositionModelDetail.readHitPercentage = ttableStatistics.reads() > 0 ? (int) (100 * ttableStatistics.readNodeHits() / ttableStatistics.reads()) : 0;
             transpositionModelDetail.writes = ttableStatistics.writes();
             transpositionModelDetail.updates = ttableStatistics.updates();
             transpositionModelDetail.updatesPercentage = ttableStatistics.writes() > 0 ? (int) (100 * ttableStatistics.updates() / ttableStatistics.writes()) : 0;

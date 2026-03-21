@@ -45,7 +45,8 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.*;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
-import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsComparatorCollector;
+import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsNodeCollector;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionHeadMoveComparator;
 import net.chesstango.search.smart.alphabeta.transposition.comparators.TranspositionTailMoveComparator;
@@ -299,7 +300,10 @@ public interface Visitor {
     }
 
 
-    default void visit(TTableStatisticsCollector tTableStatisticsCollector) {
+    default void visit(TTableStatisticsNodeCollector tTableStatisticsCollector) {
+    }
+
+    default void visit(TTableStatisticsComparatorCollector tTableStatisticsComparatorCollector) {
     }
 
     default void visit(TTableCounters TTableCounters) {
