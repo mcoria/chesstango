@@ -23,8 +23,8 @@ class HeaderPrinterTest {
         model.searchGroupName = "Test Group";
         model.searches = 10;
         model.readsTotal = 100;
-        model.readHitsTotal = 60;
-        model.readHitPercentageTotal = 60;
+        model.readNodeHitsTotal = 60;
+        model.readNodeHitPercentageTotal = 60;
         model.writesTotal = 40;
         model.overWritesTotal = 10;
         model.overWritesPercentageTotal = 25;

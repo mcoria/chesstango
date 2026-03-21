@@ -23,14 +23,15 @@ public class TranspositionPrinter implements Printer {
     public TranspositionPrinter print() {
         out.println("Transposition Statistics");
 
-        PrinterTxtTable printerTxtTable = new PrinterTxtTable(6).setOut(out);
+        PrinterTxtTable printerTxtTable = new PrinterTxtTable(7).setOut(out);
 
-        printerTxtTable.setTitles("Move", "Reads", "Read Hits", "Writes", "Updates", "OverWrites");
+        printerTxtTable.setTitles("Move", "Reads", "Read NHits", "Read CHits", "Writes", "Updates", "OverWrites");
         transpositionModel.transpositionModelDetail.forEach(row -> {
             printerTxtTable.addRow(
                     row.move,
                     Long.toString(row.reads),
-                    String.format("%d (%2d%%)", row.readHits, row.readHitPercentage),
+                    String.format("%d (%2d%%)", row.readNodeHits, row.readNodeHitPercentage),
+                    String.format("%d (%2d%%)", row.readComparatorHits, row.readComparatorHitPercentage),
                     Long.toString(row.writes),
                     String.format("%d (%2d%%)", row.updates, row.updatesPercentage),
                     String.format("%d (%2d%%)", row.overWrites, row.overWritePercentage));
@@ -39,7 +40,8 @@ public class TranspositionPrinter implements Printer {
         printerTxtTable.setBottomRow(
                 "SUM",
                 Long.toString(transpositionModel.readsTotal),
-                String.format("%d (%2d%%)", transpositionModel.readHitsTotal, transpositionModel.readHitPercentageTotal),
+                String.format("%d (%2d%%)", transpositionModel.readNodeHitsTotal, transpositionModel.readNodeHitPercentageTotal),
+                String.format("%d (%2d%%)", transpositionModel.readComparatorHitsTotal, transpositionModel.readComparatorHitPercentageTotal),
                 Long.toString(transpositionModel.writesTotal),
                 String.format("%d (%2d%%)", transpositionModel.updatesTotal, transpositionModel.updatesPercentageTotal),
                 String.format("%d (%2d%%)", transpositionModel.overWritesTotal, transpositionModel.overWritesPercentageTotal));
