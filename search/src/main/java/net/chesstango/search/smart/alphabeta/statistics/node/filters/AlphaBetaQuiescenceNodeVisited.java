@@ -15,6 +15,9 @@ public class AlphaBetaQuiescenceNodeVisited implements AlphaBetaFilter {
     @Getter
     private AlphaBetaFilter next;
 
+    @Setter
+    private int depth;
+
     private NodeCounters nodeCounters;
 
     @Override
@@ -36,6 +39,10 @@ public class AlphaBetaQuiescenceNodeVisited implements AlphaBetaFilter {
 
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseQuiescenceCounter();
+
+        if (currentPly == depth) {
+            nodeCounters.increaseRegularCounter();
+        }
 
         nodeCounters.increaseVisitedCounter(currentPly);
     }

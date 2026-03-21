@@ -17,6 +17,9 @@ public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter {
 
     private NodeCounters nodeCounters;
 
+    @Setter
+    private int depth;
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -36,6 +39,10 @@ public class AlphaBetaLeafNodeStatistics implements AlphaBetaFilter {
 
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseLeafCounter();
+
+        if (currentPly <= depth) {
+            nodeCounters.increaseRegularCounter();
+        }
 
         nodeCounters.increaseVisitedCounter(currentPly);
     }

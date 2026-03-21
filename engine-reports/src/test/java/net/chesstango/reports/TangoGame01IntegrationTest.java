@@ -79,9 +79,10 @@ public class TangoGame01IntegrationTest {
                 .withNodesTypesStatistics()
                 //.withCutoffStatistics()
                 //.withEvaluationReport()
-                .withTranspositionReport()
+                //.withTranspositionReport()
                 .withIterationEvaluationReport()
-                .withPrincipalVariationReport()
+                //.withPrincipalVariationReport()
+                .withEbf()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }
@@ -95,6 +96,31 @@ public class TangoGame01IntegrationTest {
                         .withStatistics()
                         .build()
                 )
+                /*
+                .setSearch(new AlphaBetaBuilder()
+                        .withGameEvaluator(Evaluator.createInstance())
+                        .withGameEvaluatorCache()
+
+                        .withQuiescence()
+
+                        //.withTranspositionTable()
+
+                        //.withTranspositionMoveSorter()
+                        //.withKillerMoveSorter()
+                        //.withRecaptureSorter()
+                        //.withMvvLvaSorter()
+
+                        //.withAspirationWindows()
+
+                        .withIterativeDeepening()
+
+                        //.withStopProcessingCatch()
+
+                        .withStatistics()
+
+                        .build()
+                )
+                 */
                 .setSyncSearch(true)
                 .setPolyglotFile(POLYGLOT_FILE)
                 .setSyzygyPath(SYZYGY_PATH);
@@ -114,12 +140,15 @@ public class TangoGame01IntegrationTest {
             session.goDepth(5);
 
             for (int i = 0; i < movesArray.length; i += 2) {
+                //if (i == 36) {
                 List<String> currentMoves = Arrays.stream(movesArray).limit(i + 2).toList();
                 //System.out.println(currentMoves);
                 session.setMoves(currentMoves);
                 //session.goTime(2000);
                 session.goDepth(5);
+                //}
             }
+
             searchResponseList = session.getSearchResults();
         } catch (Exception e) {
             throw new RuntimeException(e);

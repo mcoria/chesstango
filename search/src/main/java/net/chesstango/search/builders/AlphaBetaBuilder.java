@@ -26,9 +26,10 @@ import net.chesstango.search.smart.alphabeta.evaluator.visitors.SetEvaluatorVisi
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTables;
 import net.chesstango.search.smart.alphabeta.killermoves.listeners.SetKillerMoveTablesDebug;
 import net.chesstango.search.smart.alphabeta.pv.listeners.SetTrianglePV;
-import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
+import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
+import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
@@ -287,6 +288,10 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
         } else {
             search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
+        }
+
+        if (nodeCounters != null) {
+            searchListenerMediator.accept(new SetNodeCountersVisitor(nodeCounters));
         }
 
         return search;

@@ -37,6 +37,8 @@ public class AlphaBetaInteriorNodeVisited implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         nodeCounters.increaseInteriorCounter();
 
+        nodeCounters.increaseRegularCounter();
+
         nodeCounters.increaseVisitedCounter(currentPly);
     }
 }

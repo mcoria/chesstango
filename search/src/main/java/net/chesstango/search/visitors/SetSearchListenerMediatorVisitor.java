@@ -34,11 +34,6 @@ public class SetSearchListenerMediatorVisitor implements Visitor {
         setKillerMoveTablesDebug.setSearchListenerMediator(searchListenerMediator);
     }
 
-    @Override
-    public void visit(NodeCounters nodeCounters) {
-        nodeCounters.setSearchListenerMediator(searchListenerMediator);
-    }
-
 
     @Override
     public void visit(SetTrianglePV setTrianglePV) {
