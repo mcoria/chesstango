@@ -91,8 +91,8 @@ public class MoveSorterBuilder{
 
         setupListenerMediator();
 
-
         MoveSorter moveSorter = nodeMoveSorter;
+
         nodeMoveSorter.setMoveComparator(createComparatorChain());
 
         if (moveSorterDebug != null) {

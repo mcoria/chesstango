@@ -273,6 +273,13 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         setupListenerMediatorAfterChain();
 
+        Search search;
+        if (withIterativeDeepening) {
+            search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
+        } else {
+            search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
+        }
+
         searchListenerMediator.accept(new SetSearchListenerMediatorVisitor(searchListenerMediator));
         searchListenerMediator.accept(new SetEndGameTableBaseVisitor(new EndGameTableBaseNull()));
         searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
@@ -281,13 +288,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
             searchListenerMediator.accept(new SetTTableVisitor(transpositionTableBuilder.getMaxMap(), transpositionTableBuilder.getMinMap()));
-        }
-
-        Search search;
-        if (withIterativeDeepening) {
-            search = new IterativeDeepening(alphaBetaFacade, searchListenerMediator);
-        } else {
-            search = new NoIterativeDeepening(alphaBetaFacade, searchListenerMediator);
         }
 
         if (nodeCounters != null) {
