@@ -30,6 +30,7 @@ import net.chesstango.search.smart.alphabeta.statistics.game.DepthCollector;
 import net.chesstango.search.smart.alphabeta.statistics.game.GameCountersCollector;
 import net.chesstango.search.smart.alphabeta.statistics.node.NodeCounters;
 import net.chesstango.search.smart.alphabeta.statistics.node.visitors.SetNodeCountersVisitor;
+import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
 import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
 import net.chesstango.search.smart.alphabeta.zobrist.listeners.SetZobristMemory;
@@ -87,6 +88,9 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean showSorterOperations;
     private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
+
+    private TTable maxMap;
+    private TTable minMap;
 
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
@@ -285,9 +289,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
-            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
-            transpositionTableBuilder.build();
-            searchListenerMediator.accept(new SetTTableVisitor(transpositionTableBuilder.getMaxMap(), transpositionTableBuilder.getMinMap()));
+            searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
         }
 
         if (nodeCounters != null) {
@@ -302,6 +304,11 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         gameEvaluatorCache = evaluationBuilder.getGameEvaluatorCache(); // CAMBIAR ESTE DISENO
 
         if (withTranspositionTable) {
+            transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
+            transpositionTableBuilder.build();
+            maxMap = transpositionTableBuilder.getMaxMap();
+            minMap = transpositionTableBuilder.getMinMap();
+
             transpositionTablesListener = new TranspositionTableListener();
         }
 
