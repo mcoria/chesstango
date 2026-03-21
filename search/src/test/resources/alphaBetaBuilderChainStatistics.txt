@@ -140,10 +140,10 @@ AlphaBetaFlowControl @ 16
 SearchByCycleListeners:
 	EvaluatorStatisticsCollector @ 19
 	EvaluatorCacheListener @ 58
-	TTableCounters @ 59
+	TranspositionTableListener @ 59
+	TTableCounters @ 60
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 60
-	TranspositionTableListener @ 61
+	SetSearchTimers @ 61
 	NodeCounters @ 62
 	GameCountersCollector @ 63
 	DepthCollector @ 64
@@ -157,7 +157,7 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 60
+	SetSearchTimers @ 61
 	NodeCounters @ 62
 	DepthCollector @ 64
 	RootMoveEvaluationCollection @ 66
@@ -170,19 +170,19 @@ StopSearchingListener:
 
 ResetListener:
 	EvaluatorCacheListener @ 58
-	TranspositionTableListener @ 61
+	TranspositionTableListener @ 59
 
 Acceptor:
 	EvaluatorStatisticsCollector @ 19
 	EvaluatorCacheListener @ 58
-	TTableCounters @ 59
+	TranspositionTableListener @ 59
+	TTableCounters @ 60
 	TTableStatisticsCollector @ 7
 	TTableStatisticsCollector @ 67
 	SetGameToEvaluator @ 68
 	SetGameToEndGameTableBase @ 69
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 60
-	TranspositionTableListener @ 61
+	SetSearchTimers @ 61
 	NodeCounters @ 62
 	GameCountersCollector @ 63
 	DepthCollector @ 64

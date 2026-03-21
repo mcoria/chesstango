@@ -63,7 +63,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private Evaluator evaluator;
     private EvaluatorCache gameEvaluatorCache;
 
-    private TranspositionTableListener transpositionTablesListener;
     private NodeCounters nodeCounters;
     private GameCountersCollector gameCounters;
     private DepthCollector maxRegularDepth;
@@ -308,8 +307,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
             transpositionTableBuilder.build();
             maxMap = transpositionTableBuilder.getMaxMap();
             minMap = transpositionTableBuilder.getMinMap();
-
-            transpositionTablesListener = new TranspositionTableListener();
         }
 
         if (withTriangularPV) {
@@ -357,10 +354,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
 
         if (setSearchTracker != null) {
             searchListenerMediator.add(setSearchTracker);
-        }
-
-        if (transpositionTablesListener != null) {
-            searchListenerMediator.add(transpositionTablesListener);
         }
 
         if (setZobristMemory != null) {

@@ -141,10 +141,10 @@ AlphaBetaFlowControl @ 18
 
 SearchByCycleListeners:
 	EvaluatorCacheListener @ 61
+	TranspositionTableListener @ 62
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 62
-	SetSearchTracker @ 63
-	TranspositionTableListener @ 64
+	SetSearchTimers @ 63
+	SetSearchTracker @ 64
 	SetKillerMoveTablesDebug @ 65
 	AlphaBetaFlowControl @ 18
 	PrincipalVariationComparator @ 35
@@ -156,13 +156,13 @@ SearchByCycleListeners:
 
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 62
-	SetSearchTracker @ 63
+	SetSearchTimers @ 63
+	SetSearchTracker @ 64
 	RootMoveEvaluationCollection @ 67
 	SetDebugOutput @ 66
 
 SearchByWindowsListeners:
-	SetSearchTracker @ 63
+	SetSearchTracker @ 64
 	RootMoveEvaluationCollection @ 67
 	SetDebugOutput @ 66
 
@@ -171,18 +171,18 @@ StopSearchingListener:
 
 ResetListener:
 	EvaluatorCacheListener @ 61
-	TranspositionTableListener @ 64
+	TranspositionTableListener @ 62
 
 Acceptor:
 	EvaluatorCacheListener @ 61
+	TranspositionTableListener @ 62
 	TTableDebug @ 7
 	TTableDebug @ 68
 	SetGameToEvaluator @ 69
 	SetGameToEndGameTableBase @ 70
 	AlphaBetaFacade @ 2
-	SetSearchTimers @ 62
-	SetSearchTracker @ 63
-	TranspositionTableListener @ 64
+	SetSearchTimers @ 63
+	SetSearchTracker @ 64
 	SetKillerMoveTablesDebug @ 65
 	KillerMovesDebug @ 71
 	AlphaBetaFlowControl @ 18
