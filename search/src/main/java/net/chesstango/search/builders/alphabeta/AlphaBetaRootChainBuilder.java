@@ -2,28 +2,24 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import lombok.Getter;
+import net.chesstango.search.builders.sorters.MoveSorterRootBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;
-import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
-import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
-import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.debug.filters.DebugFilter;
 import net.chesstango.search.smart.alphabeta.debug.model.DebugNode;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReader;
 import net.chesstango.search.smart.alphabeta.pv.TTPVReaderDebug;
 import net.chesstango.search.smart.alphabeta.pv.filters.TranspositionPV;
 import net.chesstango.search.smart.alphabeta.pv.filters.TriangularPV;
+import net.chesstango.search.smart.alphabeta.root.RootMoveEvaluationCollection;
+import net.chesstango.search.smart.alphabeta.root.filters.AspirationWindows;
+import net.chesstango.search.smart.alphabeta.root.filters.RootMoveEvaluationTracker;
+import net.chesstango.search.smart.alphabeta.root.filters.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.statistics.node.filters.AlphaBetaRootNodeStatistics;
 import net.chesstango.search.smart.alphabeta.transposition.filters.TranspositionTableRoot;
 import net.chesstango.search.smart.alphabeta.zobrist.filters.ZobristTracker;
-import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.MoveSorterDebug;
-import net.chesstango.search.smart.sorters.NodeMoveSorter;
-import net.chesstango.search.smart.sorters.RootMoveSorter;
-import net.chesstango.search.smart.sorters.comparators.DefaultMoveComparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,9 +32,11 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     @Getter
     private final RootMoveEvaluationCollection moveEvaluations;
+
     private final AlphaBeta alphaBeta;
-    private final RootMoveSorter rootMoveSorter;
-    private final NodeMoveSorter nodeMoveSorter;
+
+    private final MoveSorterRootBuilder moveSorterBuilder;
+
     private AlphaBetaRootNodeStatistics alphaBetaRootNodeStatistics;
     private StopProcessingCatch stopProcessingCatch;
     private AspirationWindows aspirationWindows;
@@ -47,7 +45,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
     private SearchListenerMediator searchListenerMediator;
     private ZobristTracker zobristTracker;
     private DebugFilter debugFilter;
-    private MoveSorterDebug moveSorterDebug;
     private TriangularPV triangularPV;
     private AlphaBetaFilter alphaBetaFlowControl;
     private TTPVReader ttPvReader;
@@ -63,8 +60,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder() {
         alphaBeta = new AlphaBeta();
-        rootMoveSorter = new RootMoveSorter();
-        nodeMoveSorter = new NodeMoveSorter();
+        moveSorterBuilder = new MoveSorterRootBuilder();
         moveEvaluationTracker = new RootMoveEvaluationTracker();
         moveEvaluations = new RootMoveEvaluationCollection();
     }
@@ -76,6 +72,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder withSmartListenerMediator(SearchListenerMediator searchListenerMediator) {
         this.searchListenerMediator = searchListenerMediator;
+        this.moveSorterBuilder.withSmartListenerMediator(searchListenerMediator);
         return this;
     }
 
@@ -112,6 +109,7 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
     public AlphaBetaRootChainBuilder withDebugSearchTree() {
         this.withDebugSearchTree = true;
+        moveSorterBuilder.withDebugSearchTree();
         return this;
     }
 
@@ -120,15 +118,13 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         setupListenerMediator();
 
+        alphaBeta.setMoveSorter(moveSorterBuilder.build());
+
         return createChain();
     }
 
     private void buildObjects() {
-        rootMoveSorter.setNodeMoveSorter(nodeMoveSorter);
-        nodeMoveSorter.setMoveComparator(new DefaultMoveComparator());
         moveEvaluationTracker.setMoveEvaluations(moveEvaluations);
-
-        MoveSorter moveSorter = rootMoveSorter;
 
         if (withAspirationWindows) {
             aspirationWindows = new AspirationWindows();
@@ -153,9 +149,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
 
         if (withDebugSearchTree) {
             debugFilter = new DebugFilter(DebugNode.NodeTopology.ROOT);
-            moveSorterDebug = new MoveSorterDebug();
-            moveSorterDebug.setMoveSorterImp(moveSorter);
-            moveSorter = moveSorterDebug;
         }
 
         if (transpositionPV != null) {
@@ -177,8 +170,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         if (stopProcessingCatch != null) {
             stopProcessingCatch.setRootMoveEvaluationCollection(moveEvaluations);
         }
-
-        alphaBeta.setMoveSorter(moveSorter);
     }
 
 
@@ -206,10 +197,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
             searchListenerMediator.add(alphaBetaRootNodeStatistics);
         }
 
-        if (moveSorterDebug != null) {
-            searchListenerMediator.add(moveSorterDebug);
-        }
-
         if (transpositionTableRoot != null) {
             searchListenerMediator.add(transpositionTableRoot);
         }
@@ -231,8 +218,6 @@ public class AlphaBetaRootChainBuilder extends AbstractChainBuilder {
         }
 
         searchListenerMediator.add(alphaBeta);
-        searchListenerMediator.add(nodeMoveSorter);
-        searchListenerMediator.add(rootMoveSorter);
     }
 
 

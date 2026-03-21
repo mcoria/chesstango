@@ -2,7 +2,7 @@ package net.chesstango.search.builders.alphabeta;
 
 
 import net.chesstango.evaluation.EvaluatorCache;
-import net.chesstango.search.builders.MoveSorterQuiescenceBuilder;
+import net.chesstango.search.builders.sorters.MoveSorterQuiescenceBuilder;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.core.filters.AlphaBetaFlowControl;

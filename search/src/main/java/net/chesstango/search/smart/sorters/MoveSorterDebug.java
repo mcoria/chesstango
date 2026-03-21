@@ -23,7 +23,7 @@ public class MoveSorterDebug implements MoveSorter {
 
     @Setter
     @Getter
-    private MoveSorter moveSorterImp;
+    private MoveSorter next;
 
     @Setter
     private SearchTracker searchTracker;
@@ -42,7 +42,7 @@ public class MoveSorterDebug implements MoveSorter {
 
         currentNode.sortingON();
 
-        Iterable<Move> sortedMoves = moveSorterImp.getOrderedMoves(currentPly);
+        Iterable<Move> sortedMoves = next.getOrderedMoves(currentPly);
 
         currentNode.setSortedPly(currentPly);
 

@@ -223,12 +223,12 @@ Acceptor:
 	StopProcessingCatch @ 3
 	AspirationWindows @ 4
 	DebugFilter @ 5
-	MoveSorterDebug @ 10
 	TranspositionTableRoot @ 6
 	TranspositionPV @ 15
 	TTPVReader @ 17
 	TTPVReaderDebug @ 16
 	AlphaBeta @ 9
+	MoveSorterDebug @ 10
 	NodeMoveSorter @ 12
 	RootMoveSorter @ 11
 	SetDebugOutput @ 66
