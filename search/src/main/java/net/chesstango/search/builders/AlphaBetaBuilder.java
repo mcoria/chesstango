@@ -88,9 +88,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
     private boolean withAspirationWindows;
     private boolean withKillerMoveSorter;
 
-    private TTable maxMap;
-    private TTable minMap;
-
     public AlphaBetaBuilder() {
         alphaBetaRootChainBuilder = new AlphaBetaRootChainBuilder();
         alphaBetaInteriorChainBuilder = new AlphaBetaInteriorChainBuilder();
@@ -288,7 +285,7 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         searchListenerMediator.accept(new SetEvaluatorVisitor(evaluator));
 
         if (withTranspositionTable) {
-            searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
+            transpositionTableBuilder.link();
         }
 
         if (nodeCounters != null) {
@@ -305,8 +302,6 @@ public class AlphaBetaBuilder implements SearchBuilder<AlphaBetaBuilder> {
         if (withTranspositionTable) {
             transpositionTableBuilder.withSmartListenerMediator(searchListenerMediator);
             transpositionTableBuilder.build();
-            maxMap = transpositionTableBuilder.getMaxMap();
-            minMap = transpositionTableBuilder.getMinMap();
         }
 
         if (withTriangularPV) {

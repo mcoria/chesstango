@@ -1,6 +1,5 @@
 package net.chesstango.search.builders;
 
-import lombok.Getter;
 import net.chesstango.search.smart.SearchListenerMediator;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableCounters;
 import net.chesstango.search.smart.alphabeta.statistics.transposition.TTableStatisticsCollector;
@@ -8,6 +7,7 @@ import net.chesstango.search.smart.alphabeta.transposition.TTable;
 import net.chesstango.search.smart.alphabeta.transposition.TTableArrayPrimitives;
 import net.chesstango.search.smart.alphabeta.transposition.TTableDebug;
 import net.chesstango.search.smart.alphabeta.transposition.listeners.TranspositionTableListener;
+import net.chesstango.search.smart.alphabeta.transposition.visitors.SetTTableVisitor;
 
 import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MAX_MAP;
 import static net.chesstango.search.smart.alphabeta.debug.model.DebugOperationTT.TableType.MIN_MAP;
@@ -33,10 +33,7 @@ public class TranspositionTableBuilder {
     private boolean withDebugSearchTree;
     private boolean withStatistics;
 
-    @Getter
     private TTable maxMap;
-
-    @Getter
     private TTable minMap;
 
     public TranspositionTableBuilder() {
@@ -62,7 +59,11 @@ public class TranspositionTableBuilder {
     public void build() {
         buildObjects();
         setupListenerMediator();
-        createChain();
+        createChains();
+    }
+
+    public void link() {
+        searchListenerMediator.accept(new SetTTableVisitor(maxMap, minMap));
     }
 
     private void buildObjects() {
@@ -102,7 +103,7 @@ public class TranspositionTableBuilder {
         }
     }
 
-    private void createChain() {
+    private void createChains() {
         maxMap = linkChain(maxMapCollector, maxMapDebug, maxMapImp);
         minMap = linkChain(minMapCollector, minMapDebug, minMapImp);
     }
