@@ -82,7 +82,7 @@ public class TangoGame01IntegrationTest {
                 //.withTranspositionReport()
                 .withIterationEvaluationReport()
                 //.withPrincipalVariationReport()
-                .withEbf()
+                //.withEbf()
                 .withMoveResults(searchResults)
                 .printReport(System.out);
     }

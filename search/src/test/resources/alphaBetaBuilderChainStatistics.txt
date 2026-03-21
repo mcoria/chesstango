@@ -158,6 +158,7 @@ SearchByCycleListeners:
 SearchByDepthListener:
 	AlphaBetaFacade @ 2
 	SetSearchTimers @ 59
+	NodeCounters @ 61
 	DepthCollector @ 63
 	RootMoveEvaluationCollection @ 66
 
