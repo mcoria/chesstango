@@ -82,16 +82,21 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
 
         setupListenerMediator();
 
-
-        MoveSorter moveSorter = nodeMoveSorter;
         nodeMoveSorter.setMoveComparator(createComparatorChain());
 
+        return createChain();
+    }
+
+    private MoveSorter createChain() {
+        List<MoveSorter> chain = new LinkedList<>();
+
         if (moveSorterDebug != null) {
-            moveSorterDebug.setNext(moveSorter);
-            moveSorter = moveSorterDebug;
+            chain.add(moveSorterDebug);
         }
 
-        return moveSorter;
+        chain.add(nodeMoveSorter);
+
+        return buildChain(chain);
     }
 
     private void buildObjects() {
@@ -189,8 +194,6 @@ public class MoveSorterQuiescenceBuilder extends AbstractMoveSorterBuilder {
         }
 
         chain.add(defaultMoveComparator);
-
-
 
         return linkComparatorChain(chain);
     }

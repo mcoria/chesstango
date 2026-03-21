@@ -64,7 +64,6 @@ public class MoveSorterRootBuilder extends AbstractMoveSorterBuilder {
     }
 
     private MoveSorter createChain() {
-
         List<MoveSorter> chain = new LinkedList<>();
 
         if (moveSorterDebug != null) {
